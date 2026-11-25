@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c6388fb1f2bcd0c00693547eb491c42451c8ab87894d5fdb22bd3a62654cbed1
-// 99 capabilities, 972 providers, 6112 typed functions, 20 refused.
-// 122,906 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: a6cfb8bc65d5841ae79fcb05a30dc7896932f4301539e673bf5e70da2d6f736c
+// 100 capabilities, 983 providers, 6209 typed functions, 20 refused.
+// 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4576,6 +4576,176 @@ interface ProspectScreeningResult {
   }
 }
 
+declare namespace BowmarkCapability_purchase_rewards {
+  // ── Best way to pay: cashback portals, card rewards and card-linked offers — the unit's own declarations, verbatim ──
+// Every way to earn on one purchase: cashback portals, card earn rates, card-linked offers.
+
+type SpendCategory = "dining" | "grocery" | "online_grocery" | "wholesale_club" | "gas" | "travel" | "airfare" | "hotels" | "car_rental" | "transit" | "streaming" | "drugstore" | "online_retail" | "home_improvement" | "entertainment" | "phone_internet" | "other";
+
+interface HeldCard {
+  issuer?: string; // "Chase", "American Express", "Capital One", ... (optional)
+  card: string; // "Sapphire Preferred", "Blue Cash Everyday", "Venture X"
+}
+
+interface BestWayToPayArgs {
+  merchant: string; // a domain ("amazon.com") or a merchant name ("Chipotle")
+  amount: number; // purchase amount in US dollars
+  cards?: (HeldCard | string)[]; // cards the person holds; omit to rank every card Bowmark knows
+  category?: string; // override the merchant's spending category
+  includeOffers?: boolean; // read signed-in card-linked offers; pauses for the cardholder's sign-in. Default false
+  pointValues?: Record<string, number>; // cents per point by program, e.g. { "Chase Ultimate Rewards": 1.5 }
+}
+
+interface CompareCardsArgs {
+  category: string; // a SpendCategory, or a plain word for one ("restaurants", "flights")
+  amount: number; // spend in US dollars
+  issuers?: string[]; // only these issuers ("chase", "American Express")
+  pointValues?: Record<string, number>;
+  limit?: number; // 1-100, default 25
+}
+
+interface MerchantInfo {
+  query: string;
+  name: string;
+  domain: string | null;
+  category: SpendCategory;
+  categorySource: "caller" | "known_merchant" | "portal_tags" | "default"; // where the category came from; default = not known, base rates used
+}
+
+interface PortalOption {
+  source: string; // the provider that reported it ("rakuten", "cashbackmonitor")
+  portal: string; // the portal to click through ("Rakuten", "Chase Ultimate Rewards")
+  rateText: string;
+  ratePercent: number | null;
+  flatAmount: number | null; // flat dollars back, null otherwise
+  pointsPerDollar: number | null;
+  program: string; // "cash" or the points program it pays in
+  upTo: boolean;
+  value: number | null; // dollars back on this purchase; null when it cannot be valued
+  url: string;
+  note: string | null;
+  confidence: "firsthand" | "listing" | "unconfirmed"; // firsthand = the portal's own page; listing = CashbackMonitor's table; unconfirmed = a listing far above every other source, never used in bestStack
+}
+
+interface CardOption {
+  issuer: string;
+  issuerName: string;
+  card: string;
+  cardId: string | null; // the issuer provider's own id when read live
+  program: string;
+  rate: number;
+  rateUnit: "percent" | "multiplier";
+  earnedAs: SpendCategory | "merchant";
+  phrase: string; // the issuer's wording for the rate that applied
+  pointValueCents: number;
+  value: number; // dollars earned on this purchase
+  source: "live" | "reference";
+  sourceFunction: string | null;
+  url: string | null;
+  conditions: string[]; // a chosen category, a cap, a better rate via the issuer's travel site
+}
+
+interface OfferOption {
+  issuer: string;
+  card: string | null;
+  offerId: string;
+  description: string;
+  value: number | null;
+  enrolled: boolean | null; // already added to the card, as the issuer reports
+  expiresAt: string | null;
+  needsSignIn: true;
+  sourceFunction: string;
+}
+
+interface OfferSource {
+  issuer: string;
+  function: string; // e.g. "bowmark.providers.amex.listOffers"
+  status: "fetched" | "not_requested" | "not_built" | "failed";
+  needsSignIn: true;
+  note: string;
+}
+
+interface BestStack {
+  portal: PortalOption | null;
+  card: CardOption | null;
+  offer: OfferOption | null;
+  totalValue: number;
+  summary: string;
+}
+
+interface PointValuation {
+  program: string;
+  cents: number;
+  basis: string; // the redemption this value corresponds to
+  sourceUrl: string | null;
+  setBy: "default" | "caller";
+}
+
+interface BestWayToPayResult {
+  merchant: MerchantInfo;
+  amount: number;
+  portals: PortalOption[]; // ranked by value, highest first
+  cards: CardOption[]; // ranked by value, highest first
+  offers: OfferOption[];
+  offerSources: OfferSource[];
+  bestStack: BestStack;
+  pointValues: PointValuation[];
+  warnings: string[]; // always present; names every source dropped
+}
+
+interface CompareCardsResult {
+  category: SpendCategory;
+  amount: number;
+  cards: CardOption[];
+  pointValues: PointValuation[];
+  warnings: string[];
+}
+
+interface CallOptions {
+  timeoutMs?: number; // per-source budget in ms, default 30000, clamped to 1000-55000; a slower source is dropped and named in warnings
+}
+
+  /**
+   * The best way to pay at a merchant: every cashback portal's rate (Rakuten, TopCashback,
+   * BeFrugal, Capital One Shopping, CashbackMonitor's comparison), each of your credit cards'
+   * earn rate in the merchant's category, signed-in card-linked offers (Amex Offers, Chase
+   * Offers) when asked, each valued in dollars, plus the best stack. Also ranks every known card
+   * for a spending category.
+   */
+  interface Unit {
+    /**
+     * Every way to earn on one purchase, valued in dollars and stacked —
+     * `bowmark.purchase_rewards.bestWayToPay({ merchant: "amazon.com", amount: 120, cards: [{
+     * issuer: "Chase", card: "Sapphire Preferred" }, "Blue Cash Everyday"] })`. Reads five
+     * cashback portals in parallel (a portal that fails is named in `warnings`, never fatal),
+     * places the merchant in a spending category (`merchant.categorySource` says how; pass
+     * `category` to override), values each held card's best applicable earn rate (omit `cards` to
+     * rank every card Bowmark knows), and returns `bestStack`: one portal + one card + that
+     * issuer's best card-linked offer. Card rates are read live from the issuer's own provider
+     * when one exists (`source: "live"`), else from Bowmark's reference table (`source:
+     * "reference"`, named in `warnings`). Points are valued at each program's issuer-published
+     * redemption value, listed in `pointValues` with its source; pass `pointValues: { "Chase
+     * Ultimate Rewards": 1.5 }` to use your own. Signed-in offers are read only with
+     * `includeOffers: true`, which pauses the run for the cardholder's sign-in; `offerSources`
+     * says per issuer whether offers exist, were read, or are not built yet. `options.timeoutMs`
+     * sets the per-source budget (default 30000).
+     */
+    bestWayToPay(args: BestWayToPayArgs, options?: CallOptions): Promise<BestWayToPayResult>;
+
+    /**
+     * Ranks every card Bowmark knows by what it earns on `amount` dollars in one spending category
+     * — `bowmark.purchase_rewards.compareCards({ category: "dining", amount: 100 })`. Categories:
+     * dining, grocery, online_grocery, wholesale_club, gas, travel, airfare, hotels, car_rental,
+     * transit, streaming, drugstore, online_retail, home_improvement, entertainment,
+     * phone_internet, other. `issuers` narrows to some issuers ("chase", "American Express");
+     * `limit` caps the list (default 25). Each card says whether its rates were read live or from
+     * the reference table, and lists `conditions` (a chosen category, a spend cap, a better rate
+     * only through the issuer's travel site).
+     */
+    compareCards(args: CompareCardsArgs, options?: CallOptions): Promise<CompareCardsResult>;
+  }
+}
+
 declare namespace BowmarkCapability_read {
   // ── Read any page (markdown, text or HTML) — the unit's own declarations, verbatim ──
 type ReadFormat = "markdown" | "text" | "cleanHtml" | "html";
@@ -7314,6 +7484,62 @@ interface aaMaxCheckedBagsRule {
   }
 }
 
+declare namespace BowmarkProvider_aarp {
+  // ── AARP — the unit's own declarations, verbatim ──
+interface AarpSearchHit {
+  title: string;
+  url: string; // pass to getArticle
+  type: string | null; // "article" | "event" | "offer" | "membership"
+  description: string | null;
+  excerpt: string | null;
+  published: string | null; // YYYY-MM-DD
+  topics: string[];
+  image: string | null;
+}
+
+interface AarpSearchResult {
+  query: string;
+  type: string | null;
+  total: number;
+  page: number;
+  pageSize: number;
+  results: AarpSearchHit[];
+}
+
+interface AarpArticle {
+  url: string;
+  title: string;
+  subtitle: string | null;
+  description: string | null;
+  authors: string[];
+  published: string | null; // YYYY-MM-DD
+  body: string | null; // the full article text
+  keywords: string[];
+  image: string | null;
+}
+
+  /**
+   * AARP (aarp.org) — search its articles, guides, events and member offers on Medicare, Social
+   * Security, retirement, scams and caregiving, and read one article's full text, author and
+   * date.
+   */
+  interface Unit {
+    /**
+     * Searches aarp.org (AARP's articles, guides, tools, events and member offers) by keyword,
+     * e.g. "medicare open enrollment" or "social security scams", optionally narrowed to articles,
+     * events, offers or membership pages; returns title, link, type, description, excerpt, publish
+     * date and topics, plus the total match count. Browserless, about a second.
+     */
+    search(args: {query: string, type?: "article" | "event" | "offer" | "membership", page?: number, pageSize?: number}): Promise<AarpSearchResult>;
+
+    /**
+     * Reads one aarp.org article by its URL (from search): headline, subtitle, description,
+     * authors, publish date, keywords and the full article text.
+     */
+    getArticle(args: {url: string}): Promise<AarpArticle>;
+  }
+}
+
 declare namespace BowmarkProvider_aauto {
   // ── 1A Auto — the unit's own declarations, verbatim ──
 interface AautoSearchProduct {
@@ -8106,6 +8332,16 @@ interface AccuweatherArticle {
   body: string; // the full text, paragraphs joined with blank lines
 }
 
+interface AccuweatherGetNearbyStationConditionsArgs {
+  northwestCorner: string; // The upper-left corner of the area as latitude,longitude (for example, 48,-123). E.g. "48,-123".
+  southeastCorner: string; // The lower-right corner of the area as latitude,longitude (for example, 47,-122). E.g. "47,-122".
+}
+
+interface AccuweatherGetNearbyStationConditionsResult {
+  type: string; // The type of the overall result collection.
+  features: { type: string; geometry: { type: string; coordinates: number[] /* The station's geographic coordinates. */ }; properties: { stationCode: string /* The code identifying the reporting station. */; stationName: string /* The station's display name. */; stationWeight: number; weatherIcon: number /* The code for the station's current weather icon. */; hasPrecipitation: boolean /* Whether precipitation is currently reported. */; precipitationType: string | null /* The reported type of precipitation, when present. */; temperature: number /* The station's current temperature. */; realFeelTemperature: number /* The current temperature as it feels outdoors. */; realFeelTemperaturePhrase: string; realFeelTemperatureShade: number; realFeelTemperatureShadePhrase: string; relativeHumidity: number /* The current relative humidity. */; dewPoint: number; windDirectionDegrees: number; windDirectionLocalized: string /* The localized description of the current wind direction. */; windDirectionEnglish: string; windSpeed: number /* The current wind speed. */; windGust: number; uvIndex: number; visibility: number; pressure: number; heatIndex: number; Past24HourTemperatureDeparture: number; past1HourPrecipitation: number; past3HourPrecipitation: number; past6HourPrecipitation: number; past9HourPrecipitation: number; past12HourPrecipitation: number; past18HourPrecipitation: number; past24HourPrecipitation: number } }[];
+}
+
   /**
    * AccuWeather forecasts for any place — current conditions, hourly, daily, MinuteCast, alerts,
    * air quality, allergy and activity indices.
@@ -8249,6 +8485,12 @@ interface AccuweatherArticle {
      * and the Temperature History table (forecast vs. average, last year and the record).
      */
     getDayDetails(args: DayDetailsArgs): Promise<AccuweatherDayDetails>;
+
+    /**
+     * Returns current weather observations from stations within the supplied geographic bounds,
+     * including station details, temperature, precipitation, humidity, and wind conditions.
+     */
+    getNearbyStationConditions(args: AccuweatherGetNearbyStationConditionsArgs): Promise<AccuweatherGetNearbyStationConditionsResult>;
   }
 }
 
@@ -11731,6 +11973,151 @@ interface AmericanVisionWindowsAvailability {
 
 declare namespace BowmarkProvider_americashealthrankings {
   // ── America's Health Rankings — the unit's own declarations, verbatim ──
+type AmericasHealthRankingsReadInput = { thing: "core_measures"; where?: AmericasHealthRankingsCoreMeasuresWhere; fields?: string[] } | { thing: "core_measure"; where: AmericasHealthRankingsCoreMeasureWhere; fields?: string[] } | { thing: "core_measureCategories"; where?: AmericasHealthRankingsCoreMeasureCategoriesWhere; fields?: string[] } | { thing: "core_measureMetricData"; where: AmericasHealthRankingsCoreMeasureMetricDataWhere; fields?: string[] } | { thing: "core_tags"; where?: AmericasHealthRankingsCoreTagsWhere; fields?: string[] } | { thing: "core_tag"; where: AmericasHealthRankingsCoreTagWhere; fields?: string[] } | { thing: "core_measuresByTagID"; where: AmericasHealthRankingsCoreMeasuresByTagIDWhere; fields?: string[] } | { thing: "core_geo"; where: AmericasHealthRankingsCoreGeoWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): core_quintilesByMetricAndEdition, core_reports, core_report, core_reportTypes, core_metricData, core_metricDataImports, core_metricDataImportAggregates, core_apiVersionInfo, core_applicationInfo, core_serverStartupTime, core_apiInfo, core_populations, core_populationCat, core_population, core_sources, core_source, core_getSyncTableList, core_syncStatus, core_getTargetDatabases, core_checkTargetSetup, core_getSyncSchedule, core_listSyncSchedules, core_geos, core_geoByFips, core_geoTypes, core_geoMetrics, core_geoMetric, core_geoMetricDataByGeoMetric, core_geoMetricDataByGeo, core_geoMetricDataByFips, core_geoMetricDisparities, core_geoDataImportAggregates, core_geoDataImports.
+
+interface AmericasHealthRankingsCoreMeasuresWhere { // The `where` inputs of the `core_measures` thing.
+  where?: AmericasHealthRankingsCoreMetricFilterInput; // Conditions the results must meet, by field.
+  order?: AmericasHealthRankingsCoreMetricSortInput[]; // Sort order of the results, by field.
+}
+
+interface AmericasHealthRankingsCoreMeasureWhere { // The `where` inputs of the `core_measure` thing.
+  metricId: number; // Metric id (number).
+}
+
+interface AmericasHealthRankingsCoreMeasureCategoriesWhere { // The `where` inputs of the `core_measureCategories` thing.
+  where?: AmericasHealthRankingsCoreMetricCategoryFilterInput; // Conditions the results must meet, by field.
+  order?: AmericasHealthRankingsCoreMetricCategorySortInput[]; // Sort order of the results, by field.
+}
+
+interface AmericasHealthRankingsCoreMeasureMetricDataWhere { // The `where` inputs of the `core_measureMetricData` thing.
+  metricId: number; // Metric id (number).
+  where?: AmericasHealthRankingsCoreMetricDatumFilterInput; // Conditions the results must meet, by field.
+  order?: AmericasHealthRankingsCoreMetricDatumSortInput[]; // Sort order of the results, by field.
+}
+
+interface AmericasHealthRankingsCoreTagsWhere { // The `where` inputs of the `core_tags` thing.
+  where?: AmericasHealthRankingsCoreTagFilterInput; // Conditions the results must meet, by field.
+  order?: AmericasHealthRankingsCoreTagSortInput[]; // Sort order of the results, by field.
+}
+
+interface AmericasHealthRankingsCoreTagWhere { // The `where` inputs of the `core_tag` thing.
+  tagID: number; // Tag id (number).
+}
+
+interface AmericasHealthRankingsCoreMeasuresByTagIDWhere { // The `where` inputs of the `core_measuresByTagID` thing.
+  tagID: number; // Tag id (number).
+  where?: AmericasHealthRankingsCoreMetricFilterInput; // Conditions the results must meet, by field.
+  order?: AmericasHealthRankingsCoreMetricSortInput[]; // Sort order of the results, by field.
+}
+
+interface AmericasHealthRankingsCoreGeoWhere { // The `where` inputs of the `core_geo` thing.
+  geoId: number; // Geo id (number).
+}
+
+interface AmericasHealthRankingsReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  core_measures: AmericasHealthRankingsCoreMetric[] | null; // Reads core measures records from this site.
+  core_measure: AmericasHealthRankingsCoreMetric | null; // Reads core measure records from this site.
+  core_measureCategories: AmericasHealthRankingsCoreMetricCategory[] | null; // Reads core measure categories records from this site.
+  core_measureMetricData: AmericasHealthRankingsCoreMetricDatum[] | null; // Reads core measure metric data records from this site.
+  core_tags: AmericasHealthRankingsCoreTag[] | null; // Reads core tags records from this site.
+  core_tag: AmericasHealthRankingsCoreTag | null; // Reads core tag records from this site.
+  core_measuresByTagID: AmericasHealthRankingsCoreMetric[] | null; // Reads core measures by tag id records from this site.
+  core_geo: AmericasHealthRankingsCoreGeo | null; // Reads core geo records from this site.
+}
+
+type AmericasHealthRankingsReadAnswer = AmericasHealthRankingsCoreMetric[] | AmericasHealthRankingsCoreMetric | AmericasHealthRankingsCoreMetricCategory[] | AmericasHealthRankingsCoreMetricDatum[] | AmericasHealthRankingsCoreTag[] | AmericasHealthRankingsCoreTag | AmericasHealthRankingsCoreGeo | null; // The answer for the `thing` you picked: its type is that thing's entry in AmericasHealthRankingsReadAnswers.
+
+interface AmericasHealthRankingsCoreMetricFilterInput { // Core metric filter input record. Shows 4 of its 49 inputs; any other is accepted by name.
+  and?: Record<string, unknown>[]; // Values to match on and of core metric filter input (record).
+  or?: Record<string, unknown>[]; // Values to match on or of core metric filter input (record).
+  metricId?: Record<string, unknown>; // Match on metric id of core metric filter input (record).
+  description?: Record<string, unknown>; // Match on description of core metric filter input (record).
+}
+
+interface AmericasHealthRankingsCoreMetricSortInput { // Core metric sort input record. Shows 4 of its 29 inputs; any other is accepted by name.
+  metricId?: "ASC" | "DESC"; // Metric id of core metric sort input (one of the listed values). Values: ASC, DESC.
+  metricCategoryId?: "ASC" | "DESC"; // Metric category id of core metric sort input (one of the listed values). Values: ASC, DESC.
+  displayName?: "ASC" | "DESC"; // Display name of core metric sort input (one of the listed values). Values: ASC, DESC.
+  description?: "ASC" | "DESC"; // Description of core metric sort input (one of the listed values). Values: ASC, DESC.
+}
+
+interface AmericasHealthRankingsCoreMetric { // Core metric record. Shows 4 of its 43 fields; ask for any other by name in `fields`.
+  metricId?: string | null; // Metric id of core metric (text).
+  metricCategoryId?: number | null; // Metric category id of core metric (number).
+  displayName?: string | null; // Display name of core metric (text).
+  description?: string | null; // Description of core metric (text).
+}
+
+interface AmericasHealthRankingsCoreMetricCategoryFilterInput { // Core metric category filter input record. Shows 4 of its 8 inputs; any other is accepted by name.
+  and?: Record<string, unknown>[]; // Values to match on and of core metric category filter input (record).
+  or?: Record<string, unknown>[]; // Values to match on or of core metric category filter input (record).
+  metricCategoryId?: Record<string, unknown>; // Match on metric category id of core metric category filter input (record).
+  displayName?: Record<string, unknown>; // Match on display name of core metric category filter input (record).
+}
+
+interface AmericasHealthRankingsCoreMetricCategorySortInput { // Core metric category sort input record.
+  metricCategoryId?: "ASC" | "DESC"; // Metric category id of core metric category sort input (one of the listed values). Values: ASC, DESC.
+  displayName?: "ASC" | "DESC"; // Display name of core metric category sort input (one of the listed values). Values: ASC, DESC.
+  catDesc?: "ASC" | "DESC"; // Cat desc of core metric category sort input (one of the listed values). Values: ASC, DESC.
+  displayOrder?: "ASC" | "DESC"; // Display order of core metric category sort input (one of the listed values). Values: ASC, DESC.
+}
+
+interface AmericasHealthRankingsCoreMetricCategory { // Core metric category record. Shows 4 of its 5 fields; ask for any other by name in `fields`.
+  description?: string | null; // Description of core metric category (text).
+  metricCategoryId?: number | null; // Metric category id of core metric category (number).
+  displayName?: string | null; // Display name of core metric category (text).
+  displayOrder?: number | null; // Display order of core metric category (number).
+}
+
+interface AmericasHealthRankingsCoreMetricDatumFilterInput { // Core metric datum filter input record. Shows 4 of its 21 inputs; any other is accepted by name.
+  and?: Record<string, unknown>[]; // Values to match on and of core metric datum filter input (record).
+  or?: Record<string, unknown>[]; // Values to match on or of core metric datum filter input (record).
+  metricDataId?: Record<string, unknown>; // Match on metric data id of core metric datum filter input (record).
+  metricId?: Record<string, unknown>; // Match on metric id of core metric datum filter input (record).
+}
+
+interface AmericasHealthRankingsCoreMetricDatumSortInput { // Core metric datum sort input record. Shows 4 of its 18 inputs; any other is accepted by name.
+  metricDataId?: "ASC" | "DESC"; // Metric data id of core metric datum sort input (one of the listed values). Values: ASC, DESC.
+  metricId?: "ASC" | "DESC"; // Metric id of core metric datum sort input (one of the listed values). Values: ASC, DESC.
+  stateCode?: "ASC" | "DESC"; // State code of core metric datum sort input (one of the listed values). Values: ASC, DESC.
+  rank?: "ASC" | "DESC"; // Rank of core metric datum sort input (one of the listed values). Values: ASC, DESC.
+}
+
+interface AmericasHealthRankingsCoreMetricDatum { // Core metric datum record. Shows 4 of its 20 fields; ask for any other by name in `fields`.
+  metricDataId?: string | null; // Metric data id of core metric datum (text).
+  valueDisplay?: string | null; // Value display of core metric datum (text).
+  metricId?: number | null; // Metric id of core metric datum (number).
+  stateCode?: string | null; // State code of core metric datum (text).
+}
+
+interface AmericasHealthRankingsCoreTagFilterInput { // Core tag filter input record. Shows 4 of its 12 inputs; any other is accepted by name.
+  and?: Record<string, unknown>[]; // Values to match on and of core tag filter input (record).
+  or?: Record<string, unknown>[]; // Values to match on or of core tag filter input (record).
+  tagID?: Record<string, unknown>; // Match on tag id of core tag filter input (record).
+  description?: Record<string, unknown>; // Match on description of core tag filter input (record).
+}
+
+interface AmericasHealthRankingsCoreTagSortInput { // Core tag sort input record. Shows 4 of its 8 inputs; any other is accepted by name.
+  tagID?: "ASC" | "DESC"; // Tag id of core tag sort input (one of the listed values). Values: ASC, DESC.
+  tagTypeID?: "ASC" | "DESC"; // Tag type id of core tag sort input (one of the listed values). Values: ASC, DESC.
+  parentTagID?: "ASC" | "DESC"; // Parent tag id of core tag sort input (one of the listed values). Values: ASC, DESC.
+  description?: "ASC" | "DESC"; // Description of core tag sort input (one of the listed values). Values: ASC, DESC.
+}
+
+interface AmericasHealthRankingsCoreTag { // Core tag record. Shows 4 of its 11 fields; ask for any other by name in `fields`.
+  tagID?: number | null; // Tag id of core tag (number).
+  tagTypeID?: number | null; // Tag type id of core tag (number).
+  parentTagID?: number | null; // Parent tag id of core tag (number).
+  description?: string | null; // Description of core tag (text).
+}
+
+interface AmericasHealthRankingsCoreGeo { // Core geo record. Shows 4 of its 10 fields; ask for any other by name in `fields`.
+  geoId?: string | null; // Geo id of core geo (text).
+  geoTypeId?: number | null; // Geo type id of core geo (number).
+  geoName?: string | null; // Geo name of core geo (text).
+  description?: string | null; // Description of core geo (text).
+}
+
 interface AmericasHealthRankingsReport {
   editionId: number;
   name: string;
@@ -11781,6 +12168,263 @@ interface GetMeasureDataArgs {
      * measureId: 173, state: "CA" }.
      */
     getMeasureData(args: GetMeasureDataArgs): Promise<AmericasHealthRankingsMeasureData>;
+
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (core_measures, core_measure,
+     * core_measureCategories, core_quintilesByMetricAndEdition, core_reports, core_report, ...),
+     * give its `where` inputs, and list the `fields` you want back as dot paths like
+     * "state.stateName"; omit `fields` for every plain field.
+     */
+    read(input: AmericasHealthRankingsReadInput): Promise<AmericasHealthRankingsReadAnswer>;
+  }
+}
+
+declare namespace BowmarkProvider_amex {
+  // ── American Express — the unit's own declarations, verbatim ──
+interface AmexEarnRate {
+  rate: string; // as the site prints it: "4X", "3%"
+  value: number | null; // the number in `rate`
+  unit: "x" | "%" | null; // "x" a points/miles multiplier, "%" cash back
+  currency: string | null; // "POINTS", "CASH BACK", "MILES"
+  category: string; // the site's own category: "At Restaurants", "On Groceries"
+  details: string | null; // the site's fine print for this rate (caps, where it applies)
+}
+
+interface AmexWelcomeOffer {
+  headline: string;
+  amount: number | null; // the bonus the headline names (points, miles or dollars)
+  upTo: boolean; // true when the site says "as high as": the amount is a ceiling
+  spend: number | null; // required spend, dollars
+  months: number | null; // months allowed for that spend
+  text: string;
+}
+
+interface AmexCardBenefit {
+  group: string | null; // the site's section: "Dining & Groceries", "Travel"
+  name: string;
+  description: string | null;
+  isCredit: boolean; // a statement or cash credit (dining credit, airline fee credit, Uber Cash)
+  annualValue: number | null; // the yearly dollar value the site states for a credit
+}
+
+interface AmexCreditCardSummary {
+  id: string; // pass to getCreditCard: "gold-card", "business-gold"
+  segment: "personal" | "business";
+  name: string;
+  annualFee: number | null; // ongoing yearly fee in dollars (the "then $X" when year one is waived)
+  annualFeeText: string | null; // the site's own fee wording
+  cardType: string | null; // "charge" or "credit"
+  earnRates: AmexEarnRate[] | null; // by category, site order; null when the card's page was not read
+  welcomeOffer: AmexWelcomeOffer | null;
+  welcomeOfferNote: string | null; // why welcomeOffer is null, when the site publishes none
+  url: string; // the card's own page on americanexpress.com
+}
+
+interface AmexCreditCard {
+  id: string; // pass to getCreditCard: "gold-card", "business-gold"
+  segment: "personal" | "business";
+  name: string;
+  annualFee: number | null; // ongoing yearly fee in dollars (the "then $X" when year one is waived)
+  annualFeeText: string | null; // the site's own fee wording
+  cardType: string | null; // "charge" or "credit"
+  earnRates: AmexEarnRate[] | null; // by category, site order; null when the card's page was not read
+  welcomeOffer: AmexWelcomeOffer | null;
+  welcomeOfferNote: string | null; // why welcomeOffer is null, when the site publishes none
+  url: string; // the card's own page on americanexpress.com
+  benefits: AmexCardBenefit[];
+  credits: AmexCardBenefit[]; // the benefits that are credits
+  apr: string | null; // purchase APR wording, when the page states one
+}
+
+interface AmexCreditCardList {
+  cards: AmexCreditCardSummary[];
+  warnings: string[];
+}
+
+interface ListCreditCardsArgs {
+  segment?: "personal" | "business" | "all"; // default "all"
+  earnRates?: boolean; // read each card's page for its earn rates (default true)
+}
+
+interface GetCreditCardArgs {
+  id: string; // an id from listCreditCards, or the card's page URL
+}
+
+interface AmexBalance {
+  currentBalance: number | null; // owed now: unpaid statement balance + new charges
+  statementBalance: number | null;
+  remainingStatementBalance: number | null; // unpaid part of the last statement
+  newCharges: number | null; // charges since the statement
+  paymentsAndCredits: number | null;
+  paymentDueAmount: number | null;
+  paymentDueDate: string | null; // ISO date
+  availableCredit: number | null; // when the site states one; a charge card has no preset limit
+  currency: string | null;
+}
+
+interface AmexAccount {
+  cardId: string; // American Express's account token — pass as `card` to the other functions
+  lastDigits: string | null; // the digits the site prints (its last five)
+  productName: string | null;
+  relationship: string | null; // "BASIC" or "SUPP" (an additional card)
+  status: string[];
+  cardMemberName: string | null;
+  isSupplementary: boolean;
+  parentCardId: string | null;
+}
+
+interface AmexCardWithBalance {
+  cardId: string; // American Express's account token — pass as `card` to the other functions
+  lastDigits: string | null; // the digits the site prints (its last five)
+  productName: string | null;
+  relationship: string | null; // "BASIC" or "SUPP" (an additional card)
+  status: string[];
+  cardMemberName: string | null;
+  isSupplementary: boolean;
+  parentCardId: string | null;
+  balance: AmexBalance | null; // null for an additional card
+}
+
+interface AmexCards {
+  cards: AmexCardWithBalance[];
+  warnings: string[];
+}
+
+interface ListTransactionsArgs {
+  card: string; // a cardId from listCards, its last digits, or words of its name
+  from?: string; // ISO date, inclusive
+  to?: string; // ISO date, inclusive
+  status?: "posted" | "pending" | "all"; // default "all"
+}
+
+interface AmexTransaction {
+  id: string;
+  referenceId: string | null;
+  date: string | null; // ISO date of the charge
+  postDate: string | null;
+  status: "posted" | "pending";
+  description: string; // the statement line
+  merchant: string | null;
+  category: string | null;
+  subcategory: string | null;
+  amount: number | null; // as sent: a charge positive, a payment or refund negative
+  type: string | null; // the site's DEBIT / CREDIT word
+  currency: string | null;
+  cardMemberName: string | null;
+  foreignAmount: number | null;
+  foreignCurrency: string | null;
+}
+
+interface AmexTransactions {
+  card: AmexAccount;
+  transactions: AmexTransaction[];
+  warnings: string[];
+}
+
+interface ListOffersArgs {
+  card?: string; // one card; omit for every active card
+  status?: "eligible" | "enrolled" | "all"; // default "all"
+}
+
+interface AmexOffer {
+  offerId: string; // pass to activateOffer with the same card — the id differs per card
+  offerGroupId: string | null; // groups one offer across cards; never pass to activateOffer
+  cardId: string;
+  cardLastDigits: string | null;
+  merchant: string;
+  rewardText: string;
+  spendThreshold: number | null; // minimum spend, dollars
+  rewardAmount: number | null; // dollar reward
+  rewardPoints: number | null;
+  percentBack: number | null;
+  maxReward: number | null;
+  expiresOn: string | null; // ISO date
+  enrolled: boolean; // already added to the card
+  category: string | null;
+  offerType: string | null;
+  description: string | null;
+  terms: string | null;
+  imageUrl: string | null;
+}
+
+interface AmexOffers {
+  offers: AmexOffer[];
+  warnings: string[];
+}
+
+interface ActivateOfferArgs {
+  offerId: string; // from a listOffers row
+  card: string; // that row's cardId
+}
+
+interface AmexOfferActivation {
+  offerId: string;
+  cardId: string;
+  statusPurpose: string | null; // the site's own verdict word: "SUCCESS"
+  enrolled: boolean;
+  confirmedOnCard: boolean | null; // read back from the card's Added to Card list; null if that read failed
+  message: string | null;
+}
+
+  /**
+   * American Express: every US personal and business card with fees, earn rates by category,
+   * welcome offers and credits; and, signed in, the cardholder's own cards, balances,
+   * transactions and Amex Offers, including adding an offer to a card.
+   */
+  interface Unit {
+    /**
+     * Every US American Express card on offer, personal and business: name, annual fee, earn rates
+     * BY CATEGORY (e.g. 4X at restaurants, 4X at US supermarkets, 1X other) and the public welcome
+     * offer, with each card's page. `segment` narrows to personal or business; `earnRates: false`
+     * skips reading each card's page. Business welcome offers are null: the business shop states
+     * its amount only inside an application.
+     */
+    listCreditCards(args?: ListCreditCardsArgs): Promise<AmexCreditCardList>;
+
+    /**
+     * One American Express card in full, by the id listCreditCards returns ("gold-card",
+     * "business-gold") or its page URL: fee, earn rates by category, welcome offer, APR wording,
+     * and every benefit and credit on its page (dining credit, Uber Cash, airline fee credit…),
+     * credits flagged with their yearly dollar value.
+     */
+    getCreditCard(args: GetCreditCardArgs): Promise<AmexCreditCard>;
+
+    /**
+     * SIGNED IN — the cardholder's own American Express cards: cardId, last digits, product name,
+     * basic or additional, and for each basic card its balance (current balance, statement
+     * balance, unpaid part, payment due and its date, available credit when the site states one).
+     * Runs through the caller's own Chrome when Bowmark Buddy is attached, otherwise from a saved
+     * American Express sign-in; with neither, the run pauses for the caller to sign in.
+     */
+    listCards(opts?: ConnectionOption): Promise<AmexCards>;
+
+    /**
+     * SIGNED IN — one card's transactions, posted and pending, newest first: date, statement line,
+     * merchant, category, amount, card member. `card` is a cardId from listCards, its last digits
+     * or words of its name; `from`/`to` are ISO dates. Runs through the caller's own Chrome when
+     * Bowmark Buddy is attached, otherwise from a saved American Express sign-in; with neither,
+     * the run pauses for the caller to sign in.
+     */
+    listTransactions(args: ListTransactionsArgs, opts?: ConnectionOption): Promise<AmexTransactions>;
+
+    /**
+     * SIGNED IN — the cardholder's Amex Offers, on one card or every active card: merchant, reward
+     * wording, spend threshold, reward amount (dollars, points or percent), cap, expiry, whether
+     * it is already added to the card, and the per-card offerId activateOffer takes. Runs through
+     * the caller's own Chrome when Bowmark Buddy is attached, otherwise from a saved American
+     * Express sign-in; with neither, the run pauses for the caller to sign in.
+     */
+    listOffers(args?: ListOffersArgs, opts?: ConnectionOption): Promise<AmexOffers>;
+
+    /**
+     * SIGNED IN, WRITES — adds one Amex Offer to one card (the site's "Add to Card"): pass the
+     * offerId and cardId from one listOffers row. Returns American Express's own verdict word and
+     * whether the offer now shows in the card's Added to Card list. Throws with the site's message
+     * when it refuses. Runs through the caller's own Chrome when Bowmark Buddy is attached,
+     * otherwise from a saved American Express sign-in; with neither, the run pauses for the caller
+     * to sign in.
+     */
+    activateOffer(args: ActivateOfferArgs, opts?: ConnectionOption): Promise<AmexOfferActivation>;
   }
 }
 
@@ -15372,6 +16016,167 @@ interface ArketaBookingResult {
 
 declare namespace BowmarkProvider_article_com {
   // ── Article — the unit's own declarations, verbatim ──
+type ArticleComSiteReadInput = { thing: "bloomreachProductSearch"; where: ArticleComSiteBloomreachProductSearchWhere; fields?: string[] } | { thing: "product"; where: ArticleComSiteProductWhere; fields?: string[] } | { thing: "searchProductsWithFilter"; where?: ArticleComSiteSearchProductsWithFilterWhere; fields?: string[] } | { thing: "getLocationByPostalCode"; where?: ArticleComSiteGetLocationByPostalCodeWhere; fields?: string[] } | { thing: "searchProducts"; where?: ArticleComSiteSearchProductsWhere; fields?: string[] } | { thing: "searchProductSuggestion"; where?: ArticleComSiteSearchProductSuggestionWhere; fields?: string[] } | { thing: "curatedPagesByCategory"; where?: Record<string, never>; fields?: string[] } | { thing: "curatedPagesByCategorySlugAndTag"; where?: ArticleComSiteCuratedPagesByCategorySlugAndTagWhere; fields?: string[] } | { thing: "searchHelpCenterSuggestion"; where?: ArticleComSiteSearchHelpCenterSuggestionWhere; fields?: string[] } | { thing: "collectionPage"; where: ArticleComSiteCollectionPageWhere; fields?: string[] } | { thing: "siteMap"; where?: Record<string, never>; fields?: string[] } | { thing: "getProductQuiz"; where?: Record<string, never>; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): getUrlDiscount, getNavigation, contentfulById, contentfulByModelSlug, commonData, messaging, office, bloomreachAutosuggest, productTaxonomyCategoryAttributeMap, browsePageListByGroupingId, crossSell, roomPage, landingPage, promotionPage, shopPageList, faqPage, reviews.
+
+interface ArticleComSiteBloomreachProductSearchWhere { // The `where` inputs of the `bloomreachProductSearch` thing.
+  input: ArticleComSiteBloomreachSearchInput; // Input (record).
+}
+
+interface ArticleComSiteProductWhere { // The `where` inputs of the `product` thing.
+  hashKey: string; // Hash key (text).
+}
+
+interface ArticleComSiteSearchProductsWithFilterWhere { // The `where` inputs of the `searchProductsWithFilter` thing.
+  initialFilter?: ArticleComSiteProductFilter; // Initial filter (record).
+  filter?: ArticleComSiteProductFilter; // Conditions the results must meet, by field.
+  query?: string; // Text to search for.
+  page?: number; // Page number to return, starting at 1.
+  pageSize?: number; // Number of results per page.
+  country?: string; // Country (text).
+  ruleContexts?: string[]; // Rule contexts (list of text).
+  distinct?: number; // Distinct (number).
+}
+
+interface ArticleComSiteGetLocationByPostalCodeWhere { // The `where` inputs of the `getLocationByPostalCode` thing.
+  postalCode?: string; // Postal code (text).
+}
+
+interface ArticleComSiteSearchProductsWhere { // The `where` inputs of the `searchProducts` thing.
+  navigationCategories?: string[]; // Navigation categories (list of text).
+  taxonomyCategories?: string[]; // Taxonomy categories (list of text).
+  taxonomyAttributes?: string[]; // Taxonomy attributes (list of text).
+  excludedProducts?: string[]; // Excluded products (list of text).
+  onSale?: boolean; // On sale (true/false flag).
+  onClearance?: boolean; // On clearance (true/false flag).
+  inStock?: boolean; // In stock (true/false flag).
+  landingPageId?: number; // Landing page id (number).
+  collectionId?: number; // Collection id (number).
+  hasReasonableETA?: boolean; // Has reasonable eta (true/false flag).
+  query?: string; // Text to search for.
+  page?: number; // Page number to return, starting at 1.
+  pageSize?: number; // Number of results per page.
+  preSelectedTaxonomyAttributes?: string[]; // Pre selected taxonomy attributes (list of text).
+  countryCode?: string; // Country code (text).
+  ruleContexts?: string[]; // Rule contexts (list of text).
+  distinct?: number; // Distinct (number).
+}
+
+interface ArticleComSiteSearchProductSuggestionWhere { // The `where` inputs of the `searchProductSuggestion` thing.
+  query?: string; // Text to search for.
+  suggestionCount?: number; // Suggestion count (number).
+}
+
+interface ArticleComSiteCuratedPagesByCategorySlugAndTagWhere { // The `where` inputs of the `curatedPagesByCategorySlugAndTag` thing.
+  slug?: string; // Slug (text).
+  tag?: string; // Tag (text).
+}
+
+interface ArticleComSiteSearchHelpCenterSuggestionWhere { // The `where` inputs of the `searchHelpCenterSuggestion` thing.
+  query?: string; // Text to search for.
+}
+
+interface ArticleComSiteCollectionPageWhere { // The `where` inputs of the `collectionPage` thing.
+  collectionId: string; // Collection id (text).
+}
+
+interface ArticleComSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  bloomreachProductSearch: ArticleComSiteBloomreachSearchResult | null; // Reads bloomreach product search records from this site.
+  product: ArticleComSiteProduct | null; // Reads product records from this site.
+  searchProductsWithFilter: ArticleComSiteProductSearchResult | null; // Reads products with filter records from this site.
+  getLocationByPostalCode: ArticleComSiteGetLocationResponse | null; // Reads location by postal code records from this site.
+  searchProducts: ArticleComSiteProductSearchResult | null; // Reads products records from this site.
+  searchProductSuggestion: ArticleComSiteProductSuggestion[] | null; // Reads product suggestion records from this site.
+  curatedPagesByCategory: ArticleComSiteGetCuratedPagesResponse | null; // Reads curated pages by category records from this site.
+  curatedPagesByCategorySlugAndTag: ArticleComSiteGetCuratedPagesResponse | null; // Reads curated pages by category slug and tag records from this site.
+  searchHelpCenterSuggestion: ArticleComSiteHelpCenterSuggestion[] | null; // Reads help center suggestion records from this site.
+  collectionPage: ArticleComSiteCollectionPage | null; // Reads collection page records from this site.
+  siteMap: ArticleComSiteSiteMapResponse | null; // Reads site map records from this site.
+  getProductQuiz: ArticleComSiteGetQuizResponse | null; // Reads product quiz records from this site.
+}
+
+type ArticleComSiteReadAnswer = ArticleComSiteBloomreachSearchResult | ArticleComSiteProduct | ArticleComSiteProductSearchResult | ArticleComSiteGetLocationResponse | ArticleComSiteProductSuggestion[] | ArticleComSiteGetCuratedPagesResponse | ArticleComSiteHelpCenterSuggestion[] | ArticleComSiteCollectionPage | ArticleComSiteSiteMapResponse | ArticleComSiteGetQuizResponse | null; // The answer for the `thing` you picked: its type is that thing's entry in ArticleComSiteReadAnswers.
+
+interface ArticleComSiteBloomreachSearchInput { // Bloomreach search input record.
+  query?: string; // Text to search for.
+  pageSize?: number; // Number of results per page.
+  country?: string; // Country of bloomreach search input (text). Known values: US, CA.
+}
+
+interface ArticleComSiteBloomreachSearchResult { // Bloomreach search result record. Shows 6 of its 9 fields; ask for any other by name in `fields`.
+  groupCount?: number | null; // Group count of bloomreach search result (number).
+  skuCount?: number | null; // Sku count of bloomreach search result (number).
+  page?: number | null; // Page of bloomreach search result (number).
+  pageSize?: number | null; // Page size of bloomreach search result (number).
+  autoCorrectedQuery?: string | null; // Auto corrected query of bloomreach search result (text).
+  didYouMean?: string[] | null; // List of did you mean of bloomreach search result (text).
+}
+
+interface ArticleComSiteProduct { // Product record. Shows 6 of its 57 fields; ask for any other by name in `fields`.
+  hashKey?: string | null; // Hash key of product (text).
+  slug?: string | null; // Slug of product (text).
+  title?: string | null; // Title of product (text).
+  status?: string | number | null; // Status of product (value).
+  description?: string | null; // Description of product (text).
+  price?: Record<string, unknown>[] | null; // List of price of product (record).
+}
+
+interface ArticleComSiteProductFilter { // Product filter record. Shows 6 of its 9 inputs; any other is accepted by name.
+  query?: string; // Text to search for.
+  navigationCategories?: string[]; // Values to match on navigation categories of product filter (text).
+  taxonomyCategories?: string[]; // Values to match on taxonomy categories of product filter (text).
+  taxonomyAttributes?: string[]; // Values to match on taxonomy attributes of product filter (text).
+  excludedProducts?: string[]; // Values to match on excluded products of product filter (text).
+  price?: Record<string, unknown>; // Match on price of product filter (record).
+}
+
+interface ArticleComSiteProductSearchResult { // Product search result record. Shows 6 of its 13 fields; ask for any other by name in `fields`.
+  count?: number | null; // Count of product search result (number).
+  maxPage?: number | null; // Max page of product search result (number).
+  page?: number | null; // Page of product search result (number).
+  queryAfterRemoval?: string | null; // Query after removal of product search result (text).
+  queryID?: string | null; // Query id of product search result (text).
+  index?: string | null; // Index of product search result (text).
+}
+
+interface ArticleComSiteGetLocationResponse { // Get location response record.
+  location?: Record<string, unknown> | null; // Location of get location response (record).
+}
+
+interface ArticleComSiteProductSuggestion { // Product suggestion record.
+  query?: string | null; // Query of product suggestion (text).
+  highlightedQuery?: string | null; // Highlighted query of product suggestion (text).
+}
+
+interface ArticleComSiteGetCuratedPagesResponse { // Get curated pages response record.
+  curatedPage?: Record<string, unknown>[] | null; // List of curated page of get curated pages response (record).
+}
+
+interface ArticleComSiteHelpCenterSuggestion { // Help center suggestion record.
+  id?: string | null; // Id of help center suggestion (text).
+  title?: string | null; // Title of help center suggestion (text).
+  slug?: string | null; // Slug of help center suggestion (text).
+  content?: string | null; // Content of help center suggestion (text).
+  numMatchedWords?: number | null; // Num matched words of help center suggestion (number).
+  numTypos?: number | null; // Num typos of help center suggestion (number).
+}
+
+interface ArticleComSiteCollectionPage { // Collection page record.
+  active?: boolean | null; // Active of collection page (true/false flag).
+  slug?: string | null; // Slug of collection page (text).
+  title?: string | null; // Title of collection page (text).
+  key?: Record<string, unknown> | null; // Key of collection page (record).
+  attributes?: Record<string, unknown> | null; // Attributes of collection page (record).
+}
+
+interface ArticleComSiteSiteMapResponse { // Site map response record.
+  data?: unknown | null; // Data of site map response (record).
+}
+
+interface ArticleComSiteGetQuizResponse { // Get quiz response record.
+  success?: boolean | null; // Success of get quiz response (true/false flag).
+  quiz?: Record<string, unknown> | null; // Quiz of get quiz response (record).
+}
+
 interface ArticleSearchArgs {
   query: string;
   limit?: number; // 1-48, default 24
@@ -15431,6 +16236,14 @@ interface ArticleProduct {
    * dimensions, materials, stock and colourways.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (bloomreachProductSearch,
+     * product, getUrlDiscount, searchProductsWithFilter, getNavigation, contentfulById, ...), give
+     * its `where` inputs, and list the `fields` you want back as dot paths like "state.stateName";
+     * omit `fields` for every plain field.
+     */
+    read(input: ArticleComSiteReadInput): Promise<ArticleComSiteReadAnswer>;
+
     /**
      * Search Article's furniture catalog by free text (e.g. 'sofa', 'oak dining table'). Rows
      * carry productId, title, current price (dollars) and url.
@@ -17430,6 +18243,17 @@ interface BankofamericaDepositAccount {
   asOf: string | null;
 }
 
+interface BankofamericaEarnRate {
+  category: string; // The spend category in the card's own words, e.g. "grocery stores and wholesale clubs".
+  rate: number; // Ongoing rate: 3 for 3% cash back, 2 for 2 points per $1.
+  unit: "percent_cash_back" | "points_per_dollar" | "miles_per_dollar";
+  firstYearRate: number | null; // The rate during a first-year bonus (3% + 3% bonus -> 6), else null.
+  base: boolean; // True for the catch-all rate (all other purchases).
+  choice: boolean; // True when the cardholder picks the category.
+  choiceOptions: string[]; // For a choice category: what the cardholder may pick (getCreditCard only).
+  cap: { amount: number; period: "month" | "quarter" | "year"; combined: boolean /* True when the cap is shared across the boosted categories. */ } | null;
+}
+
 interface BankofamericaCreditCard {
   campaignId: string; // The card's campaign id on bankofamerica.com, e.g. "4079408~42".
   name: string;
@@ -17437,6 +18261,7 @@ interface BankofamericaCreditCard {
   introApr: string | null;
   standardApr: string | null;
   annualFee: string | null;
+  earnRates: BankofamericaEarnRate[]; // Earn rate per spend category; empty for a card with no rewards program.
   url: string | null;
 }
 
@@ -17451,6 +18276,7 @@ interface BankofamericaCreditCardDetail {
   introApr: string | null;
   standardApr: string | null;
   annualFee: string | null;
+  earnRates: BankofamericaEarnRate[]; // Earn rate per spend category; empty for a card with no rewards program.
   url: string | null;
   balanceTransferFee: string | null; // Balance-transfer fee as shown, e.g. "5% of each transaction".
   rewardsEarn: string | null; // How points or cash back are earned.
@@ -17492,11 +18318,137 @@ interface BankofamericaLocation {
   services: string[]; // the site's own labels — read the values off a result, never guess one from prose
 }
 
+interface BankofamericaAccount {
+  id: string; // The account's key (adx) — what listTransactions takes as `account`.
+  name: string;
+  last4: string | null;
+  kind: "credit_card" | "checking" | "savings" | "other";
+  balance: number | null; // Current balance for a card, available balance for a deposit account.
+  statementBalance: number | null; // Credit cards only.
+  minimumPaymentDue: number | null;
+  paymentDueDate: string | null; // YYYY-MM-DD.
+  availableCredit: number | null;
+  creditLimit: number | null;
+  url: string;
+}
+
+interface BankofamericaAccounts {
+  accounts: BankofamericaAccount[];
+  warnings: string[];
+}
+
+interface BankofamericaTransactionsArgs {
+  account: string; // An account `id` from listAccounts (the row itself is accepted too).
+  from?: string; // YYYY-MM-DD, inclusive.
+  to?: string; // YYYY-MM-DD, inclusive.
+}
+
+interface BankofamericaTransaction {
+  date: string | null; // YYYY-MM-DD; null for a pending card charge.
+  pending: boolean;
+  description: string;
+  amount: number | null; // Signed as the page prints it.
+  category: string | null;
+  merchant: string | null;
+  type: string | null; // Deposit accounts: the row's type.
+  balanceAfter: number | null;
+}
+
+interface BankofamericaTransactions {
+  account: string;
+  transactions: BankofamericaTransaction[];
+  oldestRead: string | null; // How far back the page read reaches (YYYY-MM-DD).
+  warnings: string[];
+}
+
+interface BankofamericaCardRewards {
+  account: string;
+  name: string;
+  last4: string | null;
+  cashRewards: number | null; // Dollars available to redeem.
+  points: number | null;
+  miles: number | null;
+}
+
+interface BankofamericaRewards {
+  cards: BankofamericaCardRewards[];
+  totalCashRewards: number | null;
+  totalPoints: number | null;
+  warnings: string[];
+}
+
+interface BankofamericaOffer {
+  offerId: string | null; // The deal's id — what activateOffer takes; null when the tile carries none.
+  merchant: string;
+  headline: string; // As shown, e.g. "10% Cash Back".
+  cashBackPercent: number | null;
+  cashBackAmount: number | null; // Dollars, for a fixed-amount deal.
+  description: string | null;
+  expires: string | null; // YYYY-MM-DD.
+  daysLeft: number | null;
+  added: boolean; // True once the deal is added to the card.
+  activateUrl: string | null;
+}
+
+interface BankofamericaOffers {
+  offers: BankofamericaOffer[];
+  warnings: string[];
+}
+
+interface BankofamericaActivateOfferArgs {
+  offerId: string; // An offerId from listOffers.
+}
+
+interface BankofamericaActivation {
+  offerId: string;
+  merchant: string;
+  added: boolean; // Read back off the deals page after the request.
+  alreadyAdded: boolean;
+  status: number | null; // HTTP status of the add request; null when none was sent.
+}
+
   /**
-   * Bank of America's public, logged-out site: published mortgage, CD and loan rates, credit
-   * card terms, branches and ATMs, routing numbers and help answers.
+   * Bank of America: published mortgage, CD and loan rates, credit card terms with per-category
+   * earn rates, branches and ATMs and routing numbers; and, signed in through the caller's own
+   * Chrome, their accounts, balances, transactions, rewards and BankAmeriDeals cash-back offers
+   * (list and add).
    */
   interface Unit {
+    /**
+     * The signed-in customer's own Bank of America accounts — credit cards and checking/savings —
+     * with each one's id, product name, last 4 digits, balance and, for a card, statement balance,
+     * minimum payment, payment due date, available credit and credit limit. Read through the
+     * caller's own browser via Bowmark Buddy.
+     */
+    listAccounts(opts?: ConnectionOption): Promise<BankofamericaAccounts>;
+
+    /**
+     * The transactions on one of the signed-in customer's Bank of America accounts (account = an
+     * id from listAccounts), optionally between from and to (YYYY-MM-DD): date, pending,
+     * description, amount, Bank of America's category and merchant. Reads the activity the account
+     * page shows and warns when the range asked reaches further back.
+     */
+    listTransactions(args: BankofamericaTransactionsArgs, opts?: ConnectionOption): Promise<BankofamericaTransactions>;
+
+    /**
+     * The signed-in customer's Bank of America credit card rewards: cash rewards, points or miles
+     * available on each card, plus the totals.
+     */
+    getRewardsBalance(opts?: ConnectionOption): Promise<BankofamericaRewards>;
+
+    /**
+     * The signed-in customer's BankAmeriDeals cash-back offers: merchant, cash back percent or
+     * dollar amount, description, expiry date, days left, whether it is already added, and the
+     * offerId activateOffer takes.
+     */
+    listOffers(opts?: ConnectionOption): Promise<BankofamericaOffers>;
+
+    /**
+     * Adds one BankAmeriDeals offer (offerId from listOffers) to the signed-in customer's card,
+     * then reads the deals page back and returns the offer's new added state.
+     */
+    activateOffer(args: BankofamericaActivateOfferArgs, opts?: ConnectionOption): Promise<BankofamericaActivation>;
+
     /**
      * Gets Bank of America's published CD rates for a US state: featured, flexible and fixed-term
      * CDs with term, APY, APR, minimum opening balance and deposit tiers.
@@ -17505,13 +18457,15 @@ interface BankofamericaLocation {
 
     /**
      * Gets one Bank of America credit card by campaignId (from listCreditCards): APRs, annual fee,
-     * balance-transfer fee, how rewards are earned and redeemed, and its product page URL.
+     * balance-transfer fee, earn rates by spend category (e.g. 3% choice category, 2% grocery, 1%
+     * everything else, with caps and choice-category options), how rewards are redeemed, and its
+     * product page URL.
      */
     getCreditCard(args: BankofamericaCreditCardArgs): Promise<BankofamericaCreditCardDetail>;
 
     /**
-     * Lists Bank of America's consumer credit cards with each card's name, rewards headline, intro
-     * APR, standard APR range, annual fee and product page URL.
+     * Lists Bank of America's consumer credit cards with each card's name, rewards headline, earn
+     * rates by spend category, intro APR, standard APR range, annual fee and product page URL.
      */
     listCreditCards(): Promise<BankofamericaCreditCard[]>;
 
@@ -17558,6 +18512,90 @@ interface BankofamericaLocation {
      * and ZIP: sample payment, draw period, relationship discount and any introductory rate.
      */
     getHomeEquityRates(args: BankofamericaHomeEquityRatesArgs): Promise<BankofamericaHomeEquityRates>;
+  }
+}
+
+declare namespace BowmarkProvider_barclays {
+  // ── Barclays — the unit's own declarations, verbatim ──
+interface BarclaysEarnRate {
+  rate: number; // 5 for 5%, 3 for 3X
+  unit: "percent" | "multiplier"; // percent = cash back %, multiplier = points or miles per $1
+  currency: string | null; // what is earned, in the issuer's word: cash back, points, miles
+  category: string; // the spend the rate applies to, in the issuer's words
+  cap: string | null; // the cap or condition clause, e.g. on up to $1,000 in combined purchases each quarter
+  rotating: boolean; // the category changes by quarter, or must be chosen or activated
+  base: boolean; // the everything-else rate
+  text: string; // the issuer's sentence the rate was read from
+}
+
+interface BarclaysCreditCard {
+  id: string; // pass to getCreditCard
+  name: string;
+  url: string; // the card's page on the issuer's site
+  imageUrl: string | null;
+  applyUrl: string | null;
+  annualFee: number | null; // USD; 0 = no annual fee; for an intro-waived fee, the fee from year two
+  annualFeeText: string | null;
+  welcomeOffer: string | null; // the new-account bonus as written
+  introApr: string | null;
+  regularApr: string | null;
+  earnRates: BarclaysEarnRate[];
+  currentRotatingCategories: { quarter: string; categories: string[]; activationRequired: boolean } | null; // this quarter's categories for a rotating card, when the issuer publishes them
+  benefits: string[]; // benefit headlines shown beside the rates
+  kind: "consumer" | "business";
+  productCode: string | null; // Barclays' own product code
+  feesText: string | null; // balance transfer and other fees, as written
+}
+
+interface BarclaysCreditCards {
+  cards: BarclaysCreditCard[];
+  warnings: string[];
+}
+
+interface BarclaysCreditCardDetail {
+  id: string; // pass to getCreditCard
+  name: string;
+  url: string; // the card's page on the issuer's site
+  imageUrl: string | null;
+  applyUrl: string | null;
+  annualFee: number | null; // USD; 0 = no annual fee; for an intro-waived fee, the fee from year two
+  annualFeeText: string | null;
+  welcomeOffer: string | null; // the new-account bonus as written
+  introApr: string | null;
+  regularApr: string | null;
+  earnRates: BarclaysEarnRate[];
+  currentRotatingCategories: { quarter: string; categories: string[]; activationRequired: boolean } | null; // this quarter's categories for a rotating card, when the issuer publishes them
+  benefits: string[]; // benefit headlines shown beside the rates
+  kind: "consumer" | "business";
+  productCode: string | null; // Barclays' own product code
+  feesText: string | null; // balance transfer and other fees, as written
+  rewardTerms: string[]; // the card page's own sentences defining each category and cap
+  warnings: string[];
+}
+
+type BarclaysCardRef = string | { id?: string; url?: string; name?: string }; // the id from listCreditCards, the card's URL or its name, or a row from listCreditCards
+
+  /**
+   * Barclays US credit cards: every card Barclays markets (JetBlue, Wyndham Rewards, Emirates
+   * Skywards, Lufthansa Miles & More, AARP, Gap/Old Navy/Athleta/Banana Republic, GM, Breeze,
+   * Frontier, Carnival, Upromise and more) with earn rates by category, annual fee, APR, intro
+   * APR and welcome bonus.
+   */
+  interface Unit {
+    /**
+     * Every credit card Barclays US markets (26 on 2026-11-25: JetBlue, Wyndham Rewards Earner,
+     * Emirates Skywards, Lufthansa Miles & More, AARP, Gap/Old Navy/Athleta/Banana Republic, GM,
+     * Breeze, Frontier, Carnival, Upromise, RCI, Capital Vacations, Barnes & Noble): slug id,
+     * product code, name, annual fee, earn rates by category (rate, unit, category, cap), welcome
+     * bonus, purchase APR range, intro APR, fees, benefits and card art.
+     */
+    listCreditCards(): Promise<BarclaysCreditCards>;
+
+    /**
+     * One Barclays card by the id listCreditCards returned (or its name or URL): the listing row
+     * plus the card page's own reward terms, including the full welcome-offer condition.
+     */
+    getCreditCard(card: BarclaysCardRef): Promise<BarclaysCreditCardDetail>;
   }
 }
 
@@ -29938,7 +30976,119 @@ interface ChaseSearchResult {
   url: string;
 }
 
-  /** Search Chase's public site for banking products, rates, branches and help pages. */
+interface ChaseEarnRate {
+  rate: number;
+  kind: "multiplier" | "percent";
+  currency: string | null;
+  category: string;
+  cap: string | null;
+  everythingElse: boolean;
+  text: string;
+}
+
+interface ChaseAnnualFee {
+  text: string;
+  amount: number | null;
+  introAmount: number | null;
+}
+
+interface ChaseCreditCard {
+  id: string;
+  cardId: string;
+  name: string;
+  type: "personal" | "business";
+  annualFee: ChaseAnnualFee;
+  welcomeOffer: string | null;
+  earnRates: ChaseEarnRate[];
+  earning: string[];
+  apr: string | null;
+  foreignTransactionFee: string | null;
+  highlights: string[];
+  url: string;
+  applyUrl: string | null;
+  imageUrl: string | null;
+  pricingTermsUrl: string | null;
+}
+
+interface ChaseCreditCardList {
+  cards: ChaseCreditCard[];
+  count: number;
+}
+
+interface ChaseCardBenefit {
+  title: string;
+  description: string;
+}
+
+interface ChaseCreditCardDetail {
+  id: string;
+  cardId: string;
+  name: string;
+  type: "personal" | "business";
+  annualFee: ChaseAnnualFee;
+  welcomeOffer: string | null;
+  earnRates: ChaseEarnRate[];
+  earning: string[];
+  apr: string | null;
+  foreignTransactionFee: string | null;
+  highlights: string[];
+  url: string;
+  applyUrl: string | null;
+  imageUrl: string | null;
+  pricingTermsUrl: string | null;
+  earnRatesFrom: "card-page" | "compare-table";
+  benefits: ChaseCardBenefit[];
+  protections: ChaseCardBenefit[];
+  warnings: string[];
+}
+
+interface ChaseOffer {
+  offerId: string;
+  offerIdFrom: "page" | "derived";
+  merchant: string;
+  reward: string | null;
+  rewardPercent: number | null;
+  rewardAmount: number | null;
+  expires: string | null;
+  added: boolean;
+  label: string;
+}
+
+interface ChaseOffers {
+  account: string | null;
+  offers: ChaseOffer[];
+  count: number;
+  addedCount: number;
+}
+
+interface ChaseOfferActivation {
+  offerId: string;
+  merchant: string;
+  account: string | null;
+  added: boolean;
+  alreadyAdded: boolean;
+  confirmedBy: "tile" | "offer-activated-page" | "already-added";
+}
+
+interface ChaseListCreditCardsArgs {
+  type?: "personal" | "business";
+}
+
+interface ChaseListOffersArgs {
+  account?: string;
+}
+
+interface ChaseActivateOfferArgs {
+  offerId: string;
+  account: string;
+}
+
+  /**
+   * Chase's public site search, its whole credit-card catalog (every personal and business card
+   * with annual fee, welcome offer, APR and earn rates by category) and one card's benefits and
+   * travel/purchase protections; signed in, through the caller's own Chrome, the cardholder's
+   * Chase Offers and adding one to a card.
+   */
   interface Unit {
     /**
      * Searches Chase's public site for products, rates, branches and help pages. Call search()
@@ -29946,6 +31096,44 @@ interface ChaseSearchResult {
      * result has its displayed title, short description and Chase page URL.
      */
     search(query?: string | {query?: string}): Promise<ChaseSearchResult[]>;
+
+    /**
+     * Every credit card Chase currently markets, personal and business (optionally { type:
+     * "personal" | "business" }): name, id, annual fee (text, ongoing and intro amount), welcome
+     * offer, APR, foreign transaction fee, earn rates by category (rate, x or %, points/miles/cash
+     * back, category, spending cap, catch-all flag, Chase's own sentence), Chase's short benefit
+     * list, and the card, apply, image and pricing-terms links. Read from Chase's own
+     * compare-cards catalog.
+     */
+    listCreditCards(args?: ChaseListCreditCardsArgs): Promise<ChaseCreditCardList>;
+
+    /**
+     * One Chase card by the `id` listCreditCards returns (or its `cardId`, chase.com URL or exact
+     * name): everything listCreditCards has, plus the card page's benefits (credits, partner
+     * perks, lounge passes) and travel and purchase protections (auto rental coverage, trip
+     * cancellation, purchase protection, extended warranty ...), each with Chase's own
+     * description. Earn rates come from the card page when it shows rate tiles (`earnRatesFrom`).
+     */
+    getCreditCard(card: string | number | {id: string | number}): Promise<ChaseCreditCardDetail>;
+
+    /**
+     * SIGNED IN — the caller's own Chase Offers (card-linked merchant offers) for one card ({
+     * account?: last 4 or the card's name in Chase's account picker; default the card Chase shows
+     * first}): merchant, reward ("10% cash back", with the percent or dollar amount), expiry as
+     * shown, whether it is already added, and the `offerId` activateOffer takes. Runs in the
+     * caller's own Chrome through Bowmark Buddy, signed in to chase.com; with none attached the
+     * run pauses for sign-in.
+     */
+    listOffers(args?: ChaseListOffersArgs, opts?: ConnectionOption): Promise<ChaseOffers>;
+
+    /**
+     * SIGNED IN, WRITE — adds one Chase Offer to a card: { offerId, account } from listOffers.
+     * Clicks the offer on the Chase Offers page in the caller's own Chrome through Bowmark Buddy,
+     * then reads Chase's page back and returns the offer id, merchant, account and its new state
+     * (`added`, and what confirmed it). An offer already added is reported and not clicked; a
+     * click Chase does not confirm throws.
+     */
+    activateOffer(args: ChaseActivateOfferArgs, opts?: ConnectionOption): Promise<ChaseOfferActivation>;
   }
 }
 
@@ -32405,6 +33593,235 @@ interface circlSearchResult {
      * result the same record getCve returns
      */
     search(args: circlSearchArgs): Promise<circlSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_citi {
+  // ── Citi — the unit's own declarations, verbatim ──
+interface CitiEarnRate {
+  rate: number;
+  unit: "x" | "%";
+  currency: "points" | "miles" | "cash back" | null;
+  category: string;
+  text: string;
+}
+
+interface CitiWelcomeOffer {
+  text: string;
+  bonus: number | null;
+  unit: "points" | "miles" | "USD" | null;
+  spend: number | null;
+  months: number | null;
+}
+
+interface CitiCardPricing {
+  annualFee: number | null;
+  purchaseAprMin: number | null;
+  purchaseAprMax: number | null;
+  introPurchaseApr: number | null;
+  introPurchaseMonths: number | null;
+  introBalanceTransferApr: number | null;
+  introBalanceTransferMonths: number | null;
+  balanceTransferFeePercent: number | null;
+  cashAdvanceApr: number | null;
+  foreignTransactionFeePercent: number | null;
+}
+
+interface CitiCreditCard {
+  id: string;
+  pid: string;
+  name: string;
+  description: string | null;
+  url: string;
+  imageUrl: string | null;
+  annualFee: number | null;
+  annualFeeText: string | null;
+  categories: string[];
+  earnRates: CitiEarnRate[];
+  welcomeOffer: CitiWelcomeOffer | null;
+  pricing: CitiCardPricing | null;
+  highlights: string[];
+}
+
+interface CitiCreditCardDetail {
+  id: string;
+  pid: string;
+  name: string;
+  description: string | null;
+  url: string;
+  imageUrl: string | null;
+  annualFee: number | null;
+  annualFeeText: string | null;
+  categories: string[];
+  earnRates: CitiEarnRate[];
+  welcomeOffer: CitiWelcomeOffer | null;
+  pricing: CitiCardPricing | null;
+  highlights: string[];
+  features: { title: string; text: string }[];
+  ratesAndFees: { label: string; value: string }[];
+}
+
+interface CitiCreditCards {
+  cards: CitiCreditCard[];
+  warnings: string[];
+}
+
+interface CitiListCreditCardsArgs {
+  limit?: number;
+}
+
+interface CitiAccount {
+  accountId: string;
+  lastFour: string | null;
+  product: string | null;
+  productId: string | null;
+  currentBalance: number | null;
+  statementBalance: number | null;
+  minimumPayment: number | null;
+  paymentDueDate: string | null;
+  availableCredit: number | null;
+  creditLimit: number | null;
+  nextStatementClosingDate: string | null;
+  lastStatementClosingDate: string | null;
+  statusCode: string | null;
+  accountType: string | null;
+}
+
+interface CitiTransactionsArgs {
+  account: string;
+  from?: string;
+  to?: string;
+  limit?: number;
+}
+
+interface CitiTransaction {
+  id: string | null;
+  date: string | null;
+  postedDate: string | null;
+  description: string | null;
+  merchant: string | null;
+  amount: number | null;
+  category: string | null;
+  pending: boolean;
+}
+
+interface CitiTransactionsPage {
+  accountId: string;
+  transactions: CitiTransaction[];
+  hasMore: boolean;
+  warnings: string[];
+}
+
+interface CitiRewardsAccount {
+  accountId: string;
+  lastFour: string | null;
+  productId: string | null;
+  program: string;
+  accumulationType: string | null;
+  balance: number;
+  unit: "ThankYou Points" | "USD" | "AAdvantage miles" | "points";
+}
+
+interface CitiRewardsBalance {
+  thankYouPoints: number;
+  accounts: CitiRewardsAccount[];
+}
+
+interface CitiOffersArgs {
+  account?: string;
+}
+
+interface CitiOffer {
+  offerId: string;
+  merchant: string | null;
+  reward: string | null;
+  rewardType: string | null;
+  category: string | null;
+  expiresAt: string | null;
+  enrolled: boolean;
+  status: string | null;
+  redemption: string | null;
+  imageUrl: string | null;
+}
+
+interface CitiOffers {
+  accountId: string | null;
+  cards: { accountId: string; name: string | null }[];
+  offers: CitiOffer[];
+}
+
+interface CitiActivateOfferArgs {
+  offerId: string;
+  account: string;
+}
+
+interface CitiOfferActivation {
+  offerId: string;
+  accountId: string;
+  enrolled: boolean;
+  status: string | null;
+  enrollmentId: string | null;
+  merchant: string | null;
+  reward: string | null;
+  expiresAt: string | null;
+}
+
+  /**
+   * Citi credit cards: the public card catalog (fees, earn rates by category, welcome offers)
+   * and, signed in through the caller's own browser, their Citi accounts, transactions, ThankYou
+   * rewards and Merchant Offers, including activating an offer.
+   */
+  interface Unit {
+    /**
+     * Every credit card on citi.com (Strata Premier, Double Cash, Custom Cash, Costco Anywhere,
+     * the AAdvantage cards, the store cards…) with its annual fee, earn rates by spend category,
+     * welcome offer (bonus, spend, months), APRs and fees, page URL and Citi product id. Public,
+     * no sign-in.
+     */
+    listCreditCards(args?: CitiListCreditCardsArgs): Promise<CitiCreditCards>;
+
+    /**
+     * One Citi card in full: everything listCreditCards returns for it plus the page's feature
+     * sections and its rates-and-fees table. Takes the card id from listCreditCards (its page
+     * slug, e.g. "citi-strata-premier-credit-card"), its page URL, or its three-digit product id.
+     */
+    getCreditCard(id: string): Promise<CitiCreditCardDetail>;
+
+    /**
+     * The signed-in cardholder's Citi credit card accounts: accountId, last four digits, product,
+     * current balance, statement balance, minimum payment, payment due date, available credit and
+     * credit limit. Read through the caller's own browser via Bowmark Buddy.
+     */
+    listAccounts(opts?: ConnectionOption): Promise<CitiAccount[]>;
+
+    /**
+     * Transactions on one of the cardholder's Citi accounts, pending first, then posted: date,
+     * description, merchant, amount (positive is a purchase), Citi's category. Takes { account,
+     * from?, to?, limit? }, account being an accountId from listAccounts (or its last four
+     * digits), from/to YYYY-MM-DD. Pages through Citi's own cursor.
+     */
+    listTransactions(args: CitiTransactionsArgs, opts?: ConnectionOption): Promise<CitiTransactionsPage>;
+
+    /**
+     * The cardholder's Citi rewards: the ThankYou points total, and each card's balance with its
+     * program (ThankYou, cash back in dollars, AAdvantage miles).
+     */
+    getRewardsBalance(opts?: ConnectionOption): Promise<CitiRewardsBalance>;
+
+    /**
+     * Citi Merchant Offers on one of the cardholder's cards: merchant, reward, category, expiry,
+     * whether it is already enrolled, and the offerId activateOffer takes. Optional { account }
+     * (an accountId from listAccounts); without it, Citi's default card. Also lists every card the
+     * offers page can switch to.
+     */
+    listOffers(args?: CitiOffersArgs, opts?: ConnectionOption): Promise<CitiOffers>;
+
+    /**
+     * Enrolls one Citi Merchant Offer on a card ({ offerId, account }) and returns the offer's new
+     * enrolled state as Citi's answer reports it. A write on the cardholder's account; enrolling
+     * costs nothing.
+     */
+    activateOffer(args: CitiActivateOfferArgs, opts?: ConnectionOption): Promise<CitiOfferActivation>;
   }
 }
 
@@ -36882,6 +38299,20 @@ interface CostcoGiftCard {
      * brand or kind ("restaurant", "fandango"); `limit` defaults to 20.
      */
     listGiftCards(options?: {query?: string, limit?: number}): Promise<CostcoGiftCard[]>;
+
+    /**
+     * Makes a NEW Costco account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -37114,6 +38545,12 @@ interface CraigslistSavedSearches {
   warnings: string[];
 }
 
+interface CraigslistSaveSearchResult {
+  url: string;
+  saved: boolean;
+  warnings: string[];
+}
+
 interface CraigslistAccountPosting {
   id: string;
   title: string;
@@ -37149,6 +38586,13 @@ interface CraigslistAccountPosting {
      * URL it re-runs. Needs the caller signed in; a dead sign-in throws.
      */
     listSavedSearches(opts?: ConnectionOption): Promise<CraigslistSavedSearches>;
+
+    /**
+     * Saves a Craigslist search (keyword, area, category, price range) to the signed-in caller's
+     * saved searches, then reads the saved-searches tab back to confirm it is listed. Needs the
+     * caller signed in; a dead sign-in throws.
+     */
+    saveSearch(args: string | CraigslistSearchArgs, opts?: ConnectionOption): Promise<CraigslistSaveSearchResult>;
 
     /**
      * Returns every photo of one Craigslist listing (a URL a search returned) as a thumbnail and a
@@ -43464,6 +44908,116 @@ interface DiscounttireTireSizeSearch {
   }
 }
 
+declare namespace BowmarkProvider_discover {
+  // ── Discover — the unit's own declarations, verbatim ──
+interface DiscoverEarnRate {
+  rate: number; // 5 for 5%, 3 for 3X
+  unit: "percent" | "multiplier"; // percent = cash back %, multiplier = points or miles per $1
+  currency: string | null; // what is earned, in the issuer's word: cash back, points, miles
+  category: string; // the spend the rate applies to, in the issuer's words
+  cap: string | null; // the cap or condition clause, e.g. on up to $1,000 in combined purchases each quarter
+  rotating: boolean; // the category changes by quarter, or must be chosen or activated
+  base: boolean; // the everything-else rate
+  text: string; // the issuer's sentence the rate was read from
+}
+
+interface DiscoverCreditCard {
+  id: string; // pass to getCreditCard
+  name: string;
+  url: string; // the card's page on the issuer's site
+  imageUrl: string | null;
+  applyUrl: string | null;
+  annualFee: number | null; // USD; 0 = no annual fee; for an intro-waived fee, the fee from year two
+  annualFeeText: string | null;
+  welcomeOffer: string | null; // the new-account bonus as written
+  introApr: string | null;
+  regularApr: string | null;
+  earnRates: DiscoverEarnRate[];
+  currentRotatingCategories: { quarter: string; categories: string[]; activationRequired: boolean } | null; // this quarter's categories for a rotating card, when the issuer publishes them
+  benefits: string[]; // benefit headlines shown beside the rates
+  kind: "consumer" | "business";
+}
+
+interface DiscoverCreditCards {
+  cards: DiscoverCreditCard[];
+  warnings: string[];
+}
+
+interface DiscoverCreditCardDetail {
+  id: string; // pass to getCreditCard
+  name: string;
+  url: string; // the card's page on the issuer's site
+  imageUrl: string | null;
+  applyUrl: string | null;
+  annualFee: number | null; // USD; 0 = no annual fee; for an intro-waived fee, the fee from year two
+  annualFeeText: string | null;
+  welcomeOffer: string | null; // the new-account bonus as written
+  introApr: string | null;
+  regularApr: string | null;
+  earnRates: DiscoverEarnRate[];
+  currentRotatingCategories: { quarter: string; categories: string[]; activationRequired: boolean } | null; // this quarter's categories for a rotating card, when the issuer publishes them
+  benefits: string[]; // benefit headlines shown beside the rates
+  kind: "consumer" | "business";
+  rewardTerms: string[]; // the card page's own sentences defining each category and cap
+  warnings: string[];
+}
+
+type DiscoverCardRef = string | { id?: string; url?: string; name?: string }; // the id from listCreditCards, the card's URL or its name, or a row from listCreditCards
+
+interface DiscoverCashbackQuarter {
+  quarter: string;
+  year: number;
+  quarterNumber: number;
+  startDate: string | null; // ISO date
+  endDate: string | null; // ISO date
+  categories: string[];
+  title: string;
+  spendCap: number | null; // USD of combined purchases the 5% applies to
+  activationOpens: string | null; // ISO date activation opens
+  offerId: string;
+  status: string | null; // Discover's word: qualification (earning now), preenroll, expired
+  current: boolean; // the quarter containing today
+  highlight: string | null;
+  terms: string; // what each category includes and excludes
+}
+
+interface DiscoverCashbackCalendar {
+  year: number | null;
+  quarters: DiscoverCashbackQuarter[];
+  current: DiscoverCashbackQuarter | null;
+  commonTerms: string | null;
+  warnings: string[];
+}
+
+  /**
+   * Discover credit cards: every card Discover markets with its earn rates by category, fee and
+   * welcome offer, and the 5% Cashback Bonus calendar for this year.
+   */
+  interface Unit {
+    /**
+     * Every credit card Discover markets (Discover it Cash Back, Student, Secured, Balance
+     * Transfer, Chrome, Miles, NHL and the 'for Good Credit' variants): name, id, annual fee, earn
+     * rates by category (rate, unit, category, cap, rotating flag), welcome offer (bonus and
+     * Cashback Match), intro APR, card art and page URL. Cards whose 5% rotates carry this
+     * quarter's categories.
+     */
+    listCreditCards(): Promise<DiscoverCreditCards>;
+
+    /**
+     * One Discover card by the id listCreditCards returned (or its name or URL): the listing row
+     * plus the card page's own reward terms — the footnotes saying what each category includes and
+     * the caps.
+     */
+    getCreditCard(card: DiscoverCardRef): Promise<DiscoverCreditCardDetail>;
+
+    /**
+     * This year's Discover 5% Cashback Bonus calendar: each quarter's categories, dates, $1,500
+     * spend cap, when activation opens, which quarter is current, and the full category terms.
+     */
+    getCashbackCalendar(): Promise<DiscoverCashbackCalendar>;
+  }
+}
+
 declare namespace BowmarkProvider_disney {
   // ── Walt Disney World Resort — the unit's own declarations, verbatim ──
 interface DisneyGetTicketPriceArgs {
@@ -45586,6 +47140,28 @@ interface ebaySoldSearch {
      * row count (default 20, ceiling 200).
      */
     getMyListings(args?: {limit?: number}, opts?: ConnectionOption): Promise<ebayItem[]>;
+  }
+}
+
+declare namespace BowmarkProvider_ecosia {
+  // ── Ecosia — the unit's own declarations, verbatim ──
+interface SuggestArgs {
+  query: string;
+  market?: string;
+}
+
+interface Suggestions {
+  query: string;
+  suggestions: string[]; // Ecosia's autocomplete suggestions, best first
+}
+
+  /**
+   * Ecosia search engine: autocomplete suggestions for a partial query (suggest is built; web
+   * search is queued, it needs a browser).
+   */
+  interface Unit {
+    /** Ecosia search-box autocomplete suggestions for a partial query, in a chosen market. */
+    suggest(args: SuggestArgs): Promise<Suggestions>;
   }
 }
 
@@ -48552,6 +50128,15 @@ interface EventbriteOrganizerDetail {
   hasMoreUpcoming: boolean;
 }
 
+interface EventbriteListNearbyCitiesArgs {
+  placeCode: string; // Pass the numeric place identifier as a string, such as "85917479" or "85633793". E.g. "85917479".
+}
+
+interface EventbriteListNearbyCitiesResult {
+  buckets: { placeName: string /* The name of a nearby city. */; linkUrl: string /* The URL for events in that nearby city. */ }[];
+  place: { name: string /* The name of the queried place. */ };
+}
+
   /**
    * Local events — search by city/online, date and category; read an event, its organizer and
    * venue; and (once a caller signs in) save events, follow organizers and read order history.
@@ -48704,6 +50289,12 @@ interface EventbriteOrganizerDetail {
      * this is the per-tier detail.
      */
     listTicketClasses(args: {eventIdOrUrl: string}): Promise<EventbriteTicketClassRow[]>;
+
+    /**
+     * Returns nearby cities for a place, with each city’s name and events URL plus the queried
+     * place’s name.
+     */
+    listNearbyCities(args: EventbriteListNearbyCitiesArgs): Promise<EventbriteListNearbyCitiesResult>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -51453,6 +53044,225 @@ interface FareharborBookingResult {
 
 declare namespace BowmarkProvider_farmaciasdirect {
   // ── Farmaciasdirect — the unit's own declarations, verbatim ──
+type FarmaciasdirectSiteReadInput = { thing: "collection"; where?: FarmaciasdirectSiteCollectionWhere; fields?: string[] } | { thing: "collections"; where?: FarmaciasdirectSiteCollectionsWhere; fields?: string[] } | { thing: "locations"; where?: FarmaciasdirectSiteLocationsWhere; fields?: string[] } | { thing: "product"; where?: FarmaciasdirectSiteProductWhere; fields?: string[] } | { thing: "productTags"; where: FarmaciasdirectSiteProductTagsWhere; fields?: string[] } | { thing: "products"; where?: FarmaciasdirectSiteProductsWhere; fields?: string[] } | { thing: "search"; where: FarmaciasdirectSiteSearchWhere; fields?: string[] } | { thing: "sitemap"; where: FarmaciasdirectSiteSitemapWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): article, articles, blog, blogs, localization, menu, metaobject, metaobjects, node, nodes, page, pages, predictiveSearch, productRecommendations, productTypes, publicApiVersions, shop, urlRedirects.
+
+interface FarmaciasdirectSiteCollectionWhere { // The `where` inputs of the `collection` thing.
+  id?: string; // The ID of the `Collection`.
+  handle?: string; // The handle of the `Collection`.
+}
+
+interface FarmaciasdirectSiteCollectionsWhere { // The `where` inputs of the `collections` thing.
+  first?: number; // Returns up to the first `n` elements from the list.
+  after?: string; // Returns the elements that come after the specified cursor.
+  last?: number; // Returns up to the last `n` elements from the list.
+  before?: string; // Returns the elements that come before the specified cursor.
+  reverse?: boolean; // Reverse the order of the underlying list. Default: false.
+  sortKey?: "TITLE" | "UPDATED_AT" | "ID" | "CREATED_AT" | "RELEVANCE"; // Sort the underlying list by the given key. Default: ID.
+  query?: string; // Apply one or multiple filters to the query. | name | description | acceptable_values | default_value | example_use | | ---- | ---- | ---- | ---- | ---- | | collection_type | | title | | updated_at ...
+}
+
+interface FarmaciasdirectSiteLocationsWhere { // The `where` inputs of the `locations` thing.
+  first?: number; // Returns up to the first `n` elements from the list.
+  after?: string; // Returns the elements that come after the specified cursor.
+  last?: number; // Returns up to the last `n` elements from the list.
+  before?: string; // Returns the elements that come before the specified cursor.
+  reverse?: boolean; // Reverse the order of the underlying list. Default: false.
+  sortKey?: "ID" | "NAME" | "CITY" | "DISTANCE" | "CREATED_AT"; // Sort the underlying list by the given key. Default: ID.
+  near?: FarmaciasdirectSiteGeoCoordinateInput; // Used to sort results based on proximity to the provided location.
+}
+
+interface FarmaciasdirectSiteProductWhere { // The `where` inputs of the `product` thing.
+  id?: string; // The ID of the `Product`.
+  handle?: string; // The handle of the `Product`.
+}
+
+interface FarmaciasdirectSiteProductTagsWhere { // The `where` inputs of the `productTags` thing.
+  first: number; // Returns up to the first `n` elements from the list.
+}
+
+interface FarmaciasdirectSiteProductsWhere { // The `where` inputs of the `products` thing.
+  first?: number; // Returns up to the first `n` elements from the list.
+  after?: string; // Returns the elements that come after the specified cursor.
+  last?: number; // Returns up to the last `n` elements from the list.
+  before?: string; // Returns the elements that come before the specified cursor.
+  reverse?: boolean; // Reverse the order of the underlying list. Default: false.
+  sortKey?: "TITLE" | "PRODUCT_TYPE" | "VENDOR" | "UPDATED_AT" | "CREATED_AT" | "BEST_SELLING" | "PRICE" | "ID" | "RELEVANCE"; // Sort the underlying list by the given key. Default: ID.
+  query?: string; // You can apply one or multiple filters to a query. | name | description | acceptable_values | default_value | example_use | | ---- | ---- | ---- | ---- | ---- | | available_for_sale | Filter by prod...
+}
+
+interface FarmaciasdirectSiteSearchWhere { // The `where` inputs of the `search` thing.
+  first?: number; // Returns up to the first `n` elements from the list.
+  after?: string; // Returns the elements that come after the specified cursor.
+  last?: number; // Returns up to the last `n` elements from the list.
+  before?: string; // Returns the elements that come before the specified cursor.
+  reverse?: boolean; // Reverse the order of the underlying list. Default: false.
+  sortKey?: "PRICE" | "RELEVANCE"; // Sort the underlying list by the given key. Default: RELEVANCE.
+  query: string; // The search query.
+  prefix?: "LAST" | "NONE"; // For page and article results, specifies whether to match partial words on the last search term. Product results match partial words automatically.
+  productFilters?: FarmaciasdirectSiteProductFilter[]; // Returns a subset of products matching all product filters. The input must not contain more than `250` values.
+  types?: ("PRODUCT" | "PAGE" | "ARTICLE")[]; // The types of resources to search for. The input must not contain more than `250` values.
+  unavailableProducts?: "SHOW" | "HIDE" | "LAST"; // Specifies how unavailable products or variants are displayed in the search results.
+}
+
+interface FarmaciasdirectSiteSitemapWhere { // The `where` inputs of the `sitemap` thing.
+  type: "PRODUCT" | "COLLECTION" | "PAGE" | "METAOBJECT" | "BLOG" | "ARTICLE"; // The type of the resource for the sitemap.
+}
+
+interface FarmaciasdirectSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  collection: FarmaciasdirectSiteCollection | null; // Retrieves a single `Collection` by its ID or handle. Use the `products` field to access items in the collection.
+  collections: FarmaciasdirectSiteCollectionConnection | null; // Returns a paginated list of the shop's collections. Each `Collection` object includes a nested connection to its products.
+  locations: FarmaciasdirectSiteLocationConnection | null; // Returns shop locations that support in-store pickup. Use the `near` argument with `GeoCoordinateInput` to sort results by proximity to the customer's location. When sorting by distance, set `sortKe...
+  product: FarmaciasdirectSiteProduct | null; // Retrieves a single `Product` by its ID or handle. Use this query to build product detail pages, access variant and pricing information, or fetch product media and metafields. See some examples of q...
+  productTags: FarmaciasdirectSiteStringConnection | null; // Returns a paginated list of all tags that have been added to products in the shop. Useful for building tag-based product filtering or navigation in a storefront.
+  products: FarmaciasdirectSiteProductConnection | null; // Returns a paginated list of the shop's products. For full-text storefront search, use the `search` query instead.
+  search: FarmaciasdirectSiteSearchResultItemConnection | null; // Returns paginated search results for `Product`, `Page`, and `Article` resources based on a query string. Results are sorted by relevance by default. The response includes the total result count and...
+  sitemap: FarmaciasdirectSiteSitemap | null; // Returns sitemap data for a specific resource type, enabling headless storefronts to generate XML sitemaps for search engine optimization. The query provides a page count and paginated access to res...
+}
+
+type FarmaciasdirectSiteReadAnswer = FarmaciasdirectSiteCollection | FarmaciasdirectSiteCollectionConnection | FarmaciasdirectSiteLocationConnection | FarmaciasdirectSiteProduct | FarmaciasdirectSiteStringConnection | FarmaciasdirectSiteProductConnection | FarmaciasdirectSiteSearchResultItemConnection | FarmaciasdirectSiteSitemap | null; // The answer for the `thing` you picked: its type is that thing's entry in FarmaciasdirectSiteReadAnswers.
+
+interface FarmaciasdirectSiteCollection { // A group of products organized by a merchant to make their store easier to browse. Collections can help customers discover related products by category, season, promotion, or other criteria. Query a... Shows 4 of its 11 fields; ask for any other by name in `fields`.
+  description?: string | null; // Stripped description of the collection, single line with HTML tags removed.
+  handle?: string | null; // A human-friendly unique string for the collection automatically generated from its title. Limit of 255 characters.
+  id?: string | null; // A globally-unique ID.
+  title?: string | null; // The collection’s name. Limit of 255 characters.
+}
+
+interface FarmaciasdirectSiteCollectionConnection { // An auto-generated type for paginating through multiple Collections.
+  edges?: Record<string, unknown>[] | null; // A list of edges.
+  nodes?: Record<string, unknown>[] | null; // A list of the nodes contained in CollectionEdge.
+  pageInfo?: Record<string, unknown> | null; // Information to aid in pagination.
+  totalCount?: string | number | null; // The total count of Collections.
+}
+
+interface FarmaciasdirectSiteGeoCoordinateInput { // The input fields used to specify a geographical location.
+  latitude: number; // The coordinate's latitude value.
+  longitude: number; // The coordinate's longitude value.
+}
+
+interface FarmaciasdirectSiteLocationConnection { // An auto-generated type for paginating through multiple Locations.
+  edges?: Record<string, unknown>[] | null; // A list of edges.
+  nodes?: Record<string, unknown>[] | null; // A list of the nodes contained in LocationEdge.
+  pageInfo?: Record<string, unknown> | null; // Information to aid in pagination.
+}
+
+interface FarmaciasdirectSiteProduct { // Represents an item listed in a shop's catalog. Products support multiple product variants, representing different versions of the same product, and can include various media types. Use the `selecte... Shows 4 of its 33 fields; ask for any other by name in `fields`.
+  description?: string | null; // A single-line description of the product, with HTML tags removed.
+  handle?: string | null; // A unique, human-readable string of the product's title. A handle can contain letters, hyphens (`-`), and numbers, but no spaces. The handle is used in the online store URL for the product.
+  id?: string | null; // A globally-unique ID.
+  priceRange?: Record<string, unknown> | null; // The minimum and maximum prices of a product, expressed in decimal numbers. For example, if the product is priced between 10.00 and 50.00, then the price range is 10.00 - 50.00.
+}
+
+interface FarmaciasdirectSiteStringConnection { // An auto-generated type for paginating through multiple Strings.
+  edges?: Record<string, unknown>[] | null; // A list of edges.
+  nodes?: string[] | null; // A list of the nodes contained in StringEdge.
+  pageInfo?: Record<string, unknown> | null; // Information to aid in pagination.
+}
+
+interface FarmaciasdirectSiteProductConnection { // An auto-generated type for paginating through multiple Products.
+  edges?: Record<string, unknown>[] | null; // A list of edges.
+  filters?: Record<string, unknown>[] | null; // A list of available filters.
+  nodes?: Record<string, unknown>[] | null; // A list of the nodes contained in ProductEdge.
+  pageInfo?: Record<string, unknown> | null; // Information to aid in pagination.
+}
+
+interface FarmaciasdirectSiteProductFilter { // The input fields for a filter used to view a subset of products in a collection. By default, the `available` and `price` filters are enabled. Filters are customized with the Shopify Search & Discov... Shows 4 of its 10 inputs; any other is accepted by name.
+  available?: boolean; // Filter on if the product is available for sale.
+  productType?: string; // The product type to filter on.
+  productVendor?: string; // The product vendor to filter on.
+  price?: Record<string, unknown>; // A range of prices to filter with-in.
+}
+
+interface FarmaciasdirectSiteSearchResultItemConnection { // An auto-generated type for paginating through multiple SearchResultItems. Shows 4 of its 5 fields; ask for any other by name in `fields`.
+  edges?: Record<string, unknown>[] | null; // A list of edges.
+  nodes?: Record<string, unknown>[] | null; // A list of the nodes contained in SearchResultItemEdge.
+  pageInfo?: Record<string, unknown> | null; // Information to aid in pagination.
+  totalCount?: number | null; // The total number of results, up to a maximum of 1,000. If a search matches more than 1,000 results, then it returns 1,000, and pagination returns up to the first 1,000 results.
+}
+
+interface FarmaciasdirectSiteSitemap { // Contains all fields required to generate sitemaps.
+  pagesCount?: Record<string, unknown> | null; // The number of sitemap's pages for a given type.
+}
+
+interface FarmaciasdirectSiteAttributeInput { // A custom key-value pair that stores additional information on a cart or cart line. Attributes capture additional information like gift messages, special instructions, or custom order details. Learn...
+  key: string; // Key or name of the attribute.
+  value: string; // Value of the attribute.
+}
+
+interface FarmaciasdirectSiteCartLineInput { // The input fields for adding a merchandise line to a cart. Each line represents a `ProductVariant` the buyer intends to purchase, along with the quantity and optional `SellingPlan` for subscriptions... Shows 4 of its 5 inputs; any other is accepted by name.
+  attributes?: FarmaciasdirectSiteAttributeInput[]; // An array of key-value pairs that contains additional information about the merchandise line. The input must not contain more than `250` values.
+  quantity?: number; // The quantity of the merchandise. Default: 1.
+  merchandiseId: string; // The ID of the merchandise that the buyer intends to purchase.
+  sellingPlanId?: string; // The ID of the selling plan that the merchandise is being purchased with.
+}
+
+interface FarmaciasdirectSiteCartInputMetafieldInput { // The input fields for a cart metafield value to set. Cart metafields will be copied to order metafields at order creation time if there is a matching order metafield definition with the `cart to ord...
+  key: string; // The key name of the metafield.
+  value: string; // The data to store in the cart metafield. The data is always stored as a string, regardless of the metafield's type.
+  type: string; // The type of data that the cart metafield stores. The type of data must be a supported type.
+}
+
+interface FarmaciasdirectSiteCartInput { // The input fields for creating a `Cart`. Used by the `cartCreate` action. Accepts merchandise lines, discount codes, gift card codes, and a note. You can also set custom attributes, metafields, buye...
+  attributes?: FarmaciasdirectSiteAttributeInput[]; // An array of key-value pairs that contains additional information about the cart. The input must not contain more than `250` values.
+  lines?: FarmaciasdirectSiteCartLineInput[]; // A list of merchandise lines to add to the cart. The input must not contain more than `250` values.
+  note?: string; // A note that's associated with the cart. For example, the note can be a personalized message to the buyer.
+  metafields?: FarmaciasdirectSiteCartInputMetafieldInput[]; // The metafields to associate with this cart. The input must not contain more than `250` values.
+}
+
+interface FarmaciasdirectSiteCartCreatePayload { // Return type for `cartCreate` action.
+  cart?: Record<string, unknown> | null; // The new cart.
+  userErrors?: Record<string, unknown>[] | null; // The list of errors that occurred from executing the action.
+  warnings?: Record<string, unknown>[] | null; // A list of warnings that occurred during the action.
+}
+
+interface FarmaciasdirectSiteCartLinesAddPayload { // Return type for `cartLinesAdd` action.
+  cart?: Record<string, unknown> | null; // The updated cart.
+  userErrors?: Record<string, unknown>[] | null; // The list of errors that occurred from executing the action.
+  warnings?: Record<string, unknown>[] | null; // A list of warnings that occurred during the action.
+}
+
+interface FarmaciasdirectSiteCartLinesRemovePayload { // Return type for `cartLinesRemove` action.
+  cart?: Record<string, unknown> | null; // The updated cart.
+  userErrors?: Record<string, unknown>[] | null; // The list of errors that occurred from executing the action.
+  warnings?: Record<string, unknown>[] | null; // A list of warnings that occurred during the action.
+}
+
+interface FarmaciasdirectSiteCartLineUpdateInput { // The input fields for updating a merchandise line in a cart. Used by the `cartLinesUpdate` action. Specify the line item's `id` along with any fields to modify. You can change the quantity, swap the... Shows 4 of its 5 inputs; any other is accepted by name.
+  id: string; // The ID of the merchandise line.
+  quantity?: number; // The quantity of the line item.
+  merchandiseId?: string; // The ID of the merchandise for the line item.
+  sellingPlanId?: string; // The ID of the selling plan that the merchandise is being purchased with.
+}
+
+interface FarmaciasdirectSiteCartLinesUpdatePayload { // Return type for `cartLinesUpdate` action.
+  cart?: Record<string, unknown> | null; // The updated cart.
+  userErrors?: Record<string, unknown>[] | null; // The list of errors that occurred from executing the action.
+  warnings?: Record<string, unknown>[] | null; // A list of warnings that occurred during the action.
+}
+
+interface FarmaciasdirectSiteCartCreateAction { // Inputs of cartCreate, a write action: calling it changes something on the site.
+  input?: FarmaciasdirectSiteCartInput; // The fields used to create a cart.
+  fields?: string[]; // Which parts of the answer to send back, as dot paths like "cart.id"; omit for every plain field. A nested list is read up to its first 50 items.
+}
+
+interface FarmaciasdirectSiteCartLinesAddAction { // Inputs of cartLinesAdd, a write action: calling it changes something on the site.
+  cartId: string; // The ID of the cart.
+  lines: FarmaciasdirectSiteCartLineInput[]; // A list of merchandise lines to add to the cart. The input must not contain more than `250` values.
+  fields?: string[]; // Which parts of the answer to send back, as dot paths like "cart.id"; omit for every plain field. A nested list is read up to its first 50 items.
+}
+
+interface FarmaciasdirectSiteCartLinesRemoveAction { // Inputs of cartLinesRemove, a write action: calling it changes something on the site.
+  cartId: string; // The ID of the cart.
+  lineIds: string[]; // The merchandise line IDs to remove. The input must not contain more than `250` values.
+  fields?: string[]; // Which parts of the answer to send back, as dot paths like "cart.id"; omit for every plain field. A nested list is read up to its first 50 items.
+}
+
+interface FarmaciasdirectSiteCartLinesUpdateAction { // Inputs of cartLinesUpdate, a write action: calling it changes something on the site.
+  cartId: string; // The ID of the cart.
+  lines: FarmaciasdirectSiteCartLineUpdateInput[]; // The merchandise lines to update. The input must not contain more than `250` values.
+  fields?: string[]; // Which parts of the answer to send back, as dot paths like "cart.id"; omit for every plain field. A nested list is read up to its first 50 items.
+}
+
 interface FarmaciasdirectProduct {
   handle: string;
   name: string;
@@ -51511,6 +53321,41 @@ interface FarmaciasdirectPromotions {
    * price, discount and stock, and list its current promotions (promociones).
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (article, articles, blog, blogs,
+     * collection, collections, ...), give its `where` inputs, and list the `fields` you want back
+     * as dot paths like "state.stateName"; omit `fields` for every plain field.
+     */
+    read(input: FarmaciasdirectSiteReadInput): Promise<FarmaciasdirectSiteReadAnswer>;
+
+    /**
+     * Creates a new `Cart` for a buyer session. A write: it changes something on the site, never
+     * pays. Its answer carries `cart.checkoutUrl`, the link that opens this cart on the site for
+     * the shopper.
+     */
+    cartCreate(input?: FarmaciasdirectSiteCartCreateAction): Promise<FarmaciasdirectSiteCartCreatePayload | null>;
+
+    /**
+     * Adds one or more merchandise lines to an existing `Cart`. A write: it changes something on
+     * the site, never pays. Its answer carries `cart.checkoutUrl`, the link that opens this cart
+     * on the site for the shopper.
+     */
+    cartLinesAdd(input: FarmaciasdirectSiteCartLinesAddAction): Promise<FarmaciasdirectSiteCartLinesAddPayload | null>;
+
+    /**
+     * Removes one or more merchandise lines from a `Cart`. A write: it changes something on the
+     * site, never pays. Its answer carries `cart.checkoutUrl`, the link that opens this cart on
+     * the site for the shopper. Cannot be undone.
+     */
+    cartLinesRemove(input: FarmaciasdirectSiteCartLinesRemoveAction): Promise<FarmaciasdirectSiteCartLinesRemovePayload | null>;
+
+    /**
+     * Updates one or more merchandise lines on a `Cart`. A write: it changes something on the
+     * site, never pays. A quantity of 0 removes the line, which cannot be undone. Its answer
+     * carries `cart.checkoutUrl`, the link that opens this cart on the site for the shopper.
+     */
+    cartLinesUpdate(input: FarmaciasdirectSiteCartLinesUpdateAction): Promise<FarmaciasdirectSiteCartLinesUpdatePayload | null>;
+
     /**
      * Reads one farmaciasdirect.es product by URL or handle: EUR price, pre-discount price and %
      * off, stock, brand, category, description, images, and each variant's SKU and EAN barcode.
@@ -51779,6 +53624,142 @@ interface FindBranchesArgs {
      * (plumbing/PVF, HVAC, waterworks, warehouse, …), off ferguson.com's own store sitemap.
      */
     findBranches(args: FindBranchesArgs): Promise<fergusonBranch[]>;
+  }
+}
+
+declare namespace BowmarkProvider_fidelity {
+  // ── Fidelity Investments — the unit's own declarations, verbatim ──
+interface FidelitySymbolMatch {
+  symbol: string;
+  name: string;
+  cusip: string | null;
+  type: string; // Fidelity's code: EQ stock, ETP exchange-traded product, MF fund.
+  subType: string | null;
+  exchange: string | null;
+  tradeEligible: boolean;
+  url: string;
+}
+
+interface FidelitySymbolSearch {
+  query: string;
+  matches: FidelitySymbolMatch[];
+}
+
+interface FidelityQuote {
+  symbol: string;
+  name: string;
+  cusip: string | null;
+  securityType: string | null;
+  currency: string | null;
+  lastPrice: number | null;
+  change: number | null; // Today's change in price.
+  changePercent: number | null; // Today's change, in percent.
+  bid: number | null;
+  ask: number | null;
+  open: number | null;
+  previousClose: number | null;
+  dayHigh: number | null;
+  dayLow: number | null;
+  yearHigh: number | null;
+  yearLow: number | null;
+  volume: number | null;
+  avgVolume10Day: number | null;
+  marketCap: number | null;
+  peRatio: number | null;
+  eps: number | null;
+  dividendYield: number | null; // Percent.
+  annualizedDividend: number | null;
+  exDividendDate: string | null; // MM/DD/YYYY as Fidelity prints it.
+  sector: string | null;
+  industry: string | null;
+  lastTradeDate: string | null;
+  lastTradeTime: string | null;
+  url: string;
+}
+
+interface FidelityFund {
+  symbol: string | null;
+  cusip: string;
+  name: string;
+  family: string | null;
+  category: string | null;
+  assetClass: string | null;
+  inceptionDate: string | null; // MM/DD/YYYY as Fidelity prints it.
+  status: string | null; // e.g. "Open to all investors".
+  nav: number | null;
+  navChange: number | null;
+  navChangePercent: number | null;
+  navAsOf: string | null;
+  ytdReturn: number | null; // Percent.
+  grossExpenseRatioPercent: number | null;
+  netExpenseRatioPercent: number | null;
+  minimumInvestment: number | null; // US dollars, retail.
+  turnoverPercent: number | null;
+  netAssetsMillions: number | null;
+  low52Week: number | null;
+  high52Week: number | null;
+  averageAnnualReturns: { year1: number | null; year3: number | null; year5: number | null; year10: number | null; sinceInception: number | null };
+  morningstarRatingOverall: number | null; // 1 to 5 stars.
+  objective: string | null;
+  topHoldings: { name: string; percent: number | null }[];
+  url: string;
+}
+
+interface FidelityScreenedFund {
+  symbol: string | null;
+  cusip: string;
+  name: string;
+  assetClass: string | null;
+  category: string | null;
+  inceptionDate: string | null;
+  status: string | null;
+  indexFund: boolean;
+  noTransactionFee: boolean;
+  url: string;
+}
+
+interface FidelityFundScreen {
+  asOf: string | null;
+  totalMatches: number; // Matches before `limit` is applied.
+  funds: FidelityScreenedFund[];
+}
+
+interface ScreenFundsArgs {
+  query?: string; // Text in the fund name or ticker.
+  assetClass?: string; // e.g. "Taxable Bond", "U.S. Equity".
+  category?: string; // Morningstar category, e.g. "Large Blend".
+  indexOnly?: boolean;
+  limit?: number; // 1-500, default 25.
+}
+
+  /**
+   * Fidelity Investments: public stock quotes, mutual fund research, CD rates and Learning
+   * Center articles; account reads need the caller's own sign-in.
+   */
+  interface Unit {
+    /**
+     * Screens Fidelity's own mutual funds by name, asset class, Morningstar category or index
+     * funds only: ticker, CUSIP, class, category, inception and no-transaction-fee flag.
+     */
+    screenFunds(filters: ScreenFundsArgs): Promise<FidelityFundScreen>;
+
+    /**
+     * Reads a mutual fund's Fidelity research summary by ticker or CUSIP: NAV, expense ratios,
+     * minimum, average annual returns, Morningstar rating, objective and top holdings.
+     */
+    getFund(fund: string): Promise<FidelityFund>;
+
+    /**
+     * Finds tickers by company or fund name (Fidelity's own autosuggest): symbol, name, CUSIP,
+     * security type and exchange per match.
+     */
+    searchSymbols(query: string): Promise<FidelitySymbolSearch>;
+
+    /**
+     * Reads Fidelity's delayed quote for one ticker: last, change, bid/ask, day and 52-week range,
+     * volume, market cap, P/E, EPS, dividend and sector.
+     */
+    getQuote(symbol: string): Promise<FidelityQuote>;
   }
 }
 
@@ -59655,6 +61636,115 @@ declare namespace BowmarkProvider_goloadup {
   // ── LoadUp — the unit's own declarations, verbatim ──
 // LoadUp's OWN shapes — not a capability contract.
 
+type GoloadupSiteReadInput = { thing: "excludedDates"; where: GoloadupSiteExcludedDatesWhere; fields?: string[] } | { thing: "itemTypes"; where?: GoloadupSiteItemTypesWhere; fields?: string[] } | { thing: "pricingDetails"; where: GoloadupSitePricingDetailsWhere; fields?: string[] } | { thing: "serviceAvailability"; where: GoloadupSiteServiceAvailabilityWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back.
+
+interface GoloadupSiteExcludedDatesWhere { // The `where` inputs of the `excludedDates` thing.
+  inputs: GoloadupSiteExcludedDatesInputs; // Inputs (record).
+}
+
+interface GoloadupSiteItemTypesWhere { // The `where` inputs of the `itemTypes` thing.
+  orderByMostPurchased?: boolean; // Sort item types by most purchased in given interval
+}
+
+interface GoloadupSitePricingDetailsWhere { // The `where` inputs of the `pricingDetails` thing.
+  inputs: GoloadupSitePricingDetailsInputs; // Inputs (record).
+}
+
+interface GoloadupSiteServiceAvailabilityWhere { // The `where` inputs of the `serviceAvailability` thing.
+  inputs: GoloadupSiteServiceAvailabilityInputs; // Inputs (record).
+}
+
+interface GoloadupSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  excludedDates: GoloadupSiteExcludedDates | null; // Reads excluded dates records from this site.
+  itemTypes: GoloadupSiteItemTypesData | null; // Get a list of item types
+  pricingDetails: GoloadupSitePricingDetails | null; // Reads pricing details records from this site.
+  serviceAvailability: GoloadupSiteServiceAvailability | null; // Reads service availability records from this site.
+}
+
+type GoloadupSiteReadAnswer = GoloadupSiteExcludedDates | GoloadupSiteItemTypesData | GoloadupSitePricingDetails | GoloadupSiteServiceAvailability | null; // The answer for the `thing` you picked: its type is that thing's entry in GoloadupSiteReadAnswers.
+
+interface GoloadupSiteExcludedDatesInputs { // Excluded dates inputs record.
+  zip?: string; // Must be a 5 digit zip
+  minDate: string; // Earliest Date formatted as "YYYY-MM-DD"
+  maxDate: string; // Latest Date formatted as "YYYY-MM-DD"
+  itemSlugs?: string[]; // Currently selected item_type slugs (if any)
+  intakeType?: string; // Order Intake Type (if any)
+  disableSameDay?: boolean; // Must be true or false
+}
+
+interface GoloadupSiteExcludedDates { // Excluded dates record.
+  currentDate?: string | null; // Current date of excluded dates (text).
+  excludedDates?: string[] | null; // List of excluded dates of excluded dates (text).
+  excludedTimeslots?: Record<string, unknown>[] | null; // List of excluded timeslots of excluded dates (record).
+}
+
+interface GoloadupSiteItemTypesData { // Item types data record.
+  itemTypes?: Record<string, unknown>[] | null; // item types
+}
+
+interface GoloadupSitePricingDetailsInputs { // Pricing details inputs record.
+  date?: string; // Formatted as `YYYY-MM-DD`
+  items?: Record<string, unknown>[]; // Items of pricing details inputs (list of record).
+  flightsOfStairsCount?: number; // Must be greater or equal to 0
+  placement?: "INDOOR" | "OUTDOOR"; // Placement of pricing details inputs (one of the listed values). Values: INDOOR, OUTDOOR.
+  timeslot?: "AFTERNOON" | "EVENING" | "FULL_DAY" | "MORNING"; // Timeslot of pricing details inputs (one of the listed values). Values: AFTERNOON, EVENING, FULL_DAY, MORNING.
+  zip: string; // Must be a 5 digit zip
+  addressline1?: string; // Addressline1 of pricing details inputs (text).
+  city?: string; // City of pricing details inputs (text).
+  state?: string; // State of pricing details inputs (text).
+  promoCode?: string; // Promo code of pricing details inputs (text).
+  orderDraftId?: string; // Order draft id of pricing details inputs (text).
+}
+
+interface GoloadupSitePricingDetails { // Pricing details record.
+  additionalAmount?: number | null; // Additional amount of pricing details (number).
+  allowedDate?: boolean | null; // Allowed date of pricing details (true/false flag).
+  asapSchedulingAllowed?: boolean | null; // Asap scheduling allowed of pricing details (true/false flag).
+  basePrice?: number | null; // Base price of pricing details (number).
+  discounts?: Record<string, unknown>[] | null; // List of discounts of pricing details (record).
+  flightsOfStairsCount?: number | null; // Flights of stairs count of pricing details (number).
+  flightsOfStairsSubtotal?: number | null; // Flights of stairs subtotal of pricing details (number).
+  flightsOfStairsUnitPrice?: number | null; // Flights of stairs unit price of pricing details (number).
+  id?: string | null; // Id of pricing details (text).
+  items?: Record<string, unknown>[] | null; // List of items of pricing details (record).
+  minimumPrice?: number | null; // Minimum price of pricing details (number).
+  minimumPriceApplied?: boolean | null; // Minimum price applied of pricing details (true/false flag).
+  onsitePaymentAllowed?: boolean | null; // Onsite payment allowed of pricing details (true/false flag).
+  orderSubtotal?: number | null; // Order subtotal of pricing details (number).
+  promoApplied?: boolean | null; // Promo applied of pricing details (true/false flag).
+  promoCode?: string | null; // Promo code of pricing details (text).
+  promoDiscountSubtotal?: number | null; // Promo discount subtotal of pricing details (number).
+  retailAssembliesAllowed?: boolean | null; // Retail assemblies allowed of pricing details (true/false flag).
+  sameDay?: boolean | null; // Same day of pricing details (true/false flag).
+  sameDayAllowed?: boolean | null; // Same day allowed of pricing details (true/false flag).
+  sameDaySubtotal?: number | null; // Same day subtotal of pricing details (number).
+  serviceAreaType?: "STANDARD" | "FRINGE" | null; // Service area type of pricing details (one of the listed values). Values: STANDARD, FRINGE.
+  serviceDayGuaranteeEligible?: boolean | null; // Service day guarantee eligible of pricing details (true/false flag).
+  taxAmount?: number | null; // Tax amount of pricing details (number).
+  total?: number | null; // Total of pricing details (number).
+  totalCents?: number | null; // Total cents of pricing details (number).
+  totalWithoutDiscountsWithTax?: number | null; // Total without discounts with tax of pricing details (number).
+  totalWithoutDiscountsWithoutTax?: number | null; // Total without discounts without tax of pricing details (number).
+  validServiceArea?: boolean | null; // Valid service area of pricing details (true/false flag).
+  validZip?: boolean | null; // Valid zip of pricing details (true/false flag).
+  volumeDiscountThresholdInfo?: Record<string, unknown> | null; // Volume discount threshold info of pricing details (record).
+  weekendServiceSubtotal?: number | null; // Weekend service subtotal of pricing details (number).
+}
+
+interface GoloadupSiteServiceAvailabilityInputs { // Service availability inputs record.
+  zip: string; // Must be a 5 digit zip
+}
+
+interface GoloadupSiteServiceAvailability { // Service availability record.
+  estimationAllowed?: boolean | null; // Estimation allowed of service availability (true/false flag).
+  inService?: boolean | null; // In service of service availability (true/false flag).
+  retailAssembliesAllowed?: boolean | null; // Retail assemblies allowed of service availability (true/false flag).
+  sameDayAllowed?: boolean | null; // Same day allowed of service availability (true/false flag).
+  validZip?: boolean | null; // Valid zip of service availability (true/false flag).
+  zip?: string | null; // Zip of service availability (text).
+  zipInNewJersey?: boolean | null; // Zip in new jersey of service availability (true/false flag).
+}
+
 interface GoloadupItemType {
   id: string; // the key getQuote's items take
   name: string;
@@ -59697,10 +61787,17 @@ interface GoloadupServiceAvailability {
   /**
    * LoadUp's own item-selector and live pricing engine for junk removal, donation and furniture
    * pickup — the current catalog of items with base prices, a real ZIP-specific guaranteed quote
-   * for an exact set of items, and whether/how a ZIP is served, all off the same GraphQL API the
+   * for an exact set of items, and whether/how a ZIP is served, all off the same data API the
    * site's own booking widget calls.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (excludedDates, itemTypes,
+     * pricingDetails, serviceAvailability), give its `where` inputs, and list the `fields` you
+     * want back as dot paths like "state.stateName"; omit `fields` for every plain field.
+     */
+    read(input: GoloadupSiteReadInput): Promise<GoloadupSiteReadAnswer>;
+
     /**
      * Returns LoadUp's full current catalog of pickupable items (couches, mattresses, appliances,
      * and 400+ more), each with its category, alternate names, and national base
@@ -59805,6 +61902,67 @@ interface GomryProduct {
 
 declare namespace BowmarkProvider_goodreads {
   // ── Goodreads — the unit's own declarations, verbatim ──
+type GoodreadsSiteReadInput = { thing: "getBook"; where: GoodreadsSiteGetBookWhere; fields?: string[] } | { thing: "getBookByLegacyId"; where: GoodreadsSiteGetBookByLegacyIdWhere; fields?: string[] } | { thing: "getPageBanner"; where?: Record<string, never>; fields?: string[] } | { thing: "getNativeAd"; where: GoodreadsSiteGetNativeAdWhere; fields?: string[] } | { thing: "getGiveaways"; where?: Record<string, never>; fields?: string[] } | { thing: "getSiteHeaderBanner"; where?: Record<string, never>; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back.
+
+interface GoodreadsSiteGetBookWhere { // The `where` inputs of the `getBook` thing.
+  id: string; // Id (text).
+}
+
+interface GoodreadsSiteGetBookByLegacyIdWhere { // The `where` inputs of the `getBookByLegacyId` thing.
+  legacyId: number; // Legacy id (number).
+}
+
+interface GoodreadsSiteGetNativeAdWhere { // The `where` inputs of the `getNativeAd` thing.
+  id: string; // Id (text).
+}
+
+interface GoodreadsSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  getBook: GoodreadsSiteBook | null; // Reads book records from this site.
+  getBookByLegacyId: GoodreadsSiteBook | null; // Reads book by legacy id records from this site.
+  getPageBanner: GoodreadsSitePageBanner | null; // Reads page banner records from this site.
+  getNativeAd: GoodreadsSiteNativeAd | null; // Reads native ad records from this site.
+  getGiveaways: GoodreadsSiteGiveawaysConnection | null; // Reads giveaways records from this site.
+  getSiteHeaderBanner: GoodreadsSiteSiteHeaderBanner | null; // Reads site header banner records from this site.
+}
+
+type GoodreadsSiteReadAnswer = GoodreadsSiteBook | GoodreadsSitePageBanner | GoodreadsSiteNativeAd | GoodreadsSiteGiveawaysConnection | GoodreadsSiteSiteHeaderBanner | null; // The answer for the `thing` you picked: its type is that thing's entry in GoodreadsSiteReadAnswers.
+
+interface GoodreadsSiteBook { // Book record.
+  work?: Record<string, unknown> | null; // Work of book (record).
+  reviewEditUrl?: string | null; // Review edit url of book (text).
+  details?: Record<string, unknown> | null; // Details of book (record).
+  featureFlags?: Record<string, unknown> | null; // Feature flags of book (record).
+  imageUrl?: string | null; // Image url of book (text).
+  description?: string | null; // Description of book (text).
+  title?: string | null; // Title of book (text).
+  titleComplete?: string | null; // Title complete of book (text).
+  webUrl?: string | null; // Web url of book (text).
+  primaryContributorEdge?: Record<string, unknown> | null; // Primary contributor edge of book (record).
+}
+
+interface GoodreadsSitePageBanner { // Page banner record.
+  type?: string | null; // Type of page banner (text).
+  message?: string | null; // Message of page banner (text).
+}
+
+interface GoodreadsSiteNativeAd { // Native ad record.
+  customDescription?: string | null; // Custom description of native ad (text).
+}
+
+interface GoodreadsSiteGiveawaysConnection { // Giveaways connection record.
+  totalCount?: number | null; // Total count of giveaways connection (number).
+}
+
+interface GoodreadsSiteSiteHeaderBanner { // Site header banner record.
+  altText?: string | null; // Alt text of site header banner (text).
+  clickthroughUrl?: string | null; // Clickthrough url of site header banner (text).
+  desktop1xPhoto?: string | null; // Desktop1x photo of site header banner (text).
+  desktop2xPhoto?: string | null; // Desktop2x photo of site header banner (text).
+  mobile1xPhoto?: string | null; // Mobile1x photo of site header banner (text).
+  mobile2xPhoto?: string | null; // Mobile2x photo of site header banner (text).
+  siteStripColor?: string | null; // Site strip color of site header banner (text).
+}
+
 interface GoodreadsSimilarBook {
   legacyId: string;
   title: string;
@@ -60022,6 +62180,14 @@ interface GoodreadsShelfBook {
    * genre browsing, and (once a caller signs in) shelving, rating and reviewing.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (getBook, getBookByLegacyId,
+     * getPageBanner, getNativeAd, getGiveaways, getSiteHeaderBanner), give its `where` inputs, and
+     * list the `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
+     * plain field.
+     */
+    read(input: GoodreadsSiteReadInput): Promise<GoodreadsSiteReadAnswer>;
+
     /**
      * Runs goodreads.com's book search and returns title, author, url and (when the card shows
      * one) average rating per row.
@@ -67022,6 +69188,24 @@ interface RemoveFromFavoritesArgs {
   listId?: string; // A listId a prior favorites call returned. Omit for the identity's selected list.
 }
 
+interface IkeaGetAccessoryRecommendationsArgs {
+  productNumber: string; // The IKEA product number as a string of digits, for example "99620794". E.g. "99620794".
+}
+
+type IkeaGetAccessoryRecommendationsResult = { itemNo: string /* The IKEA product number for a recommended accessory. */; fragmentUrl: string /* The URL for the accessory’s recommendation fragment. */; image?: { url: string /* The URL of the accessory’s image. */; alt: string /* Alternative text describing the accessory’s image. */ } }[];
+
+interface IkeaGetProductReviewsArgs {
+  itemNumber: string; // The IKEA item number, as a numeric string (for example, 20522046 or 40627995). E.g. "20522046".
+}
+
+type IkeaGetProductReviewsResult = ({ itemKey: { itemNo: string; itemType: string; sourceItemNo: string }; id: string /* The unique identifier for the review. */; type: string; sourceCountryCode: string /* The country code associated with the review. */; sourceLangCode: string; title: string /* The review headline. */; text: string /* The review's written content. */; primaryRating: { ratingRange: number; ratingValue: number /* The review's overall rating value. */ }; secondaryRatings: { ratingRange: number; ratingValue: number; id: string; label: string }[] | null; isRecommended: boolean | null /* Whether the reviewer recommends the product. */; verifiedPurchase: boolean /* Whether the review is marked as a verified purchase. */; verifiedReviewer: boolean; anonymousReviewer: boolean; positiveFeedbacksCount: number /* The number of positive feedback votes for the review. */; negativeFeedbacksCount: number; submissionOn: string /* When the review was submitted. */; response: { text: string; responseBy: string; responseOn: string; type: string } | null; hasMedia: boolean /* Whether the review includes media. */; medias: { id: string; url: string /* The URL of media attached to the review. */ }[]; reviewer: { displayName: string /* The reviewer's displayed name. */ }; updatedOn: string })[];
+
+interface IkeaSearchSupportArticlesArgs {
+  searchTerm: string; // A product name or support topic to search for, such as "billy". E.g. "billy".
+}
+
+type IkeaSearchSupportArticlesResult = { content: string /* The article’s full text. */; description: string /* A brief summary of the article. */; title: string /* The article’s title. */; vetaGuid: string /* The unique identifier for the article. */ }[];
+
   /**
    * IKEA's US store: search the catalogue, read a product's price, dimensions and assembly PDFs,
    * check stock at each store, find stores, and manage a cart; with the caller signed in, read
@@ -67200,6 +69384,24 @@ interface RemoveFromFavoritesArgs {
 
     /** Removes a product from a favorites list. */
     removeFromFavorites(args: RemoveFromFavoritesArgs): Promise<IkeaFavoritesList>;
+
+    /**
+     * Returns recommended accessories for a product, with each accessory’s product number,
+     * recommendation link, image URL, and image description.
+     */
+    getAccessoryRecommendations(args: IkeaGetAccessoryRecommendationsArgs): Promise<IkeaGetAccessoryRecommendationsResult>;
+
+    /**
+     * Returns reviews for a product, including review text, ratings, recommendation and
+     * purchase-verification status, media, and reviewer and submission details.
+     */
+    getProductReviews(args: IkeaGetProductReviewsArgs): Promise<IkeaGetProductReviewsResult>;
+
+    /**
+     * Returns matching IKEA customer-service articles, with each article’s title, summary, full
+     * content, and identifier.
+     */
+    searchSupportArticles(args: IkeaSearchSupportArticlesArgs): Promise<IkeaSearchSupportArticlesResult>;
   }
 }
 
@@ -70930,6 +73132,157 @@ declare namespace BowmarkProvider_interiordefine {
   // ── Interior Define — the unit's own declarations, verbatim ──
 // Interior Define's OWN shapes — not a capability contract.
 
+type InteriordefineSiteReadInput = { thing: "affirmAslowasPrice"; where: InteriordefineSiteAffirmAslowasPriceWhere; fields?: string[] } | { thing: "availableStores"; where?: InteriordefineSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: InteriordefineSiteCategoriesWhere; fields?: string[] } | { thing: "categoryList"; where?: InteriordefineSiteCategoryListWhere; fields?: string[] } | { thing: "pickupLocations"; where?: InteriordefineSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: InteriordefineSiteProductsWhere; fields?: string[] } | { thing: "searchRedirect"; where: InteriordefineSiteSearchRedirectWhere; fields?: string[] } | { thing: "storeLocationByUrl"; where?: InteriordefineSiteStoreLocationByUrlWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): affirmBanner, careersList, cmsBlocks, cmsPage, compareList, countries, country, currency, customAttributeMetadata, customVariable, dependencyState, friendBuyConfig, getDefaultSortByValue, getFeeOptions, getGoogleTagManagerData, getHostedProUrl, getListFeeItems, getModuleConfiguration, getPriceRulePromoBannerData, getSheerIdPrograms, getShippingCountries, getShippingRegions, heroBanner, mulberryConfig, productReviewRatingsMetadata, recaptchaUiConfig, storeConfig, storeLocationsList, swatchFamilyData, urlResolver.
+
+interface InteriordefineSiteAffirmAslowasPriceWhere { // The `where` inputs of the `affirmAslowasPrice` thing.
+  sku: string; // Current product ID
+}
+
+interface InteriordefineSiteAvailableStoresWhere { // The `where` inputs of the `availableStores` thing.
+  useCurrentGroup?: boolean; // Filter store views by current store group
+}
+
+interface InteriordefineSiteCategoriesWhere { // The `where` inputs of the `categories` thing.
+  filters?: InteriordefineSiteCategoryFilterInput; // Identifies which Category filter inputs to search for and return.
+  pageSize?: number; // Specifies the maximum number of results to return at once. This attribute is optional. Default: 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+}
+
+interface InteriordefineSiteCategoryListWhere { // The `where` inputs of the `categoryList` thing.
+  filters?: InteriordefineSiteCategoryFilterInput; // Identifies which Category filter inputs to search for and return.
+}
+
+interface InteriordefineSitePickupLocationsWhere { // The `where` inputs of the `pickupLocations` thing.
+  area?: InteriordefineSiteAreaInput; // Perform search by location using radius and search term.
+  filters?: InteriordefineSitePickupLocationFilterInput; // Apply filters by attributes.
+  sort?: InteriordefineSitePickupLocationSortInput; // Specifies which attribute to sort on, and whether to return the results in ascending or descending order.
+  pageSize?: number; // The maximum number of pickup locations to return at once. The attribute is optional. Default: 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+  productsInfo?: InteriordefineSiteProductInfoInput[]; // Information about products which should be delivered.
+}
+
+interface InteriordefineSiteProductsWhere { // The `where` inputs of the `products` thing.
+  search?: string; // Performs a full-text search using the specified key words.
+  filter?: InteriordefineSiteProductAttributeFilterInput; // Identifies which product attributes to search for and return.
+  pageSize?: number; // Specifies the maximum number of results to return at once. This attribute is optional. Default: 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+  sort?: InteriordefineSiteProductAttributeSortInput; // Specifies which attributes to sort on, and whether to return the results in ascending or descending order.
+}
+
+interface InteriordefineSiteSearchRedirectWhere { // The `where` inputs of the `searchRedirect` thing.
+  term: string; // Term (text).
+}
+
+interface InteriordefineSiteStoreLocationByUrlWhere { // The `where` inputs of the `storeLocationByUrl` thing.
+  url_name?: string; // Url Name of the Store Location
+}
+
+interface InteriordefineSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  affirmAslowasPrice: InteriordefineSiteAffirmAslowasPriceConfigData | null; // Affirm As Low As Block Config Data
+  availableStores: InteriordefineSiteStoreConfig[] | null; // Get a list of available store views and their config information.
+  categories: InteriordefineSiteCategoryResult | null; // Reads categories records from this site.
+  categoryList: InteriordefineSiteCategoryTree[] | null; // Returns an array of categories based on the specified filters.
+  pickupLocations: InteriordefineSitePickupLocations | null; // The pickup locations query searches for locations that match the search request requirements.
+  products: InteriordefineSiteProducts | null; // The products query searches for products that match the criteria specified in the search and filter attributes.
+  searchRedirect: InteriordefineSiteRedirectOutput | null; // Search for redirect by term
+  storeLocationByUrl: InteriordefineSiteStoreLocationView | null; // The Store Location By Url Name query returns information about Store Locations
+}
+
+type InteriordefineSiteReadAnswer = InteriordefineSiteAffirmAslowasPriceConfigData | InteriordefineSiteStoreConfig[] | InteriordefineSiteCategoryResult | InteriordefineSiteCategoryTree[] | InteriordefineSitePickupLocations | InteriordefineSiteProducts | InteriordefineSiteRedirectOutput | InteriordefineSiteStoreLocationView | null; // The answer for the `thing` you picked: its type is that thing's entry in InteriordefineSiteReadAnswers.
+
+interface InteriordefineSiteAffirmAslowasPriceConfigData { // Affirm aslowas price config data record.
+  affirm_aslowas_learn_more?: boolean | null; // Affirm Is Visible Learn More Link?
+  affirm_aslowas_mfp_value?: string | null; // Multiple Financing Program
+}
+
+interface InteriordefineSiteStoreConfig { // The type contains information about a store config. Shows 4 of its 116 fields; ask for any other by name in `fields`.
+  absolute_footer?: string | null; // Footer Miscellaneous HTML
+  afterpay_pdp_enabled?: number | null; // Whether the Afterpay instalment badge is shown on the product detail page
+  afterpay_pdp_installment_count?: number | null; // Number of Afterpay instalments — drives both the badge copy and the per-payment divisor
+  afterpay_pdp_learn_more_label?: string | null; // Link text for the Afterpay badge tooltip link
+}
+
+interface InteriordefineSiteCategoryFilterInput { // CategoryFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for. Shows 4 of its 7 inputs; any other is accepted by name.
+  category_uid?: Record<string, unknown>; // Filter by the unique category ID for a `CategoryInterface` object.
+  ids?: Record<string, unknown>; // Deprecated: use 'category_uid' to filter uniquely identifiers of categories.
+  name?: Record<string, unknown>; // Filter by the display name of the category.
+  url_key?: Record<string, unknown>; // Filter by the part of the URL that identifies the category.
+}
+
+interface InteriordefineSiteCategoryResult { // A collection of CategoryTree objects and pagination information.
+  items?: Record<string, unknown>[] | null; // A list of categories that match the filter criteria.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The total number of categories that match the criteria.
+}
+
+interface InteriordefineSiteCategoryTree { // Category Tree implementation. Shows 4 of its 48 fields; ask for any other by name in `fields`.
+  description?: string | null; // An optional description of the category.
+  name?: string | null; // The display name of the category.
+  uid?: string | null; // The unique ID for a `CategoryInterface` object.
+  url_key?: string | null; // The url key assigned to the category.
+}
+
+interface InteriordefineSiteAreaInput { // AreaInput defines the parameters which will be used for filter by specified location.
+  radius: number; // The radius for the search in KM.
+  search_term: string; // The country code where search must be performed. Required parameter together with region, city or postcode.
+}
+
+interface InteriordefineSitePickupLocationFilterInput { // PickupLocationFilterInput defines the list of attributes and filters for the search. Shows 4 of its 8 inputs; any other is accepted by name.
+  city?: Record<string, unknown>; // Filter by city.
+  country_id?: Record<string, unknown>; // Filter by country.
+  name?: Record<string, unknown>; // Filter by pickup location name.
+  pickup_location_code?: Record<string, unknown>; // Filter by pickup location code.
+}
+
+interface InteriordefineSitePickupLocationSortInput { // PickupLocationSortInput specifies attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. Shows 4 of its 16 inputs; any other is accepted by name.
+  city?: "ASC" | "DESC"; // City where pickup location is placed.
+  contact_name?: "ASC" | "DESC"; // Name of the contact person.
+  description?: "ASC" | "DESC"; // Description of the pickup location.
+  name?: "ASC" | "DESC"; // The pickup location name. Customer use this to identify the pickup location.
+}
+
+interface InteriordefineSiteProductInfoInput { // Product Information used for Pickup Locations search.
+  sku: string; // Product SKU.
+}
+
+interface InteriordefineSitePickupLocations { // Top level object returned in a pickup locations search.
+  items?: Record<string, unknown>[] | null; // An array of pickup locations that match the specific search request.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The number of products returned.
+}
+
+interface InteriordefineSiteProductAttributeFilterInput { // ProductAttributeFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for. Shows 4 of its 30 inputs; any other is accepted by name.
+  category_id?: Record<string, unknown>; // Deprecated: use `category_uid` to filter product by category id.
+  name?: Record<string, unknown>; // Attribute label: Product Name
+  sku?: Record<string, unknown>; // Attribute label: SKU
+  url_key?: Record<string, unknown>; // The part of the URL that identifies the product
+}
+
+interface InteriordefineSiteProductAttributeSortInput { // ProductAttributeSortInput specifies the attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. It's possible to sort products usi...
+  collection_name?: "ASC" | "DESC"; // Collection name attribute value
+  position?: "ASC" | "DESC"; // Sort by the position assigned to each product.
+  price?: "ASC" | "DESC"; // Attribute label: Price
+  relevance?: "ASC" | "DESC"; // Sort by the search relevance score (default).
+}
+
+interface InteriordefineSiteProducts { // The Products object is the top-level object returned in a product search. Shows 4 of its 5 fields; ask for any other by name in `fields`.
+  aggregations?: Record<string, unknown>[] | null; // Layered navigation aggregations.
+  items?: Record<string, unknown>[] | null; // An array of products that match the specified search criteria.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.
+}
+
+interface InteriordefineSiteRedirectOutput { // Redirect output record.
+  redirectUrl?: string | null; // Redirect url of redirect output (text).
+}
+
+interface InteriordefineSiteStoreLocationView { // Store Location defines all Store Location information. Shows 4 of its 22 fields; ask for any other by name in `fields`.
+  additional_content?: string | null; // Store Location additional_content
+  description?: string | null; // Store Location description
+  name?: string | null; // Store Location name
+  type?: string | null; // Store Location type
+}
+
 interface InteriorDefineProductSummary {
   sku: string; // the key getConfigurator/priceConfiguration take
   name: string;
@@ -71009,6 +73362,14 @@ interface InteriorDefineCheckoutHandoff {
    * than a researched estimate.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (affirmAslowasPrice,
+     * affirmBanner, availableStores, careersList, categories, categoryList, ...), give its `where`
+     * inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
+     * `fields` for every plain field.
+     */
+    read(input: InteriordefineSiteReadInput): Promise<InteriordefineSiteReadAnswer>;
+
     /**
      * Searches Interior Define's catalog by free text (e.g. "sectional", "leather sofa") and
      * returns every customizable match with its SKU, name, entry URL and starting price.
@@ -72016,6 +74377,195 @@ interface GiftCardLink {
 
 declare namespace BowmarkProvider_joybird {
   // ── Joybird — the unit's own declarations, verbatim ──
+type JoybirdSiteReadInput = { thing: "getProduct"; where?: JoybirdSiteGetProductWhere; fields?: string[] } | { thing: "getProductVisOptions"; where?: JoybirdSiteGetProductVisOptionsWhere; fields?: string[] } | { thing: "getCategory"; where?: JoybirdSiteGetCategoryWhere; fields?: string[] } | { thing: "getCollection"; where?: JoybirdSiteGetCollectionWhere; fields?: string[] } | { thing: "getCategoryTopSalesProducts"; where?: JoybirdSiteGetCategoryTopSalesProductsWhere; fields?: string[] } | { thing: "getLocationFromCoords"; where: JoybirdSiteGetLocationFromCoordsWhere; fields?: string[] } | { thing: "getLocationFromZip"; where: JoybirdSiteGetLocationFromZipWhere; fields?: string[] } | { thing: "getRecommendedProducts"; where?: JoybirdSiteGetRecommendedProductsWhere; fields?: string[] } | { thing: "getCustomListProductData"; where?: JoybirdSiteGetCustomListProductDataWhere; fields?: string[] } | { thing: "getCustomProductListDataV2"; where?: JoybirdSiteGetCustomProductListDataV2Where; fields?: string[] } | { thing: "getRetailStoreProductsData"; where: JoybirdSiteGetRetailStoreProductsDataWhere; fields?: string[] } | { thing: "getClosestStoreFromZipcode"; where?: JoybirdSiteGetClosestStoreFromZipcodeWhere; fields?: string[] } | { thing: "getCategoryPage"; where: JoybirdSiteGetCategoryPageWhere; fields?: string[] } | { thing: "getProductsStaticData"; where: JoybirdSiteGetProductsStaticDataWhere; fields?: string[] } | { thing: "getProductsByIDs"; where?: JoybirdSiteGetProductsByIDsWhere; fields?: string[] } | { thing: "getUpSellProduct"; where?: JoybirdSiteGetUpSellProductWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): getAllActiveOptionsValues, getCollections, getNavigationMenus, getTreeCount, getActivePromotionBanner, getNewestArrivals, getFabrics, getFabricGalleryData, getFabricReviews, getProjectResetConfig, getSitemapLinks, getFabricsByIds, getClearanceData, getModularSofaCollectionsStatic, getAllProductTreeCounts, getJoybirdInstagramImages, getOptionValueById, getProtectionPlanTypes, getItemToItemRecommendation, getMultiItemToItemRecommendation, getWarehouseIdFromZip, getResolvedWarehouseId, validateZipCode, getVideoMetadata, validatePrintCampaign, getClosestStoresFromZipcode, getDSQuizBynderImages, getInStoreDesignServiceQuiz, getInStoreDesignServiceQuizPart2, getContentfulEntries, getBlogHomePage, getCategoryPageMetadata, getRetailStores, getStoresForCategoryProducts, getPDPKeySellingPoints, getPromotionContent, getIsModularBundleOrPreconfigProduct, getModularSofaBundle, validateZipWithState.
+
+interface JoybirdSiteGetProductWhere { // The `where` inputs of the `getProduct` thing.
+  slug?: string; // Slug (text).
+  id?: number; // Id (number).
+  productSku?: string; // Product sku (text).
+}
+
+interface JoybirdSiteGetProductVisOptionsWhere { // The `where` inputs of the `getProductVisOptions` thing.
+  slug?: string; // Slug (text).
+  id?: number; // Id (number).
+}
+
+interface JoybirdSiteGetCategoryWhere { // The `where` inputs of the `getCategory` thing.
+  slug?: string; // Slug (text).
+  offset?: number; // Number of results to skip.
+  limit?: number; // Maximum number of results to return.
+  sortBy?: string; // Sort by (text). Known values: a_z.
+}
+
+interface JoybirdSiteGetCollectionWhere { // The `where` inputs of the `getCollection` thing.
+  slug?: string; // Slug (text).
+  sortBy?: string; // Sort by (text). Known values: a_z.
+  forProduct?: number; // For product (number).
+}
+
+interface JoybirdSiteGetCategoryTopSalesProductsWhere { // The `where` inputs of the `getCategoryTopSalesProducts` thing.
+  id?: number; // Id (number).
+}
+
+interface JoybirdSiteGetLocationFromCoordsWhere { // The `where` inputs of the `getLocationFromCoords` thing.
+  latitude: number; // Latitude (number).
+  longitude: number; // Longitude (number).
+}
+
+interface JoybirdSiteGetLocationFromZipWhere { // The `where` inputs of the `getLocationFromZip` thing.
+  zipcode: string; // Zipcode (text).
+}
+
+interface JoybirdSiteGetRecommendedProductsWhere { // The `where` inputs of the `getRecommendedProducts` thing.
+  tuID?: string; // Tu id (text).
+  limit?: number; // Maximum number of results to return.
+  refreshCache?: boolean; // Refresh cache (true/false flag).
+}
+
+interface JoybirdSiteGetCustomListProductDataWhere { // The `where` inputs of the `getCustomListProductData` thing.
+  slug?: string; // Slug (text).
+  type?: string; // Type (text).
+}
+
+interface JoybirdSiteGetCustomProductListDataV2Where { // The `where` inputs of the `getCustomProductListDataV2` thing.
+  limit?: number; // Maximum number of results to return.
+  slug?: string; // Slug (text).
+  productList?: JoybirdSiteProductListInput[]; // Product list (list of record).
+  filterByStock?: boolean; // Filter by stock (true/false flag).
+  sortByPopularity?: boolean; // Sort by popularity (true/false flag).
+  refreshCache?: boolean; // Refresh cache (true/false flag).
+}
+
+interface JoybirdSiteGetRetailStoreProductsDataWhere { // The `where` inputs of the `getRetailStoreProductsData` thing.
+  storeId: number; // Store id (number).
+}
+
+interface JoybirdSiteGetClosestStoreFromZipcodeWhere { // The `where` inputs of the `getClosestStoreFromZipcode` thing.
+  zipcode?: string; // Zipcode (text).
+}
+
+interface JoybirdSiteGetCategoryPageWhere { // The `where` inputs of the `getCategoryPage` thing.
+  limit?: number; // Maximum number of results to return.
+  slug: string; // Slug (text).
+  zipCode?: string; // Zip code (text).
+  stateCode?: string; // State code (text).
+  regionId?: string; // Region id (text).
+  refreshCache?: boolean; // Refresh cache (true/false flag).
+}
+
+interface JoybirdSiteGetProductsStaticDataWhere { // The `where` inputs of the `getProductsStaticData` thing.
+  limit?: number; // Maximum number of results to return.
+  cacheKey?: string; // Cache key (text).
+  productIds: number[]; // Product ids (list of number).
+  zipCode?: string; // Zip code (text).
+  stateCode?: string; // State code (text).
+  regionId?: string; // Region id (text).
+  showSearchProductsOnly?: boolean; // Show search products only (true/false flag).
+}
+
+interface JoybirdSiteGetProductsByIDsWhere { // The `where` inputs of the `getProductsByIDs` thing.
+  ids?: number[]; // Ids (list of number).
+}
+
+interface JoybirdSiteGetUpSellProductWhere { // The `where` inputs of the `getUpSellProduct` thing.
+  id?: number; // Id (number).
+  slug?: string; // Slug (text).
+}
+
+interface JoybirdSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  getProduct: JoybirdSiteProduct | null; // Reads product records from this site.
+  getProductVisOptions: JoybirdSiteProduct | null; // Reads product vis options records from this site.
+  getCategory: JoybirdSiteCategory | null; // Reads category records from this site.
+  getCollection: JoybirdSiteCollection | null; // Reads collection records from this site.
+  getCategoryTopSalesProducts: JoybirdSiteCategoryTopSalesProductsType[] | null; // Reads category top sales products records from this site.
+  getLocationFromCoords: JoybirdSiteLocationResp | null; // Reads location from coords records from this site.
+  getLocationFromZip: JoybirdSiteLocationResp | null; // Reads location from zip records from this site.
+  getRecommendedProducts: JoybirdSiteRecommendedForYouProductType[] | null; // Reads recommended products records from this site.
+  getCustomListProductData: unknown | null; // Reads custom list product data records from this site.
+  getCustomProductListDataV2: JoybirdSiteCustomProductListing | null; // Reads custom product list data v2 records from this site.
+  getRetailStoreProductsData: JoybirdSiteCustomProductListing | null; // Reads retail store products data records from this site.
+  getClosestStoreFromZipcode: string | null; // Reads closest store from zipcode records from this site.
+  getCategoryPage: JoybirdSiteProductListingPage | null; // Reads category page records from this site.
+  getProductsStaticData: JoybirdSiteProductListingPage | null; // Reads products static data records from this site.
+  getProductsByIDs: JoybirdSiteProduct[] | null; // Reads products by ids records from this site.
+  getUpSellProduct: JoybirdSiteUpSellProductResponse | null; // Reads up sell product records from this site.
+}
+
+type JoybirdSiteReadAnswer = JoybirdSiteProduct | JoybirdSiteCategory | JoybirdSiteCollection | JoybirdSiteCategoryTopSalesProductsType[] | JoybirdSiteLocationResp | JoybirdSiteRecommendedForYouProductType[] | unknown | JoybirdSiteCustomProductListing | string | JoybirdSiteProductListingPage | JoybirdSiteProduct[] | JoybirdSiteUpSellProductResponse | null; // The answer for the `thing` you picked: its type is that thing's entry in JoybirdSiteReadAnswers.
+
+interface JoybirdSiteProduct { // Product record. Shows 6 of its 43 fields; ask for any other by name in `fields`.
+  id?: number | null; // Id of product (number).
+  name?: string | null; // Name of product (text).
+  sku?: string | null; // Sku of product (text).
+  slug?: string | null; // Slug of product (text).
+  type?: Record<string, unknown> | null; // Type of product (record).
+  price?: number | null; // Price of product (number).
+}
+
+interface JoybirdSiteCategory { // Category record. Shows 6 of its 20 fields; ask for any other by name in `fields`.
+  id?: number | null; // Id of category (number).
+  imageURL?: string | null; // Image url of category (text).
+  slug?: string | null; // Slug of category (text).
+  name?: string | null; // Name of category (text).
+  totalProductsCount?: number | null; // Total products count of category (number).
+  category_description?: string | null; // Category description of category (text).
+}
+
+interface JoybirdSiteCollection { // Collection record. Shows 6 of its 8 fields; ask for any other by name in `fields`.
+  id?: number | null; // Id of collection (number).
+  imageURL?: string | null; // Image url of collection (text).
+  slug?: string | null; // Slug of collection (text).
+  name?: string | null; // Name of collection (text).
+  category_label?: string | null; // Category label of collection (text).
+  category_description?: string | null; // Category description of collection (text).
+}
+
+interface JoybirdSiteCategoryTopSalesProductsType { // Category top sales products type record.
+  product_id?: number | null; // Product id of category top sales products type (number).
+  category_id?: number | null; // Category id of category top sales products type (number).
+  position?: number | null; // Position of category top sales products type (number).
+}
+
+interface JoybirdSiteLocationResp { // Location resp record. Shows 6 of its 7 fields; ask for any other by name in `fields`.
+  zip?: string | null; // Zip of location resp (text).
+  address?: string | null; // Address of location resp (text).
+  status?: string | null; // Status of location resp (text).
+  state?: string | null; // State of location resp (text).
+  stateShortName?: string | null; // State short name of location resp (text).
+  city?: string | null; // City of location resp (text).
+}
+
+interface JoybirdSiteRecommendedForYouProductType { // Recommended for you product type record.
+  sku?: string | null; // Sku of recommended for you product type (text).
+  score?: number | null; // Score of recommended for you product type (number).
+}
+
+interface JoybirdSiteProductListInput { // Product list input record.
+  id?: number; // Id of product list input (number).
+  category?: string; // Category of product list input (text).
+}
+
+interface JoybirdSiteCustomProductListing { // Custom product listing record.
+  products?: Record<string, unknown>[] | null; // List of products of custom product listing (record).
+  totalProductCount?: number | null; // Total product count of custom product listing (number).
+  upholsteryOptions?: Record<string, unknown>[] | null; // List of upholstery options of custom product listing (record).
+}
+
+interface JoybirdSiteProductListingPage { // Product listing page record. Shows 6 of its 10 fields; ask for any other by name in `fields`.
+  pageHtmlTitle?: string | null; // Page html title of product listing page (text).
+  pageId?: string | null; // Page id of product listing page (text).
+  pageLongDescription?: string | null; // Page long description of product listing page (text).
+  pageLongName?: string | null; // Page long name of product listing page (text).
+  pageMetaDescription?: string | null; // Page meta description of product listing page (text).
+  pageName?: string | null; // Page name of product listing page (text).
+}
+
+interface JoybirdSiteUpSellProductResponse { // Up sell product response record.
+  main_product?: Record<string, unknown> | null; // Main product of up sell product response (record).
+  upsell_product?: Record<string, unknown> | null; // Upsell product of up sell product response (record).
+  errors?: Record<string, unknown>[] | null; // List of errors of up sell product response (record).
+}
+
 interface JoybirdConfigurator {
   slug: string;
   name: string;
@@ -72086,6 +74636,14 @@ interface JoybirdPriceResult {
    * and wood stain, and the live configured price Joybird's own page shows.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (getProduct,
+     * getProductVisOptions, getAllActiveOptionsValues, getCollections, getCategory, getCollection,
+     * ...), give its `where` inputs, and list the `fields` you want back as dot paths like
+     * "state.stateName"; omit `fields` for every plain field.
+     */
+    read(input: JoybirdSiteReadInput): Promise<JoybirdSiteReadAnswer>;
+
     /**
      * Lists every configurable product Joybird sells — sofas, sectionals, chairs, ottomans, beds,
      * organised by collection — with its slug, name, current displayed price, list price and
@@ -72676,6 +75234,165 @@ interface KalshiGetMarketsResult {
 
 declare namespace BowmarkProvider_katzsdelicatessen {
   // ── Katz's Delicatessen — the unit's own declarations, verbatim ──
+type KatzsdelicatessenSiteReadInput = { thing: "availableStores"; where?: KatzsdelicatessenSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: KatzsdelicatessenSiteCategoriesWhere; fields?: string[] } | { thing: "mpGTMCode"; where?: KatzsdelicatessenSiteMpGTMCodeWhere; fields?: string[] } | { thing: "mpGTMHead"; where?: KatzsdelicatessenSiteMpGTMHeadWhere; fields?: string[] } | { thing: "pickupLocations"; where?: KatzsdelicatessenSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: KatzsdelicatessenSiteProductsWhere; fields?: string[] } | { thing: "route"; where: KatzsdelicatessenSiteRouteWhere; fields?: string[] } | { thing: "slideItems"; where?: KatzsdelicatessenSiteSlideItemsWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): attributesForm, attributesList, cmsBlocks, cmsPage, compareList, countries, country, currency, customAttributeMetadataV2, getHostedProUrl, getVaultConfig, mpGTMCodeHome, productReviewRatingsMetadata, recaptchaFormConfig, recaptchaV3Config, storeConfig.
+
+interface KatzsdelicatessenSiteAvailableStoresWhere { // The `where` inputs of the `availableStores` thing.
+  useCurrentGroup?: boolean; // Filter store views by the current store group.
+}
+
+interface KatzsdelicatessenSiteCategoriesWhere { // The `where` inputs of the `categories` thing.
+  filters?: KatzsdelicatessenSiteCategoryFilterInput; // Identifies which Category filter inputs to search for and return.
+  pageSize?: number; // Specifies the maximum number of results to return at once. The default value is 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+}
+
+interface KatzsdelicatessenSiteMpGTMCodeWhere { // The `where` inputs of the `mpGTMCode` thing.
+  filters?: KatzsdelicatessenSiteMpGTMCodeFilters; // Filters (record).
+}
+
+interface KatzsdelicatessenSiteMpGTMHeadWhere { // The `where` inputs of the `mpGTMHead` thing.
+  filters?: KatzsdelicatessenSiteMpGTMHeadFilters; // Filters (record).
+}
+
+interface KatzsdelicatessenSitePickupLocationsWhere { // The `where` inputs of the `pickupLocations` thing.
+  area?: KatzsdelicatessenSiteAreaInput; // Perform search by location using radius and search term.
+  filters?: KatzsdelicatessenSitePickupLocationFilterInput; // Apply filters by attributes.
+  sort?: KatzsdelicatessenSitePickupLocationSortInput; // Specifies which attribute to sort on, and whether to return the results in ascending or descending order.
+  pageSize?: number; // The maximum number of pickup locations to return at once. The attribute is optional. Default: 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+  productsInfo?: KatzsdelicatessenSiteProductInfoInput[]; // Information about products which should be delivered.
+}
+
+interface KatzsdelicatessenSiteProductsWhere { // The `where` inputs of the `products` thing.
+  search?: string; // One or more keywords to use in a full-text search.
+  filter?: KatzsdelicatessenSiteProductAttributeFilterInput; // The product attributes to search for and return.
+  pageSize?: number; // The maximum number of results to return at once. The default value is 20.
+  currentPage?: number; // The page of results to return. The default value is 1.
+  sort?: KatzsdelicatessenSiteProductAttributeSortInput; // Specifies which attributes to sort on, and whether to return the results in ascending or descending order.
+}
+
+interface KatzsdelicatessenSiteRouteWhere { // The `where` inputs of the `route` thing.
+  url: string; // A `url_key` appended by the `url_suffix, if one exists.
+}
+
+interface KatzsdelicatessenSiteSlideItemsWhere { // The `where` inputs of the `slideItems` thing.
+  slideKey?: string; // The key of Slider
+}
+
+interface KatzsdelicatessenSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  availableStores: KatzsdelicatessenSiteStoreConfig[] | null; // Get a list of available store views and their config information.
+  categories: KatzsdelicatessenSiteCategoryResult | null; // Return a list of categories that match the specified filter.
+  mpGTMCode: KatzsdelicatessenSiteGTMCodeOutput | null; // Get the code matching with the filter.
+  mpGTMHead: KatzsdelicatessenSiteGTMHeadOutput | null; // Get the head matching with the filter.
+  pickupLocations: KatzsdelicatessenSitePickupLocations | null; // The pickup locations query searches for locations that match the search request requirements.
+  products: KatzsdelicatessenSiteProducts | null; // Search for products that match the criteria specified in the `search` and `filter` attributes.
+  route: KatzsdelicatessenSiteRoutableInterface | null; // Return the full details for a specified product, category, or CMS page.
+  slideItems: KatzsdelicatessenSiteSlideItems | null; // The query returns information about slide items by Slide Key
+}
+
+type KatzsdelicatessenSiteReadAnswer = KatzsdelicatessenSiteStoreConfig[] | KatzsdelicatessenSiteCategoryResult | KatzsdelicatessenSiteGTMCodeOutput | KatzsdelicatessenSiteGTMHeadOutput | KatzsdelicatessenSitePickupLocations | KatzsdelicatessenSiteProducts | KatzsdelicatessenSiteRoutableInterface | KatzsdelicatessenSiteSlideItems | null; // The answer for the `thing` you picked: its type is that thing's entry in KatzsdelicatessenSiteReadAnswers.
+
+interface KatzsdelicatessenSiteStoreConfig { // Contains information about a store's configuration. Shows 4 of its 203 fields; ask for any other by name in `fields`.
+  absolute_footer?: string | null; // Contains scripts that must be included in the HTML before the closing `<body>` tag.
+  allow_guests_to_write_product_reviews?: string | null; // Indicates whether guest users can write product reviews. Possible values: 1 (Yes) and 0 (No).
+  allow_items?: string | null; // The value of the Allow Gift Messages for Order Items option
+  allow_order?: string | null; // The value of the Allow Gift Messages on Order Level option
+}
+
+interface KatzsdelicatessenSiteCategoryFilterInput { // Defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for. Shows 4 of its 7 inputs; any other is accepted by name.
+  category_uid?: Record<string, unknown>; // Filter by the unique category ID for a `CategoryInterface` object.
+  ids?: Record<string, unknown>; // Deprecated: use 'category_uid' to filter uniquely identifiers of categories.
+  name?: Record<string, unknown>; // Filter by the display name of the category.
+  url_key?: Record<string, unknown>; // Filter by the part of the URL that identifies the category.
+}
+
+interface KatzsdelicatessenSiteCategoryResult { // Contains a collection of `CategoryTree` objects and pagination information.
+  items?: Record<string, unknown>[] | null; // A list of categories that match the filter criteria.
+  page_info?: Record<string, unknown> | null; // An object that includes the `page_info` and `currentPage` values specified in the query.
+  total_count?: number | null; // The total number of categories that match the criteria.
+}
+
+interface KatzsdelicatessenSiteMpGTMCodeFilters { // Mp gtmcode filters record. Shows 4 of its 6 inputs; any other is accepted by name.
+  action: string; // The name of the page you want to get the code from(home, catalogsearch, category, product, checkoutindex, checkoutcart, mponestepcheckout, checkoutsuccess, multishippingcheckoutsuccess, mpthankyoup...
+  currentPage?: number; // Specify which page to display the results to return. The default value is 1.
+  id: string; // The ID of the order, category, or product that you want to get the code from.
+  type: string; // The type of the code you want to get(GTM, GA or FbPixel).
+}
+
+interface KatzsdelicatessenSiteGTMCodeOutput { // Gtmcode output record.
+  code?: string | null; // Code
+}
+
+interface KatzsdelicatessenSiteMpGTMHeadFilters { // Mp gtmhead filters record.
+  type: string; // The type of the code you want to get(GTM, GA or FbPixel).
+}
+
+interface KatzsdelicatessenSiteGTMHeadOutput { // Gtmhead output record.
+  head?: string | null; // Head
+}
+
+interface KatzsdelicatessenSiteAreaInput { // AreaInput defines the parameters which will be used for filter by specified location.
+  radius: number; // The radius for the search in KM.
+  search_term: string; // The country code where search must be performed. Required parameter together with region, city or postcode.
+}
+
+interface KatzsdelicatessenSitePickupLocationFilterInput { // PickupLocationFilterInput defines the list of attributes and filters for the search. Shows 4 of its 8 inputs; any other is accepted by name.
+  city?: Record<string, unknown>; // Filter by city.
+  country_id?: Record<string, unknown>; // Filter by country.
+  name?: Record<string, unknown>; // Filter by pickup location name.
+  pickup_location_code?: Record<string, unknown>; // Filter by pickup location code.
+}
+
+interface KatzsdelicatessenSitePickupLocationSortInput { // PickupLocationSortInput specifies attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. Shows 4 of its 16 inputs; any other is accepted by name.
+  city?: "ASC" | "DESC"; // City where pickup location is placed.
+  contact_name?: "ASC" | "DESC"; // Name of the contact person.
+  description?: "ASC" | "DESC"; // Description of the pickup location.
+  name?: "ASC" | "DESC"; // The pickup location name. Customer use this to identify the pickup location.
+}
+
+interface KatzsdelicatessenSiteProductInfoInput { // Product Information used for Pickup Locations search.
+  sku: string; // Product SKU.
+}
+
+interface KatzsdelicatessenSitePickupLocations { // Top level object returned in a pickup locations search.
+  items?: Record<string, unknown>[] | null; // An array of pickup locations that match the specific search request.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The number of products returned.
+}
+
+interface KatzsdelicatessenSiteProductAttributeFilterInput { // ProductAttributeFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for. Shows 4 of its 14 inputs; any other is accepted by name.
+  description?: Record<string, unknown>; // Attribute label: Description
+  name?: Record<string, unknown>; // Attribute label: Product Name
+  price?: Record<string, unknown>; // Attribute label: Price
+  sku?: Record<string, unknown>; // Attribute label: SKU
+}
+
+interface KatzsdelicatessenSiteProductAttributeSortInput { // Specifies the attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. It's possible to sort products using searchable attributes w... Shows 4 of its 5 inputs; any other is accepted by name.
+  name?: "ASC" | "DESC"; // Attribute label: Product Name
+  pack_size?: "ASC" | "DESC"; // Attribute label: Pack Size
+  position?: "ASC" | "DESC"; // Sort by the position assigned to each product.
+  price?: "ASC" | "DESC"; // Attribute label: Price
+}
+
+interface KatzsdelicatessenSiteProducts { // Contains the results of a `products` query. Shows 4 of its 6 fields; ask for any other by name in `fields`.
+  aggregations?: Record<string, unknown>[] | null; // A bucket that contains the attribute code and label for each filterable option.
+  items?: Record<string, unknown>[] | null; // An array of products that match the specified search criteria.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.
+}
+
+interface KatzsdelicatessenSiteRoutableInterface { // Routable entities serve as the model for a rendered page.
+  redirect_code?: number | null; // Contains 0 when there is no redirect error. A value of 301 indicates the URL of the requested resource has been changed permanently, while a value of 302 indicates a temporary redirect.
+  relative_url?: string | null; // The internal relative URL. If the specified URL is a redirect, the query returns the redirected URL, not the original.
+  type?: "CMS_PAGE" | "PRODUCT" | "CATEGORY" | null; // One of PRODUCT, CATEGORY, or CMS_PAGE.
+}
+
+interface KatzsdelicatessenSiteSlideItems { // Defines all information of a SlideItems data object
+  items?: Record<string, unknown>[] | null; // Array of Slide Item(s)
+  slide_key?: string | null; // The key of Slider
+  slide_title?: string | null; // The title of Slider
+}
+
 interface katzsdelicatessenProduct {
   sku: string;
   name: string;
@@ -72705,6 +75422,14 @@ interface katzsdelicatessenProductDetail extends katzsdelicatessenProduct {
    * pastrami, corned beef, packages and merch, with live price and stock.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (attributesForm, attributesList,
+     * availableStores, categories, cmsBlocks, cmsPage, ...), give its `where` inputs, and list the
+     * `fields` you want back as dot paths like "state.stateName"; omit `fields` for every plain
+     * field.
+     */
+    read(input: KatzsdelicatessenSiteReadInput): Promise<KatzsdelicatessenSiteReadAnswer>;
+
     /**
      * Searches Katz's Delicatessen's nationwide-shipping store by free text (e.g. 'pastrami',
      * 'corned beef', 'hot dogs', 'gift') — each match's name, SKU, price, stock, image, url and
@@ -74285,6 +77010,144 @@ interface KwworldwideHubspotFormReference {
 
 declare namespace BowmarkProvider_labcorp {
   // ── Labcorp — the unit's own declarations, verbatim ──
+type LabcorpSiteReadInput = { thing: "availableStores"; where?: LabcorpSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: LabcorpSiteCategoriesWhere; fields?: string[] } | { thing: "dynamicBlocks"; where?: LabcorpSiteDynamicBlocksWhere; fields?: string[] } | { thing: "pickupLocations"; where?: LabcorpSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: LabcorpSiteProductsWhere; fields?: string[] } | { thing: "route"; where: LabcorpSiteRouteWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): attributesForm, attributesList, cmsBlocks, cmsPage, compareList, countries, country, currency, customAttributeMetadataV2, getConfigValue, getHostedProUrl, getVaultConfig, productReviewRatingsMetadata, recaptchaFormConfig, recaptchaV3Config, storeConfig, viewMoreFilter.
+
+interface LabcorpSiteAvailableStoresWhere { // The `where` inputs of the `availableStores` thing.
+  useCurrentGroup?: boolean; // Filter store views by the current store group.
+}
+
+interface LabcorpSiteCategoriesWhere { // The `where` inputs of the `categories` thing.
+  filters?: LabcorpSiteCategoryFilterInput; // Identifies which Category filter inputs to search for and return.
+  pageSize?: number; // Specifies the maximum number of results to return at once. The default value is 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+}
+
+interface LabcorpSiteDynamicBlocksWhere { // The `where` inputs of the `dynamicBlocks` thing.
+  input?: LabcorpSiteDynamicBlocksFilterInput; // Defines the filter for returning matching dynamic blocks.
+  pageSize?: number; // The maximum number of results to return at once. The default is 20.
+  currentPage?: number; // The page of results to return. The default is 1.
+}
+
+interface LabcorpSitePickupLocationsWhere { // The `where` inputs of the `pickupLocations` thing.
+  area?: LabcorpSiteAreaInput; // Perform search by location using radius and search term.
+  filters?: LabcorpSitePickupLocationFilterInput; // Apply filters by attributes.
+  sort?: LabcorpSitePickupLocationSortInput; // Specifies which attribute to sort on, and whether to return the results in ascending or descending order.
+  pageSize?: number; // The maximum number of pickup locations to return at once. The attribute is optional. Default: 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+  productsInfo?: LabcorpSiteProductInfoInput[]; // Information about products which should be delivered.
+}
+
+interface LabcorpSiteProductsWhere { // The `where` inputs of the `products` thing.
+  search?: string; // One or more keywords to use in a full-text search.
+  filter?: LabcorpSiteProductAttributeFilterInput; // The product attributes to search for and return.
+  pageSize?: number; // The maximum number of results to return at once. The default value is 20.
+  currentPage?: number; // The page of results to return. The default value is 1.
+  sort?: LabcorpSiteProductAttributeSortInput; // Specifies which attributes to sort on, and whether to return the results in ascending or descending order.
+}
+
+interface LabcorpSiteRouteWhere { // The `where` inputs of the `route` thing.
+  url: string; // A `url_key` appended by the `url_suffix, if one exists.
+}
+
+interface LabcorpSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  availableStores: LabcorpSiteStoreConfig[] | null; // Get a list of available store views and their config information.
+  categories: LabcorpSiteCategoryResult | null; // Return a list of categories that match the specified filter.
+  dynamicBlocks: LabcorpSiteDynamicBlocks | null; // Return a list of dynamic blocks filtered by type, location, or UIDs.
+  pickupLocations: LabcorpSitePickupLocations | null; // The pickup locations query searches for locations that match the search request requirements.
+  products: LabcorpSiteProducts | null; // Search for products that match the criteria specified in the `search` and `filter` attributes.
+  route: LabcorpSiteRoutableInterface | null; // Return the full details for a specified product, category, or CMS page.
+}
+
+type LabcorpSiteReadAnswer = LabcorpSiteStoreConfig[] | LabcorpSiteCategoryResult | LabcorpSiteDynamicBlocks | LabcorpSitePickupLocations | LabcorpSiteProducts | LabcorpSiteRoutableInterface | null; // The answer for the `thing` you picked: its type is that thing's entry in LabcorpSiteReadAnswers.
+
+interface LabcorpSiteStoreConfig { // Contains information about a store's configuration. Shows 4 of its 235 fields; ask for any other by name in `fields`.
+  absolute_footer?: string | null; // Contains scripts that must be included in the HTML before the closing `<body>` tag.
+  allow_gift_receipt?: string | null; // Indicates if the gift sender has the option to send a gift receipt. Possible values: 1 (Yes) and 0 (No).
+  allow_gift_wrapping_on_order?: string | null; // Indicates whether gift wrapping can be added for the entire order. Possible values: 1 (Yes) and 0 (No).
+  allow_gift_wrapping_on_order_items?: string | null; // Indicates whether gift wrapping can be added for individual order items. Possible values: 1 (Yes) and 0 (No).
+}
+
+interface LabcorpSiteCategoryFilterInput { // Defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for. Shows 4 of its 7 inputs; any other is accepted by name.
+  category_uid?: Record<string, unknown>; // Filter by the unique category ID for a `CategoryInterface` object.
+  ids?: Record<string, unknown>; // Deprecated: use 'category_uid' to filter uniquely identifiers of categories.
+  name?: Record<string, unknown>; // Filter by the display name of the category.
+  url_key?: Record<string, unknown>; // Filter by the part of the URL that identifies the category.
+}
+
+interface LabcorpSiteCategoryResult { // Contains a collection of `CategoryTree` objects and pagination information.
+  items?: Record<string, unknown>[] | null; // A list of categories that match the filter criteria.
+  page_info?: Record<string, unknown> | null; // An object that includes the `page_info` and `currentPage` values specified in the query.
+  total_count?: number | null; // The total number of categories that match the criteria.
+}
+
+interface LabcorpSiteDynamicBlocksFilterInput { // Defines the dynamic block filter. The filter can identify the block type, location and IDs to return.
+  dynamic_block_uids?: string[]; // An array of dynamic block UIDs to filter on.
+  locations?: ("CONTENT" | "HEADER" | "FOOTER" | "LEFT" | "RIGHT")[]; // An array indicating the locations the dynamic block can be placed.
+  type: "SPECIFIED" | "CART_PRICE_RULE_RELATED" | "CATALOG_PRICE_RULE_RELATED"; // A value indicating the type of dynamic block to filter on.
+}
+
+interface LabcorpSiteDynamicBlocks { // Contains an array of dynamic blocks.
+  items?: Record<string, unknown>[] | null; // An array containing individual dynamic blocks.
+  page_info?: Record<string, unknown> | null; // Metadata for pagination rendering.
+  total_count?: number | null; // The number of returned dynamic blocks.
+}
+
+interface LabcorpSiteAreaInput { // AreaInput defines the parameters which will be used for filter by specified location.
+  radius: number; // The radius for the search in KM.
+  search_term: string; // The country code where search must be performed. Required parameter together with region, city or postcode.
+}
+
+interface LabcorpSitePickupLocationFilterInput { // PickupLocationFilterInput defines the list of attributes and filters for the search. Shows 4 of its 8 inputs; any other is accepted by name.
+  city?: Record<string, unknown>; // Filter by city.
+  country_id?: Record<string, unknown>; // Filter by country.
+  name?: Record<string, unknown>; // Filter by pickup location name.
+  pickup_location_code?: Record<string, unknown>; // Filter by pickup location code.
+}
+
+interface LabcorpSitePickupLocationSortInput { // PickupLocationSortInput specifies attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. Shows 4 of its 16 inputs; any other is accepted by name.
+  city?: "ASC" | "DESC" | "RECENT"; // City where pickup location is placed.
+  contact_name?: "ASC" | "DESC" | "RECENT"; // Name of the contact person.
+  description?: "ASC" | "DESC" | "RECENT"; // Description of the pickup location.
+  name?: "ASC" | "DESC" | "RECENT"; // The pickup location name. Customer use this to identify the pickup location.
+}
+
+interface LabcorpSiteProductInfoInput { // Product Information used for Pickup Locations search.
+  sku: string; // Product SKU.
+}
+
+interface LabcorpSitePickupLocations { // Top level object returned in a pickup locations search.
+  items?: Record<string, unknown>[] | null; // An array of pickup locations that match the specific search request.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The number of products returned.
+}
+
+interface LabcorpSiteProductAttributeFilterInput { // Defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for. Shows 4 of its 12 inputs; any other is accepted by name.
+  description?: Record<string, unknown>; // Attribute label: Description
+  name?: Record<string, unknown>; // Attribute label: Product Name
+  sku?: Record<string, unknown>; // Attribute label: Test Code
+  url_key?: Record<string, unknown>; // The part of the URL that identifies the product
+}
+
+interface LabcorpSiteProductAttributeSortInput { // Specifies the attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. It's possible to sort products using searchable attributes w... Shows 4 of its 5 inputs; any other is accepted by name.
+  name?: "ASC" | "DESC" | "RECENT"; // Attribute label: Product Name
+  position?: "ASC" | "DESC" | "RECENT"; // Sort by the position assigned to each product.
+  price?: "ASC" | "DESC" | "RECENT"; // Attribute label: Price
+  qty_ordered?: "ASC" | "DESC" | "RECENT"; // Attribute label: Best sellers
+}
+
+interface LabcorpSiteProducts { // Contains the results of a `products` query. Shows 4 of its 6 fields; ask for any other by name in `fields`.
+  aggregations?: Record<string, unknown>[] | null; // A bucket that contains the attribute code and label for each filterable option.
+  items?: Record<string, unknown>[] | null; // An array of products that match the specified search criteria.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.
+}
+
+interface LabcorpSiteRoutableInterface { // Routable entities serve as the model for a rendered page.
+  redirect_code?: number | null; // Contains 0 when there is no redirect error. A value of 301 indicates the URL of the requested resource has been changed permanently, while a value of 302 indicates a temporary redirect.
+  relative_url?: string | null; // The internal relative URL. If the specified URL is a redirect, the query returns the redirected URL, not the original.
+  type?: "CMS_PAGE" | "PRODUCT" | "CATEGORY" | null; // One of PRODUCT, CATEGORY, or CMS_PAGE.
+}
+
 interface LabcorpTestSummary {
   sku: string; // Magento's own product id — not a Labcorp test code
   name: string;
@@ -74309,6 +77172,14 @@ interface LabcorpTestDetail extends LabcorpTestSummary {
   /** Lab test pricing, PSC location lookup and appointment availability from Labcorp. */
   interface Unit {
     /**
+     * Reads anything this site offers in one call: pick a `thing` (attributesForm, attributesList,
+     * availableStores, categories, cmsBlocks, cmsPage, ...), give its `where` inputs, and list the
+     * `fields` you want back as dot paths like "state.stateName"; omit `fields` for every plain
+     * field.
+     */
+    read(input: LabcorpSiteReadInput): Promise<LabcorpSiteReadAnswer>;
+
+    /**
      * Searches Labcorp's direct-to-consumer test catalog (Labcorp OnDemand) by keyword — e.g.
      * "Lyme disease", "Men's Health" — and returns matching tests with their sku, name and price.
      * No doctor's visit required to order.
@@ -74317,9 +77188,9 @@ interface LabcorpTestDetail extends LabcorpTestSummary {
 
     /**
      * Returns the full OnDemand test detail for one sku — price, descriptions, sample type,
-     * collection method, turnaround time and acceptable age band. Combines the catalog row
-     * (GraphQL) with the specimen/turnaround facts the site renders on the PDP HTML. Pass the sku
-     * returned by `search`.
+     * collection method, turnaround time and acceptable age band. Combines the catalog row (the
+     * site's data API) with the specimen/turnaround facts the site renders on the PDP HTML. Pass
+     * the sku returned by `search`.
      */
     getTest(sku: string): Promise<LabcorpTestDetail>;
   }
@@ -74639,6 +77510,36 @@ interface PuzzleList {
   games: PuzzleGame[];
 }
 
+interface GetCrosswordArgs {
+  puzzle?: "daily" | "midi" | "mini";
+  date?: string;
+  includeSolution?: boolean;
+}
+
+interface CrosswordClue {
+  number: number;
+  clue: string;
+  length: number;
+  row: number;
+  col: number;
+}
+
+interface Crossword {
+  puzzle: "daily" | "midi" | "mini";
+  puzzleId: string;
+  title: string;
+  author: string | null;
+  copyright: string | null;
+  publishedAt: string | null;
+  width: number;
+  height: number;
+  grid: string[];
+  solution: string[] | null;
+  across: CrosswordClue[];
+  down: CrosswordClue[];
+  url: string;
+}
+
 interface NavSection {
   name: string;
   path: string;
@@ -74793,6 +77694,14 @@ interface BrowseTopicArgs {
      * description.
      */
     listPuzzles(): Promise<PuzzleList>;
+
+    /**
+     * Reads a day's L.A. Times Daily, Midi or Mini Crossword from its Amuse Labs host: title,
+     * author, the blank grid, and the numbered across and down clues with lengths and start cells.
+     * Pass puzzle (daily, midi, mini), date (YYYY-MM-DD, default the latest) and
+     * includeSolution:true for the filled grid.
+     */
+    getCrossword(args: GetCrosswordArgs): Promise<Crossword>;
   }
 }
 
@@ -78225,8 +81134,26 @@ interface LumaCategory {
   eventCount: number | null;
 }
 
+interface LumaGuestList {
+  eventId: string;
+  guests: LumaHost[]; // Every guest read, each with their LinkedIn/X/website/bio.
+  guestCount: number | null;
+  warnings: string[];
+}
+
+interface LumaCancellation {
+  eventId: string;
+  url: string;
+  cancelled: boolean;
+}
+
 interface GetEventArgs {
   url: string;
+}
+
+interface GetGuestListArgs {
+  url: string;
+  limit?: number; // Default and maximum 5000.
 }
 
 interface ListCalendarEventsArgs {
@@ -78293,6 +81220,21 @@ interface DiscoverEventsArgs {
      * takes.
      */
     listCategories(): Promise<LumaCategory[]>;
+
+    /**
+     * The full guest list of one Luma event, read with the caller's own signed-in Luma account:
+     * every guest's name with the LinkedIn, X, website and bio they gave Luma, following Luma's
+     * cursor up to `limit` (default 5000). Luma opens the list only to an account registered for
+     * the event: RSVP on the event page first (Luma's one-click RSVP), read the list, then
+     * cancelRegistration if you only wanted the list. Without a registration it throws saying so.
+     */
+    getGuestList(args: GetGuestListArgs, opts?: ConnectionOption): Promise<LumaGuestList>;
+
+    /**
+     * Cancels the caller's own registration for a Luma event (Luma's 'Cancel registration'), e.g.
+     * after an RSVP made only to read the guest list with getGuestList.
+     */
+    cancelRegistration(args: GetEventArgs, opts?: ConnectionOption): Promise<LumaCancellation>;
   }
 }
 
@@ -78353,6 +81295,139 @@ interface MaerskTrackingResult {
 
 declare namespace BowmarkProvider_magicmadhouse {
   // ── Magic Madhouse product price and stock lookup — the unit's own declarations, verbatim ──
+type MagicmadhouseSiteReadInput = { thing: "node"; where: MagicmadhouseSiteNodeWhere; fields?: string[] } | { thing: "store"; where?: Record<string, never>; fields?: string[] } | { thing: "searchProducts"; where: MagicmadhouseSiteSearchProductsWhere; fields?: string[] } | { thing: "categoryTree"; where?: MagicmadhouseSiteCategoryTreeWhere; fields?: string[] } | { thing: "category"; where: MagicmadhouseSiteCategoryWhere; fields?: string[] } | { thing: "products"; where?: MagicmadhouseSiteProductsWhere; fields?: string[] } | { thing: "newestProducts"; where?: MagicmadhouseSiteNewestProductsWhere; fields?: string[] } | { thing: "bestSellingProducts"; where?: MagicmadhouseSiteBestSellingProductsWhere; fields?: string[] } | { thing: "product"; where?: MagicmadhouseSiteProductWhere; fields?: string[] } | { thing: "page"; where: MagicmadhouseSitePageWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): channel, inventory, shopperPreferences, geography, brands, featuredProducts, route, giftCertificates, renderedRegionsByPageType, renderedRegionsByPageTypeAndEntityId, pages, scripts, currency, currencies, popularBrands, brand.
+
+interface MagicmadhouseSiteNodeWhere { // The `where` inputs of the `node` thing.
+  id: string; // The ID of an object
+}
+
+interface MagicmadhouseSiteSearchProductsWhere { // The `where` inputs of the `searchProducts` thing.
+  filters: MagicmadhouseSiteSearchProductsFiltersInput; // Available search filters for use when querying products
+  sort?: "A_TO_Z" | "BEST_REVIEWED" | "BEST_SELLING" | "FEATURED" | "HIGHEST_PRICE" | "LOWEST_PRICE" | "NEWEST" | "RELEVANCE" | "Z_TO_A"; // The results are sorted by relevance if the sort argument is not provided.
+}
+
+interface MagicmadhouseSiteCategoryTreeWhere { // The `where` inputs of the `categoryTree` thing.
+  rootEntityId?: number; // A root category ID to be used to load the tree starting from a particular branch. If not supplied, starts at the top of the tree.
+}
+
+interface MagicmadhouseSiteCategoryWhere { // The `where` inputs of the `category` thing.
+  entityId: number; // The category id
+}
+
+interface MagicmadhouseSiteProductsWhere { // The `where` inputs of the `products` thing.
+  before?: string; // Return results before this position (cursor from a previous answer).
+  after?: string; // Return results after this position (cursor from a previous answer).
+  first?: number; // Maximum number of results to return.
+  last?: number; // Maximum number of results to return, counting from the end.
+  ids?: string[]; // Global ids of expected products. Default: [].
+  entityIds?: number[]; // Ids of expected products. Default: [].
+  hideOutOfStock?: boolean; // When set to True, hides products which are out of stock. Defaults to False. This filter will do nothing unless your store has the Product Filtering feature available on your plan and enabled. If it...
+}
+
+interface MagicmadhouseSiteNewestProductsWhere { // The `where` inputs of the `newestProducts` thing.
+  before?: string; // Return results before this position (cursor from a previous answer).
+  after?: string; // Return results after this position (cursor from a previous answer).
+  first?: number; // Maximum number of results to return.
+  last?: number; // Maximum number of results to return, counting from the end.
+  hideOutOfStock?: boolean; // When set to True, hides products which are out of stock. Defaults to False. This filter will do nothing unless your store has the Product Filtering feature available on your plan and enabled. If it...
+}
+
+interface MagicmadhouseSiteBestSellingProductsWhere { // The `where` inputs of the `bestSellingProducts` thing.
+  before?: string; // Return results before this position (cursor from a previous answer).
+  after?: string; // Return results after this position (cursor from a previous answer).
+  first?: number; // Maximum number of results to return.
+  last?: number; // Maximum number of results to return, counting from the end.
+  hideOutOfStock?: boolean; // When set to True, hides products which are out of stock. Defaults to False. This filter will do nothing unless your store has the Product Filtering feature available on your plan and enabled. If it...
+}
+
+interface MagicmadhouseSiteProductWhere { // The `where` inputs of the `product` thing.
+  id?: string; // Product global id filter.
+  entityId?: number; // Product id filter.
+  variantEntityId?: number; // Product filter by variant id.
+  optionValueIds?: MagicmadhouseSiteOptionValueId[]; // A variant option value ids filter. Default: [].
+  sku?: string; // Product filter by sku.
+  useDefaultOptionSelections?: boolean; // When set to True, returns products with default option selection overlay if one exists. Chosen options selections can be overridden by optionValueIds. If neither this option nor optionValueIds are ...
+}
+
+interface MagicmadhouseSitePageWhere { // The `where` inputs of the `page` thing.
+  entityId: number; // Id of the page to fetch.
+}
+
+interface MagicmadhouseSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  node: MagicmadhouseSiteNode | null; // Fetches an object given its ID
+  store: MagicmadhouseSiteStore | null; // The current store.
+  searchProducts: MagicmadhouseSiteSearchProducts | null; // Details of the products and facets matching given search criteria.
+  categoryTree: MagicmadhouseSiteCategoryTreeItem[] | null; // A tree of categories.
+  category: MagicmadhouseSiteCategory | null; // Retrieve a category object by the id.
+  products: MagicmadhouseSiteProductConnection | null; // Details of the products.
+  newestProducts: MagicmadhouseSiteProductConnection | null; // Details of the newest products.
+  bestSellingProducts: MagicmadhouseSiteProductConnection | null; // Details of the best selling products.
+  product: MagicmadhouseSiteProduct | null; // A single product object with variant pricing overlay capabilities.
+  page: MagicmadhouseSiteWebPage | null; // Page details.
+}
+
+type MagicmadhouseSiteReadAnswer = MagicmadhouseSiteNode | MagicmadhouseSiteStore | MagicmadhouseSiteSearchProducts | MagicmadhouseSiteCategoryTreeItem[] | MagicmadhouseSiteCategory | MagicmadhouseSiteProductConnection | MagicmadhouseSiteProduct | MagicmadhouseSiteWebPage | null; // The answer for the `thing` you picked: its type is that thing's entry in MagicmadhouseSiteReadAnswers.
+
+interface MagicmadhouseSiteNode { // An object with an ID
+  id?: string | null; // The id of the object.
+}
+
+interface MagicmadhouseSiteStore { // The Store
+  entityId?: string | number | null; // The ID of the store.
+}
+
+interface MagicmadhouseSiteSearchProductsFiltersInput { // Object containing available search filters for use when querying Products. Shows 4 of its 13 inputs; any other is accepted by name.
+  searchTerm?: string; // Textual search term. Used to search for products based on text entered by a shopper, typically in a search box. Searches against several fields on the product including Name, SKU, and Description.
+  price?: Record<string, unknown>; // Search by price range. At least a minPrice or maxPrice must be supplied.
+  categoryEntityId?: number; // Filter by products belonging to a single Category. This is intended for use when presenting a Category page in a PLP experience. This argument must be used in order for custom product sorts and cus...
+  categoryEntityIds?: number[]; // Filter by products belonging to any of the specified Categories. Intended for Advanced Search and Faceted Search/Product Filtering use cases, not for a page for a specific Category.
+}
+
+interface MagicmadhouseSiteSearchProducts { // Container for catalog search results, which may contain both products as well as a list of search filters for further refinement.
+  products?: Record<string, unknown> | null; // Details of the products.
+  filters?: Record<string, unknown> | null; // Available product filters.
+  suggestions?: Record<string, unknown>[] | null; // Search suggestions including spelling corrections and autocomplete terms.
+}
+
+interface MagicmadhouseSiteCategoryTreeItem { // An item in a tree of categories. Shows 4 of its 8 fields; ask for any other by name in `fields`.
+  entityId?: number | null; // The id category.
+  name?: string | null; // The name of category.
+  path?: string | null; // Path assigned to this category
+  description?: string | null; // The description of this category.
+}
+
+interface MagicmadhouseSiteCategory { // Category. Shows 4 of its 10 fields; ask for any other by name in `fields`.
+  id?: string | null; // The ID of an object
+  entityId?: number | null; // Unique ID for the category.
+  name?: string | null; // Category name.
+  description?: string | null; // Category description.
+}
+
+interface MagicmadhouseSiteProductConnection { // A connection to a list of items.
+  pageInfo?: Record<string, unknown> | null; // Information to aid in pagination.
+  edges?: Record<string, unknown>[] | null; // A list of edges.
+  collectionInfo?: Record<string, unknown> | null; // Collection info
+}
+
+interface MagicmadhouseSiteOptionValueId { // A variant option value id input object
+  optionEntityId: number; // A variant option id filter
+  valueEntityId: number; // A variant value id filter.
+}
+
+interface MagicmadhouseSiteProduct { // Product. Shows 4 of its 40 fields; ask for any other by name in `fields`.
+  id?: string | null; // The ID of an object
+  sku?: string | null; // Default product variant when no options are selected.
+  name?: string | null; // Name of the product.
+  description?: string | null; // Description of the product.
+}
+
+interface MagicmadhouseSiteWebPage { // WebPage details. Shows 4 of its 7 fields; ask for any other by name in `fields`.
+  entityId?: number | null; // Unique ID for the web page.
+  parentEntityId?: number | null; // Unique ID for the parent page.
+  name?: string | null; // Page name.
+  isVisibleInNavigation?: boolean | null; // Whether or not the page should be visible in the navigation menu.
+}
+
 interface MagicMadhouseProduct {
   id: string;
   name: string;
@@ -78370,6 +81445,13 @@ interface MagicMadhouseProduct {
    * a product page as prose.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (channel, node, inventory,
+     * shopperPreferences, store, geography, ...), give its `where` inputs, and list the `fields`
+     * you want back as dot paths like "state.stateName"; omit `fields` for every plain field.
+     */
+    read(input: MagicmadhouseSiteReadInput): Promise<MagicmadhouseSiteReadAnswer>;
+
     /**
      * Call this immediately for a Magic Madhouse price, RRP, SKU, or stock lookup: searches the
      * live catalog by product name and returns matching SKU, GBP price, RRP, and available-to-sell
@@ -80188,6 +83270,109 @@ interface MauricesProduct extends MauricesProductSummary {
      * (72, 144, …) for the next page.
      */
     searchProducts(args: MauricesSearchArgs): Promise<MauricesSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_maxpreps {
+  // ── MaxPreps — the unit's own declarations, verbatim ──
+interface MaxprepsSchool {
+  schoolId: string;
+  name: string;
+  city: string | null;
+  state: string | null; // two-letter code
+  zip: string | null;
+  mascot: string | null;
+  url: string; // pass to getSchool
+}
+
+interface MaxprepsAthlete {
+  careerId: string;
+  name: string;
+  sports: string[]; // "Boys Football"
+  graduatingClass: number | null;
+  school: string | null; // "Belleville (MI)"
+  state: string | null;
+  url: string;
+}
+
+interface MaxprepsGameTeam {
+  school: string;
+  score: number | null; // null until the game has a result
+  result: string | null;
+  record: string | null; // "2-2"
+}
+
+interface MaxprepsGame {
+  contestId: string;
+  date: string | null; // local ISO timestamp
+  sport: string | null;
+  gender: string | null;
+  level: string | null; // "Varsity", "JV"
+  hasResult: boolean;
+  teams: MaxprepsGameTeam[];
+  url: string;
+}
+
+interface MaxprepsSchoolDetail {
+  schoolId: string;
+  name: string;
+  mascot: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  phone: string | null;
+  association: string | null;
+  athleticDirector: string | null;
+  colors: string[];
+  about: string | null;
+  website: string | null;
+  sports: string[];
+  games: MaxprepsGame[]; // upcoming and recent
+  url: string;
+}
+
+interface MaxprepsSchoolPage {
+  results: MaxprepsSchool[];
+  total: number | null; // null: the site publishes no result count
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
+
+interface MaxprepsAthletePage {
+  results: MaxprepsAthlete[];
+  total: number | null; // null: the site publishes no result count
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
+
+  /**
+   * MaxPreps (maxpreps.com) high school sports: search schools and athletes, read a school's
+   * teams, games and scores.
+   */
+  interface Unit {
+    /**
+     * Read a MaxPreps school page by its url (from searchSchools): address, phone, state
+     * association, athletic director, colours, sports offered and its upcoming/recent games with
+     * scores.
+     */
+    getSchool(url: string): Promise<MaxprepsSchoolDetail>;
+
+    /**
+     * Find high-school athletes on MaxPreps by name ("Bryce Underwood"); returns each athlete's
+     * sports, graduating class, school and profile url.
+     */
+    searchAthletes(query: string): Promise<MaxprepsAthletePage>;
+
+    /**
+     * Find US high schools on MaxPreps by name ("Mater Dei", "De La Salle"); returns each school's
+     * id, city, state, mascot and the url getSchool takes.
+     */
+    searchSchools(query: string): Promise<MaxprepsSchoolPage>;
   }
 }
 
@@ -82822,6 +86007,177 @@ interface MixbookPromotion {
 
 declare namespace BowmarkProvider_mlb {
   // ── MLB — the unit's own declarations, verbatim ──
+type MlbReadInput = { thing: "fields"; where?: MlbFieldsWhere; fields?: string[] } | { thing: "search"; where: MlbSearchWhere; fields?: string[] } | { thing: "queryInfo"; where?: MlbQueryInfoWhere; fields?: string[] } | { thing: "people"; where?: MlbPeopleWhere; fields?: string[] } | { thing: "teams"; where?: MlbTeamsWhere; fields?: string[] } | { thing: "getReels"; where?: MlbGetReelsWhere; fields?: string[] } | { thing: "games"; where?: MlbGamesWhere; fields?: string[] } | { thing: "suggestedSearches"; where?: MlbSuggestedSearchesWhere; fields?: string[] } | { thing: "story"; where: MlbStoryWhere; fields?: string[] } | { thing: "playerStory"; where: MlbPlayerStoryWhere; fields?: string[] } | { thing: "playerStories"; where: MlbPlayerStoriesWhere; fields?: string[] } | { thing: "sections"; where?: MlbSectionsWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): types, commonFields, mediaPlayback, getReelBySlug, validateReel, contentTagDisplayValues, suggestedStories, containers, sectionTypes, sectionTypeFields.
+
+interface MlbFieldsWhere { // The `where` inputs of the `fields` thing.
+  ids?: number[]; // Ids (list of number).
+  searchType?: "PLAYS" | "UNIFIED" | "MILB_UNIFIED"; // Search type (one of the listed values). Values: PLAYS, UNIFIED, MILB_UNIFIED. Default: UNIFIED.
+  languagePreference?: "EN" | "ES"; // Language preference (one of the listed values). Values: EN, ES. Default: EN.
+}
+
+interface MlbSearchWhere { // The `where` inputs of the `search` thing.
+  query: string; // Text to search for.
+  limit?: number; // Maximum number of results to return. Default: 10.
+  page?: number; // Page number to return, starting at 1. Default: 0.
+  feedPreference?: "HOME" | "AWAY" | "NETWORK" | "BATTING_TEAM" | "PITCHING_TEAM" | "WORLD" | "THREE_D_VIZ" | "CMS"; // Feed preference (one of the listed values). Values: HOME, AWAY, NETWORK, BATTING_TEAM, PITCHING_TEAM, WORLD, THREE_D_VIZ, CMS. Default: CMS.
+  languagePreference?: "EN" | "ES"; // Language preference (one of the listed values). Values: EN, ES. Default: EN.
+  searchType?: "PLAYS" | "UNIFIED" | "MILB_UNIFIED"; // Search type (one of the listed values). Values: PLAYS, UNIFIED, MILB_UNIFIED. Default: UNIFIED.
+  contentPreference?: "CMS_FIRST" | "CMS_ONLY" | "PLAY_ONLY" | "MIXED"; // Content preference (one of the listed values). Values: CMS_FIRST, CMS_ONLY, PLAY_ONLY, MIXED. Default: CMS_FIRST.
+  contentGroup?: "DEFAULT" | "EXPERIENCE_A" | "EXPERIENCE_B" | "EXPERIENCE_C" | "EXPERIENCE_D" | "EXPERIENCE_E" | "EXPERIENCE_F"; // Content group (one of the listed values). Values: DEFAULT, EXPERIENCE_A, EXPERIENCE_B, EXPERIENCE_C, EXPERIENCE_D, EXPERIENCE_E, EXPERIENCE_F.
+  queryType?: "STRUCTURED" | "FREETEXT"; // Query type (one of the listed values). Values: STRUCTURED, FREETEXT. Default: STRUCTURED.
+  forgeInstance?: "MLB" | "MILB" | "OP_PROPS"; // Forge instance (one of the listed values). Values: MLB, MILB, OP_PROPS. Default: MLB.
+}
+
+interface MlbQueryInfoWhere { // The `where` inputs of the `queryInfo` thing.
+  queries?: string[]; // Queries (list of text).
+  languagePreference?: "EN" | "ES"; // Language preference (one of the listed values). Values: EN, ES. Default: EN.
+  queryType?: "STRUCTURED" | "FREETEXT"; // Query type (one of the listed values). Values: STRUCTURED, FREETEXT. Default: STRUCTURED.
+  includeCount?: boolean; // Include count (true/false flag). Default: false.
+}
+
+interface MlbPeopleWhere { // The `where` inputs of the `people` thing.
+  ids?: number[]; // Ids (list of number).
+}
+
+interface MlbTeamsWhere { // The `where` inputs of the `teams` thing.
+  ids?: number[]; // Ids (list of number).
+}
+
+interface MlbGetReelsWhere { // The `where` inputs of the `getReels` thing.
+  userId?: string; // User id (text).
+  orderBy?: "REEL_TITLE" | "DURATION" | "CREATED_AT" | "UPDATED_AT"; // Sort order of the results, by field. Default: CREATED_AT.
+  orderDirection?: "ASC" | "DESC"; // Order direction (one of the listed values). Values: ASC, DESC. Default: DESC.
+  limit?: number; // Maximum number of results to return. Default: 10.
+  page?: number; // Page number to return, starting at 1. Default: 0.
+}
+
+interface MlbGamesWhere { // The `where` inputs of the `games` thing.
+  ids?: number[]; // Ids (list of number).
+  languagePreference?: "EN" | "ES"; // Language preference (one of the listed values). Values: EN, ES. Default: EN.
+}
+
+interface MlbSuggestedSearchesWhere { // The `where` inputs of the `suggestedSearches` thing.
+  total?: number; // Total (number). Default: 6.
+}
+
+interface MlbStoryWhere { // The `where` inputs of the `story` thing.
+  search: string; // Text to search for.
+  searchType: "SLUG" | "FREETEXT_QUERY" | "STRUCTURED_QUERY"; // Search type (one of the listed values). Values: SLUG, FREETEXT_QUERY, STRUCTURED_QUERY.
+  limit?: number; // Maximum number of results to return. Default: 10.
+  preview?: boolean; // Preview (true/false flag). Default: false.
+  languagePreference?: "EN" | "ES"; // Language preference (one of the listed values). Values: EN, ES. Default: EN.
+  forgeInstance?: "MLB" | "MILB" | "OP_PROPS"; // Forge instance (one of the listed values). Values: MLB, MILB, OP_PROPS. Default: MLB.
+}
+
+interface MlbPlayerStoryWhere { // The `where` inputs of the `playerStory` thing.
+  playerId: number; // Player id (number).
+  experience?: "PLAYER_HIGHLIGHTS"; // Experience (one of the listed values). Values: PLAYER_HIGHLIGHTS.
+  experienceType?: string; // TODO - remove this once clients cut over to experienceType
+  startDate?: string; // Start date (text).
+  endDate?: string; // End date (text).
+  limit?: number; // Maximum number of results to return. Default: 20.
+  languagePreference?: "EN" | "ES"; // Language preference (one of the listed values). Values: EN, ES. Default: EN.
+  forgeInstance?: "MLB" | "MILB" | "OP_PROPS"; // Forge instance (one of the listed values). Values: MLB, MILB, OP_PROPS. Default: MLB.
+}
+
+interface MlbPlayerStoriesWhere { // The `where` inputs of the `playerStories` thing.
+  playerIds: number[]; // Player ids (list of number).
+  experience?: "PLAYER_HIGHLIGHTS"; // Experience (one of the listed values). Values: PLAYER_HIGHLIGHTS.
+  experienceType?: string; // TODO - remove this once clients cut over to experienceType
+  startDate?: string; // Start date (text).
+  endDate?: string; // End date (text).
+  limit?: number; // Maximum number of results to return. Default: 20.
+  languagePreference?: "EN" | "ES"; // Language preference (one of the listed values). Values: EN, ES. Default: EN.
+  forgeInstance?: "MLB" | "MILB" | "OP_PROPS"; // Forge instance (one of the listed values). Values: MLB, MILB, OP_PROPS. Default: MLB.
+}
+
+interface MlbSectionsWhere { // The `where` inputs of the `sections` thing.
+  ids?: number[]; // Ids (list of number).
+}
+
+interface MlbReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  fields: MlbSearchFieldMetadata[] | null; // Reads fields records from this site.
+  search: MlbPagedClipDetails | null; // Reads search records from this site.
+  queryInfo: MlbInfoResponse[] | null; // Reads info records from this site.
+  people: MlbPlayerInfo[] | null; // Reads people records from this site.
+  teams: MlbTeamInfo[] | null; // Reads teams records from this site.
+  getReels: MlbPagedReelResponse | null; // Reads reels records from this site.
+  games: MlbGame[] | null; // Reads games records from this site.
+  suggestedSearches: string[] | null; // Reads suggested searches records from this site.
+  story: MlbStory | null; // Reads story records from this site.
+  playerStory: MlbStory | null; // Reads player story records from this site.
+  playerStories: MlbStory[] | null; // Reads player stories records from this site.
+  sections: MlbSectionResponse | null; // Reads sections records from this site.
+}
+
+type MlbReadAnswer = MlbSearchFieldMetadata[] | MlbPagedClipDetails | MlbInfoResponse[] | MlbPlayerInfo[] | MlbTeamInfo[] | MlbPagedReelResponse | MlbGame[] | string[] | MlbStory | MlbStory[] | MlbSectionResponse | null; // The answer for the `thing` you picked: its type is that thing's entry in MlbReadAnswers.
+
+interface MlbSearchFieldMetadata { // Search field metadata record. Shows 6 of its 16 fields; ask for any other by name in `fields`.
+  id?: string | null; // Id of search field metadata (text).
+  category?: "BATTER" | "FIELDER" | "GAME" | "GENERAL" | "PITCHER" | "PLAYMETADATA" | "RUNNER" | "CONTENT" | "REVIEW" | "UNKNOWN" | null; // Category of search field metadata (one of the listed values).
+  description?: string | null; // Description of search field metadata (text).
+  defaultOperator?: string | null; // Default operator of search field metadata (text).
+  name?: string | null; // Name of search field metadata (text).
+  type?: "STRING" | "NUMBER" | "DATE" | "DATETIME" | "BOOLEAN" | "UNKNOWN" | "EMPTY" | null; // Type of search field metadata (one of the listed values). Values: STRING, NUMBER, DATE, DATETIME, BOOLEAN, UNKNOWN, EMPTY.
+}
+
+interface MlbPagedClipDetails { // Paged clip details record.
+  plays?: Record<string, unknown>[] | null; // List of plays of paged clip details (record).
+  total?: number | null; // Total of paged clip details (number).
+}
+
+interface MlbInfoResponse { // Info response record.
+  query?: string | null; // Query of info response (text).
+  valid?: boolean | null; // Valid of info response (true/false flag).
+  graph?: unknown | null; // Graph of info response (record).
+  count?: number | null; // Count of info response (number).
+}
+
+interface MlbPlayerInfo { // Player info record.
+  id?: number | null; // Id of player info (number).
+  name?: string | null; // Name of player info (text).
+  firstName?: string | null; // First name of player info (text).
+  lastName?: string | null; // Last name of player info (text).
+  mugshots?: Record<string, unknown>[] | null; // List of mugshots of player info (record).
+  playerHand?: string | null; // Player hand of player info (text).
+}
+
+interface MlbTeamInfo { // Team info record.
+  id?: number | null; // Id of team info (number).
+  triCode?: string | null; // Tri code of team info (text).
+  name?: string | null; // Name of team info (text).
+  shortName?: string | null; // Short name of team info (text).
+  logoUrl?: string | null; // Logo url of team info (text).
+}
+
+interface MlbPagedReelResponse { // Paged reel response record.
+  reels?: Record<string, unknown>[] | null; // List of reels of paged reel response (record).
+  total?: number | null; // Total of paged reel response (number).
+}
+
+interface MlbGame { // Game record. Shows 6 of its 14 fields; ask for any other by name in `fields`.
+  venueId?: number | null; // Venue id of game (number).
+  gameDate?: string | null; // Game date of game (text).
+  gamePk?: number | null; // Game pk of game (number).
+  status?: "CANCELLED" | "SCHEDULED" | "SUSPENDED" | "POSTPONED" | "LIVE" | "FINAL" | null; // Status of game (one of the listed values). Values: CANCELLED, SCHEDULED, SUSPENDED, POSTPONED, LIVE, FINAL.
+  headline?: string | null; // Headline of game (text).
+  seoTitle?: string | null; // Seo title of game (text).
+}
+
+interface MlbStory { // Story record. Shows 6 of its 17 fields; ask for any other by name in `fields`.
+  slug?: string | null; // Slug of story (text).
+  title?: string | null; // Title of story (text).
+  headline?: string | null; // Headline of story (text).
+  subHeadline?: string | null; // Sub headline of story (text).
+  description?: string | null; // Description of story (text).
+  summary?: string | null; // Summary of story (text).
+}
+
+interface MlbSectionResponse { // Section response record.
+  sections?: Record<string, unknown>[] | null; // List of sections of section response (record).
+  total?: number | null; // Total of section response (number).
+}
+
 interface mlbRow {
   id: string;
 }
@@ -83692,6 +87048,13 @@ interface MlbProspect {
    */
   interface Unit {
     /**
+     * Reads anything this site offers in one call: pick a `thing` (fields, types, commonFields,
+     * search, queryInfo, mediaPlayback, ...), give its `where` inputs, and list the `fields` you
+     * want back as dot paths like "state.stateName"; omit `fields` for every plain field.
+     */
+    read(input: MlbReadInput): Promise<MlbReadAnswer>;
+
+    /**
      * The 30 MLB teams (or a minor league's, via sportId) with id, name, abbreviation, league,
      * division and home ballpark. The door for every team id, e.g. listTeams().
      */
@@ -84532,6 +87895,64 @@ interface MossyoakCheckoutLink {
      * names it when the requested productType matched nothing.
      */
     searchProducts(opts?: {productType?: string, limit?: number}): Promise<MossyoakCatalogue>;
+  }
+}
+
+declare namespace BowmarkProvider_ms_now {
+  // ── MS NOW — the unit's own declarations, verbatim ──
+interface MsNowSearchArgs {
+  query: string;
+  limit?: number; // 1-20, default 10
+}
+
+interface MsNowSearchHit {
+  title: string;
+  url: string;
+  author: string | null;
+  published: string | null; // ISO timestamp
+  snippet: string | null;
+}
+
+interface MsNowGetArticleArgs {
+  url: string;
+}
+
+interface MsNowArticle {
+  url: string;
+  headline: string;
+  authors: string[];
+  published: string | null;
+  modified: string | null;
+  sections: string[];
+  description: string | null;
+  body: string; // full article text, paragraphs separated by blank lines
+}
+
+interface MsNowSearchPage {
+  results: MsNowSearchHit[]; // the rows this request returned, in MS NOW's order
+  total: number | null; // Queryly's match count for the whole query
+  page: number;
+  pageCount: number | null;
+  returned: number; // results.length
+  warnings: string[]; // empty when results is the whole answer; otherwise says how many matches were not returned
+}
+
+  /**
+   * Search MS NOW (formerly MSNBC, ms.now) news articles by keyword and read an article's full
+   * text, authors and dates.
+   */
+  interface Unit {
+    /**
+     * Searches MS NOW (formerly MSNBC) articles by keyword. Returns one page of results (title,
+     * link, author, date, snippet each) with the site's total match count.
+     */
+    search(args: MsNowSearchArgs): Promise<MsNowSearchPage>;
+
+    /**
+     * Reads one MS NOW article by URL: headline, authors, published and modified dates, section
+     * and full body text.
+     */
+    getArticle(args: MsNowGetArticleArgs): Promise<MsNowArticle>;
   }
 }
 
@@ -85825,6 +89246,144 @@ declare namespace BowmarkProvider_nationalbusinessfurniture {
   // ── National Business Furniture — the unit's own declarations, verbatim ──
 // National Business Furniture's OWN shapes — not a capability contract.
 
+type NationalbusinessfurnitureSiteReadInput = { thing: "availableStores"; where?: NationalbusinessfurnitureSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: NationalbusinessfurnitureSiteCategoriesWhere; fields?: string[] } | { thing: "looknbuy"; where?: NationalbusinessfurnitureSiteLooknbuyWhere; fields?: string[] } | { thing: "pickupLocations"; where?: NationalbusinessfurnitureSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: NationalbusinessfurnitureSiteProductsWhere; fields?: string[] } | { thing: "route"; where: NationalbusinessfurnitureSiteRouteWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): attributesForm, attributesList, cmsBlocks, cmsPage, company, compareList, countries, country, currency, customAttributeMetadataV2, dynamicBlocks, getAmCookieBar, getAmCookieGroups, getAmCookieInformationBar, getAmCookieSettingsBar, getBylooknbuyId, getHostedProUrl, getVaultConfig, nbfIdentityByPrimaryUuid, negotiableQuote, negotiableQuoteTemplate, negotiableQuoteTemplates, negotiableQuotes, productReviewRatingsMetadata, recaptchaFormConfig, recaptchaV3Config, storeConfig.
+
+interface NationalbusinessfurnitureSiteAvailableStoresWhere { // The `where` inputs of the `availableStores` thing.
+  useCurrentGroup?: boolean; // Filter store views by the current store group.
+}
+
+interface NationalbusinessfurnitureSiteCategoriesWhere { // The `where` inputs of the `categories` thing.
+  filters?: NationalbusinessfurnitureSiteCategoryFilterInput; // Identifies which Category filter inputs to search for and return.
+  pageSize?: number; // Specifies the maximum number of results to return at once. The default value is 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+}
+
+interface NationalbusinessfurnitureSiteLooknbuyWhere { // The `where` inputs of the `looknbuy` thing.
+  filter?: NationalbusinessfurnitureSiteLooknbuyFilterInput; // Identifies which looknbuy fields to search for and return.
+  pageSize?: number; // How many items should show on the page. Default: 5.
+  currentPage?: number; // Allows to ussing paging it start with 1. Default: 1.
+}
+
+interface NationalbusinessfurnitureSitePickupLocationsWhere { // The `where` inputs of the `pickupLocations` thing.
+  area?: NationalbusinessfurnitureSiteAreaInput; // Perform search by location using radius and search term.
+  filters?: NationalbusinessfurnitureSitePickupLocationFilterInput; // Apply filters by attributes.
+  sort?: NationalbusinessfurnitureSitePickupLocationSortInput; // Specifies which attribute to sort on, and whether to return the results in ascending or descending order.
+  pageSize?: number; // The maximum number of pickup locations to return at once. The attribute is optional. Default: 20.
+  currentPage?: number; // Specifies which page of results to return. The default value is 1.
+  productsInfo?: NationalbusinessfurnitureSiteProductInfoInput[]; // Information about products which should be delivered.
+}
+
+interface NationalbusinessfurnitureSiteProductsWhere { // The `where` inputs of the `products` thing.
+  search?: string; // One or more keywords to use in a full-text search.
+  filter?: NationalbusinessfurnitureSiteProductAttributeFilterInput; // The product attributes to search for and return.
+  pageSize?: number; // The maximum number of results to return at once. The default value is 20.
+  currentPage?: number; // The page of results to return. The default value is 1.
+  sort?: NationalbusinessfurnitureSiteProductAttributeSortInput; // Specifies which attributes to sort on, and whether to return the results in ascending or descending order.
+}
+
+interface NationalbusinessfurnitureSiteRouteWhere { // The `where` inputs of the `route` thing.
+  url: string; // A `url_key` appended by the `url_suffix, if one exists.
+}
+
+interface NationalbusinessfurnitureSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  availableStores: NationalbusinessfurnitureSiteStoreConfig[] | null; // Get a list of available store views and their config information.
+  categories: NationalbusinessfurnitureSiteCategoryResult | null; // Return a list of categories that match the specified filter.
+  looknbuy: NationalbusinessfurnitureSiteLooknbuyOutput | null; // The Impelemention to resolve Looknbuy
+  pickupLocations: NationalbusinessfurnitureSitePickupLocations | null; // The pickup locations query searches for locations that match the search request requirements.
+  products: NationalbusinessfurnitureSiteProducts | null; // Search for products that match the criteria specified in the `search` and `filter` attributes.
+  route: NationalbusinessfurnitureSiteRoutableInterface | null; // Return the full details for a specified product, category, or CMS page.
+}
+
+type NationalbusinessfurnitureSiteReadAnswer = NationalbusinessfurnitureSiteStoreConfig[] | NationalbusinessfurnitureSiteCategoryResult | NationalbusinessfurnitureSiteLooknbuyOutput | NationalbusinessfurnitureSitePickupLocations | NationalbusinessfurnitureSiteProducts | NationalbusinessfurnitureSiteRoutableInterface | null; // The answer for the `thing` you picked: its type is that thing's entry in NationalbusinessfurnitureSiteReadAnswers.
+
+interface NationalbusinessfurnitureSiteStoreConfig { // Contains information about a store's configuration. Shows 4 of its 229 fields; ask for any other by name in `fields`.
+  absolute_footer?: string | null; // Contains scripts that must be included in the HTML before the closing `<body>` tag.
+  allow_gift_receipt?: string | null; // Indicates if the gift sender has the option to send a gift receipt. Possible values: 1 (Yes) and 0 (No).
+  allow_gift_wrapping_on_order?: string | null; // Indicates whether gift wrapping can be added for the entire order. Possible values: 1 (Yes) and 0 (No).
+  allow_gift_wrapping_on_order_items?: string | null; // Indicates whether gift wrapping can be added for individual order items. Possible values: 1 (Yes) and 0 (No).
+}
+
+interface NationalbusinessfurnitureSiteCategoryFilterInput { // Defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for. Shows 4 of its 7 inputs; any other is accepted by name.
+  category_uid?: Record<string, unknown>; // Filter by the unique category ID for a `CategoryInterface` object.
+  ids?: Record<string, unknown>; // Deprecated: use 'category_uid' to filter uniquely identifiers of categories.
+  name?: Record<string, unknown>; // Filter by the display name of the category.
+  url_key?: Record<string, unknown>; // Filter by the part of the URL that identifies the category.
+}
+
+interface NationalbusinessfurnitureSiteCategoryResult { // Contains a collection of `CategoryTree` objects and pagination information.
+  items?: Record<string, unknown>[] | null; // A list of categories that match the filter criteria.
+  page_info?: Record<string, unknown> | null; // An object that includes the `page_info` and `currentPage` values specified in the query.
+  total_count?: number | null; // The total number of categories that match the criteria.
+}
+
+interface NationalbusinessfurnitureSiteLooknbuyFilterInput { // looknbuyFilterInput specifies the fields to search
+  look_id?: Record<string, unknown>; // look_id
+  look_name?: Record<string, unknown>; // look_name
+  or?: Record<string, unknown>; // The keyword required to perform a logical OR comparison
+  url_key?: Record<string, unknown>; // url_key
+}
+
+interface NationalbusinessfurnitureSiteLooknbuyOutput { // Looknbuy output record.
+  items?: Record<string, unknown>[] | null; // items
+  total_count?: number | null; // total_count
+}
+
+interface NationalbusinessfurnitureSiteAreaInput { // AreaInput defines the parameters which will be used for filter by specified location.
+  radius: number; // The radius for the search in KM.
+  search_term: string; // The country code where search must be performed. Required parameter together with region, city or postcode.
+}
+
+interface NationalbusinessfurnitureSitePickupLocationFilterInput { // PickupLocationFilterInput defines the list of attributes and filters for the search. Shows 4 of its 8 inputs; any other is accepted by name.
+  city?: Record<string, unknown>; // Filter by city.
+  country_id?: Record<string, unknown>; // Filter by country.
+  name?: Record<string, unknown>; // Filter by pickup location name.
+  pickup_location_code?: Record<string, unknown>; // Filter by pickup location code.
+}
+
+interface NationalbusinessfurnitureSitePickupLocationSortInput { // PickupLocationSortInput specifies attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. Shows 4 of its 16 inputs; any other is accepted by name.
+  city?: "ASC" | "DESC"; // City where pickup location is placed.
+  contact_name?: "ASC" | "DESC"; // Name of the contact person.
+  description?: "ASC" | "DESC"; // Description of the pickup location.
+  name?: "ASC" | "DESC"; // The pickup location name. Customer use this to identify the pickup location.
+}
+
+interface NationalbusinessfurnitureSiteProductInfoInput { // Product Information used for Pickup Locations search.
+  sku: string; // Product SKU.
+}
+
+interface NationalbusinessfurnitureSitePickupLocations { // Top level object returned in a pickup locations search.
+  items?: Record<string, unknown>[] | null; // An array of pickup locations that match the specific search request.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The number of products returned.
+}
+
+interface NationalbusinessfurnitureSiteProductAttributeFilterInput { // Defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for. Shows 4 of its 10 inputs; any other is accepted by name.
+  description?: Record<string, unknown>; // Attribute label: Description
+  name?: Record<string, unknown>; // Attribute label: Product Name
+  price?: Record<string, unknown>; // Attribute label: Price
+  sku?: Record<string, unknown>; // Attribute label: Product #
+}
+
+interface NationalbusinessfurnitureSiteProductAttributeSortInput { // Specifies the attribute to use for sorting search results and indicates whether the results are sorted in ascending or descending order. It's possible to sort products using searchable attributes w... Shows 4 of its 5 inputs; any other is accepted by name.
+  color?: "ASC" | "DESC"; // Attribute label: Color
+  name?: "ASC" | "DESC"; // Attribute label: Product Name
+  position?: "ASC" | "DESC"; // Sort by the position assigned to each product.
+  price?: "ASC" | "DESC"; // Attribute label: Price
+}
+
+interface NationalbusinessfurnitureSiteProducts { // Contains the results of a `products` query. Shows 4 of its 6 fields; ask for any other by name in `fields`.
+  aggregations?: Record<string, unknown>[] | null; // A bucket that contains the attribute code and label for each filterable option.
+  items?: Record<string, unknown>[] | null; // An array of products that match the specified search criteria.
+  page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
+  total_count?: number | null; // The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.
+}
+
+interface NationalbusinessfurnitureSiteRoutableInterface { // Routable entities serve as the model for a rendered page.
+  redirect_code?: number | null; // Contains 0 when there is no redirect error. A value of 301 indicates the URL of the requested resource has been changed permanently, while a value of 302 indicates a temporary redirect.
+  relative_url?: string | null; // The internal relative URL. If the specified URL is a redirect, the query returns the redirected URL, not the original.
+  type?: "CMS_PAGE" | "PRODUCT" | "CATEGORY" | null; // One of PRODUCT, CATEGORY, or CMS_PAGE.
+}
+
 interface NbfProductSummary {
   sku: string; // the key getProduct takes
   name: string;
@@ -85843,7 +89402,7 @@ interface NbfOptionChoice {
 } // with 2+ groups: the cheapest variant carrying this choice
 
 interface NbfOption {
-  groupLabel: string; // "Finish" — the real swatch group name, not GraphQL's opaque attribute_code
+  groupLabel: string; // "Finish" — the real swatch group name, not the site's opaque attribute_code
   choices: NbfOptionChoice[];
 }
 
@@ -85900,6 +89459,14 @@ interface NbfCheckoutHandoff {
    * estimate.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (attributesForm, attributesList,
+     * availableStores, categories, cmsBlocks, cmsPage, ...), give its `where` inputs, and list the
+     * `fields` you want back as dot paths like "state.stateName"; omit `fields` for every plain
+     * field.
+     */
+    read(input: NationalbusinessfurnitureSiteReadInput): Promise<NationalbusinessfurnitureSiteReadAnswer>;
+
     /**
      * Searches National Business Furniture's office-furniture catalog by free text (e.g. "desk",
      * "conference chair") and returns every match's SKU, name, entry URL and starting price. The
@@ -95855,6 +99422,154 @@ interface ImageDetail {
   relatedImages: { id: string; url: string; thumbnailUrl: string | null }[];
 }
 
+interface SearchVideosArgs {
+  query: string;
+  page?: number; // 1-based page of 100 hits
+}
+
+interface VideoHit {
+  id: string;
+  title: string;
+  description: string;
+  url: string; // the video's Pixabay page
+  thumbnailUrl: string | null;
+  previewUrl: string | null; // a small mp4 preview
+  width: number | null;
+  height: number | null;
+  durationSeconds: number | null;
+  uploadedAt: string | null;
+  likes: number | null;
+  comments: number | null;
+  tags: string[];
+  isAiGenerated: boolean;
+  creator: { id: string; username: string; profileUrl: string | null } | null;
+}
+
+interface VideoSearchResult {
+  query: string;
+  items: VideoHit[];
+  page: number;
+  pages: number;
+  total: number;
+}
+
+interface GetVideoArgs {
+  url: string;
+}
+
+interface VideoDetail {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  thumbnailUrl: string | null;
+  previewUrl: string | null;
+  width: number | null;
+  height: number | null;
+  durationSeconds: number | null;
+  uploadedAt: string | null;
+  publishedAt: string | null;
+  isAiGenerated: boolean;
+  isEditorsChoice: boolean;
+  likes: number | null;
+  comments: number | null;
+  views: number | null;
+  downloads: number | null;
+  collections: number | null;
+  tags: string[];
+  sizes: { label: string /* HD, Full HD, Quad HD, 4K UHD or Original */; dimensions: string; size: string; format: string; fileName: string }[];
+  creator: { id: string; username: string; profileUrl: string | null } | null;
+  relatedVideos: { id: string; url: string; thumbnailUrl: string | null }[];
+}
+
+interface SearchAudioArgs {
+  query: string;
+  page?: number; // 1-based page of 20 hits
+}
+
+interface AudioSearchResult {
+  query: string;
+  items: AudioHit[];
+  page: number;
+  pages: number;
+  total: number;
+}
+
+interface AudioHit {
+  id: string;
+  kind: string; // music or sound_effect
+  title: string;
+  description: string;
+  url: string; // the track's Pixabay page
+  audioUrl: string | null; // the playable mp3 preview
+  coverUrl: string | null;
+  durationSeconds: number | null;
+  uploadedAt: string | null;
+  likes: number | null;
+  comments: number | null;
+  tags: string[];
+  isAiGenerated: boolean;
+  creator: { id: string; username: string; profileUrl: string | null } | null;
+}
+
+interface GetAudioArgs {
+  url: string;
+}
+
+interface AudioDetail {
+  id: string;
+  kind: string; // music or sound_effect
+  title: string;
+  description: string;
+  url: string;
+  audioUrl: string | null; // the playable mp3 stream
+  downloadUrl: string | null; // the file download link the page uses
+  coverUrl: string | null;
+  durationSeconds: number | null;
+  format: string | null;
+  fileSize: string | null;
+  uploadedAt: string | null;
+  publishedAt: string | null;
+  isAiGenerated: boolean;
+  isEditorsChoice: boolean;
+  likes: number | null;
+  comments: number | null;
+  views: number | null;
+  downloads: number | null;
+  collections: number | null;
+  tags: string[];
+  genres: string[];
+  moods: string[];
+  themes: string[];
+  attributionHtml: string | null; // the credit line Pixabay suggests
+  creator: { id: string; username: string; profileUrl: string | null } | null;
+  relatedTracks: { id: string; title: string; url: string; audioUrl: string | null }[];
+}
+
+interface GetUserArgs {
+  url: string;
+}
+
+interface UserProfile {
+  id: string;
+  username: string;
+  profileUrl: string;
+  displayName: string | null;
+  location: string | null;
+  joined: string | null; // e.g. "Joined March 11, 2024"
+  about: string;
+  avatarUrl: string | null;
+  followers: number | null;
+  following: number | null;
+  likes: number | null;
+  views: number | null;
+  downloads: number | null;
+  isAvailableForHire: boolean;
+  isAmbassador: boolean;
+  socialLinks: string[];
+  mediaCounts: Record<string, number>; // items per type, e.g. music
+}
+
   /**
    * Pixabay — free stock photos, illustrations, vectors, videos, music and sound effects:
    * search, read and download.
@@ -95871,6 +99586,43 @@ interface ImageDetail {
      * related images.
      */
     getImage(args: GetImageArgs): Promise<ImageDetail>;
+
+    /**
+     * Searches Pixabay's free stock videos by keyword, returning each clip with its size, length,
+     * creator and tags, plus the page count.
+     */
+    searchVideos(args: SearchVideosArgs): Promise<VideoSearchResult>;
+
+    /**
+     * Reads one video page: title, tags, creator, available resolutions with file sizes, views,
+     * downloads, likes and the related videos.
+     */
+    getVideo(args: GetVideoArgs): Promise<VideoDetail>;
+
+    /**
+     * Searches Pixabay's free music tracks by keyword, returning each track with its length,
+     * creator, tags and a playable preview, plus the page count.
+     */
+    searchMusic(args: SearchAudioArgs): Promise<AudioSearchResult>;
+
+    /**
+     * Searches Pixabay's free sound effects by keyword, returning each clip with its length,
+     * creator, tags and a playable preview, plus the page count.
+     */
+    searchSoundEffects(args: SearchAudioArgs): Promise<AudioSearchResult>;
+
+    /**
+     * Reads one music track or sound-effect page: title, creator, length, genres, moods, tags,
+     * stream and download URLs, licence attribution, counts and related tracks.
+     */
+    getAudio(args: GetAudioArgs): Promise<AudioDetail>;
+
+    /**
+     * Reads one creator's profile: display name, location, join date, follower and following
+     * counts, total likes, views and downloads, social links and how many items they have per
+     * type.
+     */
+    getUser(args: GetUserArgs): Promise<UserProfile>;
 
     /**
      * Makes a NEW Pixabay account with the person's own email and password, in a session. Pauses
@@ -99666,6 +103418,38 @@ interface PypiProject {
 
 declare namespace BowmarkProvider_quickbooks {
   // ── QuickBooks — the unit's own declarations, verbatim ──
+type QuickbooksSiteReadInput = { thing: "searchAccountantListings"; where: QuickbooksSiteSearchAccountantListingsWhere; fields?: string[] } | { thing: "publicAccountantListings"; where: QuickbooksSitePublicAccountantListingsWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back.
+
+interface QuickbooksSiteSearchAccountantListingsWhere { // The `where` inputs of the `searchAccountantListings` thing.
+  first: number; // Maximum number of results to return.
+  filterBy?: string; // Filter by (text).
+  with?: string; // With (text).
+  after?: string; // Return results after this position (cursor from a previous answer).
+  orderBy?: string; // Sort order of the results, by field.
+}
+
+interface QuickbooksSitePublicAccountantListingsWhere { // The `where` inputs of the `publicAccountantListings` thing.
+  first: number; // Maximum number of results to return.
+  filterBy: string; // Filter by (text).
+}
+
+interface QuickbooksSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  searchAccountantListings: QuickbooksSiteMatchmakingSearchListingConnection | null; // Reads accountant listings records from this site.
+  publicAccountantListings: QuickbooksSiteMatchmakingPublicListingConnection | null; // Reads public accountant listings records from this site.
+}
+
+type QuickbooksSiteReadAnswer = QuickbooksSiteMatchmakingSearchListingConnection | QuickbooksSiteMatchmakingPublicListingConnection | null; // The answer for the `thing` you picked: its type is that thing's entry in QuickbooksSiteReadAnswers.
+
+interface QuickbooksSiteMatchmakingSearchListingConnection { // Matchmaking search listing connection record.
+  edges?: Record<string, unknown> | null; // Edges of matchmaking search listing connection (record).
+  totalCount?: number | null; // Total count of matchmaking search listing connection (number).
+  pageInfo?: Record<string, unknown> | null; // Page info of matchmaking search listing connection (record).
+}
+
+interface QuickbooksSiteMatchmakingPublicListingConnection { // Matchmaking public listing connection record.
+  edges?: Record<string, unknown> | null; // Edges of matchmaking public listing connection (record).
+}
+
 /** One component on status.quickbooks.intuit.com — a region under a product. */
 interface QuickbooksStatusComponent {
   product: string | null;
@@ -100263,6 +104047,13 @@ interface QuickbooksAccountant {
    * status.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (searchAccountantListings,
+     * publicAccountantListings), give its `where` inputs, and list the `fields` you want back as
+     * dot paths like "state.stateName"; omit `fields` for every plain field.
+     */
+    read(input: QuickbooksSiteReadInput): Promise<QuickbooksSiteReadAnswer>;
+
     /**
      * Estimates the combined sales tax rate for a US city and ZIP, split into state, city and
      * district rates
@@ -116099,6 +119890,78 @@ interface state_govPressRelease {
   text: string;
 }
 
+interface state_govBriefingRow {
+  title: string; // From the URL slug, title-cased
+  date: string; // YYYY-MM-DD, from the slug; empty when it has none
+  lastModified: string;
+  url: string;
+}
+
+interface state_govBriefing {
+  title: string;
+  speakers: string;
+  location: string;
+  date: string;
+  url: string;
+  tags: string[];
+  text: string; // Full transcript, plain
+}
+
+interface state_govOfficialRow {
+  name: string; // From the URL slug, title-cased; getOfficial has the real name
+  kind: "people" | "biographies";
+  lastModified: string;
+  url: string;
+}
+
+interface state_govOfficial {
+  name: string;
+  roles: string[]; // Header lines: title, then bureau
+  tenure: string;
+  url: string;
+  tags: string[];
+  biography: string;
+}
+
+interface state_govBureauRow {
+  name: string; // From the URL slug, title-cased; getBureau has the real title
+  parent: string; // The office above it, from the slug; empty at the top
+  lastModified: string;
+  url: string;
+}
+
+interface state_govBureau {
+  name: string;
+  mission: string;
+  leaders: { name: string; title: string; url: string }[];
+  url: string;
+}
+
+interface state_govReportRow {
+  title: string; // From the URL slug, title-cased
+  series: string; // The report family, from the first slug segment
+  lastModified: string;
+  url: string;
+}
+
+interface state_govReport {
+  title: string;
+  description: string;
+  pdfUrl: string; // Empty when the page offers no PDF
+  sections: string[];
+  text: string;
+  truncated: boolean; // True when text was cut at 100,000 characters
+  url: string;
+}
+
+interface state_govVisaPage {
+  title: string;
+  path: string[]; // Breadcrumb, from U.S. Visas down to this page
+  text: string;
+  links: { text: string; url: string }[];
+  url: string;
+}
+
   /**
    * U.S. State Department: travel advisories, country pages, press releases, briefings,
    * officials and published reports.
@@ -116142,6 +120005,61 @@ interface state_govPressRelease {
      * its state.gov URL.
      */
     getPressRelease(url: string): Promise<state_govPressRelease>;
+
+    /**
+     * Lists the department's press briefings, newest first: title, date and link. Pass { limit }
+     * to narrow.
+     */
+    listBriefings(args?: {limit?: number}): Promise<state_govBriefingRow[]>;
+
+    /**
+     * Returns one press briefing transcript: its date, speakers, location and full text, by its
+     * state.gov URL.
+     */
+    getBriefing(url: string): Promise<state_govBriefing>;
+
+    /**
+     * Lists the officials who have a biography page on state.gov: name, page kind and link. Pass {
+     * query, limit } to narrow by name.
+     */
+    listOfficials(args?: {query?: string, limit?: number}): Promise<state_govOfficialRow[]>;
+
+    /**
+     * Returns one official's biography page: name, role lines, tenure, tags and biography, by its
+     * state.gov URL.
+     */
+    getOfficial(url: string): Promise<state_govOfficial>;
+
+    /**
+     * Returns one travel.state.gov visa page (for example the Visitor Visa page): its title,
+     * breadcrumb, text and links, by its URL. Loads in a headed browser and can take about a
+     * minute.
+     */
+    getVisaInformation(url: string): Promise<state_govVisaPage>;
+
+    /**
+     * Lists the department's bureaus and offices: name, parent office and link. Pass { query,
+     * limit } to narrow by name.
+     */
+    listBureaus(args?: {query?: string, limit?: number}): Promise<state_govBureauRow[]>;
+
+    /**
+     * Returns one bureau or office page: its name, mission and the leaders shown on it, by its
+     * state.gov URL.
+     */
+    getBureau(url: string): Promise<state_govBureau>;
+
+    /**
+     * Lists published department reports (the first 1,000 on the site's report sitemap): title,
+     * series and link. Pass { query, limit } to narrow by title or series.
+     */
+    listReports(args?: {query?: string, limit?: number}): Promise<state_govReportRow[]>;
+
+    /**
+     * Returns one report page: title, description, PDF link, section titles and the page text
+     * (capped at 100,000 characters), by its state.gov URL.
+     */
+    getReport(url: string): Promise<state_govReport>;
   }
 }
 
@@ -124295,6 +128213,173 @@ interface TmzNewsSidebar {
 
 declare namespace BowmarkProvider_toast {
   // ── Toast — the unit's own declarations, verbatim ──
+type ToastSiteReadInput = { thing: "restaurantV2"; where: ToastSiteRestaurantV2Where; fields?: string[] } | { thing: "restaurantV2ByShortUrl"; where: ToastSiteRestaurantV2ByShortUrlWhere; fields?: string[] } | { thing: "nearbyRestaurantSearch"; where: ToastSiteNearbyRestaurantSearchWhere; fields?: string[] } | { thing: "restaurants"; where: ToastSiteRestaurantsWhere; fields?: string[] } | { thing: "diningOptions"; where: ToastSiteDiningOptionsWhere; fields?: string[] } | { thing: "paginatedMenuItems"; where: ToastSitePaginatedMenuItemsWhere; fields?: string[] } | { thing: "menuItemDetails"; where: ToastSiteMenuItemDetailsWhere; fields?: string[] } | { thing: "searchMenus"; where: ToastSiteSearchMenusWhere; fields?: string[] } | { thing: "popularItems"; where: ToastSitePopularItemsWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back.
+
+interface ToastSiteRestaurantV2Where { // The `where` inputs of the `restaurantV2` thing.
+  guid: string; // Guid (text).
+}
+
+interface ToastSiteRestaurantV2ByShortUrlWhere { // The `where` inputs of the `restaurantV2ByShortUrl` thing.
+  shortUrl: string; // Short url (text).
+}
+
+interface ToastSiteNearbyRestaurantSearchWhere { // The `where` inputs of the `nearbyRestaurantSearch` thing.
+  input: ToastSiteNearbyRestaurantSearchInput; // Input (record).
+}
+
+interface ToastSiteRestaurantsWhere { // The `where` inputs of the `restaurants` thing.
+  guids: string[]; // Guids (list of text).
+}
+
+interface ToastSiteDiningOptionsWhere { // The `where` inputs of the `diningOptions` thing.
+  input: ToastSiteDiningOptionsInput; // Input (record).
+}
+
+interface ToastSitePaginatedMenuItemsWhere { // The `where` inputs of the `paginatedMenuItems` thing.
+  input: ToastSitePaginatedMenusInput; // Input (record).
+}
+
+interface ToastSiteMenuItemDetailsWhere { // The `where` inputs of the `menuItemDetails` thing.
+  input: ToastSiteMenuItemDetailsInput; // Input (record).
+}
+
+interface ToastSiteSearchMenusWhere { // The `where` inputs of the `searchMenus` thing.
+  input: ToastSiteMenuSearchInput; // Input (record).
+}
+
+interface ToastSitePopularItemsWhere { // The `where` inputs of the `popularItems` thing.
+  input: ToastSitePopularItemsInput; // Input (record).
+}
+
+interface ToastSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
+  restaurantV2: ToastSiteRestaurantOrError | null; // Reads restaurant v2 records from this site.
+  restaurantV2ByShortUrl: ToastSiteRestaurantOrError | null; // Reads restaurant v2 by short url records from this site.
+  nearbyRestaurantSearch: ToastSiteRestaurantSearchResponse | null; // Reads nearby restaurant search records from this site.
+  restaurants: ToastSiteRestaurantOrError[] | null; // Reads restaurants records from this site.
+  diningOptions: ToastSiteDiningOption[] | null; // Reads dining options records from this site.
+  paginatedMenuItems: ToastSitePaginatedMenus | null; // Reads paginated menu items records from this site.
+  menuItemDetails: ToastSiteMenuItem | null; // Reads menu item details records from this site.
+  searchMenus: ToastSiteMenuSearchResponse | null; // Reads menus records from this site.
+  popularItems: ToastSitePopularItemsResponseOrError | null; // Reads popular items records from this site.
+}
+
+type ToastSiteReadAnswer = ToastSiteRestaurantOrError | ToastSiteRestaurantSearchResponse | ToastSiteRestaurantOrError[] | ToastSiteDiningOption[] | ToastSitePaginatedMenus | ToastSiteMenuItem | ToastSiteMenuSearchResponse | ToastSitePopularItemsResponseOrError | null; // The answer for the `thing` you picked: its type is that thing's entry in ToastSiteReadAnswers.
+
+interface ToastSiteRestaurant { // Restaurant record.
+  onlineOrderingEnabled?: boolean | null; // Online ordering enabled of restaurant (true/false flag).
+  toastLocalEnabled?: boolean | null; // Toast local enabled of restaurant (true/false flag).
+  guid?: string | null; // Guid of restaurant (text).
+  timeZoneId?: string | null; // Time zone id of restaurant (text).
+  hasOnlineOrderingModule?: boolean | null; // Has online ordering module of restaurant (true/false flag).
+  deliveryServiceAvailability?: Record<string, unknown> | null; // Delivery service availability of restaurant (record).
+  schedule?: Record<string, unknown> | null; // Schedule of restaurant (record).
+  shortUrl?: string | null; // Short url of restaurant (text).
+  name?: string | null; // Name of restaurant (text).
+  cuisineType?: string | null; // Cuisine type of restaurant (text).
+  imageUrl?: string | null; // Image url of restaurant (text).
+  managementSetGuid?: string | null; // Management set guid of restaurant (text).
+  minimumDeliveryTime?: number | null; // Minimum delivery time of restaurant (number).
+  minimumTakeoutTime?: number | null; // Minimum takeout time of restaurant (number).
+  deliveryPromotionText?: string | null; // Delivery promotion text of restaurant (text).
+  location?: Record<string, unknown> | null; // Location of restaurant (record).
+  priceTier?: Record<string, unknown> | null; // Price tier of restaurant (record).
+  aggregatedExperienceRatingForDisplay?: Record<string, unknown> | null; // Aggregated experience rating for display of restaurant (record).
+  deliveryProviders?: Record<string, unknown>[] | null; // List of delivery providers of restaurant (record).
+  bookingConfig?: Record<string, unknown> | null; // Booking config of restaurant (record).
+}
+
+type ToastSiteRestaurantOrError = ToastSiteRestaurant; // Restaurant or error record.
+
+interface ToastSiteNearbyRestaurantSearchInput { // Nearby restaurant search input record.
+  limit: number; // Maximum number of results to return.
+  coordinates: Record<string, unknown>; // Coordinates of nearby restaurant search input (record).
+  deliveryAvailable?: boolean; // Delivery available of nearby restaurant search input (true/false flag).
+}
+
+interface ToastSiteRestaurantSearchResponse { // Restaurant search response record.
+  results?: Record<string, unknown>[] | null; // List of results of restaurant search response (record).
+}
+
+interface ToastSiteDiningOptionsInput { // Dining options input record.
+  includeBehaviors: (string | number)[]; // Include behaviors of dining options input (list of values).
+  restaurantGuid?: string; // Restaurant guid of dining options input (text).
+  futureFulfillmentDaysAhead?: number; // Future fulfillment days ahead of dining options input (number).
+}
+
+interface ToastSiteDiningOption { // Dining option record.
+  behavior?: string | number | null; // Behavior of dining option (value).
+  guid?: string | null; // Guid of dining option (text).
+  asapSchedule?: Record<string, unknown> | null; // Asap schedule of dining option (record).
+  futureSchedule?: Record<string, unknown> | null; // Future schedule of dining option (record).
+}
+
+interface ToastSitePaginatedMenusInput { // Paginated menus input record.
+  restaurantGuid?: string; // Restaurant guid of paginated menus input (text).
+  menuApi?: string; // Menu api of paginated menus input (text). Known values: DO, TOASTWEB.
+  visibility?: string; // Visibility of paginated menus input (text). Known values: TOAST_ONLINE_ORDERING, POS, ORDERING_PARTNERS.
+  slug?: string; // Slug of paginated menus input (text).
+  respectAvailability?: boolean; // Respect availability of paginated menus input (true/false flag).
+  hideOutOfStockItems?: boolean; // Hide out of stock items of paginated menus input (true/false flag).
+  limit?: number; // Maximum number of results to return.
+  consolidateItemsByProduct?: boolean; // Consolidate items by product of paginated menus input (true/false flag).
+  includeSlugs?: boolean; // Include slugs of paginated menus input (true/false flag).
+  sort?: Record<string, unknown>[]; // Sort order of the results, by field.
+}
+
+interface ToastSitePaginatedMenus { // Paginated menus record.
+  menus?: Record<string, unknown>[] | null; // List of menus of paginated menus (record).
+}
+
+interface ToastSiteMenuItemDetailsInput { // Menu item details input record.
+  shortUrl?: string; // Short url of menu item details input (text).
+  restaurantGuid?: string; // Restaurant guid of menu item details input (text).
+  menuApi?: string; // Menu api of menu item details input (text). Known values: DO, TOASTWEB.
+  visibility?: string; // Visibility of menu item details input (text). Known values: TOAST_ONLINE_ORDERING, POS, ORDERING_PARTNERS.
+  slug?: string; // Slug of menu item details input (text).
+  respectAvailability?: boolean; // Respect availability of menu item details input (true/false flag).
+  itemGroupGuid?: string; // Item group guid of menu item details input (text).
+  includeSlugs?: boolean; // Include slugs of menu item details input (true/false flag).
+  itemGuid?: string; // Item guid of menu item details input (text).
+}
+
+interface ToastSiteMenuItem { // Menu item record.
+  guid?: string | null; // Guid of menu item (text).
+  itemGroupGuid?: string | null; // Item group guid of menu item (text).
+  description?: string | null; // Description of menu item (text).
+  name?: string | null; // Name of menu item (text).
+  prices?: number[] | null; // List of prices of menu item (number).
+  calories?: number | null; // Calories of menu item (number).
+  outOfStock?: boolean | null; // Out of stock of menu item (true/false flag).
+  imageUrls?: Record<string, unknown> | null; // Image urls of menu item (record).
+  modifierGroups?: Record<string, unknown>[] | null; // List of modifier groups of menu item (record).
+  hasModifiers?: boolean | null; // Has modifiers of menu item (true/false flag).
+}
+
+interface ToastSiteMenuSearchInput { // Menu search input record.
+  restaurantGuid: string; // Restaurant guid of menu search input (text).
+  searchTerm: string; // Search term of menu search input (text).
+  visibility?: string[]; // Visibility of menu search input (list of text). Known values: TOAST_ONLINE_ORDERING, POS, ORDERING_PARTNERS.
+  consolidateItemsByProduct?: boolean; // Consolidate items by product of menu search input (true/false flag).
+  includeSlugs?: boolean; // Include slugs of menu search input (true/false flag).
+  sort?: Record<string, unknown>[]; // Sort order of the results, by field.
+  size?: number; // Size of menu search input (number).
+}
+
+interface ToastSiteMenuSearchResponse { // Menu search response record.
+  menuItems?: Record<string, unknown>[] | null; // List of menu items of menu search response (record).
+}
+
+interface ToastSitePopularItemsInput { // Popular items input record.
+  restaurantGuid: string; // Restaurant guid of popular items input (text).
+  menusInput: Record<string, unknown>; // Menus input of popular items input (record).
+}
+
+interface ToastSitePopularItemsResponse { // Popular items response record.
+  items?: Record<string, unknown>[] | null; // List of items of popular items response (record).
+}
+
+type ToastSitePopularItemsResponseOrError = ToastSitePopularItemsResponse; // Popular items response or error record.
+
 interface ToastRestaurant {
   guid: string; // the id every other toast function takes
   shortUrl: string | null; // the slug in toast.app/r/<slug>
@@ -124508,6 +128593,14 @@ interface ReservationAvailabilityArgs {
    * signed-in guest's own orders, bookings, reservations, addresses, cards and rewards.
    */
   interface Unit {
+    /**
+     * Reads anything this site offers in one call: pick a `thing` (restaurantV2,
+     * restaurantV2ByShortUrl, nearbyRestaurantSearch, restaurants, diningOptions,
+     * paginatedMenuItems, ...), give its `where` inputs, and list the `fields` you want back as
+     * dot paths like "state.stateName"; omit `fields` for every plain field.
+     */
+    read(input: ToastSiteReadInput): Promise<ToastSiteReadAnswer>;
+
     /**
      * Reads one Toast restaurant by its toast.app URL, slug or guid: name, cuisine, address,
      * phone, whether online ordering, delivery, reservations and the waitlist are on, its website
@@ -124783,6 +128876,7 @@ interface TopcashbackStoreRate {
   ratePercent: number | null;
   upTo: boolean;
   categories: TopcashbackRateCategory[];
+  available: boolean; // false when TopCashback lists the store but pays no cash back there today ("No Cash Back", 0%)
 }
 
 interface SearchStoresArgs {
@@ -125162,6 +129256,55 @@ interface Idea {
   isHot: boolean;
 }
 
+interface TradingviewGetOptionsVolumeAndOpenInterestArgs {
+  underlyingSymbol: string; // Pass a stock ticker symbol. E.g. "AAPL".
+}
+
+interface TradingviewGetOptionsVolumeAndOpenInterestResult {
+  underlying: string; // The underlying symbol associated with the returned data.
+  ts: number; // The time the data was recorded, as a Unix timestamp in milliseconds.
+  kind: string;
+  items: { id: string /* The identifier for an expiration entry. */; underlying: string /* The underlying symbol associated with this expiration entry. */; exp: number /* The expiration date in YYYYMMDD format. */; exp_time: string /* The expiration time as an ISO 8601 date-time string. */; family: string /* The option family associated with this expiration entry. */; strikes: { s: number /* The strike price for this options contract. */; c: { v: number /* The trading volume for call options at this strike. */; oi?: number /* The open interest for call options at this strike. */ }; p: { v: number /* The trading volume for put options at this strike. */; oi?: number /* The open interest for put options at this strike. */ } }[] }[];
+}
+
+interface TradingviewGetScreenerColumnParametersArgs {
+  screener: string; // The screener category to retrieve parameters for, such as "stock" or "coin". E.g. "stock".
+}
+
+interface TradingviewGetScreenerColumnParametersResult {
+  version: number; // Version number of the parameter definitions.
+  screener_key: string; // Screener category these parameter definitions apply to.
+  columns: Record<string, { params: { fiscalPeriod?: { type: string /* Control type for the column’s fiscal-period parameter. */; range: string[] /* Available fiscal-period choices for the column. */; defaultValue: string /* Default fiscal-period choice for the column. */ }; length?: { type: string /* Control type for the column’s length parameter. */; range: string[] /* Available length choices for the column. */; defaultValue: string /* Default length choice for the column. */ }; plot?: { type: string /* Control type for the column’s plot parameter. */; range: string[] /* Available plot choices for the column. */; defaultValue: string /* Default plot choice for the column. */ }; resolution?: { type: string /* Control type for the column’s resolution parameter. */; range: string[]; defaultValue: string }; interval?: { type: string; range: string[]; defaultValue: string }; period?: { type: string; range: string[]; defaultValue: string }; timebased?: { type: string; defaultValue: string; groups: { range: string[] }[] }; inputsGroup?: { type: string; range: string[]; defaultValue: string }; level?: { type: string; range: string[]; defaultValue: string }; sentiment?: { type: string; range: string[]; defaultValue: string } } } | null>;
+}
+
+interface TradingviewListRelatedBondsArgs {
+  stockSymbol: string; // A stock ticker symbol, such as AAPL. E.g. "AAPL".
+}
+
+interface TradingviewListRelatedBondsResult {
+  totalCount: number; // The total number of matching bonds.
+  data: { s: string /* The bond’s trading symbol. */; d: { yield_to_maturity: number /* The bond’s yield to maturity. */; maturity_date: number /* The bond’s maturity date, formatted as YYYYMMDD. */ } }[];
+}
+
+interface TradingviewSearchHelpArticlesArgs {
+  searchTerm: string; // Words or a phrase describing the help topic to find. E.g. "alert".
+}
+
+interface TradingviewSearchHelpArticlesResult {
+  data: { title: string /* The help article's title. */; lang: string /* The language the article is written in. */; highlight: unknown /* A text excerpt highlighting the matching terms. */; solutionId: number /* The article's identifier. */; folderId: number /* The identifier of the folder containing the article. */; categoryId: number /* The identifier of the article's category. */ }[];
+  total: number; // The total number of matching articles.
+}
+
+interface TradingviewSearchScriptsArgs {
+  query: string; // A ticker symbol or script-search phrase as plain text. E.g. "AAPL".
+}
+
+interface TradingviewSearchScriptsResult {
+  results: { imageUrl: string; scriptName: string /* The script's name used to identify it in search results. */; title: string /* The script's full display title. */; shortTitle: string /* The script's shorter display title. */; scriptSource: string /* The script's source content or source metadata. */; type: number /* The script's type code. */; access: number /* The script's access-level code. */; scriptIdPart: string /* The identifier used to distinguish the script. */; version: string /* The script's version. */; extra: { isCompiled: boolean; is_price_study: boolean; kind: string; originalScriptId?: string; originalScriptVersion?: string; sourceInputsCount: number; stats?: { alertcondition?: number; plot: number; plotshape?: number } }; agreeCount: number /* The number of users who agreed with or liked the script. */; isRecommended: boolean; author: { id: number; username: string /* The author's username. */; is_broker: boolean }; weight: number }[];
+  next: unknown; // The value used to indicate or request the next page of results.
+  stats_by_type: unknown; // Counts of matching scripts grouped by type.
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -125336,6 +129479,36 @@ interface Idea {
      * delisted `exchange:symbol` pair returns a caller-fixable error.
      */
     listIdeas(exchange: string, symbol: string, sort?: string): Promise<Idea[]>;
+
+    /**
+     * Returns options volume and open-interest data for an underlying, including its timestamp and
+     * expiration entries with strike-level call and put metrics.
+     */
+    getOptionsVolumeAndOpenInterest(args: TradingviewGetOptionsVolumeAndOpenInterestArgs): Promise<TradingviewGetOptionsVolumeAndOpenInterestResult>;
+
+    /**
+     * Returns parameter definitions for a screener’s columns, including each parameter’s type,
+     * available choices, and default value.
+     */
+    getScreenerColumnParameters(args: TradingviewGetScreenerColumnParametersArgs): Promise<TradingviewGetScreenerColumnParametersResult>;
+
+    /**
+     * Returns bonds related to the specified stock, including the total match count, each bond’s
+     * symbol, yield to maturity, and maturity date.
+     */
+    listRelatedBonds(args: TradingviewListRelatedBondsArgs): Promise<TradingviewListRelatedBondsResult>;
+
+    /**
+     * Returns matching help articles with their titles, language, highlighted text, identifiers,
+     * category and folder, plus the total number of matches.
+     */
+    searchHelpArticles(args: TradingviewSearchHelpArticlesArgs): Promise<TradingviewSearchHelpArticlesResult>;
+
+    /**
+     * Returns matching published scripts with identifying, display, author, and engagement
+     * details, plus pagination information and counts by script type.
+     */
+    searchScripts(args: TradingviewSearchScriptsArgs): Promise<TradingviewSearchScriptsResult>;
   }
 }
 
@@ -129588,6 +133761,94 @@ interface usatodayVideoDetail {
   }
 }
 
+declare namespace BowmarkProvider_usbank {
+  // ── U.S. Bank — the unit's own declarations, verbatim ──
+interface UsbankEarnRate {
+  rate: number; // 5 for 5%, 3 for 3X
+  unit: "percent" | "multiplier"; // percent = cash back %, multiplier = points or miles per $1
+  currency: string | null; // what is earned, in the issuer's word: cash back, points, miles
+  category: string; // the spend the rate applies to, in the issuer's words
+  cap: string | null; // the cap or condition clause, e.g. on up to $1,000 in combined purchases each quarter
+  rotating: boolean; // the category changes by quarter, or must be chosen or activated
+  base: boolean; // the everything-else rate
+  text: string; // the issuer's sentence the rate was read from
+}
+
+interface UsbankCreditCard {
+  id: string; // pass to getCreditCard
+  name: string;
+  url: string; // the card's page on the issuer's site
+  imageUrl: string | null;
+  applyUrl: string | null;
+  annualFee: number | null; // USD; 0 = no annual fee; for an intro-waived fee, the fee from year two
+  annualFeeText: string | null;
+  welcomeOffer: string | null; // the new-account bonus as written
+  introApr: string | null;
+  regularApr: string | null;
+  earnRates: UsbankEarnRate[];
+  currentRotatingCategories: { quarter: string; categories: string[]; activationRequired: boolean } | null; // this quarter's categories for a rotating card, when the issuer publishes them
+  benefits: string[]; // benefit headlines shown beside the rates
+  kind: "consumer" | "business";
+  productCode: string | null; // U.S. Bank's own product code
+  offerId: string; // the offer id U.S. Bank's rates are keyed on
+  foreignTransactionFeePercent: number | null; // percent of each purchase; 0 = none
+  balanceTransferFeePercent: number | null; // percent of each transfer
+}
+
+interface UsbankCreditCards {
+  cards: UsbankCreditCard[];
+  warnings: string[];
+}
+
+interface UsbankCreditCardDetail {
+  id: string; // pass to getCreditCard
+  name: string;
+  url: string; // the card's page on the issuer's site
+  imageUrl: string | null;
+  applyUrl: string | null;
+  annualFee: number | null; // USD; 0 = no annual fee; for an intro-waived fee, the fee from year two
+  annualFeeText: string | null;
+  welcomeOffer: string | null; // the new-account bonus as written
+  introApr: string | null;
+  regularApr: string | null;
+  earnRates: UsbankEarnRate[];
+  currentRotatingCategories: { quarter: string; categories: string[]; activationRequired: boolean } | null; // this quarter's categories for a rotating card, when the issuer publishes them
+  benefits: string[]; // benefit headlines shown beside the rates
+  kind: "consumer" | "business";
+  productCode: string | null; // U.S. Bank's own product code
+  offerId: string; // the offer id U.S. Bank's rates are keyed on
+  foreignTransactionFeePercent: number | null; // percent of each purchase; 0 = none
+  balanceTransferFeePercent: number | null; // percent of each transfer
+  rewardTerms: string[]; // the card page's own sentences defining each category and cap
+  warnings: string[];
+}
+
+type UsbankCardRef = string | { id?: string; url?: string; name?: string }; // the id from listCreditCards, the card's URL or its name, or a row from listCreditCards
+
+  /**
+   * U.S. Bank credit cards: every card on usbank.com's card page (Smartly, Shield, Cash+,
+   * Altitude Connect and Go, the secured cards) with earn rates by category, live annual fee,
+   * APR, intro APR, foreign transaction fee and welcome offer.
+   */
+  interface Unit {
+    /**
+     * Every credit card on U.S. Bank's card page (Smartly, Shield, Cash+ with its choose-your-own
+     * 5% categories, Altitude Connect, Altitude Go, and the secured cards): id, name, earn rates
+     * by category (rate, unit, category, cap, choose-your-own flag), welcome offer, and U.S.
+     * Bank's own live rates — annual fee, purchase APR range, intro APR length, balance transfer
+     * and foreign transaction fees.
+     */
+    listCreditCards(): Promise<UsbankCreditCards>;
+
+    /**
+     * One U.S. Bank card by the id listCreditCards returned (or its name or URL): the listing row
+     * plus the card page's own reward terms (what each category earns, the quarterly caps and
+     * exclusions).
+     */
+    getCreditCard(card: UsbankCardRef): Promise<UsbankCreditCardDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_uscis {
   // ── USCIS — the unit's own declarations, verbatim ──
 interface CaseStatusArgs {
@@ -131927,6 +136188,7 @@ interface walmartSearchResult {
   wasPrice: number | null;
   priceRangeMin: number | null;
   conditionCode: number | null;
+  sellerName: string | null;
   inStock: boolean;
   rating: number | null;
   reviewCount: number;
@@ -134219,6 +138481,84 @@ interface WellnesslivingClassCapacity {
   }
 }
 
+declare namespace BowmarkProvider_wellsfargo {
+  // ── Wells Fargo — the unit's own declarations, verbatim ──
+interface WellsfargoEarnRate {
+  rate: number; // 5 for 5%, 3 for 3X
+  unit: "percent" | "multiplier"; // percent = cash back %, multiplier = points or miles per $1
+  currency: string | null; // what is earned, in the issuer's word: cash back, points, miles
+  category: string; // the spend the rate applies to, in the issuer's words
+  cap: string | null; // the cap or condition clause, e.g. on up to $1,000 in combined purchases each quarter
+  rotating: boolean; // the category changes by quarter, or must be chosen or activated
+  base: boolean; // the everything-else rate
+  text: string; // the issuer's sentence the rate was read from
+}
+
+interface WellsfargoCreditCard {
+  id: string; // pass to getCreditCard
+  name: string;
+  url: string; // the card's page on the issuer's site
+  imageUrl: string | null;
+  applyUrl: string | null;
+  annualFee: number | null; // USD; 0 = no annual fee; for an intro-waived fee, the fee from year two
+  annualFeeText: string | null;
+  welcomeOffer: string | null; // the new-account bonus as written
+  introApr: string | null;
+  regularApr: string | null;
+  earnRates: WellsfargoEarnRate[];
+  currentRotatingCategories: { quarter: string; categories: string[]; activationRequired: boolean } | null; // this quarter's categories for a rotating card, when the issuer publishes them
+  benefits: string[]; // benefit headlines shown beside the rates
+  kind: "consumer" | "business";
+}
+
+interface WellsfargoCreditCards {
+  cards: WellsfargoCreditCard[];
+  warnings: string[];
+}
+
+interface WellsfargoCreditCardDetail {
+  id: string; // pass to getCreditCard
+  name: string;
+  url: string; // the card's page on the issuer's site
+  imageUrl: string | null;
+  applyUrl: string | null;
+  annualFee: number | null; // USD; 0 = no annual fee; for an intro-waived fee, the fee from year two
+  annualFeeText: string | null;
+  welcomeOffer: string | null; // the new-account bonus as written
+  introApr: string | null;
+  regularApr: string | null;
+  earnRates: WellsfargoEarnRate[];
+  currentRotatingCategories: { quarter: string; categories: string[]; activationRequired: boolean } | null; // this quarter's categories for a rotating card, when the issuer publishes them
+  benefits: string[]; // benefit headlines shown beside the rates
+  kind: "consumer" | "business";
+  rewardTerms: string[]; // the card page's own sentences defining each category and cap
+  warnings: string[];
+}
+
+type WellsfargoCardRef = string | { id?: string; url?: string; name?: string }; // the id from listCreditCards, the card's URL or its name, or a row from listCreditCards
+
+  /**
+   * Wells Fargo credit cards: every card Wells Fargo markets (Active Cash, Reflect, Autograph,
+   * Autograph Journey, One Key, Choice Privileges, Signify Business Cash) with earn rates by
+   * category, annual fee and welcome offer.
+   */
+  interface Unit {
+    /**
+     * Every credit card Wells Fargo markets (Active Cash, Reflect, Autograph, Autograph Journey,
+     * One Key, Choice Privileges and Select, Signify Business Cash): product code id, name, annual
+     * fee, earn rates by category (rate, unit, category, cap), welcome offer, intro APR length,
+     * card art, page and apply links.
+     */
+    listCreditCards(): Promise<WellsfargoCreditCards>;
+
+    /**
+     * One Wells Fargo card by the id listCreditCards returned (or its name or URL): the listing
+     * row plus the card page's own reward terms (what each category earns and covers).
+     */
+    getCreditCard(card: WellsfargoCardRef): Promise<WellsfargoCreditCardDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_westelm {
   // ── West Elm — the unit's own declarations, verbatim ──
 interface WsgcSearchArgs {
@@ -134710,6 +139050,27 @@ interface WhatsappGroupEvent {
   startsAt: string;
 }
 
+interface WhatsappEventResponse {
+  group: string;
+  title: string;
+  answer: "going" | "going_with_guest" | "maybe" | "not_going";
+}
+
+interface WhatsappGroupEventList {
+  group: string;
+  events: WhatsappGroupEventRow[];
+}
+
+interface WhatsappGroupEventRow {
+  title: string;
+  when: string | null;
+}
+
+interface WhatsappCancelledEvent {
+  group: string;
+  title: string;
+}
+
   /**
    * WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
    * catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
@@ -134897,6 +139258,27 @@ interface WhatsappGroupEvent {
      * Test writes go only to a group the caller runs. Needs the caller signed in.
      */
     createGroupEvent(group: string, title: string, startsAt: string, opts?: ConnectionOption): Promise<WhatsappGroupEvent>;
+
+    /**
+     * Answers an event in a group the caller is in, the group picked by its exact displayed name
+     * and the event by its title, with going, going_with_guest, maybe or not_going. Throws,
+     * answering nothing, if the group has no event with that title. Needs the caller signed in.
+     */
+    respondToGroupEvent(group: string, title: string, answer: "going" | "going_with_guest" | "maybe" | "not_going", opts?: ConnectionOption): Promise<WhatsappEventResponse>;
+
+    /**
+     * Lists the upcoming events in a group the caller is in, picked by its exact displayed name,
+     * each with its title and time label. Needs the caller signed in.
+     */
+    listGroupEvents(group: string, opts?: ConnectionOption): Promise<WhatsappGroupEventList>;
+
+    /**
+     * Cancels an event the caller created in a group, the group picked by its exact displayed name
+     * and the event by its title (Cancel event, then Cancel Event). Only the event's creator can.
+     * Throws, cancelling nothing, if the group has no event with that title. Needs the caller
+     * signed in.
+     */
+    cancelGroupEvent(group: string, title: string, opts?: ConnectionOption): Promise<WhatsappCancelledEvent>;
 
     /**
      * Sends a file as the caller to a chat opened by its exact displayed name: an image or video
@@ -534071,6 +538453,7 @@ interface BowmarkProviders {
   a16z_speedrun: BowmarkProvider_a16z_speedrun.Unit;
   a1storage: BowmarkProvider_a1storage.Unit;
   aa: BowmarkProvider_aa.Unit;
+  aarp: BowmarkProvider_aarp.Unit;
   aauto: BowmarkProvider_aauto.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
   abqplumb: BowmarkProvider_abqplumb.Unit;
@@ -534114,6 +538497,7 @@ interface BowmarkProviders {
   americanstandard: BowmarkProvider_americanstandard.Unit;
   americanvisionwindows: BowmarkProvider_americanvisionwindows.Unit;
   americashealthrankings: BowmarkProvider_americashealthrankings.Unit;
+  amex: BowmarkProvider_amex.Unit;
   amramp: BowmarkProvider_amramp.Unit;
   analytics_google: BowmarkProvider_analytics_google.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
@@ -534166,6 +538550,7 @@ interface BowmarkProviders {
   banana_republic: BowmarkProvider_banana_republic.Unit;
   bankmycell: BowmarkProvider_bankmycell.Unit;
   bankofamerica: BowmarkProvider_bankofamerica.Unit;
+  barclays: BowmarkProvider_barclays.Unit;
   barletta: BowmarkProvider_barletta.Unit;
   barnesfoundation: BowmarkProvider_barnesfoundation.Unit;
   baublebar: BowmarkProvider_baublebar.Unit;
@@ -534286,6 +538671,7 @@ interface BowmarkProviders {
   chromium_googlesource_com: BowmarkProvider_chromium_googlesource_com.Unit;
   cigna_directory: BowmarkProvider_cigna_directory.Unit;
   circl: BowmarkProvider_circl.Unit;
+  citi: BowmarkProvider_citi.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classicrockfab: BowmarkProvider_classicrockfab.Unit;
   classpass: BowmarkProvider_classpass.Unit;
@@ -534367,6 +538753,7 @@ interface BowmarkProviders {
   discogs: BowmarkProvider_discogs.Unit;
   discord: BowmarkProvider_discord.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
+  discover: BowmarkProvider_discover.Unit;
   disney: BowmarkProvider_disney.Unit;
   disney_plus: BowmarkProvider_disney_plus.Unit;
   dmv_virginia_gov: BowmarkProvider_dmv_virginia_gov.Unit;
@@ -534379,6 +538766,7 @@ interface BowmarkProviders {
   duckduckgo: BowmarkProvider_duckduckgo.Unit;
   dumpsters: BowmarkProvider_dumpsters.Unit;
   ebay: BowmarkProvider_ebay.Unit;
+  ecosia: BowmarkProvider_ecosia.Unit;
   edmunds: BowmarkProvider_edmunds.Unit;
   elase: BowmarkProvider_elase.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
@@ -534418,6 +538806,7 @@ interface BowmarkProviders {
   fbsappliance: BowmarkProvider_fbsappliance.Unit;
   fedex: BowmarkProvider_fedex.Unit;
   ferguson: BowmarkProvider_ferguson.Unit;
+  fidelity: BowmarkProvider_fidelity.Unit;
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
   finders: BowmarkProvider_finders.Unit;
   findmcp_app: BowmarkProvider_findmcp_app.Unit;
@@ -534610,6 +538999,7 @@ interface BowmarkProviders {
   marks: BowmarkProvider_marks.Unit;
   marriott: BowmarkProvider_marriott.Unit;
   maurices: BowmarkProvider_maurices.Unit;
+  maxpreps: BowmarkProvider_maxpreps.Unit;
   mayoclinic: BowmarkProvider_mayoclinic.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
   mcp_directory: BowmarkProvider_mcp_directory.Unit;
@@ -534645,6 +539035,7 @@ interface BowmarkProviders {
   momence: BowmarkProvider_momence.Unit;
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
+  ms_now: BowmarkProvider_ms_now.Unit;
   msc: BowmarkProvider_msc.Unit;
   msc_fema: BowmarkProvider_msc_fema.Unit;
   msccruzeiros: BowmarkProvider_msccruzeiros.Unit;
@@ -534966,6 +539357,7 @@ interface BowmarkProviders {
   upwork: BowmarkProvider_upwork.Unit;
   usa_gov: BowmarkProvider_usa_gov.Unit;
   usatoday: BowmarkProvider_usatoday.Unit;
+  usbank: BowmarkProvider_usbank.Unit;
   uscis: BowmarkProvider_uscis.Unit;
   usps: BowmarkProvider_usps.Unit;
   va_gov: BowmarkProvider_va_gov.Unit;
@@ -535000,6 +539392,7 @@ interface BowmarkProviders {
   webshare: BowmarkProvider_webshare.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   wellnessliving: BowmarkProvider_wellnessliving.Unit;
+  wellsfargo: BowmarkProvider_wellsfargo.Unit;
   westelm: BowmarkProvider_westelm.Unit;
   whatsapp: BowmarkProvider_whatsapp.Unit;
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
@@ -535115,7 +539508,6 @@ interface BowmarkProviders {
   "00246d8e": BowmarkSite_0eb976ff.Unit;
   "00248b3": BowmarkSite_0eb976ff.Unit;
   "00253a15": BowmarkSite_0eb976ff.Unit;
-  "002590e5": BowmarkSite_0eb976ff.Unit;
   "00263c54": BowmarkSite_0eb976ff.Unit;
   "00267191": BowmarkSite_0eb976ff.Unit;
   "0026bf2": BowmarkSite_0eb976ff.Unit;
@@ -535148,7 +539540,6 @@ interface BowmarkProviders {
   "00341d3": BowmarkSite_0eb976ff.Unit;
   "00349a3": BowmarkSite_0eb976ff.Unit;
   "0034bda0": BowmarkSite_0eb976ff.Unit;
-  "0034c4": BowmarkSite_0eb976ff.Unit;
   "0035b06b": BowmarkSite_0eb976ff.Unit;
   "0035f42": BowmarkSite_0eb976ff.Unit;
   "0036d5": BowmarkSite_0eb976ff.Unit;
@@ -535296,7 +539687,6 @@ interface BowmarkProviders {
   "008a052": BowmarkSite_0eb976ff.Unit;
   "008ae062": BowmarkSite_0eb976ff.Unit;
   "008b2e2": BowmarkSite_0eb976ff.Unit;
-  "008b4b": BowmarkSite_0eb976ff.Unit;
   "008d243": BowmarkSite_0eb976ff.Unit;
   "008d3b2": BowmarkSite_0eb976ff.Unit;
   "008da606": BowmarkSite_0eb976ff.Unit;
@@ -536626,7 +541016,6 @@ interface BowmarkProviders {
   "02vuxxhu": BowmarkSite_0eb976ff.Unit;
   "02wjq05u": BowmarkSite_0eb976ff.Unit;
   "02yebbx1": BowmarkSite_0eb976ff.Unit;
-  "02zh1hkw": BowmarkSite_0eb976ff.Unit;
   "03015d63": BowmarkSite_0eb976ff.Unit;
   "0302a3c4": BowmarkSite_0eb976ff.Unit;
   "030311af": BowmarkSite_0eb976ff.Unit;
@@ -537143,7 +541532,6 @@ interface BowmarkProviders {
   "04104f": BowmarkSite_0eb976ff.Unit;
   "0410513": BowmarkSite_0eb976ff.Unit;
   "04105hdi": BowmarkSite_0eb976ff.Unit;
-  "0413353e": BowmarkSite_0eb976ff.Unit;
   "0413382": BowmarkSite_0eb976ff.Unit;
   "041421march": BowmarkSite_0eb976ff.Unit;
   "04145147": BowmarkSite_0eb976ff.Unit;
@@ -537358,7 +541746,6 @@ interface BowmarkProviders {
   "0482974": BowmarkSite_0eb976ff.Unit;
   "0484be3": BowmarkSite_0eb976ff.Unit;
   "0484c82": BowmarkSite_0eb976ff.Unit;
-  "0484f2f7": BowmarkSite_0eb976ff.Unit;
   "0485093": BowmarkSite_0eb976ff.Unit;
   "04850e": BowmarkSite_0eb976ff.Unit;
   "04863931": BowmarkSite_0eb976ff.Unit;
@@ -537420,7 +541807,6 @@ interface BowmarkProviders {
   "049d9e95": BowmarkSite_0eb976ff.Unit;
   "049fa720": BowmarkSite_0eb976ff.Unit;
   "049fd712": BowmarkSite_0eb976ff.Unit;
-  "049fe7b3": BowmarkSite_0eb976ff.Unit;
   "049fedb5": BowmarkSite_0eb976ff.Unit;
   "04a005c2": BowmarkSite_0eb976ff.Unit;
   "04a084": BowmarkSite_0eb976ff.Unit;
@@ -537702,7 +542088,6 @@ interface BowmarkProviders {
   "051c8897": BowmarkSite_0eb976ff.Unit;
   "051d5d": BowmarkSite_0eb976ff.Unit;
   "051db3": BowmarkSite_0eb976ff.Unit;
-  "051e65": BowmarkSite_0eb976ff.Unit;
   "051e81": BowmarkSite_0eb976ff.Unit;
   "052122": BowmarkSite_0eb976ff.Unit;
   "052184": BowmarkSite_0eb976ff.Unit;
@@ -538397,7 +542782,6 @@ interface BowmarkProviders {
   "06a14f": BowmarkSite_0eb976ff.Unit;
   "06a15f79": BowmarkSite_0eb976ff.Unit;
   "06a2462": BowmarkSite_0eb976ff.Unit;
-  "06a2f3": BowmarkSite_0eb976ff.Unit;
   "06a30f4": BowmarkSite_0eb976ff.Unit;
   "06a3bb15": BowmarkSite_0eb976ff.Unit;
   "06a4bb6b": BowmarkSite_0eb976ff.Unit;
@@ -539209,7 +543593,6 @@ interface BowmarkProviders {
   "08289d2": BowmarkSite_0eb976ff.Unit;
   "082a28": BowmarkSite_0eb976ff.Unit;
   "082a56a6": BowmarkSite_0eb976ff.Unit;
-  "082ab9": BowmarkSite_0eb976ff.Unit;
   "082ae65": BowmarkSite_0eb976ff.Unit;
   "082beb2": BowmarkSite_0eb976ff.Unit;
   "082c0a3a": BowmarkSite_0eb976ff.Unit;
@@ -539289,7 +543672,6 @@ interface BowmarkProviders {
   "0855fc14": BowmarkSite_0eb976ff.Unit;
   "08565d": BowmarkSite_0eb976ff.Unit;
   "0857165": BowmarkSite_0eb976ff.Unit;
-  "085788": BowmarkSite_0eb976ff.Unit;
   "0857e9": BowmarkSite_0eb976ff.Unit;
   "08581e": BowmarkSite_0eb976ff.Unit;
   "085999ba": BowmarkSite_0eb976ff.Unit;
@@ -539929,7 +544311,6 @@ interface BowmarkProviders {
   "09aa54": BowmarkSite_0eb976ff.Unit;
   "09aa5e": BowmarkSite_0eb976ff.Unit;
   "09abe43": BowmarkSite_0eb976ff.Unit;
-  "09ac3b": BowmarkSite_0eb976ff.Unit;
   "09acb235": BowmarkSite_0eb976ff.Unit;
   "09ae304": BowmarkSite_0eb976ff.Unit;
   "09aec12": BowmarkSite_0eb976ff.Unit;
@@ -540995,7 +545376,6 @@ interface BowmarkProviders {
   "0bbb042": BowmarkSite_0eb976ff.Unit;
   "0bbb1529": BowmarkSite_0eb976ff.Unit;
   "0bbb1870": BowmarkSite_0eb976ff.Unit;
-  "0bbb54d3": BowmarkSite_0eb976ff.Unit;
   "0bbbb62": BowmarkSite_0eb976ff.Unit;
   "0bbbd26d": BowmarkSite_0eb976ff.Unit;
   "0bbbf52": BowmarkSite_0eb976ff.Unit;
@@ -541438,7 +545818,6 @@ interface BowmarkProviders {
   "0c8dc5": BowmarkSite_0eb976ff.Unit;
   "0c8e75": BowmarkSite_0eb976ff.Unit;
   "0c8fd22": BowmarkSite_0eb976ff.Unit;
-  "0c8fee2": BowmarkSite_0eb976ff.Unit;
   "0c8k6ezn": BowmarkSite_0eb976ff.Unit;
   "0c90693": BowmarkSite_0eb976ff.Unit;
   "0c90cc": BowmarkSite_0eb976ff.Unit;
@@ -542064,7 +546443,6 @@ interface BowmarkProviders {
   "0de1a33": BowmarkSite_0eb976ff.Unit;
   "0de1e6": BowmarkSite_0eb976ff.Unit;
   "0de27d2": BowmarkSite_0eb976ff.Unit;
-  "0de2f32": BowmarkSite_0eb976ff.Unit;
   "0de396ea": BowmarkSite_0eb976ff.Unit;
   "0de495a7": BowmarkSite_0eb976ff.Unit;
   "0de5086b": BowmarkSite_0eb976ff.Unit;
@@ -542102,7 +546480,6 @@ interface BowmarkProviders {
   "0df7dab1": BowmarkSite_0eb976ff.Unit;
   "0df80faa": BowmarkSite_0eb976ff.Unit;
   "0df824": BowmarkSite_0eb976ff.Unit;
-  "0df8f489": BowmarkSite_0eb976ff.Unit;
   "0df9124": BowmarkSite_0eb976ff.Unit;
   "0df922dc": BowmarkSite_0eb976ff.Unit;
   "0df92f": BowmarkSite_0eb976ff.Unit;
@@ -542518,7 +546895,6 @@ interface BowmarkProviders {
   "0ec2a572": BowmarkSite_0eb976ff.Unit;
   "0ec326": BowmarkSite_0eb976ff.Unit;
   "0ec3b0": BowmarkSite_0eb976ff.Unit;
-  "0ec44d2": BowmarkSite_0eb976ff.Unit;
   "0ec46fd5": BowmarkSite_0eb976ff.Unit;
   "0ec4882": BowmarkSite_0eb976ff.Unit;
   "0ec4bf2": BowmarkSite_0eb976ff.Unit;
@@ -542773,7 +547149,6 @@ interface BowmarkProviders {
   "0f32ce5": BowmarkSite_0eb976ff.Unit;
   "0f32da01": BowmarkSite_0eb976ff.Unit;
   "0f33032": BowmarkSite_0eb976ff.Unit;
-  "0f3311": BowmarkSite_0eb976ff.Unit;
   "0f33622": BowmarkSite_0eb976ff.Unit;
   "0f33df6": BowmarkSite_0eb976ff.Unit;
   "0f3407": BowmarkSite_0eb976ff.Unit;
@@ -543260,7 +547635,6 @@ interface BowmarkProviders {
   "0h4uztbk": BowmarkSite_0eb976ff.Unit;
   "0h56xmp6": BowmarkSite_0eb976ff.Unit;
   "0h7qtyha": BowmarkSite_0eb976ff.Unit;
-  "0hacvvbc": BowmarkSite_0eb976ff.Unit;
   "0hak0v0m": BowmarkSite_0eb976ff.Unit;
   "0hawapex": BowmarkSite_0eb976ff.Unit;
   "0hb0rmxx": BowmarkSite_0eb976ff.Unit;
@@ -544326,7 +548700,6 @@ interface BowmarkProviders {
   "100f541e": BowmarkSite_0eb976ff.Unit;
   "100fc84": BowmarkSite_0eb976ff.Unit;
   "100figurines": BowmarkSite_0eb976ff.Unit;
-  "100foldinc": BowmarkSite_0eb976ff.Unit;
   "100futbolcl": BowmarkSite_0eb976ff.Unit;
   "100gecseustore": BowmarkSite_0eb976ff.Unit;
   "100gs20s": BowmarkSite_0eb976ff.Unit;
@@ -544707,7 +549080,6 @@ interface BowmarkProviders {
   "108db42": BowmarkSite_0eb976ff.Unit;
   "108dbb4": BowmarkSite_0eb976ff.Unit;
   "108dd02": BowmarkSite_0eb976ff.Unit;
-  "108e7f3": BowmarkSite_0eb976ff.Unit;
   "108eb9": BowmarkSite_0eb976ff.Unit;
   "108fa42": BowmarkSite_0eb976ff.Unit;
   "108fd3": BowmarkSite_0eb976ff.Unit;
@@ -545194,7 +549566,6 @@ interface BowmarkProviders {
   "112491": BowmarkSite_0eb976ff.Unit;
   "1124c332": BowmarkSite_0eb976ff.Unit;
   "11262e": BowmarkSite_0eb976ff.Unit;
-  "1126c0": BowmarkSite_0eb976ff.Unit;
   "1126records": BowmarkSite_0eb976ff.Unit;
   "112775db": BowmarkSite_0eb976ff.Unit;
   "1128fb2": BowmarkSite_0eb976ff.Unit;
@@ -546150,7 +550521,6 @@ interface BowmarkProviders {
   "12b4681d": BowmarkSite_0eb976ff.Unit;
   "12b5481f": BowmarkSite_0eb976ff.Unit;
   "12b58420": BowmarkSite_0eb976ff.Unit;
-  "12b59b": BowmarkSite_0eb976ff.Unit;
   "12b66ea9": BowmarkSite_0eb976ff.Unit;
   "12b6a8": BowmarkSite_0eb976ff.Unit;
   "12b7b12": BowmarkSite_0eb976ff.Unit;
@@ -546713,7 +551083,6 @@ interface BowmarkProviders {
   "13ab062": BowmarkSite_0eb976ff.Unit;
   "13abcd3": BowmarkSite_0eb976ff.Unit;
   "13acad13": BowmarkSite_0eb976ff.Unit;
-  "13acd5": BowmarkSite_0eb976ff.Unit;
   "13ae005": BowmarkSite_0eb976ff.Unit;
   "13aef32": BowmarkSite_0eb976ff.Unit;
   "13ajc4j9": BowmarkSite_0eb976ff.Unit;
@@ -546831,7 +551200,6 @@ interface BowmarkProviders {
   "13f01b2": BowmarkSite_0eb976ff.Unit;
   "13f161": BowmarkSite_0eb976ff.Unit;
   "13f20aab": BowmarkSite_0eb976ff.Unit;
-  "13f23694": BowmarkSite_0eb976ff.Unit;
   "13f4c4": BowmarkSite_0eb976ff.Unit;
   "13f62f16": BowmarkSite_0eb976ff.Unit;
   "13f6dc": BowmarkSite_0eb976ff.Unit;
@@ -547094,7 +551462,6 @@ interface BowmarkProviders {
   "145d2a25": BowmarkSite_0eb976ff.Unit;
   "145dn3xs": BowmarkSite_0eb976ff.Unit;
   "145e3d": BowmarkSite_0eb976ff.Unit;
-  "145e623b": BowmarkSite_0eb976ff.Unit;
   "145eastofficial": BowmarkSite_0eb976ff.Unit;
   "145ha1zz": BowmarkSite_0eb976ff.Unit;
   "145ssyn1": BowmarkSite_0eb976ff.Unit;
@@ -547482,7 +551849,6 @@ interface BowmarkProviders {
   "15092e": BowmarkSite_0eb976ff.Unit;
   "1509453": BowmarkSite_0eb976ff.Unit;
   "1509d501": BowmarkSite_0eb976ff.Unit;
-  "150b1b3": BowmarkSite_0eb976ff.Unit;
   "150b366c": BowmarkSite_0eb976ff.Unit;
   "150bf9": BowmarkSite_0eb976ff.Unit;
   "150cc15e": BowmarkSite_0eb976ff.Unit;
@@ -548427,7 +552793,6 @@ interface BowmarkProviders {
   "16bd77d9": BowmarkSite_0eb976ff.Unit;
   "16bd8928": BowmarkSite_0eb976ff.Unit;
   "16bdb689": BowmarkSite_0eb976ff.Unit;
-  "16bdb92": BowmarkSite_0eb976ff.Unit;
   "16bde3": BowmarkSite_0eb976ff.Unit;
   "16be31": BowmarkSite_0eb976ff.Unit;
   "16be773": BowmarkSite_0eb976ff.Unit;
@@ -548458,7 +552823,6 @@ interface BowmarkProviders {
   "16ccc4": BowmarkSite_0eb976ff.Unit;
   "16ccce2": BowmarkSite_0eb976ff.Unit;
   "16cd7f": BowmarkSite_0eb976ff.Unit;
-  "16ce2d5": BowmarkSite_0eb976ff.Unit;
   "16ced23": BowmarkSite_0eb976ff.Unit;
   "16cf6483": BowmarkSite_0eb976ff.Unit;
   "16cgk3aw": BowmarkSite_0eb976ff.Unit;
@@ -549408,7 +553772,6 @@ interface BowmarkProviders {
   "1870market": BowmarkSite_0eb976ff.Unit;
   "18714a2": BowmarkSite_0eb976ff.Unit;
   "18716b47": BowmarkSite_0eb976ff.Unit;
-  "1871cc54": BowmarkSite_0eb976ff.Unit;
   "187203": BowmarkSite_0eb976ff.Unit;
   "18724171856": BowmarkSite_0eb976ff.Unit;
   "18726b08": BowmarkSite_0eb976ff.Unit;
@@ -550285,7 +554648,6 @@ interface BowmarkProviders {
   "19e0c54": BowmarkSite_0eb976ff.Unit;
   "19e2102": BowmarkSite_0eb976ff.Unit;
   "19e2b59b": BowmarkSite_0eb976ff.Unit;
-  "19e393": BowmarkSite_0eb976ff.Unit;
   "19e4c03d": BowmarkSite_0eb976ff.Unit;
   "19e58c09": BowmarkSite_0eb976ff.Unit;
   "19e5a16b": BowmarkSite_0eb976ff.Unit;
@@ -550348,7 +554710,6 @@ interface BowmarkProviders {
   "19ideas": BowmarkSite_0eb976ff.Unit;
   "19jb1jdv": BowmarkSite_0eb976ff.Unit;
   "19junegr": BowmarkSite_0eb976ff.Unit;
-  "19k6epdh": BowmarkSite_0eb976ff.Unit;
   "19pppmwj": BowmarkSite_0eb976ff.Unit;
   "19pueblosnativecollection": BowmarkSite_0eb976ff.Unit;
   "19qgniuw": BowmarkSite_0eb976ff.Unit;
@@ -551172,6 +555533,7 @@ interface BowmarkProviders {
   "1b8b866": BowmarkSite_0eb976ff.Unit;
   "1b8b8af7": BowmarkSite_0eb976ff.Unit;
   "1b8b99": BowmarkSite_0eb976ff.Unit;
+  "1b8cde": BowmarkSite_0eb976ff.Unit;
   "1b8d0f18": BowmarkSite_0eb976ff.Unit;
   "1b8d75b0": BowmarkSite_0eb976ff.Unit;
   "1b8efd5": BowmarkSite_0eb976ff.Unit;
@@ -551216,7 +555578,6 @@ interface BowmarkProviders {
   "1ba2f22": BowmarkSite_0eb976ff.Unit;
   "1ba497": BowmarkSite_0eb976ff.Unit;
   "1ba4dd3": BowmarkSite_0eb976ff.Unit;
-  "1ba5784a": BowmarkSite_0eb976ff.Unit;
   "1ba59f2": BowmarkSite_0eb976ff.Unit;
   "1ba7142": BowmarkSite_0eb976ff.Unit;
   "1ba80e7c": BowmarkSite_0eb976ff.Unit;
@@ -551531,7 +555892,6 @@ interface BowmarkProviders {
   "1c3bdd": BowmarkSite_0eb976ff.Unit;
   "1c3c0b": BowmarkSite_0eb976ff.Unit;
   "1c3c413": BowmarkSite_0eb976ff.Unit;
-  "1c3c455": BowmarkSite_0eb976ff.Unit;
   "1c3d0e00": BowmarkSite_0eb976ff.Unit;
   "1c3d65c3": BowmarkSite_0eb976ff.Unit;
   "1c3db52": BowmarkSite_0eb976ff.Unit;
@@ -551929,7 +556289,6 @@ interface BowmarkProviders {
   "1cp0itb5": BowmarkSite_0eb976ff.Unit;
   "1cpxp9k8": BowmarkSite_0eb976ff.Unit;
   "1cq80qeh": BowmarkSite_0eb976ff.Unit;
-  "1cqv7z5c": BowmarkSite_0eb976ff.Unit;
   "1cre8ivemess": BowmarkSite_0eb976ff.Unit;
   "1crsnfib": BowmarkSite_0eb976ff.Unit;
   "1ctybnmt": BowmarkSite_0eb976ff.Unit;
@@ -552422,7 +556781,6 @@ interface BowmarkProviders {
   "1dealtoday": BowmarkSite_0eb976ff.Unit;
   "1dealzcentral": BowmarkSite_0eb976ff.Unit;
   "1deb1a": BowmarkSite_0eb976ff.Unit;
-  "1debec9b": BowmarkSite_0eb976ff.Unit;
   "1decd3e6": BowmarkSite_0eb976ff.Unit;
   "1ded4930": BowmarkSite_0eb976ff.Unit;
   "1dedf0": BowmarkSite_0eb976ff.Unit;
@@ -552445,7 +556803,6 @@ interface BowmarkProviders {
   "1df316": BowmarkSite_0eb976ff.Unit;
   "1df364": BowmarkSite_0eb976ff.Unit;
   "1df43e2": BowmarkSite_0eb976ff.Unit;
-  "1df4e331": BowmarkSite_0eb976ff.Unit;
   "1df50f3a": BowmarkSite_0eb976ff.Unit;
   "1df7e19c": BowmarkSite_0eb976ff.Unit;
   "1df83e9f": BowmarkSite_0eb976ff.Unit;
@@ -553021,7 +557378,6 @@ interface BowmarkProviders {
   "1espm2qz": BowmarkSite_0eb976ff.Unit;
   "1esxj4au": BowmarkSite_0eb976ff.Unit;
   "1eternalminds": BowmarkSite_0eb976ff.Unit;
-  "1eu1v80b": BowmarkSite_0eb976ff.Unit;
   "1eujvhqa": BowmarkSite_0eb976ff.Unit;
   "1ew1fekq": BowmarkSite_0eb976ff.Unit;
   "1ewjkxp1": BowmarkSite_0eb976ff.Unit;
@@ -553279,7 +557635,6 @@ interface BowmarkProviders {
   "1f850fb0": BowmarkSite_0eb976ff.Unit;
   "1f852e49": BowmarkSite_0eb976ff.Unit;
   "1f85351b": BowmarkSite_0eb976ff.Unit;
-  "1f854eef": BowmarkSite_0eb976ff.Unit;
   "1f8621c5": BowmarkSite_0eb976ff.Unit;
   "1f87b0": BowmarkSite_0eb976ff.Unit;
   "1f8839": BowmarkSite_0eb976ff.Unit;
@@ -553293,7 +557648,6 @@ interface BowmarkProviders {
   "1f8b572": BowmarkSite_0eb976ff.Unit;
   "1f8bd33": BowmarkSite_0eb976ff.Unit;
   "1f8be34": BowmarkSite_0eb976ff.Unit;
-  "1f8c3cb9": BowmarkSite_0eb976ff.Unit;
   "1f8d082": BowmarkSite_0eb976ff.Unit;
   "1f8dfe29": BowmarkSite_0eb976ff.Unit;
   "1f8e12": BowmarkSite_0eb976ff.Unit;
@@ -554532,7 +558886,6 @@ interface BowmarkProviders {
   "1viugfe1": BowmarkSite_0eb976ff.Unit;
   "1vk1vwi0": BowmarkSite_0eb976ff.Unit;
   "1vmx5u3a": BowmarkSite_0eb976ff.Unit;
-  "1vmz2yqg": BowmarkSite_0eb976ff.Unit;
   "1vn0zzpe": BowmarkSite_0eb976ff.Unit;
   "1voix1histoire": BowmarkSite_0eb976ff.Unit;
   "1vpfvpqx": BowmarkSite_0eb976ff.Unit;
@@ -554888,7 +559241,6 @@ interface BowmarkProviders {
   "2020modaedesign": BowmarkSite_0eb976ff.Unit;
   "2020vapes": BowmarkSite_0eb976ff.Unit;
   "2021": BowmarkSite_0eb976ff.Unit;
-  "2021482": BowmarkSite_0eb976ff.Unit;
   "2021co": BowmarkSite_0eb976ff.Unit;
   "2021lightmi": BowmarkSite_0eb976ff.Unit;
   "2021lovettartshow": BowmarkSite_0eb976ff.Unit;
@@ -555268,7 +559620,6 @@ interface BowmarkProviders {
   "20e2114": BowmarkSite_0eb976ff.Unit;
   "20e26691": BowmarkSite_0eb976ff.Unit;
   "20e274d8": BowmarkSite_0eb976ff.Unit;
-  "20e2ad": BowmarkSite_0eb976ff.Unit;
   "20e37525": BowmarkSite_0eb976ff.Unit;
   "20e45b4a": BowmarkSite_0eb976ff.Unit;
   "20e4d7e2": BowmarkSite_0eb976ff.Unit;
@@ -556022,7 +560373,6 @@ interface BowmarkProviders {
   "222e883": BowmarkSite_0eb976ff.Unit;
   "222f7fd8": BowmarkSite_0eb976ff.Unit;
   "222fifthcom": BowmarkSite_0eb976ff.Unit;
-  "222kawaii": BowmarkSite_0eb976ff.Unit;
   "222thousand111": BowmarkSite_0eb976ff.Unit;
   "222twinflame": BowmarkSite_0eb976ff.Unit;
   "22305d28": BowmarkSite_0eb976ff.Unit;
@@ -556170,7 +560520,6 @@ interface BowmarkProviders {
   "2277f13": BowmarkSite_0eb976ff.Unit;
   "22782f4": BowmarkSite_0eb976ff.Unit;
   "22784e3d": BowmarkSite_0eb976ff.Unit;
-  "227969da": BowmarkSite_0eb976ff.Unit;
   "2279cc": BowmarkSite_0eb976ff.Unit;
   "227a8bb4": BowmarkSite_0eb976ff.Unit;
   "227b22": BowmarkSite_0eb976ff.Unit;
@@ -556226,7 +560575,6 @@ interface BowmarkProviders {
   "22976ae1": BowmarkSite_0eb976ff.Unit;
   "2297cf": BowmarkSite_0eb976ff.Unit;
   "2297ef6f": BowmarkSite_0eb976ff.Unit;
-  "22990c": BowmarkSite_0eb976ff.Unit;
   "2299234": BowmarkSite_0eb976ff.Unit;
   "22992a2": BowmarkSite_0eb976ff.Unit;
   "2299bc77": BowmarkSite_0eb976ff.Unit;
@@ -556551,7 +560899,6 @@ interface BowmarkProviders {
   "232db1": BowmarkSite_0eb976ff.Unit;
   "232de9bd": BowmarkSite_0eb976ff.Unit;
   "232e7707": BowmarkSite_0eb976ff.Unit;
-  "232e7a": BowmarkSite_0eb976ff.Unit;
   "232e7ac5": BowmarkSite_0eb976ff.Unit;
   "232e8b": BowmarkSite_0eb976ff.Unit;
   "232ea74": BowmarkSite_0eb976ff.Unit;
@@ -557117,7 +561464,6 @@ interface BowmarkProviders {
   "2443e7e1": BowmarkSite_0eb976ff.Unit;
   "2445463": BowmarkSite_0eb976ff.Unit;
   "24468d2": BowmarkSite_0eb976ff.Unit;
-  "2446c5": BowmarkSite_0eb976ff.Unit;
   "2447192": BowmarkSite_0eb976ff.Unit;
   "2447683": BowmarkSite_0eb976ff.Unit;
   "24479cc5": BowmarkSite_0eb976ff.Unit;
@@ -558453,7 +562799,6 @@ interface BowmarkProviders {
   "26bb64": BowmarkSite_0eb976ff.Unit;
   "26bbe1": BowmarkSite_0eb976ff.Unit;
   "26bc2e3": BowmarkSite_0eb976ff.Unit;
-  "26bd0f2": BowmarkSite_0eb976ff.Unit;
   "26be113": BowmarkSite_0eb976ff.Unit;
   "26be6eea": BowmarkSite_0eb976ff.Unit;
   "26bf2116": BowmarkSite_0eb976ff.Unit;
@@ -558652,7 +562997,6 @@ interface BowmarkProviders {
   "272ca13": BowmarkSite_0eb976ff.Unit;
   "272cab4": BowmarkSite_0eb976ff.Unit;
   "272d1282": BowmarkSite_0eb976ff.Unit;
-  "272d418b": BowmarkSite_0eb976ff.Unit;
   "272f9630": BowmarkSite_0eb976ff.Unit;
   "272onerepublic": BowmarkSite_0eb976ff.Unit;
   "273195": BowmarkSite_0eb976ff.Unit;
@@ -558732,7 +563076,6 @@ interface BowmarkProviders {
   "275801e1": BowmarkSite_0eb976ff.Unit;
   "27584755": BowmarkSite_0eb976ff.Unit;
   "27587213": BowmarkSite_0eb976ff.Unit;
-  "2758a02": BowmarkSite_0eb976ff.Unit;
   "2758a93c": BowmarkSite_0eb976ff.Unit;
   "27598d": BowmarkSite_0eb976ff.Unit;
   "2759d82": BowmarkSite_0eb976ff.Unit;
@@ -559850,7 +564193,6 @@ interface BowmarkProviders {
   "298bed65": BowmarkSite_0eb976ff.Unit;
   "298bfbf0": BowmarkSite_0eb976ff.Unit;
   "298c1be0": BowmarkSite_0eb976ff.Unit;
-  "298de9": BowmarkSite_0eb976ff.Unit;
   "298e42": BowmarkSite_0eb976ff.Unit;
   "298f4701": BowmarkSite_0eb976ff.Unit;
   "298f74": BowmarkSite_0eb976ff.Unit;
@@ -561936,7 +566278,6 @@ interface BowmarkProviders {
   "2db2be2": BowmarkSite_0eb976ff.Unit;
   "2db2c1": BowmarkSite_0eb976ff.Unit;
   "2db47d3": BowmarkSite_0eb976ff.Unit;
-  "2db48b9a": BowmarkSite_0eb976ff.Unit;
   "2db4962": BowmarkSite_0eb976ff.Unit;
   "2db4b43": BowmarkSite_0eb976ff.Unit;
   "2db4bc": BowmarkSite_0eb976ff.Unit;
@@ -563208,7 +567549,6 @@ interface BowmarkProviders {
   "2jn1v5xe": BowmarkSite_0eb976ff.Unit;
   "2jsk1aff": BowmarkSite_0eb976ff.Unit;
   "2jukj26y": BowmarkSite_0eb976ff.Unit;
-  "2jv0gqrc": BowmarkSite_0eb976ff.Unit;
   "2jy42bcn": BowmarkSite_0eb976ff.Unit;
   "2jycf7rm": BowmarkSite_0eb976ff.Unit;
   "2jytfh02": BowmarkSite_0eb976ff.Unit;
@@ -563273,7 +567613,6 @@ interface BowmarkProviders {
   "2mdafpew": BowmarkSite_0eb976ff.Unit;
   "2mdp8hfe": BowmarkSite_0eb976ff.Unit;
   "2meatballs": BowmarkSite_0eb976ff.Unit;
-  "2mecxsqx": BowmarkSite_0eb976ff.Unit;
   "2menit": BowmarkSite_0eb976ff.Unit;
   "2mf00ja1": BowmarkSite_0eb976ff.Unit;
   "2mighty": BowmarkSite_0eb976ff.Unit;
@@ -564569,7 +568908,6 @@ interface BowmarkProviders {
   "316aea2": BowmarkSite_0eb976ff.Unit;
   "316apparels": BowmarkSite_0eb976ff.Unit;
   "316b032": BowmarkSite_0eb976ff.Unit;
-  "316b03bd": BowmarkSite_0eb976ff.Unit;
   "316b510a": BowmarkSite_0eb976ff.Unit;
   "316bc3c2": BowmarkSite_0eb976ff.Unit;
   "316collectionpopup": BowmarkSite_0eb976ff.Unit;
@@ -565470,7 +569808,6 @@ interface BowmarkProviders {
   "331509e5": BowmarkSite_0eb976ff.Unit;
   "3315peqa": BowmarkSite_0eb976ff.Unit;
   "331838bf": BowmarkSite_0eb976ff.Unit;
-  "3318703": BowmarkSite_0eb976ff.Unit;
   "3318d344": BowmarkSite_0eb976ff.Unit;
   "3319eb94": BowmarkSite_0eb976ff.Unit;
   "331af03b": BowmarkSite_0eb976ff.Unit;
@@ -565609,7 +569946,6 @@ interface BowmarkProviders {
   "33676b2": BowmarkSite_0eb976ff.Unit;
   "3367rcxc": BowmarkSite_0eb976ff.Unit;
   "3368312": BowmarkSite_0eb976ff.Unit;
-  "3368573": BowmarkSite_0eb976ff.Unit;
   "336869": BowmarkSite_0eb976ff.Unit;
   "33687e": BowmarkSite_0eb976ff.Unit;
   "336955e0": BowmarkSite_0eb976ff.Unit;
@@ -565788,7 +570124,6 @@ interface BowmarkProviders {
   "33c179da": BowmarkSite_0eb976ff.Unit;
   "33c1b3": BowmarkSite_0eb976ff.Unit;
   "33c315": BowmarkSite_0eb976ff.Unit;
-  "33c34eab": BowmarkSite_0eb976ff.Unit;
   "33c3d394": BowmarkSite_0eb976ff.Unit;
   "33c538e3": BowmarkSite_0eb976ff.Unit;
   "33c6512": BowmarkSite_0eb976ff.Unit;
@@ -566162,7 +570497,6 @@ interface BowmarkProviders {
   "348b5d": BowmarkSite_0eb976ff.Unit;
   "348b8b": BowmarkSite_0eb976ff.Unit;
   "348d31dc": BowmarkSite_0eb976ff.Unit;
-  "348dac66": BowmarkSite_0eb976ff.Unit;
   "348dc52a": BowmarkSite_0eb976ff.Unit;
   "349093": BowmarkSite_0eb976ff.Unit;
   "3490daf3": BowmarkSite_0eb976ff.Unit;
@@ -566497,7 +570831,6 @@ interface BowmarkProviders {
   "353c29": BowmarkSite_0eb976ff.Unit;
   "353c342": BowmarkSite_0eb976ff.Unit;
   "353ce999": BowmarkSite_0eb976ff.Unit;
-  "353customtackle": BowmarkSite_0eb976ff.Unit;
   "353d104": BowmarkSite_0eb976ff.Unit;
   "353d6b2": BowmarkSite_0eb976ff.Unit;
   "353d862": BowmarkSite_0eb976ff.Unit;
@@ -567210,7 +571543,6 @@ interface BowmarkProviders {
   "3684662": BowmarkSite_0eb976ff.Unit;
   "368483": BowmarkSite_0eb976ff.Unit;
   "36851423": BowmarkSite_0eb976ff.Unit;
-  "3685faff": BowmarkSite_0eb976ff.Unit;
   "3686032": BowmarkSite_0eb976ff.Unit;
   "36869c3b": BowmarkSite_0eb976ff.Unit;
   "3687210a": BowmarkSite_0eb976ff.Unit;
@@ -567453,7 +571785,6 @@ interface BowmarkProviders {
   "370cd82": BowmarkSite_0eb976ff.Unit;
   "370dc6": BowmarkSite_0eb976ff.Unit;
   "370e8c": BowmarkSite_0eb976ff.Unit;
-  "370eb8a6": BowmarkSite_0eb976ff.Unit;
   "370ee82": BowmarkSite_0eb976ff.Unit;
   "370f203": BowmarkSite_0eb976ff.Unit;
   "370f43": BowmarkSite_0eb976ff.Unit;
@@ -567633,7 +571964,6 @@ interface BowmarkProviders {
   "377171b1": BowmarkSite_0eb976ff.Unit;
   "3771f908": BowmarkSite_0eb976ff.Unit;
   "3773726a": BowmarkSite_0eb976ff.Unit;
-  "3773d42": BowmarkSite_0eb976ff.Unit;
   "3773d82f": BowmarkSite_0eb976ff.Unit;
   "377488ef": BowmarkSite_0eb976ff.Unit;
   "3774af4": BowmarkSite_0eb976ff.Unit;
@@ -568451,7 +572781,6 @@ interface BowmarkProviders {
   "39136f2": BowmarkSite_0eb976ff.Unit;
   "3914162": BowmarkSite_0eb976ff.Unit;
   "3914bd": BowmarkSite_0eb976ff.Unit;
-  "3914ec19": BowmarkSite_0eb976ff.Unit;
   "3915a89c": BowmarkSite_0eb976ff.Unit;
   "39163adf": BowmarkSite_0eb976ff.Unit;
   "391675ff": BowmarkSite_0eb976ff.Unit;
@@ -569003,7 +573332,6 @@ interface BowmarkProviders {
   "3a288b2": BowmarkSite_0eb976ff.Unit;
   "3a2931ce": BowmarkSite_0eb976ff.Unit;
   "3a295b": BowmarkSite_0eb976ff.Unit;
-  "3a2a2f": BowmarkSite_0eb976ff.Unit;
   "3a2a6ab2": BowmarkSite_0eb976ff.Unit;
   "3a2b0f9b": BowmarkSite_0eb976ff.Unit;
   "3a2bc956": BowmarkSite_0eb976ff.Unit;
@@ -569948,7 +574276,6 @@ interface BowmarkProviders {
   "3bfb3f6": BowmarkSite_0eb976ff.Unit;
   "3bfcc297": BowmarkSite_0eb976ff.Unit;
   "3bff552": BowmarkSite_0eb976ff.Unit;
-  "3bffb953": BowmarkSite_0eb976ff.Unit;
   "3bffe095": BowmarkSite_0eb976ff.Unit;
   "3bglobal": BowmarkSite_0eb976ff.Unit;
   "3bhegw0v": BowmarkSite_0eb976ff.Unit;
@@ -569977,7 +574304,6 @@ interface BowmarkProviders {
   "3brothersclassicrovers": BowmarkSite_0eb976ff.Unit;
   "3brothersliquor": BowmarkSite_0eb976ff.Unit;
   "3brothersmobiles": BowmarkSite_0eb976ff.Unit;
-  "3brpowersports": BowmarkSite_0eb976ff.Unit;
   "3bswim": BowmarkSite_0eb976ff.Unit;
   "3btcnb2w": BowmarkSite_0eb976ff.Unit;
   "3btmeagq": BowmarkSite_0eb976ff.Unit;
@@ -571491,7 +575817,6 @@ interface BowmarkProviders {
   "3ea2934": BowmarkSite_0eb976ff.Unit;
   "3ea2ba3": BowmarkSite_0eb976ff.Unit;
   "3ea31hds": BowmarkSite_0eb976ff.Unit;
-  "3ea34250": BowmarkSite_0eb976ff.Unit;
   "3ea393df": BowmarkSite_0eb976ff.Unit;
   "3ea3ec2": BowmarkSite_0eb976ff.Unit;
   "3ea496": BowmarkSite_0eb976ff.Unit;
@@ -571806,7 +576131,6 @@ interface BowmarkProviders {
   "3f427d3": BowmarkSite_0eb976ff.Unit;
   "3f42bb": BowmarkSite_0eb976ff.Unit;
   "3f434887": BowmarkSite_0eb976ff.Unit;
-  "3f4351": BowmarkSite_0eb976ff.Unit;
   "3f43826b": BowmarkSite_0eb976ff.Unit;
   "3f448b2": BowmarkSite_0eb976ff.Unit;
   "3f448ee7": BowmarkSite_0eb976ff.Unit;
@@ -572226,7 +576550,6 @@ interface BowmarkProviders {
   "3i3u0tpp": BowmarkSite_0eb976ff.Unit;
   "3i4kyjqb": BowmarkSite_0eb976ff.Unit;
   "3idcards": BowmarkSite_0eb976ff.Unit;
-  "3iepjzhx": BowmarkSite_0eb976ff.Unit;
   "3ifulvic": BowmarkSite_0eb976ff.Unit;
   "3igjttwc": BowmarkSite_0eb976ff.Unit;
   "3ii3yzxa": BowmarkSite_0eb976ff.Unit;
@@ -572699,7 +577022,6 @@ interface BowmarkProviders {
   "3whitedots": BowmarkSite_0eb976ff.Unit;
   "3wisegifts8511": BowmarkSite_0eb976ff.Unit;
   "3wishescom": BowmarkSite_0eb976ff.Unit;
-  "3wjafxct": BowmarkSite_0eb976ff.Unit;
   "3wkt9mn4": BowmarkSite_0eb976ff.Unit;
   "3wliners": BowmarkSite_0eb976ff.Unit;
   "3wokegirlz": BowmarkSite_0eb976ff.Unit;
@@ -572972,7 +577294,6 @@ interface BowmarkProviders {
   "4058d72": BowmarkSite_0eb976ff.Unit;
   "4058fd53": BowmarkSite_0eb976ff.Unit;
   "405981": BowmarkSite_0eb976ff.Unit;
-  "4059a3db": BowmarkSite_0eb976ff.Unit;
   "4059c845": BowmarkSite_0eb976ff.Unit;
   "4059f42": BowmarkSite_0eb976ff.Unit;
   "405a73": BowmarkSite_0eb976ff.Unit;
@@ -572984,7 +577305,6 @@ interface BowmarkProviders {
   "405da1a4": BowmarkSite_0eb976ff.Unit;
   "405e67": BowmarkSite_0eb976ff.Unit;
   "405e7f3": BowmarkSite_0eb976ff.Unit;
-  "405ebefc": BowmarkSite_0eb976ff.Unit;
   "405ef52": BowmarkSite_0eb976ff.Unit;
   "405f364": BowmarkSite_0eb976ff.Unit;
   "405f6f2": BowmarkSite_0eb976ff.Unit;
@@ -573586,7 +577906,6 @@ interface BowmarkProviders {
   "416tacticalsupply": BowmarkSite_0eb976ff.Unit;
   "41719d2": BowmarkSite_0eb976ff.Unit;
   "4174022": BowmarkSite_0eb976ff.Unit;
-  "417410": BowmarkSite_0eb976ff.Unit;
   "4174bc47": BowmarkSite_0eb976ff.Unit;
   "417522c1": BowmarkSite_0eb976ff.Unit;
   "4175ac04": BowmarkSite_0eb976ff.Unit;
@@ -573990,7 +578309,6 @@ interface BowmarkProviders {
   "424456": BowmarkSite_0eb976ff.Unit;
   "4244b73": BowmarkSite_0eb976ff.Unit;
   "4244c521": BowmarkSite_0eb976ff.Unit;
-  "424515f1": BowmarkSite_0eb976ff.Unit;
   "424543": BowmarkSite_0eb976ff.Unit;
   "42454c41": BowmarkSite_0eb976ff.Unit;
   "4245f508": BowmarkSite_0eb976ff.Unit;
@@ -574006,7 +578324,6 @@ interface BowmarkProviders {
   "4249cc2": BowmarkSite_0eb976ff.Unit;
   "424a28f0": BowmarkSite_0eb976ff.Unit;
   "424a2d2": BowmarkSite_0eb976ff.Unit;
-  "424ad7a4": BowmarkSite_0eb976ff.Unit;
   "424b2c2": BowmarkSite_0eb976ff.Unit;
   "424b61": BowmarkSite_0eb976ff.Unit;
   "424b9b": BowmarkSite_0eb976ff.Unit;
@@ -574365,7 +578682,6 @@ interface BowmarkProviders {
   "42fe572": BowmarkSite_0eb976ff.Unit;
   "42fedb31": BowmarkSite_0eb976ff.Unit;
   "42fedc50": BowmarkSite_0eb976ff.Unit;
-  "42ff13": BowmarkSite_0eb976ff.Unit;
   "42ff1a": BowmarkSite_0eb976ff.Unit;
   "42ffa603": BowmarkSite_0eb976ff.Unit;
   "42ffbf61": BowmarkSite_0eb976ff.Unit;
@@ -575874,7 +580190,6 @@ interface BowmarkProviders {
   "461d373b": BowmarkSite_0eb976ff.Unit;
   "461d51": BowmarkSite_0eb976ff.Unit;
   "461e2c1c": BowmarkSite_0eb976ff.Unit;
-  "461fa060": BowmarkSite_0eb976ff.Unit;
   "461fca45": BowmarkSite_0eb976ff.Unit;
   "461fd73": BowmarkSite_0eb976ff.Unit;
   "4620792": BowmarkSite_0eb976ff.Unit;
@@ -576552,7 +580867,6 @@ interface BowmarkProviders {
   "478868ed": BowmarkSite_0eb976ff.Unit;
   "4788b53": BowmarkSite_0eb976ff.Unit;
   "47893a65": BowmarkSite_0eb976ff.Unit;
-  "4789ade9": BowmarkSite_0eb976ff.Unit;
   "478a8d": BowmarkSite_0eb976ff.Unit;
   "478ad1": BowmarkSite_0eb976ff.Unit;
   "478b624": BowmarkSite_0eb976ff.Unit;
@@ -577082,7 +581396,6 @@ interface BowmarkProviders {
   "4fencestaples": BowmarkSite_0eb976ff.Unit;
   "4fffea": BowmarkSite_0eb976ff.Unit;
   "4flowershop": BowmarkSite_0eb976ff.Unit;
-  "4for4": BowmarkSite_0eb976ff.Unit;
   "4furs": BowmarkSite_0eb976ff.Unit;
   "4gauge": BowmarkSite_0eb976ff.Unit;
   "4gehrnd4": BowmarkSite_0eb976ff.Unit;
@@ -577173,7 +581486,6 @@ interface BowmarkProviders {
   "4wsoflife": BowmarkSite_0eb976ff.Unit;
   "4x4labs": BowmarkSite_0eb976ff.Unit;
   "4xx7c80b": BowmarkSite_0eb976ff.Unit;
-  "4ygt7ybp": BowmarkSite_0eb976ff.Unit;
   "4yourdogs": BowmarkSite_0eb976ff.Unit;
   "4yyx0jzt": BowmarkSite_0eb976ff.Unit;
   "4zh1bm41": BowmarkSite_0eb976ff.Unit;
@@ -577418,7 +581730,6 @@ interface BowmarkProviders {
   "600dc830": BowmarkSite_0eb976ff.Unit;
   "60109f0d": BowmarkSite_0eb976ff.Unit;
   "603d4117": BowmarkSite_0eb976ff.Unit;
-  "605a2c2": BowmarkSite_0eb976ff.Unit;
   "605e5513": BowmarkSite_0eb976ff.Unit;
   "607c63": BowmarkSite_0eb976ff.Unit;
   "608threads": BowmarkSite_0eb976ff.Unit;
@@ -577490,7 +581801,6 @@ interface BowmarkProviders {
   "657d01": BowmarkSite_0eb976ff.Unit;
   "6587f93": BowmarkSite_0eb976ff.Unit;
   "6592ddf8": BowmarkSite_0eb976ff.Unit;
-  "65f2e6": BowmarkSite_0eb976ff.Unit;
   "65mrreie": BowmarkSite_0eb976ff.Unit;
   "65z6ztyh": BowmarkSite_0eb976ff.Unit;
   "66063dba": BowmarkSite_0eb976ff.Unit;
@@ -577684,7 +581994,6 @@ interface BowmarkProviders {
   "73a725bd": BowmarkSite_0eb976ff.Unit;
   "73f649": BowmarkSite_0eb976ff.Unit;
   "73f7b83": BowmarkSite_0eb976ff.Unit;
-  "73imre0h": BowmarkSite_0eb976ff.Unit;
   "73j5wi0g": BowmarkSite_0eb976ff.Unit;
   "740bfxn1": BowmarkSite_0eb976ff.Unit;
   "741eeec1": BowmarkSite_0eb976ff.Unit;
@@ -577746,7 +582055,6 @@ interface BowmarkProviders {
   "78bf0b": BowmarkSite_0eb976ff.Unit;
   "78daad11": BowmarkSite_0eb976ff.Unit;
   "78f8662": BowmarkSite_0eb976ff.Unit;
-  "790562d6": BowmarkSite_0eb976ff.Unit;
   "795106": BowmarkSite_0eb976ff.Unit;
   "796bf84": BowmarkSite_0eb976ff.Unit;
   "79768245": BowmarkSite_0eb976ff.Unit;
@@ -577975,7 +582283,6 @@ interface BowmarkProviders {
   "893f5ce22": BowmarkSite_0eb976ff.Unit;
   "893ryotei": BowmarkSite_0eb976ff.Unit;
   "895a192": BowmarkSite_0eb976ff.Unit;
-  "89699f3": BowmarkSite_0eb976ff.Unit;
   "898ef9": BowmarkSite_0eb976ff.Unit;
   "89a8d48e": BowmarkSite_0eb976ff.Unit;
   "89d5966c": BowmarkSite_0eb976ff.Unit;
@@ -577998,7 +582305,6 @@ interface BowmarkProviders {
   "8b2858": BowmarkSite_0eb976ff.Unit;
   "8b404e09": BowmarkSite_0eb976ff.Unit;
   "8b74622": BowmarkSite_0eb976ff.Unit;
-  "8b77a71e": BowmarkSite_0eb976ff.Unit;
   "8b7e082": BowmarkSite_0eb976ff.Unit;
   "8b88e1": BowmarkSite_0eb976ff.Unit;
   "8b92193": BowmarkSite_0eb976ff.Unit;
@@ -578081,7 +582387,6 @@ interface BowmarkProviders {
   "8v8jcitp": BowmarkSite_0eb976ff.Unit;
   "8w0qamnr": BowmarkSite_0eb976ff.Unit;
   "8xtsn56v": BowmarkSite_0eb976ff.Unit;
-  "8yrxvwxd": BowmarkSite_0eb976ff.Unit;
   "8zr1spej": BowmarkSite_0eb976ff.Unit;
   "8zrp6zer": BowmarkSite_0eb976ff.Unit;
   "901bcb2": BowmarkSite_0eb976ff.Unit;
@@ -578171,7 +582476,6 @@ interface BowmarkProviders {
   "97451e": BowmarkSite_0eb976ff.Unit;
   "97488145": BowmarkSite_0eb976ff.Unit;
   "976468ad": BowmarkSite_0eb976ff.Unit;
-  "977094": BowmarkSite_0eb976ff.Unit;
   "97776734": BowmarkSite_0eb976ff.Unit;
   "97c8c34": BowmarkSite_0eb976ff.Unit;
   "97dfd9e7": BowmarkSite_0eb976ff.Unit;
@@ -578263,7 +582567,6 @@ interface BowmarkProviders {
   "9f43aaa8": BowmarkSite_0eb976ff.Unit;
   "9f48e841": BowmarkSite_0eb976ff.Unit;
   "9f4dfdfb": BowmarkSite_0eb976ff.Unit;
-  "9f587b09": BowmarkSite_0eb976ff.Unit;
   "9f602a5": BowmarkSite_0eb976ff.Unit;
   "9f66912": BowmarkSite_0eb976ff.Unit;
   "9f6e6c": BowmarkSite_0eb976ff.Unit;
@@ -578464,7 +582767,6 @@ interface BowmarkProviders {
   aasaf: BowmarkSite_0eb976ff.Unit;
   aasat9f4d: BowmarkSite_0eb976ff.Unit;
   aasbbookstore: BowmarkSite_0eb976ff.Unit;
-  aascf: BowmarkSite_0eb976ff.Unit;
   aastoretest: BowmarkSite_0eb976ff.Unit;
   aaworldtrademarketinginc: BowmarkSite_0eb976ff.Unit;
   aax1gh59: BowmarkSite_0eb976ff.Unit;
@@ -579037,7 +583339,6 @@ interface BowmarkProviders {
   africanblackprint: BowmarkSite_0eb976ff.Unit;
   africanclothestemplate: BowmarkSite_0eb976ff.Unit;
   africanfly: BowmarkSite_0eb976ff.Unit;
-  africanfoodwarehouse: BowmarkSite_0eb976ff.Unit;
   africanlightbookandcoffeeshop: BowmarkSite_0eb976ff.Unit;
   africanmugs: BowmarkSite_0eb976ff.Unit;
   africanprincessjewelrycom: BowmarkSite_0eb976ff.Unit;
@@ -579098,7 +583399,6 @@ interface BowmarkProviders {
   agfutureamerica: BowmarkSite_0eb976ff.Unit;
   agggwholesale: BowmarkSite_0eb976ff.Unit;
   aggiesonmain: BowmarkSite_0eb976ff.Unit;
-  aggiesworld: BowmarkSite_0eb976ff.Unit;
   aggressivesoccer: BowmarkSite_0eb976ff.Unit;
   agilebits: BowmarkSite_0eb976ff.Unit;
   agilious: BowmarkSite_0eb976ff.Unit;
@@ -579191,7 +583491,6 @@ interface BowmarkProviders {
   airesthimatic: BowmarkSite_0eb976ff.Unit;
   airfaresnacks: BowmarkSite_0eb976ff.Unit;
   airflowsystems: BowmarkSite_0eb976ff.Unit;
-  airglamping: BowmarkSite_0eb976ff.Unit;
   airgunat: BowmarkSite_0eb976ff.Unit;
   airheadzllc: BowmarkSite_0eb976ff.Unit;
   airifarm: BowmarkSite_0eb976ff.Unit;
@@ -579219,7 +583518,6 @@ interface BowmarkProviders {
   aislestudio: BowmarkSite_0eb976ff.Unit;
   aislinglalordentalskin: BowmarkSite_0eb976ff.Unit;
   aislingleydonmakeupacademy: BowmarkSite_0eb976ff.Unit;
-  aitchgbp: BowmarkSite_0eb976ff.Unit;
   aiworldcongress: BowmarkSite_0eb976ff.Unit;
   aiynzahevsounds: BowmarkSite_0eb976ff.Unit;
   aizakura: BowmarkSite_0eb976ff.Unit;
@@ -579768,7 +584066,6 @@ interface BowmarkProviders {
   amalkapeninteriors: BowmarkSite_0eb976ff.Unit;
   amamaniere: BowmarkSite_0eb976ff.Unit;
   amanase: BowmarkSite_0eb976ff.Unit;
-  amanda363b: BowmarkSite_0eb976ff.Unit;
   amandacrossfitallen: BowmarkSite_0eb976ff.Unit;
   amandalouisespayd: BowmarkSite_0eb976ff.Unit;
   amandamarmer: BowmarkSite_0eb976ff.Unit;
@@ -580075,7 +584372,6 @@ interface BowmarkProviders {
   andrewhudson: BowmarkSite_0eb976ff.Unit;
   andrewinc: BowmarkSite_0eb976ff.Unit;
   andrewlogan: BowmarkSite_0eb976ff.Unit;
-  andrewmaynemischiefmagic: BowmarkSite_0eb976ff.Unit;
   andrewmazzone: BowmarkSite_0eb976ff.Unit;
   andrewmcmahon: BowmarkSite_0eb976ff.Unit;
   andrewrippmerch: BowmarkSite_0eb976ff.Unit;
@@ -581061,7 +585357,6 @@ interface BowmarkProviders {
   ashleybtraining: BowmarkSite_0eb976ff.Unit;
   ashleylongshoreart: BowmarkSite_0eb976ff.Unit;
   ashleylozanojewelry: BowmarkSite_0eb976ff.Unit;
-  ashleymariepaul: BowmarkSite_0eb976ff.Unit;
   ashleyreneecollection: BowmarkSite_0eb976ff.Unit;
   ashlucasauthor: BowmarkSite_0eb976ff.Unit;
   ashlynsdiydrip: BowmarkSite_0eb976ff.Unit;
@@ -581308,7 +585603,6 @@ interface BowmarkProviders {
   audearaeurope: BowmarkSite_0eb976ff.Unit;
   audibot: BowmarkSite_0eb976ff.Unit;
   audicus: BowmarkSite_0eb976ff.Unit;
-  audiencewonderland: BowmarkSite_0eb976ff.Unit;
   audiocasespeakers: BowmarkSite_0eb976ff.Unit;
   audiofroggear: BowmarkSite_0eb976ff.Unit;
   audiokitchen: BowmarkSite_0eb976ff.Unit;
@@ -581648,7 +585942,6 @@ interface BowmarkProviders {
   b077e1: BowmarkSite_0eb976ff.Unit;
   b07ef874: BowmarkSite_0eb976ff.Unit;
   b080243e: BowmarkSite_0eb976ff.Unit;
-  b092de05: BowmarkSite_0eb976ff.Unit;
   b0b1bc4: BowmarkSite_0eb976ff.Unit;
   b0dce2bb: BowmarkSite_0eb976ff.Unit;
   b0edia3z: BowmarkSite_0eb976ff.Unit;
@@ -581727,7 +586020,6 @@ interface BowmarkProviders {
   b7039b: BowmarkSite_0eb976ff.Unit;
   b70b9e7e: BowmarkSite_0eb976ff.Unit;
   b71e85c5: BowmarkSite_0eb976ff.Unit;
-  b71f412: BowmarkSite_0eb976ff.Unit;
   b7404a0d: BowmarkSite_0eb976ff.Unit;
   b74fa85d: BowmarkSite_0eb976ff.Unit;
   b77bb20d: BowmarkSite_0eb976ff.Unit;
@@ -581995,7 +586287,6 @@ interface BowmarkProviders {
   banctech: BowmarkSite_0eb976ff.Unit;
   bandaispirits: BowmarkSite_0eb976ff.Unit;
   bandanapottery: BowmarkSite_0eb976ff.Unit;
-  bandbmarina: BowmarkSite_0eb976ff.Unit;
   banddiction: BowmarkSite_0eb976ff.Unit;
   banditmade: BowmarkSite_0eb976ff.Unit;
   banditwigs: BowmarkSite_0eb976ff.Unit;
@@ -582186,7 +586477,6 @@ interface BowmarkProviders {
   bathcityfc: BowmarkSite_0eb976ff.Unit;
   bathgatebotanicals: BowmarkSite_0eb976ff.Unit;
   bathkandycompany: BowmarkSite_0eb976ff.Unit;
-  bathrollerderbygirls: BowmarkSite_0eb976ff.Unit;
   bathroomcladdingcentre: BowmarkSite_0eb976ff.Unit;
   bathsmerch: BowmarkSite_0eb976ff.Unit;
   bathstation: BowmarkSite_0eb976ff.Unit;
@@ -582285,7 +586575,6 @@ interface BowmarkProviders {
   bbuc: BowmarkSite_0eb976ff.Unit;
   bbyarnsupply: BowmarkSite_0eb976ff.Unit;
   bbylelite: BowmarkSite_0eb976ff.Unit;
-  bbyukmerch: BowmarkSite_0eb976ff.Unit;
   bc148a70: BowmarkSite_0eb976ff.Unit;
   bc1fd02: BowmarkSite_0eb976ff.Unit;
   bc32892: BowmarkSite_0eb976ff.Unit;
@@ -582902,7 +587191,6 @@ interface BowmarkProviders {
   bewegungs1x1: BowmarkSite_0eb976ff.Unit;
   bewellmediaandevents: BowmarkSite_0eb976ff.Unit;
   bewhittcom: BowmarkSite_0eb976ff.Unit;
-  bewildandfree: BowmarkSite_0eb976ff.Unit;
   bexbrides: BowmarkSite_0eb976ff.Unit;
   bexmerch: BowmarkSite_0eb976ff.Unit;
   beyond123store: BowmarkSite_0eb976ff.Unit;
@@ -582987,7 +587275,6 @@ interface BowmarkProviders {
   bicreacosme: BowmarkSite_0eb976ff.Unit;
   bicyclingaustralia: BowmarkSite_0eb976ff.Unit;
   bidancar: BowmarkSite_0eb976ff.Unit;
-  bidasshoes: BowmarkSite_0eb976ff.Unit;
   biddellblack: BowmarkSite_0eb976ff.Unit;
   bieclinics: BowmarkSite_0eb976ff.Unit;
   biekedepoorter: BowmarkSite_0eb976ff.Unit;
@@ -583060,7 +587347,6 @@ interface BowmarkProviders {
   bigtinrobottoysandcollectibles: BowmarkSite_0eb976ff.Unit;
   bigtiregarage: BowmarkSite_0eb976ff.Unit;
   bigwoollydesign: BowmarkSite_0eb976ff.Unit;
-  bigzuuxcapolee: BowmarkSite_0eb976ff.Unit;
   bihadadotokyo: BowmarkSite_0eb976ff.Unit;
   bihlerflexcompany: BowmarkSite_0eb976ff.Unit;
   bijincompany: BowmarkSite_0eb976ff.Unit;
@@ -583097,7 +587383,6 @@ interface BowmarkProviders {
   bilgolaslc: BowmarkSite_0eb976ff.Unit;
   bilingualcoffeetheme: BowmarkSite_0eb976ff.Unit;
   bilitee: BowmarkSite_0eb976ff.Unit;
-  billabongzoo: BowmarkSite_0eb976ff.Unit;
   billbikeshop: BowmarkSite_0eb976ff.Unit;
   billbuneenterprises: BowmarkSite_0eb976ff.Unit;
   billelis: BowmarkSite_0eb976ff.Unit;
@@ -583370,7 +587655,6 @@ interface BowmarkProviders {
   blakeproehl: BowmarkSite_0eb976ff.Unit;
   blakerichardsonearthart: BowmarkSite_0eb976ff.Unit;
   blakerouse: BowmarkSite_0eb976ff.Unit;
-  blakeshardcider: BowmarkSite_0eb976ff.Unit;
   blakesnutfree: BowmarkSite_0eb976ff.Unit;
   blakevogt: BowmarkSite_0eb976ff.Unit;
   blakewhiten: BowmarkSite_0eb976ff.Unit;
@@ -583512,7 +587796,6 @@ interface BowmarkProviders {
   bloomedinwild: BowmarkSite_0eb976ff.Unit;
   bloomerceramics: BowmarkSite_0eb976ff.Unit;
   bloomessentials: BowmarkSite_0eb976ff.Unit;
-  bloomfullysingersco: BowmarkSite_0eb976ff.Unit;
   bloomhairbeauty: BowmarkSite_0eb976ff.Unit;
   bloomhoney: BowmarkSite_0eb976ff.Unit;
   bloomiapopup: BowmarkSite_0eb976ff.Unit;
@@ -584012,7 +588295,6 @@ interface BowmarkProviders {
   borealiswoolco: BowmarkSite_0eb976ff.Unit;
   boredapeyachtclub: BowmarkSite_0eb976ff.Unit;
   boredleisureco: BowmarkSite_0eb976ff.Unit;
-  boredomkillsus: BowmarkSite_0eb976ff.Unit;
   borgiaincgalleriebb: BowmarkSite_0eb976ff.Unit;
   borgodenor: BowmarkSite_0eb976ff.Unit;
   borismustapic: BowmarkSite_0eb976ff.Unit;
@@ -584503,7 +588785,6 @@ interface BowmarkProviders {
   brooklyntaxidermy: BowmarkSite_0eb976ff.Unit;
   brooklyntheme: BowmarkSite_0eb976ff.Unit;
   brooklynthemeplayful: BowmarkSite_0eb976ff.Unit;
-  brooksbanditsstore: BowmarkSite_0eb976ff.Unit;
   brooksbelts: BowmarkSite_0eb976ff.Unit;
   brooksdixon7290: BowmarkSite_0eb976ff.Unit;
   brooksidebarkery: BowmarkSite_0eb976ff.Unit;
@@ -584551,7 +588832,6 @@ interface BowmarkProviders {
   brprovisions: BowmarkSite_0eb976ff.Unit;
   brtmotorsport: BowmarkSite_0eb976ff.Unit;
   brubakerstore: BowmarkSite_0eb976ff.Unit;
-  brucedevices: BowmarkSite_0eb976ff.Unit;
   bruceeesly: BowmarkSite_0eb976ff.Unit;
   brucejulianbloodymary: BowmarkSite_0eb976ff.Unit;
   brucemolskymusic: BowmarkSite_0eb976ff.Unit;
@@ -584872,7 +589152,6 @@ interface BowmarkProviders {
   bwbethebook: BowmarkSite_0eb976ff.Unit;
   bwbskincare: BowmarkSite_0eb976ff.Unit;
   bwdevkiu: BowmarkSite_0eb976ff.Unit;
-  bwdhorg: BowmarkSite_0eb976ff.Unit;
   bwillow: BowmarkSite_0eb976ff.Unit;
   bwjava: BowmarkSite_0eb976ff.Unit;
   bwmphoto: BowmarkSite_0eb976ff.Unit;
@@ -585009,7 +589288,6 @@ interface BowmarkProviders {
   c3e3fb46: BowmarkSite_0eb976ff.Unit;
   c3fg300u: BowmarkSite_0eb976ff.Unit;
   c3meditation: BowmarkSite_0eb976ff.Unit;
-  c3p61xza: BowmarkSite_0eb976ff.Unit;
   c3utfrea: BowmarkSite_0eb976ff.Unit;
   c3x1evc1: BowmarkSite_0eb976ff.Unit;
   c3xqpii9: BowmarkSite_0eb976ff.Unit;
@@ -585404,7 +589682,6 @@ interface BowmarkProviders {
   canegrowers: BowmarkSite_0eb976ff.Unit;
   canellalane: BowmarkSite_0eb976ff.Unit;
   caneprotein: BowmarkSite_0eb976ff.Unit;
-  canerowoutfitters: BowmarkSite_0eb976ff.Unit;
   canesinsight: BowmarkSite_0eb976ff.Unit;
   canicadesigns: BowmarkSite_0eb976ff.Unit;
   caniceinternational: BowmarkSite_0eb976ff.Unit;
@@ -585598,12 +589875,10 @@ interface BowmarkProviders {
   carludovica3237: BowmarkSite_0eb976ff.Unit;
   carlwarrenart: BowmarkSite_0eb976ff.Unit;
   carlyrbel: BowmarkSite_0eb976ff.Unit;
-  carlyzcollection: BowmarkSite_0eb976ff.Unit;
   carmencreation: BowmarkSite_0eb976ff.Unit;
   carmenindhiraart: BowmarkSite_0eb976ff.Unit;
   carmensalvadorhandmadejewelry: BowmarkSite_0eb976ff.Unit;
   carmenscooking: BowmarkSite_0eb976ff.Unit;
-  carmensvacuum: BowmarkSite_0eb976ff.Unit;
   carmenwee: BowmarkSite_0eb976ff.Unit;
   carmexaustralia: BowmarkSite_0eb976ff.Unit;
   carnabyfairhongkong: BowmarkSite_0eb976ff.Unit;
@@ -585821,7 +590096,6 @@ interface BowmarkProviders {
   cathyburgessshop2: BowmarkSite_0eb976ff.Unit;
   cathyobrienbooks: BowmarkSite_0eb976ff.Unit;
   cathyscreatives: BowmarkSite_0eb976ff.Unit;
-  catieturner: BowmarkSite_0eb976ff.Unit;
   catinberlin: BowmarkSite_0eb976ff.Unit;
   catsaver: BowmarkSite_0eb976ff.Unit;
   catshycrafts2: BowmarkSite_0eb976ff.Unit;
@@ -585946,7 +590220,6 @@ interface BowmarkProviders {
   cdnisonlineboutique: BowmarkSite_0eb976ff.Unit;
   cdnwholesalebeekeepersnaturals: BowmarkSite_0eb976ff.Unit;
   cdqqkhj1: BowmarkSite_0eb976ff.Unit;
-  cdra: BowmarkSite_0eb976ff.Unit;
   cdtarget: BowmarkSite_0eb976ff.Unit;
   ce0a2e2: BowmarkSite_0eb976ff.Unit;
   ce1f641f: BowmarkSite_0eb976ff.Unit;
@@ -586194,7 +590467,6 @@ interface BowmarkProviders {
   chanceemerson: BowmarkSite_0eb976ff.Unit;
   chancevintage: BowmarkSite_0eb976ff.Unit;
   chandailpro: BowmarkSite_0eb976ff.Unit;
-  chandapustaka: BowmarkSite_0eb976ff.Unit;
   chandlerequipment: BowmarkSite_0eb976ff.Unit;
   chandlersystemsinc: BowmarkSite_0eb976ff.Unit;
   chandlertools: BowmarkSite_0eb976ff.Unit;
@@ -586254,7 +590526,6 @@ interface BowmarkProviders {
   charlesbridge: BowmarkSite_0eb976ff.Unit;
   charlescoxdenverpsychicmedium: BowmarkSite_0eb976ff.Unit;
   charleshamilton: BowmarkSite_0eb976ff.Unit;
-  charlesleigh: BowmarkSite_0eb976ff.Unit;
   charlesmschulzmuseum: BowmarkSite_0eb976ff.Unit;
   charlesroyal: BowmarkSite_0eb976ff.Unit;
   charlesscottgallery: BowmarkSite_0eb976ff.Unit;
@@ -586598,7 +590869,6 @@ interface BowmarkProviders {
   christianoutlets: BowmarkSite_0eb976ff.Unit;
   christianpure: BowmarkSite_0eb976ff.Unit;
   christianrasmussen: BowmarkSite_0eb976ff.Unit;
-  christiansonpottery: BowmarkSite_0eb976ff.Unit;
   christiantabernaclechurchshop: BowmarkSite_0eb976ff.Unit;
   christiantaylorbespoke: BowmarkSite_0eb976ff.Unit;
   christianvizl: BowmarkSite_0eb976ff.Unit;
@@ -586731,7 +591001,6 @@ interface BowmarkProviders {
   cindystarfall: BowmarkSite_0eb976ff.Unit;
   cindyzell: BowmarkSite_0eb976ff.Unit;
   cinecanibal: BowmarkSite_0eb976ff.Unit;
-  cinemapine: BowmarkSite_0eb976ff.Unit;
   cinematek: BowmarkSite_0eb976ff.Unit;
   cinemuseum: BowmarkSite_0eb976ff.Unit;
   cineploitrecordsdiscs: BowmarkSite_0eb976ff.Unit;
@@ -586848,7 +591117,6 @@ interface BowmarkProviders {
   claritymd: BowmarkSite_0eb976ff.Unit;
   clarityvisionoptometry: BowmarkSite_0eb976ff.Unit;
   clarkandhopkins: BowmarkSite_0eb976ff.Unit;
-  clarkathleticapparel: BowmarkSite_0eb976ff.Unit;
   clarkcrewbbqshop: BowmarkSite_0eb976ff.Unit;
   clarketinwhistle: BowmarkSite_0eb976ff.Unit;
   clarknorthart: BowmarkSite_0eb976ff.Unit;
@@ -586886,7 +591154,6 @@ interface BowmarkProviders {
   clastinc: BowmarkSite_0eb976ff.Unit;
   claudetteexpressions: BowmarkSite_0eb976ff.Unit;
   claudiafrustacicollezioni: BowmarkSite_0eb976ff.Unit;
-  claudiaschober: BowmarkSite_0eb976ff.Unit;
   claudiociprianimusicmuses: BowmarkSite_0eb976ff.Unit;
   clavaleatherecommerce: BowmarkSite_0eb976ff.Unit;
   clawcrane: BowmarkSite_0eb976ff.Unit;
@@ -587216,7 +591483,6 @@ interface BowmarkProviders {
   colasbim: BowmarkSite_0eb976ff.Unit;
   colbyvalve: BowmarkSite_0eb976ff.Unit;
   colchesterrubberco: BowmarkSite_0eb976ff.Unit;
-  colchesterrugbyclub: BowmarkSite_0eb976ff.Unit;
   coldbloodedteescom: BowmarkSite_0eb976ff.Unit;
   coldie3d: BowmarkSite_0eb976ff.Unit;
   coldjasmine: BowmarkSite_0eb976ff.Unit;
@@ -587478,7 +591744,6 @@ interface BowmarkProviders {
   conseilculturelfransaskois: BowmarkSite_0eb976ff.Unit;
   conseilrh: BowmarkSite_0eb976ff.Unit;
   conseptitems: BowmarkSite_0eb976ff.Unit;
-  conservativebc: BowmarkSite_0eb976ff.Unit;
   conservesparalleles: BowmarkSite_0eb976ff.Unit;
   conshygirls: BowmarkSite_0eb976ff.Unit;
   conshyparty: BowmarkSite_0eb976ff.Unit;
@@ -587520,7 +591785,6 @@ interface BowmarkProviders {
   contourellc: BowmarkSite_0eb976ff.Unit;
   contourlaser: BowmarkSite_0eb976ff.Unit;
   contravision: BowmarkSite_0eb976ff.Unit;
-  control8411: BowmarkSite_0eb976ff.Unit;
   controlconcepts: BowmarkSite_0eb976ff.Unit;
   controllerise: BowmarkSite_0eb976ff.Unit;
   controlmax: BowmarkSite_0eb976ff.Unit;
@@ -587802,7 +592066,6 @@ interface BowmarkProviders {
   covingtoncatholicspiritshop: BowmarkSite_0eb976ff.Unit;
   cowabungamedia: BowmarkSite_0eb976ff.Unit;
   cowbellmusic: BowmarkSite_0eb976ff.Unit;
-  cowboycoutureinc: BowmarkSite_0eb976ff.Unit;
   cowboycustomsco: BowmarkSite_0eb976ff.Unit;
   cowboymouthmerch: BowmarkSite_0eb976ff.Unit;
   cowboynonies: BowmarkSite_0eb976ff.Unit;
@@ -587857,7 +592120,6 @@ interface BowmarkProviders {
   cracnature: BowmarkSite_0eb976ff.Unit;
   cradlednz: BowmarkSite_0eb976ff.Unit;
   craehome: BowmarkSite_0eb976ff.Unit;
-  craft21shop: BowmarkSite_0eb976ff.Unit;
   craftapaloozadesigns: BowmarkSite_0eb976ff.Unit;
   craftedbyhitch: BowmarkSite_0eb976ff.Unit;
   craftedbykate: BowmarkSite_0eb976ff.Unit;
@@ -587977,7 +592239,6 @@ interface BowmarkProviders {
   creativeyarnsinc: BowmarkSite_0eb976ff.Unit;
   creativitycertificationprogram: BowmarkSite_0eb976ff.Unit;
   creatriceolistica: BowmarkSite_0eb976ff.Unit;
-  creaturebazaar: BowmarkSite_0eb976ff.Unit;
   creaturecaravan: BowmarkSite_0eb976ff.Unit;
   creaturecaster: BowmarkSite_0eb976ff.Unit;
   creditsyard: BowmarkSite_0eb976ff.Unit;
@@ -587993,7 +592254,6 @@ interface BowmarkProviders {
   creezan: BowmarkSite_0eb976ff.Unit;
   creklife: BowmarkSite_0eb976ff.Unit;
   cremationcouture: BowmarkSite_0eb976ff.Unit;
-  creomarketingredcross: BowmarkSite_0eb976ff.Unit;
   creomc: BowmarkSite_0eb976ff.Unit;
   creoru: BowmarkSite_0eb976ff.Unit;
   creoslippers: BowmarkSite_0eb976ff.Unit;
@@ -588003,7 +592263,6 @@ interface BowmarkProviders {
   crescentbutterfly: BowmarkSite_0eb976ff.Unit;
   crescentcorner: BowmarkSite_0eb976ff.Unit;
   crescentridge: BowmarkSite_0eb976ff.Unit;
-  crescentroot: BowmarkSite_0eb976ff.Unit;
   crescentrosepottery: BowmarkSite_0eb976ff.Unit;
   cressonmtcoffee: BowmarkSite_0eb976ff.Unit;
   creta2: BowmarkSite_0eb976ff.Unit;
@@ -588837,7 +593096,6 @@ interface BowmarkProviders {
   damianolatini: BowmarkSite_0eb976ff.Unit;
   damianoprimiceri: BowmarkSite_0eb976ff.Unit;
   damiendempsey: BowmarkSite_0eb976ff.Unit;
-  damienjurado: BowmarkSite_0eb976ff.Unit;
   daministudios: BowmarkSite_0eb976ff.Unit;
   damonat: BowmarkSite_0eb976ff.Unit;
   damonlanecreations: BowmarkSite_0eb976ff.Unit;
@@ -588858,7 +593116,6 @@ interface BowmarkProviders {
   danceandanimate: BowmarkSite_0eb976ff.Unit;
   dancedress1989: BowmarkSite_0eb976ff.Unit;
   danceforce: BowmarkSite_0eb976ff.Unit;
-  dancegavindance: BowmarkSite_0eb976ff.Unit;
   dancemoodstore: BowmarkSite_0eb976ff.Unit;
   dancersdendancewear: BowmarkSite_0eb976ff.Unit;
   dancestuff: BowmarkSite_0eb976ff.Unit;
@@ -589080,7 +593337,6 @@ interface BowmarkProviders {
   davidmotos: BowmarkSite_0eb976ff.Unit;
   davidnail: BowmarkSite_0eb976ff.Unit;
   davidreesmerch: BowmarkSite_0eb976ff.Unit;
-  davidrio: BowmarkSite_0eb976ff.Unit;
   davidsalinasministries: BowmarkSite_0eb976ff.Unit;
   davidshingler: BowmarkSite_0eb976ff.Unit;
   davidshrigley: BowmarkSite_0eb976ff.Unit;
@@ -589225,7 +593481,6 @@ interface BowmarkProviders {
   deadsignals: BowmarkSite_0eb976ff.Unit;
   deadstockcoffee: BowmarkSite_0eb976ff.Unit;
   deadtankrecords: BowmarkSite_0eb976ff.Unit;
-  deadwoodhistoryinc: BowmarkSite_0eb976ff.Unit;
   deako: BowmarkSite_0eb976ff.Unit;
   dealerinnovacanada: BowmarkSite_0eb976ff.Unit;
   dealiciousbakery: BowmarkSite_0eb976ff.Unit;
@@ -589373,7 +593628,6 @@ interface BowmarkProviders {
   deityusa: BowmarkSite_0eb976ff.Unit;
   dejamoona: BowmarkSite_0eb976ff.Unit;
   dejamoto: BowmarkSite_0eb976ff.Unit;
-  dejensenshow: BowmarkSite_0eb976ff.Unit;
   dekalash: BowmarkSite_0eb976ff.Unit;
   dekalbdems: BowmarkSite_0eb976ff.Unit;
   dekialem: BowmarkSite_0eb976ff.Unit;
@@ -589809,7 +594063,6 @@ interface BowmarkProviders {
   dicksbeer: BowmarkSite_0eb976ff.Unit;
   dicksdriveinrestaurants: BowmarkSite_0eb976ff.Unit;
   dickspawnsuperstore: BowmarkSite_0eb976ff.Unit;
-  dicountuniverse: BowmarkSite_0eb976ff.Unit;
   diddydollydelights: BowmarkSite_0eb976ff.Unit;
   didiondragons: BowmarkSite_0eb976ff.Unit;
   die1tjvf: BowmarkSite_0eb976ff.Unit;
@@ -589851,7 +594104,6 @@ interface BowmarkProviders {
   digipendragonshop: BowmarkSite_0eb976ff.Unit;
   digiprintparts: BowmarkSite_0eb976ff.Unit;
   digital4gshoes: BowmarkSite_0eb976ff.Unit;
-  digital4success: BowmarkSite_0eb976ff.Unit;
   digitalanalysis: BowmarkSite_0eb976ff.Unit;
   digitalartmaritim: BowmarkSite_0eb976ff.Unit;
   digitalbirdmotioncontrol: BowmarkSite_0eb976ff.Unit;
@@ -589937,7 +594189,6 @@ interface BowmarkProviders {
   dirtcandynyc: BowmarkSite_0eb976ff.Unit;
   dirtchild: BowmarkSite_0eb976ff.Unit;
   dirtmarket: BowmarkSite_0eb976ff.Unit;
-  dirtroosterscom: BowmarkSite_0eb976ff.Unit;
   dirtydoveofficial: BowmarkSite_0eb976ff.Unit;
   dirtyfeathers: BowmarkSite_0eb976ff.Unit;
   dirtyfrankshotdogpalace: BowmarkSite_0eb976ff.Unit;
@@ -590252,7 +594503,6 @@ interface BowmarkProviders {
   donttellmywifestables: BowmarkSite_0eb976ff.Unit;
   donttreadonmerica: BowmarkSite_0eb976ff.Unit;
   donutwallcompany: BowmarkSite_0eb976ff.Unit;
-  doodahdistribution: BowmarkSite_0eb976ff.Unit;
   doogeemall: BowmarkSite_0eb976ff.Unit;
   doomberg: BowmarkSite_0eb976ff.Unit;
   doomcrusher: BowmarkSite_0eb976ff.Unit;
@@ -590298,7 +594548,6 @@ interface BowmarkProviders {
   dossxoxo: BowmarkSite_0eb976ff.Unit;
   dotakeitpersonally: BowmarkSite_0eb976ff.Unit;
   dotcombags: BowmarkSite_0eb976ff.Unit;
-  dothedamnthing: BowmarkSite_0eb976ff.Unit;
   dothework: BowmarkSite_0eb976ff.Unit;
   dotorpop: BowmarkSite_0eb976ff.Unit;
   dotr45: BowmarkSite_0eb976ff.Unit;
@@ -590646,7 +594895,6 @@ interface BowmarkProviders {
   dswoodalsace: BowmarkSite_0eb976ff.Unit;
   dt38foundation: BowmarkSite_0eb976ff.Unit;
   dtcchurch: BowmarkSite_0eb976ff.Unit;
-  dtdtnation: BowmarkSite_0eb976ff.Unit;
   dtek: BowmarkSite_0eb976ff.Unit;
   dtfreadytopress: BowmarkSite_0eb976ff.Unit;
   dtmcafellc: BowmarkSite_0eb976ff.Unit;
@@ -590748,7 +594996,6 @@ interface BowmarkProviders {
   dustygems1: BowmarkSite_0eb976ff.Unit;
   dustysonline: BowmarkSite_0eb976ff.Unit;
   dutchbodyart: BowmarkSite_0eb976ff.Unit;
-  dutchlandfoods: BowmarkSite_0eb976ff.Unit;
   dutchwarehouse: BowmarkSite_0eb976ff.Unit;
   duvalfashionllc: BowmarkSite_0eb976ff.Unit;
   dv8jewelry: BowmarkSite_0eb976ff.Unit;
@@ -590823,7 +595070,6 @@ interface BowmarkProviders {
   e229495e: BowmarkSite_0eb976ff.Unit;
   e287d4e2: BowmarkSite_0eb976ff.Unit;
   e2d6662: BowmarkSite_0eb976ff.Unit;
-  e2embroidery: BowmarkSite_0eb976ff.Unit;
   e2gnvmfx: BowmarkSite_0eb976ff.Unit;
   e2mcstore: BowmarkSite_0eb976ff.Unit;
   e2xcn4s1: BowmarkSite_0eb976ff.Unit;
@@ -591042,7 +595288,6 @@ interface BowmarkProviders {
   eatwellmovewellthinkwellusdb2c: BowmarkSite_0eb976ff.Unit;
   eatwrapalot: BowmarkSite_0eb976ff.Unit;
   eauditalie: BowmarkSite_0eb976ff.Unit;
-  eausalonshop2: BowmarkSite_0eb976ff.Unit;
   eavara: BowmarkSite_0eb976ff.Unit;
   eavsmokeandvape: BowmarkSite_0eb976ff.Unit;
   eazyprintz: BowmarkSite_0eb976ff.Unit;
@@ -591641,7 +595886,6 @@ interface BowmarkProviders {
   ellevatedesign: BowmarkSite_0eb976ff.Unit;
   ellevemedspa: BowmarkSite_0eb976ff.Unit;
   ellicottcitysewvac: BowmarkSite_0eb976ff.Unit;
-  elliedixon: BowmarkSite_0eb976ff.Unit;
   elliemacembroidery: BowmarkSite_0eb976ff.Unit;
   ellimonelli: BowmarkSite_0eb976ff.Unit;
   elliptigoinc: BowmarkSite_0eb976ff.Unit;
@@ -592210,7 +596454,6 @@ interface BowmarkProviders {
   eternitywarrior: BowmarkSite_0eb976ff.Unit;
   ethanallenhomesteadmuseum: BowmarkSite_0eb976ff.Unit;
   ethanjewell: BowmarkSite_0eb976ff.Unit;
-  ethelcain: BowmarkSite_0eb976ff.Unit;
   etherealwines: BowmarkSite_0eb976ff.Unit;
   ethermagic: BowmarkSite_0eb976ff.Unit;
   ethertrustshop: BowmarkSite_0eb976ff.Unit;
@@ -592387,7 +596630,6 @@ interface BowmarkProviders {
   evolutionsafetystore: BowmarkSite_0eb976ff.Unit;
   evolutionslimming: BowmarkSite_0eb976ff.Unit;
   evolveandacesmerch: BowmarkSite_0eb976ff.Unit;
-  evolveclothingjewelry: BowmarkSite_0eb976ff.Unit;
   evolvenationdev: BowmarkSite_0eb976ff.Unit;
   evolverockradio: BowmarkSite_0eb976ff.Unit;
   evolvetechnologiesllc: BowmarkSite_0eb976ff.Unit;
@@ -592401,7 +596643,6 @@ interface BowmarkProviders {
   evunited2: BowmarkSite_0eb976ff.Unit;
   evyvanguyse: BowmarkSite_0eb976ff.Unit;
   ewazbaraszewska: BowmarkSite_0eb976ff.Unit;
-  ewboats: BowmarkSite_0eb976ff.Unit;
   ewesta: BowmarkSite_0eb976ff.Unit;
   ewf4vz3j: BowmarkSite_0eb976ff.Unit;
   ewimarketplace: BowmarkSite_0eb976ff.Unit;
@@ -592414,10 +596655,8 @@ interface BowmarkProviders {
   exampleeasypay: BowmarkSite_0eb976ff.Unit;
   examplefurniturestore: BowmarkSite_0eb976ff.Unit;
   excellencils: BowmarkSite_0eb976ff.Unit;
-  excellentwall: BowmarkSite_0eb976ff.Unit;
   excelmarinestore: BowmarkSite_0eb976ff.Unit;
   excelsiorcandleco: BowmarkSite_0eb976ff.Unit;
-  excelsioreagles: BowmarkSite_0eb976ff.Unit;
   excentrikmusicstore: BowmarkSite_0eb976ff.Unit;
   exceptionallynuts: BowmarkSite_0eb976ff.Unit;
   exciteaudio: BowmarkSite_0eb976ff.Unit;
@@ -592879,7 +597118,6 @@ interface BowmarkProviders {
   fargoclothingcompany: BowmarkSite_0eb976ff.Unit;
   fargomoorhead: BowmarkSite_0eb976ff.Unit;
   farhof: BowmarkSite_0eb976ff.Unit;
-  farinternational: BowmarkSite_0eb976ff.Unit;
   farmaciadicontea: BowmarkSite_0eb976ff.Unit;
   farmacyforlifecanada: BowmarkSite_0eb976ff.Unit;
   farmaidorg: BowmarkSite_0eb976ff.Unit;
@@ -593308,7 +597546,6 @@ interface BowmarkProviders {
   filterscanada: BowmarkSite_0eb976ff.Unit;
   filtersx: BowmarkSite_0eb976ff.Unit;
   filtertueten24: BowmarkSite_0eb976ff.Unit;
-  filthnc: BowmarkSite_0eb976ff.Unit;
   filtrexfilter: BowmarkSite_0eb976ff.Unit;
   filzsattelde: BowmarkSite_0eb976ff.Unit;
   finalflightcalls: BowmarkSite_0eb976ff.Unit;
@@ -593341,7 +597578,6 @@ interface BowmarkProviders {
   fineautotransport: BowmarkSite_0eb976ff.Unit;
   finebooks: BowmarkSite_0eb976ff.Unit;
   finecapscap1: BowmarkSite_0eb976ff.Unit;
-  finecheeseusashop: BowmarkSite_0eb976ff.Unit;
   finecolorjewels: BowmarkSite_0eb976ff.Unit;
   finefituniformoverallcc: BowmarkSite_0eb976ff.Unit;
   finefoodcucina: BowmarkSite_0eb976ff.Unit;
@@ -593384,7 +597620,6 @@ interface BowmarkProviders {
   fipcostorefront: BowmarkSite_0eb976ff.Unit;
   fireamp: BowmarkSite_0eb976ff.Unit;
   fireandbone: BowmarkSite_0eb976ff.Unit;
-  fireandiceaesthetics: BowmarkSite_0eb976ff.Unit;
   fireandpine: BowmarkSite_0eb976ff.Unit;
   fireandwatercooking: BowmarkSite_0eb976ff.Unit;
   fireandwaterdesigns: BowmarkSite_0eb976ff.Unit;
@@ -594072,7 +598307,6 @@ interface BowmarkProviders {
   fq7mnbvr: BowmarkSite_0eb976ff.Unit;
   fqevp6qu: BowmarkSite_0eb976ff.Unit;
   fqipbevr: BowmarkSite_0eb976ff.Unit;
-  fqx7m1wx: BowmarkSite_0eb976ff.Unit;
   fqxi: BowmarkSite_0eb976ff.Unit;
   fraccontrols: BowmarkSite_0eb976ff.Unit;
   fractacojp: BowmarkSite_0eb976ff.Unit;
@@ -594434,7 +598668,6 @@ interface BowmarkProviders {
   funkypickleshop: BowmarkSite_0eb976ff.Unit;
   funkzones: BowmarkSite_0eb976ff.Unit;
   funlandia2: BowmarkSite_0eb976ff.Unit;
-  funlandtickets: BowmarkSite_0eb976ff.Unit;
   funlproduct: BowmarkSite_0eb976ff.Unit;
   funmoneymom: BowmarkSite_0eb976ff.Unit;
   funneltheme: BowmarkSite_0eb976ff.Unit;
@@ -594559,7 +598792,6 @@ interface BowmarkProviders {
   g4merch: BowmarkSite_0eb976ff.Unit;
   g4npxynj: BowmarkSite_0eb976ff.Unit;
   g574b0g7: BowmarkSite_0eb976ff.Unit;
-  g59recordseu: BowmarkSite_0eb976ff.Unit;
   g59recordsuk: BowmarkSite_0eb976ff.Unit;
   g5fineart: BowmarkSite_0eb976ff.Unit;
   g7emtaqw: BowmarkSite_0eb976ff.Unit;
@@ -594700,7 +598932,6 @@ interface BowmarkProviders {
   gandeegallery: BowmarkSite_0eb976ff.Unit;
   ganeshimportsinc: BowmarkSite_0eb976ff.Unit;
   gangio2: BowmarkSite_0eb976ff.Unit;
-  gangofour: BowmarkSite_0eb976ff.Unit;
   gangsterchoppers: BowmarkSite_0eb976ff.Unit;
   ganjawhitenight: BowmarkSite_0eb976ff.Unit;
   gansfeinbrandmanufaktur: BowmarkSite_0eb976ff.Unit;
@@ -594913,7 +599144,6 @@ interface BowmarkProviders {
   genexindia: BowmarkSite_0eb976ff.Unit;
   geniebidet: BowmarkSite_0eb976ff.Unit;
   geniusloungeinc: BowmarkSite_0eb976ff.Unit;
-  genknite: BowmarkSite_0eb976ff.Unit;
   genntheband: BowmarkSite_0eb976ff.Unit;
   genovesejewelers: BowmarkSite_0eb976ff.Unit;
   genpouan: BowmarkSite_0eb976ff.Unit;
@@ -595054,7 +599284,6 @@ interface BowmarkProviders {
   ghostbirdcoffee: BowmarkSite_0eb976ff.Unit;
   ghostenyc: BowmarkSite_0eb976ff.Unit;
   ghoster1: BowmarkSite_0eb976ff.Unit;
-  ghostfishbeer: BowmarkSite_0eb976ff.Unit;
   ghosthostbymb: BowmarkSite_0eb976ff.Unit;
   ghosthoundsakt: BowmarkSite_0eb976ff.Unit;
   ghostlifestyle: BowmarkSite_0eb976ff.Unit;
@@ -595079,7 +599308,6 @@ interface BowmarkProviders {
   gibbonkitchen: BowmarkSite_0eb976ff.Unit;
   gibouca: BowmarkSite_0eb976ff.Unit;
   gibson: BowmarkSite_0eb976ff.Unit;
-  gibsoncollab: BowmarkSite_0eb976ff.Unit;
   gibsoncollective: BowmarkSite_0eb976ff.Unit;
   gibsongirlboutique: BowmarkSite_0eb976ff.Unit;
   gibsontech: BowmarkSite_0eb976ff.Unit;
@@ -595202,7 +599430,6 @@ interface BowmarkProviders {
   girlupcycled: BowmarkSite_0eb976ff.Unit;
   girlystuffs: BowmarkSite_0eb976ff.Unit;
   girnardarshancom: BowmarkSite_0eb976ff.Unit;
-  girthybobastraw: BowmarkSite_0eb976ff.Unit;
   girtyskey: BowmarkSite_0eb976ff.Unit;
   giryboutique: BowmarkSite_0eb976ff.Unit;
   gisbotanicals: BowmarkSite_0eb976ff.Unit;
@@ -595269,7 +599496,6 @@ interface BowmarkProviders {
   glampalmusaofficialstore: BowmarkSite_0eb976ff.Unit;
   glamscure: BowmarkSite_0eb976ff.Unit;
   glasgoldgroupskincare: BowmarkSite_0eb976ff.Unit;
-  glasgowdanceacademy: BowmarkSite_0eb976ff.Unit;
   glassattire: BowmarkSite_0eb976ff.Unit;
   glassaxes: BowmarkSite_0eb976ff.Unit;
   glassbookstore: BowmarkSite_0eb976ff.Unit;
@@ -595479,7 +599705,6 @@ interface BowmarkProviders {
   goamericaoutfitters: BowmarkSite_0eb976ff.Unit;
   goasklee: BowmarkSite_0eb976ff.Unit;
   goathillsf: BowmarkSite_0eb976ff.Unit;
-  goatislanddive: BowmarkSite_0eb976ff.Unit;
   goatonlinestore: BowmarkSite_0eb976ff.Unit;
   goatrodeo: BowmarkSite_0eb976ff.Unit;
   goattotes: BowmarkSite_0eb976ff.Unit;
@@ -595528,7 +599753,6 @@ interface BowmarkProviders {
   gogetcomputers: BowmarkSite_0eb976ff.Unit;
   gogetglowcom: BowmarkSite_0eb976ff.Unit;
   gogglesoc: BowmarkSite_0eb976ff.Unit;
-  gogluelessacademy: BowmarkSite_0eb976ff.Unit;
   gogoodza: BowmarkSite_0eb976ff.Unit;
   gogoromarketplace2: BowmarkSite_0eb976ff.Unit;
   gogsig: BowmarkSite_0eb976ff.Unit;
@@ -595567,7 +599791,6 @@ interface BowmarkProviders {
   goldenhandsgallery: BowmarkSite_0eb976ff.Unit;
   goldenheartdirect: BowmarkSite_0eb976ff.Unit;
   goldenhomee: BowmarkSite_0eb976ff.Unit;
-  goldenhourstj: BowmarkSite_0eb976ff.Unit;
   goldenimagejewelers: BowmarkSite_0eb976ff.Unit;
   goldenmovieranch: BowmarkSite_0eb976ff.Unit;
   goldenneukoelln: BowmarkSite_0eb976ff.Unit;
@@ -595629,7 +599852,6 @@ interface BowmarkProviders {
   gooberdogcollars7077: BowmarkSite_0eb976ff.Unit;
   goodairdeodrant: BowmarkSite_0eb976ff.Unit;
   goodallpools: BowmarkSite_0eb976ff.Unit;
-  goodalma: BowmarkSite_0eb976ff.Unit;
   goodandbeautiful: BowmarkSite_0eb976ff.Unit;
   goodandwellsupplyco: BowmarkSite_0eb976ff.Unit;
   goodaudio: BowmarkSite_0eb976ff.Unit;
@@ -595911,7 +600133,6 @@ interface BowmarkProviders {
   gravitymaster97: BowmarkSite_0eb976ff.Unit;
   gravitypickdev: BowmarkSite_0eb976ff.Unit;
   gravitytheme: BowmarkSite_0eb976ff.Unit;
-  graybeardforge: BowmarkSite_0eb976ff.Unit;
   graybeestore: BowmarkSite_0eb976ff.Unit;
   graybillgallery: BowmarkSite_0eb976ff.Unit;
   graycroninbooks: BowmarkSite_0eb976ff.Unit;
@@ -595921,7 +600142,6 @@ interface BowmarkProviders {
   grayisgrey: BowmarkSite_0eb976ff.Unit;
   grayjgifts: BowmarkSite_0eb976ff.Unit;
   graymatterco: BowmarkSite_0eb976ff.Unit;
-  grayoakstudio: BowmarkSite_0eb976ff.Unit;
   grayscaleimageconsulting: BowmarkSite_0eb976ff.Unit;
   graysendoscopy: BowmarkSite_0eb976ff.Unit;
   graysonrogersartist: BowmarkSite_0eb976ff.Unit;
@@ -596076,7 +600296,6 @@ interface BowmarkProviders {
   gresso: BowmarkSite_0eb976ff.Unit;
   gretamorgan: BowmarkSite_0eb976ff.Unit;
   gretasschwester: BowmarkSite_0eb976ff.Unit;
-  gretchenheist: BowmarkSite_0eb976ff.Unit;
   gretellane: BowmarkSite_0eb976ff.Unit;
   grevillerecords: BowmarkSite_0eb976ff.Unit;
   greydazemusic: BowmarkSite_0eb976ff.Unit;
@@ -596162,7 +600381,6 @@ interface BowmarkProviders {
   growahead: BowmarkSite_0eb976ff.Unit;
   growerstudio: BowmarkSite_0eb976ff.Unit;
   growingbasics: BowmarkSite_0eb976ff.Unit;
-  growingcentsofstyle: BowmarkSite_0eb976ff.Unit;
   growingfaithgrace: BowmarkSite_0eb976ff.Unit;
   growinghometogether: BowmarkSite_0eb976ff.Unit;
   growingweisser: BowmarkSite_0eb976ff.Unit;
@@ -596443,7 +600661,6 @@ interface BowmarkProviders {
   hairflair001: BowmarkSite_0eb976ff.Unit;
   hairitageboutique: BowmarkSite_0eb976ff.Unit;
   hairlikemaggie: BowmarkSite_0eb976ff.Unit;
-  hairlocaloc: BowmarkSite_0eb976ff.Unit;
   hairmakeexcel: BowmarkSite_0eb976ff.Unit;
   hairstudios: BowmarkSite_0eb976ff.Unit;
   hairtwisters: BowmarkSite_0eb976ff.Unit;
@@ -596471,7 +600688,6 @@ interface BowmarkProviders {
   haleylebeufjewelry: BowmarkSite_0eb976ff.Unit;
   haleymathewesfineart: BowmarkSite_0eb976ff.Unit;
   halfbird: BowmarkSite_0eb976ff.Unit;
-  halfbloodsholistics: BowmarkSite_0eb976ff.Unit;
   halfhalfmx: BowmarkSite_0eb976ff.Unit;
   halfhazardpress: BowmarkSite_0eb976ff.Unit;
   halfkick: BowmarkSite_0eb976ff.Unit;
@@ -596555,7 +600771,6 @@ interface BowmarkProviders {
   handmadebybck: BowmarkSite_0eb976ff.Unit;
   handmadebylucybea: BowmarkSite_0eb976ff.Unit;
   handmadebyraine: BowmarkSite_0eb976ff.Unit;
-  handmadebyts: BowmarkSite_0eb976ff.Unit;
   handmadecardsbydayo: BowmarkSite_0eb976ff.Unit;
   handmadedays: BowmarkSite_0eb976ff.Unit;
   handmadedemoceramics: BowmarkSite_0eb976ff.Unit;
@@ -596659,7 +600874,6 @@ interface BowmarkProviders {
   happyherdco: BowmarkSite_0eb976ff.Unit;
   happyhomeasgga: BowmarkSite_0eb976ff.Unit;
   happyhomecleaningservice: BowmarkSite_0eb976ff.Unit;
-  happyhues8689: BowmarkSite_0eb976ff.Unit;
   happykidsblocks: BowmarkSite_0eb976ff.Unit;
   happykoalalv: BowmarkSite_0eb976ff.Unit;
   happylalbaby: BowmarkSite_0eb976ff.Unit;
@@ -596826,13 +601040,11 @@ interface BowmarkProviders {
   hauntedcuriosities: BowmarkSite_0eb976ff.Unit;
   haunv88: BowmarkSite_0eb976ff.Unit;
   hauoliolacom: BowmarkSite_0eb976ff.Unit;
-  hauschka: BowmarkSite_0eb976ff.Unit;
   hauscollectiveinteriors: BowmarkSite_0eb976ff.Unit;
   hausdahlia: BowmarkSite_0eb976ff.Unit;
   hausnostromo: BowmarkSite_0eb976ff.Unit;
   hausofcucu: BowmarkSite_0eb976ff.Unit;
   hausofrimmy: BowmarkSite_0eb976ff.Unit;
-  hausofstemsllc: BowmarkSite_0eb976ff.Unit;
   hausoftopper: BowmarkSite_0eb976ff.Unit;
   hausoftrout: BowmarkSite_0eb976ff.Unit;
   hausofwickscom: BowmarkSite_0eb976ff.Unit;
@@ -597318,7 +601530,6 @@ interface BowmarkProviders {
   hfhr2024: BowmarkSite_0eb976ff.Unit;
   hfischer: BowmarkSite_0eb976ff.Unit;
   hfnaturprodukte: BowmarkSite_0eb976ff.Unit;
-  hfq03d07: BowmarkSite_0eb976ff.Unit;
   hfstylestore: BowmarkSite_0eb976ff.Unit;
   hftxstore: BowmarkSite_0eb976ff.Unit;
   hfwstore: BowmarkSite_0eb976ff.Unit;
@@ -597417,10 +601628,8 @@ interface BowmarkProviders {
   highstickvodka: BowmarkSite_0eb976ff.Unit;
   highstreetmx: BowmarkSite_0eb976ff.Unit;
   highstreetrock: BowmarkSite_0eb976ff.Unit;
-  highvisuk: BowmarkSite_0eb976ff.Unit;
   highwaymaxcolouredsmokeus: BowmarkSite_0eb976ff.Unit;
   highwaytobuy: BowmarkSite_0eb976ff.Unit;
-  hihatt: BowmarkSite_0eb976ff.Unit;
   hihoneybee: BowmarkSite_0eb976ff.Unit;
   hihva: BowmarkSite_0eb976ff.Unit;
   hiiimag: BowmarkSite_0eb976ff.Unit;
@@ -597658,7 +601867,6 @@ interface BowmarkProviders {
   holidaysidewinderdiehard: BowmarkSite_0eb976ff.Unit;
   holidaystore2025: BowmarkSite_0eb976ff.Unit;
   holidu: BowmarkSite_0eb976ff.Unit;
-  holigramshop: BowmarkSite_0eb976ff.Unit;
   holipowder: BowmarkSite_0eb976ff.Unit;
   holisticbeauty411: BowmarkSite_0eb976ff.Unit;
   holistichoochie: BowmarkSite_0eb976ff.Unit;
@@ -598005,7 +602213,6 @@ interface BowmarkProviders {
   hottubuniversity: BowmarkSite_0eb976ff.Unit;
   hotwavesports: BowmarkSite_0eb976ff.Unit;
   hotwirelessstuff: BowmarkSite_0eb976ff.Unit;
-  hotyogabyzacklewin: BowmarkSite_0eb976ff.Unit;
   houmashouse: BowmarkSite_0eb976ff.Unit;
   houndcollectionusa: BowmarkSite_0eb976ff.Unit;
   houndfoxmusic: BowmarkSite_0eb976ff.Unit;
@@ -598217,7 +602424,6 @@ interface BowmarkProviders {
   humboldtbaycoffeeco: BowmarkSite_0eb976ff.Unit;
   humboldtbroncos: BowmarkSite_0eb976ff.Unit;
   humcommercestore: BowmarkSite_0eb976ff.Unit;
-  humfordmillbooks: BowmarkSite_0eb976ff.Unit;
   humidorwholesale: BowmarkSite_0eb976ff.Unit;
   hummercore: BowmarkSite_0eb976ff.Unit;
   hummingbirdboutiquefortsmith: BowmarkSite_0eb976ff.Unit;
@@ -598967,7 +603173,6 @@ interface BowmarkProviders {
   inkysbikes: BowmarkSite_0eb976ff.Unit;
   inkysproscooters: BowmarkSite_0eb976ff.Unit;
   inlayznet: BowmarkSite_0eb976ff.Unit;
-  inletcharters: BowmarkSite_0eb976ff.Unit;
   inmorale: BowmarkSite_0eb976ff.Unit;
   inmydrawsshopstop: BowmarkSite_0eb976ff.Unit;
   inmyheartbyjanet: BowmarkSite_0eb976ff.Unit;
@@ -599266,7 +603471,6 @@ interface BowmarkProviders {
   is01naja: BowmarkSite_0eb976ff.Unit;
   isaacmayerfj: BowmarkSite_0eb976ff.Unit;
   isaacmedinashop: BowmarkSite_0eb976ff.Unit;
-  isaacpelayo: BowmarkSite_0eb976ff.Unit;
   isabeaustore: BowmarkSite_0eb976ff.Unit;
   isabelaaiunoficial: BowmarkSite_0eb976ff.Unit;
   isabelico: BowmarkSite_0eb976ff.Unit;
@@ -599448,7 +603652,6 @@ interface BowmarkProviders {
   ivhsspca: BowmarkSite_0eb976ff.Unit;
   ivitag: BowmarkSite_0eb976ff.Unit;
   ivitaminsshop: BowmarkSite_0eb976ff.Unit;
-  ivj7f8gg: BowmarkSite_0eb976ff.Unit;
   ivodimchev: BowmarkSite_0eb976ff.Unit;
   ivorstrunk: BowmarkSite_0eb976ff.Unit;
   ivoryandpine: BowmarkSite_0eb976ff.Unit;
@@ -599566,7 +603769,6 @@ interface BowmarkProviders {
   jacracdisplay: BowmarkSite_0eb976ff.Unit;
   jacvanek: BowmarkSite_0eb976ff.Unit;
   jadeavedisian: BowmarkSite_0eb976ff.Unit;
-  jadebird: BowmarkSite_0eb976ff.Unit;
   jadedjewelsinc: BowmarkSite_0eb976ff.Unit;
   jadedpalates: BowmarkSite_0eb976ff.Unit;
   jadejoyjoy: BowmarkSite_0eb976ff.Unit;
@@ -600136,7 +604338,6 @@ interface BowmarkProviders {
   jjsmithonlinestore: BowmarkSite_0eb976ff.Unit;
   jjtaylorcattleco: BowmarkSite_0eb976ff.Unit;
   jjvending: BowmarkSite_0eb976ff.Unit;
-  jjwildeshop: BowmarkSite_0eb976ff.Unit;
   jkchocolates: BowmarkSite_0eb976ff.Unit;
   jkcreativewood: BowmarkSite_0eb976ff.Unit;
   jkdentalgroup: BowmarkSite_0eb976ff.Unit;
@@ -600555,7 +604756,6 @@ interface BowmarkProviders {
   juliethibault: BowmarkSite_0eb976ff.Unit;
   julietruemusic: BowmarkSite_0eb976ff.Unit;
   juliettefogra: BowmarkSite_0eb976ff.Unit;
-  juliettesplace: BowmarkSite_0eb976ff.Unit;
   juliewebb: BowmarkSite_0eb976ff.Unit;
   julsandjane: BowmarkSite_0eb976ff.Unit;
   julstamningse: BowmarkSite_0eb976ff.Unit;
@@ -600676,7 +604876,6 @@ interface BowmarkProviders {
   jviewmounts: BowmarkSite_0eb976ff.Unit;
   jvnamusic: BowmarkSite_0eb976ff.Unit;
   jvsalonshop: BowmarkSite_0eb976ff.Unit;
-  jvtf: BowmarkSite_0eb976ff.Unit;
   jw02g9ss: BowmarkSite_0eb976ff.Unit;
   jw1qvqz5: BowmarkSite_0eb976ff.Unit;
   jwalkerwellness: BowmarkSite_0eb976ff.Unit;
@@ -600902,7 +605101,6 @@ interface BowmarkProviders {
   karinesaintjacques: BowmarkSite_0eb976ff.Unit;
   karinesultanwholesale: BowmarkSite_0eb976ff.Unit;
   karingemfors: BowmarkSite_0eb976ff.Unit;
-  karinhenningsen: BowmarkSite_0eb976ff.Unit;
   karinhonpo: BowmarkSite_0eb976ff.Unit;
   kariokfitnessstore: BowmarkSite_0eb976ff.Unit;
   karisemporia: BowmarkSite_0eb976ff.Unit;
@@ -601108,7 +605306,6 @@ interface BowmarkProviders {
   kdphb211: BowmarkSite_0eb976ff.Unit;
   kdpm: BowmarkSite_0eb976ff.Unit;
   kdqx2ncy: BowmarkSite_0eb976ff.Unit;
-  kdrwa: BowmarkSite_0eb976ff.Unit;
   kdsfrancelunettes: BowmarkSite_0eb976ff.Unit;
   kealohajewelry: BowmarkSite_0eb976ff.Unit;
   keamiajewelryanddesigns: BowmarkSite_0eb976ff.Unit;
@@ -601488,7 +605685,6 @@ interface BowmarkProviders {
   kingstonjewellery: BowmarkSite_0eb976ff.Unit;
   kingstreetorchard: BowmarkSite_0eb976ff.Unit;
   kingzfashionlabel: BowmarkSite_0eb976ff.Unit;
-  kinkhao: BowmarkSite_0eb976ff.Unit;
   kinkistry: BowmarkSite_0eb976ff.Unit;
   kinkless1: BowmarkSite_0eb976ff.Unit;
   kinklinkcollection: BowmarkSite_0eb976ff.Unit;
@@ -601851,7 +606047,6 @@ interface BowmarkProviders {
   krimelifeboys: BowmarkSite_0eb976ff.Unit;
   kriptogfxstudio: BowmarkSite_0eb976ff.Unit;
   krisbainesmusicstore: BowmarkSite_0eb976ff.Unit;
-  krisdupreysgarage: BowmarkSite_0eb976ff.Unit;
   krisklankk: BowmarkSite_0eb976ff.Unit;
   krismillionzenterprises: BowmarkSite_0eb976ff.Unit;
   krisnationswholesale: BowmarkSite_0eb976ff.Unit;
@@ -601881,7 +606076,6 @@ interface BowmarkProviders {
   krstnatamaria: BowmarkSite_0eb976ff.Unit;
   kruapparel: BowmarkSite_0eb976ff.Unit;
   kruelsummer: BowmarkSite_0eb976ff.Unit;
-  krueltymerch: BowmarkSite_0eb976ff.Unit;
   krumelur: BowmarkSite_0eb976ff.Unit;
   kruter: BowmarkSite_0eb976ff.Unit;
   krvdzlcollective: BowmarkSite_0eb976ff.Unit;
@@ -602198,7 +606392,6 @@ interface BowmarkProviders {
   lakeeriecrushers: BowmarkSite_0eb976ff.Unit;
   lakegastonpawvisions: BowmarkSite_0eb976ff.Unit;
   lakegranburymerc: BowmarkSite_0eb976ff.Unit;
-  lakehouseoutfitters: BowmarkSite_0eb976ff.Unit;
   lakeirie: BowmarkSite_0eb976ff.Unit;
   lakelandbiologists: BowmarkSite_0eb976ff.Unit;
   lakelandmagic: BowmarkSite_0eb976ff.Unit;
@@ -602389,7 +606582,6 @@ interface BowmarkProviders {
   lartist: BowmarkSite_0eb976ff.Unit;
   laruearts: BowmarkSite_0eb976ff.Unit;
   laruecoffeeroasterie: BowmarkSite_0eb976ff.Unit;
-  larueemarketplace: BowmarkSite_0eb976ff.Unit;
   larueministries: BowmarkSite_0eb976ff.Unit;
   laruicci: BowmarkSite_0eb976ff.Unit;
   lasalamdspaservices: BowmarkSite_0eb976ff.Unit;
@@ -602539,7 +606731,6 @@ interface BowmarkProviders {
   lavenderformals: BowmarkSite_0eb976ff.Unit;
   lavenderridgefarms: BowmarkSite_0eb976ff.Unit;
   laveragourmet: BowmarkSite_0eb976ff.Unit;
-  lavery3dprints: BowmarkSite_0eb976ff.Unit;
   laviadellargilla: BowmarkSite_0eb976ff.Unit;
   lavidaonda: BowmarkSite_0eb976ff.Unit;
   lavieenrainey: BowmarkSite_0eb976ff.Unit;
@@ -602589,7 +606780,6 @@ interface BowmarkProviders {
   lblagermany: BowmarkSite_0eb976ff.Unit;
   lblluxuryhaircom: BowmarkSite_0eb976ff.Unit;
   lbpconcepts: BowmarkSite_0eb976ff.Unit;
-  lbwb: BowmarkSite_0eb976ff.Unit;
   lcareonlineshop: BowmarkSite_0eb976ff.Unit;
   lcaweb: BowmarkSite_0eb976ff.Unit;
   lcbeauty: BowmarkSite_0eb976ff.Unit;
@@ -602772,7 +606962,6 @@ interface BowmarkProviders {
   lelamarket8342: BowmarkSite_0eb976ff.Unit;
   lelanisteaspice: BowmarkSite_0eb976ff.Unit;
   lelasewineclub: BowmarkSite_0eb976ff.Unit;
-  leleoleole: BowmarkSite_0eb976ff.Unit;
   lelloandmonkey: BowmarkSite_0eb976ff.Unit;
   lellopastabar: BowmarkSite_0eb976ff.Unit;
   leloungebeaute: BowmarkSite_0eb976ff.Unit;
@@ -602958,7 +607147,6 @@ interface BowmarkProviders {
   levijacobs: BowmarkSite_0eb976ff.Unit;
   levilaviationpoweredbytucan: BowmarkSite_0eb976ff.Unit;
   levintuitivt: BowmarkSite_0eb976ff.Unit;
-  levisagewellness: BowmarkSite_0eb976ff.Unit;
   levitatehanger: BowmarkSite_0eb976ff.Unit;
   leviticusjewelry: BowmarkSite_0eb976ff.Unit;
   levoav: BowmarkSite_0eb976ff.Unit;
@@ -603011,7 +607199,6 @@ interface BowmarkProviders {
   libertypressprinting: BowmarkSite_0eb976ff.Unit;
   libertyrider: BowmarkSite_0eb976ff.Unit;
   libertyridgefarmandgardens: BowmarkSite_0eb976ff.Unit;
-  libertysafecorporate: BowmarkSite_0eb976ff.Unit;
   libida: BowmarkSite_0eb976ff.Unit;
   librariadigitala: BowmarkSite_0eb976ff.Unit;
   libraryofcongressshop: BowmarkSite_0eb976ff.Unit;
@@ -603353,7 +607540,6 @@ interface BowmarkProviders {
   littledreamerspublishing: BowmarkSite_0eb976ff.Unit;
   littledume: BowmarkSite_0eb976ff.Unit;
   littleearthproject: BowmarkSite_0eb976ff.Unit;
-  littleediciones: BowmarkSite_0eb976ff.Unit;
   littleflowercatholicshop: BowmarkSite_0eb976ff.Unit;
   littlefoxfashions: BowmarkSite_0eb976ff.Unit;
   littlefreelibrary: BowmarkSite_0eb976ff.Unit;
@@ -603609,7 +607795,6 @@ interface BowmarkProviders {
   logixx: BowmarkSite_0eb976ff.Unit;
   logjampresents: BowmarkSite_0eb976ff.Unit;
   logobeer: BowmarkSite_0eb976ff.Unit;
-  logonpreordering: BowmarkSite_0eb976ff.Unit;
   logostradingpost: BowmarkSite_0eb976ff.Unit;
   logsandfuel: BowmarkSite_0eb976ff.Unit;
   loianew: BowmarkSite_0eb976ff.Unit;
@@ -603620,7 +607805,6 @@ interface BowmarkProviders {
   lojamidianinja: BowmarkSite_0eb976ff.Unit;
   lojaproa: BowmarkSite_0eb976ff.Unit;
   lojarobotix: BowmarkSite_0eb976ff.Unit;
-  lojinhaoteatromagico: BowmarkSite_0eb976ff.Unit;
   lokaiholdingsllc: BowmarkSite_0eb976ff.Unit;
   lokalshirt: BowmarkSite_0eb976ff.Unit;
   lokaway: BowmarkSite_0eb976ff.Unit;
@@ -603902,7 +608086,6 @@ interface BowmarkProviders {
   lovelygreen: BowmarkSite_0eb976ff.Unit;
   lovelykc: BowmarkSite_0eb976ff.Unit;
   lovelylettersbyamanda: BowmarkSite_0eb976ff.Unit;
-  lovelylittlethingsjewelry: BowmarkSite_0eb976ff.Unit;
   lovelyloreleyshop: BowmarkSite_0eb976ff.Unit;
   lovelynerdcreations: BowmarkSite_0eb976ff.Unit;
   lovelysvintageemporium: BowmarkSite_0eb976ff.Unit;
@@ -603956,7 +608139,6 @@ interface BowmarkProviders {
   lowfisteve: BowmarkSite_0eb976ff.Unit;
   lowkeysanfrancisco: BowmarkSite_0eb976ff.Unit;
   lowtoxy: BowmarkSite_0eb976ff.Unit;
-  lowus: BowmarkSite_0eb976ff.Unit;
   loxleybrewery: BowmarkSite_0eb976ff.Unit;
   loxusjoias: BowmarkSite_0eb976ff.Unit;
   loyalcitizenclothing: BowmarkSite_0eb976ff.Unit;
@@ -603981,7 +608163,6 @@ interface BowmarkProviders {
   lrladyrosedaleproducts: BowmarkSite_0eb976ff.Unit;
   lrrhutah: BowmarkSite_0eb976ff.Unit;
   lsaconversionstore: BowmarkSite_0eb976ff.Unit;
-  lsbsc: BowmarkSite_0eb976ff.Unit;
   lscpc: BowmarkSite_0eb976ff.Unit;
   lslnccathestore: BowmarkSite_0eb976ff.Unit;
   lsmchiro: BowmarkSite_0eb976ff.Unit;
@@ -603998,7 +608179,6 @@ interface BowmarkProviders {
   luaware: BowmarkSite_0eb976ff.Unit;
   lubaamsterdam: BowmarkSite_0eb976ff.Unit;
   lubahandmade: BowmarkSite_0eb976ff.Unit;
-  lubelinedistribution: BowmarkSite_0eb976ff.Unit;
   lubertexuniversity: BowmarkSite_0eb976ff.Unit;
   lubylu: BowmarkSite_0eb976ff.Unit;
   lubysculinaryservices: BowmarkSite_0eb976ff.Unit;
@@ -604154,7 +608334,6 @@ interface BowmarkProviders {
   lushlysucculents: BowmarkSite_0eb976ff.Unit;
   lushmedspa: BowmarkSite_0eb976ff.Unit;
   lushnluxe: BowmarkSite_0eb976ff.Unit;
-  lushvirginhair: BowmarkSite_0eb976ff.Unit;
   lusitanian: BowmarkSite_0eb976ff.Unit;
   lussocittasg: BowmarkSite_0eb976ff.Unit;
   lussocyclewear: BowmarkSite_0eb976ff.Unit;
@@ -604182,7 +608361,6 @@ interface BowmarkProviders {
   luxelordcompany: BowmarkSite_0eb976ff.Unit;
   luxembourgtheme: BowmarkSite_0eb976ff.Unit;
   luxemedspaspokane: BowmarkSite_0eb976ff.Unit;
-  luxeorganix: BowmarkSite_0eb976ff.Unit;
   luxerxclinic: BowmarkSite_0eb976ff.Unit;
   luxesmith: BowmarkSite_0eb976ff.Unit;
   luxeswap: BowmarkSite_0eb976ff.Unit;
@@ -604208,9 +608386,7 @@ interface BowmarkProviders {
   luxuryitalianshoppes: BowmarkSite_0eb976ff.Unit;
   luxurylashacademy: BowmarkSite_0eb976ff.Unit;
   luxurylocality: BowmarkSite_0eb976ff.Unit;
-  luxurynextseason: BowmarkSite_0eb976ff.Unit;
   luxuryspecialistgear: BowmarkSite_0eb976ff.Unit;
-  luxurystylishdesigns: BowmarkSite_0eb976ff.Unit;
   luxuryvoutlet: BowmarkSite_0eb976ff.Unit;
   luxurywardrobe: BowmarkSite_0eb976ff.Unit;
   luxurywatch0404: BowmarkSite_0eb976ff.Unit;
@@ -604238,7 +608414,6 @@ interface BowmarkProviders {
   lyftwholesale: BowmarkSite_0eb976ff.Unit;
   lykill: BowmarkSite_0eb976ff.Unit;
   lykkeandhygge: BowmarkSite_0eb976ff.Unit;
-  lykkewullf: BowmarkSite_0eb976ff.Unit;
   lylaedinburgh: BowmarkSite_0eb976ff.Unit;
   lymanbrownleathergoods: BowmarkSite_0eb976ff.Unit;
   lymedverkkokauppa: BowmarkSite_0eb976ff.Unit;
@@ -604361,7 +608536,6 @@ interface BowmarkProviders {
   madbadgermb: BowmarkSite_0eb976ff.Unit;
   madbosnie: BowmarkSite_0eb976ff.Unit;
   madcult: BowmarkSite_0eb976ff.Unit;
-  maddcrochet: BowmarkSite_0eb976ff.Unit;
   maddensflorists: BowmarkSite_0eb976ff.Unit;
   maddgeareurope: BowmarkSite_0eb976ff.Unit;
   maddiejay: BowmarkSite_0eb976ff.Unit;
@@ -604460,7 +608634,6 @@ interface BowmarkProviders {
   magentastudiophoto: BowmarkSite_0eb976ff.Unit;
   magescomics: BowmarkSite_0eb976ff.Unit;
   maggiedevereuxphoto: BowmarkSite_0eb976ff.Unit;
-  maggiejhandmade: BowmarkSite_0eb976ff.Unit;
   maggiemarket: BowmarkSite_0eb976ff.Unit;
   maggierosemusic: BowmarkSite_0eb976ff.Unit;
   maggiesfashionmagnets: BowmarkSite_0eb976ff.Unit;
@@ -604470,7 +608643,6 @@ interface BowmarkProviders {
   magiccrackfiller: BowmarkSite_0eb976ff.Unit;
   magicexpressjp: BowmarkSite_0eb976ff.Unit;
   magicfairycandles: BowmarkSite_0eb976ff.Unit;
-  magicjumper: BowmarkSite_0eb976ff.Unit;
   magickapsalon: BowmarkSite_0eb976ff.Unit;
   magickingdomboutique: BowmarkSite_0eb976ff.Unit;
   magicmegltd: BowmarkSite_0eb976ff.Unit;
@@ -604505,7 +608677,6 @@ interface BowmarkProviders {
   magnus10: BowmarkSite_0eb976ff.Unit;
   magnusmethodshop: BowmarkSite_0eb976ff.Unit;
   magnuswalker: BowmarkSite_0eb976ff.Unit;
-  magoes: BowmarkSite_0eb976ff.Unit;
   magomoringa: BowmarkSite_0eb976ff.Unit;
   magpie10: BowmarkSite_0eb976ff.Unit;
   magpiegames: BowmarkSite_0eb976ff.Unit;
@@ -604518,7 +608689,6 @@ interface BowmarkProviders {
   mahabubsg: BowmarkSite_0eb976ff.Unit;
   mahawine: BowmarkSite_0eb976ff.Unit;
   mahellajboutique: BowmarkSite_0eb976ff.Unit;
-  maheryhair: BowmarkSite_0eb976ff.Unit;
   mahinafarmsmaui: BowmarkSite_0eb976ff.Unit;
   mahmahs: BowmarkSite_0eb976ff.Unit;
   mahnyjewelry: BowmarkSite_0eb976ff.Unit;
@@ -604552,7 +608722,6 @@ interface BowmarkProviders {
   maineforestyurts: BowmarkSite_0eb976ff.Unit;
   mainelybargains: BowmarkSite_0eb976ff.Unit;
   mainemaritimemuseumstore: BowmarkSite_0eb976ff.Unit;
-  mainemelon: BowmarkSite_0eb976ff.Unit;
   mainhardwares: BowmarkSite_0eb976ff.Unit;
   mainlinefashionista: BowmarkSite_0eb976ff.Unit;
   mainlinemaritime: BowmarkSite_0eb976ff.Unit;
@@ -604568,7 +608737,6 @@ interface BowmarkProviders {
   maisonbouche: BowmarkSite_0eb976ff.Unit;
   maisondeamu: BowmarkSite_0eb976ff.Unit;
   maisondehelen: BowmarkSite_0eb976ff.Unit;
-  maisondelacourse: BowmarkSite_0eb976ff.Unit;
   maisondeodd: BowmarkSite_0eb976ff.Unit;
   maisondethechayi: BowmarkSite_0eb976ff.Unit;
   maisonetjardin: BowmarkSite_0eb976ff.Unit;
@@ -604598,7 +608766,6 @@ interface BowmarkProviders {
   majorfitapparel: BowmarkSite_0eb976ff.Unit;
   majorleaguealumnimarketing: BowmarkSite_0eb976ff.Unit;
   majstortilla: BowmarkSite_0eb976ff.Unit;
-  makana: BowmarkSite_0eb976ff.Unit;
   makanifinsca: BowmarkSite_0eb976ff.Unit;
   makaylaraedesignco: BowmarkSite_0eb976ff.Unit;
   makayole: BowmarkSite_0eb976ff.Unit;
@@ -604664,7 +608831,6 @@ interface BowmarkProviders {
   maleein: BowmarkSite_0eb976ff.Unit;
   malekbeephotography: BowmarkSite_0eb976ff.Unit;
   malenkaoriginals: BowmarkSite_0eb976ff.Unit;
-  malerfirmaettotalenterprise: BowmarkSite_0eb976ff.Unit;
   maliakai: BowmarkSite_0eb976ff.Unit;
   maliboulake100: BowmarkSite_0eb976ff.Unit;
   malibujane: BowmarkSite_0eb976ff.Unit;
@@ -604789,7 +608955,6 @@ interface BowmarkProviders {
   mannkrafted: BowmarkSite_0eb976ff.Unit;
   mannsportoutlet: BowmarkSite_0eb976ff.Unit;
   mannyawards: BowmarkSite_0eb976ff.Unit;
-  manomanomarket: BowmarkSite_0eb976ff.Unit;
   manorcollege: BowmarkSite_0eb976ff.Unit;
   manorrock: BowmarkSite_0eb976ff.Unit;
   manorschools: BowmarkSite_0eb976ff.Unit;
@@ -604828,7 +608993,6 @@ interface BowmarkProviders {
   maplewoodsweets: BowmarkSite_0eb976ff.Unit;
   mappin: BowmarkSite_0eb976ff.Unit;
   mappricing: BowmarkSite_0eb976ff.Unit;
-  mapsofmasterystore: BowmarkSite_0eb976ff.Unit;
   mapsvintage: BowmarkSite_0eb976ff.Unit;
   mapuknoxville: BowmarkSite_0eb976ff.Unit;
   maquality: BowmarkSite_0eb976ff.Unit;
@@ -604856,7 +609020,6 @@ interface BowmarkProviders {
   marcelfranck: BowmarkSite_0eb976ff.Unit;
   marcellobergamoaustralia: BowmarkSite_0eb976ff.Unit;
   march16design369: BowmarkSite_0eb976ff.Unit;
-  marchedufermier: BowmarkSite_0eb976ff.Unit;
   marcheruedix: BowmarkSite_0eb976ff.Unit;
   marchesipancrazi: BowmarkSite_0eb976ff.Unit;
   marchllc: BowmarkSite_0eb976ff.Unit;
@@ -604894,7 +609057,6 @@ interface BowmarkProviders {
   mariaraesgourmetfoods: BowmarkSite_0eb976ff.Unit;
   mariaroseinspires: BowmarkSite_0eb976ff.Unit;
   mariashandcraftedgoods: BowmarkSite_0eb976ff.Unit;
-  mariashopewell: BowmarkSite_0eb976ff.Unit;
   mariasvintage: BowmarkSite_0eb976ff.Unit;
   mariault: BowmarkSite_0eb976ff.Unit;
   mariavision: BowmarkSite_0eb976ff.Unit;
@@ -604929,7 +609091,6 @@ interface BowmarkProviders {
   marinagroupllc: BowmarkSite_0eb976ff.Unit;
   marinarunclub: BowmarkSite_0eb976ff.Unit;
   marinathekats: BowmarkSite_0eb976ff.Unit;
-  marinbikesuk: BowmarkSite_0eb976ff.Unit;
   marineessentials: BowmarkSite_0eb976ff.Unit;
   marinelayer: BowmarkSite_0eb976ff.Unit;
   marinepartsgaloreofficial: BowmarkSite_0eb976ff.Unit;
@@ -604954,7 +609115,6 @@ interface BowmarkProviders {
   maristyouth: BowmarkSite_0eb976ff.Unit;
   maritimedeco: BowmarkSite_0eb976ff.Unit;
   maritimemuseumofbc: BowmarkSite_0eb976ff.Unit;
-  maritzabaezbeautywellness: BowmarkSite_0eb976ff.Unit;
   marjonesandfletch: BowmarkSite_0eb976ff.Unit;
   markadecorllc: BowmarkSite_0eb976ff.Unit;
   markanthonyseden: BowmarkSite_0eb976ff.Unit;
@@ -605007,7 +609167,6 @@ interface BowmarkProviders {
   marmelokitchen: BowmarkSite_0eb976ff.Unit;
   marmetoindia: BowmarkSite_0eb976ff.Unit;
   marmorinodepot: BowmarkSite_0eb976ff.Unit;
-  marmurmetamorphosis: BowmarkSite_0eb976ff.Unit;
   marnikofficial: BowmarkSite_0eb976ff.Unit;
   maroko22: BowmarkSite_0eb976ff.Unit;
   maroko3: BowmarkSite_0eb976ff.Unit;
@@ -605015,7 +609174,6 @@ interface BowmarkProviders {
   maroonhornet: BowmarkSite_0eb976ff.Unit;
   marqueebybismuth: BowmarkSite_0eb976ff.Unit;
   marqueehealth: BowmarkSite_0eb976ff.Unit;
-  marqueesstore: BowmarkSite_0eb976ff.Unit;
   marquin: BowmarkSite_0eb976ff.Unit;
   marquisden: BowmarkSite_0eb976ff.Unit;
   marrerocollection: BowmarkSite_0eb976ff.Unit;
@@ -605047,7 +609205,6 @@ interface BowmarkProviders {
   marthaponnjewelrydesigns: BowmarkSite_0eb976ff.Unit;
   marthasbundle: BowmarkSite_0eb976ff.Unit;
   marthashermosabeach: BowmarkSite_0eb976ff.Unit;
-  marthawhite: BowmarkSite_0eb976ff.Unit;
   martialartsmart: BowmarkSite_0eb976ff.Unit;
   martialartsnation: BowmarkSite_0eb976ff.Unit;
   martijntjecornelia: BowmarkSite_0eb976ff.Unit;
@@ -605075,7 +609232,6 @@ interface BowmarkProviders {
   martykolls: BowmarkSite_0eb976ff.Unit;
   martymissile: BowmarkSite_0eb976ff.Unit;
   martyniparis: BowmarkSite_0eb976ff.Unit;
-  marufilms: BowmarkSite_0eb976ff.Unit;
   marumoshop: BowmarkSite_0eb976ff.Unit;
   marusfritrafikk: BowmarkSite_0eb976ff.Unit;
   marusho: BowmarkSite_0eb976ff.Unit;
@@ -605222,11 +609378,9 @@ interface BowmarkProviders {
   matteblackcafecatering: BowmarkSite_0eb976ff.Unit;
   mattel: BowmarkSite_0eb976ff.Unit;
   matteographicsmarinermiddleschool: BowmarkSite_0eb976ff.Unit;
-  matteolanecomedy: BowmarkSite_0eb976ff.Unit;
   matterfixio: BowmarkSite_0eb976ff.Unit;
   matterhornultraks: BowmarkSite_0eb976ff.Unit;
   mattersofsize: BowmarkSite_0eb976ff.Unit;
-  matterthings: BowmarkSite_0eb976ff.Unit;
   mattgarstka: BowmarkSite_0eb976ff.Unit;
   matthewcurry: BowmarkSite_0eb976ff.Unit;
   matthewdeanshaffer: BowmarkSite_0eb976ff.Unit;
@@ -605236,7 +609390,6 @@ interface BowmarkProviders {
   matthewkeymerch: BowmarkSite_0eb976ff.Unit;
   matthewobrien: BowmarkSite_0eb976ff.Unit;
   matthewsfeedandgrain: BowmarkSite_0eb976ff.Unit;
-  matthewstone: BowmarkSite_0eb976ff.Unit;
   matthewtaylordesigns: BowmarkSite_0eb976ff.Unit;
   mattienottageministriesonlinestore: BowmarkSite_0eb976ff.Unit;
   mattize: BowmarkSite_0eb976ff.Unit;
@@ -605299,7 +609452,6 @@ interface BowmarkProviders {
   maximumnutrition: BowmarkSite_0eb976ff.Unit;
   maximuscombatapparel: BowmarkSite_0eb976ff.Unit;
   maxinelinehansshop: BowmarkSite_0eb976ff.Unit;
-  maxis4943: BowmarkSite_0eb976ff.Unit;
   maxitype: BowmarkSite_0eb976ff.Unit;
   maxmodsworkshoppe: BowmarkSite_0eb976ff.Unit;
   maxmoose: BowmarkSite_0eb976ff.Unit;
@@ -605319,7 +609471,6 @@ interface BowmarkProviders {
   mayacosmos: BowmarkSite_0eb976ff.Unit;
   mayahawke: BowmarkSite_0eb976ff.Unit;
   mayahughes: BowmarkSite_0eb976ff.Unit;
-  mayajonsson: BowmarkSite_0eb976ff.Unit;
   mayamcqueen: BowmarkSite_0eb976ff.Unit;
   mayanamx: BowmarkSite_0eb976ff.Unit;
   mayanlegacy: BowmarkSite_0eb976ff.Unit;
@@ -605327,7 +609478,6 @@ interface BowmarkProviders {
   mayanoil: BowmarkSite_0eb976ff.Unit;
   mayaroparis: BowmarkSite_0eb976ff.Unit;
   mayathemeempower: BowmarkSite_0eb976ff.Unit;
-  mayawell: BowmarkSite_0eb976ff.Unit;
   mayberryfarmsshop: BowmarkSite_0eb976ff.Unit;
   maydelmayd: BowmarkSite_0eb976ff.Unit;
   maydesignsmain: BowmarkSite_0eb976ff.Unit;
@@ -605341,7 +609491,6 @@ interface BowmarkProviders {
   mayhillfarm: BowmarkSite_0eb976ff.Unit;
   mayicarles: BowmarkSite_0eb976ff.Unit;
   mayimarts: BowmarkSite_0eb976ff.Unit;
-  maymebaker: BowmarkSite_0eb976ff.Unit;
   mayonaroll: BowmarkSite_0eb976ff.Unit;
   mayorausa: BowmarkSite_0eb976ff.Unit;
   mayrowayswimwear: BowmarkSite_0eb976ff.Unit;
@@ -605372,7 +609521,6 @@ interface BowmarkProviders {
   mcamera: BowmarkSite_0eb976ff.Unit;
   mcautocenter: BowmarkSite_0eb976ff.Unit;
   mcbazel: BowmarkSite_0eb976ff.Unit;
-  mcbcoreshop: BowmarkSite_0eb976ff.Unit;
   mcbetter: BowmarkSite_0eb976ff.Unit;
   mcbglobalph: BowmarkSite_0eb976ff.Unit;
   mccaysville: BowmarkSite_0eb976ff.Unit;
@@ -605549,7 +609697,6 @@ interface BowmarkProviders {
   meglachef: BowmarkSite_0eb976ff.Unit;
   megrecordsmusic: BowmarkSite_0eb976ff.Unit;
   megshopscanada: BowmarkSite_0eb976ff.Unit;
-  megsmashablespreorder: BowmarkSite_0eb976ff.Unit;
   megturney: BowmarkSite_0eb976ff.Unit;
   mehrunisacare: BowmarkSite_0eb976ff.Unit;
   meianimashop: BowmarkSite_0eb976ff.Unit;
@@ -605836,7 +609983,6 @@ interface BowmarkProviders {
   mfxe0bgm: BowmarkSite_0eb976ff.Unit;
   mg43ukdw: BowmarkSite_0eb976ff.Unit;
   mg9kyutu: BowmarkSite_0eb976ff.Unit;
-  mgbalm: BowmarkSite_0eb976ff.Unit;
   mgbsalonspa: BowmarkSite_0eb976ff.Unit;
   mgbyhand: BowmarkSite_0eb976ff.Unit;
   mghgeneralstore: BowmarkSite_0eb976ff.Unit;
@@ -605859,14 +610005,12 @@ interface BowmarkProviders {
   miabelladesignerchildrenswear: BowmarkSite_0eb976ff.Unit;
   miabijoux: BowmarkSite_0eb976ff.Unit;
   miabymassiel: BowmarkSite_0eb976ff.Unit;
-  miajwl: BowmarkSite_0eb976ff.Unit;
   miamayadesign: BowmarkSite_0eb976ff.Unit;
   miamibeachbum: BowmarkSite_0eb976ff.Unit;
   miamiburger: BowmarkSite_0eb976ff.Unit;
   miamicityclassic: BowmarkSite_0eb976ff.Unit;
   miamidesigncenter: BowmarkSite_0eb976ff.Unit;
   miamipersonalisedbeachwear: BowmarkSite_0eb976ff.Unit;
-  miamishoellc: BowmarkSite_0eb976ff.Unit;
   miamitheme: BowmarkSite_0eb976ff.Unit;
   miamoregigi: BowmarkSite_0eb976ff.Unit;
   miapet: BowmarkSite_0eb976ff.Unit;
@@ -605904,7 +610048,6 @@ interface BowmarkProviders {
   michelesamazingcloset: BowmarkSite_0eb976ff.Unit;
   michelkeck: BowmarkSite_0eb976ff.Unit;
   michelle97: BowmarkSite_0eb976ff.Unit;
-  michelleburleson: BowmarkSite_0eb976ff.Unit;
   michelleelainebooks: BowmarkSite_0eb976ff.Unit;
   michellelivingston: BowmarkSite_0eb976ff.Unit;
   michellemorfett: BowmarkSite_0eb976ff.Unit;
@@ -605949,7 +610092,6 @@ interface BowmarkProviders {
   middlemoonmalasllc: BowmarkSite_0eb976ff.Unit;
   middlesexschool: BowmarkSite_0eb976ff.Unit;
   mideaphilippines: BowmarkSite_0eb976ff.Unit;
-  midgardmercantile: BowmarkSite_0eb976ff.Unit;
   midge: BowmarkSite_0eb976ff.Unit;
   midgetmafiaog: BowmarkSite_0eb976ff.Unit;
   midgoods: BowmarkSite_0eb976ff.Unit;
@@ -606107,10 +610249,8 @@ interface BowmarkProviders {
   milwaukeeballet: BowmarkSite_0eb976ff.Unit;
   milwaukeemilkmen: BowmarkSite_0eb976ff.Unit;
   milwaukeeparksfoundation: BowmarkSite_0eb976ff.Unit;
-  mimaonlineshop: BowmarkSite_0eb976ff.Unit;
   mimarlifestyleonlineshop: BowmarkSite_0eb976ff.Unit;
   mimart4: BowmarkSite_0eb976ff.Unit;
-  mimicbrands: BowmarkSite_0eb976ff.Unit;
   mimicolor: BowmarkSite_0eb976ff.Unit;
   mimijewelryart: BowmarkSite_0eb976ff.Unit;
   mimimaostore: BowmarkSite_0eb976ff.Unit;
@@ -606122,7 +610262,6 @@ interface BowmarkProviders {
   mimundocoffee: BowmarkSite_0eb976ff.Unit;
   minandmon: BowmarkSite_0eb976ff.Unit;
   minarikguitars: BowmarkSite_0eb976ff.Unit;
-  minasridersstore: BowmarkSite_0eb976ff.Unit;
   minatoyuzu: BowmarkSite_0eb976ff.Unit;
   mincingmockingbirdwholesale: BowmarkSite_0eb976ff.Unit;
   mindbodyhealthsolutions: BowmarkSite_0eb976ff.Unit;
@@ -606137,7 +610276,6 @@ interface BowmarkProviders {
   mindincision2: BowmarkSite_0eb976ff.Unit;
   mindlesscrafting: BowmarkSite_0eb976ff.Unit;
   mindmountainco: BowmarkSite_0eb976ff.Unit;
-  mindovermuscleapparel: BowmarkSite_0eb976ff.Unit;
   mindsinmotiontherapeuticservicesllc: BowmarkSite_0eb976ff.Unit;
   mindstepsinc: BowmarkSite_0eb976ff.Unit;
   mindstretcher: BowmarkSite_0eb976ff.Unit;
@@ -606308,10 +610446,8 @@ interface BowmarkProviders {
   missvolunteeramerica: BowmarkSite_0eb976ff.Unit;
   misswhip: BowmarkSite_0eb976ff.Unit;
   missybymelissa: BowmarkSite_0eb976ff.Unit;
-  missypena: BowmarkSite_0eb976ff.Unit;
   mister33com: BowmarkSite_0eb976ff.Unit;
   misterbands: BowmarkSite_0eb976ff.Unit;
-  misterbarishfrance: BowmarkSite_0eb976ff.Unit;
   misterkipley: BowmarkSite_0eb976ff.Unit;
   mistermort: BowmarkSite_0eb976ff.Unit;
   mistersafetyshoes: BowmarkSite_0eb976ff.Unit;
@@ -606323,7 +610459,6 @@ interface BowmarkProviders {
   mistymbellerbooks: BowmarkSite_0eb976ff.Unit;
   misunderstoodapparel7954: BowmarkSite_0eb976ff.Unit;
   misurasartoria: BowmarkSite_0eb976ff.Unit;
-  misuzuya: BowmarkSite_0eb976ff.Unit;
   mitacell: BowmarkSite_0eb976ff.Unit;
   mitakimotors: BowmarkSite_0eb976ff.Unit;
   mitasanshodo: BowmarkSite_0eb976ff.Unit;
@@ -606355,7 +610490,6 @@ interface BowmarkProviders {
   miyazakigyozakurobee: BowmarkSite_0eb976ff.Unit;
   mizisboutique: BowmarkSite_0eb976ff.Unit;
   mizutanishoyu: BowmarkSite_0eb976ff.Unit;
-  mizzmozaic: BowmarkSite_0eb976ff.Unit;
   mjafkgif: BowmarkSite_0eb976ff.Unit;
   mjmyachts: BowmarkSite_0eb976ff.Unit;
   mjsupplyltd: BowmarkSite_0eb976ff.Unit;
@@ -606401,7 +610535,6 @@ interface BowmarkProviders {
   mmliving: BowmarkSite_0eb976ff.Unit;
   mmmfarms: BowmarkSite_0eb976ff.Unit;
   mmmore: BowmarkSite_0eb976ff.Unit;
-  mmonaghan: BowmarkSite_0eb976ff.Unit;
   mmoriabc: BowmarkSite_0eb976ff.Unit;
   mmoriabcd: BowmarkSite_0eb976ff.Unit;
   mmpascal: BowmarkSite_0eb976ff.Unit;
@@ -606627,14 +610760,12 @@ interface BowmarkProviders {
   monarchhboutique: BowmarkSite_0eb976ff.Unit;
   monarchknitting: BowmarkSite_0eb976ff.Unit;
   monarchmeals: BowmarkSite_0eb976ff.Unit;
-  monarchmedicalweightlosscenter: BowmarkSite_0eb976ff.Unit;
   monasteryclothing: BowmarkSite_0eb976ff.Unit;
   monastirakigreekmarket3: BowmarkSite_0eb976ff.Unit;
   monawadesign: BowmarkSite_0eb976ff.Unit;
   monbentotw: BowmarkSite_0eb976ff.Unit;
   monbiquinidubresil: BowmarkSite_0eb976ff.Unit;
   monbonheuronlineshop: BowmarkSite_0eb976ff.Unit;
-  moncafe1961: BowmarkSite_0eb976ff.Unit;
   mondavisisterscollection: BowmarkSite_0eb976ff.Unit;
   mondaymovement: BowmarkSite_0eb976ff.Unit;
   mondaynevercomes: BowmarkSite_0eb976ff.Unit;
@@ -606715,7 +610846,6 @@ interface BowmarkProviders {
   montgomerypress: BowmarkSite_0eb976ff.Unit;
   montgomeryskyfarm: BowmarkSite_0eb976ff.Unit;
   montgomerysportinggoodspaintball: BowmarkSite_0eb976ff.Unit;
-  monthesquare: BowmarkSite_0eb976ff.Unit;
   monthlycontentclub: BowmarkSite_0eb976ff.Unit;
   monticellocoffeeroasters: BowmarkSite_0eb976ff.Unit;
   montillacollection: BowmarkSite_0eb976ff.Unit;
@@ -606730,7 +610860,6 @@ interface BowmarkProviders {
   monyuji: BowmarkSite_0eb976ff.Unit;
   moodboutique: BowmarkSite_0eb976ff.Unit;
   moodslier: BowmarkSite_0eb976ff.Unit;
-  moodybeauty: BowmarkSite_0eb976ff.Unit;
   moodybitch: BowmarkSite_0eb976ff.Unit;
   moodycowcraftsbyalyss: BowmarkSite_0eb976ff.Unit;
   moodygirlbeautiesllc: BowmarkSite_0eb976ff.Unit;
@@ -606745,7 +610874,6 @@ interface BowmarkProviders {
   mooncollective: BowmarkSite_0eb976ff.Unit;
   mooncrawl: BowmarkSite_0eb976ff.Unit;
   moondogbrewing: BowmarkSite_0eb976ff.Unit;
-  moondogsmercantile: BowmarkSite_0eb976ff.Unit;
   moonfevermerch: BowmarkSite_0eb976ff.Unit;
   moongladebrews: BowmarkSite_0eb976ff.Unit;
   moonguide: BowmarkSite_0eb976ff.Unit;
@@ -606759,7 +610887,6 @@ interface BowmarkProviders {
   moonlitcrafterz: BowmarkSite_0eb976ff.Unit;
   moonmadefarms: BowmarkSite_0eb976ff.Unit;
   moonmilk5: BowmarkSite_0eb976ff.Unit;
-  moonmodesty: BowmarkSite_0eb976ff.Unit;
   moonofmorocco: BowmarkSite_0eb976ff.Unit;
   moonriseherbs: BowmarkSite_0eb976ff.Unit;
   moonryderwholesale: BowmarkSite_0eb976ff.Unit;
@@ -606775,7 +610902,6 @@ interface BowmarkProviders {
   moonstonewitcherystore: BowmarkSite_0eb976ff.Unit;
   moontreestudios: BowmarkSite_0eb976ff.Unit;
   moonvoidtarot: BowmarkSite_0eb976ff.Unit;
-  moonwellness: BowmarkSite_0eb976ff.Unit;
   moonworks: BowmarkSite_0eb976ff.Unit;
   moorbuoys: BowmarkSite_0eb976ff.Unit;
   moorcoffeeco: BowmarkSite_0eb976ff.Unit;
@@ -606789,12 +610915,10 @@ interface BowmarkProviders {
   moosepharmacy: BowmarkSite_0eb976ff.Unit;
   mooseville2002: BowmarkSite_0eb976ff.Unit;
   mooshoes: BowmarkSite_0eb976ff.Unit;
-  mooshuandmecom: BowmarkSite_0eb976ff.Unit;
   mooshwalks: BowmarkSite_0eb976ff.Unit;
   moots: BowmarkSite_0eb976ff.Unit;
   mopars5150: BowmarkSite_0eb976ff.Unit;
   mopilesauthor: BowmarkSite_0eb976ff.Unit;
-  moraghickman: BowmarkSite_0eb976ff.Unit;
   moralismachina: BowmarkSite_0eb976ff.Unit;
   morandinmauro: BowmarkSite_0eb976ff.Unit;
   morba: BowmarkSite_0eb976ff.Unit;
@@ -606804,7 +610928,6 @@ interface BowmarkProviders {
   mordorgundogs: BowmarkSite_0eb976ff.Unit;
   moreadventures2023: BowmarkSite_0eb976ff.Unit;
   morebymalin: BowmarkSite_0eb976ff.Unit;
-  morecafebabette: BowmarkSite_0eb976ff.Unit;
   moregood: BowmarkSite_0eb976ff.Unit;
   morehaircitysalon: BowmarkSite_0eb976ff.Unit;
   morellasunglasses: BowmarkSite_0eb976ff.Unit;
@@ -606825,14 +610948,12 @@ interface BowmarkProviders {
   morganstjean: BowmarkSite_0eb976ff.Unit;
   morganwallensthisbar: BowmarkSite_0eb976ff.Unit;
   morgastudio: BowmarkSite_0eb976ff.Unit;
-  morgenrothkuchen: BowmarkSite_0eb976ff.Unit;
   morgus: BowmarkSite_0eb976ff.Unit;
   morgxn: BowmarkSite_0eb976ff.Unit;
   moricoathome: BowmarkSite_0eb976ff.Unit;
   morikunijapan: BowmarkSite_0eb976ff.Unit;
   morisakaglobal: BowmarkSite_0eb976ff.Unit;
   morizijiujitsu: BowmarkSite_0eb976ff.Unit;
-  morningglorystore: BowmarkSite_0eb976ff.Unit;
   morningstarmud: BowmarkSite_0eb976ff.Unit;
   moroccanelixir: BowmarkSite_0eb976ff.Unit;
   moroccanoil: BowmarkSite_0eb976ff.Unit;
@@ -606928,7 +611049,6 @@ interface BowmarkProviders {
   mototattoo: BowmarkSite_0eb976ff.Unit;
   mototechlux: BowmarkSite_0eb976ff.Unit;
   motownraceway: BowmarkSite_0eb976ff.Unit;
-  motsuhiko: BowmarkSite_0eb976ff.Unit;
   motussport: BowmarkSite_0eb976ff.Unit;
   motusthecompany: BowmarkSite_0eb976ff.Unit;
   mouldmakinguk: BowmarkSite_0eb976ff.Unit;
@@ -606957,7 +611077,6 @@ interface BowmarkProviders {
   mountwashingtoncruises: BowmarkSite_0eb976ff.Unit;
   mourningbands: BowmarkSite_0eb976ff.Unit;
   mousedreams: BowmarkSite_0eb976ff.Unit;
-  mouseworkdesigns: BowmarkSite_0eb976ff.Unit;
   moutazahmed6: BowmarkSite_0eb976ff.Unit;
   mouthwatchers: BowmarkSite_0eb976ff.Unit;
   movelashop: BowmarkSite_0eb976ff.Unit;
@@ -607042,7 +611161,6 @@ interface BowmarkProviders {
   mrpetrasch: BowmarkSite_0eb976ff.Unit;
   mrphantom: BowmarkSite_0eb976ff.Unit;
   mrshowerdoor: BowmarkSite_0eb976ff.Unit;
-  mrshucksandwillies: BowmarkSite_0eb976ff.Unit;
   mrsid: BowmarkSite_0eb976ff.Unit;
   mrsmartmelbourne: BowmarkSite_0eb976ff.Unit;
   mrsmeadys: BowmarkSite_0eb976ff.Unit;
@@ -607065,7 +611183,6 @@ interface BowmarkProviders {
   msethebeautycompany: BowmarkSite_0eb976ff.Unit;
   mshsl: BowmarkSite_0eb976ff.Unit;
   mskimstoyboxxx: BowmarkSite_0eb976ff.Unit;
-  mslv2: BowmarkSite_0eb976ff.Unit;
   msmarthascorsetshoppe: BowmarkSite_0eb976ff.Unit;
   msmyapptesting: BowmarkSite_0eb976ff.Unit;
   mspcproduct: BowmarkSite_0eb976ff.Unit;
@@ -607111,7 +611228,6 @@ interface BowmarkProviders {
   muddlermd: BowmarkSite_0eb976ff.Unit;
   muddymoosemerchandise: BowmarkSite_0eb976ff.Unit;
   muddymutts2: BowmarkSite_0eb976ff.Unit;
-  muddyroots: BowmarkSite_0eb976ff.Unit;
   mudgear: BowmarkSite_0eb976ff.Unit;
   mudgirlwearepinkarmy: BowmarkSite_0eb976ff.Unit;
   mudinmyblood: BowmarkSite_0eb976ff.Unit;
@@ -607138,20 +611254,17 @@ interface BowmarkProviders {
   mulberryfieldonline: BowmarkSite_0eb976ff.Unit;
   mulberryparksilks: BowmarkSite_0eb976ff.Unit;
   mulehelltradingco: BowmarkSite_0eb976ff.Unit;
-  muli68: BowmarkSite_0eb976ff.Unit;
   mullerthal: BowmarkSite_0eb976ff.Unit;
   mullyboxstore: BowmarkSite_0eb976ff.Unit;
   mulmuljaipur: BowmarkSite_0eb976ff.Unit;
   multicubehayandcube: BowmarkSite_0eb976ff.Unit;
   multicubestore: BowmarkSite_0eb976ff.Unit;
-  multicultigirl: BowmarkSite_0eb976ff.Unit;
   multidemo11: BowmarkSite_0eb976ff.Unit;
   multifamilymovementmarket: BowmarkSite_0eb976ff.Unit;
   multilingo: BowmarkSite_0eb976ff.Unit;
   multiplygroup: BowmarkSite_0eb976ff.Unit;
   multipure: BowmarkSite_0eb976ff.Unit;
   multiship: BowmarkSite_0eb976ff.Unit;
-  multishopresisting: BowmarkSite_0eb976ff.Unit;
   multivendormarketplace4: BowmarkSite_0eb976ff.Unit;
   multivendormarketplace5: BowmarkSite_0eb976ff.Unit;
   multivendormembership: BowmarkSite_0eb976ff.Unit;
@@ -607215,7 +611328,6 @@ interface BowmarkProviders {
   musebymonae: BowmarkSite_0eb976ff.Unit;
   musecanada: BowmarkSite_0eb976ff.Unit;
   museditaedizioni: BowmarkSite_0eb976ff.Unit;
-  museedesblindes: BowmarkSite_0eb976ff.Unit;
   museocollection: BowmarkSite_0eb976ff.Unit;
   museoprecolombino: BowmarkSite_0eb976ff.Unit;
   musesmoment: BowmarkSite_0eb976ff.Unit;
@@ -607400,7 +611512,6 @@ interface BowmarkProviders {
   mygotostack: BowmarkSite_0eb976ff.Unit;
   mygourmetmushrooms: BowmarkSite_0eb976ff.Unit;
   mygreekorchard: BowmarkSite_0eb976ff.Unit;
-  mygreenmattress2: BowmarkSite_0eb976ff.Unit;
   mygrovehotel: BowmarkSite_0eb976ff.Unit;
   myhandfan: BowmarkSite_0eb976ff.Unit;
   myhappyartbox: BowmarkSite_0eb976ff.Unit;
@@ -607428,7 +611539,6 @@ interface BowmarkProviders {
   mylesworld: BowmarkSite_0eb976ff.Unit;
   mylifeline: BowmarkSite_0eb976ff.Unit;
   mylittlepizzaheaven: BowmarkSite_0eb976ff.Unit;
-  mylittlerobinsshop: BowmarkSite_0eb976ff.Unit;
   mylittlesilver: BowmarkSite_0eb976ff.Unit;
   mylittletails: BowmarkSite_0eb976ff.Unit;
   mylko: BowmarkSite_0eb976ff.Unit;
@@ -607501,7 +611611,6 @@ interface BowmarkProviders {
   myselfreliance: BowmarkSite_0eb976ff.Unit;
   mysenecacollege: BowmarkSite_0eb976ff.Unit;
   myserenitykids: BowmarkSite_0eb976ff.Unit;
-  mysexywaistwholesale: BowmarkSite_0eb976ff.Unit;
   myshoestore: BowmarkSite_0eb976ff.Unit;
   myshopdefault: BowmarkSite_0eb976ff.Unit;
   myshopexpress: BowmarkSite_0eb976ff.Unit;
@@ -607527,8 +611636,6 @@ interface BowmarkProviders {
   mysteryskullsanimated: BowmarkSite_0eb976ff.Unit;
   mysteryvibellc: BowmarkSite_0eb976ff.Unit;
   mysticalcartoonism: BowmarkSite_0eb976ff.Unit;
-  mysticalcorner: BowmarkSite_0eb976ff.Unit;
-  mysticalcreations: BowmarkSite_0eb976ff.Unit;
   mysticalgemsuk: BowmarkSite_0eb976ff.Unit;
   mysticboxingcommision: BowmarkSite_0eb976ff.Unit;
   mysticcup: BowmarkSite_0eb976ff.Unit;
@@ -607575,13 +611682,10 @@ interface BowmarkProviders {
   mywildbird: BowmarkSite_0eb976ff.Unit;
   mywordsandimages: BowmarkSite_0eb976ff.Unit;
   myworkwearonline: BowmarkSite_0eb976ff.Unit;
-  myxtini: BowmarkSite_0eb976ff.Unit;
   myzoojp: BowmarkSite_0eb976ff.Unit;
   myzurishop: BowmarkSite_0eb976ff.Unit;
-  mzumsteingaertnerei: BowmarkSite_0eb976ff.Unit;
   mzwmvd2h: BowmarkSite_0eb976ff.Unit;
   n00iki5s: BowmarkSite_0eb976ff.Unit;
-  n0ja4c4i: BowmarkSite_0eb976ff.Unit;
   n0vpvqjb: BowmarkSite_0eb976ff.Unit;
   n0ypgg0z: BowmarkSite_0eb976ff.Unit;
   n1aryt9q: BowmarkSite_0eb976ff.Unit;
@@ -607592,7 +611696,6 @@ interface BowmarkProviders {
   n51mn0gh: BowmarkSite_0eb976ff.Unit;
   n5mmnqbs: BowmarkSite_0eb976ff.Unit;
   n5wrarpr: BowmarkSite_0eb976ff.Unit;
-  n71caj0w: BowmarkSite_0eb976ff.Unit;
   n821gnec: BowmarkSite_0eb976ff.Unit;
   na8dhbdd: BowmarkSite_0eb976ff.Unit;
   naacpsanluisobispocountybranch: BowmarkSite_0eb976ff.Unit;
@@ -607616,7 +611719,6 @@ interface BowmarkProviders {
   nacstore: BowmarkSite_0eb976ff.Unit;
   nacwirecable: BowmarkSite_0eb976ff.Unit;
   nadegebozetcreations: BowmarkSite_0eb976ff.Unit;
-  nadenwardroom: BowmarkSite_0eb976ff.Unit;
   nadinamackie: BowmarkSite_0eb976ff.Unit;
   nadinamackiejackson: BowmarkSite_0eb976ff.Unit;
   nadinebreitenstein: BowmarkSite_0eb976ff.Unit;
@@ -607738,7 +611840,6 @@ interface BowmarkProviders {
   nashvilleskin: BowmarkSite_0eb976ff.Unit;
   nashvillestarlet: BowmarkSite_0eb976ff.Unit;
   nashvillestars: BowmarkSite_0eb976ff.Unit;
-  nassausupply: BowmarkSite_0eb976ff.Unit;
   nastyboyrecords: BowmarkSite_0eb976ff.Unit;
   natachamarro: BowmarkSite_0eb976ff.Unit;
   nataliafidyka: BowmarkSite_0eb976ff.Unit;
@@ -607756,7 +611857,6 @@ interface BowmarkProviders {
   nataszkoart: BowmarkSite_0eb976ff.Unit;
   natauraco: BowmarkSite_0eb976ff.Unit;
   nates3dprints: BowmarkSite_0eb976ff.Unit;
-  natesphereshop: BowmarkSite_0eb976ff.Unit;
   nathaliekayser: BowmarkSite_0eb976ff.Unit;
   nathanastanning: BowmarkSite_0eb976ff.Unit;
   nathanbellstudio: BowmarkSite_0eb976ff.Unit;
@@ -607827,9 +611927,7 @@ interface BowmarkProviders {
   natscotransitsolutions: BowmarkSite_0eb976ff.Unit;
   natshomesteaddesigns: BowmarkSite_0eb976ff.Unit;
   nattheimer: BowmarkSite_0eb976ff.Unit;
-  natualhairproducts: BowmarkSite_0eb976ff.Unit;
   naturaceutica: BowmarkSite_0eb976ff.Unit;
-  naturaeu: BowmarkSite_0eb976ff.Unit;
   natural144: BowmarkSite_0eb976ff.Unit;
   natural2cleancom: BowmarkSite_0eb976ff.Unit;
   naturalballplayer: BowmarkSite_0eb976ff.Unit;
@@ -607892,7 +611990,6 @@ interface BowmarkProviders {
   natureonlineshop: BowmarkSite_0eb976ff.Unit;
   naturepharmawellness: BowmarkSite_0eb976ff.Unit;
   naturesask: BowmarkSite_0eb976ff.Unit;
-  naturesbling: BowmarkSite_0eb976ff.Unit;
   naturesdecorations: BowmarkSite_0eb976ff.Unit;
   natureselementsnaturalgifts: BowmarkSite_0eb976ff.Unit;
   naturesembracesoapcompany: BowmarkSite_0eb976ff.Unit;
@@ -607997,7 +612094,6 @@ interface BowmarkProviders {
   neckfix: BowmarkSite_0eb976ff.Unit;
   necknest: BowmarkSite_0eb976ff.Unit;
   necora: BowmarkSite_0eb976ff.Unit;
-  necrot: BowmarkSite_0eb976ff.Unit;
   nectaraesthetics: BowmarkSite_0eb976ff.Unit;
   nectaryogagoods: BowmarkSite_0eb976ff.Unit;
   nederlandsethee: BowmarkSite_0eb976ff.Unit;
@@ -608006,10 +612102,8 @@ interface BowmarkProviders {
   nedlandspcauniforms: BowmarkSite_0eb976ff.Unit;
   nedosportsinc: BowmarkSite_0eb976ff.Unit;
   nedustoff: BowmarkSite_0eb976ff.Unit;
-  needlemindersus: BowmarkSite_0eb976ff.Unit;
   needlepointwoman: BowmarkSite_0eb976ff.Unit;
   needleworksga: BowmarkSite_0eb976ff.Unit;
-  needmoreorchids: BowmarkSite_0eb976ff.Unit;
   neeleyofficial: BowmarkSite_0eb976ff.Unit;
   neerahscloset: BowmarkSite_0eb976ff.Unit;
   neerusindia: BowmarkSite_0eb976ff.Unit;
@@ -608027,11 +612121,9 @@ interface BowmarkProviders {
   nehafooddrink: BowmarkSite_0eb976ff.Unit;
   nehafurniture: BowmarkSite_0eb976ff.Unit;
   neherashop: BowmarkSite_0eb976ff.Unit;
-  nehitalia: BowmarkSite_0eb976ff.Unit;
   neighborhoodfiberco: BowmarkSite_0eb976ff.Unit;
   neighborhoodhope: BowmarkSite_0eb976ff.Unit;
   neighborspharmacy: BowmarkSite_0eb976ff.Unit;
-  neighbourhoodcoffee: BowmarkSite_0eb976ff.Unit;
   neilfrasergraphics: BowmarkSite_0eb976ff.Unit;
   neiljouproductions: BowmarkSite_0eb976ff.Unit;
   neilsdonutsct: BowmarkSite_0eb976ff.Unit;
@@ -608239,7 +612331,6 @@ interface BowmarkProviders {
   newwine5213: BowmarkSite_0eb976ff.Unit;
   newworkfellowship: BowmarkSite_0eb976ff.Unit;
   newyorkbicycles: BowmarkSite_0eb976ff.Unit;
-  newyorkmouth: BowmarkSite_0eb976ff.Unit;
   newyorkpridegoods: BowmarkSite_0eb976ff.Unit;
   newyorkslicephilippines: BowmarkSite_0eb976ff.Unit;
   newyorktyrant: BowmarkSite_0eb976ff.Unit;
@@ -608279,12 +612370,9 @@ interface BowmarkProviders {
   nhe8vr8z: BowmarkSite_0eb976ff.Unit;
   nhirvine: BowmarkSite_0eb976ff.Unit;
   nhsnocar: BowmarkSite_0eb976ff.Unit;
-  nhuavenue: BowmarkSite_0eb976ff.Unit;
-  nhuralamasshop: BowmarkSite_0eb976ff.Unit;
   nhwpstore: BowmarkSite_0eb976ff.Unit;
   nhxxh634: BowmarkSite_0eb976ff.Unit;
   nhyaqr7q: BowmarkSite_0eb976ff.Unit;
-  nhzrtc3i: BowmarkSite_0eb976ff.Unit;
   niadart: BowmarkSite_0eb976ff.Unit;
   niagarapondandgarden: BowmarkSite_0eb976ff.Unit;
   niagarawinetrail: BowmarkSite_0eb976ff.Unit;
@@ -608338,7 +612426,6 @@ interface BowmarkProviders {
   nicolejowens: BowmarkSite_0eb976ff.Unit;
   nicolelapierre: BowmarkSite_0eb976ff.Unit;
   nicoleleespain: BowmarkSite_0eb976ff.Unit;
-  nicolemackin: BowmarkSite_0eb976ff.Unit;
   nicolereed: BowmarkSite_0eb976ff.Unit;
   nicolettasbakery: BowmarkSite_0eb976ff.Unit;
   nicolettos2: BowmarkSite_0eb976ff.Unit;
@@ -608442,7 +612529,6 @@ interface BowmarkProviders {
   nirvanaaviation: BowmarkSite_0eb976ff.Unit;
   nisargalaya: BowmarkSite_0eb976ff.Unit;
   nisekosmokemanship: BowmarkSite_0eb976ff.Unit;
-  nishaan8706: BowmarkSite_0eb976ff.Unit;
   nishiharaitoten: BowmarkSite_0eb976ff.Unit;
   nishijinyamaguchi: BowmarkSite_0eb976ff.Unit;
   nishinomiyafootballclub: BowmarkSite_0eb976ff.Unit;
@@ -608505,7 +612591,6 @@ interface BowmarkProviders {
   noamhorev: BowmarkSite_0eb976ff.Unit;
   nobaddaysstoreofficial: BowmarkSite_0eb976ff.Unit;
   nobadweathernyc: BowmarkSite_0eb976ff.Unit;
-  nobellagrace: BowmarkSite_0eb976ff.Unit;
   nobiasjp: BowmarkSite_0eb976ff.Unit;
   nobigdyl: BowmarkSite_0eb976ff.Unit;
   nobiletin: BowmarkSite_0eb976ff.Unit;
@@ -608518,7 +612603,6 @@ interface BowmarkProviders {
   nobodytoldmenyc: BowmarkSite_0eb976ff.Unit;
   nobswithbs: BowmarkSite_0eb976ff.Unit;
   nobudz: BowmarkSite_0eb976ff.Unit;
-  nochippaintprotectionfilmproductsusa: BowmarkSite_0eb976ff.Unit;
   nockperformance: BowmarkSite_0eb976ff.Unit;
   nocobliss: BowmarkSite_0eb976ff.Unit;
   nocomplyskateshop: BowmarkSite_0eb976ff.Unit;
@@ -608571,7 +612655,6 @@ interface BowmarkProviders {
   nollatta: BowmarkSite_0eb976ff.Unit;
   nollypop: BowmarkSite_0eb976ff.Unit;
   nolonnl: BowmarkSite_0eb976ff.Unit;
-  nomadbeads: BowmarkSite_0eb976ff.Unit;
   nomaddreamersfansite: BowmarkSite_0eb976ff.Unit;
   nomadents: BowmarkSite_0eb976ff.Unit;
   nomadgoods: BowmarkSite_0eb976ff.Unit;
@@ -608806,7 +612889,6 @@ interface BowmarkProviders {
   npmhu: BowmarkSite_0eb976ff.Unit;
   npoapari: BowmarkSite_0eb976ff.Unit;
   npp1et2y: BowmarkSite_0eb976ff.Unit;
-  npscorporategroup: BowmarkSite_0eb976ff.Unit;
   nqsolar: BowmarkSite_0eb976ff.Unit;
   nqzv9f0b: BowmarkSite_0eb976ff.Unit;
   nrb1uta1: BowmarkSite_0eb976ff.Unit;
@@ -608816,7 +612898,6 @@ interface BowmarkProviders {
   nrkosmetik: BowmarkSite_0eb976ff.Unit;
   nrkr635s: BowmarkSite_0eb976ff.Unit;
   nroma: BowmarkSite_0eb976ff.Unit;
-  nrwc: BowmarkSite_0eb976ff.Unit;
   nrxskin: BowmarkSite_0eb976ff.Unit;
   nscece: BowmarkSite_0eb976ff.Unit;
   nsdayton: BowmarkSite_0eb976ff.Unit;
@@ -608838,7 +612919,6 @@ interface BowmarkProviders {
   nsvstore1847: BowmarkSite_0eb976ff.Unit;
   nsxkc1fd: BowmarkSite_0eb976ff.Unit;
   nt0nazgv: BowmarkSite_0eb976ff.Unit;
-  nt9cgjtw: BowmarkSite_0eb976ff.Unit;
   ntamotechnologies: BowmarkSite_0eb976ff.Unit;
   nthjc: BowmarkSite_0eb976ff.Unit;
   ntpr90cn: BowmarkSite_0eb976ff.Unit;
@@ -608852,12 +612932,10 @@ interface BowmarkProviders {
   nubco: BowmarkSite_0eb976ff.Unit;
   nublu3: BowmarkSite_0eb976ff.Unit;
   nubodysales: BowmarkSite_0eb976ff.Unit;
-  nucarasexualhealth: BowmarkSite_0eb976ff.Unit;
   nucifera: BowmarkSite_0eb976ff.Unit;
   nuckels: BowmarkSite_0eb976ff.Unit;
   nuclearmedia: BowmarkSite_0eb976ff.Unit;
   nuclearpaintballsupply: BowmarkSite_0eb976ff.Unit;
-  nucleusshop: BowmarkSite_0eb976ff.Unit;
   nucwizards: BowmarkSite_0eb976ff.Unit;
   nudebeverages: BowmarkSite_0eb976ff.Unit;
   nudemarket: BowmarkSite_0eb976ff.Unit;
@@ -608975,7 +613053,6 @@ interface BowmarkProviders {
   nzfashionmuseum: BowmarkSite_0eb976ff.Unit;
   nzhwkgqn: BowmarkSite_0eb976ff.Unit;
   nzosalon: BowmarkSite_0eb976ff.Unit;
-  nzproductionsllc: BowmarkSite_0eb976ff.Unit;
   nzrhondium: BowmarkSite_0eb976ff.Unit;
   nzrs9epa: BowmarkSite_0eb976ff.Unit;
   nzvital: BowmarkSite_0eb976ff.Unit;
@@ -609007,7 +613084,6 @@ interface BowmarkProviders {
   oakwyn: BowmarkSite_0eb976ff.Unit;
   oasipark: BowmarkSite_0eb976ff.Unit;
   oasisfacebar: BowmarkSite_0eb976ff.Unit;
-  oasishealthbeautydayspa: BowmarkSite_0eb976ff.Unit;
   oasisluxuryhaircare: BowmarkSite_0eb976ff.Unit;
   oasisorganic: BowmarkSite_0eb976ff.Unit;
   oasisrestaurantequipment: BowmarkSite_0eb976ff.Unit;
@@ -609104,7 +613180,6 @@ interface BowmarkProviders {
   odysseyhouseshop: BowmarkSite_0eb976ff.Unit;
   odysseymusic: BowmarkSite_0eb976ff.Unit;
   oehjkushop: BowmarkSite_0eb976ff.Unit;
-  oemglobal: BowmarkSite_0eb976ff.Unit;
   oemspareparts: BowmarkSite_0eb976ff.Unit;
   oersteenedelstenen: BowmarkSite_0eb976ff.Unit;
   oesophagealcancerfund: BowmarkSite_0eb976ff.Unit;
@@ -609115,7 +613190,6 @@ interface BowmarkProviders {
   ofessonline: BowmarkSite_0eb976ff.Unit;
   offensivedelightful: BowmarkSite_0eb976ff.Unit;
   offerhook: BowmarkSite_0eb976ff.Unit;
-  offeringsfarms: BowmarkSite_0eb976ff.Unit;
   offerzonefashion: BowmarkSite_0eb976ff.Unit;
   officallukerecordsstore: BowmarkSite_0eb976ff.Unit;
   officalstorethejackathear: BowmarkSite_0eb976ff.Unit;
@@ -609123,7 +613197,6 @@ interface BowmarkProviders {
   officeaplaceofchange: BowmarkSite_0eb976ff.Unit;
   officekup: BowmarkSite_0eb976ff.Unit;
   officemag: BowmarkSite_0eb976ff.Unit;
-  officesupportsystems: BowmarkSite_0eb976ff.Unit;
   officialarmyoflove: BowmarkSite_0eb976ff.Unit;
   officialbennickyvipstore: BowmarkSite_0eb976ff.Unit;
   officialblackstarstore: BowmarkSite_0eb976ff.Unit;
@@ -609144,7 +613217,6 @@ interface BowmarkProviders {
   officiallysports: BowmarkSite_0eb976ff.Unit;
   officialmagdalenerose: BowmarkSite_0eb976ff.Unit;
   officialmarkchesnutt: BowmarkSite_0eb976ff.Unit;
-  officialmerchandisestoreusd: BowmarkSite_0eb976ff.Unit;
   officialnazarethbandmerchandise: BowmarkSite_0eb976ff.Unit;
   officialpix: BowmarkSite_0eb976ff.Unit;
   officialpreswear: BowmarkSite_0eb976ff.Unit;
@@ -609247,7 +613319,6 @@ interface BowmarkProviders {
   okiru: BowmarkSite_0eb976ff.Unit;
   okkowebshop: BowmarkSite_0eb976ff.Unit;
   oklamerica: BowmarkSite_0eb976ff.Unit;
-  okobojistore: BowmarkSite_0eb976ff.Unit;
   okolifestyle: BowmarkSite_0eb976ff.Unit;
   okomart: BowmarkSite_0eb976ff.Unit;
   okperfumes: BowmarkSite_0eb976ff.Unit;
@@ -609258,7 +613329,6 @@ interface BowmarkProviders {
   olabenitez: BowmarkSite_0eb976ff.Unit;
   olafsonportervintagegoods: BowmarkSite_0eb976ff.Unit;
   olaplex: BowmarkSite_0eb976ff.Unit;
-  olaplexsuomi: BowmarkSite_0eb976ff.Unit;
   olarondiakart: BowmarkSite_0eb976ff.Unit;
   olasurflifestyle: BowmarkSite_0eb976ff.Unit;
   olawave5207: BowmarkSite_0eb976ff.Unit;
@@ -609274,7 +613344,6 @@ interface BowmarkProviders {
   oldehickorybrewery: BowmarkSite_0eb976ff.Unit;
   oldequipment: BowmarkSite_0eb976ff.Unit;
   oldetownedinnertheatre: BowmarkSite_0eb976ff.Unit;
-  oldfarmfinefoods: BowmarkSite_0eb976ff.Unit;
   oldfloridacandleco: BowmarkSite_0eb976ff.Unit;
   oldgarageclearance: BowmarkSite_0eb976ff.Unit;
   oldglory27: BowmarkSite_0eb976ff.Unit;
@@ -609291,7 +613360,6 @@ interface BowmarkProviders {
   oldnorthchurchgiftshop: BowmarkSite_0eb976ff.Unit;
   oldpathsnaturalmarket: BowmarkSite_0eb976ff.Unit;
   oldprotattoo: BowmarkSite_0eb976ff.Unit;
-  oldpulteney: BowmarkSite_0eb976ff.Unit;
   oldriversidefoundationshop: BowmarkSite_0eb976ff.Unit;
   oldsaltmerchants: BowmarkSite_0eb976ff.Unit;
   oldsaybrookgardenclub: BowmarkSite_0eb976ff.Unit;
@@ -609348,7 +613416,6 @@ interface BowmarkProviders {
   olliepopshop: BowmarkSite_0eb976ff.Unit;
   olliesboutiquex: BowmarkSite_0eb976ff.Unit;
   ollieswoollies: BowmarkSite_0eb976ff.Unit;
-  olloclip: BowmarkSite_0eb976ff.Unit;
   olly: BowmarkSite_0eb976ff.Unit;
   ollyathletic: BowmarkSite_0eb976ff.Unit;
   olmstedpleinair: BowmarkSite_0eb976ff.Unit;
@@ -609442,7 +613509,6 @@ interface BowmarkProviders {
   oneformulajp: BowmarkSite_0eb976ff.Unit;
   oneframeofficial: BowmarkSite_0eb976ff.Unit;
   onefutureworld: BowmarkSite_0eb976ff.Unit;
-  onegirlsparty: BowmarkSite_0eb976ff.Unit;
   onegunranch: BowmarkSite_0eb976ff.Unit;
   oneheadhair: BowmarkSite_0eb976ff.Unit;
   onehoney: BowmarkSite_0eb976ff.Unit;
@@ -609457,11 +613523,9 @@ interface BowmarkProviders {
   onelifestrong: BowmarkSite_0eb976ff.Unit;
   onelifevest: BowmarkSite_0eb976ff.Unit;
   onelittlesparkle: BowmarkSite_0eb976ff.Unit;
-  onelovediaperco: BowmarkSite_0eb976ff.Unit;
   oneloveorganics: BowmarkSite_0eb976ff.Unit;
   onemercantile: BowmarkSite_0eb976ff.Unit;
   onemightymill: BowmarkSite_0eb976ff.Unit;
-  onemoregymapparelsupplements: BowmarkSite_0eb976ff.Unit;
   onemorekiss: BowmarkSite_0eb976ff.Unit;
   onemoretimeetc: BowmarkSite_0eb976ff.Unit;
   onenessinlove: BowmarkSite_0eb976ff.Unit;
@@ -609584,7 +613648,6 @@ interface BowmarkProviders {
   oocrew: BowmarkSite_0eb976ff.Unit;
   oofos: BowmarkSite_0eb976ff.Unit;
   oohara: BowmarkSite_0eb976ff.Unit;
-  oohatanashien: BowmarkSite_0eb976ff.Unit;
   oohiro: BowmarkSite_0eb976ff.Unit;
   ookoodook: BowmarkSite_0eb976ff.Unit;
   oolabe: BowmarkSite_0eb976ff.Unit;
@@ -609696,10 +613759,8 @@ interface BowmarkProviders {
   orcasfoodcoop: BowmarkSite_0eb976ff.Unit;
   orce: BowmarkSite_0eb976ff.Unit;
   orchard: BowmarkSite_0eb976ff.Unit;
-  orchardgrocer: BowmarkSite_0eb976ff.Unit;
   orchardtoys: BowmarkSite_0eb976ff.Unit;
   orchidesign: BowmarkSite_0eb976ff.Unit;
-  orchify: BowmarkSite_0eb976ff.Unit;
   orcrf: BowmarkSite_0eb976ff.Unit;
   order2109: BowmarkSite_0eb976ff.Unit;
   orderbraided: BowmarkSite_0eb976ff.Unit;
@@ -609731,8 +613792,6 @@ interface BowmarkProviders {
   organicpunk: BowmarkSite_0eb976ff.Unit;
   organicshop24: BowmarkSite_0eb976ff.Unit;
   organicskinlightener: BowmarkSite_0eb976ff.Unit;
-  organictraditions: BowmarkSite_0eb976ff.Unit;
-  organictraditionsus: BowmarkSite_0eb976ff.Unit;
   organiquebyjlfaces: BowmarkSite_0eb976ff.Unit;
   organityuk: BowmarkSite_0eb976ff.Unit;
   organizationalwellnessandlearningsystems: BowmarkSite_0eb976ff.Unit;
@@ -609789,7 +613848,6 @@ interface BowmarkProviders {
   orwellaustensamplesale: BowmarkSite_0eb976ff.Unit;
   osaacornerstore: BowmarkSite_0eb976ff.Unit;
   osakametroshop: BowmarkSite_0eb976ff.Unit;
-  osakasensyutengoku: BowmarkSite_0eb976ff.Unit;
   osakeuniv: BowmarkSite_0eb976ff.Unit;
   osarestaurant: BowmarkSite_0eb976ff.Unit;
   osariaplayer: BowmarkSite_0eb976ff.Unit;
@@ -609844,7 +613902,6 @@ interface BowmarkProviders {
   otouchfun: BowmarkSite_0eb976ff.Unit;
   otsofficial: BowmarkSite_0eb976ff.Unit;
   ottavaplus: BowmarkSite_0eb976ff.Unit;
-  ottawaatletico: BowmarkSite_0eb976ff.Unit;
   ottawabarcraft: BowmarkSite_0eb976ff.Unit;
   ottawaconservationdistrict: BowmarkSite_0eb976ff.Unit;
   ottawadesignclub: BowmarkSite_0eb976ff.Unit;
@@ -609867,7 +613924,6 @@ interface BowmarkProviders {
   ouedzayn: BowmarkSite_0eb976ff.Unit;
   oufer: BowmarkSite_0eb976ff.Unit;
   ouishave: BowmarkSite_0eb976ff.Unit;
-  oulalapuzzles: BowmarkSite_0eb976ff.Unit;
   oulpanpratique: BowmarkSite_0eb976ff.Unit;
   ourbodyelectric: BowmarkSite_0eb976ff.Unit;
   ourcommunia: BowmarkSite_0eb976ff.Unit;
@@ -609875,7 +613931,6 @@ interface BowmarkProviders {
   ourfarmdc: BowmarkSite_0eb976ff.Unit;
   ourfarmfreshflowers: BowmarkSite_0eb976ff.Unit;
   ourhijabilife: BowmarkSite_0eb976ff.Unit;
-  ourhomegyms: BowmarkSite_0eb976ff.Unit;
   ourladyofkibeho: BowmarkSite_0eb976ff.Unit;
   ourlovelynaturals: BowmarkSite_0eb976ff.Unit;
   ourmotherstreasures: BowmarkSite_0eb976ff.Unit;
@@ -609934,7 +613989,6 @@ interface BowmarkProviders {
   outtolunchpt: BowmarkSite_0eb976ff.Unit;
   outwardboundchesapeake: BowmarkSite_0eb976ff.Unit;
   outwardboundusa: BowmarkSite_0eb976ff.Unit;
-  outwestfurnitureinc: BowmarkSite_0eb976ff.Unit;
   outworksfi: BowmarkSite_0eb976ff.Unit;
   overcastlureco: BowmarkSite_0eb976ff.Unit;
   overdressedjewels: BowmarkSite_0eb976ff.Unit;
@@ -609954,7 +614008,6 @@ interface BowmarkProviders {
   overtimeathletesapparel: BowmarkSite_0eb976ff.Unit;
   overzet: BowmarkSite_0eb976ff.Unit;
   ovtastingroom: BowmarkSite_0eb976ff.Unit;
-  owattahito: BowmarkSite_0eb976ff.Unit;
   owayaustralia: BowmarkSite_0eb976ff.Unit;
   owencyclops: BowmarkSite_0eb976ff.Unit;
   owendaveyillustration: BowmarkSite_0eb976ff.Unit;
@@ -610048,10 +614101,8 @@ interface BowmarkProviders {
   pacpanthers: BowmarkSite_0eb976ff.Unit;
   pactcollective: BowmarkSite_0eb976ff.Unit;
   pacwhaleoceanstore: BowmarkSite_0eb976ff.Unit;
-  padaweb: BowmarkSite_0eb976ff.Unit;
   padbergauerandkemmer4199: BowmarkSite_0eb976ff.Unit;
   padcare: BowmarkSite_0eb976ff.Unit;
-  paddedspaces: BowmarkSite_0eb976ff.Unit;
   paddlebrewstore: BowmarkSite_0eb976ff.Unit;
   paddlersbaseball: BowmarkSite_0eb976ff.Unit;
   paddlershubuae: BowmarkSite_0eb976ff.Unit;
@@ -610078,7 +614129,6 @@ interface BowmarkProviders {
   paigecollective: BowmarkSite_0eb976ff.Unit;
   paigematthew: BowmarkSite_0eb976ff.Unit;
   paigesbakehouse: BowmarkSite_0eb976ff.Unit;
-  painmasterau: BowmarkSite_0eb976ff.Unit;
   painofdiscipline: BowmarkSite_0eb976ff.Unit;
   paintedbayou: BowmarkSite_0eb976ff.Unit;
   paintedbyjaiabright: BowmarkSite_0eb976ff.Unit;
@@ -610086,7 +614136,6 @@ interface BowmarkProviders {
   paintedvein: BowmarkSite_0eb976ff.Unit;
   paintinglulu: BowmarkSite_0eb976ff.Unit;
   paintingsbydestineelove: BowmarkSite_0eb976ff.Unit;
-  paintingsbykegilmore: BowmarkSite_0eb976ff.Unit;
   paintingstations: BowmarkSite_0eb976ff.Unit;
   paintinpottery: BowmarkSite_0eb976ff.Unit;
   paintjamlondon: BowmarkSite_0eb976ff.Unit;
@@ -610113,7 +614162,6 @@ interface BowmarkProviders {
   palazzotirsocagliari: BowmarkSite_0eb976ff.Unit;
   paldewliy: BowmarkSite_0eb976ff.Unit;
   palehorse: BowmarkSite_0eb976ff.Unit;
-  palejay: BowmarkSite_0eb976ff.Unit;
   paleobull: BowmarkSite_0eb976ff.Unit;
   paleopines: BowmarkSite_0eb976ff.Unit;
   palestineheirloomseedlibrary: BowmarkSite_0eb976ff.Unit;
@@ -610189,7 +614237,6 @@ interface BowmarkProviders {
   panoramahelico: BowmarkSite_0eb976ff.Unit;
   pantasondub: BowmarkSite_0eb976ff.Unit;
   panterandhall: BowmarkSite_0eb976ff.Unit;
-  panterapartsusa: BowmarkSite_0eb976ff.Unit;
   panterkirtasiye: BowmarkSite_0eb976ff.Unit;
   pantherarmor: BowmarkSite_0eb976ff.Unit;
   panthercoffee: BowmarkSite_0eb976ff.Unit;
@@ -610232,7 +614279,6 @@ interface BowmarkProviders {
   papichulotacos: BowmarkSite_0eb976ff.Unit;
   papierhqb2b: BowmarkSite_0eb976ff.Unit;
   papierpresent2: BowmarkSite_0eb976ff.Unit;
-  papillonbleuaesthetics: BowmarkSite_0eb976ff.Unit;
   papillonenterprisewholesale: BowmarkSite_0eb976ff.Unit;
   papilloninternationalincmontreal: BowmarkSite_0eb976ff.Unit;
   papillonmontessori: BowmarkSite_0eb976ff.Unit;
@@ -610266,7 +614312,6 @@ interface BowmarkProviders {
   parasite: BowmarkSite_0eb976ff.Unit;
   paratag: BowmarkSite_0eb976ff.Unit;
   parayus: BowmarkSite_0eb976ff.Unit;
-  parceltinyhouseboncadeau: BowmarkSite_0eb976ff.Unit;
   parcfermemotors: BowmarkSite_0eb976ff.Unit;
   parcopompeishop: BowmarkSite_0eb976ff.Unit;
   parcum: BowmarkSite_0eb976ff.Unit;
@@ -610366,7 +614411,6 @@ interface BowmarkProviders {
   passepartoutcrew: BowmarkSite_0eb976ff.Unit;
   passerinewine: BowmarkSite_0eb976ff.Unit;
   passevite: BowmarkSite_0eb976ff.Unit;
-  passionco: BowmarkSite_0eb976ff.Unit;
   passionflix: BowmarkSite_0eb976ff.Unit;
   passionfordesserts: BowmarkSite_0eb976ff.Unit;
   passiongateauxdouceur: BowmarkSite_0eb976ff.Unit;
@@ -610509,7 +614553,6 @@ interface BowmarkProviders {
   paysverco: BowmarkSite_0eb976ff.Unit;
   pazianas: BowmarkSite_0eb976ff.Unit;
   pb0110: BowmarkSite_0eb976ff.Unit;
-  pbdultralight: BowmarkSite_0eb976ff.Unit;
   pbequestrianapparel: BowmarkSite_0eb976ff.Unit;
   pbmv0hqu: BowmarkSite_0eb976ff.Unit;
   pbpmetals: BowmarkSite_0eb976ff.Unit;
@@ -610623,7 +614666,6 @@ interface BowmarkProviders {
   pearsonargentina: BowmarkSite_0eb976ff.Unit;
   pearsonranchjerky: BowmarkSite_0eb976ff.Unit;
   peat: BowmarkSite_0eb976ff.Unit;
-  pebblegeareu: BowmarkSite_0eb976ff.Unit;
   pecanyummies: BowmarkSite_0eb976ff.Unit;
   pecostherooftopsmerch: BowmarkSite_0eb976ff.Unit;
   peculiarpond: BowmarkSite_0eb976ff.Unit;
@@ -610647,7 +614689,6 @@ interface BowmarkProviders {
   pegasusdistillerie: BowmarkSite_0eb976ff.Unit;
   pegasusfunctionalartsupply: BowmarkSite_0eb976ff.Unit;
   pegasusgameswi: BowmarkSite_0eb976ff.Unit;
-  pegasusspray: BowmarkSite_0eb976ff.Unit;
   peggalishstore: BowmarkSite_0eb976ff.Unit;
   peggysbling: BowmarkSite_0eb976ff.Unit;
   pegolf: BowmarkSite_0eb976ff.Unit;
@@ -610666,7 +614707,6 @@ interface BowmarkProviders {
   pelotonia: BowmarkSite_0eb976ff.Unit;
   peltjazzpublishing: BowmarkSite_0eb976ff.Unit;
   pemphotographyshop: BowmarkSite_0eb976ff.Unit;
-  penandpangolin: BowmarkSite_0eb976ff.Unit;
   penandpine: BowmarkSite_0eb976ff.Unit;
   penateam2020: BowmarkSite_0eb976ff.Unit;
   pendlcompanies: BowmarkSite_0eb976ff.Unit;
@@ -610718,7 +614758,6 @@ interface BowmarkProviders {
   peopleinprint: BowmarkSite_0eb976ff.Unit;
   peoplelovingnashville: BowmarkSite_0eb976ff.Unit;
   peopleofprints: BowmarkSite_0eb976ff.Unit;
-  peopletreeeu: BowmarkSite_0eb976ff.Unit;
   pepeaguilarlatm: BowmarkSite_0eb976ff.Unit;
   pepecarols: BowmarkSite_0eb976ff.Unit;
   pepemorenostudio: BowmarkSite_0eb976ff.Unit;
@@ -610761,12 +614800,10 @@ interface BowmarkProviders {
   performancemobilityhomehealthcaresolutions: BowmarkSite_0eb976ff.Unit;
   performancesailtools: BowmarkSite_0eb976ff.Unit;
   perfumaraoficial: BowmarkSite_0eb976ff.Unit;
-  perfumegeniusus: BowmarkSite_0eb976ff.Unit;
   perfumeskincarecompany: BowmarkSite_0eb976ff.Unit;
   perfumestore4: BowmarkSite_0eb976ff.Unit;
   perfumingintentions: BowmarkSite_0eb976ff.Unit;
   periacryl: BowmarkSite_0eb976ff.Unit;
-  peridotgirl: BowmarkSite_0eb976ff.Unit;
   periodicaudio: BowmarkSite_0eb976ff.Unit;
   periodshopcomau: BowmarkSite_0eb976ff.Unit;
   periovive: BowmarkSite_0eb976ff.Unit;
@@ -610812,7 +614849,6 @@ interface BowmarkProviders {
   petaldrivencom: BowmarkSite_0eb976ff.Unit;
   petallane: BowmarkSite_0eb976ff.Unit;
   petalsandpicnics: BowmarkSite_0eb976ff.Unit;
-  petalsff: BowmarkSite_0eb976ff.Unit;
   petalsflowerco: BowmarkSite_0eb976ff.Unit;
   petalspetalspetals: BowmarkSite_0eb976ff.Unit;
   petalumamuseum: BowmarkSite_0eb976ff.Unit;
@@ -610883,7 +614919,6 @@ interface BowmarkProviders {
   petsastherapy: BowmarkSite_0eb976ff.Unit;
   petshop0204: BowmarkSite_0eb976ff.Unit;
   petshopds: BowmarkSite_0eb976ff.Unit;
-  petshopfringestudio: BowmarkSite_0eb976ff.Unit;
   petshow: BowmarkSite_0eb976ff.Unit;
   petsite1: BowmarkSite_0eb976ff.Unit;
   petskull: BowmarkSite_0eb976ff.Unit;
@@ -610940,7 +614975,6 @@ interface BowmarkProviders {
   phaseconverters: BowmarkSite_0eb976ff.Unit;
   phatpenguin: BowmarkSite_0eb976ff.Unit;
   phcustomlures: BowmarkSite_0eb976ff.Unit;
-  phenixinnovation: BowmarkSite_0eb976ff.Unit;
   phenixstoreshiffon: BowmarkSite_0eb976ff.Unit;
   phenomhoops: BowmarkSite_0eb976ff.Unit;
   pherluv: BowmarkSite_0eb976ff.Unit;
@@ -611032,7 +615066,6 @@ interface BowmarkProviders {
   piccolohosiery: BowmarkSite_0eb976ff.Unit;
   piccolomondotoys: BowmarkSite_0eb976ff.Unit;
   pickaposeclothing: BowmarkSite_0eb976ff.Unit;
-  pickardchina1: BowmarkSite_0eb976ff.Unit;
   pickenonlinesore: BowmarkSite_0eb976ff.Unit;
   pickfit3: BowmarkSite_0eb976ff.Unit;
   pickleandpumpkin: BowmarkSite_0eb976ff.Unit;
@@ -611042,7 +615075,6 @@ interface BowmarkProviders {
   picklehospitalitystore: BowmarkSite_0eb976ff.Unit;
   picklemepete: BowmarkSite_0eb976ff.Unit;
   pickleshotllc: BowmarkSite_0eb976ff.Unit;
-  pickuplines: BowmarkSite_0eb976ff.Unit;
   pickynebinc: BowmarkSite_0eb976ff.Unit;
   pickypiglet: BowmarkSite_0eb976ff.Unit;
   picmixthebodyjewelleryshop: BowmarkSite_0eb976ff.Unit;
@@ -611067,7 +615099,6 @@ interface BowmarkProviders {
   pieralexy: BowmarkSite_0eb976ff.Unit;
   piercedheartstattoos: BowmarkSite_0eb976ff.Unit;
   pierceyparcels: BowmarkSite_0eb976ff.Unit;
-  piercologyjewelrystore: BowmarkSite_0eb976ff.Unit;
   pierredeplumes: BowmarkSite_0eb976ff.Unit;
   pierrejunod: BowmarkSite_0eb976ff.Unit;
   piersonfeed: BowmarkSite_0eb976ff.Unit;
@@ -611081,7 +615112,6 @@ interface BowmarkProviders {
   piezowinery: BowmarkSite_0eb976ff.Unit;
   pifyappdemo: BowmarkSite_0eb976ff.Unit;
   pigcasso: BowmarkSite_0eb976ff.Unit;
-  pigeonroadpottery: BowmarkSite_0eb976ff.Unit;
   piglovebrewing: BowmarkSite_0eb976ff.Unit;
   pigmansbbq: BowmarkSite_0eb976ff.Unit;
   pigmentkunsthandelas: BowmarkSite_0eb976ff.Unit;
@@ -611262,7 +615292,6 @@ interface BowmarkProviders {
   planandprint: BowmarkSite_0eb976ff.Unit;
   planbwines: BowmarkSite_0eb976ff.Unit;
   planet17: BowmarkSite_0eb976ff.Unit;
-  planetaespasante: BowmarkSite_0eb976ff.Unit;
   planetbowlingkaiserslautern: BowmarkSite_0eb976ff.Unit;
   planetecommunications: BowmarkSite_0eb976ff.Unit;
   planetgiza: BowmarkSite_0eb976ff.Unit;
@@ -611368,7 +615397,6 @@ interface BowmarkProviders {
   pleasureplace9187: BowmarkSite_0eb976ff.Unit;
   pleasuresos: BowmarkSite_0eb976ff.Unit;
   pleasuretapes: BowmarkSite_0eb976ff.Unit;
-  pleasureway: BowmarkSite_0eb976ff.Unit;
   pleatspetals: BowmarkSite_0eb976ff.Unit;
   pledgetodogoodshop: BowmarkSite_0eb976ff.Unit;
   pleesecheese: BowmarkSite_0eb976ff.Unit;
@@ -611398,7 +615426,6 @@ interface BowmarkProviders {
   plumped: BowmarkSite_0eb976ff.Unit;
   plumskies: BowmarkSite_0eb976ff.Unit;
   plus39bike: BowmarkSite_0eb976ff.Unit;
-  plusaesthetics: BowmarkSite_0eb976ff.Unit;
   plusaudioeu: BowmarkSite_0eb976ff.Unit;
   plusbooster: BowmarkSite_0eb976ff.Unit;
   pluscutewear: BowmarkSite_0eb976ff.Unit;
@@ -611416,7 +615443,6 @@ interface BowmarkProviders {
   pms4u: BowmarkSite_0eb976ff.Unit;
   pneeble: BowmarkSite_0eb976ff.Unit;
   pnwaer: BowmarkSite_0eb976ff.Unit;
-  pnwstormwater: BowmarkSite_0eb976ff.Unit;
   pnwtoast: BowmarkSite_0eb976ff.Unit;
   pobbletopia: BowmarkSite_0eb976ff.Unit;
   poberaj: BowmarkSite_0eb976ff.Unit;
@@ -611441,7 +615467,6 @@ interface BowmarkProviders {
   poddesk: BowmarkSite_0eb976ff.Unit;
   poderistas: BowmarkSite_0eb976ff.Unit;
   podiumkids1: BowmarkSite_0eb976ff.Unit;
-  podoexpertstore: BowmarkSite_0eb976ff.Unit;
   podtheme: BowmarkSite_0eb976ff.Unit;
   podtrexstore: BowmarkSite_0eb976ff.Unit;
   poesispayne: BowmarkSite_0eb976ff.Unit;
@@ -611530,7 +615555,6 @@ interface BowmarkProviders {
   pookusa: BowmarkSite_0eb976ff.Unit;
   poolcareltd: BowmarkSite_0eb976ff.Unit;
   poolcouncil: BowmarkSite_0eb976ff.Unit;
-  poolpatrol: BowmarkSite_0eb976ff.Unit;
   poolsidemusicdaytimedisco: BowmarkSite_0eb976ff.Unit;
   pooltimedk: BowmarkSite_0eb976ff.Unit;
   pooltrainingacademy: BowmarkSite_0eb976ff.Unit;
@@ -611658,7 +615682,6 @@ interface BowmarkProviders {
   portodemo9: BowmarkSite_0eb976ff.Unit;
   portodemo9new: BowmarkSite_0eb976ff.Unit;
   portollc: BowmarkSite_0eb976ff.Unit;
-  portosf: BowmarkSite_0eb976ff.Unit;
   portperryfeeds: BowmarkSite_0eb976ff.Unit;
   portplums: BowmarkSite_0eb976ff.Unit;
   portraitmemories8339: BowmarkSite_0eb976ff.Unit;
@@ -611756,7 +615779,6 @@ interface BowmarkProviders {
   powercrab: BowmarkSite_0eb976ff.Unit;
   powerdesigners: BowmarkSite_0eb976ff.Unit;
   poweredition: BowmarkSite_0eb976ff.Unit;
-  powerfabauto: BowmarkSite_0eb976ff.Unit;
   powerflowindoorcycling: BowmarkSite_0eb976ff.Unit;
   powerfulpresence: BowmarkSite_0eb976ff.Unit;
   powerhouse9768: BowmarkSite_0eb976ff.Unit;
@@ -611842,7 +615864,6 @@ interface BowmarkProviders {
   preckshotcom: BowmarkSite_0eb976ff.Unit;
   preddefense: BowmarkSite_0eb976ff.Unit;
   preferredwasteconceptsllc: BowmarkSite_0eb976ff.Unit;
-  prefunk: BowmarkSite_0eb976ff.Unit;
   pregmate: BowmarkSite_0eb976ff.Unit;
   prehistoricworld: BowmarkSite_0eb976ff.Unit;
   prelectronic: BowmarkSite_0eb976ff.Unit;
@@ -611854,7 +615875,6 @@ interface BowmarkProviders {
   premieretheme: BowmarkSite_0eb976ff.Unit;
   premierfootandanklecareshop: BowmarkSite_0eb976ff.Unit;
   premiergymnastics: BowmarkSite_0eb976ff.Unit;
-  premiolife: BowmarkSite_0eb976ff.Unit;
   premiolife21: BowmarkSite_0eb976ff.Unit;
   premiumhairboutiquellc: BowmarkSite_0eb976ff.Unit;
   premiumimagefergus: BowmarkSite_0eb976ff.Unit;
@@ -611873,7 +615893,6 @@ interface BowmarkProviders {
   prescottcollege: BowmarkSite_0eb976ff.Unit;
   prescottrally: BowmarkSite_0eb976ff.Unit;
   prescribdtest: BowmarkSite_0eb976ff.Unit;
-  prescriptiondive: BowmarkSite_0eb976ff.Unit;
   presencefrominnovation: BowmarkSite_0eb976ff.Unit;
   preservationhallstore: BowmarkSite_0eb976ff.Unit;
   preservationsolutions: BowmarkSite_0eb976ff.Unit;
@@ -611888,7 +615907,6 @@ interface BowmarkProviders {
   prestigebarbershopproducts: BowmarkSite_0eb976ff.Unit;
   prestigeminerals: BowmarkSite_0eb976ff.Unit;
   prestigepaper: BowmarkSite_0eb976ff.Unit;
-  prestigepreservation: BowmarkSite_0eb976ff.Unit;
   prestigethemeallure: BowmarkSite_0eb976ff.Unit;
   prestigethemecouture: BowmarkSite_0eb976ff.Unit;
   prestigethemevogue: BowmarkSite_0eb976ff.Unit;
@@ -611954,7 +615972,6 @@ interface BowmarkProviders {
   primenewsbasel: BowmarkSite_0eb976ff.Unit;
   primeorganics2: BowmarkSite_0eb976ff.Unit;
   primeranorth: BowmarkSite_0eb976ff.Unit;
-  primergrp: BowmarkSite_0eb976ff.Unit;
   primesurvivaldepot: BowmarkSite_0eb976ff.Unit;
   primetimehealth: BowmarkSite_0eb976ff.Unit;
   primetimelacrosse: BowmarkSite_0eb976ff.Unit;
@@ -612084,7 +616101,6 @@ interface BowmarkProviders {
   professorfoam: BowmarkSite_0eb976ff.Unit;
   professorleads: BowmarkSite_0eb976ff.Unit;
   profilap: BowmarkSite_0eb976ff.Unit;
-  profileoverlayscom: BowmarkSite_0eb976ff.Unit;
   profishopdrumsguitars: BowmarkSite_0eb976ff.Unit;
   profitnesscolombia: BowmarkSite_0eb976ff.Unit;
   profound3d: BowmarkSite_0eb976ff.Unit;
@@ -612141,7 +616157,6 @@ interface BowmarkProviders {
   promoceanretail: BowmarkSite_0eb976ff.Unit;
   promocionaleselite: BowmarkSite_0eb976ff.Unit;
   promocodc2: BowmarkSite_0eb976ff.Unit;
-  promoguard: BowmarkSite_0eb976ff.Unit;
   promoprod: BowmarkSite_0eb976ff.Unit;
   promotegift: BowmarkSite_0eb976ff.Unit;
   promotionpopup2: BowmarkSite_0eb976ff.Unit;
@@ -612164,7 +616179,6 @@ interface BowmarkProviders {
   propsfordots: BowmarkSite_0eb976ff.Unit;
   proriderwatercraftmagazine: BowmarkSite_0eb976ff.Unit;
   prosalondistributiongroup: BowmarkSite_0eb976ff.Unit;
-  proseccoplease: BowmarkSite_0eb976ff.Unit;
   proshop11: BowmarkSite_0eb976ff.Unit;
   proshopify11: BowmarkSite_0eb976ff.Unit;
   proshopify13: BowmarkSite_0eb976ff.Unit;
@@ -612182,7 +616196,6 @@ interface BowmarkProviders {
   proteamtactical: BowmarkSite_0eb976ff.Unit;
   protec17: BowmarkSite_0eb976ff.Unit;
   protecpatientstore: BowmarkSite_0eb976ff.Unit;
-  protectanimalsworldwideshop: BowmarkSite_0eb976ff.Unit;
   protectivestyleshair: BowmarkSite_0eb976ff.Unit;
   protectortextil: BowmarkSite_0eb976ff.Unit;
   protegerdaily: BowmarkSite_0eb976ff.Unit;
@@ -612226,7 +616239,6 @@ interface BowmarkProviders {
   ps56thelewishlatimerschoolbrooklynny: BowmarkSite_0eb976ff.Unit;
   psalm8photos: BowmarkSite_0eb976ff.Unit;
   psanctuary: BowmarkSite_0eb976ff.Unit;
-  psdindustriesllc: BowmarkSite_0eb976ff.Unit;
   psiloveitaly: BowmarkSite_0eb976ff.Unit;
   psiprosense: BowmarkSite_0eb976ff.Unit;
   psmjresources: BowmarkSite_0eb976ff.Unit;
@@ -612267,7 +616279,6 @@ interface BowmarkProviders {
   puddlepuzzle: BowmarkSite_0eb976ff.Unit;
   pudlosouthafrica: BowmarkSite_0eb976ff.Unit;
   pudoteststore: BowmarkSite_0eb976ff.Unit;
-  puertasdeseguridadhoss: BowmarkSite_0eb976ff.Unit;
   puertoricoeyecarecenter: BowmarkSite_0eb976ff.Unit;
   puexvip9: BowmarkSite_0eb976ff.Unit;
   puffnpop: BowmarkSite_0eb976ff.Unit;
@@ -612276,7 +616287,6 @@ interface BowmarkProviders {
   pugetsounddrivingacademyofduvall: BowmarkSite_0eb976ff.Unit;
   pugsnug: BowmarkSite_0eb976ff.Unit;
   puhlshop: BowmarkSite_0eb976ff.Unit;
-  puhoibeer: BowmarkSite_0eb976ff.Unit;
   pujadukan: BowmarkSite_0eb976ff.Unit;
   puleointl: BowmarkSite_0eb976ff.Unit;
   pullandpin: BowmarkSite_0eb976ff.Unit;
@@ -612295,7 +616305,6 @@ interface BowmarkProviders {
   pumpkininteractive: BowmarkSite_0eb976ff.Unit;
   pumpkinsandpomegranates: BowmarkSite_0eb976ff.Unit;
   pumpyjoy: BowmarkSite_0eb976ff.Unit;
-  punaluubakeshop: BowmarkSite_0eb976ff.Unit;
   punchbag: BowmarkSite_0eb976ff.Unit;
   punchline9963: BowmarkSite_0eb976ff.Unit;
   punchtheclock: BowmarkSite_0eb976ff.Unit;
@@ -612392,7 +616401,6 @@ interface BowmarkProviders {
   purpleowlcareers: BowmarkSite_0eb976ff.Unit;
   purplepairs: BowmarkSite_0eb976ff.Unit;
   purplepirateflag: BowmarkSite_0eb976ff.Unit;
-  purplepotatolv: BowmarkSite_0eb976ff.Unit;
   purpleseajewelrycom: BowmarkSite_0eb976ff.Unit;
   purpleshoshana: BowmarkSite_0eb976ff.Unit;
   purplethistleteacompany: BowmarkSite_0eb976ff.Unit;
@@ -612474,14 +616482,12 @@ interface BowmarkProviders {
   q3yx1m01: BowmarkSite_0eb976ff.Unit;
   q4live: BowmarkSite_0eb976ff.Unit;
   q5ecgn00: BowmarkSite_0eb976ff.Unit;
-  q5p0hf11: BowmarkSite_0eb976ff.Unit;
   q5rcuiuh: BowmarkSite_0eb976ff.Unit;
   q6a03sqi: BowmarkSite_0eb976ff.Unit;
   q6p70zyg: BowmarkSite_0eb976ff.Unit;
   q7e0p1qw: BowmarkSite_0eb976ff.Unit;
   q7kjxkhc: BowmarkSite_0eb976ff.Unit;
   q7y36e09: BowmarkSite_0eb976ff.Unit;
-  q8i4i0r7: BowmarkSite_0eb976ff.Unit;
   qa03yv6h: BowmarkSite_0eb976ff.Unit;
   qad9wf0f: BowmarkSite_0eb976ff.Unit;
   qai1nith: BowmarkSite_0eb976ff.Unit;
@@ -612554,7 +616560,6 @@ interface BowmarkProviders {
   qmzw5a43: BowmarkSite_0eb976ff.Unit;
   qn1u7bvy: BowmarkSite_0eb976ff.Unit;
   qn43fqq7: BowmarkSite_0eb976ff.Unit;
-  qn4qgnvt: BowmarkSite_0eb976ff.Unit;
   qndc3m0i: BowmarkSite_0eb976ff.Unit;
   qnpmyai7: BowmarkSite_0eb976ff.Unit;
   qnuzaccessories: BowmarkSite_0eb976ff.Unit;
@@ -612614,7 +616619,6 @@ interface BowmarkProviders {
   quebecsunglasses: BowmarkSite_0eb976ff.Unit;
   queeenjaysworldllc: BowmarkSite_0eb976ff.Unit;
   queenafua: BowmarkSite_0eb976ff.Unit;
-  queenbaustralia: BowmarkSite_0eb976ff.Unit;
   queencitycondigitalstore: BowmarkSite_0eb976ff.Unit;
   queencityguiding: BowmarkSite_0eb976ff.Unit;
   queencityrestaurantsupply: BowmarkSite_0eb976ff.Unit;
@@ -612657,7 +616661,6 @@ interface BowmarkProviders {
   quickorder2: BowmarkSite_0eb976ff.Unit;
   quickpressapparel: BowmarkSite_0eb976ff.Unit;
   quicksandus: BowmarkSite_0eb976ff.Unit;
-  quicktraxtechnology: BowmarkSite_0eb976ff.Unit;
   quickview2: BowmarkSite_0eb976ff.Unit;
   quickviewandcolorswatches: BowmarkSite_0eb976ff.Unit;
   quickviewdemo: BowmarkSite_0eb976ff.Unit;
@@ -612688,7 +616691,6 @@ interface BowmarkProviders {
   quirkykoalauk: BowmarkSite_0eb976ff.Unit;
   quirkypieces: BowmarkSite_0eb976ff.Unit;
   quirotropical: BowmarkSite_0eb976ff.Unit;
-  quitchesgetstitches: BowmarkSite_0eb976ff.Unit;
   quiterightrecs: BowmarkSite_0eb976ff.Unit;
   quixiai: BowmarkSite_0eb976ff.Unit;
   quizifyquizbuilderbyarhamwebworks: BowmarkSite_0eb976ff.Unit;
@@ -612820,7 +616822,6 @@ interface BowmarkProviders {
   rafaellasw: BowmarkSite_0eb976ff.Unit;
   rafestore: BowmarkSite_0eb976ff.Unit;
   rafotohaus: BowmarkSite_0eb976ff.Unit;
-  raftinggoods: BowmarkSite_0eb976ff.Unit;
   ragail: BowmarkSite_0eb976ff.Unit;
   rageragerage: BowmarkSite_0eb976ff.Unit;
   raggedmountainrunningshop: BowmarkSite_0eb976ff.Unit;
@@ -612883,7 +616884,6 @@ interface BowmarkProviders {
   rakoonsound: BowmarkSite_0eb976ff.Unit;
   raleighcoffeecompany: BowmarkSite_0eb976ff.Unit;
   raleighjuniorrollers: BowmarkSite_0eb976ff.Unit;
-  raleighritchie: BowmarkSite_0eb976ff.Unit;
   ralfnietmann: BowmarkSite_0eb976ff.Unit;
   ralicouturecom: BowmarkSite_0eb976ff.Unit;
   rallyfuel2: BowmarkSite_0eb976ff.Unit;
@@ -612914,7 +616914,6 @@ interface BowmarkProviders {
   ranchmansfarmfeed2: BowmarkSite_0eb976ff.Unit;
   ranchoalegreradio: BowmarkSite_0eb976ff.Unit;
   ranchogordo: BowmarkSite_0eb976ff.Unit;
-  ranchovallee: BowmarkSite_0eb976ff.Unit;
   randallking: BowmarkSite_0eb976ff.Unit;
   randikennedy: BowmarkSite_0eb976ff.Unit;
   randolphaustinco: BowmarkSite_0eb976ff.Unit;
@@ -612948,7 +616947,6 @@ interface BowmarkProviders {
   raquickshop: BowmarkSite_0eb976ff.Unit;
   rarebeauty: BowmarkSite_0eb976ff.Unit;
   rarecandyindustries: BowmarkSite_0eb976ff.Unit;
-  rareformlandscape: BowmarkSite_0eb976ff.Unit;
   rareformllc: BowmarkSite_0eb976ff.Unit;
   rarenecessity: BowmarkSite_0eb976ff.Unit;
   rareofbreedofficialmerchandise: BowmarkSite_0eb976ff.Unit;
@@ -613035,7 +617033,6 @@ interface BowmarkProviders {
   rbsmarinedepo: BowmarkSite_0eb976ff.Unit;
   rbsmedistore2: BowmarkSite_0eb976ff.Unit;
   rbxactive: BowmarkSite_0eb976ff.Unit;
-  rbymi: BowmarkSite_0eb976ff.Unit;
   rbzpopup: BowmarkSite_0eb976ff.Unit;
   rcake: BowmarkSite_0eb976ff.Unit;
   rcchispana: BowmarkSite_0eb976ff.Unit;
@@ -613086,7 +617083,6 @@ interface BowmarkProviders {
   realdadsstore: BowmarkSite_0eb976ff.Unit;
   realestatedisruptors: BowmarkSite_0eb976ff.Unit;
   realestatehours: BowmarkSite_0eb976ff.Unit;
-  realestaterockstaragents: BowmarkSite_0eb976ff.Unit;
   realfoodeverything: BowmarkSite_0eb976ff.Unit;
   realfoodology: BowmarkSite_0eb976ff.Unit;
   realfoodph: BowmarkSite_0eb976ff.Unit;
@@ -613120,7 +617116,6 @@ interface BowmarkProviders {
   rebeccacampbell: BowmarkSite_0eb976ff.Unit;
   rebeccacarpenterphotography: BowmarkSite_0eb976ff.Unit;
   rebeccamanchester: BowmarkSite_0eb976ff.Unit;
-  rebeccarescate: BowmarkSite_0eb976ff.Unit;
   rebeccarosen: BowmarkSite_0eb976ff.Unit;
   rebeccascakepops: BowmarkSite_0eb976ff.Unit;
   rebeccasellbeauty: BowmarkSite_0eb976ff.Unit;
@@ -613263,7 +617258,6 @@ interface BowmarkProviders {
   redpark: BowmarkSite_0eb976ff.Unit;
   redparka: BowmarkSite_0eb976ff.Unit;
   redpineapplehonolulu: BowmarkSite_0eb976ff.Unit;
-  redrabbitbazaar: BowmarkSite_0eb976ff.Unit;
   redragonshop: BowmarkSite_0eb976ff.Unit;
   redravenboardgames: BowmarkSite_0eb976ff.Unit;
   redriverarenas: BowmarkSite_0eb976ff.Unit;
@@ -613337,7 +617331,6 @@ interface BowmarkProviders {
   reformationsunshine: BowmarkSite_0eb976ff.Unit;
   reformstore: BowmarkSite_0eb976ff.Unit;
   refreshchurchmerch: BowmarkSite_0eb976ff.Unit;
-  refreshcollective: BowmarkSite_0eb976ff.Unit;
   refreshglasspromo: BowmarkSite_0eb976ff.Unit;
   refreshvalet: BowmarkSite_0eb976ff.Unit;
   refugealbum: BowmarkSite_0eb976ff.Unit;
@@ -613399,7 +617392,6 @@ interface BowmarkProviders {
   reinest: BowmarkSite_0eb976ff.Unit;
   reinforcementscg: BowmarkSite_0eb976ff.Unit;
   reinsertamx: BowmarkSite_0eb976ff.Unit;
-  reinspiredtreasures: BowmarkSite_0eb976ff.Unit;
   reinwerth: BowmarkSite_0eb976ff.Unit;
   reisings3dprinting: BowmarkSite_0eb976ff.Unit;
   reiwanotora: BowmarkSite_0eb976ff.Unit;
@@ -613462,7 +617454,6 @@ interface BowmarkProviders {
   remuseonline: BowmarkSite_0eb976ff.Unit;
   remymanproduct: BowmarkSite_0eb976ff.Unit;
   remysstudio: BowmarkSite_0eb976ff.Unit;
-  renaissanceapparelcompany: BowmarkSite_0eb976ff.Unit;
   renaissanceartcenter: BowmarkSite_0eb976ff.Unit;
   renaissanceartsacademy: BowmarkSite_0eb976ff.Unit;
   renardhomestore: BowmarkSite_0eb976ff.Unit;
@@ -613514,7 +617505,6 @@ interface BowmarkProviders {
   reposteriaelportal: BowmarkSite_0eb976ff.Unit;
   repoweredelectronics: BowmarkSite_0eb976ff.Unit;
   reppercussion: BowmarkSite_0eb976ff.Unit;
-  reppinindustries: BowmarkSite_0eb976ff.Unit;
   representclo: BowmarkSite_0eb976ff.Unit;
   reproductivehealthaccessprojectstore: BowmarkSite_0eb976ff.Unit;
   repticonmarket: BowmarkSite_0eb976ff.Unit;
@@ -613579,13 +617569,11 @@ interface BowmarkProviders {
   restonlloyd: BowmarkSite_0eb976ff.Unit;
   restoratecream: BowmarkSite_0eb976ff.Unit;
   restorationproductsplus: BowmarkSite_0eb976ff.Unit;
-  restoreclothing: BowmarkSite_0eb976ff.Unit;
   restoredbeauty: BowmarkSite_0eb976ff.Unit;
   restorehydrationshop: BowmarkSite_0eb976ff.Unit;
   restoretherainbow: BowmarkSite_0eb976ff.Unit;
   restrived: BowmarkSite_0eb976ff.Unit;
   resultsbydesignfitness: BowmarkSite_0eb976ff.Unit;
-  resurrectiontattoocare: BowmarkSite_0eb976ff.Unit;
   resynatorstore: BowmarkSite_0eb976ff.Unit;
   retailedgestore: BowmarkSite_0eb976ff.Unit;
   retaxa: BowmarkSite_0eb976ff.Unit;
@@ -613633,17 +617621,14 @@ interface BowmarkProviders {
   revengexstore1: BowmarkSite_0eb976ff.Unit;
   reveriebelle: BowmarkSite_0eb976ff.Unit;
   reverielove: BowmarkSite_0eb976ff.Unit;
-  reveriestudioslarp: BowmarkSite_0eb976ff.Unit;
   reversemedspa: BowmarkSite_0eb976ff.Unit;
   revested: BowmarkSite_0eb976ff.Unit;
   reveusecreatricedebijoux: BowmarkSite_0eb976ff.Unit;
   reviewjournalstore: BowmarkSite_0eb976ff.Unit;
   reviled: BowmarkSite_0eb976ff.Unit;
   revistarelampago: BowmarkSite_0eb976ff.Unit;
-  revital1011: BowmarkSite_0eb976ff.Unit;
   revitalizemedicalspa: BowmarkSite_0eb976ff.Unit;
   revitalizemedispa: BowmarkSite_0eb976ff.Unit;
-  revival2849: BowmarkSite_0eb976ff.Unit;
   revivaltoday: BowmarkSite_0eb976ff.Unit;
   revivealbyjackcookies: BowmarkSite_0eb976ff.Unit;
   revivedfurnitureandhomedecor: BowmarkSite_0eb976ff.Unit;
@@ -613690,13 +617675,11 @@ interface BowmarkProviders {
   rfdswa: BowmarkSite_0eb976ff.Unit;
   rfidplaza: BowmarkSite_0eb976ff.Unit;
   rfidstore: BowmarkSite_0eb976ff.Unit;
-  rfprecisioncablesinc: BowmarkSite_0eb976ff.Unit;
   rfsupplycenter: BowmarkSite_0eb976ff.Unit;
   rfz8wk1w: BowmarkSite_0eb976ff.Unit;
   rg1ygjtr: BowmarkSite_0eb976ff.Unit;
   rgcshop2025: BowmarkSite_0eb976ff.Unit;
   rgeekdemo2: BowmarkSite_0eb976ff.Unit;
-  rgivingtreefoundation: BowmarkSite_0eb976ff.Unit;
   rgjfbazj: BowmarkSite_0eb976ff.Unit;
   rgjwholesale: BowmarkSite_0eb976ff.Unit;
   rgmstocks: BowmarkSite_0eb976ff.Unit;
@@ -613734,7 +617717,6 @@ interface BowmarkProviders {
   rhomeusa: BowmarkSite_0eb976ff.Unit;
   rhrn: BowmarkSite_0eb976ff.Unit;
   rhsbandassociation: BowmarkSite_0eb976ff.Unit;
-  rhvan: BowmarkSite_0eb976ff.Unit;
   rhyanandrhysebrand: BowmarkSite_0eb976ff.Unit;
   rhymesayers: BowmarkSite_0eb976ff.Unit;
   rhythmandbluestattoo: BowmarkSite_0eb976ff.Unit;
@@ -613788,7 +617770,6 @@ interface BowmarkProviders {
   ricksstarkville: BowmarkSite_0eb976ff.Unit;
   rickyjamaraz: BowmarkSite_0eb976ff.Unit;
   rickymujica: BowmarkSite_0eb976ff.Unit;
-  rickyrypfoundation: BowmarkSite_0eb976ff.Unit;
   ricoandbhambo: BowmarkSite_0eb976ff.Unit;
   ricsteiningergallery: BowmarkSite_0eb976ff.Unit;
   ridaventureadv: BowmarkSite_0eb976ff.Unit;
@@ -613800,7 +617781,6 @@ interface BowmarkProviders {
   ridecontroller: BowmarkSite_0eb976ff.Unit;
   ridefordad: BowmarkSite_0eb976ff.Unit;
   ridehighmotorcycles: BowmarkSite_0eb976ff.Unit;
-  ridemotorcompany: BowmarkSite_0eb976ff.Unit;
   rideonmowersonline: BowmarkSite_0eb976ff.Unit;
   rideordyewa: BowmarkSite_0eb976ff.Unit;
   rideprideshop: BowmarkSite_0eb976ff.Unit;
@@ -613822,7 +617802,6 @@ interface BowmarkProviders {
   rifevideos: BowmarkSite_0eb976ff.Unit;
   riflestorods: BowmarkSite_0eb976ff.Unit;
   rigatonys: BowmarkSite_0eb976ff.Unit;
-  riggitservices: BowmarkSite_0eb976ff.Unit;
   rightangledstore: BowmarkSite_0eb976ff.Unit;
   rightclickdefender: BowmarkSite_0eb976ff.Unit;
   rightcross: BowmarkSite_0eb976ff.Unit;
@@ -613956,7 +617935,6 @@ interface BowmarkProviders {
   rlsfoundation: BowmarkSite_0eb976ff.Unit;
   rm4isdvd: BowmarkSite_0eb976ff.Unit;
   rm5vrpi1: BowmarkSite_0eb976ff.Unit;
-  rmbrclub: BowmarkSite_0eb976ff.Unit;
   rmcroasters: BowmarkSite_0eb976ff.Unit;
   rmdigitalproductions: BowmarkSite_0eb976ff.Unit;
   rmjpcpes: BowmarkSite_0eb976ff.Unit;
@@ -613973,7 +617951,6 @@ interface BowmarkProviders {
   rnrtattoo: BowmarkSite_0eb976ff.Unit;
   rnwlchurch: BowmarkSite_0eb976ff.Unit;
   roadandrace: BowmarkSite_0eb976ff.Unit;
-  roadangel: BowmarkSite_0eb976ff.Unit;
   roadbars: BowmarkSite_0eb976ff.Unit;
   roadhouserelics: BowmarkSite_0eb976ff.Unit;
   roadplates: BowmarkSite_0eb976ff.Unit;
@@ -613994,7 +617971,6 @@ interface BowmarkProviders {
   roamtrue1: BowmarkSite_0eb976ff.Unit;
   roanvictor: BowmarkSite_0eb976ff.Unit;
   roaringcreeksoapery: BowmarkSite_0eb976ff.Unit;
-  roarkcanada: BowmarkSite_0eb976ff.Unit;
   roarliving: BowmarkSite_0eb976ff.Unit;
   roarorganic: BowmarkSite_0eb976ff.Unit;
   roasteryhoshikawa225: BowmarkSite_0eb976ff.Unit;
@@ -614202,7 +618178,6 @@ interface BowmarkProviders {
   ronkeelonlinestore: BowmarkSite_0eb976ff.Unit;
   ronlisa4625: BowmarkSite_0eb976ff.Unit;
   ronniedunn: BowmarkSite_0eb976ff.Unit;
-  ronniefieg: BowmarkSite_0eb976ff.Unit;
   ronnielocs: BowmarkSite_0eb976ff.Unit;
   ronpope: BowmarkSite_0eb976ff.Unit;
   ronronlolita: BowmarkSite_0eb976ff.Unit;
@@ -614212,7 +618187,6 @@ interface BowmarkProviders {
   rookeproducts: BowmarkSite_0eb976ff.Unit;
   rookperfumes: BowmarkSite_0eb976ff.Unit;
   rookrichards: BowmarkSite_0eb976ff.Unit;
-  room152clothingboutique: BowmarkSite_0eb976ff.Unit;
   roominabox: BowmarkSite_0eb976ff.Unit;
   roosevelthighschoolstore: BowmarkSite_0eb976ff.Unit;
   rooseveltschool: BowmarkSite_0eb976ff.Unit;
@@ -614253,7 +618227,6 @@ interface BowmarkProviders {
   rosarotesglueck: BowmarkSite_0eb976ff.Unit;
   rosboch: BowmarkSite_0eb976ff.Unit;
   roseandraingems: BowmarkSite_0eb976ff.Unit;
-  roseandstarpublishing3523: BowmarkSite_0eb976ff.Unit;
   rosebankwinery: BowmarkSite_0eb976ff.Unit;
   rosebelleclothing: BowmarkSite_0eb976ff.Unit;
   rosebrookeboutique: BowmarkSite_0eb976ff.Unit;
@@ -614280,7 +618253,6 @@ interface BowmarkProviders {
   rosepilkington: BowmarkSite_0eb976ff.Unit;
   roseraeandco: BowmarkSite_0eb976ff.Unit;
   roserosedance: BowmarkSite_0eb976ff.Unit;
-  roseskinco: BowmarkSite_0eb976ff.Unit;
   rosesthebakers: BowmarkSite_0eb976ff.Unit;
   rosetintedflowers: BowmarkSite_0eb976ff.Unit;
   rosettagetty2: BowmarkSite_0eb976ff.Unit;
@@ -614466,7 +618438,6 @@ interface BowmarkProviders {
   rtfirstlook: BowmarkSite_0eb976ff.Unit;
   rthlng: BowmarkSite_0eb976ff.Unit;
   rtiwebstore: BowmarkSite_0eb976ff.Unit;
-  rtjisxbq: BowmarkSite_0eb976ff.Unit;
   rtlight: BowmarkSite_0eb976ff.Unit;
   rtmaterial: BowmarkSite_0eb976ff.Unit;
   rtmaterial2: BowmarkSite_0eb976ff.Unit;
@@ -614494,7 +618465,6 @@ interface BowmarkProviders {
   rubertones: BowmarkSite_0eb976ff.Unit;
   rubiamala: BowmarkSite_0eb976ff.Unit;
   rubicapstore: BowmarkSite_0eb976ff.Unit;
-  rubicongroupst: BowmarkSite_0eb976ff.Unit;
   rubigoldfruit: BowmarkSite_0eb976ff.Unit;
   rubileemadewithlove: BowmarkSite_0eb976ff.Unit;
   rubiolongsnapping: BowmarkSite_0eb976ff.Unit;
@@ -614525,7 +618495,6 @@ interface BowmarkProviders {
   ruemorgue: BowmarkSite_0eb976ff.Unit;
   ruestdenisnyc: BowmarkSite_0eb976ff.Unit;
   ruethlessirons: BowmarkSite_0eb976ff.Unit;
-  rufddiesel1: BowmarkSite_0eb976ff.Unit;
   rufflednest: BowmarkSite_0eb976ff.Unit;
   ruffliferescuewear: BowmarkSite_0eb976ff.Unit;
   ruffstitched: BowmarkSite_0eb976ff.Unit;
@@ -614568,14 +618537,12 @@ interface BowmarkProviders {
   runnerschoicekingston: BowmarkSite_0eb976ff.Unit;
   runnersflow: BowmarkSite_0eb976ff.Unit;
   runnerstorecirkle: BowmarkSite_0eb976ff.Unit;
-  runninggameclothing: BowmarkSite_0eb976ff.Unit;
   runninglane: BowmarkSite_0eb976ff.Unit;
   runningstrongstore: BowmarkSite_0eb976ff.Unit;
   runoncogs: BowmarkSite_0eb976ff.Unit;
   runpacers: BowmarkSite_0eb976ff.Unit;
   runsip: BowmarkSite_0eb976ff.Unit;
   runtheedge: BowmarkSite_0eb976ff.Unit;
-  runthered: BowmarkSite_0eb976ff.Unit;
   runtochangelives: BowmarkSite_0eb976ff.Unit;
   runwayforrecovery: BowmarkSite_0eb976ff.Unit;
   ruohonjuuri: BowmarkSite_0eb976ff.Unit;
@@ -614597,7 +618564,6 @@ interface BowmarkProviders {
   russellcenter: BowmarkSite_0eb976ff.Unit;
   russelldickerson: BowmarkSite_0eb976ff.Unit;
   russellnesbittservicesinc: BowmarkSite_0eb976ff.Unit;
-  russellscafebakery: BowmarkSite_0eb976ff.Unit;
   russlascala1: BowmarkSite_0eb976ff.Unit;
   russo1899: BowmarkSite_0eb976ff.Unit;
   russosproduce: BowmarkSite_0eb976ff.Unit;
@@ -614705,7 +618671,6 @@ interface BowmarkProviders {
   s7risk: BowmarkSite_0eb976ff.Unit;
   s85gcyat: BowmarkSite_0eb976ff.Unit;
   s8eb0kkg: BowmarkSite_0eb976ff.Unit;
-  sa0qrjzw: BowmarkSite_0eb976ff.Unit;
   sa4dgmk0: BowmarkSite_0eb976ff.Unit;
   saacstuff: BowmarkSite_0eb976ff.Unit;
   saadiaart: BowmarkSite_0eb976ff.Unit;
@@ -614719,7 +618684,6 @@ interface BowmarkProviders {
   sabeauapothecary: BowmarkSite_0eb976ff.Unit;
   saben: BowmarkSite_0eb976ff.Unit;
   saberbelt: BowmarkSite_0eb976ff.Unit;
-  sabew: BowmarkSite_0eb976ff.Unit;
   sabinavineyards: BowmarkSite_0eb976ff.Unit;
   sabineskiffsstore: BowmarkSite_0eb976ff.Unit;
   sabinevdsande: BowmarkSite_0eb976ff.Unit;
@@ -614729,7 +618693,6 @@ interface BowmarkProviders {
   saborholistico: BowmarkSite_0eb976ff.Unit;
   sabrelaserfrance: BowmarkSite_0eb976ff.Unit;
   sabrinaclaudio: BowmarkSite_0eb976ff.Unit;
-  sabrinascheuerling: BowmarkSite_0eb976ff.Unit;
   sacapoche: BowmarkSite_0eb976ff.Unit;
   saccorp: BowmarkSite_0eb976ff.Unit;
   saccrossfit: BowmarkSite_0eb976ff.Unit;
@@ -614738,7 +618701,6 @@ interface BowmarkProviders {
   sachsenzeit: BowmarkSite_0eb976ff.Unit;
   sachshans: BowmarkSite_0eb976ff.Unit;
   sackvilleandco: BowmarkSite_0eb976ff.Unit;
-  saco1: BowmarkSite_0eb976ff.Unit;
   sacramentospca: BowmarkSite_0eb976ff.Unit;
   sacredbonesrecords: BowmarkSite_0eb976ff.Unit;
   sacredcowgranola: BowmarkSite_0eb976ff.Unit;
@@ -614774,7 +618736,6 @@ interface BowmarkProviders {
   safamily: BowmarkSite_0eb976ff.Unit;
   safecraftinc: BowmarkSite_0eb976ff.Unit;
   safedrivedrivingschool: BowmarkSite_0eb976ff.Unit;
-  safeguardprotectiveapparel: BowmarkSite_0eb976ff.Unit;
   safeharveststore: BowmarkSite_0eb976ff.Unit;
   safeinsight: BowmarkSite_0eb976ff.Unit;
   saferetrieve: BowmarkSite_0eb976ff.Unit;
@@ -614807,7 +618768,6 @@ interface BowmarkProviders {
   saggybaggyskinshop: BowmarkSite_0eb976ff.Unit;
   sagisakamokko: BowmarkSite_0eb976ff.Unit;
   sagittariussoultarotstore: BowmarkSite_0eb976ff.Unit;
-  saguis: BowmarkSite_0eb976ff.Unit;
   sagworks: BowmarkSite_0eb976ff.Unit;
   saharatheme: BowmarkSite_0eb976ff.Unit;
   sahmsrestaurantgroup: BowmarkSite_0eb976ff.Unit;
@@ -614945,7 +618905,6 @@ interface BowmarkProviders {
   salvationsouth: BowmarkSite_0eb976ff.Unit;
   salvereginauniversitycommemorativegifts: BowmarkSite_0eb976ff.Unit;
   samafoodforbalace: BowmarkSite_0eb976ff.Unit;
-  samanthaclaridge: BowmarkSite_0eb976ff.Unit;
   samanthaellisphotography: BowmarkSite_0eb976ff.Unit;
   samanthahostertceramics: BowmarkSite_0eb976ff.Unit;
   samanthakathrynprints: BowmarkSite_0eb976ff.Unit;
@@ -614991,7 +618950,6 @@ interface BowmarkProviders {
   samtaalglobalfoundation: BowmarkSite_0eb976ff.Unit;
   samuelelkins: BowmarkSite_0eb976ff.Unit;
   samuelevanson: BowmarkSite_0eb976ff.Unit;
-  samuelgartner6762: BowmarkSite_0eb976ff.Unit;
   samueltweedshop: BowmarkSite_0eb976ff.Unit;
   samuraisciencenutritionquicklink: BowmarkSite_0eb976ff.Unit;
   samwatsonillustration: BowmarkSite_0eb976ff.Unit;
@@ -615112,10 +619070,8 @@ interface BowmarkProviders {
   sapstedshouse: BowmarkSite_0eb976ff.Unit;
   saqulai: BowmarkSite_0eb976ff.Unit;
   saraevans: BowmarkSite_0eb976ff.Unit;
-  sarafabel: BowmarkSite_0eb976ff.Unit;
   saraforbushart: BowmarkSite_0eb976ff.Unit;
   sarafunberlin: BowmarkSite_0eb976ff.Unit;
-  sarah125945: BowmarkSite_0eb976ff.Unit;
   sarah8: BowmarkSite_0eb976ff.Unit;
   sarahandersencomics: BowmarkSite_0eb976ff.Unit;
   sarahbethtaite: BowmarkSite_0eb976ff.Unit;
@@ -615142,12 +619098,10 @@ interface BowmarkProviders {
   sarahsschools: BowmarkSite_0eb976ff.Unit;
   sarahthursday: BowmarkSite_0eb976ff.Unit;
   sarahwebersilversmith: BowmarkSite_0eb976ff.Unit;
-  sarahwoloskidesigns: BowmarkSite_0eb976ff.Unit;
   saramaraart: BowmarkSite_0eb976ff.Unit;
   saramlyons: BowmarkSite_0eb976ff.Unit;
   saranc: BowmarkSite_0eb976ff.Unit;
   sarantos: BowmarkSite_0eb976ff.Unit;
-  sarashakeel: BowmarkSite_0eb976ff.Unit;
   sarawongofficial: BowmarkSite_0eb976ff.Unit;
   sarbbijou: BowmarkSite_0eb976ff.Unit;
   sarcasticshed: BowmarkSite_0eb976ff.Unit;
@@ -615156,7 +619110,6 @@ interface BowmarkProviders {
   sariforchangestore: BowmarkSite_0eb976ff.Unit;
   sarmatswimwear: BowmarkSite_0eb976ff.Unit;
   sarniastingstore: BowmarkSite_0eb976ff.Unit;
-  saro28portfolio: BowmarkSite_0eb976ff.Unit;
   sarobysofia: BowmarkSite_0eb976ff.Unit;
   sartoginza: BowmarkSite_0eb976ff.Unit;
   sartorialetteraria: BowmarkSite_0eb976ff.Unit;
@@ -615237,7 +619190,6 @@ interface BowmarkProviders {
   savoiekoi: BowmarkSite_0eb976ff.Unit;
   savonasbohemianboutique: BowmarkSite_0eb976ff.Unit;
   savonneurs: BowmarkSite_0eb976ff.Unit;
-  savorthesuccess: BowmarkSite_0eb976ff.Unit;
   savoryinstitute: BowmarkSite_0eb976ff.Unit;
   savoymagazine: BowmarkSite_0eb976ff.Unit;
   savrucbeauty: BowmarkSite_0eb976ff.Unit;
@@ -615276,7 +619228,6 @@ interface BowmarkProviders {
   sbrpstc: BowmarkSite_0eb976ff.Unit;
   sbrsportsinc: BowmarkSite_0eb976ff.Unit;
   sbstop: BowmarkSite_0eb976ff.Unit;
-  sbsuperbikes: BowmarkSite_0eb976ff.Unit;
   sbtexas: BowmarkSite_0eb976ff.Unit;
   sbums3ut: BowmarkSite_0eb976ff.Unit;
   sc22z90f: BowmarkSite_0eb976ff.Unit;
@@ -615567,7 +619518,6 @@ interface BowmarkProviders {
   secondclasskids: BowmarkSite_0eb976ff.Unit;
   secondlifeatlanta: BowmarkSite_0eb976ff.Unit;
   secondlifemessina: BowmarkSite_0eb976ff.Unit;
-  secondseason: BowmarkSite_0eb976ff.Unit;
   secondshowingboutique: BowmarkSite_0eb976ff.Unit;
   secondstorychurch: BowmarkSite_0eb976ff.Unit;
   secondstoryinteriors: BowmarkSite_0eb976ff.Unit;
@@ -615677,7 +619627,6 @@ interface BowmarkProviders {
   senchaism: BowmarkSite_0eb976ff.Unit;
   sencibeauty: BowmarkSite_0eb976ff.Unit;
   sencillomedia: BowmarkSite_0eb976ff.Unit;
-  senditures: BowmarkSite_0eb976ff.Unit;
   sendtinel: BowmarkSite_0eb976ff.Unit;
   seniorawards: BowmarkSite_0eb976ff.Unit;
   seniorhousingnews: BowmarkSite_0eb976ff.Unit;
@@ -615841,7 +619790,6 @@ interface BowmarkProviders {
   sfys: BowmarkSite_0eb976ff.Unit;
   sgates: BowmarkSite_0eb976ff.Unit;
   sgbarbianvillanders: BowmarkSite_0eb976ff.Unit;
-  sgbellapizza: BowmarkSite_0eb976ff.Unit;
   sgblaise: BowmarkSite_0eb976ff.Unit;
   sgcgcc: BowmarkSite_0eb976ff.Unit;
   sgessn: BowmarkSite_0eb976ff.Unit;
@@ -615937,7 +619885,6 @@ interface BowmarkProviders {
   sharielleshop: BowmarkSite_0eb976ff.Unit;
   sharingart: BowmarkSite_0eb976ff.Unit;
   sharityclub: BowmarkSite_0eb976ff.Unit;
-  sharkbridge: BowmarkSite_0eb976ff.Unit;
   sharkbright: BowmarkSite_0eb976ff.Unit;
   sharkeyscutsforkids2: BowmarkSite_0eb976ff.Unit;
   sharkfitnesstraining: BowmarkSite_0eb976ff.Unit;
@@ -615946,7 +619893,6 @@ interface BowmarkProviders {
   sharonhamiltonauthor: BowmarkSite_0eb976ff.Unit;
   sharonjanecouk: BowmarkSite_0eb976ff.Unit;
   sharonlatham: BowmarkSite_0eb976ff.Unit;
-  sharonodaycopywriting: BowmarkSite_0eb976ff.Unit;
   sharonstellutoart: BowmarkSite_0eb976ff.Unit;
   sharonwoods2: BowmarkSite_0eb976ff.Unit;
   sharpbarbershop: BowmarkSite_0eb976ff.Unit;
@@ -616087,7 +620033,6 @@ interface BowmarkProviders {
   shinerygma: BowmarkSite_0eb976ff.Unit;
   shinesedonaboutique: BowmarkSite_0eb976ff.Unit;
   shinevessels: BowmarkSite_0eb976ff.Unit;
-  shings: BowmarkSite_0eb976ff.Unit;
   shininstarstyle: BowmarkSite_0eb976ff.Unit;
   shinkaigyo: BowmarkSite_0eb976ff.Unit;
   shinobay: BowmarkSite_0eb976ff.Unit;
@@ -616102,7 +620047,6 @@ interface BowmarkProviders {
   shipdeliveryandpickup: BowmarkSite_0eb976ff.Unit;
   shipifast: BowmarkSite_0eb976ff.Unit;
   shipinsuredemostore: BowmarkSite_0eb976ff.Unit;
-  shipjoker: BowmarkSite_0eb976ff.Unit;
   shipmentcalculator: BowmarkSite_0eb976ff.Unit;
   shippingbarmasterbyautoketing: BowmarkSite_0eb976ff.Unit;
   shippingratecalendar: BowmarkSite_0eb976ff.Unit;
@@ -616138,7 +620082,6 @@ interface BowmarkProviders {
   shockino: BowmarkSite_0eb976ff.Unit;
   shockwavecanada: BowmarkSite_0eb976ff.Unit;
   shockwavethecrone: BowmarkSite_0eb976ff.Unit;
-  shoclostore: BowmarkSite_0eb976ff.Unit;
   shodosan: BowmarkSite_0eb976ff.Unit;
   shoeboxpk: BowmarkSite_0eb976ff.Unit;
   shoeffle: BowmarkSite_0eb976ff.Unit;
@@ -616184,7 +620127,6 @@ interface BowmarkProviders {
   shopachs: BowmarkSite_0eb976ff.Unit;
   shopactimi: BowmarkSite_0eb976ff.Unit;
   shopadesso: BowmarkSite_0eb976ff.Unit;
-  shopadhdlove: BowmarkSite_0eb976ff.Unit;
   shopafricannature: BowmarkSite_0eb976ff.Unit;
   shopairlight: BowmarkSite_0eb976ff.Unit;
   shopairshowlondon: BowmarkSite_0eb976ff.Unit;
@@ -616274,7 +620216,6 @@ interface BowmarkProviders {
   shopceo: BowmarkSite_0eb976ff.Unit;
   shopcfa: BowmarkSite_0eb976ff.Unit;
   shopchairlift: BowmarkSite_0eb976ff.Unit;
-  shopcharityf: BowmarkSite_0eb976ff.Unit;
   shopcharlielou: BowmarkSite_0eb976ff.Unit;
   shopchauxdown: BowmarkSite_0eb976ff.Unit;
   shopchica: BowmarkSite_0eb976ff.Unit;
@@ -616327,7 +620268,6 @@ interface BowmarkProviders {
   shopeturn: BowmarkSite_0eb976ff.Unit;
   shopeunamaes: BowmarkSite_0eb976ff.Unit;
   shopeverforward: BowmarkSite_0eb976ff.Unit;
-  shopexquisiteskincare: BowmarkSite_0eb976ff.Unit;
   shopfaceonbroadway: BowmarkSite_0eb976ff.Unit;
   shopfacesbyrachie: BowmarkSite_0eb976ff.Unit;
   shopfd: BowmarkSite_0eb976ff.Unit;
@@ -616369,8 +620309,6 @@ interface BowmarkProviders {
   shophami07es: BowmarkSite_0eb976ff.Unit;
   shophannahscloset: BowmarkSite_0eb976ff.Unit;
   shophapoo: BowmarkSite_0eb976ff.Unit;
-  shophardwareau: BowmarkSite_0eb976ff.Unit;
-  shophardwarenz: BowmarkSite_0eb976ff.Unit;
   shophawaiianair: BowmarkSite_0eb976ff.Unit;
   shophazeljane: BowmarkSite_0eb976ff.Unit;
   shophazelmatticebooks: BowmarkSite_0eb976ff.Unit;
@@ -616393,7 +620331,6 @@ interface BowmarkProviders {
   shopifychina: BowmarkSite_0eb976ff.Unit;
   shopifyclothing: BowmarkSite_0eb976ff.Unit;
   shopifyexplorer: BowmarkSite_0eb976ff.Unit;
-  shopifyhardwareuk: BowmarkSite_0eb976ff.Unit;
   shopifypwa: BowmarkSite_0eb976ff.Unit;
   shopifywidget: BowmarkSite_0eb976ff.Unit;
   shopilpoggiodigavi: BowmarkSite_0eb976ff.Unit;
@@ -616405,7 +620342,6 @@ interface BowmarkProviders {
   shopishida: BowmarkSite_0eb976ff.Unit;
   shopisik: BowmarkSite_0eb976ff.Unit;
   shopislandchild: BowmarkSite_0eb976ff.Unit;
-  shopitasker: BowmarkSite_0eb976ff.Unit;
   shopitecusa: BowmarkSite_0eb976ff.Unit;
   shopjasoneady: BowmarkSite_0eb976ff.Unit;
   shopjcristina: BowmarkSite_0eb976ff.Unit;
@@ -616660,7 +620596,6 @@ interface BowmarkProviders {
   shopurbangreenhouse: BowmarkSite_0eb976ff.Unit;
   shopvalleygal: BowmarkSite_0eb976ff.Unit;
   shopvalleyofficial: BowmarkSite_0eb976ff.Unit;
-  shopvango: BowmarkSite_0eb976ff.Unit;
   shopvanina: BowmarkSite_0eb976ff.Unit;
   shopvc: BowmarkSite_0eb976ff.Unit;
   shopvelvetqueen: BowmarkSite_0eb976ff.Unit;
@@ -616798,7 +620733,6 @@ interface BowmarkProviders {
   sidthe3rdshop: BowmarkSite_0eb976ff.Unit;
   siebdruckms: BowmarkSite_0eb976ff.Unit;
   siembralobueno: BowmarkSite_0eb976ff.Unit;
-  siemonsalazar: BowmarkSite_0eb976ff.Unit;
   sienafarms: BowmarkSite_0eb976ff.Unit;
   siennasshop4028: BowmarkSite_0eb976ff.Unit;
   sierraferrell: BowmarkSite_0eb976ff.Unit;
@@ -616822,8 +620756,6 @@ interface BowmarkProviders {
   sigmaswim: BowmarkSite_0eb976ff.Unit;
   sigmetrix: BowmarkSite_0eb976ff.Unit;
   signageiq: BowmarkSite_0eb976ff.Unit;
-  signaturebaking: BowmarkSite_0eb976ff.Unit;
-  signaturebakingcompany: BowmarkSite_0eb976ff.Unit;
   signaturebeautybarfashions: BowmarkSite_0eb976ff.Unit;
   signatureclothingcostore: BowmarkSite_0eb976ff.Unit;
   signaturecosmeticclinic: BowmarkSite_0eb976ff.Unit;
@@ -616879,7 +620811,6 @@ interface BowmarkProviders {
   silverfoxjewelryii: BowmarkSite_0eb976ff.Unit;
   silvergateantlers: BowmarkSite_0eb976ff.Unit;
   silvergateonline: BowmarkSite_0eb976ff.Unit;
-  silverheartshealing: BowmarkSite_0eb976ff.Unit;
   silveringrowth: BowmarkSite_0eb976ff.Unit;
   silverleafboutique: BowmarkSite_0eb976ff.Unit;
   silverlininguk: BowmarkSite_0eb976ff.Unit;
@@ -616925,7 +620856,6 @@ interface BowmarkProviders {
   simplebundlessupply: BowmarkSite_0eb976ff.Unit;
   simplec10: BowmarkSite_0eb976ff.Unit;
   simpledailyrecipes: BowmarkSite_0eb976ff.Unit;
-  simpledeats: BowmarkSite_0eb976ff.Unit;
   simplefarm: BowmarkSite_0eb976ff.Unit;
   simplegreatgreen: BowmarkSite_0eb976ff.Unit;
   simplegreattheme: BowmarkSite_0eb976ff.Unit;
@@ -616941,7 +620871,6 @@ interface BowmarkProviders {
   simpleretro: BowmarkSite_0eb976ff.Unit;
   simpleshapes: BowmarkSite_0eb976ff.Unit;
   simplesidemascots: BowmarkSite_0eb976ff.Unit;
-  simplesimonandcompany: BowmarkSite_0eb976ff.Unit;
   simplesimonpies: BowmarkSite_0eb976ff.Unit;
   simplesnap: BowmarkSite_0eb976ff.Unit;
   simplestories: BowmarkSite_0eb976ff.Unit;
@@ -617061,7 +620990,6 @@ interface BowmarkProviders {
   sistermediums: BowmarkSite_0eb976ff.Unit;
   sisterslovechemistrymerch: BowmarkSite_0eb976ff.Unit;
   sistersmullicahill: BowmarkSite_0eb976ff.Unit;
-  sistersofcharitygiftshop: BowmarkSite_0eb976ff.Unit;
   sistersoflifecanada: BowmarkSite_0eb976ff.Unit;
   sistersspiceco: BowmarkSite_0eb976ff.Unit;
   sisterssweettreats: BowmarkSite_0eb976ff.Unit;
@@ -617070,7 +620998,6 @@ interface BowmarkProviders {
   sistiqueboutique: BowmarkSite_0eb976ff.Unit;
   sistraofficial: BowmarkSite_0eb976ff.Unit;
   sisubaseball: BowmarkSite_0eb976ff.Unit;
-  sisubeer: BowmarkSite_0eb976ff.Unit;
   sisulead: BowmarkSite_0eb976ff.Unit;
   sisumerch: BowmarkSite_0eb976ff.Unit;
   sitaabellan: BowmarkSite_0eb976ff.Unit;
@@ -617109,7 +621036,6 @@ interface BowmarkProviders {
   sjrkurs: BowmarkSite_0eb976ff.Unit;
   sjuttonkvadratmeterlakrits: BowmarkSite_0eb976ff.Unit;
   sjvtesla: BowmarkSite_0eb976ff.Unit;
-  sk8erboywholsale: BowmarkSite_0eb976ff.Unit;
   skaface: BowmarkSite_0eb976ff.Unit;
   skaihealth: BowmarkSite_0eb976ff.Unit;
   skalbeerhall: BowmarkSite_0eb976ff.Unit;
@@ -617255,7 +621181,6 @@ interface BowmarkProviders {
   skymapper: BowmarkSite_0eb976ff.Unit;
   skynbybrandy: BowmarkSite_0eb976ff.Unit;
   skynlounge: BowmarkSite_0eb976ff.Unit;
-  skyport: BowmarkSite_0eb976ff.Unit;
   skyravin: BowmarkSite_0eb976ff.Unit;
   skysanctuary: BowmarkSite_0eb976ff.Unit;
   skywagonscom: BowmarkSite_0eb976ff.Unit;
@@ -617292,7 +621217,6 @@ interface BowmarkProviders {
   sleepercomerch: BowmarkSite_0eb976ff.Unit;
   sleepgram1: BowmarkSite_0eb976ff.Unit;
   sleepharvester: BowmarkSite_0eb976ff.Unit;
-  sleepingdogsstudio: BowmarkSite_0eb976ff.Unit;
   sleepinggiantcollectibles: BowmarkSite_0eb976ff.Unit;
   sleeplessgroup: BowmarkSite_0eb976ff.Unit;
   sleeplessinsequins: BowmarkSite_0eb976ff.Unit;
@@ -617358,7 +621282,6 @@ interface BowmarkProviders {
   smallbatchsoap: BowmarkSite_0eb976ff.Unit;
   smallbizjump: BowmarkSite_0eb976ff.Unit;
   smalldriftmachine: BowmarkSite_0eb976ff.Unit;
-  smallhold: BowmarkSite_0eb976ff.Unit;
   smallpetscompany: BowmarkSite_0eb976ff.Unit;
   smallpocketstx: BowmarkSite_0eb976ff.Unit;
   smallrun: BowmarkSite_0eb976ff.Unit;
@@ -617482,7 +621405,6 @@ interface BowmarkProviders {
   smtzbijoux: BowmarkSite_0eb976ff.Unit;
   smugglersnotchdistilleryonlinestore: BowmarkSite_0eb976ff.Unit;
   smugglerstickets: BowmarkSite_0eb976ff.Unit;
-  smutandstuff: BowmarkSite_0eb976ff.Unit;
   smutlovers: BowmarkSite_0eb976ff.Unit;
   smuuve: BowmarkSite_0eb976ff.Unit;
   smyczdlapsa: BowmarkSite_0eb976ff.Unit;
@@ -617500,7 +621422,6 @@ interface BowmarkProviders {
   snappydogsalsa: BowmarkSite_0eb976ff.Unit;
   snappysearch: BowmarkSite_0eb976ff.Unit;
   snappystuffs: BowmarkSite_0eb976ff.Unit;
-  snapsnspurs: BowmarkSite_0eb976ff.Unit;
   snazzydesignsplr: BowmarkSite_0eb976ff.Unit;
   snazzylittlethings: BowmarkSite_0eb976ff.Unit;
   snazzysnaps: BowmarkSite_0eb976ff.Unit;
@@ -617531,7 +621452,6 @@ interface BowmarkProviders {
   snoozebaby: BowmarkSite_0eb976ff.Unit;
   snoozeband: BowmarkSite_0eb976ff.Unit;
   snoqualmierunning: BowmarkSite_0eb976ff.Unit;
-  snoreqx: BowmarkSite_0eb976ff.Unit;
   snouseelectriccompany: BowmarkSite_0eb976ff.Unit;
   snow19: BowmarkSite_0eb976ff.Unit;
   snowballpublishing: BowmarkSite_0eb976ff.Unit;
@@ -617602,7 +621522,6 @@ interface BowmarkProviders {
   socialecommerce: BowmarkSite_0eb976ff.Unit;
   socialfly: BowmarkSite_0eb976ff.Unit;
   socialgroundscoffee: BowmarkSite_0eb976ff.Unit;
-  socialimagegallery: BowmarkSite_0eb976ff.Unit;
   socialissuebe: BowmarkSite_0eb976ff.Unit;
   socialjusticejewelry: BowmarkSite_0eb976ff.Unit;
   sociallogintest3: BowmarkSite_0eb976ff.Unit;
@@ -617678,7 +621597,6 @@ interface BowmarkProviders {
   solachigasaki: BowmarkSite_0eb976ff.Unit;
   solairgroup: BowmarkSite_0eb976ff.Unit;
   solairmarket: BowmarkSite_0eb976ff.Unit;
-  solanamobile: BowmarkSite_0eb976ff.Unit;
   solarcontractcarpet: BowmarkSite_0eb976ff.Unit;
   solarlager24: BowmarkSite_0eb976ff.Unit;
   solarmasterbiz: BowmarkSite_0eb976ff.Unit;
@@ -617708,14 +621626,12 @@ interface BowmarkProviders {
   solidarises: BowmarkSite_0eb976ff.Unit;
   soliddisplaysystems: BowmarkSite_0eb976ff.Unit;
   solidobjects: BowmarkSite_0eb976ff.Unit;
-  solidprecisionltd: BowmarkSite_0eb976ff.Unit;
   solidsonic: BowmarkSite_0eb976ff.Unit;
   solidstateoftruth: BowmarkSite_0eb976ff.Unit;
   solidsupportptyltd: BowmarkSite_0eb976ff.Unit;
   solilla: BowmarkSite_0eb976ff.Unit;
   soloclean: BowmarkSite_0eb976ff.Unit;
   solodrop: BowmarkSite_0eb976ff.Unit;
-  solomediagroupsite: BowmarkSite_0eb976ff.Unit;
   solomonfiberarts: BowmarkSite_0eb976ff.Unit;
   solomonrcali: BowmarkSite_0eb976ff.Unit;
   solsays: BowmarkSite_0eb976ff.Unit;
@@ -617741,7 +621657,6 @@ interface BowmarkProviders {
   sommelierskan: BowmarkSite_0eb976ff.Unit;
   sommerkeramik: BowmarkSite_0eb976ff.Unit;
   somosarpias: BowmarkSite_0eb976ff.Unit;
-  somoshumana: BowmarkSite_0eb976ff.Unit;
   somosladespensa: BowmarkSite_0eb976ff.Unit;
   somuchtosaymerch: BowmarkSite_0eb976ff.Unit;
   sonadorboutique: BowmarkSite_0eb976ff.Unit;
@@ -617819,7 +621734,6 @@ interface BowmarkProviders {
   sorrymomgermany: BowmarkSite_0eb976ff.Unit;
   sorrymomusa: BowmarkSite_0eb976ff.Unit;
   sorrypress: BowmarkSite_0eb976ff.Unit;
-  sortrehearsalrooms: BowmarkSite_0eb976ff.Unit;
   sosche: BowmarkSite_0eb976ff.Unit;
   soschefs: BowmarkSite_0eb976ff.Unit;
   soscottish: BowmarkSite_0eb976ff.Unit;
@@ -617878,10 +621792,8 @@ interface BowmarkProviders {
   soundtechniquesstore2: BowmarkSite_0eb976ff.Unit;
   soundtolight: BowmarkSite_0eb976ff.Unit;
   sounoneproduct: BowmarkSite_0eb976ff.Unit;
-  soupalicious2: BowmarkSite_0eb976ff.Unit;
   soupclubmerchhub: BowmarkSite_0eb976ff.Unit;
   sourceendurance: BowmarkSite_0eb976ff.Unit;
-  sourcemadeapparel: BowmarkSite_0eb976ff.Unit;
   sourcesofhope: BowmarkSite_0eb976ff.Unit;
   sourdoughfever: BowmarkSite_0eb976ff.Unit;
   sourdoughgeeks: BowmarkSite_0eb976ff.Unit;
@@ -617908,7 +621820,6 @@ interface BowmarkProviders {
   southernadoornments: BowmarkSite_0eb976ff.Unit;
   southernadoornmentsdecor: BowmarkSite_0eb976ff.Unit;
   southernalpshoney: BowmarkSite_0eb976ff.Unit;
-  southernappalachianhighlandsconservancygiftshop: BowmarkSite_0eb976ff.Unit;
   southernapparelandgraphicsllc: BowmarkSite_0eb976ff.Unit;
   southerncollectivespiritco: BowmarkSite_0eb976ff.Unit;
   southerncrosshorticulture: BowmarkSite_0eb976ff.Unit;
@@ -617936,7 +621847,6 @@ interface BowmarkProviders {
   southernsoulbbq: BowmarkSite_0eb976ff.Unit;
   southerntidepools: BowmarkSite_0eb976ff.Unit;
   southgatecentre: BowmarkSite_0eb976ff.Unit;
-  southglasses: BowmarkSite_0eb976ff.Unit;
   southhollowgallery: BowmarkSite_0eb976ff.Unit;
   southlacafe: BowmarkSite_0eb976ff.Unit;
   southlandpowersports: BowmarkSite_0eb976ff.Unit;
@@ -617948,7 +621858,6 @@ interface BowmarkProviders {
   southsidemmathailand: BowmarkSite_0eb976ff.Unit;
   southsoaps: BowmarkSite_0eb976ff.Unit;
   southspoonfarms: BowmarkSite_0eb976ff.Unit;
-  southtigerwear: BowmarkSite_0eb976ff.Unit;
   southwestconnectionnativeamericangiftsfudgeshop: BowmarkSite_0eb976ff.Unit;
   southwesternconsulting: BowmarkSite_0eb976ff.Unit;
   southwestnarrowgauge: BowmarkSite_0eb976ff.Unit;
@@ -617968,7 +621877,6 @@ interface BowmarkProviders {
   soynica: BowmarkSite_0eb976ff.Unit;
   soyturkiye: BowmarkSite_0eb976ff.Unit;
   spa2goca: BowmarkSite_0eb976ff.Unit;
-  spabellelavie: BowmarkSite_0eb976ff.Unit;
   spacandlesscents: BowmarkSite_0eb976ff.Unit;
   spacebetweenent: BowmarkSite_0eb976ff.Unit;
   spaceboxjp: BowmarkSite_0eb976ff.Unit;
@@ -618000,10 +621908,8 @@ interface BowmarkProviders {
   spanaturelle: BowmarkSite_0eb976ff.Unit;
   spanishforexecutives: BowmarkSite_0eb976ff.Unit;
   spanishmack: BowmarkSite_0eb976ff.Unit;
-  spanishmainantiquesstaugustine: BowmarkSite_0eb976ff.Unit;
   spanishmamas: BowmarkSite_0eb976ff.Unit;
   spanx: BowmarkSite_0eb976ff.Unit;
-  spaolivia: BowmarkSite_0eb976ff.Unit;
   spark4joy: BowmarkSite_0eb976ff.Unit;
   sparkbusinessconsulting: BowmarkSite_0eb976ff.Unit;
   sparklealleyboutique: BowmarkSite_0eb976ff.Unit;
@@ -618062,7 +621968,6 @@ interface BowmarkProviders {
   specialcareaustralia: BowmarkSite_0eb976ff.Unit;
   specialday: BowmarkSite_0eb976ff.Unit;
   specialedartsliteracy: BowmarkSite_0eb976ff.Unit;
-  specialforcesfoundation: BowmarkSite_0eb976ff.Unit;
   specialistinsight: BowmarkSite_0eb976ff.Unit;
   specialsize: BowmarkSite_0eb976ff.Unit;
   specialtyathletictraining: BowmarkSite_0eb976ff.Unit;
@@ -618214,7 +622119,6 @@ interface BowmarkProviders {
   sportkluftshop: BowmarkSite_0eb976ff.Unit;
   sportmaniadev: BowmarkSite_0eb976ff.Unit;
   sportparkourleague: BowmarkSite_0eb976ff.Unit;
-  sports2000montreux: BowmarkSite_0eb976ff.Unit;
   sportsaccessoriesstore: BowmarkSite_0eb976ff.Unit;
   sportsandshit: BowmarkSite_0eb976ff.Unit;
   sportsbasement: BowmarkSite_0eb976ff.Unit;
@@ -618234,7 +622138,6 @@ interface BowmarkProviders {
   spotbuyerltd: BowmarkSite_0eb976ff.Unit;
   spotcolors: BowmarkSite_0eb976ff.Unit;
   spotlessandsortedconsignment: BowmarkSite_0eb976ff.Unit;
-  spotlightoralcare: BowmarkSite_0eb976ff.Unit;
   spotlightreligious: BowmarkSite_0eb976ff.Unit;
   spotonbilliards: BowmarkSite_0eb976ff.Unit;
   spotzeroeu: BowmarkSite_0eb976ff.Unit;
@@ -618324,7 +622227,6 @@ interface BowmarkProviders {
   sscc: BowmarkSite_0eb976ff.Unit;
   ssclearninginstitute: BowmarkSite_0eb976ff.Unit;
   ssclickboom: BowmarkSite_0eb976ff.Unit;
-  sseabreezejazzfestivalofficialmerchandise: BowmarkSite_0eb976ff.Unit;
   sseom: BowmarkSite_0eb976ff.Unit;
   ssfurni: BowmarkSite_0eb976ff.Unit;
   sshaircare: BowmarkSite_0eb976ff.Unit;
@@ -618513,7 +622415,6 @@ interface BowmarkProviders {
   stbrigidsfarmstore: BowmarkSite_0eb976ff.Unit;
   stcolomban: BowmarkSite_0eb976ff.Unit;
   stconlinestore: BowmarkSite_0eb976ff.Unit;
-  stdalfourfruitspread: BowmarkSite_0eb976ff.Unit;
   stdemo1: BowmarkSite_0eb976ff.Unit;
   stdominicsstore: BowmarkSite_0eb976ff.Unit;
   steadfastcarryco: BowmarkSite_0eb976ff.Unit;
@@ -618546,7 +622447,6 @@ interface BowmarkProviders {
   stefaniekapp: BowmarkSite_0eb976ff.Unit;
   stefanmosebach: BowmarkSite_0eb976ff.Unit;
   stefere: BowmarkSite_0eb976ff.Unit;
-  steffijadeportfolio: BowmarkSite_0eb976ff.Unit;
   stegreif: BowmarkSite_0eb976ff.Unit;
   steindoktorshop: BowmarkSite_0eb976ff.Unit;
   steineckerliving: BowmarkSite_0eb976ff.Unit;
@@ -618593,7 +622493,6 @@ interface BowmarkProviders {
   sterlingdrake: BowmarkSite_0eb976ff.Unit;
   sterlingjewellersmalta: BowmarkSite_0eb976ff.Unit;
   sterlinglighting: BowmarkSite_0eb976ff.Unit;
-  sternsgym: BowmarkSite_0eb976ff.Unit;
   sterrydrums: BowmarkSite_0eb976ff.Unit;
   steshowtime: BowmarkSite_0eb976ff.Unit;
   stethoscopedreams: BowmarkSite_0eb976ff.Unit;
@@ -618724,7 +622623,6 @@ interface BowmarkProviders {
   stockbridgelandtrust: BowmarkSite_0eb976ff.Unit;
   stockholm17: BowmarkSite_0eb976ff.Unit;
   stockhorseoftexas: BowmarkSite_0eb976ff.Unit;
-  stockintrade: BowmarkSite_0eb976ff.Unit;
   stockmartclassic: BowmarkSite_0eb976ff.Unit;
   stockmartminimal: BowmarkSite_0eb976ff.Unit;
   stockmartmodern: BowmarkSite_0eb976ff.Unit;
@@ -618788,7 +622686,6 @@ interface BowmarkProviders {
   storecraftdemo: BowmarkSite_0eb976ff.Unit;
   storedaanish: BowmarkSite_0eb976ff.Unit;
   storedisplayco: BowmarkSite_0eb976ff.Unit;
-  storefinos: BowmarkSite_0eb976ff.Unit;
   storefrontchurch: BowmarkSite_0eb976ff.Unit;
   storefrontrecords: BowmarkSite_0eb976ff.Unit;
   storehairmakeearth: BowmarkSite_0eb976ff.Unit;
@@ -618914,7 +622811,6 @@ interface BowmarkProviders {
   streetparking: BowmarkSite_0eb976ff.Unit;
   streetportraitberlin: BowmarkSite_0eb976ff.Unit;
   streetracketshop: BowmarkSite_0eb976ff.Unit;
-  streetstuffparts: BowmarkSite_0eb976ff.Unit;
   streetstyleprint: BowmarkSite_0eb976ff.Unit;
   streettypearchive: BowmarkSite_0eb976ff.Unit;
   streetuniversitylive: BowmarkSite_0eb976ff.Unit;
@@ -618927,7 +622823,6 @@ interface BowmarkProviders {
   stretchtite: BowmarkSite_0eb976ff.Unit;
   stretchwellptproducts: BowmarkSite_0eb976ff.Unit;
   stretchyogaonline: BowmarkSite_0eb976ff.Unit;
-  stretfordpaddock: BowmarkSite_0eb976ff.Unit;
   strettocl: BowmarkSite_0eb976ff.Unit;
   strictlybusinessmotorsports: BowmarkSite_0eb976ff.Unit;
   strictlygolf: BowmarkSite_0eb976ff.Unit;
@@ -618947,7 +622842,6 @@ interface BowmarkProviders {
   strivefootwearus: BowmarkSite_0eb976ff.Unit;
   strohsbeer: BowmarkSite_0eb976ff.Unit;
   strokesbynamratamehta: BowmarkSite_0eb976ff.Unit;
-  strommenif: BowmarkSite_0eb976ff.Unit;
   strommerbor: BowmarkSite_0eb976ff.Unit;
   strong3d: BowmarkSite_0eb976ff.Unit;
   strongerfitnessllc: BowmarkSite_0eb976ff.Unit;
@@ -619025,7 +622919,6 @@ interface BowmarkProviders {
   studiopinspaper: BowmarkSite_0eb976ff.Unit;
   studioplayground: BowmarkSite_0eb976ff.Unit;
   studiopylon: BowmarkSite_0eb976ff.Unit;
-  studior12: BowmarkSite_0eb976ff.Unit;
   studiorussodesign: BowmarkSite_0eb976ff.Unit;
   studiosandesigns: BowmarkSite_0eb976ff.Unit;
   studiosauvageau: BowmarkSite_0eb976ff.Unit;
@@ -619158,7 +623051,6 @@ interface BowmarkProviders {
   sugarriveradventures: BowmarkSite_0eb976ff.Unit;
   sugarroom: BowmarkSite_0eb976ff.Unit;
   sugarrushmarshmallows: BowmarkSite_0eb976ff.Unit;
-  sugarrushvilmairis: BowmarkSite_0eb976ff.Unit;
   sugarshacksessions: BowmarkSite_0eb976ff.Unit;
   sugarshackstudio: BowmarkSite_0eb976ff.Unit;
   sugarspicelifestylestore: BowmarkSite_0eb976ff.Unit;
@@ -619171,7 +623063,6 @@ interface BowmarkProviders {
   suicidesqueeze: BowmarkSite_0eb976ff.Unit;
   suicyskv: BowmarkSite_0eb976ff.Unit;
   suiteescapeclothingboutique: BowmarkSite_0eb976ff.Unit;
-  suiteretail: BowmarkSite_0eb976ff.Unit;
   sujtcqey: BowmarkSite_0eb976ff.Unit;
   sukhis: BowmarkSite_0eb976ff.Unit;
   sukiya8store: BowmarkSite_0eb976ff.Unit;
@@ -619182,7 +623073,6 @@ interface BowmarkProviders {
   sullvn: BowmarkSite_0eb976ff.Unit;
   sullyworks: BowmarkSite_0eb976ff.Unit;
   sultanah8168: BowmarkSite_0eb976ff.Unit;
-  sultangraphics: BowmarkSite_0eb976ff.Unit;
   sultansemporium: BowmarkSite_0eb976ff.Unit;
   sultanskytees: BowmarkSite_0eb976ff.Unit;
   sultryeyewear: BowmarkSite_0eb976ff.Unit;
@@ -619219,10 +623109,8 @@ interface BowmarkProviders {
   sumtoycustoms: BowmarkSite_0eb976ff.Unit;
   sunacottons: BowmarkSite_0eb976ff.Unit;
   sunaho: BowmarkSite_0eb976ff.Unit;
-  sunandfuncycles: BowmarkSite_0eb976ff.Unit;
   sunandmooncouture: BowmarkSite_0eb976ff.Unit;
   sunboostbeautylifestyle: BowmarkSite_0eb976ff.Unit;
-  sunbridgecompany: BowmarkSite_0eb976ff.Unit;
   sunbrighteducation: BowmarkSite_0eb976ff.Unit;
   sunchan: BowmarkSite_0eb976ff.Unit;
   suncliffe: BowmarkSite_0eb976ff.Unit;
@@ -619402,7 +623290,6 @@ interface BowmarkProviders {
   suprasneakersmadison: BowmarkSite_0eb976ff.Unit;
   supremamarine: BowmarkSite_0eb976ff.Unit;
   supremeboissons: BowmarkSite_0eb976ff.Unit;
-  supremecheerleadingproshop: BowmarkSite_0eb976ff.Unit;
   supremecools: BowmarkSite_0eb976ff.Unit;
   supremefulvicllc: BowmarkSite_0eb976ff.Unit;
   supremeheadsupply: BowmarkSite_0eb976ff.Unit;
@@ -619545,7 +623432,6 @@ interface BowmarkProviders {
   sweetchickstore: BowmarkSite_0eb976ff.Unit;
   sweetchoicegiftbaskets: BowmarkSite_0eb976ff.Unit;
   sweetcircus: BowmarkSite_0eb976ff.Unit;
-  sweetcustomjewelry: BowmarkSite_0eb976ff.Unit;
   sweetdaddycorn: BowmarkSite_0eb976ff.Unit;
   sweetdress7888: BowmarkSite_0eb976ff.Unit;
   sweetea: BowmarkSite_0eb976ff.Unit;
@@ -619596,14 +623482,12 @@ interface BowmarkProviders {
   swimmingsuitstore: BowmarkSite_0eb976ff.Unit;
   swimmingtigressmusic: BowmarkSite_0eb976ff.Unit;
   swimmwear: BowmarkSite_0eb976ff.Unit;
-  swimpocoloco: BowmarkSite_0eb976ff.Unit;
   swimriderunfaster: BowmarkSite_0eb976ff.Unit;
   swimsistas: BowmarkSite_0eb976ff.Unit;
   swimwearhouse: BowmarkSite_0eb976ff.Unit;
   swindlemysoul: BowmarkSite_0eb976ff.Unit;
   swingingpeteshop: BowmarkSite_0eb976ff.Unit;
   swingtheflymagazine: BowmarkSite_0eb976ff.Unit;
-  swingtimegolf: BowmarkSite_0eb976ff.Unit;
   swinneynutrition: BowmarkSite_0eb976ff.Unit;
   swipemodern: BowmarkSite_0eb976ff.Unit;
   swipepastel: BowmarkSite_0eb976ff.Unit;
@@ -619619,7 +623503,6 @@ interface BowmarkProviders {
   swissballon: BowmarkSite_0eb976ff.Unit;
   swissbeautycosmetics2: BowmarkSite_0eb976ff.Unit;
   swissbedding: BowmarkSite_0eb976ff.Unit;
-  swissdentalusa: BowmarkSite_0eb976ff.Unit;
   swissherb: BowmarkSite_0eb976ff.Unit;
   swissoneshop: BowmarkSite_0eb976ff.Unit;
   swissprosingapore: BowmarkSite_0eb976ff.Unit;
@@ -619712,7 +623595,6 @@ interface BowmarkProviders {
   t3tvdrip: BowmarkSite_0eb976ff.Unit;
   t42ayz1a: BowmarkSite_0eb976ff.Unit;
   t4esoftskin: BowmarkSite_0eb976ff.Unit;
-  t4fshop: BowmarkSite_0eb976ff.Unit;
   t4hqiwvh: BowmarkSite_0eb976ff.Unit;
   t4p2vhdd: BowmarkSite_0eb976ff.Unit;
   t6nmrbb1: BowmarkSite_0eb976ff.Unit;
@@ -619720,7 +623602,6 @@ interface BowmarkProviders {
   t8r2igqp: BowmarkSite_0eb976ff.Unit;
   t8uu6mk2: BowmarkSite_0eb976ff.Unit;
   t90theme: BowmarkSite_0eb976ff.Unit;
-  t933zaei: BowmarkSite_0eb976ff.Unit;
   t95bk6dy: BowmarkSite_0eb976ff.Unit;
   t9dv5z1f: BowmarkSite_0eb976ff.Unit;
   ta4life: BowmarkSite_0eb976ff.Unit;
@@ -619757,10 +623638,8 @@ interface BowmarkProviders {
   tacpfoundationstore: BowmarkSite_0eb976ff.Unit;
   tacsciences: BowmarkSite_0eb976ff.Unit;
   tacticagear: BowmarkSite_0eb976ff.Unit;
-  tacticalextreem: BowmarkSite_0eb976ff.Unit;
   tacticalgeardomain: BowmarkSite_0eb976ff.Unit;
   tacticalpacks: BowmarkSite_0eb976ff.Unit;
-  tacticalretreat: BowmarkSite_0eb976ff.Unit;
   tacticaltactile: BowmarkSite_0eb976ff.Unit;
   tactilearning: BowmarkSite_0eb976ff.Unit;
   tadakuniscissors: BowmarkSite_0eb976ff.Unit;
@@ -619790,7 +623669,6 @@ interface BowmarkProviders {
   taikonomukashi: BowmarkSite_0eb976ff.Unit;
   tailahofficial: BowmarkSite_0eb976ff.Unit;
   tailbadge: BowmarkSite_0eb976ff.Unit;
-  tailfinsatcadillacranch: BowmarkSite_0eb976ff.Unit;
   tailiservice: BowmarkSite_0eb976ff.Unit;
   taillidz: BowmarkSite_0eb976ff.Unit;
   tailorandarms: BowmarkSite_0eb976ff.Unit;
@@ -619805,14 +623683,12 @@ interface BowmarkProviders {
   taittrainingus: BowmarkSite_0eb976ff.Unit;
   tajjewelrystore: BowmarkSite_0eb976ff.Unit;
   tajmarocstore: BowmarkSite_0eb976ff.Unit;
-  takanakaonlinestore: BowmarkSite_0eb976ff.Unit;
   takapistore: BowmarkSite_0eb976ff.Unit;
   takasanshop: BowmarkSite_0eb976ff.Unit;
   takasetoya: BowmarkSite_0eb976ff.Unit;
   takasimaya: BowmarkSite_0eb976ff.Unit;
   take3media: BowmarkSite_0eb976ff.Unit;
   takealittlethyme: BowmarkSite_0eb976ff.Unit;
-  takebackwater: BowmarkSite_0eb976ff.Unit;
   takecontrolok: BowmarkSite_0eb976ff.Unit;
   takedowndistribution: BowmarkSite_0eb976ff.Unit;
   takedownremoverdetanglerproducts: BowmarkSite_0eb976ff.Unit;
@@ -619824,7 +623700,6 @@ interface BowmarkProviders {
   takepurehome: BowmarkSite_0eb976ff.Unit;
   takesnplates: BowmarkSite_0eb976ff.Unit;
   takidamakeup: BowmarkSite_0eb976ff.Unit;
-  takkensshoes: BowmarkSite_0eb976ff.Unit;
   taktakgoods: BowmarkSite_0eb976ff.Unit;
   takuyaokamotoec: BowmarkSite_0eb976ff.Unit;
   talbottandarding: BowmarkSite_0eb976ff.Unit;
@@ -619885,7 +623760,6 @@ interface BowmarkProviders {
   tanganyikatrading: BowmarkSite_0eb976ff.Unit;
   tangentlinear: BowmarkSite_0eb976ff.Unit;
   tangentproducts: BowmarkSite_0eb976ff.Unit;
-  tangerineolive: BowmarkSite_0eb976ff.Unit;
   tangietripe: BowmarkSite_0eb976ff.Unit;
   tanglessalonwf: BowmarkSite_0eb976ff.Unit;
   tanglesteacups: BowmarkSite_0eb976ff.Unit;
@@ -619918,7 +623792,6 @@ interface BowmarkProviders {
   taoh: BowmarkSite_0eb976ff.Unit;
   taoloveshop: BowmarkSite_0eb976ff.Unit;
   taongastore: BowmarkSite_0eb976ff.Unit;
-  taopatchusa: BowmarkSite_0eb976ff.Unit;
   taosmountainoutfitters: BowmarkSite_0eb976ff.Unit;
   taosrockers: BowmarkSite_0eb976ff.Unit;
   tapcancerout: BowmarkSite_0eb976ff.Unit;
@@ -619939,7 +623812,6 @@ interface BowmarkProviders {
   taproute: BowmarkSite_0eb976ff.Unit;
   tapsandtacos: BowmarkSite_0eb976ff.Unit;
   taptochange: BowmarkSite_0eb976ff.Unit;
-  taptruck: BowmarkSite_0eb976ff.Unit;
   taqaentertainmentstore: BowmarkSite_0eb976ff.Unit;
   taqueen: BowmarkSite_0eb976ff.Unit;
   taraflex: BowmarkSite_0eb976ff.Unit;
@@ -619951,7 +623823,6 @@ interface BowmarkProviders {
   taramandala: BowmarkSite_0eb976ff.Unit;
   tarantulabill: BowmarkSite_0eb976ff.Unit;
   tararochellephotographydesign: BowmarkSite_0eb976ff.Unit;
-  targapetstore: BowmarkSite_0eb976ff.Unit;
   targetcoffee: BowmarkSite_0eb976ff.Unit;
   tariqelite: BowmarkSite_0eb976ff.Unit;
   tariss: BowmarkSite_0eb976ff.Unit;
@@ -620001,7 +623872,6 @@ interface BowmarkProviders {
   tatomifarm: BowmarkSite_0eb976ff.Unit;
   tatoy: BowmarkSite_0eb976ff.Unit;
   tatsumura: BowmarkSite_0eb976ff.Unit;
-  tattebakery: BowmarkSite_0eb976ff.Unit;
   tattersalldistilling: BowmarkSite_0eb976ff.Unit;
   tattersalls: BowmarkSite_0eb976ff.Unit;
   tattooedballoonmerch: BowmarkSite_0eb976ff.Unit;
@@ -620042,7 +623912,6 @@ interface BowmarkProviders {
   tbadisplays: BowmarkSite_0eb976ff.Unit;
   tbazaarkespeelgoed: BowmarkSite_0eb976ff.Unit;
   tbbconlinestore: BowmarkSite_0eb976ff.Unit;
-  tbbflvtshrekjrfundraiser: BowmarkSite_0eb976ff.Unit;
   tbchef: BowmarkSite_0eb976ff.Unit;
   tbdf0nqn: BowmarkSite_0eb976ff.Unit;
   tbdinprocess: BowmarkSite_0eb976ff.Unit;
@@ -620058,19 +623927,15 @@ interface BowmarkProviders {
   tbsgenetics: BowmarkSite_0eb976ff.Unit;
   tbsolomon: BowmarkSite_0eb976ff.Unit;
   tbvkr04g: BowmarkSite_0eb976ff.Unit;
-  tbykyn9e: BowmarkSite_0eb976ff.Unit;
   tbythree: BowmarkSite_0eb976ff.Unit;
   tbza1pez: BowmarkSite_0eb976ff.Unit;
-  tcastore: BowmarkSite_0eb976ff.Unit;
   tcbjeans: BowmarkSite_0eb976ff.Unit;
   tcbm: BowmarkSite_0eb976ff.Unit;
   tcbsprzh: BowmarkSite_0eb976ff.Unit;
   tcff: BowmarkSite_0eb976ff.Unit;
   tcgbinderlabzzz: BowmarkSite_0eb976ff.Unit;
   tcgtemple: BowmarkSite_0eb976ff.Unit;
-  tchcshop: BowmarkSite_0eb976ff.Unit;
   tcpitspitters: BowmarkSite_0eb976ff.Unit;
-  tcrestgroup: BowmarkSite_0eb976ff.Unit;
   tcsstore6935: BowmarkSite_0eb976ff.Unit;
   tctibetanmomo: BowmarkSite_0eb976ff.Unit;
   tcunlimitedboutique2: BowmarkSite_0eb976ff.Unit;
@@ -620084,12 +623949,10 @@ interface BowmarkProviders {
   tdcperformance: BowmarkSite_0eb976ff.Unit;
   tdddesign: BowmarkSite_0eb976ff.Unit;
   tdeve: BowmarkSite_0eb976ff.Unit;
-  tdjakesconference: BowmarkSite_0eb976ff.Unit;
   tdnmoney: BowmarkSite_0eb976ff.Unit;
   tdoffer: BowmarkSite_0eb976ff.Unit;
   tdropstudio: BowmarkSite_0eb976ff.Unit;
   tdsdental: BowmarkSite_0eb976ff.Unit;
-  tdsupplies: BowmarkSite_0eb976ff.Unit;
   tduhxcqq: BowmarkSite_0eb976ff.Unit;
   tdustore: BowmarkSite_0eb976ff.Unit;
   teaandcoffeetheme: BowmarkSite_0eb976ff.Unit;
@@ -620125,7 +623988,6 @@ interface BowmarkProviders {
   teamfarang: BowmarkSite_0eb976ff.Unit;
   teamgleason2: BowmarkSite_0eb976ff.Unit;
   teamgoallout: BowmarkSite_0eb976ff.Unit;
-  teamgreenweb: BowmarkSite_0eb976ff.Unit;
   teamironwillstore: BowmarkSite_0eb976ff.Unit;
   teamlabbody: BowmarkSite_0eb976ff.Unit;
   teamlashae: BowmarkSite_0eb976ff.Unit;
@@ -620199,7 +624061,6 @@ interface BowmarkProviders {
   teddyworksjapan: BowmarkSite_0eb976ff.Unit;
   tedjoldaglass: BowmarkSite_0eb976ff.Unit;
   tedukurikoto: BowmarkSite_0eb976ff.Unit;
-  teebombstore: BowmarkSite_0eb976ff.Unit;
   teeesfestiviteeesoflockertsville: BowmarkSite_0eb976ff.Unit;
   teefwholesale: BowmarkSite_0eb976ff.Unit;
   teehochn: BowmarkSite_0eb976ff.Unit;
@@ -620379,7 +624240,6 @@ interface BowmarkProviders {
   tesolar2: BowmarkSite_0eb976ff.Unit;
   tessablazeyjewellery: BowmarkSite_0eb976ff.Unit;
   tessago: BowmarkSite_0eb976ff.Unit;
-  tessboston: BowmarkSite_0eb976ff.Unit;
   tesspiritshack: BowmarkSite_0eb976ff.Unit;
   tessuti: BowmarkSite_0eb976ff.Unit;
   test: BowmarkSite_0eb976ff.Unit;
@@ -620440,7 +624300,6 @@ interface BowmarkProviders {
   tetsuyajp: BowmarkSite_0eb976ff.Unit;
   tevinwilliamsmerch: BowmarkSite_0eb976ff.Unit;
   texadusfamilyfarm: BowmarkSite_0eb976ff.Unit;
-  texanaoutfitters: BowmarkSite_0eb976ff.Unit;
   texansforvaccincechoice: BowmarkSite_0eb976ff.Unit;
   texasaeroplastics: BowmarkSite_0eb976ff.Unit;
   texasballettheater: BowmarkSite_0eb976ff.Unit;
@@ -620463,8 +624322,6 @@ interface BowmarkProviders {
   texelwood: BowmarkSite_0eb976ff.Unit;
   texogjack: BowmarkSite_0eb976ff.Unit;
   texprintgermany: BowmarkSite_0eb976ff.Unit;
-  texsarmissionstore: BowmarkSite_0eb976ff.Unit;
-  textmerecords: BowmarkSite_0eb976ff.Unit;
   texturaguatemala: BowmarkSite_0eb976ff.Unit;
   texturedpresscom: BowmarkSite_0eb976ff.Unit;
   texturespatisserie: BowmarkSite_0eb976ff.Unit;
@@ -620517,7 +624374,6 @@ interface BowmarkProviders {
   the06legacy: BowmarkSite_0eb976ff.Unit;
   the100facesofjesus: BowmarkSite_0eb976ff.Unit;
   the1989it: BowmarkSite_0eb976ff.Unit;
-  the35mmphotographemariageanantes: BowmarkSite_0eb976ff.Unit;
   the3o5: BowmarkSite_0eb976ff.Unit;
   the4am: BowmarkSite_0eb976ff.Unit;
   the50mltest: BowmarkSite_0eb976ff.Unit;
@@ -620544,7 +624400,6 @@ interface BowmarkProviders {
   thealarm: BowmarkSite_0eb976ff.Unit;
   thealbinos: BowmarkSite_0eb976ff.Unit;
   thealgaefoundation: BowmarkSite_0eb976ff.Unit;
-  theallamericanrejects: BowmarkSite_0eb976ff.Unit;
   thealmondcom: BowmarkSite_0eb976ff.Unit;
   thealohabungalow: BowmarkSite_0eb976ff.Unit;
   thealpacaboutique: BowmarkSite_0eb976ff.Unit;
@@ -620650,7 +624505,6 @@ interface BowmarkProviders {
   thebeautylishsilo: BowmarkSite_0eb976ff.Unit;
   thebeautyloungexo: BowmarkSite_0eb976ff.Unit;
   thebeautyparlorfl: BowmarkSite_0eb976ff.Unit;
-  thebeautysalonmitchelstown: BowmarkSite_0eb976ff.Unit;
   thebeautyscenesalon: BowmarkSite_0eb976ff.Unit;
   thebeaverton: BowmarkSite_0eb976ff.Unit;
   thebeddingbarn: BowmarkSite_0eb976ff.Unit;
@@ -620668,7 +624522,6 @@ interface BowmarkProviders {
   thebentalkhemist: BowmarkSite_0eb976ff.Unit;
   thebernicegarden: BowmarkSite_0eb976ff.Unit;
   theberrybarnau: BowmarkSite_0eb976ff.Unit;
-  thebest4youorganization: BowmarkSite_0eb976ff.Unit;
   thebestdiyplansstore: BowmarkSite_0eb976ff.Unit;
   thebestofhotels: BowmarkSite_0eb976ff.Unit;
   thebestpropmoney: BowmarkSite_0eb976ff.Unit;
@@ -620742,7 +624595,6 @@ interface BowmarkProviders {
   theboxgallery: BowmarkSite_0eb976ff.Unit;
   theboxingshopstore: BowmarkSite_0eb976ff.Unit;
   thebrahmanfoundation: BowmarkSite_0eb976ff.Unit;
-  thebrainarchitecturegame: BowmarkSite_0eb976ff.Unit;
   thebramarket: BowmarkSite_0eb976ff.Unit;
   thebranchranch: BowmarkSite_0eb976ff.Unit;
   thebratcherstore: BowmarkSite_0eb976ff.Unit;
@@ -620810,7 +624662,6 @@ interface BowmarkProviders {
   thecannabiscult: BowmarkSite_0eb976ff.Unit;
   thecanvascompanystore: BowmarkSite_0eb976ff.Unit;
   thecapitoltheatre: BowmarkSite_0eb976ff.Unit;
-  thecarameljar: BowmarkSite_0eb976ff.Unit;
   thecardnetworknz: BowmarkSite_0eb976ff.Unit;
   thecargoholdinc: BowmarkSite_0eb976ff.Unit;
   thecartbarn: BowmarkSite_0eb976ff.Unit;
@@ -620833,7 +624684,6 @@ interface BowmarkProviders {
   thecgshop: BowmarkSite_0eb976ff.Unit;
   thechaiwallahs: BowmarkSite_0eb976ff.Unit;
   thechalicebyac: BowmarkSite_0eb976ff.Unit;
-  thechallengingbehaviourfoundation: BowmarkSite_0eb976ff.Unit;
   thechambersproject: BowmarkSite_0eb976ff.Unit;
   thechampagneroom: BowmarkSite_0eb976ff.Unit;
   thechapelsf: BowmarkSite_0eb976ff.Unit;
@@ -620856,7 +624706,6 @@ interface BowmarkProviders {
   thechocolateworkshop: BowmarkSite_0eb976ff.Unit;
   thechoosecreativitystore: BowmarkSite_0eb976ff.Unit;
   thechoriman: BowmarkSite_0eb976ff.Unit;
-  thechosenfrancemerch: BowmarkSite_0eb976ff.Unit;
   thechristianrestorationassociation: BowmarkSite_0eb976ff.Unit;
   thechristmasranch: BowmarkSite_0eb976ff.Unit;
   thechurchinternational: BowmarkSite_0eb976ff.Unit;
@@ -620913,7 +624762,6 @@ interface BowmarkProviders {
   thecookiemonstah: BowmarkSite_0eb976ff.Unit;
   thecoolfireman: BowmarkSite_0eb976ff.Unit;
   thecooling: BowmarkSite_0eb976ff.Unit;
-  thecoopaya: BowmarkSite_0eb976ff.Unit;
   thecooperriverbridgerun: BowmarkSite_0eb976ff.Unit;
   thecoopschool: BowmarkSite_0eb976ff.Unit;
   thecooshed: BowmarkSite_0eb976ff.Unit;
@@ -620938,15 +624786,12 @@ interface BowmarkProviders {
   thecoveypointcollection: BowmarkSite_0eb976ff.Unit;
   thecowtownstore: BowmarkSite_0eb976ff.Unit;
   thecozycook: BowmarkSite_0eb976ff.Unit;
-  thecozyshoptkg: BowmarkSite_0eb976ff.Unit;
   thecrafterslibrary: BowmarkSite_0eb976ff.Unit;
   thecrafterway: BowmarkSite_0eb976ff.Unit;
-  thecraftsmanbeverageco: BowmarkSite_0eb976ff.Unit;
   thecraftsmanfurnituredressing: BowmarkSite_0eb976ff.Unit;
   thecraftstudioatlarchedaybreak: BowmarkSite_0eb976ff.Unit;
   thecraneguysstore: BowmarkSite_0eb976ff.Unit;
   thecrateleague: BowmarkSite_0eb976ff.Unit;
-  thecreativeknot: BowmarkSite_0eb976ff.Unit;
   thecreativesocial: BowmarkSite_0eb976ff.Unit;
   thecreekers: BowmarkSite_0eb976ff.Unit;
   thecreepshop: BowmarkSite_0eb976ff.Unit;
@@ -620983,7 +624828,6 @@ interface BowmarkProviders {
   thedayschool: BowmarkSite_0eb976ff.Unit;
   thedayspaescape: BowmarkSite_0eb976ff.Unit;
   thedeadsouthonlinemerch: BowmarkSite_0eb976ff.Unit;
-  thedefiantco: BowmarkSite_0eb976ff.Unit;
   thedeloreansmerch: BowmarkSite_0eb976ff.Unit;
   thedelpechcollective: BowmarkSite_0eb976ff.Unit;
   thedeltabombersmerch: BowmarkSite_0eb976ff.Unit;
@@ -621024,7 +624868,6 @@ interface BowmarkProviders {
   thedresscodebg: BowmarkSite_0eb976ff.Unit;
   thedriftwoodclothingco: BowmarkSite_0eb976ff.Unit;
   thedryes: BowmarkSite_0eb976ff.Unit;
-  thedukesaloonvictoria: BowmarkSite_0eb976ff.Unit;
   thedumpsterdivingmama: BowmarkSite_0eb976ff.Unit;
   thedungeonrun: BowmarkSite_0eb976ff.Unit;
   thedutchessojai: BowmarkSite_0eb976ff.Unit;
@@ -621056,7 +624899,6 @@ interface BowmarkProviders {
   theexaminedlifepress: BowmarkSite_0eb976ff.Unit;
   theexilesseries: BowmarkSite_0eb976ff.Unit;
   theexistentialistrepublic: BowmarkSite_0eb976ff.Unit;
-  theexpansionchamber: BowmarkSite_0eb976ff.Unit;
   theexpressospot: BowmarkSite_0eb976ff.Unit;
   theextradetail: BowmarkSite_0eb976ff.Unit;
   theeyebrows: BowmarkSite_0eb976ff.Unit;
@@ -621118,7 +624960,6 @@ interface BowmarkProviders {
   theflyingyogi: BowmarkSite_0eb976ff.Unit;
   thefoodnanny: BowmarkSite_0eb976ff.Unit;
   thefoodwhorecompany: BowmarkSite_0eb976ff.Unit;
-  thefordstudios: BowmarkSite_0eb976ff.Unit;
   theforestfeast: BowmarkSite_0eb976ff.Unit;
   theformulaheatstyler: BowmarkSite_0eb976ff.Unit;
   thefortessgames: BowmarkSite_0eb976ff.Unit;
@@ -621165,7 +625006,6 @@ interface BowmarkProviders {
   thegeekforgestore: BowmarkSite_0eb976ff.Unit;
   thegemcafe: BowmarkSite_0eb976ff.Unit;
   thegemhunters: BowmarkSite_0eb976ff.Unit;
-  thegenielab: BowmarkSite_0eb976ff.Unit;
   thegentlewomanshop: BowmarkSite_0eb976ff.Unit;
   thegerhartcoffeecompany: BowmarkSite_0eb976ff.Unit;
   thegesneriadsociety: BowmarkSite_0eb976ff.Unit;
@@ -621174,13 +625014,11 @@ interface BowmarkProviders {
   theghosttour: BowmarkSite_0eb976ff.Unit;
   thegiftfactorynz: BowmarkSite_0eb976ff.Unit;
   thegiftslab: BowmarkSite_0eb976ff.Unit;
-  thegitegallery: BowmarkSite_0eb976ff.Unit;
   thegivebacklife: BowmarkSite_0eb976ff.Unit;
   thegivingfoodtruck: BowmarkSite_0eb976ff.Unit;
   theglacstudio: BowmarkSite_0eb976ff.Unit;
   theglamroomcollection: BowmarkSite_0eb976ff.Unit;
   theglassundergroundonlinestore: BowmarkSite_0eb976ff.Unit;
-  thegleneaglegiftshop: BowmarkSite_0eb976ff.Unit;
   theglitchstore: BowmarkSite_0eb976ff.Unit;
   theglitteredpalm: BowmarkSite_0eb976ff.Unit;
   theglobexcorporation: BowmarkSite_0eb976ff.Unit;
@@ -621341,7 +625179,6 @@ interface BowmarkProviders {
   theimperfectheart: BowmarkSite_0eb976ff.Unit;
   theindependentsfmerch: BowmarkSite_0eb976ff.Unit;
   theinfinencespot: BowmarkSite_0eb976ff.Unit;
-  theinitialedlife: BowmarkSite_0eb976ff.Unit;
   theinkedelephant: BowmarkSite_0eb976ff.Unit;
   theinkeylist: BowmarkSite_0eb976ff.Unit;
   theinkfactory: BowmarkSite_0eb976ff.Unit;
@@ -621366,7 +625203,6 @@ interface BowmarkProviders {
   thejenniewalkerarchive: BowmarkSite_0eb976ff.Unit;
   thejerseylabstore: BowmarkSite_0eb976ff.Unit;
   thejessiepeckstore: BowmarkSite_0eb976ff.Unit;
-  thejesusandmarychainuk: BowmarkSite_0eb976ff.Unit;
   thejewelersloupe: BowmarkSite_0eb976ff.Unit;
   thejewelryfactorywyo: BowmarkSite_0eb976ff.Unit;
   thejewelryladysstore: BowmarkSite_0eb976ff.Unit;
@@ -621380,7 +625216,6 @@ interface BowmarkProviders {
   thejopalife: BowmarkSite_0eb976ff.Unit;
   thejoyeriadiaz: BowmarkSite_0eb976ff.Unit;
   thejoyride: BowmarkSite_0eb976ff.Unit;
-  thejpcormierwarehouse: BowmarkSite_0eb976ff.Unit;
   thejplstore: BowmarkSite_0eb976ff.Unit;
   thejuanpuenteonlinesupplystore: BowmarkSite_0eb976ff.Unit;
   thejughandlemerch: BowmarkSite_0eb976ff.Unit;
@@ -621445,7 +625280,6 @@ interface BowmarkProviders {
   thelavishlashbutique: BowmarkSite_0eb976ff.Unit;
   thelawofficeofbarryejanayplc: BowmarkSite_0eb976ff.Unit;
   thelawrencehousecentreforthearts: BowmarkSite_0eb976ff.Unit;
-  thelawstoreec1b: BowmarkSite_0eb976ff.Unit;
   thelazydaisygiftstore: BowmarkSite_0eb976ff.Unit;
   thelazygeneration: BowmarkSite_0eb976ff.Unit;
   thelazylamb: BowmarkSite_0eb976ff.Unit;
@@ -621545,7 +625379,6 @@ interface BowmarkProviders {
   themaryhoyerdollcoinc: BowmarkSite_0eb976ff.Unit;
   themashroostore: BowmarkSite_0eb976ff.Unit;
   themastersstorytellersstore: BowmarkSite_0eb976ff.Unit;
-  thematerialgirlaustraliainstock: BowmarkSite_0eb976ff.Unit;
   themattbutler: BowmarkSite_0eb976ff.Unit;
   thematumbilas: BowmarkSite_0eb976ff.Unit;
   themavericksmerch: BowmarkSite_0eb976ff.Unit;
@@ -621564,7 +625397,6 @@ interface BowmarkProviders {
   themenstrualcramps: BowmarkSite_0eb976ff.Unit;
   themepod: BowmarkSite_0eb976ff.Unit;
   themercantilebymiller: BowmarkSite_0eb976ff.Unit;
-  themerchantofmanythings: BowmarkSite_0eb976ff.Unit;
   themerchantsfeast: BowmarkSite_0eb976ff.Unit;
   themerchb0x: BowmarkSite_0eb976ff.Unit;
   themerchspot: BowmarkSite_0eb976ff.Unit;
@@ -621599,7 +625431,6 @@ interface BowmarkProviders {
   themotorenclaveproshop: BowmarkSite_0eb976ff.Unit;
   themotoringarts: BowmarkSite_0eb976ff.Unit;
   themountainrangers: BowmarkSite_0eb976ff.Unit;
-  themouselets: BowmarkSite_0eb976ff.Unit;
   themovementacademy: BowmarkSite_0eb976ff.Unit;
   themovementboutique: BowmarkSite_0eb976ff.Unit;
   themovementstore: BowmarkSite_0eb976ff.Unit;
@@ -621678,7 +625509,6 @@ interface BowmarkProviders {
   theoko: BowmarkSite_0eb976ff.Unit;
   theoldecountrycupboard: BowmarkSite_0eb976ff.Unit;
   theoldellicottcupstore: BowmarkSite_0eb976ff.Unit;
-  theoldstandardsupply: BowmarkSite_0eb976ff.Unit;
   theoldtinshed: BowmarkSite_0eb976ff.Unit;
   theoleowine: BowmarkSite_0eb976ff.Unit;
   theolivefruit: BowmarkSite_0eb976ff.Unit;
@@ -621748,7 +625578,6 @@ interface BowmarkProviders {
   thepathwaystore: BowmarkSite_0eb976ff.Unit;
   thepatiostorebackup: BowmarkSite_0eb976ff.Unit;
   thepatiostorestaging: BowmarkSite_0eb976ff.Unit;
-  thepatriotpainting: BowmarkSite_0eb976ff.Unit;
   thepaulwalkerfoundation: BowmarkSite_0eb976ff.Unit;
   thepawdepot: BowmarkSite_0eb976ff.Unit;
   thepeachbasketnaturalfoods: BowmarkSite_0eb976ff.Unit;
@@ -621841,7 +625670,6 @@ interface BowmarkProviders {
   thepreservejournal: BowmarkSite_0eb976ff.Unit;
   thepressespresso: BowmarkSite_0eb976ff.Unit;
   theprettyduckling5879: BowmarkSite_0eb976ff.Unit;
-  theprettylittleboutique: BowmarkSite_0eb976ff.Unit;
   theprettyplatterco: BowmarkSite_0eb976ff.Unit;
   theprettypussycat: BowmarkSite_0eb976ff.Unit;
   thepriceislowcom: BowmarkSite_0eb976ff.Unit;
@@ -621862,7 +625690,6 @@ interface BowmarkProviders {
   thepueblo: BowmarkSite_0eb976ff.Unit;
   thepunkeffect: BowmarkSite_0eb976ff.Unit;
   thepurplechair5823: BowmarkSite_0eb976ff.Unit;
-  thepurplechandelier: BowmarkSite_0eb976ff.Unit;
   thepurpledoor9111: BowmarkSite_0eb976ff.Unit;
   thepuzzlepiece: BowmarkSite_0eb976ff.Unit;
   thepyurecompany: BowmarkSite_0eb976ff.Unit;
@@ -621946,7 +625773,6 @@ interface BowmarkProviders {
   theroadrat: BowmarkSite_0eb976ff.Unit;
   theroaringlionbookstore: BowmarkSite_0eb976ff.Unit;
   theroastersdaughter: BowmarkSite_0eb976ff.Unit;
-  theroastmastergeneralsgeneralstore: BowmarkSite_0eb976ff.Unit;
   therockdoc2: BowmarkSite_0eb976ff.Unit;
   therocke: BowmarkSite_0eb976ff.Unit;
   therocksportsarena: BowmarkSite_0eb976ff.Unit;
@@ -622117,7 +625943,6 @@ interface BowmarkProviders {
   thestationhousehotel: BowmarkSite_0eb976ff.Unit;
   thestatlerbrothers: BowmarkSite_0eb976ff.Unit;
   thesteamhousemerch: BowmarkSite_0eb976ff.Unit;
-  thestemsoryexperience: BowmarkSite_0eb976ff.Unit;
   thesterlinggypsy: BowmarkSite_0eb976ff.Unit;
   thestewardschool: BowmarkSite_0eb976ff.Unit;
   thestewsband: BowmarkSite_0eb976ff.Unit;
@@ -622142,7 +625967,6 @@ interface BowmarkProviders {
   thestunnershop: BowmarkSite_0eb976ff.Unit;
   thestyledfaithmarket: BowmarkSite_0eb976ff.Unit;
   thestylemafia: BowmarkSite_0eb976ff.Unit;
-  thesummercampsociety: BowmarkSite_0eb976ff.Unit;
   thesupercoolers: BowmarkSite_0eb976ff.Unit;
   thesuperspace: BowmarkSite_0eb976ff.Unit;
   thesurestore: BowmarkSite_0eb976ff.Unit;
@@ -622212,7 +626036,6 @@ interface BowmarkProviders {
   theuglysheep: BowmarkSite_0eb976ff.Unit;
   theuhsrecordstore: BowmarkSite_0eb976ff.Unit;
   theukhot40: BowmarkSite_0eb976ff.Unit;
-  theultimateplayground: BowmarkSite_0eb976ff.Unit;
   theuncommonroom: BowmarkSite_0eb976ff.Unit;
   theunderbellyshop: BowmarkSite_0eb976ff.Unit;
   theundercoverdreamlovers: BowmarkSite_0eb976ff.Unit;
@@ -622242,7 +626065,6 @@ interface BowmarkProviders {
   thevermontmaplefarm: BowmarkSite_0eb976ff.Unit;
   thevideogamehistoryfoundation: BowmarkSite_0eb976ff.Unit;
   thevigilproject: BowmarkSite_0eb976ff.Unit;
-  theviicrew: BowmarkSite_0eb976ff.Unit;
   thevikingandthelionessmarketplace: BowmarkSite_0eb976ff.Unit;
   thevillagematernityservices2: BowmarkSite_0eb976ff.Unit;
   thevindurdeck: BowmarkSite_0eb976ff.Unit;
@@ -622258,8 +626080,6 @@ interface BowmarkProviders {
   thewanderingwardrobetruck: BowmarkSite_0eb976ff.Unit;
   thewarehouserentalsandsupplies: BowmarkSite_0eb976ff.Unit;
   thewarnerparksgiftshop: BowmarkSite_0eb976ff.Unit;
-  thewarningstore: BowmarkSite_0eb976ff.Unit;
-  thewaroncars: BowmarkSite_0eb976ff.Unit;
   thewastedhour: BowmarkSite_0eb976ff.Unit;
   thewastedlandsgeneralstore2: BowmarkSite_0eb976ff.Unit;
   thewatersommelier: BowmarkSite_0eb976ff.Unit;
@@ -622309,7 +626129,6 @@ interface BowmarkProviders {
   thewitchdepot: BowmarkSite_0eb976ff.Unit;
   thewitchoflupinehollow: BowmarkSite_0eb976ff.Unit;
   thewittenburgdoor: BowmarkSite_0eb976ff.Unit;
-  thewnailbar: BowmarkSite_0eb976ff.Unit;
   thewomancards: BowmarkSite_0eb976ff.Unit;
   thewondermakers: BowmarkSite_0eb976ff.Unit;
   thewonderseed: BowmarkSite_0eb976ff.Unit;
@@ -622341,7 +626160,6 @@ interface BowmarkProviders {
   thezenlounge: BowmarkSite_0eb976ff.Unit;
   thezerotheoremstore: BowmarkSite_0eb976ff.Unit;
   thezombiepenguin: BowmarkSite_0eb976ff.Unit;
-  thfcoffee: BowmarkSite_0eb976ff.Unit;
   thicccnacks: BowmarkSite_0eb976ff.Unit;
   thielskagalleriet: BowmarkSite_0eb976ff.Unit;
   thiercelin1809: BowmarkSite_0eb976ff.Unit;
@@ -622414,7 +626232,6 @@ interface BowmarkProviders {
   thomasmcknight: BowmarkSite_0eb976ff.Unit;
   thomassonsrvsupply: BowmarkSite_0eb976ff.Unit;
   thomasstrutssouthernhaberdashery: BowmarkSite_0eb976ff.Unit;
-  thomaswylde: BowmarkSite_0eb976ff.Unit;
   thombargencoffee: BowmarkSite_0eb976ff.Unit;
   thompsonessentialsstore: BowmarkSite_0eb976ff.Unit;
   thompsonmugco: BowmarkSite_0eb976ff.Unit;
@@ -622451,7 +626268,6 @@ interface BowmarkProviders {
   threekingstattoolondon: BowmarkSite_0eb976ff.Unit;
   threeleightees: BowmarkSite_0eb976ff.Unit;
   threelittleboys: BowmarkSite_0eb976ff.Unit;
-  threemelonsbakeshop: BowmarkSite_0eb976ff.Unit;
   threepeaksmaplesyrup: BowmarkSite_0eb976ff.Unit;
   threepinesfinejewelry: BowmarkSite_0eb976ff.Unit;
   threescoopsofvanilla: BowmarkSite_0eb976ff.Unit;
@@ -622477,8 +626293,6 @@ interface BowmarkProviders {
   throwbackbrewery: BowmarkSite_0eb976ff.Unit;
   throwproud: BowmarkSite_0eb976ff.Unit;
   thrshldltd: BowmarkSite_0eb976ff.Unit;
-  thrushwoodfarms: BowmarkSite_0eb976ff.Unit;
-  thstaginglevis: BowmarkSite_0eb976ff.Unit;
   thuma: BowmarkSite_0eb976ff.Unit;
   thumbprintgallery: BowmarkSite_0eb976ff.Unit;
   thumpawumbapublishing: BowmarkSite_0eb976ff.Unit;
@@ -622636,7 +626450,6 @@ interface BowmarkProviders {
   timsey9i: BowmarkSite_0eb976ff.Unit;
   timsheetsministries: BowmarkSite_0eb976ff.Unit;
   timsupport: BowmarkSite_0eb976ff.Unit;
-  timthetoyman: BowmarkSite_0eb976ff.Unit;
   timtronckoe: BowmarkSite_0eb976ff.Unit;
   timwendelboe: BowmarkSite_0eb976ff.Unit;
   timwilmot: BowmarkSite_0eb976ff.Unit;
@@ -622703,7 +626516,6 @@ interface BowmarkProviders {
   tisdemo1: BowmarkSite_0eb976ff.Unit;
   tisfortot: BowmarkSite_0eb976ff.Unit;
   tishsnookysmanicpanic: BowmarkSite_0eb976ff.Unit;
-  tissidental: BowmarkSite_0eb976ff.Unit;
   tistik: BowmarkSite_0eb976ff.Unit;
   tiswheels: BowmarkSite_0eb976ff.Unit;
   titaestudiocriativo: BowmarkSite_0eb976ff.Unit;
@@ -622762,7 +626574,6 @@ interface BowmarkProviders {
   tmjeu7gy: BowmarkSite_0eb976ff.Unit;
   tmpkstore: BowmarkSite_0eb976ff.Unit;
   tmrbh1an: BowmarkSite_0eb976ff.Unit;
-  tmrconsulting: BowmarkSite_0eb976ff.Unit;
   tmrwtday: BowmarkSite_0eb976ff.Unit;
   tmsdiesel: BowmarkSite_0eb976ff.Unit;
   tmshopify002computers: BowmarkSite_0eb976ff.Unit;
@@ -622875,12 +626686,10 @@ interface BowmarkProviders {
   toacademy: BowmarkSite_0eb976ff.Unit;
   toadiesofficial: BowmarkSite_0eb976ff.Unit;
   toaksoutdoor: BowmarkSite_0eb976ff.Unit;
-  toasteriagourmet: BowmarkSite_0eb976ff.Unit;
   toastonlenox: BowmarkSite_0eb976ff.Unit;
   tobaviewhotel: BowmarkSite_0eb976ff.Unit;
   tobeforyou: BowmarkSite_0eb976ff.Unit;
   tobelegacy8: BowmarkSite_0eb976ff.Unit;
-  tobiicamera: BowmarkSite_0eb976ff.Unit;
   tobiidynavoxcn: BowmarkSite_0eb976ff.Unit;
   tobiraselect: BowmarkSite_0eb976ff.Unit;
   tobiroadstudio: BowmarkSite_0eb976ff.Unit;
@@ -622914,7 +626723,6 @@ interface BowmarkProviders {
   tohoku: BowmarkSite_0eb976ff.Unit;
   toietmoiwrapping: BowmarkSite_0eb976ff.Unit;
   toile: BowmarkSite_0eb976ff.Unit;
-  toilidinc: BowmarkSite_0eb976ff.Unit;
   toiltroubleyarns: BowmarkSite_0eb976ff.Unit;
   toito2: BowmarkSite_0eb976ff.Unit;
   tojuinterior: BowmarkSite_0eb976ff.Unit;
@@ -623034,13 +626842,10 @@ interface BowmarkProviders {
   topazsystems: BowmarkSite_0eb976ff.Unit;
   topcitycustoms: BowmarkSite_0eb976ff.Unit;
   topcrazydealscom: BowmarkSite_0eb976ff.Unit;
-  topdrustvo: BowmarkSite_0eb976ff.Unit;
   topeventistore: BowmarkSite_0eb976ff.Unit;
-  topfeed: BowmarkSite_0eb976ff.Unit;
   topgeareliquids: BowmarkSite_0eb976ff.Unit;
   topgiftsshop: BowmarkSite_0eb976ff.Unit;
   tophatsandunderthat: BowmarkSite_0eb976ff.Unit;
-  tophatsprovision: BowmarkSite_0eb976ff.Unit;
   tophillsjewellery: BowmarkSite_0eb976ff.Unit;
   tophiphop: BowmarkSite_0eb976ff.Unit;
   topknottees5567: BowmarkSite_0eb976ff.Unit;
@@ -623160,7 +626965,6 @@ interface BowmarkProviders {
   touriste: BowmarkSite_0eb976ff.Unit;
   tourmygermany: BowmarkSite_0eb976ff.Unit;
   tournamentbox: BowmarkSite_0eb976ff.Unit;
-  tournamentliquor: BowmarkSite_0eb976ff.Unit;
   tournesolllc: BowmarkSite_0eb976ff.Unit;
   tourocommiddletown: BowmarkSite_0eb976ff.Unit;
   toutchapinou: BowmarkSite_0eb976ff.Unit;
@@ -623267,7 +627071,6 @@ interface BowmarkProviders {
   trampledbyturtles: BowmarkSite_0eb976ff.Unit;
   tramshedsgrowersmarket: BowmarkSite_0eb976ff.Unit;
   tranceout: BowmarkSite_0eb976ff.Unit;
-  trangamarket: BowmarkSite_0eb976ff.Unit;
   transaltgiftshop: BowmarkSite_0eb976ff.Unit;
   transcendaustralia: BowmarkSite_0eb976ff.Unit;
   transcendbiologics: BowmarkSite_0eb976ff.Unit;
@@ -623419,10 +627222,8 @@ interface BowmarkProviders {
   trifury: BowmarkSite_0eb976ff.Unit;
   triggerdiscipline: BowmarkSite_0eb976ff.Unit;
   triggerwarning387: BowmarkSite_0eb976ff.Unit;
-  triguardswag: BowmarkSite_0eb976ff.Unit;
   trikothuelle: BowmarkSite_0eb976ff.Unit;
   trilifehealth: BowmarkSite_0eb976ff.Unit;
-  trilliumfloraldesigns: BowmarkSite_0eb976ff.Unit;
   trilogydesign: BowmarkSite_0eb976ff.Unit;
   trimedika: BowmarkSite_0eb976ff.Unit;
   trimetgear: BowmarkSite_0eb976ff.Unit;
@@ -623447,7 +627248,6 @@ interface BowmarkProviders {
   tripcafeokinawa: BowmarkSite_0eb976ff.Unit;
   triple7sp: BowmarkSite_0eb976ff.Unit;
   triplebristle: BowmarkSite_0eb976ff.Unit;
-  triplecreekgolfcourse: BowmarkSite_0eb976ff.Unit;
   triplecrownathletic: BowmarkSite_0eb976ff.Unit;
   triplecrownjewelry: BowmarkSite_0eb976ff.Unit;
   tripledapparel: BowmarkSite_0eb976ff.Unit;
@@ -623464,7 +627264,6 @@ interface BowmarkProviders {
   tripulse: BowmarkSite_0eb976ff.Unit;
   tripwire7402: BowmarkSite_0eb976ff.Unit;
   trishayearwood: BowmarkSite_0eb976ff.Unit;
-  trispeedperformance: BowmarkSite_0eb976ff.Unit;
   tristanbrandt: BowmarkSite_0eb976ff.Unit;
   tristanrobersonmusic: BowmarkSite_0eb976ff.Unit;
   tristantshirts: BowmarkSite_0eb976ff.Unit;
@@ -623504,9 +627303,7 @@ interface BowmarkProviders {
   troydoherty: BowmarkSite_0eb976ff.Unit;
   troyerproducts: BowmarkSite_0eb976ff.Unit;
   troymerch: BowmarkSite_0eb976ff.Unit;
-  troyskatingclub: BowmarkSite_0eb976ff.Unit;
   troytownshop: BowmarkSite_0eb976ff.Unit;
-  trpdbaseball: BowmarkSite_0eb976ff.Unit;
   trpnw8kp: BowmarkSite_0eb976ff.Unit;
   trrtlzshop: BowmarkSite_0eb976ff.Unit;
   trstheracespot: BowmarkSite_0eb976ff.Unit;
@@ -623567,7 +627364,6 @@ interface BowmarkProviders {
   trustkikaku: BowmarkSite_0eb976ff.Unit;
   trustlawsell: BowmarkSite_0eb976ff.Unit;
   trustlex: BowmarkSite_0eb976ff.Unit;
-  trustmateaps: BowmarkSite_0eb976ff.Unit;
   truthaboutnursing: BowmarkSite_0eb976ff.Unit;
   truthskateboarding: BowmarkSite_0eb976ff.Unit;
   truwearclothing: BowmarkSite_0eb976ff.Unit;
@@ -623605,7 +627401,6 @@ interface BowmarkProviders {
   tsshop9950: BowmarkSite_0eb976ff.Unit;
   tstickletrunk: BowmarkSite_0eb976ff.Unit;
   tsticksoflondonjapan: BowmarkSite_0eb976ff.Unit;
-  tstockdesign: BowmarkSite_0eb976ff.Unit;
   tstsouvenirs: BowmarkSite_0eb976ff.Unit;
   tsubisoupstore: BowmarkSite_0eb976ff.Unit;
   tsuchicafe: BowmarkSite_0eb976ff.Unit;
@@ -623628,7 +627423,6 @@ interface BowmarkProviders {
   ttmishop: BowmarkSite_0eb976ff.Unit;
   ttmusicstudio: BowmarkSite_0eb976ff.Unit;
   ttokmart: BowmarkSite_0eb976ff.Unit;
-  ttsoils: BowmarkSite_0eb976ff.Unit;
   ttsportshop: BowmarkSite_0eb976ff.Unit;
   ttsunshineshop: BowmarkSite_0eb976ff.Unit;
   tttelematiccc: BowmarkSite_0eb976ff.Unit;
@@ -623724,7 +627518,6 @@ interface BowmarkProviders {
   turquoiserosellc: BowmarkSite_0eb976ff.Unit;
   turquoisesprings: BowmarkSite_0eb976ff.Unit;
   turtledovelondon: BowmarkSite_0eb976ff.Unit;
-  turtletootsiepolishes: BowmarkSite_0eb976ff.Unit;
   turtlevzla: BowmarkSite_0eb976ff.Unit;
   turuki6585: BowmarkSite_0eb976ff.Unit;
   tusaudio: BowmarkSite_0eb976ff.Unit;
@@ -623780,16 +627573,13 @@ interface BowmarkProviders {
   twincityvansmerch: BowmarkSite_0eb976ff.Unit;
   twinings: BowmarkSite_0eb976ff.Unit;
   twiningsusa: BowmarkSite_0eb976ff.Unit;
-  twinklenetstage: BowmarkSite_0eb976ff.Unit;
   twinoakfarms: BowmarkSite_0eb976ff.Unit;
   twinoastbrewing: BowmarkSite_0eb976ff.Unit;
   twinpop: BowmarkSite_0eb976ff.Unit;
   twinscompany: BowmarkSite_0eb976ff.Unit;
-  twinturtlequilts: BowmarkSite_0eb976ff.Unit;
   twirlconnect: BowmarkSite_0eb976ff.Unit;
   twistedbeadandrockshop: BowmarkSite_0eb976ff.Unit;
   twistedcanvasartcamps: BowmarkSite_0eb976ff.Unit;
-  twistedcouture: BowmarkSite_0eb976ff.Unit;
   twistedfantasybooks: BowmarkSite_0eb976ff.Unit;
   twistedlocs: BowmarkSite_0eb976ff.Unit;
   twistedoliverbbq: BowmarkSite_0eb976ff.Unit;
@@ -623841,7 +627631,6 @@ interface BowmarkProviders {
   txtrouvaille: BowmarkSite_0eb976ff.Unit;
   tyam2the: BowmarkSite_0eb976ff.Unit;
   tycobbmuseum: BowmarkSite_0eb976ff.Unit;
-  tycopress: BowmarkSite_0eb976ff.Unit;
   tyfurniture: BowmarkSite_0eb976ff.Unit;
   tylerbryantandtheshakedown: BowmarkSite_0eb976ff.Unit;
   tylerbryantstore: BowmarkSite_0eb976ff.Unit;
@@ -623852,7 +627641,6 @@ interface BowmarkProviders {
   tyotoys: BowmarkSite_0eb976ff.Unit;
   typeaulogie: BowmarkSite_0eb976ff.Unit;
   typedirectorsclub: BowmarkSite_0eb976ff.Unit;
-  typeiiiproducts: BowmarkSite_0eb976ff.Unit;
   typosigns: BowmarkSite_0eb976ff.Unit;
   typsyshop: BowmarkSite_0eb976ff.Unit;
   tyrxne: BowmarkSite_0eb976ff.Unit;
@@ -623902,7 +627690,6 @@ interface BowmarkProviders {
   ucejzt1t: BowmarkSite_0eb976ff.Unit;
   ucfcourseware: BowmarkSite_0eb976ff.Unit;
   ucfmarchingknights: BowmarkSite_0eb976ff.Unit;
-  ucfoodhub: BowmarkSite_0eb976ff.Unit;
   ucgstore: BowmarkSite_0eb976ff.Unit;
   uchicagostudentorgs: BowmarkSite_0eb976ff.Unit;
   uconacrobatics: BowmarkSite_0eb976ff.Unit;
@@ -623918,7 +627705,6 @@ interface BowmarkProviders {
   udderlysmooth: BowmarkSite_0eb976ff.Unit;
   udelv: BowmarkSite_0eb976ff.Unit;
   udessertstory: BowmarkSite_0eb976ff.Unit;
-  udisc: BowmarkSite_0eb976ff.Unit;
   udlapstore: BowmarkSite_0eb976ff.Unit;
   udoaudioshop: BowmarkSite_0eb976ff.Unit;
   ue2ps3a0: BowmarkSite_0eb976ff.Unit;
@@ -623955,12 +627741,10 @@ interface BowmarkProviders {
   ujhme0qg: BowmarkSite_0eb976ff.Unit;
   ujiwazukaen: BowmarkSite_0eb976ff.Unit;
   ujzbmmj4: BowmarkSite_0eb976ff.Unit;
-  uk1pq7aw: BowmarkSite_0eb976ff.Unit;
   uk1q12p9: BowmarkSite_0eb976ff.Unit;
   ukbedsdirectltd: BowmarkSite_0eb976ff.Unit;
   ukbhye0i: BowmarkSite_0eb976ff.Unit;
   ukbumpkeysltd: BowmarkSite_0eb976ff.Unit;
-  ukccretail: BowmarkSite_0eb976ff.Unit;
   ukcurtainsandinteriors: BowmarkSite_0eb976ff.Unit;
   ukerausa: BowmarkSite_0eb976ff.Unit;
   ukfeatherflags: BowmarkSite_0eb976ff.Unit;
@@ -623973,7 +627757,6 @@ interface BowmarkProviders {
   ukparaclimbingcollective: BowmarkSite_0eb976ff.Unit;
   ukracesupport: BowmarkSite_0eb976ff.Unit;
   ukrainiandaughters: BowmarkSite_0eb976ff.Unit;
-  uksunwarriorstore: BowmarkSite_0eb976ff.Unit;
   ukulelebird: BowmarkSite_0eb976ff.Unit;
   ukulelehymns: BowmarkSite_0eb976ff.Unit;
   ukulicollectibles: BowmarkSite_0eb976ff.Unit;
@@ -623994,7 +627777,6 @@ interface BowmarkProviders {
   ultimatechemicals: BowmarkSite_0eb976ff.Unit;
   ultimateconfettistore: BowmarkSite_0eb976ff.Unit;
   ultimatecookieshop: BowmarkSite_0eb976ff.Unit;
-  ultimateears: BowmarkSite_0eb976ff.Unit;
   ultimateequipment: BowmarkSite_0eb976ff.Unit;
   ultimatefanbase: BowmarkSite_0eb976ff.Unit;
   ultimateholsters: BowmarkSite_0eb976ff.Unit;
@@ -624314,7 +628096,6 @@ interface BowmarkProviders {
   ursulineacademybookstore: BowmarkSite_0eb976ff.Unit;
   ursulparis: BowmarkSite_0eb976ff.Unit;
   urtextshop: BowmarkSite_0eb976ff.Unit;
-  urtheory: BowmarkSite_0eb976ff.Unit;
   urthlykreations: BowmarkSite_0eb976ff.Unit;
   urthpactinnovations: BowmarkSite_0eb976ff.Unit;
   urturtshop: BowmarkSite_0eb976ff.Unit;
@@ -624340,7 +628121,6 @@ interface BowmarkProviders {
   usatooldepot: BowmarkSite_0eb976ff.Unit;
   usatuan: BowmarkSite_0eb976ff.Unit;
   usbodyboss: BowmarkSite_0eb976ff.Unit;
-  usbythemoon: BowmarkSite_0eb976ff.Unit;
   usccblmfly: BowmarkSite_0eb976ff.Unit;
   uschandelier: BowmarkSite_0eb976ff.Unit;
   uschiclaesshop: BowmarkSite_0eb976ff.Unit;
@@ -624601,14 +628381,12 @@ interface BowmarkProviders {
   vasculitisuk: BowmarkSite_0eb976ff.Unit;
   vasicnewyork: BowmarkSite_0eb976ff.Unit;
   vaspiritgear: BowmarkSite_0eb976ff.Unit;
-  vasquezcollection: BowmarkSite_0eb976ff.Unit;
   vasrajewelry: BowmarkSite_0eb976ff.Unit;
   vassimensweartoronto: BowmarkSite_0eb976ff.Unit;
   vasterasflygplats: BowmarkSite_0eb976ff.Unit;
   vastoutdoorsaustralia: BowmarkSite_0eb976ff.Unit;
   vastrmsportswear: BowmarkSite_0eb976ff.Unit;
   vastshop: BowmarkSite_0eb976ff.Unit;
-  vateli: BowmarkSite_0eb976ff.Unit;
   vaultice: BowmarkSite_0eb976ff.Unit;
   vauxbrewery: BowmarkSite_0eb976ff.Unit;
   vaxxcoffee: BowmarkSite_0eb976ff.Unit;
@@ -624639,7 +628417,6 @@ interface BowmarkProviders {
   veai: BowmarkSite_0eb976ff.Unit;
   vearbutus: BowmarkSite_0eb976ff.Unit;
   veauxmusic: BowmarkSite_0eb976ff.Unit;
-  vebdx044: BowmarkSite_0eb976ff.Unit;
   vecelofurniture: BowmarkSite_0eb976ff.Unit;
   vecosmetics: BowmarkSite_0eb976ff.Unit;
   vectographer2: BowmarkSite_0eb976ff.Unit;
@@ -624672,7 +628449,6 @@ interface BowmarkProviders {
   vegnews: BowmarkSite_0eb976ff.Unit;
   veguzzionthebeat: BowmarkSite_0eb976ff.Unit;
   vehiclewraptraining: BowmarkSite_0eb976ff.Unit;
-  veilcamo: BowmarkSite_0eb976ff.Unit;
   veimottijewellery: BowmarkSite_0eb976ff.Unit;
   veintinuevetrece: BowmarkSite_0eb976ff.Unit;
   vejuve: BowmarkSite_0eb976ff.Unit;
@@ -624785,7 +628561,6 @@ interface BowmarkProviders {
   vermontroastedspecialtycoffee: BowmarkSite_0eb976ff.Unit;
   vermontsportscar: BowmarkSite_0eb976ff.Unit;
   vermontteddybear: BowmarkSite_0eb976ff.Unit;
-  vermonttortillacompany: BowmarkSite_0eb976ff.Unit;
   vermontwoodshed: BowmarkSite_0eb976ff.Unit;
   vermxse: BowmarkSite_0eb976ff.Unit;
   verohomecincy: BowmarkSite_0eb976ff.Unit;
@@ -624829,12 +628604,10 @@ interface BowmarkProviders {
   veteransarmy: BowmarkSite_0eb976ff.Unit;
   veteransinc: BowmarkSite_0eb976ff.Unit;
   veteranteescom: BowmarkSite_0eb976ff.Unit;
-  vetierafairtrade: BowmarkSite_0eb976ff.Unit;
   vetiversansfrontieres: BowmarkSite_0eb976ff.Unit;
   vetonails: BowmarkSite_0eb976ff.Unit;
   vetrabeer: BowmarkSite_0eb976ff.Unit;
   vets4childrescue: BowmarkSite_0eb976ff.Unit;
-  vetsagainstinsanity: BowmarkSite_0eb976ff.Unit;
   vetsimon: BowmarkSite_0eb976ff.Unit;
   vetstartsinkprintshop: BowmarkSite_0eb976ff.Unit;
   vettix: BowmarkSite_0eb976ff.Unit;
@@ -624890,7 +628663,6 @@ interface BowmarkProviders {
   vicesinc: BowmarkSite_0eb976ff.Unit;
   vicevertu: BowmarkSite_0eb976ff.Unit;
   vicious1com: BowmarkSite_0eb976ff.Unit;
-  vickerystore: BowmarkSite_0eb976ff.Unit;
   vickiyoheministries: BowmarkSite_0eb976ff.Unit;
   vickyandeva: BowmarkSite_0eb976ff.Unit;
   vickyandlucas: BowmarkSite_0eb976ff.Unit;
@@ -624900,7 +628672,6 @@ interface BowmarkProviders {
   victoriabeautystore: BowmarkSite_0eb976ff.Unit;
   victoriaharbourcatsofficial: BowmarkSite_0eb976ff.Unit;
   victorianafloral: BowmarkSite_0eb976ff.Unit;
-  victorianbrotherhoodonlinestore: BowmarkSite_0eb976ff.Unit;
   victoriangoddess: BowmarkSite_0eb976ff.Unit;
   victoriarecords: BowmarkSite_0eb976ff.Unit;
   victoriasaddlery: BowmarkSite_0eb976ff.Unit;
@@ -624916,11 +628687,9 @@ interface BowmarkProviders {
   victorygardensdallas2: BowmarkSite_0eb976ff.Unit;
   victorykisstaiwan: BowmarkSite_0eb976ff.Unit;
   victorymedia: BowmarkSite_0eb976ff.Unit;
-  victorypointcafe: BowmarkSite_0eb976ff.Unit;
   victoryroadfarm: BowmarkSite_0eb976ff.Unit;
   victoryvr: BowmarkSite_0eb976ff.Unit;
   victresshealth: BowmarkSite_0eb976ff.Unit;
-  vida20191001: BowmarkSite_0eb976ff.Unit;
   vidaantiguacollective: BowmarkSite_0eb976ff.Unit;
   vidabirman: BowmarkSite_0eb976ff.Unit;
   vidablueclay: BowmarkSite_0eb976ff.Unit;
@@ -624941,27 +628710,14 @@ interface BowmarkProviders {
   vieramarthamd: BowmarkSite_0eb976ff.Unit;
   viettoonshop: BowmarkSite_0eb976ff.Unit;
   viewlife72560: BowmarkSite_0eb976ff.Unit;
-  viewpridegroom: BowmarkSite_0eb976ff.Unit;
   viewsourcecumulus: BowmarkSite_0eb976ff.Unit;
   viewswim: BowmarkSite_0eb976ff.Unit;
-  viewyourdeal54thrones: BowmarkSite_0eb976ff.Unit;
-  viewyourdealahava: BowmarkSite_0eb976ff.Unit;
-  viewyourdealairmoto: BowmarkSite_0eb976ff.Unit;
-  viewyourdealakidsbookabout: BowmarkSite_0eb976ff.Unit;
-  viewyourdealantevorta: BowmarkSite_0eb976ff.Unit;
-  viewyourdealbeautyblender: BowmarkSite_0eb976ff.Unit;
   viewyourdealbeautystat: BowmarkSite_0eb976ff.Unit;
-  viewyourdealdiscovernight: BowmarkSite_0eb976ff.Unit;
   viewyourdealfancii: BowmarkSite_0eb976ff.Unit;
-  viewyourdealguardyourid: BowmarkSite_0eb976ff.Unit;
   viewyourdealgustusvitae: BowmarkSite_0eb976ff.Unit;
   viewyourdealkelvintools: BowmarkSite_0eb976ff.Unit;
-  viewyourdealkosterina: BowmarkSite_0eb976ff.Unit;
-  viewyourdealmahoganyathome: BowmarkSite_0eb976ff.Unit;
-  viewyourdealmakeuperaser: BowmarkSite_0eb976ff.Unit;
   viewyourdealmcevoyranch: BowmarkSite_0eb976ff.Unit;
   viewyourdealpeachskinsheets: BowmarkSite_0eb976ff.Unit;
-  viewyourdealsterlingforever: BowmarkSite_0eb976ff.Unit;
   viewyourdealwanderfull: BowmarkSite_0eb976ff.Unit;
   viewyourdealwildgrain: BowmarkSite_0eb976ff.Unit;
   vignacunialonlineshop: BowmarkSite_0eb976ff.Unit;
@@ -625004,7 +628760,6 @@ interface BowmarkProviders {
   vincentlima: BowmarkSite_0eb976ff.Unit;
   vincentneilemerson: BowmarkSite_0eb976ff.Unit;
   vincentreiart: BowmarkSite_0eb976ff.Unit;
-  vincentsurgicalarts: BowmarkSite_0eb976ff.Unit;
   vincenttulipano: BowmarkSite_0eb976ff.Unit;
   vincenzacoffee: BowmarkSite_0eb976ff.Unit;
   vinceron: BowmarkSite_0eb976ff.Unit;
@@ -625025,7 +628780,6 @@ interface BowmarkProviders {
   viniferavin: BowmarkSite_0eb976ff.Unit;
   vinilandiav: BowmarkSite_0eb976ff.Unit;
   vinimarino: BowmarkSite_0eb976ff.Unit;
-  vinimilo: BowmarkSite_0eb976ff.Unit;
   vinniepaolizzi: BowmarkSite_0eb976ff.Unit;
   vinoirshop: BowmarkSite_0eb976ff.Unit;
   vinoskiwinery: BowmarkSite_0eb976ff.Unit;
@@ -625182,7 +628936,6 @@ interface BowmarkProviders {
   vitospainshop: BowmarkSite_0eb976ff.Unit;
   vitpetonlineshop: BowmarkSite_0eb976ff.Unit;
   vitrohobohitorimaker: BowmarkSite_0eb976ff.Unit;
-  vittitowonlinesales: BowmarkSite_0eb976ff.Unit;
   vittlesmagazine: BowmarkSite_0eb976ff.Unit;
   vittorioceccolijewelrydesign: BowmarkSite_0eb976ff.Unit;
   viud: BowmarkSite_0eb976ff.Unit;
@@ -625307,7 +629060,6 @@ interface BowmarkProviders {
   vortexcomics: BowmarkSite_0eb976ff.Unit;
   vortexfan: BowmarkSite_0eb976ff.Unit;
   vortexpowerfans: BowmarkSite_0eb976ff.Unit;
-  vortxz: BowmarkSite_0eb976ff.Unit;
   vorwerkbenelux: BowmarkSite_0eb976ff.Unit;
   votermailbag: BowmarkSite_0eb976ff.Unit;
   voterorg: BowmarkSite_0eb976ff.Unit;
@@ -625331,9 +629083,7 @@ interface BowmarkProviders {
   vprkg1mk: BowmarkSite_0eb976ff.Unit;
   vq0wiyby: BowmarkSite_0eb976ff.Unit;
   vqxty0k7: BowmarkSite_0eb976ff.Unit;
-  vqz1mw4u: BowmarkSite_0eb976ff.Unit;
   vrajco: BowmarkSite_0eb976ff.Unit;
-  vrc793qx: BowmarkSite_0eb976ff.Unit;
   vrecord: BowmarkSite_0eb976ff.Unit;
   vrgamesvrsoftcom: BowmarkSite_0eb976ff.Unit;
   vriesenhof: BowmarkSite_0eb976ff.Unit;
@@ -625345,7 +629095,6 @@ interface BowmarkProviders {
   vs8ha5xi: BowmarkSite_0eb976ff.Unit;
   vsecart: BowmarkSite_0eb976ff.Unit;
   vslaviation: BowmarkSite_0eb976ff.Unit;
-  vsrpc: BowmarkSite_0eb976ff.Unit;
   vssldonations: BowmarkSite_0eb976ff.Unit;
   vsteamluxury: BowmarkSite_0eb976ff.Unit;
   vt15ipte: BowmarkSite_0eb976ff.Unit;
@@ -625358,7 +629107,6 @@ interface BowmarkProviders {
   vucedol: BowmarkSite_0eb976ff.Unit;
   vuegenbox: BowmarkSite_0eb976ff.Unit;
   vueonhalcyon: BowmarkSite_0eb976ff.Unit;
-  vueshield2: BowmarkSite_0eb976ff.Unit;
   vufbikes: BowmarkSite_0eb976ff.Unit;
   vuha6abh: BowmarkSite_0eb976ff.Unit;
   vuittonbond: BowmarkSite_0eb976ff.Unit;
@@ -625367,7 +629115,6 @@ interface BowmarkProviders {
   vulkensports: BowmarkSite_0eb976ff.Unit;
   vulnerabilityissexyshop: BowmarkSite_0eb976ff.Unit;
   vuoriclothing: BowmarkSite_0eb976ff.Unit;
-  vupkmiwf: BowmarkSite_0eb976ff.Unit;
   vusegr: BowmarkSite_0eb976ff.Unit;
   vvgarmy: BowmarkSite_0eb976ff.Unit;
   vvkusa: BowmarkSite_0eb976ff.Unit;
@@ -625398,8 +629145,6 @@ interface BowmarkProviders {
   w5hmi7k1: BowmarkSite_0eb976ff.Unit;
   w6hu2rdm: BowmarkSite_0eb976ff.Unit;
   w6zgai05: BowmarkSite_0eb976ff.Unit;
-  w70tsewt: BowmarkSite_0eb976ff.Unit;
-  w7xpikc6: BowmarkSite_0eb976ff.Unit;
   waaghals: BowmarkSite_0eb976ff.Unit;
   waatshop: BowmarkSite_0eb976ff.Unit;
   wabashvalleycreations: BowmarkSite_0eb976ff.Unit;
@@ -625463,7 +629208,6 @@ interface BowmarkProviders {
   walkerhayesofficialstore: BowmarkSite_0eb976ff.Unit;
   walkernation: BowmarkSite_0eb976ff.Unit;
   walkersarmshotel: BowmarkSite_0eb976ff.Unit;
-  walkfittv: BowmarkSite_0eb976ff.Unit;
   walkingdepot: BowmarkSite_0eb976ff.Unit;
   walkingpapers: BowmarkSite_0eb976ff.Unit;
   walkingwallofwords: BowmarkSite_0eb976ff.Unit;
@@ -625474,7 +629218,6 @@ interface BowmarkProviders {
   wallaceandcompany: BowmarkSite_0eb976ff.Unit;
   wallacepapercompany: BowmarkSite_0eb976ff.Unit;
   wallartkenya: BowmarkSite_0eb976ff.Unit;
-  wallbits: BowmarkSite_0eb976ff.Unit;
   walldrug: BowmarkSite_0eb976ff.Unit;
   wallim: BowmarkSite_0eb976ff.Unit;
   walliver: BowmarkSite_0eb976ff.Unit;
@@ -625515,12 +629258,10 @@ interface BowmarkProviders {
   wanderingmonsters: BowmarkSite_0eb976ff.Unit;
   wanderingplanettoys: BowmarkSite_0eb976ff.Unit;
   wanderinwisconsin: BowmarkSite_0eb976ff.Unit;
-  wanderlustbookshop: BowmarkSite_0eb976ff.Unit;
   wanderlustgames: BowmarkSite_0eb976ff.Unit;
   wanderlusthearts: BowmarkSite_0eb976ff.Unit;
   wandervans: BowmarkSite_0eb976ff.Unit;
   wandsbooks: BowmarkSite_0eb976ff.Unit;
-  wanglerslive: BowmarkSite_0eb976ff.Unit;
   wangrahwildernesslodge: BowmarkSite_0eb976ff.Unit;
   wangsampsusa: BowmarkSite_0eb976ff.Unit;
   wannaconamor: BowmarkSite_0eb976ff.Unit;
@@ -625562,19 +629303,16 @@ interface BowmarkProviders {
   warriorbattalion: BowmarkSite_0eb976ff.Unit;
   warriorcanineconnection: BowmarkSite_0eb976ff.Unit;
   warriorfitgear: BowmarkSite_0eb976ff.Unit;
-  warriorhorsestore: BowmarkSite_0eb976ff.Unit;
   warriorsbreath: BowmarkSite_0eb976ff.Unit;
   warriorscollective: BowmarkSite_0eb976ff.Unit;
   warriorsheart: BowmarkSite_0eb976ff.Unit;
   warriorsoulofficialstore: BowmarkSite_0eb976ff.Unit;
   warriorspot: BowmarkSite_0eb976ff.Unit;
   warriorsscholars: BowmarkSite_0eb976ff.Unit;
-  warriorwitches: BowmarkSite_0eb976ff.Unit;
   warsawcustoms: BowmarkSite_0eb976ff.Unit;
   wartornworldsstore: BowmarkSite_0eb976ff.Unit;
   warummagazin: BowmarkSite_0eb976ff.Unit;
   warwickcastle: BowmarkSite_0eb976ff.Unit;
-  wasabiststore6496: BowmarkSite_0eb976ff.Unit;
   wasaca: BowmarkSite_0eb976ff.Unit;
   washboardunion: BowmarkSite_0eb976ff.Unit;
   washboxdirect: BowmarkSite_0eb976ff.Unit;
@@ -625593,10 +629331,8 @@ interface BowmarkProviders {
   washpostshop: BowmarkSite_0eb976ff.Unit;
   washu: BowmarkSite_0eb976ff.Unit;
   waskaautomotive: BowmarkSite_0eb976ff.Unit;
-  wasoukan: BowmarkSite_0eb976ff.Unit;
   waspnation: BowmarkSite_0eb976ff.Unit;
   waspshaving: BowmarkSite_0eb976ff.Unit;
-  wasserbettenstudiomay: BowmarkSite_0eb976ff.Unit;
   wastedeffort: BowmarkSite_0eb976ff.Unit;
   wasurf: BowmarkSite_0eb976ff.Unit;
   wasytrader: BowmarkSite_0eb976ff.Unit;
@@ -625609,13 +629345,11 @@ interface BowmarkProviders {
   watchguyny: BowmarkSite_0eb976ff.Unit;
   watchhabitat: BowmarkSite_0eb976ff.Unit;
   watchherprosper: BowmarkSite_0eb976ff.Unit;
-  watchofflimits: BowmarkSite_0eb976ff.Unit;
   watchpeopleshop: BowmarkSite_0eb976ff.Unit;
   watchproz: BowmarkSite_0eb976ff.Unit;
   watchservicefinland: BowmarkSite_0eb976ff.Unit;
   watchtowerguitars: BowmarkSite_0eb976ff.Unit;
   waterandwaves: BowmarkSite_0eb976ff.Unit;
-  waterbearglobal: BowmarkSite_0eb976ff.Unit;
   waterboyz: BowmarkSite_0eb976ff.Unit;
   watercolordesignsbirgitoconnor: BowmarkSite_0eb976ff.Unit;
   watercoloredhomes: BowmarkSite_0eb976ff.Unit;
@@ -625631,7 +629365,6 @@ interface BowmarkProviders {
   watermansguild: BowmarkSite_0eb976ff.Unit;
   watermelontaco: BowmarkSite_0eb976ff.Unit;
   watermenperformancecenter: BowmarkSite_0eb976ff.Unit;
-  watermusiccom: BowmarkSite_0eb976ff.Unit;
   wateroam: BowmarkSite_0eb976ff.Unit;
   waterotter: BowmarkSite_0eb976ff.Unit;
   waterpikbh: BowmarkSite_0eb976ff.Unit;
@@ -625665,13 +629398,11 @@ interface BowmarkProviders {
   waxbuffalo: BowmarkSite_0eb976ff.Unit;
   waxfacetoys: BowmarkSite_0eb976ff.Unit;
   waxmotif: BowmarkSite_0eb976ff.Unit;
-  waxoncanada: BowmarkSite_0eb976ff.Unit;
   waxonomy: BowmarkSite_0eb976ff.Unit;
   waxowlsmerch: BowmarkSite_0eb976ff.Unit;
   waxpertswax: BowmarkSite_0eb976ff.Unit;
   waxthatmonkey: BowmarkSite_0eb976ff.Unit;
   waxupstore: BowmarkSite_0eb976ff.Unit;
-  wayakitsa: BowmarkSite_0eb976ff.Unit;
   wayankaarts: BowmarkSite_0eb976ff.Unit;
   waydoo: BowmarkSite_0eb976ff.Unit;
   wayik: BowmarkSite_0eb976ff.Unit;
@@ -625681,7 +629412,6 @@ interface BowmarkProviders {
   waynesgang: BowmarkSite_0eb976ff.Unit;
   wayofwisdom2: BowmarkSite_0eb976ff.Unit;
   wayofyourdreams: BowmarkSite_0eb976ff.Unit;
-  wazsup: BowmarkSite_0eb976ff.Unit;
   wazuart: BowmarkSite_0eb976ff.Unit;
   wbastorefront: BowmarkSite_0eb976ff.Unit;
   wbco: BowmarkSite_0eb976ff.Unit;
@@ -625714,7 +629444,6 @@ interface BowmarkProviders {
   wealthdynamics: BowmarkSite_0eb976ff.Unit;
   wealthnationswag: BowmarkSite_0eb976ff.Unit;
   wealthuniversity: BowmarkSite_0eb976ff.Unit;
-  wealthvortexhousehealer: BowmarkSite_0eb976ff.Unit;
   weamerch: BowmarkSite_0eb976ff.Unit;
   weaponztokyo: BowmarkSite_0eb976ff.Unit;
   wearblueruntoremember2: BowmarkSite_0eb976ff.Unit;
@@ -625724,7 +629453,6 @@ interface BowmarkProviders {
   wearebrainstorm: BowmarkSite_0eb976ff.Unit;
   wearebusybodies: BowmarkSite_0eb976ff.Unit;
   wearedefendershop: BowmarkSite_0eb976ff.Unit;
-  wearedoughboy: BowmarkSite_0eb976ff.Unit;
   wearefor: BowmarkSite_0eb976ff.Unit;
   wearefussy: BowmarkSite_0eb976ff.Unit;
   wearehfc: BowmarkSite_0eb976ff.Unit;
@@ -625786,9 +629514,7 @@ interface BowmarkProviders {
   websymsdev: BowmarkSite_0eb976ff.Unit;
   websymstestingapp: BowmarkSite_0eb976ff.Unit;
   webwarrior: BowmarkSite_0eb976ff.Unit;
-  webxclusive: BowmarkSite_0eb976ff.Unit;
   weca: BowmarkSite_0eb976ff.Unit;
-  wecarenonprofitfoundation: BowmarkSite_0eb976ff.Unit;
   wecega: BowmarkSite_0eb976ff.Unit;
   wechefsbeyondcooking: BowmarkSite_0eb976ff.Unit;
   weddingacademyfr: BowmarkSite_0eb976ff.Unit;
@@ -625808,7 +629534,6 @@ interface BowmarkProviders {
   weedsocks: BowmarkSite_0eb976ff.Unit;
   weedsteas: BowmarkSite_0eb976ff.Unit;
   weekendcraft: BowmarkSite_0eb976ff.Unit;
-  weekendersurplus: BowmarkSite_0eb976ff.Unit;
   weekendrides: BowmarkSite_0eb976ff.Unit;
   weeklyworldnews: BowmarkSite_0eb976ff.Unit;
   weemaries: BowmarkSite_0eb976ff.Unit;
@@ -625838,7 +629563,6 @@ interface BowmarkProviders {
   weirdkid: BowmarkSite_0eb976ff.Unit;
   weirdnj: BowmarkSite_0eb976ff.Unit;
   weirdocatloversofcleveland: BowmarkSite_0eb976ff.Unit;
-  weirdwondrous: BowmarkSite_0eb976ff.Unit;
   weissengineering: BowmarkSite_0eb976ff.Unit;
   weissequipment: BowmarkSite_0eb976ff.Unit;
   wekopagolfshop: BowmarkSite_0eb976ff.Unit;
@@ -625871,7 +629595,6 @@ interface BowmarkProviders {
   wellisair: BowmarkSite_0eb976ff.Unit;
   wellkstatt: BowmarkSite_0eb976ff.Unit;
   wellmanformo: BowmarkSite_0eb976ff.Unit;
-  wellmyway: BowmarkSite_0eb976ff.Unit;
   wellnessconnectzone: BowmarkSite_0eb976ff.Unit;
   wellnessextractau: BowmarkSite_0eb976ff.Unit;
   wellnessroots: BowmarkSite_0eb976ff.Unit;
@@ -625946,7 +629669,6 @@ interface BowmarkProviders {
   westernsizzlincom: BowmarkSite_0eb976ff.Unit;
   westernstarsports: BowmarkSite_0eb976ff.Unit;
   westerstudio: BowmarkSite_0eb976ff.Unit;
-  westexinternational: BowmarkSite_0eb976ff.Unit;
   westfieldgraphics: BowmarkSite_0eb976ff.Unit;
   westgatetrailersspringfield: BowmarkSite_0eb976ff.Unit;
   westgeneseespirit: BowmarkSite_0eb976ff.Unit;
@@ -625990,7 +629712,6 @@ interface BowmarkProviders {
   wetwall: BowmarkSite_0eb976ff.Unit;
   wetware: BowmarkSite_0eb976ff.Unit;
   wetz9kc9: BowmarkSite_0eb976ff.Unit;
-  wewannarock: BowmarkSite_0eb976ff.Unit;
   wewecoin: BowmarkSite_0eb976ff.Unit;
   wewondercompany: BowmarkSite_0eb976ff.Unit;
   wexlerofcalifornia: BowmarkSite_0eb976ff.Unit;
@@ -626007,7 +629728,6 @@ interface BowmarkProviders {
   wgq19yu0: BowmarkSite_0eb976ff.Unit;
   wgunvqux: BowmarkSite_0eb976ff.Unit;
   wgyer9m1: BowmarkSite_0eb976ff.Unit;
-  wh0tiydq: BowmarkSite_0eb976ff.Unit;
   whalebirdbooch: BowmarkSite_0eb976ff.Unit;
   whaleresearch: BowmarkSite_0eb976ff.Unit;
   whaletailweaving: BowmarkSite_0eb976ff.Unit;
@@ -626087,7 +629807,6 @@ interface BowmarkProviders {
   whiteowljewelry: BowmarkSite_0eb976ff.Unit;
   whitepassproshop: BowmarkSite_0eb976ff.Unit;
   whitepillars: BowmarkSite_0eb976ff.Unit;
-  whiteribbonnz: BowmarkSite_0eb976ff.Unit;
   whiteroserecycledfashion: BowmarkSite_0eb976ff.Unit;
   whiteroseresistance: BowmarkSite_0eb976ff.Unit;
   whitesapphire: BowmarkSite_0eb976ff.Unit;
@@ -626105,7 +629824,6 @@ interface BowmarkProviders {
   whitewithstyle: BowmarkSite_0eb976ff.Unit;
   whiteymorgan: BowmarkSite_0eb976ff.Unit;
   whitleystrieber: BowmarkSite_0eb976ff.Unit;
-  whitneyshelhamer: BowmarkSite_0eb976ff.Unit;
   whitneysmodeltrains: BowmarkSite_0eb976ff.Unit;
   whitny: BowmarkSite_0eb976ff.Unit;
   whitopcn: BowmarkSite_0eb976ff.Unit;
@@ -626196,7 +629914,6 @@ interface BowmarkProviders {
   wildbum: BowmarkSite_0eb976ff.Unit;
   wildcarddesignco: BowmarkSite_0eb976ff.Unit;
   wildcardpgh: BowmarkSite_0eb976ff.Unit;
-  wildcardroasters: BowmarkSite_0eb976ff.Unit;
   wildcatcorner: BowmarkSite_0eb976ff.Unit;
   wildcatwearhouse: BowmarkSite_0eb976ff.Unit;
   wildcoastintlconservation: BowmarkSite_0eb976ff.Unit;
@@ -626206,7 +629923,6 @@ interface BowmarkProviders {
   wilddogworks: BowmarkSite_0eb976ff.Unit;
   wildedibleworldpod: BowmarkSite_0eb976ff.Unit;
   wildefarm: BowmarkSite_0eb976ff.Unit;
-  wildemodeltd: BowmarkSite_0eb976ff.Unit;
   wilderheart: BowmarkSite_0eb976ff.Unit;
   wildernesscollective: BowmarkSite_0eb976ff.Unit;
   wildfaeryshop: BowmarkSite_0eb976ff.Unit;
@@ -626215,7 +629931,6 @@ interface BowmarkProviders {
   wildfiremerch: BowmarkSite_0eb976ff.Unit;
   wildfloweracademy: BowmarkSite_0eb976ff.Unit;
   wildflowerandcocreations: BowmarkSite_0eb976ff.Unit;
-  wildflowerbeverages: BowmarkSite_0eb976ff.Unit;
   wildflowergiftshop: BowmarkSite_0eb976ff.Unit;
   wildflowergirlssc: BowmarkSite_0eb976ff.Unit;
   wildflowersandcotton: BowmarkSite_0eb976ff.Unit;
@@ -626237,7 +629952,6 @@ interface BowmarkProviders {
   wildlifecrimechangemakerphotoarchive: BowmarkSite_0eb976ff.Unit;
   wildlifedrawing: BowmarkSite_0eb976ff.Unit;
   wildlingblumenshop: BowmarkSite_0eb976ff.Unit;
-  wildmithathome: BowmarkSite_0eb976ff.Unit;
   wildnothingstore: BowmarkSite_0eb976ff.Unit;
   wildoatsbillygoatsdecatur: BowmarkSite_0eb976ff.Unit;
   wildone: BowmarkSite_0eb976ff.Unit;
@@ -626274,7 +629988,6 @@ interface BowmarkProviders {
   wileysbespokejewelry: BowmarkSite_0eb976ff.Unit;
   wilhelminainternationalpsychic: BowmarkSite_0eb976ff.Unit;
   wilkesheritagemuseumgiftshop: BowmarkSite_0eb976ff.Unit;
-  wilkiiplanner: BowmarkSite_0eb976ff.Unit;
   wilkinsuniformshop: BowmarkSite_0eb976ff.Unit;
   wilkshireconsultingonlinestore: BowmarkSite_0eb976ff.Unit;
   will188: BowmarkSite_0eb976ff.Unit;
@@ -626347,7 +630060,6 @@ interface BowmarkProviders {
   windovertide: BowmarkSite_0eb976ff.Unit;
   windows101: BowmarkSite_0eb976ff.Unit;
   windowsen: BowmarkSite_0eb976ff.Unit;
-  windsecure: BowmarkSite_0eb976ff.Unit;
   windsorandwhite: BowmarkSite_0eb976ff.Unit;
   windsorchrome: BowmarkSite_0eb976ff.Unit;
   windsurfershop: BowmarkSite_0eb976ff.Unit;
@@ -626419,7 +630131,6 @@ interface BowmarkProviders {
   wirelesstags: BowmarkSite_0eb976ff.Unit;
   wirliebenhunter: BowmarkSite_0eb976ff.Unit;
   wiscocatalog: BowmarkSite_0eb976ff.Unit;
-  wisconsinlionscamp: BowmarkSite_0eb976ff.Unit;
   wisconsintrappersassociationinc: BowmarkSite_0eb976ff.Unit;
   wiscorusticroots: BowmarkSite_0eb976ff.Unit;
   wiscoworx: BowmarkSite_0eb976ff.Unit;
@@ -626427,7 +630138,6 @@ interface BowmarkProviders {
   wisdomcafe: BowmarkSite_0eb976ff.Unit;
   wisdomwearbyameera: BowmarkSite_0eb976ff.Unit;
   wisearms: BowmarkSite_0eb976ff.Unit;
-  wisebranding: BowmarkSite_0eb976ff.Unit;
   wisecracksshop: BowmarkSite_0eb976ff.Unit;
   wisefreshpro: BowmarkSite_0eb976ff.Unit;
   wiserpreview: BowmarkSite_0eb976ff.Unit;
@@ -626447,7 +630157,6 @@ interface BowmarkProviders {
   witchesofscotland: BowmarkSite_0eb976ff.Unit;
   witchinghourbaby: BowmarkSite_0eb976ff.Unit;
   witchwaymagazine: BowmarkSite_0eb976ff.Unit;
-  witchxing: BowmarkSite_0eb976ff.Unit;
   witchz: BowmarkSite_0eb976ff.Unit;
   withall2: BowmarkSite_0eb976ff.Unit;
   witharmour: BowmarkSite_0eb976ff.Unit;
@@ -626495,7 +630204,6 @@ interface BowmarkProviders {
   wlsislife: BowmarkSite_0eb976ff.Unit;
   wluwfhg: BowmarkSite_0eb976ff.Unit;
   wmhebgjx: BowmarkSite_0eb976ff.Unit;
-  wmjecom: BowmarkSite_0eb976ff.Unit;
   wmjy5faq: BowmarkSite_0eb976ff.Unit;
   wmnelstrop: BowmarkSite_0eb976ff.Unit;
   wmr1xxjg: BowmarkSite_0eb976ff.Unit;
@@ -626625,7 +630333,6 @@ interface BowmarkProviders {
   woodworldoftexas: BowmarkSite_0eb976ff.Unit;
   woodyguthriecenterstore: BowmarkSite_0eb976ff.Unit;
   woodysbbqpantry: BowmarkSite_0eb976ff.Unit;
-  woodysdeweybeach: BowmarkSite_0eb976ff.Unit;
   woodysigns: BowmarkSite_0eb976ff.Unit;
   woofcenterforactivepets: BowmarkSite_0eb976ff.Unit;
   woofpackprocom: BowmarkSite_0eb976ff.Unit;
@@ -626711,8 +630418,6 @@ interface BowmarkProviders {
   wovenart2: BowmarkSite_0eb976ff.Unit;
   wowb: BowmarkSite_0eb976ff.Unit;
   wowcentermiami: BowmarkSite_0eb976ff.Unit;
-  wowplayexperience: BowmarkSite_0eb976ff.Unit;
-  wpbkcemd: BowmarkSite_0eb976ff.Unit;
   wpctiming: BowmarkSite_0eb976ff.Unit;
   wpeentertainment: BowmarkSite_0eb976ff.Unit;
   wpqh0rwf: BowmarkSite_0eb976ff.Unit;
@@ -626786,7 +630491,6 @@ interface BowmarkProviders {
   wvinzantrestaurants: BowmarkSite_0eb976ff.Unit;
   wvlivingcollection: BowmarkSite_0eb976ff.Unit;
   wvvuibdn: BowmarkSite_0eb976ff.Unit;
-  wwc5050landing: BowmarkSite_0eb976ff.Unit;
   wwgearexchange: BowmarkSite_0eb976ff.Unit;
   wwhhskincare: BowmarkSite_0eb976ff.Unit;
   wwqn0u1v: BowmarkSite_0eb976ff.Unit;
@@ -626820,7 +630524,6 @@ interface BowmarkProviders {
   wwwgiantmagahatcom: BowmarkSite_0eb976ff.Unit;
   wwwginfamilyde: BowmarkSite_0eb976ff.Unit;
   wwwgooffhkcom: BowmarkSite_0eb976ff.Unit;
-  wwwhampersbazaar: BowmarkSite_0eb976ff.Unit;
   wwwheydariwholesalecom: BowmarkSite_0eb976ff.Unit;
   wwwhollymonroecom: BowmarkSite_0eb976ff.Unit;
   wwwhomebaseincorg: BowmarkSite_0eb976ff.Unit;
@@ -626943,7 +630646,6 @@ interface BowmarkProviders {
   xeaatw8p: BowmarkSite_0eb976ff.Unit;
   xedequa: BowmarkSite_0eb976ff.Unit;
   xeedevelopers: BowmarkSite_0eb976ff.Unit;
-  xejnirz1: BowmarkSite_0eb976ff.Unit;
   xelecta: BowmarkSite_0eb976ff.Unit;
   xendit: BowmarkSite_0eb976ff.Unit;
   xeniainc: BowmarkSite_0eb976ff.Unit;
@@ -626967,7 +630669,6 @@ interface BowmarkProviders {
   xiangjiustore: BowmarkSite_0eb976ff.Unit;
   xiangwusothing: BowmarkSite_0eb976ff.Unit;
   xiboutique: BowmarkSite_0eb976ff.Unit;
-  xicama: BowmarkSite_0eb976ff.Unit;
   xidibeis: BowmarkSite_0eb976ff.Unit;
   xifeiniu: BowmarkSite_0eb976ff.Unit;
   xikq6dpz: BowmarkSite_0eb976ff.Unit;
@@ -627017,10 +630718,8 @@ interface BowmarkProviders {
   xonestudio: BowmarkSite_0eb976ff.Unit;
   xonorband: BowmarkSite_0eb976ff.Unit;
   xosections: BowmarkSite_0eb976ff.Unit;
-  xostudiob: BowmarkSite_0eb976ff.Unit;
   xover0: BowmarkSite_0eb976ff.Unit;
   xoxoentertainment: BowmarkSite_0eb976ff.Unit;
-  xoyourlifeen: BowmarkSite_0eb976ff.Unit;
   xpakr0jj: BowmarkSite_0eb976ff.Unit;
   xpertapparel: BowmarkSite_0eb976ff.Unit;
   xpertnutritionparis: BowmarkSite_0eb976ff.Unit;
@@ -627049,7 +630748,6 @@ interface BowmarkProviders {
   xteticlife: BowmarkSite_0eb976ff.Unit;
   xtratime215: BowmarkSite_0eb976ff.Unit;
   xtrawholesale: BowmarkSite_0eb976ff.Unit;
-  xtrcjze3: BowmarkSite_0eb976ff.Unit;
   xtreempulse: BowmarkSite_0eb976ff.Unit;
   xtremelashesitalia: BowmarkSite_0eb976ff.Unit;
   xtremepeaks: BowmarkSite_0eb976ff.Unit;
@@ -627085,7 +630783,6 @@ interface BowmarkProviders {
   y1mk7auk: BowmarkSite_0eb976ff.Unit;
   y1mqgkpz: BowmarkSite_0eb976ff.Unit;
   y1tri51i: BowmarkSite_0eb976ff.Unit;
-  y2nf61a3: BowmarkSite_0eb976ff.Unit;
   y3dq56qj: BowmarkSite_0eb976ff.Unit;
   y3ky1fp5: BowmarkSite_0eb976ff.Unit;
   y4kwt7te: BowmarkSite_0eb976ff.Unit;
@@ -627129,7 +630826,6 @@ interface BowmarkProviders {
   yandelstore: BowmarkSite_0eb976ff.Unit;
   yangoshop: BowmarkSite_0eb976ff.Unit;
   yankaskins: BowmarkSite_0eb976ff.Unit;
-  yankeekicksstore: BowmarkSite_0eb976ff.Unit;
   yankeelandrv: BowmarkSite_0eb976ff.Unit;
   yankeesswagbagbonanza: BowmarkSite_0eb976ff.Unit;
   yannicamariah: BowmarkSite_0eb976ff.Unit;
@@ -627196,7 +630892,6 @@ interface BowmarkProviders {
   yellowbikecoffee: BowmarkSite_0eb976ff.Unit;
   yellowcactusclothing: BowmarkSite_0eb976ff.Unit;
   yellowdogcoffeecompanyllc: BowmarkSite_0eb976ff.Unit;
-  yellowfinstore: BowmarkSite_0eb976ff.Unit;
   yellowhammercandleco: BowmarkSite_0eb976ff.Unit;
   yellowhammercreative: BowmarkSite_0eb976ff.Unit;
   yellowladybugs: BowmarkSite_0eb976ff.Unit;
@@ -627249,7 +630944,6 @@ interface BowmarkProviders {
   yhtwkan0: BowmarkSite_0eb976ff.Unit;
   yiddishbookcenterstore: BowmarkSite_0eb976ff.Unit;
   yiedpgh1: BowmarkSite_0eb976ff.Unit;
-  yielddesignllc: BowmarkSite_0eb976ff.Unit;
   yinstillwellness: BowmarkSite_0eb976ff.Unit;
   yinyangyogawear: BowmarkSite_0eb976ff.Unit;
   yinyogacards: BowmarkSite_0eb976ff.Unit;
@@ -627353,7 +631047,6 @@ interface BowmarkProviders {
   youngeuroclassic: BowmarkSite_0eb976ff.Unit;
   youngisraelitesvinylstore: BowmarkSite_0eb976ff.Unit;
   youngmanaccess: BowmarkSite_0eb976ff.Unit;
-  youngrmusic: BowmarkSite_0eb976ff.Unit;
   youngsavedleaders: BowmarkSite_0eb976ff.Unit;
   youngwondererbabyboutique: BowmarkSite_0eb976ff.Unit;
   youngworldrecords: BowmarkSite_0eb976ff.Unit;
@@ -627382,7 +631075,6 @@ interface BowmarkProviders {
   yoursanctum: BowmarkSite_0eb976ff.Unit;
   yourschoolmerch: BowmarkSite_0eb976ff.Unit;
   yourshop: BowmarkSite_0eb976ff.Unit;
-  yourshopifystore: BowmarkSite_0eb976ff.Unit;
   yourshopname: BowmarkSite_0eb976ff.Unit;
   yoursocialmediabestie: BowmarkSite_0eb976ff.Unit;
   yourstockingfeet: BowmarkSite_0eb976ff.Unit;
@@ -627393,7 +631085,6 @@ interface BowmarkProviders {
   yourstoreskins: BowmarkSite_0eb976ff.Unit;
   yourstoretools: BowmarkSite_0eb976ff.Unit;
   yourtimeboutique: BowmarkSite_0eb976ff.Unit;
-  yourturnkeystore12: BowmarkSite_0eb976ff.Unit;
   yourultimatepattyplace: BowmarkSite_0eb976ff.Unit;
   yourwinecellars: BowmarkSite_0eb976ff.Unit;
   yourworkisagift: BowmarkSite_0eb976ff.Unit;
@@ -627489,7 +631180,6 @@ interface BowmarkProviders {
   z52z9z9t: BowmarkSite_0eb976ff.Unit;
   z5kvc1nj: BowmarkSite_0eb976ff.Unit;
   z602hbjw: BowmarkSite_0eb976ff.Unit;
-  z7h16mfi: BowmarkSite_0eb976ff.Unit;
   z7whgvuu: BowmarkSite_0eb976ff.Unit;
   z804svn2: BowmarkSite_0eb976ff.Unit;
   z8w0ye2f: BowmarkSite_0eb976ff.Unit;
@@ -627499,7 +631189,6 @@ interface BowmarkProviders {
   zabedo: BowmarkSite_0eb976ff.Unit;
   zaca: BowmarkSite_0eb976ff.Unit;
   zaccrossband: BowmarkSite_0eb976ff.Unit;
-  zacelectriflyshop: BowmarkSite_0eb976ff.Unit;
   zacharycustoms: BowmarkSite_0eb976ff.Unit;
   zacharykain: BowmarkSite_0eb976ff.Unit;
   zachbrownglass: BowmarkSite_0eb976ff.Unit;
@@ -627548,7 +631237,6 @@ interface BowmarkProviders {
   zavatrends: BowmarkSite_0eb976ff.Unit;
   zaynabthegreatandthegiantplasticmonster: BowmarkSite_0eb976ff.Unit;
   zazusalons: BowmarkSite_0eb976ff.Unit;
-  zazzol: BowmarkSite_0eb976ff.Unit;
   zbarreofficial: BowmarkSite_0eb976ff.Unit;
   zbarreworkout: BowmarkSite_0eb976ff.Unit;
   zbfnij1q: BowmarkSite_0eb976ff.Unit;
@@ -627612,7 +631300,6 @@ interface BowmarkProviders {
   zephyrcoffeeroasters: BowmarkSite_0eb976ff.Unit;
   zephyrhorses: BowmarkSite_0eb976ff.Unit;
   zephyronhudson: BowmarkSite_0eb976ff.Unit;
-  zerance131: BowmarkSite_0eb976ff.Unit;
   zerico: BowmarkSite_0eb976ff.Unit;
   zero9holsters: BowmarkSite_0eb976ff.Unit;
   zeroclothingmusic: BowmarkSite_0eb976ff.Unit;
@@ -627654,9 +631341,6 @@ interface BowmarkProviders {
   zibiballonzubehorgmbh: BowmarkSite_0eb976ff.Unit;
   zibrio: BowmarkSite_0eb976ff.Unit;
   zichitrade: BowmarkSite_0eb976ff.Unit;
-  zienzele: BowmarkSite_0eb976ff.Unit;
-  ziggyalbertsstore: BowmarkSite_0eb976ff.Unit;
-  ziggyalbertsus: BowmarkSite_0eb976ff.Unit;
   ziggysdoggyfashionboutique: BowmarkSite_0eb976ff.Unit;
   zigzagzurich: BowmarkSite_0eb976ff.Unit;
   zikitdigital: BowmarkSite_0eb976ff.Unit;
@@ -627796,11 +631480,9 @@ interface BowmarkProviders {
   zzzoltron: BowmarkSite_0eb976ff.Unit;
   "00000niche": BowmarkSite_d237014c.Unit;
   "0001t": BowmarkSite_d237014c.Unit;
-  "000550a2": BowmarkSite_d237014c.Unit;
   "000m": BowmarkSite_d237014c.Unit;
   "001100methen2": BowmarkSite_d237014c.Unit;
   "0026b85": BowmarkSite_d237014c.Unit;
-  "002729": BowmarkSite_d237014c.Unit;
   "0029835": BowmarkSite_d237014c.Unit;
   "0055293": BowmarkSite_d237014c.Unit;
   "0066365f": BowmarkSite_d237014c.Unit;
@@ -628131,7 +631813,6 @@ interface BowmarkProviders {
   "11482premiumfitness": BowmarkSite_d237014c.Unit;
   "114d9e64": BowmarkSite_d237014c.Unit;
   "115d272": BowmarkSite_d237014c.Unit;
-  "1165185": BowmarkSite_d237014c.Unit;
   "118fb0e3": BowmarkSite_d237014c.Unit;
   "11a64e8b": BowmarkSite_d237014c.Unit;
   "11e4e0": BowmarkSite_d237014c.Unit;
@@ -628257,12 +631938,10 @@ interface BowmarkProviders {
   "1be8b84": BowmarkSite_d237014c.Unit;
   "1bef719a": BowmarkSite_d237014c.Unit;
   "1bff4c": BowmarkSite_d237014c.Unit;
-  "1bhk": BowmarkSite_d237014c.Unit;
   "1c1fb5": BowmarkSite_d237014c.Unit;
   "1c6eb22": BowmarkSite_d237014c.Unit;
   "1c779e2": BowmarkSite_d237014c.Unit;
   "1ca089": BowmarkSite_d237014c.Unit;
-  "1ca7713b": BowmarkSite_d237014c.Unit;
   "1cadev": BowmarkSite_d237014c.Unit;
   "1cb9303": BowmarkSite_d237014c.Unit;
   "1cca1e9d": BowmarkSite_d237014c.Unit;
@@ -628505,7 +632184,6 @@ interface BowmarkProviders {
   "2bfruitfulmaternity": BowmarkSite_d237014c.Unit;
   "2bunton": BowmarkSite_d237014c.Unit;
   "2bwebsite": BowmarkSite_d237014c.Unit;
-  "2c013e2": BowmarkSite_d237014c.Unit;
   "2c0b09": BowmarkSite_d237014c.Unit;
   "2c1149": BowmarkSite_d237014c.Unit;
   "2c27b33f": BowmarkSite_d237014c.Unit;
@@ -628572,7 +632250,6 @@ interface BowmarkProviders {
   "2x7bjmjs": BowmarkSite_d237014c.Unit;
   "2xumexico": BowmarkSite_d237014c.Unit;
   "2yzsx1aj": BowmarkSite_d237014c.Unit;
-  "2zetdnvg": BowmarkSite_d237014c.Unit;
   "2zsmndyn": BowmarkSite_d237014c.Unit;
   "3001b34": BowmarkSite_d237014c.Unit;
   "3026eb": BowmarkSite_d237014c.Unit;
@@ -628792,7 +632469,6 @@ interface BowmarkProviders {
   "3ravens": BowmarkSite_d237014c.Unit;
   "3rgonomics": BowmarkSite_d237014c.Unit;
   "3rillstore": BowmarkSite_d237014c.Unit;
-  "3rzvqycv": BowmarkSite_d237014c.Unit;
   "3sixteendev2": BowmarkSite_d237014c.Unit;
   "3snappetite": BowmarkSite_d237014c.Unit;
   "3sndemoshop": BowmarkSite_d237014c.Unit;
@@ -629173,7 +632849,6 @@ interface BowmarkProviders {
   blueswanjewels: BowmarkSite_d237014c.Unit;
   bluetowhite: BowmarkSite_d237014c.Unit;
   blumacawtechwholesaleb2bquickorder: BowmarkSite_d237014c.Unit;
-  blurrypaige: BowmarkSite_d237014c.Unit;
   bmebikes: BowmarkSite_d237014c.Unit;
   bmpchristest2: BowmarkSite_d237014c.Unit;
   bmsdevstore: BowmarkSite_d237014c.Unit;
@@ -629554,7 +633229,6 @@ interface BowmarkProviders {
   dummystoreusa: BowmarkSite_d237014c.Unit;
   dynamicsizechart: BowmarkSite_d237014c.Unit;
   dyrectstore: BowmarkSite_d237014c.Unit;
-  e9dcdab2: BowmarkSite_d237014c.Unit;
   eaglelabels: BowmarkSite_d237014c.Unit;
   eanbe01: BowmarkSite_d237014c.Unit;
   earldiamond: BowmarkSite_d237014c.Unit;
@@ -630264,7 +633938,6 @@ interface BowmarkProviders {
   monteleste1: BowmarkSite_d237014c.Unit;
   mostoryslider: BowmarkSite_d237014c.Unit;
   mothpreventionukdev2: BowmarkSite_d237014c.Unit;
-  motoringgifts: BowmarkSite_d237014c.Unit;
   motowndallasstore: BowmarkSite_d237014c.Unit;
   mountaincycling: BowmarkSite_d237014c.Unit;
   movetowishlist: BowmarkSite_d237014c.Unit;
@@ -630352,7 +634025,6 @@ interface BowmarkProviders {
   octilo3darviewer: BowmarkSite_d237014c.Unit;
   octspacestorelocator: BowmarkSite_d237014c.Unit;
   odegiprod: BowmarkSite_d237014c.Unit;
-  offrhq: BowmarkSite_d237014c.Unit;
   ofisaplusmx: BowmarkSite_d237014c.Unit;
   olawolefunmilayoreplobuilder: BowmarkSite_d237014c.Unit;
   oldetownehardware: BowmarkSite_d237014c.Unit;
@@ -630424,7 +634096,6 @@ interface BowmarkProviders {
   partnercentrictest: BowmarkSite_d237014c.Unit;
   partsexperts: BowmarkSite_d237014c.Unit;
   partyapps: BowmarkSite_d237014c.Unit;
-  pasahan: BowmarkSite_d237014c.Unit;
   pasilobusannouncer: BowmarkSite_d237014c.Unit;
   pasilobusapps2: BowmarkSite_d237014c.Unit;
   pasilobusholidays: BowmarkSite_d237014c.Unit;
@@ -630489,7 +634160,6 @@ interface BowmarkProviders {
   postmodernjukebox: BowmarkSite_d237014c.Unit;
   postnordshipconnect: BowmarkSite_d237014c.Unit;
   postrevtestingstore: BowmarkSite_d237014c.Unit;
-  potzwonen: BowmarkSite_d237014c.Unit;
   prbynadine: BowmarkSite_d237014c.Unit;
   prductteststore2: BowmarkSite_d237014c.Unit;
   preciosovdiamonte: BowmarkSite_d237014c.Unit;
@@ -630755,7 +634425,6 @@ interface BowmarkProviders {
   saiosaleallinone: BowmarkSite_d237014c.Unit;
   sakerlp: BowmarkSite_d237014c.Unit;
   sakogmbh: BowmarkSite_d237014c.Unit;
-  sakproject: BowmarkSite_d237014c.Unit;
   salebyweight: BowmarkSite_d237014c.Unit;
   salemax: BowmarkSite_d237014c.Unit;
   salesboostai: BowmarkSite_d237014c.Unit;
@@ -630783,7 +634452,6 @@ interface BowmarkProviders {
   scrollshoppablevideos: BowmarkSite_d237014c.Unit;
   scrollstudio: BowmarkSite_d237014c.Unit;
   scrollupcx: BowmarkSite_d237014c.Unit;
-  sctwelding: BowmarkSite_d237014c.Unit;
   scuffed5051: BowmarkSite_d237014c.Unit;
   sdthemeg2: BowmarkSite_d237014c.Unit;
   sdthemeg3: BowmarkSite_d237014c.Unit;
@@ -630916,7 +634584,6 @@ interface BowmarkProviders {
   soillupdate: BowmarkSite_d237014c.Unit;
   solanatest8: BowmarkSite_d237014c.Unit;
   solisbasegamma: BowmarkSite_d237014c.Unit;
-  somsenseofmotionfootwear: BowmarkSite_d237014c.Unit;
   sosharelydemo: BowmarkSite_d237014c.Unit;
   sotplucent: BowmarkSite_d237014c.Unit;
   sourceec: BowmarkSite_d237014c.Unit;
@@ -630944,7 +634611,6 @@ interface BowmarkProviders {
   sstryon: BowmarkSite_d237014c.Unit;
   stackeddiscountsbyshopdoctors: BowmarkSite_d237014c.Unit;
   stackeddiscountsbytheshopdoctors: BowmarkSite_d237014c.Unit;
-  stackexchange: BowmarkSite_d237014c.Unit;
   stageworks: BowmarkSite_d237014c.Unit;
   stagingappcento: BowmarkSite_d237014c.Unit;
   stagingstoredhlpackstation: BowmarkSite_d237014c.Unit;
@@ -631009,7 +634675,6 @@ interface BowmarkProviders {
   swatchcolorsultimator: BowmarkSite_d237014c.Unit;
   swatchdisplay: BowmarkSite_d237014c.Unit;
   swatchesandcombinedlisting: BowmarkSite_d237014c.Unit;
-  sweethazelco: BowmarkSite_d237014c.Unit;
   swiftbundle: BowmarkSite_d237014c.Unit;
   swiftrate: BowmarkSite_d237014c.Unit;
   swiftstorewnlotbbq: BowmarkSite_d237014c.Unit;
@@ -631223,7 +634888,6 @@ interface BowmarkProviders {
   variantpriceranges: BowmarkSite_d237014c.Unit;
   variantsasseparateproducts: BowmarkSite_d237014c.Unit;
   variantsimages: BowmarkSite_d237014c.Unit;
-  variety5050: BowmarkSite_d237014c.Unit;
   vatdualpriceincludeandexcludetax: BowmarkSite_d237014c.Unit;
   vdemostore2: BowmarkSite_d237014c.Unit;
   veanglobalthemes: BowmarkSite_d237014c.Unit;
@@ -631334,7 +634998,6 @@ interface BowmarkProviders {
   wildeflowersnew: BowmarkSite_d237014c.Unit;
   wildlifebizstore: BowmarkSite_d237014c.Unit;
   wildpeonytheme: BowmarkSite_d237014c.Unit;
-  wildrootorganicinc: BowmarkSite_d237014c.Unit;
   wineproject: BowmarkSite_d237014c.Unit;
   winkwithminkie: BowmarkSite_d237014c.Unit;
   winniethejroohfb: BowmarkSite_d237014c.Unit;
@@ -631391,6 +635054,7 @@ interface BowmarkProviders {
   yorumbotu: BowmarkSite_d237014c.Unit;
   youngansforever: BowmarkSite_d237014c.Unit;
   younghungryfree1: BowmarkSite_d237014c.Unit;
+  yourshopifystore: BowmarkSite_d237014c.Unit;
   yourstorename: BowmarkSite_d237014c.Unit;
   youtubemanager: BowmarkSite_d237014c.Unit;
   youtubesubscriptioncardandgallery: BowmarkSite_d237014c.Unit;
@@ -631401,6 +635065,7 @@ interface BowmarkProviders {
   zaralona: BowmarkSite_d237014c.Unit;
   zaskabeer: BowmarkSite_d237014c.Unit;
   zenaindia: BowmarkSite_d237014c.Unit;
+  zerance131: BowmarkSite_d237014c.Unit;
   zhuri1: BowmarkSite_d237014c.Unit;
   zipcodecheckerrestrict: BowmarkSite_d237014c.Unit;
   zipcodevalidatorbycc: BowmarkSite_d237014c.Unit;
@@ -658023,6 +661688,7 @@ interface BowmarkLibrary {
   products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;
   prospect_screening: BowmarkCapability_prospect_screening.Unit;
+  purchase_rewards: BowmarkCapability_purchase_rewards.Unit;
   read: BowmarkCapability_read.Unit;
   real_estate_listings: BowmarkCapability_real_estate_listings.Unit;
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;

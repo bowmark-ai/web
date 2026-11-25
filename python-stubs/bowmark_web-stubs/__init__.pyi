@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c6388fb1f2bcd0c00693547eb491c42451c8ab87894d5fdb22bd3a62654cbed1
-# 99 capabilities, 972 providers, 6084 typed functions, 20 refused.
+# Manifest version: a6cfb8bc65d5841ae79fcb05a30dc7896932f4301539e673bf5e70da2d6f736c
+# 100 capabilities, 983 providers, 6181 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2682,6 +2682,116 @@ class Cap_prospect_screening_InteractiveFlowSignal_Out(TypedDict):
     url: str | None
     evidence: str | None
 
+class Cap_purchase_rewards_BestWayToPayArgs_In(TypedDict):
+    merchant: str
+    amount: float
+    cards: NotRequired[Sequence[Cap_purchase_rewards_HeldCard_In | str]]
+    category: NotRequired[str]
+    includeOffers: NotRequired[bool]
+    pointValues: NotRequired[Mapping[str, float]]
+
+class Cap_purchase_rewards_HeldCard_In(TypedDict):
+    issuer: NotRequired[str]
+    card: str
+
+class Cap_purchase_rewards_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_purchase_rewards_BestWayToPayResult_Out(TypedDict):
+    merchant: Cap_purchase_rewards_MerchantInfo_Out
+    amount: float
+    portals: list[Cap_purchase_rewards_PortalOption_Out]
+    cards: list[Cap_purchase_rewards_CardOption_Out]
+    offers: list[Cap_purchase_rewards_OfferOption_Out]
+    offerSources: list[Cap_purchase_rewards_OfferSource_Out]
+    bestStack: Cap_purchase_rewards_BestStack_Out
+    pointValues: list[Cap_purchase_rewards_PointValuation_Out]
+    warnings: list[str]
+
+class Cap_purchase_rewards_MerchantInfo_Out(TypedDict):
+    query: str
+    name: str
+    domain: str | None
+    category: Literal["dining"] | Literal["grocery"] | Literal["online_grocery"] | Literal["wholesale_club"] | Literal["gas"] | Literal["travel"] | Literal["airfare"] | Literal["hotels"] | Literal["car_rental"] | Literal["transit"] | Literal["streaming"] | Literal["drugstore"] | Literal["online_retail"] | Literal["home_improvement"] | Literal["entertainment"] | Literal["phone_internet"] | Literal["other"]
+    categorySource: Literal["caller"] | Literal["known_merchant"] | Literal["portal_tags"] | Literal["default"]
+
+class Cap_purchase_rewards_PortalOption_Out(TypedDict):
+    source: str
+    portal: str
+    rateText: str
+    ratePercent: float | None
+    flatAmount: float | None
+    pointsPerDollar: float | None
+    program: str
+    upTo: bool
+    value: float | None
+    url: str
+    note: str | None
+    confidence: Literal["firsthand"] | Literal["listing"] | Literal["unconfirmed"]
+
+class Cap_purchase_rewards_CardOption_Out(TypedDict):
+    issuer: str
+    issuerName: str
+    card: str
+    cardId: str | None
+    program: str
+    rate: float
+    rateUnit: Literal["percent"] | Literal["multiplier"]
+    earnedAs: Literal["dining"] | Literal["grocery"] | Literal["online_grocery"] | Literal["wholesale_club"] | Literal["gas"] | Literal["travel"] | Literal["airfare"] | Literal["hotels"] | Literal["car_rental"] | Literal["transit"] | Literal["streaming"] | Literal["drugstore"] | Literal["online_retail"] | Literal["home_improvement"] | Literal["entertainment"] | Literal["phone_internet"] | Literal["other"] | Literal["merchant"]
+    phrase: str
+    pointValueCents: float
+    value: float
+    source: Literal["live"] | Literal["reference"]
+    sourceFunction: str | None
+    url: str | None
+    conditions: list[str]
+
+class Cap_purchase_rewards_OfferOption_Out(TypedDict):
+    issuer: str
+    card: str | None
+    offerId: str
+    description: str
+    value: float | None
+    enrolled: bool | None
+    expiresAt: str | None
+    needsSignIn: Literal[True]
+    sourceFunction: str
+
+class Cap_purchase_rewards_OfferSource_Out(TypedDict):
+    issuer: str
+    function: str
+    status: Literal["fetched"] | Literal["not_requested"] | Literal["not_built"] | Literal["failed"]
+    needsSignIn: Literal[True]
+    note: str
+
+class Cap_purchase_rewards_BestStack_Out(TypedDict):
+    portal: Cap_purchase_rewards_PortalOption_Out | None
+    card: Cap_purchase_rewards_CardOption_Out | None
+    offer: Cap_purchase_rewards_OfferOption_Out | None
+    totalValue: float
+    summary: str
+
+class Cap_purchase_rewards_PointValuation_Out(TypedDict):
+    program: str
+    cents: float
+    basis: str
+    sourceUrl: str | None
+    setBy: Literal["default"] | Literal["caller"]
+
+class Cap_purchase_rewards_CompareCardsArgs_In(TypedDict):
+    category: str
+    amount: float
+    issuers: NotRequired[Sequence[str]]
+    pointValues: NotRequired[Mapping[str, float]]
+    limit: NotRequired[float]
+
+class Cap_purchase_rewards_CompareCardsResult_Out(TypedDict):
+    category: Literal["dining"] | Literal["grocery"] | Literal["online_grocery"] | Literal["wholesale_club"] | Literal["gas"] | Literal["travel"] | Literal["airfare"] | Literal["hotels"] | Literal["car_rental"] | Literal["transit"] | Literal["streaming"] | Literal["drugstore"] | Literal["online_retail"] | Literal["home_improvement"] | Literal["entertainment"] | Literal["phone_internet"] | Literal["other"]
+    amount: float
+    cards: list[Cap_purchase_rewards_CardOption_Out]
+    pointValues: list[Cap_purchase_rewards_PointValuation_Out]
+    warnings: list[str]
+
 class Cap_read_ReadOptions_In(TypedDict):
     format: NotRequired[Literal["markdown"] | Literal["text"] | Literal["cleanHtml"] | Literal["html"]]
     connection: NotRequired[str]
@@ -4109,6 +4219,44 @@ class Prv_aa_aaReservationLeg_Out(TypedDict):
     destinationAirportCode: str | None
     destinationCity: str | None
 
+class Prv_aarp_search_args_In(TypedDict):
+    query: str
+    type: NotRequired[Literal["article"] | Literal["event"] | Literal["offer"] | Literal["membership"]]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+
+class Prv_aarp_AarpSearchResult_Out(TypedDict):
+    query: str
+    type: str | None
+    total: float
+    page: float
+    pageSize: float
+    results: list[Prv_aarp_AarpSearchHit_Out]
+
+class Prv_aarp_AarpSearchHit_Out(TypedDict):
+    title: str
+    url: str
+    type: str | None
+    description: str | None
+    excerpt: str | None
+    published: str | None
+    topics: list[str]
+    image: str | None
+
+class Prv_aarp_getArticle_args_In(TypedDict):
+    url: str
+
+class Prv_aarp_AarpArticle_Out(TypedDict):
+    url: str
+    title: str
+    subtitle: str | None
+    description: str | None
+    authors: list[str]
+    published: str | None
+    body: str | None
+    keywords: list[str]
+    image: str | None
+
 class Prv_aauto_search_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -4687,6 +4835,55 @@ class Prv_accuweather_AccuweatherTemperatureHistoryRow_Out(TypedDict):
     highYear: str | None
     low: str | None
     lowYear: str | None
+
+class Prv_accuweather_AccuweatherGetNearbyStationConditionsArgs_In(TypedDict):
+    northwestCorner: str
+    southeastCorner: str
+
+class Prv_accuweather_AccuweatherGetNearbyStationConditionsResult_Out(TypedDict):
+    type: str
+    features: list[Prv_accuweather_AccuweatherGetNearbyStationConditionsResult_Out_features_item_Out]
+
+class Prv_accuweather_AccuweatherGetNearbyStationConditionsResult_Out_features_item_Out(TypedDict):
+    type: str
+    geometry: Prv_accuweather_AccuweatherGetNearbyStationConditionsResult_Out_features_item_Out_geometry_Out
+    properties: Prv_accuweather_AccuweatherGetNearbyStationConditionsResult_Out_features_item_Out_properties_Out
+
+class Prv_accuweather_AccuweatherGetNearbyStationConditionsResult_Out_features_item_Out_geometry_Out(TypedDict):
+    type: str
+    coordinates: list[float]
+
+class Prv_accuweather_AccuweatherGetNearbyStationConditionsResult_Out_features_item_Out_properties_Out(TypedDict):
+    stationCode: str
+    stationName: str
+    stationWeight: float
+    weatherIcon: float
+    hasPrecipitation: bool
+    precipitationType: str | None
+    temperature: float
+    realFeelTemperature: float
+    realFeelTemperaturePhrase: str
+    realFeelTemperatureShade: float
+    realFeelTemperatureShadePhrase: str
+    relativeHumidity: float
+    dewPoint: float
+    windDirectionDegrees: float
+    windDirectionLocalized: str
+    windDirectionEnglish: str
+    windSpeed: float
+    windGust: float
+    uvIndex: float
+    visibility: float
+    pressure: float
+    heatIndex: float
+    Past24HourTemperatureDeparture: float
+    past1HourPrecipitation: float
+    past3HourPrecipitation: float
+    past6HourPrecipitation: float
+    past9HourPrecipitation: float
+    past12HourPrecipitation: float
+    past18HourPrecipitation: float
+    past24HourPrecipitation: float
 
 class Prv_acehardware_AcehardwareSearchArgs_In(TypedDict):
     query: str
@@ -7066,6 +7263,340 @@ class Prv_americashealthrankings_AmericasHealthRankingsDataPoint_Out(TypedDict):
     displayValue: str | None
     rank: float | None
 
+class Prv_americashealthrankings_AmericasHealthRankingsReadInput_u0_In(TypedDict):
+    thing: Literal["core_measures"]
+    where: NotRequired[Prv_americashealthrankings_AmericasHealthRankingsCoreMeasuresWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMeasuresWhere_In(TypedDict):
+    where: NotRequired[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricFilterInput_In]
+    order: NotRequired[Sequence[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricSortInput_In]]
+
+Prv_americashealthrankings_AmericasHealthRankingsCoreMetricFilterInput_In = TypedDict(
+    "Prv_americashealthrankings_AmericasHealthRankingsCoreMetricFilterInput_In",
+    {
+    "and": NotRequired[Sequence[Mapping[str, Any]]],
+    "or": NotRequired[Sequence[Mapping[str, Any]]],
+    "metricId": NotRequired[Mapping[str, Any]],
+    "description": NotRequired[Mapping[str, Any]],
+    },
+)
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMetricSortInput_In(TypedDict):
+    metricId: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    metricCategoryId: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    displayName: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    description: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsReadInput_u1_In(TypedDict):
+    thing: Literal["core_measure"]
+    where: Prv_americashealthrankings_AmericasHealthRankingsCoreMeasureWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMeasureWhere_In(TypedDict):
+    metricId: float
+
+class Prv_americashealthrankings_AmericasHealthRankingsReadInput_u2_In(TypedDict):
+    thing: Literal["core_measureCategories"]
+    where: NotRequired[Prv_americashealthrankings_AmericasHealthRankingsCoreMeasureCategoriesWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMeasureCategoriesWhere_In(TypedDict):
+    where: NotRequired[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricCategoryFilterInput_In]
+    order: NotRequired[Sequence[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricCategorySortInput_In]]
+
+Prv_americashealthrankings_AmericasHealthRankingsCoreMetricCategoryFilterInput_In = TypedDict(
+    "Prv_americashealthrankings_AmericasHealthRankingsCoreMetricCategoryFilterInput_In",
+    {
+    "and": NotRequired[Sequence[Mapping[str, Any]]],
+    "or": NotRequired[Sequence[Mapping[str, Any]]],
+    "metricCategoryId": NotRequired[Mapping[str, Any]],
+    "displayName": NotRequired[Mapping[str, Any]],
+    },
+)
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMetricCategorySortInput_In(TypedDict):
+    metricCategoryId: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    displayName: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    catDesc: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    displayOrder: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsReadInput_u3_In(TypedDict):
+    thing: Literal["core_measureMetricData"]
+    where: Prv_americashealthrankings_AmericasHealthRankingsCoreMeasureMetricDataWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMeasureMetricDataWhere_In(TypedDict):
+    metricId: float
+    where: NotRequired[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricDatumFilterInput_In]
+    order: NotRequired[Sequence[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricDatumSortInput_In]]
+
+Prv_americashealthrankings_AmericasHealthRankingsCoreMetricDatumFilterInput_In = TypedDict(
+    "Prv_americashealthrankings_AmericasHealthRankingsCoreMetricDatumFilterInput_In",
+    {
+    "and": NotRequired[Sequence[Mapping[str, Any]]],
+    "or": NotRequired[Sequence[Mapping[str, Any]]],
+    "metricDataId": NotRequired[Mapping[str, Any]],
+    "metricId": NotRequired[Mapping[str, Any]],
+    },
+)
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMetricDatumSortInput_In(TypedDict):
+    metricDataId: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    metricId: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    stateCode: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    rank: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsReadInput_u4_In(TypedDict):
+    thing: Literal["core_tags"]
+    where: NotRequired[Prv_americashealthrankings_AmericasHealthRankingsCoreTagsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreTagsWhere_In(TypedDict):
+    where: NotRequired[Prv_americashealthrankings_AmericasHealthRankingsCoreTagFilterInput_In]
+    order: NotRequired[Sequence[Prv_americashealthrankings_AmericasHealthRankingsCoreTagSortInput_In]]
+
+Prv_americashealthrankings_AmericasHealthRankingsCoreTagFilterInput_In = TypedDict(
+    "Prv_americashealthrankings_AmericasHealthRankingsCoreTagFilterInput_In",
+    {
+    "and": NotRequired[Sequence[Mapping[str, Any]]],
+    "or": NotRequired[Sequence[Mapping[str, Any]]],
+    "tagID": NotRequired[Mapping[str, Any]],
+    "description": NotRequired[Mapping[str, Any]],
+    },
+)
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreTagSortInput_In(TypedDict):
+    tagID: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    tagTypeID: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    parentTagID: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    description: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsReadInput_u5_In(TypedDict):
+    thing: Literal["core_tag"]
+    where: Prv_americashealthrankings_AmericasHealthRankingsCoreTagWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreTagWhere_In(TypedDict):
+    tagID: float
+
+class Prv_americashealthrankings_AmericasHealthRankingsReadInput_u6_In(TypedDict):
+    thing: Literal["core_measuresByTagID"]
+    where: Prv_americashealthrankings_AmericasHealthRankingsCoreMeasuresByTagIDWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMeasuresByTagIDWhere_In(TypedDict):
+    tagID: float
+    where: NotRequired[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricFilterInput_In]
+    order: NotRequired[Sequence[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricSortInput_In]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsReadInput_u7_In(TypedDict):
+    thing: Literal["core_geo"]
+    where: Prv_americashealthrankings_AmericasHealthRankingsCoreGeoWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreGeoWhere_In(TypedDict):
+    geoId: float
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMetric_Out(TypedDict):
+    metricId: NotRequired[str | None]
+    metricCategoryId: NotRequired[float | None]
+    displayName: NotRequired[str | None]
+    description: NotRequired[str | None]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMetricCategory_Out(TypedDict):
+    description: NotRequired[str | None]
+    metricCategoryId: NotRequired[float | None]
+    displayName: NotRequired[str | None]
+    displayOrder: NotRequired[float | None]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreMetricDatum_Out(TypedDict):
+    metricDataId: NotRequired[str | None]
+    valueDisplay: NotRequired[str | None]
+    metricId: NotRequired[float | None]
+    stateCode: NotRequired[str | None]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreTag_Out(TypedDict):
+    tagID: NotRequired[float | None]
+    tagTypeID: NotRequired[float | None]
+    parentTagID: NotRequired[float | None]
+    description: NotRequired[str | None]
+
+class Prv_americashealthrankings_AmericasHealthRankingsCoreGeo_Out(TypedDict):
+    geoId: NotRequired[str | None]
+    geoTypeId: NotRequired[float | None]
+    geoName: NotRequired[str | None]
+    description: NotRequired[str | None]
+
+class Prv_amex_ListCreditCardsArgs_In(TypedDict):
+    segment: NotRequired[Literal["personal"] | Literal["business"] | Literal["all"]]
+    earnRates: NotRequired[bool]
+
+class Prv_amex_AmexCreditCardList_Out(TypedDict):
+    cards: list[Prv_amex_AmexCreditCardSummary_Out]
+    warnings: list[str]
+
+class Prv_amex_AmexCreditCardSummary_Out(TypedDict):
+    id: str
+    segment: Literal["personal"] | Literal["business"]
+    name: str
+    annualFee: float | None
+    annualFeeText: str | None
+    cardType: str | None
+    earnRates: list[Prv_amex_AmexEarnRate_Out] | None
+    welcomeOffer: Prv_amex_AmexWelcomeOffer_Out | None
+    welcomeOfferNote: str | None
+    url: str
+
+class Prv_amex_AmexEarnRate_Out(TypedDict):
+    rate: str
+    value: float | None
+    unit: Literal["x"] | Literal["%"] | None
+    currency: str | None
+    category: str
+    details: str | None
+
+class Prv_amex_AmexWelcomeOffer_Out(TypedDict):
+    headline: str
+    amount: float | None
+    upTo: bool
+    spend: float | None
+    months: float | None
+    text: str
+
+class Prv_amex_GetCreditCardArgs_In(TypedDict):
+    id: str
+
+class Prv_amex_AmexCreditCard_Out(TypedDict):
+    id: str
+    segment: Literal["personal"] | Literal["business"]
+    name: str
+    annualFee: float | None
+    annualFeeText: str | None
+    cardType: str | None
+    earnRates: list[Prv_amex_AmexEarnRate_Out] | None
+    welcomeOffer: Prv_amex_AmexWelcomeOffer_Out | None
+    welcomeOfferNote: str | None
+    url: str
+    benefits: list[Prv_amex_AmexCardBenefit_Out]
+    credits: list[Prv_amex_AmexCardBenefit_Out]
+    apr: str | None
+
+class Prv_amex_AmexCardBenefit_Out(TypedDict):
+    group: str | None
+    name: str
+    description: str | None
+    isCredit: bool
+    annualValue: float | None
+
+class Prv_amex_AmexCards_Out(TypedDict):
+    cards: list[Prv_amex_AmexCardWithBalance_Out]
+    warnings: list[str]
+
+class Prv_amex_AmexCardWithBalance_Out(TypedDict):
+    cardId: str
+    lastDigits: str | None
+    productName: str | None
+    relationship: str | None
+    status: list[str]
+    cardMemberName: str | None
+    isSupplementary: bool
+    parentCardId: str | None
+    balance: Prv_amex_AmexBalance_Out | None
+
+class Prv_amex_AmexBalance_Out(TypedDict):
+    currentBalance: float | None
+    statementBalance: float | None
+    remainingStatementBalance: float | None
+    newCharges: float | None
+    paymentsAndCredits: float | None
+    paymentDueAmount: float | None
+    paymentDueDate: str | None
+    availableCredit: float | None
+    currency: str | None
+
+Prv_amex_ListTransactionsArgs_In = TypedDict(
+    "Prv_amex_ListTransactionsArgs_In",
+    {
+    "card": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    "status": NotRequired[Literal["posted"] | Literal["pending"] | Literal["all"]],
+    },
+)
+
+class Prv_amex_AmexTransactions_Out(TypedDict):
+    card: Prv_amex_AmexAccount_Out
+    transactions: list[Prv_amex_AmexTransaction_Out]
+    warnings: list[str]
+
+class Prv_amex_AmexAccount_Out(TypedDict):
+    cardId: str
+    lastDigits: str | None
+    productName: str | None
+    relationship: str | None
+    status: list[str]
+    cardMemberName: str | None
+    isSupplementary: bool
+    parentCardId: str | None
+
+class Prv_amex_AmexTransaction_Out(TypedDict):
+    id: str
+    referenceId: str | None
+    date: str | None
+    postDate: str | None
+    status: Literal["posted"] | Literal["pending"]
+    description: str
+    merchant: str | None
+    category: str | None
+    subcategory: str | None
+    amount: float | None
+    type: str | None
+    currency: str | None
+    cardMemberName: str | None
+    foreignAmount: float | None
+    foreignCurrency: str | None
+
+class Prv_amex_ListOffersArgs_In(TypedDict):
+    card: NotRequired[str]
+    status: NotRequired[Literal["eligible"] | Literal["enrolled"] | Literal["all"]]
+
+class Prv_amex_AmexOffers_Out(TypedDict):
+    offers: list[Prv_amex_AmexOffer_Out]
+    warnings: list[str]
+
+class Prv_amex_AmexOffer_Out(TypedDict):
+    offerId: str
+    offerGroupId: str | None
+    cardId: str
+    cardLastDigits: str | None
+    merchant: str
+    rewardText: str
+    spendThreshold: float | None
+    rewardAmount: float | None
+    rewardPoints: float | None
+    percentBack: float | None
+    maxReward: float | None
+    expiresOn: str | None
+    enrolled: bool
+    category: str | None
+    offerType: str | None
+    description: str | None
+    terms: str | None
+    imageUrl: str | None
+
+class Prv_amex_ActivateOfferArgs_In(TypedDict):
+    offerId: str
+    card: str
+
+class Prv_amex_AmexOfferActivation_Out(TypedDict):
+    offerId: str
+    cardId: str
+    statusPurpose: str | None
+    enrolled: bool
+    confirmedOnCard: bool | None
+    message: str | None
+
 class Prv_amramp_findNearestLocation_input_In(TypedDict):
     zip: str
 
@@ -9255,6 +9786,187 @@ class Prv_arketa_confirmSignup_return_u3_Out(TypedDict):
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
 
+class Prv_article_com_ArticleComSiteReadInput_u0_In(TypedDict):
+    thing: Literal["bloomreachProductSearch"]
+    where: Prv_article_com_ArticleComSiteBloomreachProductSearchWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteBloomreachProductSearchWhere_In(TypedDict):
+    input: Prv_article_com_ArticleComSiteBloomreachSearchInput_In
+
+class Prv_article_com_ArticleComSiteBloomreachSearchInput_In(TypedDict):
+    query: NotRequired[str]
+    pageSize: NotRequired[float]
+    country: NotRequired[str]
+
+class Prv_article_com_ArticleComSiteReadInput_u1_In(TypedDict):
+    thing: Literal["product"]
+    where: Prv_article_com_ArticleComSiteProductWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteProductWhere_In(TypedDict):
+    hashKey: str
+
+class Prv_article_com_ArticleComSiteReadInput_u2_In(TypedDict):
+    thing: Literal["searchProductsWithFilter"]
+    where: NotRequired[Prv_article_com_ArticleComSiteSearchProductsWithFilterWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteSearchProductsWithFilterWhere_In(TypedDict):
+    initialFilter: NotRequired[Prv_article_com_ArticleComSiteProductFilter_In]
+    filter: NotRequired[Prv_article_com_ArticleComSiteProductFilter_In]
+    query: NotRequired[str]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+    country: NotRequired[str]
+    ruleContexts: NotRequired[Sequence[str]]
+    distinct: NotRequired[float]
+
+class Prv_article_com_ArticleComSiteProductFilter_In(TypedDict):
+    query: NotRequired[str]
+    navigationCategories: NotRequired[Sequence[str]]
+    taxonomyCategories: NotRequired[Sequence[str]]
+    taxonomyAttributes: NotRequired[Sequence[str]]
+    excludedProducts: NotRequired[Sequence[str]]
+    price: NotRequired[Mapping[str, Any]]
+
+class Prv_article_com_ArticleComSiteReadInput_u3_In(TypedDict):
+    thing: Literal["getLocationByPostalCode"]
+    where: NotRequired[Prv_article_com_ArticleComSiteGetLocationByPostalCodeWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteGetLocationByPostalCodeWhere_In(TypedDict):
+    postalCode: NotRequired[str]
+
+class Prv_article_com_ArticleComSiteReadInput_u4_In(TypedDict):
+    thing: Literal["searchProducts"]
+    where: NotRequired[Prv_article_com_ArticleComSiteSearchProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteSearchProductsWhere_In(TypedDict):
+    navigationCategories: NotRequired[Sequence[str]]
+    taxonomyCategories: NotRequired[Sequence[str]]
+    taxonomyAttributes: NotRequired[Sequence[str]]
+    excludedProducts: NotRequired[Sequence[str]]
+    onSale: NotRequired[bool]
+    onClearance: NotRequired[bool]
+    inStock: NotRequired[bool]
+    landingPageId: NotRequired[float]
+    collectionId: NotRequired[float]
+    hasReasonableETA: NotRequired[bool]
+    query: NotRequired[str]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+    preSelectedTaxonomyAttributes: NotRequired[Sequence[str]]
+    countryCode: NotRequired[str]
+    ruleContexts: NotRequired[Sequence[str]]
+    distinct: NotRequired[float]
+
+class Prv_article_com_ArticleComSiteReadInput_u5_In(TypedDict):
+    thing: Literal["searchProductSuggestion"]
+    where: NotRequired[Prv_article_com_ArticleComSiteSearchProductSuggestionWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteSearchProductSuggestionWhere_In(TypedDict):
+    query: NotRequired[str]
+    suggestionCount: NotRequired[float]
+
+class Prv_article_com_ArticleComSiteReadInput_u6_In(TypedDict):
+    thing: Literal["curatedPagesByCategory"]
+    where: NotRequired[Mapping[str, Any]]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteReadInput_u7_In(TypedDict):
+    thing: Literal["curatedPagesByCategorySlugAndTag"]
+    where: NotRequired[Prv_article_com_ArticleComSiteCuratedPagesByCategorySlugAndTagWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteCuratedPagesByCategorySlugAndTagWhere_In(TypedDict):
+    slug: NotRequired[str]
+    tag: NotRequired[str]
+
+class Prv_article_com_ArticleComSiteReadInput_u8_In(TypedDict):
+    thing: Literal["searchHelpCenterSuggestion"]
+    where: NotRequired[Prv_article_com_ArticleComSiteSearchHelpCenterSuggestionWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteSearchHelpCenterSuggestionWhere_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_article_com_ArticleComSiteReadInput_u9_In(TypedDict):
+    thing: Literal["collectionPage"]
+    where: Prv_article_com_ArticleComSiteCollectionPageWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteCollectionPageWhere_In(TypedDict):
+    collectionId: str
+
+class Prv_article_com_ArticleComSiteReadInput_u10_In(TypedDict):
+    thing: Literal["siteMap"]
+    where: NotRequired[Mapping[str, Any]]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteReadInput_u11_In(TypedDict):
+    thing: Literal["getProductQuiz"]
+    where: NotRequired[Mapping[str, Any]]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_article_com_ArticleComSiteBloomreachSearchResult_Out(TypedDict):
+    groupCount: NotRequired[float | None]
+    skuCount: NotRequired[float | None]
+    page: NotRequired[float | None]
+    pageSize: NotRequired[float | None]
+    autoCorrectedQuery: NotRequired[str | None]
+    didYouMean: NotRequired[list[str] | None]
+
+class Prv_article_com_ArticleComSiteProduct_Out(TypedDict):
+    hashKey: NotRequired[str | None]
+    slug: NotRequired[str | None]
+    title: NotRequired[str | None]
+    status: NotRequired[str | float | None]
+    description: NotRequired[str | None]
+    price: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_article_com_ArticleComSiteProductSearchResult_Out(TypedDict):
+    count: NotRequired[float | None]
+    maxPage: NotRequired[float | None]
+    page: NotRequired[float | None]
+    queryAfterRemoval: NotRequired[str | None]
+    queryID: NotRequired[str | None]
+    index: NotRequired[str | None]
+
+class Prv_article_com_ArticleComSiteGetLocationResponse_Out(TypedDict):
+    location: NotRequired[Mapping[str, Any] | None]
+
+class Prv_article_com_ArticleComSiteProductSuggestion_Out(TypedDict):
+    query: NotRequired[str | None]
+    highlightedQuery: NotRequired[str | None]
+
+class Prv_article_com_ArticleComSiteGetCuratedPagesResponse_Out(TypedDict):
+    curatedPage: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_article_com_ArticleComSiteHelpCenterSuggestion_Out(TypedDict):
+    id: NotRequired[str | None]
+    title: NotRequired[str | None]
+    slug: NotRequired[str | None]
+    content: NotRequired[str | None]
+    numMatchedWords: NotRequired[float | None]
+    numTypos: NotRequired[float | None]
+
+class Prv_article_com_ArticleComSiteCollectionPage_Out(TypedDict):
+    active: NotRequired[bool | None]
+    slug: NotRequired[str | None]
+    title: NotRequired[str | None]
+    key: NotRequired[Mapping[str, Any] | None]
+    attributes: NotRequired[Mapping[str, Any] | None]
+
+class Prv_article_com_ArticleComSiteSiteMapResponse_Out(TypedDict):
+    data: NotRequired[Any]
+
+class Prv_article_com_ArticleComSiteGetQuizResponse_Out(TypedDict):
+    success: NotRequired[bool | None]
+    quiz: NotRequired[Mapping[str, Any] | None]
+
 class Prv_article_com_ArticleSearchArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -10491,6 +11203,88 @@ class Prv_bankmycell_BankmycellQuoteResult_Out_summary_Out(TypedDict):
     avgPrice: float | None
     count: float
 
+class Prv_bankofamerica_BankofamericaAccounts_Out(TypedDict):
+    accounts: list[Prv_bankofamerica_BankofamericaAccount_Out]
+    warnings: list[str]
+
+class Prv_bankofamerica_BankofamericaAccount_Out(TypedDict):
+    id: str
+    name: str
+    last4: str | None
+    kind: Literal["credit_card"] | Literal["checking"] | Literal["savings"] | Literal["other"]
+    balance: float | None
+    statementBalance: float | None
+    minimumPaymentDue: float | None
+    paymentDueDate: str | None
+    availableCredit: float | None
+    creditLimit: float | None
+    url: str
+
+Prv_bankofamerica_BankofamericaTransactionsArgs_In = TypedDict(
+    "Prv_bankofamerica_BankofamericaTransactionsArgs_In",
+    {
+    "account": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    },
+)
+
+class Prv_bankofamerica_BankofamericaTransactions_Out(TypedDict):
+    account: str
+    transactions: list[Prv_bankofamerica_BankofamericaTransaction_Out]
+    oldestRead: str | None
+    warnings: list[str]
+
+class Prv_bankofamerica_BankofamericaTransaction_Out(TypedDict):
+    date: str | None
+    pending: bool
+    description: str
+    amount: float | None
+    category: str | None
+    merchant: str | None
+    type: str | None
+    balanceAfter: float | None
+
+class Prv_bankofamerica_BankofamericaRewards_Out(TypedDict):
+    cards: list[Prv_bankofamerica_BankofamericaCardRewards_Out]
+    totalCashRewards: float | None
+    totalPoints: float | None
+    warnings: list[str]
+
+class Prv_bankofamerica_BankofamericaCardRewards_Out(TypedDict):
+    account: str
+    name: str
+    last4: str | None
+    cashRewards: float | None
+    points: float | None
+    miles: float | None
+
+class Prv_bankofamerica_BankofamericaOffers_Out(TypedDict):
+    offers: list[Prv_bankofamerica_BankofamericaOffer_Out]
+    warnings: list[str]
+
+class Prv_bankofamerica_BankofamericaOffer_Out(TypedDict):
+    offerId: str | None
+    merchant: str
+    headline: str
+    cashBackPercent: float | None
+    cashBackAmount: float | None
+    description: str | None
+    expires: str | None
+    daysLeft: float | None
+    added: bool
+    activateUrl: str | None
+
+class Prv_bankofamerica_BankofamericaActivateOfferArgs_In(TypedDict):
+    offerId: str
+
+class Prv_bankofamerica_BankofamericaActivation_Out(TypedDict):
+    offerId: str
+    merchant: str
+    added: bool
+    alreadyAdded: bool
+    status: float | None
+
 class Prv_bankofamerica_BankofamericaCdRatesArgs_In(TypedDict):
     state: str
 
@@ -10522,10 +11316,26 @@ class Prv_bankofamerica_BankofamericaCreditCardDetail_Out(TypedDict):
     introApr: str | None
     standardApr: str | None
     annualFee: str | None
+    earnRates: list[Prv_bankofamerica_BankofamericaEarnRate_Out]
     url: str | None
     balanceTransferFee: str | None
     rewardsEarn: str | None
     rewardsRedeem: str | None
+
+class Prv_bankofamerica_BankofamericaEarnRate_Out(TypedDict):
+    category: str
+    rate: float
+    unit: Literal["percent_cash_back"] | Literal["points_per_dollar"] | Literal["miles_per_dollar"]
+    firstYearRate: float | None
+    base: bool
+    choice: bool
+    choiceOptions: list[str]
+    cap: Prv_bankofamerica_BankofamericaEarnRate_Out_cap_u0_Out | None
+
+class Prv_bankofamerica_BankofamericaEarnRate_Out_cap_u0_Out(TypedDict):
+    amount: float
+    period: Literal["month"] | Literal["quarter"] | Literal["year"]
+    combined: bool
 
 class Prv_bankofamerica_BankofamericaCreditCard_Out(TypedDict):
     campaignId: str
@@ -10534,6 +11344,7 @@ class Prv_bankofamerica_BankofamericaCreditCard_Out(TypedDict):
     introApr: str | None
     standardApr: str | None
     annualFee: str | None
+    earnRates: list[Prv_bankofamerica_BankofamericaEarnRate_Out]
     url: str | None
 
 class Prv_bankofamerica_BankofamericaDepositAccountsArgs_In(TypedDict):
@@ -10655,6 +11466,73 @@ class Prv_bankofamerica_BankofamericaHomeEquityRates_Out(TypedDict):
     introRate: float | None
     introDescription: str | None
     indexRate: float | None
+
+class Prv_barclays_BarclaysCreditCards_Out(TypedDict):
+    cards: list[Prv_barclays_BarclaysCreditCard_Out]
+    warnings: list[str]
+
+class Prv_barclays_BarclaysCreditCard_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    imageUrl: str | None
+    applyUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    welcomeOffer: str | None
+    introApr: str | None
+    regularApr: str | None
+    earnRates: list[Prv_barclays_BarclaysEarnRate_Out]
+    currentRotatingCategories: Prv_barclays_BarclaysCreditCard_Out_currentRotatingCategories_u0_Out | None
+    benefits: list[str]
+    kind: Literal["consumer"] | Literal["business"]
+    productCode: str | None
+    feesText: str | None
+
+class Prv_barclays_BarclaysEarnRate_Out(TypedDict):
+    rate: float
+    unit: Literal["percent"] | Literal["multiplier"]
+    currency: str | None
+    category: str
+    cap: str | None
+    rotating: bool
+    base: bool
+    text: str
+
+class Prv_barclays_BarclaysCreditCard_Out_currentRotatingCategories_u0_Out(TypedDict):
+    quarter: str
+    categories: list[str]
+    activationRequired: bool
+
+class Prv_barclays_BarclaysCardRef_u1_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+    name: NotRequired[str]
+
+class Prv_barclays_BarclaysCreditCardDetail_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    imageUrl: str | None
+    applyUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    welcomeOffer: str | None
+    introApr: str | None
+    regularApr: str | None
+    earnRates: list[Prv_barclays_BarclaysEarnRate_Out]
+    currentRotatingCategories: Prv_barclays_BarclaysCreditCardDetail_Out_currentRotatingCategories_u0_Out | None
+    benefits: list[str]
+    kind: Literal["consumer"] | Literal["business"]
+    productCode: str | None
+    feesText: str | None
+    rewardTerms: list[str]
+    warnings: list[str]
+
+class Prv_barclays_BarclaysCreditCardDetail_Out_currentRotatingCategories_u0_Out(TypedDict):
+    quarter: str
+    categories: list[str]
+    activationRequired: bool
 
 class Prv_barletta_BarlettaModelSummary_Out(TypedDict):
     modelId: str
@@ -18706,6 +19584,104 @@ class Prv_chase_ChaseSearchResult_Out(TypedDict):
     description: str | None
     url: str
 
+class Prv_chase_ChaseListCreditCardsArgs_In(TypedDict):
+    type: NotRequired[Literal["personal"] | Literal["business"]]
+
+class Prv_chase_ChaseCreditCardList_Out(TypedDict):
+    cards: list[Prv_chase_ChaseCreditCard_Out]
+    count: float
+
+class Prv_chase_ChaseCreditCard_Out(TypedDict):
+    id: str
+    cardId: str
+    name: str
+    type: Literal["personal"] | Literal["business"]
+    annualFee: Prv_chase_ChaseAnnualFee_Out
+    welcomeOffer: str | None
+    earnRates: list[Prv_chase_ChaseEarnRate_Out]
+    earning: list[str]
+    apr: str | None
+    foreignTransactionFee: str | None
+    highlights: list[str]
+    url: str
+    applyUrl: str | None
+    imageUrl: str | None
+    pricingTermsUrl: str | None
+
+class Prv_chase_ChaseAnnualFee_Out(TypedDict):
+    text: str
+    amount: float | None
+    introAmount: float | None
+
+class Prv_chase_ChaseEarnRate_Out(TypedDict):
+    rate: float
+    kind: Literal["multiplier"] | Literal["percent"]
+    currency: str | None
+    category: str
+    cap: str | None
+    everythingElse: bool
+    text: str
+
+class Prv_chase_getCreditCard_card_u2_In(TypedDict):
+    id: str | float
+
+class Prv_chase_ChaseCreditCardDetail_Out(TypedDict):
+    id: str
+    cardId: str
+    name: str
+    type: Literal["personal"] | Literal["business"]
+    annualFee: Prv_chase_ChaseAnnualFee_Out
+    welcomeOffer: str | None
+    earnRates: list[Prv_chase_ChaseEarnRate_Out]
+    earning: list[str]
+    apr: str | None
+    foreignTransactionFee: str | None
+    highlights: list[str]
+    url: str
+    applyUrl: str | None
+    imageUrl: str | None
+    pricingTermsUrl: str | None
+    earnRatesFrom: Literal["card-page"] | Literal["compare-table"]
+    benefits: list[Prv_chase_ChaseCardBenefit_Out]
+    protections: list[Prv_chase_ChaseCardBenefit_Out]
+    warnings: list[str]
+
+class Prv_chase_ChaseCardBenefit_Out(TypedDict):
+    title: str
+    description: str
+
+class Prv_chase_ChaseListOffersArgs_In(TypedDict):
+    account: NotRequired[str]
+
+class Prv_chase_ChaseOffers_Out(TypedDict):
+    account: str | None
+    offers: list[Prv_chase_ChaseOffer_Out]
+    count: float
+    addedCount: float
+
+class Prv_chase_ChaseOffer_Out(TypedDict):
+    offerId: str
+    offerIdFrom: Literal["page"] | Literal["derived"]
+    merchant: str
+    reward: str | None
+    rewardPercent: float | None
+    rewardAmount: float | None
+    expires: str | None
+    added: bool
+    label: str
+
+class Prv_chase_ChaseActivateOfferArgs_In(TypedDict):
+    offerId: str
+    account: str
+
+class Prv_chase_ChaseOfferActivation_Out(TypedDict):
+    offerId: str
+    merchant: str
+    account: str | None
+    added: bool
+    alreadyAdded: bool
+    confirmedBy: Literal["tile"] | Literal["offer-activated-page"] | Literal["already-added"]
+
 class Prv_chatgpt_ShareLink_Out(TypedDict):
     shareId: str
     url: str
@@ -20266,6 +21242,172 @@ class Prv_circl_circlSearchArgs_In(TypedDict):
 class Prv_circl_circlSearchResult_Out(TypedDict):
     total: float
     results: list[Prv_circl_circlCve_Out]
+
+class Prv_citi_CitiListCreditCardsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_citi_CitiCreditCards_Out(TypedDict):
+    cards: list[Prv_citi_CitiCreditCard_Out]
+    warnings: list[str]
+
+class Prv_citi_CitiCreditCard_Out(TypedDict):
+    id: str
+    pid: str
+    name: str
+    description: str | None
+    url: str
+    imageUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    categories: list[str]
+    earnRates: list[Prv_citi_CitiEarnRate_Out]
+    welcomeOffer: Prv_citi_CitiWelcomeOffer_Out | None
+    pricing: Prv_citi_CitiCardPricing_Out | None
+    highlights: list[str]
+
+class Prv_citi_CitiEarnRate_Out(TypedDict):
+    rate: float
+    unit: Literal["x"] | Literal["%"]
+    currency: Literal["points"] | Literal["miles"] | Literal["cash back"] | None
+    category: str
+    text: str
+
+class Prv_citi_CitiWelcomeOffer_Out(TypedDict):
+    text: str
+    bonus: float | None
+    unit: Literal["points"] | Literal["miles"] | Literal["USD"] | None
+    spend: float | None
+    months: float | None
+
+class Prv_citi_CitiCardPricing_Out(TypedDict):
+    annualFee: float | None
+    purchaseAprMin: float | None
+    purchaseAprMax: float | None
+    introPurchaseApr: float | None
+    introPurchaseMonths: float | None
+    introBalanceTransferApr: float | None
+    introBalanceTransferMonths: float | None
+    balanceTransferFeePercent: float | None
+    cashAdvanceApr: float | None
+    foreignTransactionFeePercent: float | None
+
+class Prv_citi_CitiCreditCardDetail_Out(TypedDict):
+    id: str
+    pid: str
+    name: str
+    description: str | None
+    url: str
+    imageUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    categories: list[str]
+    earnRates: list[Prv_citi_CitiEarnRate_Out]
+    welcomeOffer: Prv_citi_CitiWelcomeOffer_Out | None
+    pricing: Prv_citi_CitiCardPricing_Out | None
+    highlights: list[str]
+    features: list[Prv_citi_CitiCreditCardDetail_Out_features_item_Out]
+    ratesAndFees: list[Prv_citi_CitiCreditCardDetail_Out_ratesAndFees_item_Out]
+
+class Prv_citi_CitiCreditCardDetail_Out_features_item_Out(TypedDict):
+    title: str
+    text: str
+
+class Prv_citi_CitiCreditCardDetail_Out_ratesAndFees_item_Out(TypedDict):
+    label: str
+    value: str
+
+class Prv_citi_CitiAccount_Out(TypedDict):
+    accountId: str
+    lastFour: str | None
+    product: str | None
+    productId: str | None
+    currentBalance: float | None
+    statementBalance: float | None
+    minimumPayment: float | None
+    paymentDueDate: str | None
+    availableCredit: float | None
+    creditLimit: float | None
+    nextStatementClosingDate: str | None
+    lastStatementClosingDate: str | None
+    statusCode: str | None
+    accountType: str | None
+
+Prv_citi_CitiTransactionsArgs_In = TypedDict(
+    "Prv_citi_CitiTransactionsArgs_In",
+    {
+    "account": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    "limit": NotRequired[float],
+    },
+)
+
+class Prv_citi_CitiTransactionsPage_Out(TypedDict):
+    accountId: str
+    transactions: list[Prv_citi_CitiTransaction_Out]
+    hasMore: bool
+    warnings: list[str]
+
+class Prv_citi_CitiTransaction_Out(TypedDict):
+    id: str | None
+    date: str | None
+    postedDate: str | None
+    description: str | None
+    merchant: str | None
+    amount: float | None
+    category: str | None
+    pending: bool
+
+class Prv_citi_CitiRewardsBalance_Out(TypedDict):
+    thankYouPoints: float
+    accounts: list[Prv_citi_CitiRewardsAccount_Out]
+
+class Prv_citi_CitiRewardsAccount_Out(TypedDict):
+    accountId: str
+    lastFour: str | None
+    productId: str | None
+    program: str
+    accumulationType: str | None
+    balance: float
+    unit: Literal["ThankYou Points"] | Literal["USD"] | Literal["AAdvantage miles"] | Literal["points"]
+
+class Prv_citi_CitiOffersArgs_In(TypedDict):
+    account: NotRequired[str]
+
+class Prv_citi_CitiOffers_Out(TypedDict):
+    accountId: str | None
+    cards: list[Prv_citi_CitiOffers_Out_cards_item_Out]
+    offers: list[Prv_citi_CitiOffer_Out]
+
+class Prv_citi_CitiOffers_Out_cards_item_Out(TypedDict):
+    accountId: str
+    name: str | None
+
+class Prv_citi_CitiOffer_Out(TypedDict):
+    offerId: str
+    merchant: str | None
+    reward: str | None
+    rewardType: str | None
+    category: str | None
+    expiresAt: str | None
+    enrolled: bool
+    status: str | None
+    redemption: str | None
+    imageUrl: str | None
+
+class Prv_citi_CitiActivateOfferArgs_In(TypedDict):
+    offerId: str
+    account: str
+
+class Prv_citi_CitiOfferActivation_Out(TypedDict):
+    offerId: str
+    accountId: str
+    enrolled: bool
+    status: str | None
+    enrollmentId: str | None
+    merchant: str | None
+    reward: str | None
+    expiresAt: str | None
 
 class Prv_classichome_ClassicHomeSearchResult_Out(TypedDict):
     products: list[Prv_classichome_ClassicHomeProduct_Out]
@@ -23177,6 +24319,46 @@ class Prv_costco_CostcoGiftCard_Out(TypedDict):
     image: str | None
     url: str
 
+class Prv_costco_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_costco_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_costco_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_costco_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_costco_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_costco_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_costco_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_costco_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_countycourt_vic_gov_au_CountycourtHearing_Out(TypedDict):
     list: Literal["crime-and-appeals"] | Literal["civil"] | Literal["circuit"]
     publishDate: str | None
@@ -23275,6 +24457,23 @@ class Prv_craigslist_CraigslistSavedSearches_Out_searches_item_Out(TypedDict):
     name: str
     url: str
 
+class Prv_craigslist_CraigslistSearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    area: NotRequired[str]
+    category: NotRequired[str]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    sort: NotRequired[Literal["date"] | Literal["priceasc"] | Literal["pricedsc"] | Literal["rel"]]
+    postal: NotRequired[str]
+    distanceMiles: NotRequired[float]
+    limit: NotRequired[float]
+    details: NotRequired[bool | float]
+
+class Prv_craigslist_CraigslistSaveSearchResult_Out(TypedDict):
+    url: str
+    saved: bool
+    warnings: list[str]
+
 class Prv_craigslist_CraigslistImages_Out(TypedDict):
     id: str
     url: str
@@ -23303,18 +24502,6 @@ class Prv_craigslist_CraigslistCategory_Out(TypedDict):
     code: str
     name: str
     group: str
-
-class Prv_craigslist_CraigslistSearchArgs_In(TypedDict):
-    query: NotRequired[str]
-    area: NotRequired[str]
-    category: NotRequired[str]
-    minPrice: NotRequired[float]
-    maxPrice: NotRequired[float]
-    sort: NotRequired[Literal["date"] | Literal["priceasc"] | Literal["pricedsc"] | Literal["rel"]]
-    postal: NotRequired[str]
-    distanceMiles: NotRequired[float]
-    limit: NotRequired[float]
-    details: NotRequired[bool | float]
 
 class Prv_craigslist_CraigslistSearchResult_Out(TypedDict):
     query: str
@@ -27613,6 +28800,92 @@ class Prv_discounttire_DiscounttireTireResult_Out_price_u0_Out(TypedDict):
     value: float | None
     formatted: str | None
 
+class Prv_discover_DiscoverCreditCards_Out(TypedDict):
+    cards: list[Prv_discover_DiscoverCreditCard_Out]
+    warnings: list[str]
+
+class Prv_discover_DiscoverCreditCard_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    imageUrl: str | None
+    applyUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    welcomeOffer: str | None
+    introApr: str | None
+    regularApr: str | None
+    earnRates: list[Prv_discover_DiscoverEarnRate_Out]
+    currentRotatingCategories: Prv_discover_DiscoverCreditCard_Out_currentRotatingCategories_u0_Out | None
+    benefits: list[str]
+    kind: Literal["consumer"] | Literal["business"]
+
+class Prv_discover_DiscoverEarnRate_Out(TypedDict):
+    rate: float
+    unit: Literal["percent"] | Literal["multiplier"]
+    currency: str | None
+    category: str
+    cap: str | None
+    rotating: bool
+    base: bool
+    text: str
+
+class Prv_discover_DiscoverCreditCard_Out_currentRotatingCategories_u0_Out(TypedDict):
+    quarter: str
+    categories: list[str]
+    activationRequired: bool
+
+class Prv_discover_DiscoverCardRef_u1_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+    name: NotRequired[str]
+
+class Prv_discover_DiscoverCreditCardDetail_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    imageUrl: str | None
+    applyUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    welcomeOffer: str | None
+    introApr: str | None
+    regularApr: str | None
+    earnRates: list[Prv_discover_DiscoverEarnRate_Out]
+    currentRotatingCategories: Prv_discover_DiscoverCreditCardDetail_Out_currentRotatingCategories_u0_Out | None
+    benefits: list[str]
+    kind: Literal["consumer"] | Literal["business"]
+    rewardTerms: list[str]
+    warnings: list[str]
+
+class Prv_discover_DiscoverCreditCardDetail_Out_currentRotatingCategories_u0_Out(TypedDict):
+    quarter: str
+    categories: list[str]
+    activationRequired: bool
+
+class Prv_discover_DiscoverCashbackCalendar_Out(TypedDict):
+    year: float | None
+    quarters: list[Prv_discover_DiscoverCashbackQuarter_Out]
+    current: Prv_discover_DiscoverCashbackQuarter_Out | None
+    commonTerms: str | None
+    warnings: list[str]
+
+class Prv_discover_DiscoverCashbackQuarter_Out(TypedDict):
+    quarter: str
+    year: float
+    quarterNumber: float
+    startDate: str | None
+    endDate: str | None
+    categories: list[str]
+    title: str
+    spendCap: float | None
+    activationOpens: str | None
+    offerId: str
+    status: str | None
+    current: bool
+    highlight: str | None
+    terms: str
+
 class Prv_disney_DisneyGetTicketPriceArgs_In(TypedDict):
     resort: Literal["wdw"]
     days: float
@@ -29125,6 +30398,14 @@ class Prv_ebay_ebayWatchlistItem_Out_price_u0_Out(TypedDict):
 
 class Prv_ebay_getMyListings_args_In(TypedDict):
     limit: NotRequired[float]
+
+class Prv_ecosia_SuggestArgs_In(TypedDict):
+    query: str
+    market: NotRequired[str]
+
+class Prv_ecosia_Suggestions_Out(TypedDict):
+    query: str
+    suggestions: list[str]
 
 class Prv_edmunds_EdmundsDiscussionArgs_In(TypedDict):
     discussionId: float
@@ -31362,6 +32643,20 @@ class Prv_eventbrite_EventbriteTicketClassRow_Out(TypedDict):
     availabilityNote: str | None
     salesEndNote: str | None
 
+class Prv_eventbrite_EventbriteListNearbyCitiesArgs_In(TypedDict):
+    placeCode: str
+
+class Prv_eventbrite_EventbriteListNearbyCitiesResult_Out(TypedDict):
+    buckets: list[Prv_eventbrite_EventbriteListNearbyCitiesResult_Out_buckets_item_Out]
+    place: Prv_eventbrite_EventbriteListNearbyCitiesResult_Out_place_Out
+
+class Prv_eventbrite_EventbriteListNearbyCitiesResult_Out_buckets_item_Out(TypedDict):
+    placeName: str
+    linkUrl: str
+
+class Prv_eventbrite_EventbriteListNearbyCitiesResult_Out_place_Out(TypedDict):
+    name: str
+
 class Prv_eventbrite_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -33251,6 +34546,219 @@ class Prv_fareharbor_FareharborBookingResult_Out(TypedDict):
     totalDueCents: float | None
     checkoutUrl: str
 
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u0_In(TypedDict):
+    thing: Literal["collection"]
+    where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteCollectionWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCollectionWhere_In(TypedDict):
+    id: NotRequired[str]
+    handle: NotRequired[str]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u1_In(TypedDict):
+    thing: Literal["collections"]
+    where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteCollectionsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCollectionsWhere_In(TypedDict):
+    first: NotRequired[float]
+    after: NotRequired[str]
+    last: NotRequired[float]
+    before: NotRequired[str]
+    reverse: NotRequired[bool]
+    sortKey: NotRequired[Literal["TITLE"] | Literal["UPDATED_AT"] | Literal["ID"] | Literal["CREATED_AT"] | Literal["RELEVANCE"]]
+    query: NotRequired[str]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u2_In(TypedDict):
+    thing: Literal["locations"]
+    where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteLocationsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteLocationsWhere_In(TypedDict):
+    first: NotRequired[float]
+    after: NotRequired[str]
+    last: NotRequired[float]
+    before: NotRequired[str]
+    reverse: NotRequired[bool]
+    sortKey: NotRequired[Literal["ID"] | Literal["NAME"] | Literal["CITY"] | Literal["DISTANCE"] | Literal["CREATED_AT"]]
+    near: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteGeoCoordinateInput_In]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteGeoCoordinateInput_In(TypedDict):
+    latitude: float
+    longitude: float
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u3_In(TypedDict):
+    thing: Literal["product"]
+    where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteProductWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteProductWhere_In(TypedDict):
+    id: NotRequired[str]
+    handle: NotRequired[str]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u4_In(TypedDict):
+    thing: Literal["productTags"]
+    where: Prv_farmaciasdirect_FarmaciasdirectSiteProductTagsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteProductTagsWhere_In(TypedDict):
+    first: float
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u5_In(TypedDict):
+    thing: Literal["products"]
+    where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteProductsWhere_In(TypedDict):
+    first: NotRequired[float]
+    after: NotRequired[str]
+    last: NotRequired[float]
+    before: NotRequired[str]
+    reverse: NotRequired[bool]
+    sortKey: NotRequired[Literal["TITLE"] | Literal["PRODUCT_TYPE"] | Literal["VENDOR"] | Literal["UPDATED_AT"] | Literal["CREATED_AT"] | Literal["BEST_SELLING"] | Literal["PRICE"] | Literal["ID"] | Literal["RELEVANCE"]]
+    query: NotRequired[str]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u6_In(TypedDict):
+    thing: Literal["search"]
+    where: Prv_farmaciasdirect_FarmaciasdirectSiteSearchWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteSearchWhere_In(TypedDict):
+    first: NotRequired[float]
+    after: NotRequired[str]
+    last: NotRequired[float]
+    before: NotRequired[str]
+    reverse: NotRequired[bool]
+    sortKey: NotRequired[Literal["PRICE"] | Literal["RELEVANCE"]]
+    query: str
+    prefix: NotRequired[Literal["LAST"] | Literal["NONE"]]
+    productFilters: NotRequired[Sequence[Prv_farmaciasdirect_FarmaciasdirectSiteProductFilter_In]]
+    types: NotRequired[Sequence[Literal["PRODUCT"] | Literal["PAGE"] | Literal["ARTICLE"]]]
+    unavailableProducts: NotRequired[Literal["SHOW"] | Literal["HIDE"] | Literal["LAST"]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteProductFilter_In(TypedDict):
+    available: NotRequired[bool]
+    productType: NotRequired[str]
+    productVendor: NotRequired[str]
+    price: NotRequired[Mapping[str, Any]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u7_In(TypedDict):
+    thing: Literal["sitemap"]
+    where: Prv_farmaciasdirect_FarmaciasdirectSiteSitemapWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteSitemapWhere_In(TypedDict):
+    type: Literal["PRODUCT"] | Literal["COLLECTION"] | Literal["PAGE"] | Literal["METAOBJECT"] | Literal["BLOG"] | Literal["ARTICLE"]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCollection_Out(TypedDict):
+    description: NotRequired[str | None]
+    handle: NotRequired[str | None]
+    id: NotRequired[str | None]
+    title: NotRequired[str | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCollectionConnection_Out(TypedDict):
+    edges: NotRequired[list[Mapping[str, Any]] | None]
+    nodes: NotRequired[list[Mapping[str, Any]] | None]
+    pageInfo: NotRequired[Mapping[str, Any] | None]
+    totalCount: NotRequired[str | float | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteLocationConnection_Out(TypedDict):
+    edges: NotRequired[list[Mapping[str, Any]] | None]
+    nodes: NotRequired[list[Mapping[str, Any]] | None]
+    pageInfo: NotRequired[Mapping[str, Any] | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteProduct_Out(TypedDict):
+    description: NotRequired[str | None]
+    handle: NotRequired[str | None]
+    id: NotRequired[str | None]
+    priceRange: NotRequired[Mapping[str, Any] | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteStringConnection_Out(TypedDict):
+    edges: NotRequired[list[Mapping[str, Any]] | None]
+    nodes: NotRequired[list[str] | None]
+    pageInfo: NotRequired[Mapping[str, Any] | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteProductConnection_Out(TypedDict):
+    edges: NotRequired[list[Mapping[str, Any]] | None]
+    filters: NotRequired[list[Mapping[str, Any]] | None]
+    nodes: NotRequired[list[Mapping[str, Any]] | None]
+    pageInfo: NotRequired[Mapping[str, Any] | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteSearchResultItemConnection_Out(TypedDict):
+    edges: NotRequired[list[Mapping[str, Any]] | None]
+    nodes: NotRequired[list[Mapping[str, Any]] | None]
+    pageInfo: NotRequired[Mapping[str, Any] | None]
+    totalCount: NotRequired[float | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteSitemap_Out(TypedDict):
+    pagesCount: NotRequired[Mapping[str, Any] | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartCreateAction_In(TypedDict):
+    input: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteCartInput_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartInput_In(TypedDict):
+    attributes: NotRequired[Sequence[Prv_farmaciasdirect_FarmaciasdirectSiteAttributeInput_In]]
+    lines: NotRequired[Sequence[Prv_farmaciasdirect_FarmaciasdirectSiteCartLineInput_In]]
+    note: NotRequired[str]
+    metafields: NotRequired[Sequence[Prv_farmaciasdirect_FarmaciasdirectSiteCartInputMetafieldInput_In]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteAttributeInput_In(TypedDict):
+    key: str
+    value: str
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartLineInput_In(TypedDict):
+    attributes: NotRequired[Sequence[Prv_farmaciasdirect_FarmaciasdirectSiteAttributeInput_In]]
+    quantity: NotRequired[float]
+    merchandiseId: str
+    sellingPlanId: NotRequired[str]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartInputMetafieldInput_In(TypedDict):
+    key: str
+    value: str
+    type: str
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartCreatePayload_Out(TypedDict):
+    cart: NotRequired[Mapping[str, Any] | None]
+    userErrors: NotRequired[list[Mapping[str, Any]] | None]
+    warnings: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesAddAction_In(TypedDict):
+    cartId: str
+    lines: Sequence[Prv_farmaciasdirect_FarmaciasdirectSiteCartLineInput_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesAddPayload_Out(TypedDict):
+    cart: NotRequired[Mapping[str, Any] | None]
+    userErrors: NotRequired[list[Mapping[str, Any]] | None]
+    warnings: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesRemoveAction_In(TypedDict):
+    cartId: str
+    lineIds: Sequence[str]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesRemovePayload_Out(TypedDict):
+    cart: NotRequired[Mapping[str, Any] | None]
+    userErrors: NotRequired[list[Mapping[str, Any]] | None]
+    warnings: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesUpdateAction_In(TypedDict):
+    cartId: str
+    lines: Sequence[Prv_farmaciasdirect_FarmaciasdirectSiteCartLineUpdateInput_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartLineUpdateInput_In(TypedDict):
+    id: str
+    quantity: NotRequired[float]
+    merchandiseId: NotRequired[str]
+    sellingPlanId: NotRequired[str]
+
+class Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesUpdatePayload_Out(TypedDict):
+    cart: NotRequired[Mapping[str, Any] | None]
+    userErrors: NotRequired[list[Mapping[str, Any]] | None]
+    warnings: NotRequired[list[Mapping[str, Any]] | None]
+
 class Prv_farmaciasdirect_FarmaciasdirectProduct_In(TypedDict):
     handle: str
     name: str
@@ -33452,6 +34960,113 @@ class Prv_ferguson_fergusonBranch_Out(TypedDict):
     city: str
     type: str
     branchNumber: str
+    url: str
+
+class Prv_fidelity_ScreenFundsArgs_In(TypedDict):
+    query: NotRequired[str]
+    assetClass: NotRequired[str]
+    category: NotRequired[str]
+    indexOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_fidelity_FidelityFundScreen_Out(TypedDict):
+    asOf: str | None
+    totalMatches: float
+    funds: list[Prv_fidelity_FidelityScreenedFund_Out]
+
+class Prv_fidelity_FidelityScreenedFund_Out(TypedDict):
+    symbol: str | None
+    cusip: str
+    name: str
+    assetClass: str | None
+    category: str | None
+    inceptionDate: str | None
+    status: str | None
+    indexFund: bool
+    noTransactionFee: bool
+    url: str
+
+class Prv_fidelity_FidelityFund_Out(TypedDict):
+    symbol: str | None
+    cusip: str
+    name: str
+    family: str | None
+    category: str | None
+    assetClass: str | None
+    inceptionDate: str | None
+    status: str | None
+    nav: float | None
+    navChange: float | None
+    navChangePercent: float | None
+    navAsOf: str | None
+    ytdReturn: float | None
+    grossExpenseRatioPercent: float | None
+    netExpenseRatioPercent: float | None
+    minimumInvestment: float | None
+    turnoverPercent: float | None
+    netAssetsMillions: float | None
+    low52Week: float | None
+    high52Week: float | None
+    averageAnnualReturns: Prv_fidelity_FidelityFund_Out_averageAnnualReturns_Out
+    morningstarRatingOverall: float | None
+    objective: str | None
+    topHoldings: list[Prv_fidelity_FidelityFund_Out_topHoldings_item_Out]
+    url: str
+
+class Prv_fidelity_FidelityFund_Out_averageAnnualReturns_Out(TypedDict):
+    year1: float | None
+    year3: float | None
+    year5: float | None
+    year10: float | None
+    sinceInception: float | None
+
+class Prv_fidelity_FidelityFund_Out_topHoldings_item_Out(TypedDict):
+    name: str
+    percent: float | None
+
+class Prv_fidelity_FidelitySymbolSearch_Out(TypedDict):
+    query: str
+    matches: list[Prv_fidelity_FidelitySymbolMatch_Out]
+
+class Prv_fidelity_FidelitySymbolMatch_Out(TypedDict):
+    symbol: str
+    name: str
+    cusip: str | None
+    type: str
+    subType: str | None
+    exchange: str | None
+    tradeEligible: bool
+    url: str
+
+class Prv_fidelity_FidelityQuote_Out(TypedDict):
+    symbol: str
+    name: str
+    cusip: str | None
+    securityType: str | None
+    currency: str | None
+    lastPrice: float | None
+    change: float | None
+    changePercent: float | None
+    bid: float | None
+    ask: float | None
+    open: float | None
+    previousClose: float | None
+    dayHigh: float | None
+    dayLow: float | None
+    yearHigh: float | None
+    yearLow: float | None
+    volume: float | None
+    avgVolume10Day: float | None
+    marketCap: float | None
+    peRatio: float | None
+    eps: float | None
+    dividendYield: float | None
+    annualizedDividend: float | None
+    exDividendDate: str | None
+    sector: str | None
+    industry: str | None
+    lastTradeDate: str | None
+    lastTradeTime: str | None
     url: str
 
 class Prv_fieldstonehomes_FieldstonehomesSearchArgs_In(TypedDict):
@@ -38403,6 +40018,113 @@ class Prv_golf_com_GolfComCourseDetail_Out(TypedDict):
     bookingUrl: str | None
     golfNowUrl: str | None
 
+class Prv_goloadup_GoloadupSiteReadInput_u0_In(TypedDict):
+    thing: Literal["excludedDates"]
+    where: Prv_goloadup_GoloadupSiteExcludedDatesWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goloadup_GoloadupSiteExcludedDatesWhere_In(TypedDict):
+    inputs: Prv_goloadup_GoloadupSiteExcludedDatesInputs_In
+
+class Prv_goloadup_GoloadupSiteExcludedDatesInputs_In(TypedDict):
+    zip: NotRequired[str]
+    minDate: str
+    maxDate: str
+    itemSlugs: NotRequired[Sequence[str]]
+    intakeType: NotRequired[str]
+    disableSameDay: NotRequired[bool]
+
+class Prv_goloadup_GoloadupSiteReadInput_u1_In(TypedDict):
+    thing: Literal["itemTypes"]
+    where: NotRequired[Prv_goloadup_GoloadupSiteItemTypesWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goloadup_GoloadupSiteItemTypesWhere_In(TypedDict):
+    orderByMostPurchased: NotRequired[bool]
+
+class Prv_goloadup_GoloadupSiteReadInput_u2_In(TypedDict):
+    thing: Literal["pricingDetails"]
+    where: Prv_goloadup_GoloadupSitePricingDetailsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goloadup_GoloadupSitePricingDetailsWhere_In(TypedDict):
+    inputs: Prv_goloadup_GoloadupSitePricingDetailsInputs_In
+
+class Prv_goloadup_GoloadupSitePricingDetailsInputs_In(TypedDict):
+    date: NotRequired[str]
+    items: NotRequired[Sequence[Mapping[str, Any]]]
+    flightsOfStairsCount: NotRequired[float]
+    placement: NotRequired[Literal["INDOOR"] | Literal["OUTDOOR"]]
+    timeslot: NotRequired[Literal["AFTERNOON"] | Literal["EVENING"] | Literal["FULL_DAY"] | Literal["MORNING"]]
+    zip: str
+    addressline1: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    promoCode: NotRequired[str]
+    orderDraftId: NotRequired[str]
+
+class Prv_goloadup_GoloadupSiteReadInput_u3_In(TypedDict):
+    thing: Literal["serviceAvailability"]
+    where: Prv_goloadup_GoloadupSiteServiceAvailabilityWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goloadup_GoloadupSiteServiceAvailabilityWhere_In(TypedDict):
+    inputs: Prv_goloadup_GoloadupSiteServiceAvailabilityInputs_In
+
+class Prv_goloadup_GoloadupSiteServiceAvailabilityInputs_In(TypedDict):
+    zip: str
+
+class Prv_goloadup_GoloadupSiteExcludedDates_Out(TypedDict):
+    currentDate: NotRequired[str | None]
+    excludedDates: NotRequired[list[str] | None]
+    excludedTimeslots: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_goloadup_GoloadupSiteItemTypesData_Out(TypedDict):
+    itemTypes: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_goloadup_GoloadupSitePricingDetails_Out(TypedDict):
+    additionalAmount: NotRequired[float | None]
+    allowedDate: NotRequired[bool | None]
+    asapSchedulingAllowed: NotRequired[bool | None]
+    basePrice: NotRequired[float | None]
+    discounts: NotRequired[list[Mapping[str, Any]] | None]
+    flightsOfStairsCount: NotRequired[float | None]
+    flightsOfStairsSubtotal: NotRequired[float | None]
+    flightsOfStairsUnitPrice: NotRequired[float | None]
+    id: NotRequired[str | None]
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    minimumPrice: NotRequired[float | None]
+    minimumPriceApplied: NotRequired[bool | None]
+    onsitePaymentAllowed: NotRequired[bool | None]
+    orderSubtotal: NotRequired[float | None]
+    promoApplied: NotRequired[bool | None]
+    promoCode: NotRequired[str | None]
+    promoDiscountSubtotal: NotRequired[float | None]
+    retailAssembliesAllowed: NotRequired[bool | None]
+    sameDay: NotRequired[bool | None]
+    sameDayAllowed: NotRequired[bool | None]
+    sameDaySubtotal: NotRequired[float | None]
+    serviceAreaType: NotRequired[Literal["STANDARD"] | Literal["FRINGE"] | None]
+    serviceDayGuaranteeEligible: NotRequired[bool | None]
+    taxAmount: NotRequired[float | None]
+    total: NotRequired[float | None]
+    totalCents: NotRequired[float | None]
+    totalWithoutDiscountsWithTax: NotRequired[float | None]
+    totalWithoutDiscountsWithoutTax: NotRequired[float | None]
+    validServiceArea: NotRequired[bool | None]
+    validZip: NotRequired[bool | None]
+    volumeDiscountThresholdInfo: NotRequired[Mapping[str, Any] | None]
+    weekendServiceSubtotal: NotRequired[float | None]
+
+class Prv_goloadup_GoloadupSiteServiceAvailability_Out(TypedDict):
+    estimationAllowed: NotRequired[bool | None]
+    inService: NotRequired[bool | None]
+    retailAssembliesAllowed: NotRequired[bool | None]
+    sameDayAllowed: NotRequired[bool | None]
+    validZip: NotRequired[bool | None]
+    zip: NotRequired[str | None]
+    zipInNewJersey: NotRequired[bool | None]
+
 class Prv_goloadup_GoloadupItemType_Out(TypedDict):
     id: str
     name: str
@@ -38485,6 +40207,76 @@ class Prv_gomry_SponsorOfferArgs_In(TypedDict):
 class Prv_gomry_getSponsorOffer_return_Out(TypedDict):
     offer: Any
     offers: list[Any]
+
+class Prv_goodreads_GoodreadsSiteReadInput_u0_In(TypedDict):
+    thing: Literal["getBook"]
+    where: Prv_goodreads_GoodreadsSiteGetBookWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goodreads_GoodreadsSiteGetBookWhere_In(TypedDict):
+    id: str
+
+class Prv_goodreads_GoodreadsSiteReadInput_u1_In(TypedDict):
+    thing: Literal["getBookByLegacyId"]
+    where: Prv_goodreads_GoodreadsSiteGetBookByLegacyIdWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goodreads_GoodreadsSiteGetBookByLegacyIdWhere_In(TypedDict):
+    legacyId: float
+
+class Prv_goodreads_GoodreadsSiteReadInput_u2_In(TypedDict):
+    thing: Literal["getPageBanner"]
+    where: NotRequired[Mapping[str, Any]]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goodreads_GoodreadsSiteReadInput_u3_In(TypedDict):
+    thing: Literal["getNativeAd"]
+    where: Prv_goodreads_GoodreadsSiteGetNativeAdWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goodreads_GoodreadsSiteGetNativeAdWhere_In(TypedDict):
+    id: str
+
+class Prv_goodreads_GoodreadsSiteReadInput_u4_In(TypedDict):
+    thing: Literal["getGiveaways"]
+    where: NotRequired[Mapping[str, Any]]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goodreads_GoodreadsSiteReadInput_u5_In(TypedDict):
+    thing: Literal["getSiteHeaderBanner"]
+    where: NotRequired[Mapping[str, Any]]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_goodreads_GoodreadsSiteBook_Out(TypedDict):
+    work: NotRequired[Mapping[str, Any] | None]
+    reviewEditUrl: NotRequired[str | None]
+    details: NotRequired[Mapping[str, Any] | None]
+    featureFlags: NotRequired[Mapping[str, Any] | None]
+    imageUrl: NotRequired[str | None]
+    description: NotRequired[str | None]
+    title: NotRequired[str | None]
+    titleComplete: NotRequired[str | None]
+    webUrl: NotRequired[str | None]
+    primaryContributorEdge: NotRequired[Mapping[str, Any] | None]
+
+class Prv_goodreads_GoodreadsSitePageBanner_Out(TypedDict):
+    type: NotRequired[str | None]
+    message: NotRequired[str | None]
+
+class Prv_goodreads_GoodreadsSiteNativeAd_Out(TypedDict):
+    customDescription: NotRequired[str | None]
+
+class Prv_goodreads_GoodreadsSiteGiveawaysConnection_Out(TypedDict):
+    totalCount: NotRequired[float | None]
+
+class Prv_goodreads_GoodreadsSiteSiteHeaderBanner_Out(TypedDict):
+    altText: NotRequired[str | None]
+    clickthroughUrl: NotRequired[str | None]
+    desktop1xPhoto: NotRequired[str | None]
+    desktop2xPhoto: NotRequired[str | None]
+    mobile1xPhoto: NotRequired[str | None]
+    mobile2xPhoto: NotRequired[str | None]
+    siteStripColor: NotRequired[str | None]
 
 class Prv_goodreads_GoodreadsBookRow_Out(TypedDict):
     legacyId: str
@@ -42834,6 +44626,81 @@ class Prv_ikea_RemoveFromFavoritesArgs_In(TypedDict):
     favoritesToken: str
     listId: NotRequired[str]
 
+class Prv_ikea_IkeaGetAccessoryRecommendationsArgs_In(TypedDict):
+    productNumber: str
+
+class Prv_ikea_IkeaGetAccessoryRecommendationsResult_item_Out(TypedDict):
+    itemNo: str
+    fragmentUrl: str
+    image: NotRequired[Prv_ikea_IkeaGetAccessoryRecommendationsResult_item_Out_image_Out]
+
+class Prv_ikea_IkeaGetAccessoryRecommendationsResult_item_Out_image_Out(TypedDict):
+    url: str
+    alt: str
+
+class Prv_ikea_IkeaGetProductReviewsArgs_In(TypedDict):
+    itemNumber: str
+
+class Prv_ikea_IkeaGetProductReviewsResult_item_Out(TypedDict):
+    itemKey: Prv_ikea_IkeaGetProductReviewsResult_item_Out_itemKey_Out
+    id: str
+    type: str
+    sourceCountryCode: str
+    sourceLangCode: str
+    title: str
+    text: str
+    primaryRating: Prv_ikea_IkeaGetProductReviewsResult_item_Out_primaryRating_Out
+    secondaryRatings: list[Prv_ikea_IkeaGetProductReviewsResult_item_Out_secondaryRatings_u0_item_Out] | None
+    isRecommended: bool | None
+    verifiedPurchase: bool
+    verifiedReviewer: bool
+    anonymousReviewer: bool
+    positiveFeedbacksCount: float
+    negativeFeedbacksCount: float
+    submissionOn: str
+    response: Prv_ikea_IkeaGetProductReviewsResult_item_Out_response_u0_Out | None
+    hasMedia: bool
+    medias: list[Prv_ikea_IkeaGetProductReviewsResult_item_Out_medias_item_Out]
+    reviewer: Prv_ikea_IkeaGetProductReviewsResult_item_Out_reviewer_Out
+    updatedOn: str
+
+class Prv_ikea_IkeaGetProductReviewsResult_item_Out_itemKey_Out(TypedDict):
+    itemNo: str
+    itemType: str
+    sourceItemNo: str
+
+class Prv_ikea_IkeaGetProductReviewsResult_item_Out_primaryRating_Out(TypedDict):
+    ratingRange: float
+    ratingValue: float
+
+class Prv_ikea_IkeaGetProductReviewsResult_item_Out_secondaryRatings_u0_item_Out(TypedDict):
+    ratingRange: float
+    ratingValue: float
+    id: str
+    label: str
+
+class Prv_ikea_IkeaGetProductReviewsResult_item_Out_response_u0_Out(TypedDict):
+    text: str
+    responseBy: str
+    responseOn: str
+    type: str
+
+class Prv_ikea_IkeaGetProductReviewsResult_item_Out_medias_item_Out(TypedDict):
+    id: str
+    url: str
+
+class Prv_ikea_IkeaGetProductReviewsResult_item_Out_reviewer_Out(TypedDict):
+    displayName: str
+
+class Prv_ikea_IkeaSearchSupportArticlesArgs_In(TypedDict):
+    searchTerm: str
+
+class Prv_ikea_IkeaSearchSupportArticlesResult_item_Out(TypedDict):
+    content: str
+    description: str
+    title: str
+    vetaGuid: str
+
 class Prv_illinois_lottery_IllinoisLotteryJackpot_Out(TypedDict):
     gameId: str
     amount: float
@@ -45233,6 +47100,159 @@ class Prv_intactinsurance_Solution_Out_contacts_item_Out(TypedDict):
     name: str
     role: str | None
 
+class Prv_interiordefine_InteriordefineSiteReadInput_u0_In(TypedDict):
+    thing: Literal["affirmAslowasPrice"]
+    where: Prv_interiordefine_InteriordefineSiteAffirmAslowasPriceWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_interiordefine_InteriordefineSiteAffirmAslowasPriceWhere_In(TypedDict):
+    sku: str
+
+class Prv_interiordefine_InteriordefineSiteReadInput_u1_In(TypedDict):
+    thing: Literal["availableStores"]
+    where: NotRequired[Prv_interiordefine_InteriordefineSiteAvailableStoresWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_interiordefine_InteriordefineSiteAvailableStoresWhere_In(TypedDict):
+    useCurrentGroup: NotRequired[bool]
+
+class Prv_interiordefine_InteriordefineSiteReadInput_u2_In(TypedDict):
+    thing: Literal["categories"]
+    where: NotRequired[Prv_interiordefine_InteriordefineSiteCategoriesWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_interiordefine_InteriordefineSiteCategoriesWhere_In(TypedDict):
+    filters: NotRequired[Prv_interiordefine_InteriordefineSiteCategoryFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+
+class Prv_interiordefine_InteriordefineSiteCategoryFilterInput_In(TypedDict):
+    category_uid: NotRequired[Mapping[str, Any]]
+    ids: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    url_key: NotRequired[Mapping[str, Any]]
+
+class Prv_interiordefine_InteriordefineSiteReadInput_u3_In(TypedDict):
+    thing: Literal["categoryList"]
+    where: NotRequired[Prv_interiordefine_InteriordefineSiteCategoryListWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_interiordefine_InteriordefineSiteCategoryListWhere_In(TypedDict):
+    filters: NotRequired[Prv_interiordefine_InteriordefineSiteCategoryFilterInput_In]
+
+class Prv_interiordefine_InteriordefineSiteReadInput_u4_In(TypedDict):
+    thing: Literal["pickupLocations"]
+    where: NotRequired[Prv_interiordefine_InteriordefineSitePickupLocationsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_interiordefine_InteriordefineSitePickupLocationsWhere_In(TypedDict):
+    area: NotRequired[Prv_interiordefine_InteriordefineSiteAreaInput_In]
+    filters: NotRequired[Prv_interiordefine_InteriordefineSitePickupLocationFilterInput_In]
+    sort: NotRequired[Prv_interiordefine_InteriordefineSitePickupLocationSortInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+    productsInfo: NotRequired[Sequence[Prv_interiordefine_InteriordefineSiteProductInfoInput_In]]
+
+class Prv_interiordefine_InteriordefineSiteAreaInput_In(TypedDict):
+    radius: float
+    search_term: str
+
+class Prv_interiordefine_InteriordefineSitePickupLocationFilterInput_In(TypedDict):
+    city: NotRequired[Mapping[str, Any]]
+    country_id: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    pickup_location_code: NotRequired[Mapping[str, Any]]
+
+class Prv_interiordefine_InteriordefineSitePickupLocationSortInput_In(TypedDict):
+    city: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    contact_name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    description: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_interiordefine_InteriordefineSiteProductInfoInput_In(TypedDict):
+    sku: str
+
+class Prv_interiordefine_InteriordefineSiteReadInput_u5_In(TypedDict):
+    thing: Literal["products"]
+    where: NotRequired[Prv_interiordefine_InteriordefineSiteProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_interiordefine_InteriordefineSiteProductsWhere_In(TypedDict):
+    search: NotRequired[str]
+    filter: NotRequired[Prv_interiordefine_InteriordefineSiteProductAttributeFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+    sort: NotRequired[Prv_interiordefine_InteriordefineSiteProductAttributeSortInput_In]
+
+class Prv_interiordefine_InteriordefineSiteProductAttributeFilterInput_In(TypedDict):
+    category_id: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    sku: NotRequired[Mapping[str, Any]]
+    url_key: NotRequired[Mapping[str, Any]]
+
+class Prv_interiordefine_InteriordefineSiteProductAttributeSortInput_In(TypedDict):
+    collection_name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    position: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    price: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    relevance: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_interiordefine_InteriordefineSiteReadInput_u6_In(TypedDict):
+    thing: Literal["searchRedirect"]
+    where: Prv_interiordefine_InteriordefineSiteSearchRedirectWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_interiordefine_InteriordefineSiteSearchRedirectWhere_In(TypedDict):
+    term: str
+
+class Prv_interiordefine_InteriordefineSiteReadInput_u7_In(TypedDict):
+    thing: Literal["storeLocationByUrl"]
+    where: NotRequired[Prv_interiordefine_InteriordefineSiteStoreLocationByUrlWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_interiordefine_InteriordefineSiteStoreLocationByUrlWhere_In(TypedDict):
+    url_name: NotRequired[str]
+
+class Prv_interiordefine_InteriordefineSiteAffirmAslowasPriceConfigData_Out(TypedDict):
+    affirm_aslowas_learn_more: NotRequired[bool | None]
+    affirm_aslowas_mfp_value: NotRequired[str | None]
+
+class Prv_interiordefine_InteriordefineSiteStoreConfig_Out(TypedDict):
+    absolute_footer: NotRequired[str | None]
+    afterpay_pdp_enabled: NotRequired[float | None]
+    afterpay_pdp_installment_count: NotRequired[float | None]
+    afterpay_pdp_learn_more_label: NotRequired[str | None]
+
+class Prv_interiordefine_InteriordefineSiteCategoryResult_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_interiordefine_InteriordefineSiteCategoryTree_Out(TypedDict):
+    description: NotRequired[str | None]
+    name: NotRequired[str | None]
+    uid: NotRequired[str | None]
+    url_key: NotRequired[str | None]
+
+class Prv_interiordefine_InteriordefineSitePickupLocations_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_interiordefine_InteriordefineSiteProducts_Out(TypedDict):
+    aggregations: NotRequired[list[Mapping[str, Any]] | None]
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_interiordefine_InteriordefineSiteRedirectOutput_Out(TypedDict):
+    redirectUrl: NotRequired[str | None]
+
+class Prv_interiordefine_InteriordefineSiteStoreLocationView_Out(TypedDict):
+    additional_content: NotRequired[str | None]
+    description: NotRequired[str | None]
+    name: NotRequired[str | None]
+    type: NotRequired[str | None]
+
 class Prv_interiordefine_InteriorDefineProductSummary_Out(TypedDict):
     sku: str
     name: str
@@ -45861,6 +47881,167 @@ class Prv_jennikayne_GiftCardLink_Out(TypedDict):
     checkoutUrl: str
     deliveryTimeLeftToShopper: Literal[True]
 
+class Prv_joybird_JoybirdSiteReadInput_u0_In(TypedDict):
+    thing: Literal["getProduct"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetProductWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetProductWhere_In(TypedDict):
+    slug: NotRequired[str]
+    id: NotRequired[float]
+    productSku: NotRequired[str]
+
+class Prv_joybird_JoybirdSiteReadInput_u1_In(TypedDict):
+    thing: Literal["getProductVisOptions"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetProductVisOptionsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetProductVisOptionsWhere_In(TypedDict):
+    slug: NotRequired[str]
+    id: NotRequired[float]
+
+class Prv_joybird_JoybirdSiteReadInput_u2_In(TypedDict):
+    thing: Literal["getCategory"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetCategoryWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetCategoryWhere_In(TypedDict):
+    slug: NotRequired[str]
+    offset: NotRequired[float]
+    limit: NotRequired[float]
+    sortBy: NotRequired[str]
+
+class Prv_joybird_JoybirdSiteReadInput_u3_In(TypedDict):
+    thing: Literal["getCollection"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetCollectionWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetCollectionWhere_In(TypedDict):
+    slug: NotRequired[str]
+    sortBy: NotRequired[str]
+    forProduct: NotRequired[float]
+
+class Prv_joybird_JoybirdSiteReadInput_u4_In(TypedDict):
+    thing: Literal["getCategoryTopSalesProducts"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetCategoryTopSalesProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetCategoryTopSalesProductsWhere_In(TypedDict):
+    id: NotRequired[float]
+
+class Prv_joybird_JoybirdSiteReadInput_u5_In(TypedDict):
+    thing: Literal["getLocationFromCoords"]
+    where: Prv_joybird_JoybirdSiteGetLocationFromCoordsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetLocationFromCoordsWhere_In(TypedDict):
+    latitude: float
+    longitude: float
+
+class Prv_joybird_JoybirdSiteReadInput_u6_In(TypedDict):
+    thing: Literal["getLocationFromZip"]
+    where: Prv_joybird_JoybirdSiteGetLocationFromZipWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetLocationFromZipWhere_In(TypedDict):
+    zipcode: str
+
+class Prv_joybird_JoybirdSiteReadInput_u7_In(TypedDict):
+    thing: Literal["getRecommendedProducts"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetRecommendedProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetRecommendedProductsWhere_In(TypedDict):
+    tuID: NotRequired[str]
+    limit: NotRequired[float]
+    refreshCache: NotRequired[bool]
+
+class Prv_joybird_JoybirdSiteReadInput_u8_In(TypedDict):
+    thing: Literal["getCustomListProductData"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetCustomListProductDataWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetCustomListProductDataWhere_In(TypedDict):
+    slug: NotRequired[str]
+    type: NotRequired[str]
+
+class Prv_joybird_JoybirdSiteReadInput_u9_In(TypedDict):
+    thing: Literal["getCustomProductListDataV2"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetCustomProductListDataV2Where_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetCustomProductListDataV2Where_In(TypedDict):
+    limit: NotRequired[float]
+    slug: NotRequired[str]
+    productList: NotRequired[Sequence[Prv_joybird_JoybirdSiteProductListInput_In]]
+    filterByStock: NotRequired[bool]
+    sortByPopularity: NotRequired[bool]
+    refreshCache: NotRequired[bool]
+
+class Prv_joybird_JoybirdSiteProductListInput_In(TypedDict):
+    id: NotRequired[float]
+    category: NotRequired[str]
+
+class Prv_joybird_JoybirdSiteReadInput_u10_In(TypedDict):
+    thing: Literal["getRetailStoreProductsData"]
+    where: Prv_joybird_JoybirdSiteGetRetailStoreProductsDataWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetRetailStoreProductsDataWhere_In(TypedDict):
+    storeId: float
+
+class Prv_joybird_JoybirdSiteReadInput_u11_In(TypedDict):
+    thing: Literal["getClosestStoreFromZipcode"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetClosestStoreFromZipcodeWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetClosestStoreFromZipcodeWhere_In(TypedDict):
+    zipcode: NotRequired[str]
+
+class Prv_joybird_JoybirdSiteReadInput_u12_In(TypedDict):
+    thing: Literal["getCategoryPage"]
+    where: Prv_joybird_JoybirdSiteGetCategoryPageWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetCategoryPageWhere_In(TypedDict):
+    limit: NotRequired[float]
+    slug: str
+    zipCode: NotRequired[str]
+    stateCode: NotRequired[str]
+    regionId: NotRequired[str]
+    refreshCache: NotRequired[bool]
+
+class Prv_joybird_JoybirdSiteReadInput_u13_In(TypedDict):
+    thing: Literal["getProductsStaticData"]
+    where: Prv_joybird_JoybirdSiteGetProductsStaticDataWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetProductsStaticDataWhere_In(TypedDict):
+    limit: NotRequired[float]
+    cacheKey: NotRequired[str]
+    productIds: Sequence[float]
+    zipCode: NotRequired[str]
+    stateCode: NotRequired[str]
+    regionId: NotRequired[str]
+    showSearchProductsOnly: NotRequired[bool]
+
+class Prv_joybird_JoybirdSiteReadInput_u14_In(TypedDict):
+    thing: Literal["getProductsByIDs"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetProductsByIDsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetProductsByIDsWhere_In(TypedDict):
+    ids: NotRequired[Sequence[float]]
+
+class Prv_joybird_JoybirdSiteReadInput_u15_In(TypedDict):
+    thing: Literal["getUpSellProduct"]
+    where: NotRequired[Prv_joybird_JoybirdSiteGetUpSellProductWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_joybird_JoybirdSiteGetUpSellProductWhere_In(TypedDict):
+    id: NotRequired[float]
+    slug: NotRequired[str]
+
 class Prv_joybird_JoybirdConfigurator_Out(TypedDict):
     slug: str
     name: str
@@ -46165,6 +48346,165 @@ class Prv_kalshi_KalshiMarket_Out(TypedDict):
     openInterest: str
     liquidity: str
     rules: str
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u0_In(TypedDict):
+    thing: Literal["availableStores"]
+    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteAvailableStoresWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteAvailableStoresWhere_In(TypedDict):
+    useCurrentGroup: NotRequired[bool]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u1_In(TypedDict):
+    thing: Literal["categories"]
+    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoriesWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoriesWhere_In(TypedDict):
+    filters: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoryFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoryFilterInput_In(TypedDict):
+    category_uid: NotRequired[Mapping[str, Any]]
+    ids: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    url_key: NotRequired[Mapping[str, Any]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u2_In(TypedDict):
+    thing: Literal["mpGTMCode"]
+    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMCodeWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMCodeWhere_In(TypedDict):
+    filters: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMCodeFilters_In]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMCodeFilters_In(TypedDict):
+    action: str
+    currentPage: NotRequired[float]
+    id: str
+    type: str
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u3_In(TypedDict):
+    thing: Literal["mpGTMHead"]
+    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMHeadWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMHeadWhere_In(TypedDict):
+    filters: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMHeadFilters_In]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMHeadFilters_In(TypedDict):
+    type: str
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u4_In(TypedDict):
+    thing: Literal["pickupLocations"]
+    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocationsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocationsWhere_In(TypedDict):
+    area: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteAreaInput_In]
+    filters: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocationFilterInput_In]
+    sort: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocationSortInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+    productsInfo: NotRequired[Sequence[Prv_katzsdelicatessen_KatzsdelicatessenSiteProductInfoInput_In]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteAreaInput_In(TypedDict):
+    radius: float
+    search_term: str
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocationFilterInput_In(TypedDict):
+    city: NotRequired[Mapping[str, Any]]
+    country_id: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    pickup_location_code: NotRequired[Mapping[str, Any]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocationSortInput_In(TypedDict):
+    city: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    contact_name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    description: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteProductInfoInput_In(TypedDict):
+    sku: str
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u5_In(TypedDict):
+    thing: Literal["products"]
+    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteProductsWhere_In(TypedDict):
+    search: NotRequired[str]
+    filter: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteProductAttributeFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+    sort: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteProductAttributeSortInput_In]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteProductAttributeFilterInput_In(TypedDict):
+    description: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    price: NotRequired[Mapping[str, Any]]
+    sku: NotRequired[Mapping[str, Any]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteProductAttributeSortInput_In(TypedDict):
+    name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    pack_size: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    position: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    price: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u6_In(TypedDict):
+    thing: Literal["route"]
+    where: Prv_katzsdelicatessen_KatzsdelicatessenSiteRouteWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteRouteWhere_In(TypedDict):
+    url: str
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u7_In(TypedDict):
+    thing: Literal["slideItems"]
+    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteSlideItemsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteSlideItemsWhere_In(TypedDict):
+    slideKey: NotRequired[str]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteStoreConfig_Out(TypedDict):
+    absolute_footer: NotRequired[str | None]
+    allow_guests_to_write_product_reviews: NotRequired[str | None]
+    allow_items: NotRequired[str | None]
+    allow_order: NotRequired[str | None]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoryResult_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteGTMCodeOutput_Out(TypedDict):
+    code: NotRequired[str | None]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteGTMHeadOutput_Out(TypedDict):
+    head: NotRequired[str | None]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocations_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteProducts_Out(TypedDict):
+    aggregations: NotRequired[list[Mapping[str, Any]] | None]
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteRoutableInterface_Out(TypedDict):
+    redirect_code: NotRequired[float | None]
+    relative_url: NotRequired[str | None]
+    type: NotRequired[Literal["CMS_PAGE"] | Literal["PRODUCT"] | Literal["CATEGORY"] | None]
+
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteSlideItems_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    slide_key: NotRequired[str | None]
+    slide_title: NotRequired[str | None]
 
 class Prv_katzsdelicatessen_katzsdelicatessenProduct_Out(TypedDict):
     sku: str
@@ -47245,6 +49585,141 @@ class Prv_kwworldwide_KwworldwideHubspotFormReference_Out(TypedDict):
     portalId: str
     guid: str
 
+class Prv_labcorp_LabcorpSiteReadInput_u0_In(TypedDict):
+    thing: Literal["availableStores"]
+    where: NotRequired[Prv_labcorp_LabcorpSiteAvailableStoresWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_labcorp_LabcorpSiteAvailableStoresWhere_In(TypedDict):
+    useCurrentGroup: NotRequired[bool]
+
+class Prv_labcorp_LabcorpSiteReadInput_u1_In(TypedDict):
+    thing: Literal["categories"]
+    where: NotRequired[Prv_labcorp_LabcorpSiteCategoriesWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_labcorp_LabcorpSiteCategoriesWhere_In(TypedDict):
+    filters: NotRequired[Prv_labcorp_LabcorpSiteCategoryFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+
+class Prv_labcorp_LabcorpSiteCategoryFilterInput_In(TypedDict):
+    category_uid: NotRequired[Mapping[str, Any]]
+    ids: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    url_key: NotRequired[Mapping[str, Any]]
+
+class Prv_labcorp_LabcorpSiteReadInput_u2_In(TypedDict):
+    thing: Literal["dynamicBlocks"]
+    where: NotRequired[Prv_labcorp_LabcorpSiteDynamicBlocksWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_labcorp_LabcorpSiteDynamicBlocksWhere_In(TypedDict):
+    input: NotRequired[Prv_labcorp_LabcorpSiteDynamicBlocksFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+
+class Prv_labcorp_LabcorpSiteDynamicBlocksFilterInput_In(TypedDict):
+    dynamic_block_uids: NotRequired[Sequence[str]]
+    locations: NotRequired[Sequence[Literal["CONTENT"] | Literal["HEADER"] | Literal["FOOTER"] | Literal["LEFT"] | Literal["RIGHT"]]]
+    type: Literal["SPECIFIED"] | Literal["CART_PRICE_RULE_RELATED"] | Literal["CATALOG_PRICE_RULE_RELATED"]
+
+class Prv_labcorp_LabcorpSiteReadInput_u3_In(TypedDict):
+    thing: Literal["pickupLocations"]
+    where: NotRequired[Prv_labcorp_LabcorpSitePickupLocationsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_labcorp_LabcorpSitePickupLocationsWhere_In(TypedDict):
+    area: NotRequired[Prv_labcorp_LabcorpSiteAreaInput_In]
+    filters: NotRequired[Prv_labcorp_LabcorpSitePickupLocationFilterInput_In]
+    sort: NotRequired[Prv_labcorp_LabcorpSitePickupLocationSortInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+    productsInfo: NotRequired[Sequence[Prv_labcorp_LabcorpSiteProductInfoInput_In]]
+
+class Prv_labcorp_LabcorpSiteAreaInput_In(TypedDict):
+    radius: float
+    search_term: str
+
+class Prv_labcorp_LabcorpSitePickupLocationFilterInput_In(TypedDict):
+    city: NotRequired[Mapping[str, Any]]
+    country_id: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    pickup_location_code: NotRequired[Mapping[str, Any]]
+
+class Prv_labcorp_LabcorpSitePickupLocationSortInput_In(TypedDict):
+    city: NotRequired[Literal["ASC"] | Literal["DESC"] | Literal["RECENT"]]
+    contact_name: NotRequired[Literal["ASC"] | Literal["DESC"] | Literal["RECENT"]]
+    description: NotRequired[Literal["ASC"] | Literal["DESC"] | Literal["RECENT"]]
+    name: NotRequired[Literal["ASC"] | Literal["DESC"] | Literal["RECENT"]]
+
+class Prv_labcorp_LabcorpSiteProductInfoInput_In(TypedDict):
+    sku: str
+
+class Prv_labcorp_LabcorpSiteReadInput_u4_In(TypedDict):
+    thing: Literal["products"]
+    where: NotRequired[Prv_labcorp_LabcorpSiteProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_labcorp_LabcorpSiteProductsWhere_In(TypedDict):
+    search: NotRequired[str]
+    filter: NotRequired[Prv_labcorp_LabcorpSiteProductAttributeFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+    sort: NotRequired[Prv_labcorp_LabcorpSiteProductAttributeSortInput_In]
+
+class Prv_labcorp_LabcorpSiteProductAttributeFilterInput_In(TypedDict):
+    description: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    sku: NotRequired[Mapping[str, Any]]
+    url_key: NotRequired[Mapping[str, Any]]
+
+class Prv_labcorp_LabcorpSiteProductAttributeSortInput_In(TypedDict):
+    name: NotRequired[Literal["ASC"] | Literal["DESC"] | Literal["RECENT"]]
+    position: NotRequired[Literal["ASC"] | Literal["DESC"] | Literal["RECENT"]]
+    price: NotRequired[Literal["ASC"] | Literal["DESC"] | Literal["RECENT"]]
+    qty_ordered: NotRequired[Literal["ASC"] | Literal["DESC"] | Literal["RECENT"]]
+
+class Prv_labcorp_LabcorpSiteReadInput_u5_In(TypedDict):
+    thing: Literal["route"]
+    where: Prv_labcorp_LabcorpSiteRouteWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_labcorp_LabcorpSiteRouteWhere_In(TypedDict):
+    url: str
+
+class Prv_labcorp_LabcorpSiteStoreConfig_Out(TypedDict):
+    absolute_footer: NotRequired[str | None]
+    allow_gift_receipt: NotRequired[str | None]
+    allow_gift_wrapping_on_order: NotRequired[str | None]
+    allow_gift_wrapping_on_order_items: NotRequired[str | None]
+
+class Prv_labcorp_LabcorpSiteCategoryResult_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_labcorp_LabcorpSiteDynamicBlocks_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_labcorp_LabcorpSitePickupLocations_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_labcorp_LabcorpSiteProducts_Out(TypedDict):
+    aggregations: NotRequired[list[Mapping[str, Any]] | None]
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_labcorp_LabcorpSiteRoutableInterface_Out(TypedDict):
+    redirect_code: NotRequired[float | None]
+    relative_url: NotRequired[str | None]
+    type: NotRequired[Literal["CMS_PAGE"] | Literal["PRODUCT"] | Literal["CATEGORY"] | None]
+
 class Prv_labcorp_LabcorpTestSummary_Out(TypedDict):
     sku: str
     name: str
@@ -47549,6 +50024,33 @@ class Prv_latimes_PuzzleGame_Out(TypedDict):
     title: str
     url: str
     description: str | None
+
+class Prv_latimes_GetCrosswordArgs_In(TypedDict):
+    puzzle: NotRequired[Literal["daily"] | Literal["midi"] | Literal["mini"]]
+    date: NotRequired[str]
+    includeSolution: NotRequired[bool]
+
+class Prv_latimes_Crossword_Out(TypedDict):
+    puzzle: Literal["daily"] | Literal["midi"] | Literal["mini"]
+    puzzleId: str
+    title: str
+    author: str | None
+    copyright: str | None
+    publishedAt: str | None
+    width: float
+    height: float
+    grid: list[str]
+    solution: list[str] | None
+    across: list[Prv_latimes_CrosswordClue_Out]
+    down: list[Prv_latimes_CrosswordClue_Out]
+    url: str
+
+class Prv_latimes_CrosswordClue_Out(TypedDict):
+    number: float
+    clue: str
+    length: float
+    row: float
+    col: float
 
 class Prv_launchpad_LaunchpadProject_Out(TypedDict):
     name: str
@@ -49509,6 +52011,21 @@ class Prv_luma_LumaCategory_Out(TypedDict):
     name: str
     eventCount: float | None
 
+class Prv_luma_GetGuestListArgs_In(TypedDict):
+    url: str
+    limit: NotRequired[float]
+
+class Prv_luma_LumaGuestList_Out(TypedDict):
+    eventId: str
+    guests: list[Prv_luma_LumaHost_Out]
+    guestCount: float | None
+    warnings: list[str]
+
+class Prv_luma_LumaCancellation_Out(TypedDict):
+    eventId: str
+    url: str
+    cancelled: bool
+
 class Prv_lyreco_LyrecoSearchResult_Out(TypedDict):
     sku: str
     name: str
@@ -49529,6 +52046,153 @@ class Prv_lyreco_LyrecoVariant_Out(TypedDict):
 class Prv_maersk_MaerskTrackingResult_Out(TypedDict):
     trackingNumber: str
     raw: Any
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u0_In(TypedDict):
+    thing: Literal["node"]
+    where: Prv_magicmadhouse_MagicmadhouseSiteNodeWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteNodeWhere_In(TypedDict):
+    id: str
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u1_In(TypedDict):
+    thing: Literal["store"]
+    where: NotRequired[Mapping[str, Any]]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u2_In(TypedDict):
+    thing: Literal["searchProducts"]
+    where: Prv_magicmadhouse_MagicmadhouseSiteSearchProductsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteSearchProductsWhere_In(TypedDict):
+    filters: Prv_magicmadhouse_MagicmadhouseSiteSearchProductsFiltersInput_In
+    sort: NotRequired[Literal["A_TO_Z"] | Literal["BEST_REVIEWED"] | Literal["BEST_SELLING"] | Literal["FEATURED"] | Literal["HIGHEST_PRICE"] | Literal["LOWEST_PRICE"] | Literal["NEWEST"] | Literal["RELEVANCE"] | Literal["Z_TO_A"]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteSearchProductsFiltersInput_In(TypedDict):
+    searchTerm: NotRequired[str]
+    price: NotRequired[Mapping[str, Any]]
+    categoryEntityId: NotRequired[float]
+    categoryEntityIds: NotRequired[Sequence[float]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u3_In(TypedDict):
+    thing: Literal["categoryTree"]
+    where: NotRequired[Prv_magicmadhouse_MagicmadhouseSiteCategoryTreeWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteCategoryTreeWhere_In(TypedDict):
+    rootEntityId: NotRequired[float]
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u4_In(TypedDict):
+    thing: Literal["category"]
+    where: Prv_magicmadhouse_MagicmadhouseSiteCategoryWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteCategoryWhere_In(TypedDict):
+    entityId: float
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u5_In(TypedDict):
+    thing: Literal["products"]
+    where: NotRequired[Prv_magicmadhouse_MagicmadhouseSiteProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteProductsWhere_In(TypedDict):
+    before: NotRequired[str]
+    after: NotRequired[str]
+    first: NotRequired[float]
+    last: NotRequired[float]
+    ids: NotRequired[Sequence[str]]
+    entityIds: NotRequired[Sequence[float]]
+    hideOutOfStock: NotRequired[bool]
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u6_In(TypedDict):
+    thing: Literal["newestProducts"]
+    where: NotRequired[Prv_magicmadhouse_MagicmadhouseSiteNewestProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteNewestProductsWhere_In(TypedDict):
+    before: NotRequired[str]
+    after: NotRequired[str]
+    first: NotRequired[float]
+    last: NotRequired[float]
+    hideOutOfStock: NotRequired[bool]
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u7_In(TypedDict):
+    thing: Literal["bestSellingProducts"]
+    where: NotRequired[Prv_magicmadhouse_MagicmadhouseSiteBestSellingProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteBestSellingProductsWhere_In(TypedDict):
+    before: NotRequired[str]
+    after: NotRequired[str]
+    first: NotRequired[float]
+    last: NotRequired[float]
+    hideOutOfStock: NotRequired[bool]
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u8_In(TypedDict):
+    thing: Literal["product"]
+    where: NotRequired[Prv_magicmadhouse_MagicmadhouseSiteProductWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSiteProductWhere_In(TypedDict):
+    id: NotRequired[str]
+    entityId: NotRequired[float]
+    variantEntityId: NotRequired[float]
+    optionValueIds: NotRequired[Sequence[Prv_magicmadhouse_MagicmadhouseSiteOptionValueId_In]]
+    sku: NotRequired[str]
+    useDefaultOptionSelections: NotRequired[bool]
+
+class Prv_magicmadhouse_MagicmadhouseSiteOptionValueId_In(TypedDict):
+    optionEntityId: float
+    valueEntityId: float
+
+class Prv_magicmadhouse_MagicmadhouseSiteReadInput_u9_In(TypedDict):
+    thing: Literal["page"]
+    where: Prv_magicmadhouse_MagicmadhouseSitePageWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_magicmadhouse_MagicmadhouseSitePageWhere_In(TypedDict):
+    entityId: float
+
+class Prv_magicmadhouse_MagicmadhouseSiteNode_Out(TypedDict):
+    id: NotRequired[str | None]
+
+class Prv_magicmadhouse_MagicmadhouseSiteStore_Out(TypedDict):
+    entityId: NotRequired[str | float | None]
+
+class Prv_magicmadhouse_MagicmadhouseSiteSearchProducts_Out(TypedDict):
+    products: NotRequired[Mapping[str, Any] | None]
+    filters: NotRequired[Mapping[str, Any] | None]
+    suggestions: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_magicmadhouse_MagicmadhouseSiteCategoryTreeItem_Out(TypedDict):
+    entityId: NotRequired[float | None]
+    name: NotRequired[str | None]
+    path: NotRequired[str | None]
+    description: NotRequired[str | None]
+
+class Prv_magicmadhouse_MagicmadhouseSiteCategory_Out(TypedDict):
+    id: NotRequired[str | None]
+    entityId: NotRequired[float | None]
+    name: NotRequired[str | None]
+    description: NotRequired[str | None]
+
+class Prv_magicmadhouse_MagicmadhouseSiteProductConnection_Out(TypedDict):
+    pageInfo: NotRequired[Mapping[str, Any] | None]
+    edges: NotRequired[list[Mapping[str, Any]] | None]
+    collectionInfo: NotRequired[Mapping[str, Any] | None]
+
+class Prv_magicmadhouse_MagicmadhouseSiteProduct_Out(TypedDict):
+    id: NotRequired[str | None]
+    sku: NotRequired[str | None]
+    name: NotRequired[str | None]
+    description: NotRequired[str | None]
+
+class Prv_magicmadhouse_MagicmadhouseSiteWebPage_Out(TypedDict):
+    entityId: NotRequired[float | None]
+    parentEntityId: NotRequired[float | None]
+    name: NotRequired[str | None]
+    isVisibleInNavigation: NotRequired[bool | None]
 
 class Prv_magicmadhouse_MagicMadhouseProduct_Out(TypedDict):
     id: str
@@ -50782,6 +53446,74 @@ class Prv_maurices_MauricesProductSummary_Out(TypedDict):
 class Prv_maurices_MauricesProductSummary_Out_colors_item_Out(TypedDict):
     code: str
     name: str | None
+
+class Prv_maxpreps_MaxprepsSchoolDetail_Out(TypedDict):
+    schoolId: str
+    name: str
+    mascot: str | None
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    phone: str | None
+    association: str | None
+    athleticDirector: str | None
+    colors: list[str]
+    about: str | None
+    website: str | None
+    sports: list[str]
+    games: list[Prv_maxpreps_MaxprepsGame_Out]
+    url: str
+
+class Prv_maxpreps_MaxprepsGame_Out(TypedDict):
+    contestId: str
+    date: str | None
+    sport: str | None
+    gender: str | None
+    level: str | None
+    hasResult: bool
+    teams: list[Prv_maxpreps_MaxprepsGameTeam_Out]
+    url: str
+
+class Prv_maxpreps_MaxprepsGameTeam_Out(TypedDict):
+    school: str
+    score: float | None
+    result: str | None
+    record: str | None
+
+class Prv_maxpreps_MaxprepsAthletePage_Out(TypedDict):
+    results: list[Prv_maxpreps_MaxprepsAthlete_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_maxpreps_MaxprepsAthlete_Out(TypedDict):
+    careerId: str
+    name: str
+    sports: list[str]
+    graduatingClass: float | None
+    school: str | None
+    state: str | None
+    url: str
+
+class Prv_maxpreps_MaxprepsSchoolPage_Out(TypedDict):
+    results: list[Prv_maxpreps_MaxprepsSchool_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_maxpreps_MaxprepsSchool_Out(TypedDict):
+    schoolId: str
+    name: str
+    city: str | None
+    state: str | None
+    zip: str | None
+    mascot: str | None
+    url: str
 
 class Prv_mayoclinic_search_args_In(TypedDict):
     query: str
@@ -52247,6 +54979,197 @@ class Prv_mixbook_MixbookPromotion_Out(TypedDict):
     code: str
     termsUrl: str
 
+class Prv_mlb_MlbReadInput_u0_In(TypedDict):
+    thing: Literal["fields"]
+    where: NotRequired[Prv_mlb_MlbFieldsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbFieldsWhere_In(TypedDict):
+    ids: NotRequired[Sequence[float]]
+    searchType: NotRequired[Literal["PLAYS"] | Literal["UNIFIED"] | Literal["MILB_UNIFIED"]]
+    languagePreference: NotRequired[Literal["EN"] | Literal["ES"]]
+
+class Prv_mlb_MlbReadInput_u1_In(TypedDict):
+    thing: Literal["search"]
+    where: Prv_mlb_MlbSearchWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbSearchWhere_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+    feedPreference: NotRequired[Literal["HOME"] | Literal["AWAY"] | Literal["NETWORK"] | Literal["BATTING_TEAM"] | Literal["PITCHING_TEAM"] | Literal["WORLD"] | Literal["THREE_D_VIZ"] | Literal["CMS"]]
+    languagePreference: NotRequired[Literal["EN"] | Literal["ES"]]
+    searchType: NotRequired[Literal["PLAYS"] | Literal["UNIFIED"] | Literal["MILB_UNIFIED"]]
+    contentPreference: NotRequired[Literal["CMS_FIRST"] | Literal["CMS_ONLY"] | Literal["PLAY_ONLY"] | Literal["MIXED"]]
+    contentGroup: NotRequired[Literal["DEFAULT"] | Literal["EXPERIENCE_A"] | Literal["EXPERIENCE_B"] | Literal["EXPERIENCE_C"] | Literal["EXPERIENCE_D"] | Literal["EXPERIENCE_E"] | Literal["EXPERIENCE_F"]]
+    queryType: NotRequired[Literal["STRUCTURED"] | Literal["FREETEXT"]]
+    forgeInstance: NotRequired[Literal["MLB"] | Literal["MILB"] | Literal["OP_PROPS"]]
+
+class Prv_mlb_MlbReadInput_u2_In(TypedDict):
+    thing: Literal["queryInfo"]
+    where: NotRequired[Prv_mlb_MlbQueryInfoWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbQueryInfoWhere_In(TypedDict):
+    queries: NotRequired[Sequence[str]]
+    languagePreference: NotRequired[Literal["EN"] | Literal["ES"]]
+    queryType: NotRequired[Literal["STRUCTURED"] | Literal["FREETEXT"]]
+    includeCount: NotRequired[bool]
+
+class Prv_mlb_MlbReadInput_u3_In(TypedDict):
+    thing: Literal["people"]
+    where: NotRequired[Prv_mlb_MlbPeopleWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbPeopleWhere_In(TypedDict):
+    ids: NotRequired[Sequence[float]]
+
+class Prv_mlb_MlbReadInput_u4_In(TypedDict):
+    thing: Literal["teams"]
+    where: NotRequired[Prv_mlb_MlbTeamsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbTeamsWhere_In(TypedDict):
+    ids: NotRequired[Sequence[float]]
+
+class Prv_mlb_MlbReadInput_u5_In(TypedDict):
+    thing: Literal["getReels"]
+    where: NotRequired[Prv_mlb_MlbGetReelsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbGetReelsWhere_In(TypedDict):
+    userId: NotRequired[str]
+    orderBy: NotRequired[Literal["REEL_TITLE"] | Literal["DURATION"] | Literal["CREATED_AT"] | Literal["UPDATED_AT"]]
+    orderDirection: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_mlb_MlbReadInput_u6_In(TypedDict):
+    thing: Literal["games"]
+    where: NotRequired[Prv_mlb_MlbGamesWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbGamesWhere_In(TypedDict):
+    ids: NotRequired[Sequence[float]]
+    languagePreference: NotRequired[Literal["EN"] | Literal["ES"]]
+
+class Prv_mlb_MlbReadInput_u7_In(TypedDict):
+    thing: Literal["suggestedSearches"]
+    where: NotRequired[Prv_mlb_MlbSuggestedSearchesWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbSuggestedSearchesWhere_In(TypedDict):
+    total: NotRequired[float]
+
+class Prv_mlb_MlbReadInput_u8_In(TypedDict):
+    thing: Literal["story"]
+    where: Prv_mlb_MlbStoryWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbStoryWhere_In(TypedDict):
+    search: str
+    searchType: Literal["SLUG"] | Literal["FREETEXT_QUERY"] | Literal["STRUCTURED_QUERY"]
+    limit: NotRequired[float]
+    preview: NotRequired[bool]
+    languagePreference: NotRequired[Literal["EN"] | Literal["ES"]]
+    forgeInstance: NotRequired[Literal["MLB"] | Literal["MILB"] | Literal["OP_PROPS"]]
+
+class Prv_mlb_MlbReadInput_u9_In(TypedDict):
+    thing: Literal["playerStory"]
+    where: Prv_mlb_MlbPlayerStoryWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbPlayerStoryWhere_In(TypedDict):
+    playerId: float
+    experience: NotRequired[Literal["PLAYER_HIGHLIGHTS"]]
+    experienceType: NotRequired[str]
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+    limit: NotRequired[float]
+    languagePreference: NotRequired[Literal["EN"] | Literal["ES"]]
+    forgeInstance: NotRequired[Literal["MLB"] | Literal["MILB"] | Literal["OP_PROPS"]]
+
+class Prv_mlb_MlbReadInput_u10_In(TypedDict):
+    thing: Literal["playerStories"]
+    where: Prv_mlb_MlbPlayerStoriesWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbPlayerStoriesWhere_In(TypedDict):
+    playerIds: Sequence[float]
+    experience: NotRequired[Literal["PLAYER_HIGHLIGHTS"]]
+    experienceType: NotRequired[str]
+    startDate: NotRequired[str]
+    endDate: NotRequired[str]
+    limit: NotRequired[float]
+    languagePreference: NotRequired[Literal["EN"] | Literal["ES"]]
+    forgeInstance: NotRequired[Literal["MLB"] | Literal["MILB"] | Literal["OP_PROPS"]]
+
+class Prv_mlb_MlbReadInput_u11_In(TypedDict):
+    thing: Literal["sections"]
+    where: NotRequired[Prv_mlb_MlbSectionsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_mlb_MlbSectionsWhere_In(TypedDict):
+    ids: NotRequired[Sequence[float]]
+
+class Prv_mlb_MlbSearchFieldMetadata_Out(TypedDict):
+    id: NotRequired[str | None]
+    category: NotRequired[Literal["BATTER"] | Literal["FIELDER"] | Literal["GAME"] | Literal["GENERAL"] | Literal["PITCHER"] | Literal["PLAYMETADATA"] | Literal["RUNNER"] | Literal["CONTENT"] | Literal["REVIEW"] | Literal["UNKNOWN"] | None]
+    description: NotRequired[str | None]
+    defaultOperator: NotRequired[str | None]
+    name: NotRequired[str | None]
+    type: NotRequired[Literal["STRING"] | Literal["NUMBER"] | Literal["DATE"] | Literal["DATETIME"] | Literal["BOOLEAN"] | Literal["UNKNOWN"] | Literal["EMPTY"] | None]
+
+class Prv_mlb_MlbPagedClipDetails_Out(TypedDict):
+    plays: NotRequired[list[Mapping[str, Any]] | None]
+    total: NotRequired[float | None]
+
+class Prv_mlb_MlbInfoResponse_Out(TypedDict):
+    query: NotRequired[str | None]
+    valid: NotRequired[bool | None]
+    graph: NotRequired[Any]
+    count: NotRequired[float | None]
+
+class Prv_mlb_MlbPlayerInfo_Out(TypedDict):
+    id: NotRequired[float | None]
+    name: NotRequired[str | None]
+    firstName: NotRequired[str | None]
+    lastName: NotRequired[str | None]
+    mugshots: NotRequired[list[Mapping[str, Any]] | None]
+    playerHand: NotRequired[str | None]
+
+class Prv_mlb_MlbTeamInfo_Out(TypedDict):
+    id: NotRequired[float | None]
+    triCode: NotRequired[str | None]
+    name: NotRequired[str | None]
+    shortName: NotRequired[str | None]
+    logoUrl: NotRequired[str | None]
+
+class Prv_mlb_MlbPagedReelResponse_Out(TypedDict):
+    reels: NotRequired[list[Mapping[str, Any]] | None]
+    total: NotRequired[float | None]
+
+class Prv_mlb_MlbGame_Out(TypedDict):
+    venueId: NotRequired[float | None]
+    gameDate: NotRequired[str | None]
+    gamePk: NotRequired[float | None]
+    status: NotRequired[Literal["CANCELLED"] | Literal["SCHEDULED"] | Literal["SUSPENDED"] | Literal["POSTPONED"] | Literal["LIVE"] | Literal["FINAL"] | None]
+    headline: NotRequired[str | None]
+    seoTitle: NotRequired[str | None]
+
+class Prv_mlb_MlbStory_Out(TypedDict):
+    slug: NotRequired[str | None]
+    title: NotRequired[str | None]
+    headline: NotRequired[str | None]
+    subHeadline: NotRequired[str | None]
+    description: NotRequired[str | None]
+    summary: NotRequired[str | None]
+
+class Prv_mlb_MlbSectionResponse_Out(TypedDict):
+    sections: NotRequired[list[Mapping[str, Any]] | None]
+    total: NotRequired[float | None]
+
 class Prv_mlb_MlbListTeamsArgs_In(TypedDict):
     season: NotRequired[float]
     sportId: NotRequired[float]
@@ -53557,6 +56480,38 @@ class Prv_mossyoak_MossyoakCatalogue_Out(TypedDict):
     products: list[Prv_mossyoak_MossyoakProduct_Out]
     warnings: list[str]
 
+class Prv_ms_now_MsNowSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_ms_now_MsNowSearchPage_Out(TypedDict):
+    results: list[Prv_ms_now_MsNowSearchHit_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_ms_now_MsNowSearchHit_Out(TypedDict):
+    title: str
+    url: str
+    author: str | None
+    published: str | None
+    snippet: str | None
+
+class Prv_ms_now_MsNowGetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_ms_now_MsNowArticle_Out(TypedDict):
+    url: str
+    headline: str
+    authors: list[str]
+    published: str | None
+    modified: str | None
+    sections: list[str]
+    description: str | None
+    body: str
+
 class Prv_msc_TrackingResult_Out(TypedDict):
     status: str
     location: str
@@ -54236,6 +57191,145 @@ class Prv_naic_naicStateLicense_Out(TypedDict):
     licensed: bool
     status: str
     insuranceTypes: list[str]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u0_In(TypedDict):
+    thing: Literal["availableStores"]
+    where: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteAvailableStoresWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteAvailableStoresWhere_In(TypedDict):
+    useCurrentGroup: NotRequired[bool]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u1_In(TypedDict):
+    thing: Literal["categories"]
+    where: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoriesWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoriesWhere_In(TypedDict):
+    filters: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoryFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoryFilterInput_In(TypedDict):
+    category_uid: NotRequired[Mapping[str, Any]]
+    ids: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    url_key: NotRequired[Mapping[str, Any]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u2_In(TypedDict):
+    thing: Literal["looknbuy"]
+    where: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyWhere_In(TypedDict):
+    filter: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+
+Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyFilterInput_In = TypedDict(
+    "Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyFilterInput_In",
+    {
+    "look_id": NotRequired[Mapping[str, Any]],
+    "look_name": NotRequired[Mapping[str, Any]],
+    "or": NotRequired[Mapping[str, Any]],
+    "url_key": NotRequired[Mapping[str, Any]],
+    },
+)
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u3_In(TypedDict):
+    thing: Literal["pickupLocations"]
+    where: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocationsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocationsWhere_In(TypedDict):
+    area: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteAreaInput_In]
+    filters: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocationFilterInput_In]
+    sort: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocationSortInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+    productsInfo: NotRequired[Sequence[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductInfoInput_In]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteAreaInput_In(TypedDict):
+    radius: float
+    search_term: str
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocationFilterInput_In(TypedDict):
+    city: NotRequired[Mapping[str, Any]]
+    country_id: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    pickup_location_code: NotRequired[Mapping[str, Any]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocationSortInput_In(TypedDict):
+    city: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    contact_name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    description: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductInfoInput_In(TypedDict):
+    sku: str
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u4_In(TypedDict):
+    thing: Literal["products"]
+    where: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductsWhere_In]
+    fields: NotRequired[Sequence[str]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductsWhere_In(TypedDict):
+    search: NotRequired[str]
+    filter: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductAttributeFilterInput_In]
+    pageSize: NotRequired[float]
+    currentPage: NotRequired[float]
+    sort: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductAttributeSortInput_In]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductAttributeFilterInput_In(TypedDict):
+    description: NotRequired[Mapping[str, Any]]
+    name: NotRequired[Mapping[str, Any]]
+    price: NotRequired[Mapping[str, Any]]
+    sku: NotRequired[Mapping[str, Any]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductAttributeSortInput_In(TypedDict):
+    color: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    name: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    position: NotRequired[Literal["ASC"] | Literal["DESC"]]
+    price: NotRequired[Literal["ASC"] | Literal["DESC"]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u5_In(TypedDict):
+    thing: Literal["route"]
+    where: Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteRouteWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteRouteWhere_In(TypedDict):
+    url: str
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteStoreConfig_Out(TypedDict):
+    absolute_footer: NotRequired[str | None]
+    allow_gift_receipt: NotRequired[str | None]
+    allow_gift_wrapping_on_order: NotRequired[str | None]
+    allow_gift_wrapping_on_order_items: NotRequired[str | None]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoryResult_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyOutput_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocations_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProducts_Out(TypedDict):
+    aggregations: NotRequired[list[Mapping[str, Any]] | None]
+    items: NotRequired[list[Mapping[str, Any]] | None]
+    page_info: NotRequired[Mapping[str, Any] | None]
+    total_count: NotRequired[float | None]
+
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteRoutableInterface_Out(TypedDict):
+    redirect_code: NotRequired[float | None]
+    relative_url: NotRequired[str | None]
+    type: NotRequired[Literal["CMS_PAGE"] | Literal["PRODUCT"] | Literal["CATEGORY"] | None]
 
 class Prv_nationalbusinessfurniture_NbfProductSummary_Out(TypedDict):
     sku: str
@@ -60843,6 +63937,180 @@ class Prv_pixabay_ImageDetail_Out_relatedImages_item_Out(TypedDict):
     url: str
     thumbnailUrl: str | None
 
+class Prv_pixabay_SearchVideosArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_pixabay_VideoSearchResult_Out(TypedDict):
+    query: str
+    items: list[Prv_pixabay_VideoHit_Out]
+    page: float
+    pages: float
+    total: float
+
+class Prv_pixabay_VideoHit_Out(TypedDict):
+    id: str
+    title: str
+    description: str
+    url: str
+    thumbnailUrl: str | None
+    previewUrl: str | None
+    width: float | None
+    height: float | None
+    durationSeconds: float | None
+    uploadedAt: str | None
+    likes: float | None
+    comments: float | None
+    tags: list[str]
+    isAiGenerated: bool
+    creator: Prv_pixabay_VideoHit_Out_creator_u0_Out | None
+
+class Prv_pixabay_VideoHit_Out_creator_u0_Out(TypedDict):
+    id: str
+    username: str
+    profileUrl: str | None
+
+class Prv_pixabay_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_pixabay_VideoDetail_Out(TypedDict):
+    id: str
+    title: str
+    description: str
+    url: str
+    thumbnailUrl: str | None
+    previewUrl: str | None
+    width: float | None
+    height: float | None
+    durationSeconds: float | None
+    uploadedAt: str | None
+    publishedAt: str | None
+    isAiGenerated: bool
+    isEditorsChoice: bool
+    likes: float | None
+    comments: float | None
+    views: float | None
+    downloads: float | None
+    collections: float | None
+    tags: list[str]
+    sizes: list[Prv_pixabay_VideoDetail_Out_sizes_item_Out]
+    creator: Prv_pixabay_VideoDetail_Out_creator_u0_Out | None
+    relatedVideos: list[Prv_pixabay_VideoDetail_Out_relatedVideos_item_Out]
+
+class Prv_pixabay_VideoDetail_Out_sizes_item_Out(TypedDict):
+    label: str
+    dimensions: str
+    size: str
+    format: str
+    fileName: str
+
+class Prv_pixabay_VideoDetail_Out_creator_u0_Out(TypedDict):
+    id: str
+    username: str
+    profileUrl: str | None
+
+class Prv_pixabay_VideoDetail_Out_relatedVideos_item_Out(TypedDict):
+    id: str
+    url: str
+    thumbnailUrl: str | None
+
+class Prv_pixabay_SearchAudioArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_pixabay_AudioSearchResult_Out(TypedDict):
+    query: str
+    items: list[Prv_pixabay_AudioHit_Out]
+    page: float
+    pages: float
+    total: float
+
+class Prv_pixabay_AudioHit_Out(TypedDict):
+    id: str
+    kind: str
+    title: str
+    description: str
+    url: str
+    audioUrl: str | None
+    coverUrl: str | None
+    durationSeconds: float | None
+    uploadedAt: str | None
+    likes: float | None
+    comments: float | None
+    tags: list[str]
+    isAiGenerated: bool
+    creator: Prv_pixabay_AudioHit_Out_creator_u0_Out | None
+
+class Prv_pixabay_AudioHit_Out_creator_u0_Out(TypedDict):
+    id: str
+    username: str
+    profileUrl: str | None
+
+class Prv_pixabay_GetAudioArgs_In(TypedDict):
+    url: str
+
+class Prv_pixabay_AudioDetail_Out(TypedDict):
+    id: str
+    kind: str
+    title: str
+    description: str
+    url: str
+    audioUrl: str | None
+    downloadUrl: str | None
+    coverUrl: str | None
+    durationSeconds: float | None
+    format: str | None
+    fileSize: str | None
+    uploadedAt: str | None
+    publishedAt: str | None
+    isAiGenerated: bool
+    isEditorsChoice: bool
+    likes: float | None
+    comments: float | None
+    views: float | None
+    downloads: float | None
+    collections: float | None
+    tags: list[str]
+    genres: list[str]
+    moods: list[str]
+    themes: list[str]
+    attributionHtml: str | None
+    creator: Prv_pixabay_AudioDetail_Out_creator_u0_Out | None
+    relatedTracks: list[Prv_pixabay_AudioDetail_Out_relatedTracks_item_Out]
+
+class Prv_pixabay_AudioDetail_Out_creator_u0_Out(TypedDict):
+    id: str
+    username: str
+    profileUrl: str | None
+
+class Prv_pixabay_AudioDetail_Out_relatedTracks_item_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    audioUrl: str | None
+
+class Prv_pixabay_GetUserArgs_In(TypedDict):
+    url: str
+
+class Prv_pixabay_UserProfile_Out(TypedDict):
+    id: str
+    username: str
+    profileUrl: str
+    displayName: str | None
+    location: str | None
+    joined: str | None
+    about: str
+    avatarUrl: str | None
+    followers: float | None
+    following: float | None
+    likes: float | None
+    views: float | None
+    downloads: float | None
+    isAvailableForHire: bool
+    isAmbassador: bool
+    socialLinks: list[str]
+    mediaCounts: Mapping[str, float]
+
 class Prv_pixabay_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -63056,6 +66324,39 @@ class Prv_pypi_PypiProject_Out(TypedDict):
     homePage: str | None
     projectUrls: Mapping[str, str]
     url: str
+
+class Prv_quickbooks_QuickbooksSiteReadInput_u0_In(TypedDict):
+    thing: Literal["searchAccountantListings"]
+    where: Prv_quickbooks_QuickbooksSiteSearchAccountantListingsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+Prv_quickbooks_QuickbooksSiteSearchAccountantListingsWhere_In = TypedDict(
+    "Prv_quickbooks_QuickbooksSiteSearchAccountantListingsWhere_In",
+    {
+    "first": float,
+    "filterBy": NotRequired[str],
+    "with": NotRequired[str],
+    "after": NotRequired[str],
+    "orderBy": NotRequired[str],
+    },
+)
+
+class Prv_quickbooks_QuickbooksSiteReadInput_u1_In(TypedDict):
+    thing: Literal["publicAccountantListings"]
+    where: Prv_quickbooks_QuickbooksSitePublicAccountantListingsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_quickbooks_QuickbooksSitePublicAccountantListingsWhere_In(TypedDict):
+    first: float
+    filterBy: str
+
+class Prv_quickbooks_QuickbooksSiteMatchmakingSearchListingConnection_Out(TypedDict):
+    edges: NotRequired[Mapping[str, Any] | None]
+    totalCount: NotRequired[float | None]
+    pageInfo: NotRequired[Mapping[str, Any] | None]
+
+class Prv_quickbooks_QuickbooksSiteMatchmakingPublicListingConnection_Out(TypedDict):
+    edges: NotRequired[Mapping[str, Any] | None]
 
 class Prv_quickbooks_QuickbooksCalculateSalesTaxArgs_In(TypedDict):
     city: str
@@ -74680,6 +77981,93 @@ class Prv_state_gov_state_govPressRelease_Out(TypedDict):
     tags: list[str]
     text: str
 
+class Prv_state_gov_listBriefings_args_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_state_gov_state_govBriefingRow_Out(TypedDict):
+    title: str
+    date: str
+    lastModified: str
+    url: str
+
+class Prv_state_gov_state_govBriefing_Out(TypedDict):
+    title: str
+    speakers: str
+    location: str
+    date: str
+    url: str
+    tags: list[str]
+    text: str
+
+class Prv_state_gov_listOfficials_args_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_state_gov_state_govOfficialRow_Out(TypedDict):
+    name: str
+    kind: Literal["people"] | Literal["biographies"]
+    lastModified: str
+    url: str
+
+class Prv_state_gov_state_govOfficial_Out(TypedDict):
+    name: str
+    roles: list[str]
+    tenure: str
+    url: str
+    tags: list[str]
+    biography: str
+
+class Prv_state_gov_state_govVisaPage_Out(TypedDict):
+    title: str
+    path: list[str]
+    text: str
+    links: list[Prv_state_gov_state_govVisaPage_Out_links_item_Out]
+    url: str
+
+class Prv_state_gov_state_govVisaPage_Out_links_item_Out(TypedDict):
+    text: str
+    url: str
+
+class Prv_state_gov_listBureaus_args_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_state_gov_state_govBureauRow_Out(TypedDict):
+    name: str
+    parent: str
+    lastModified: str
+    url: str
+
+class Prv_state_gov_state_govBureau_Out(TypedDict):
+    name: str
+    mission: str
+    leaders: list[Prv_state_gov_state_govBureau_Out_leaders_item_Out]
+    url: str
+
+class Prv_state_gov_state_govBureau_Out_leaders_item_Out(TypedDict):
+    name: str
+    title: str
+    url: str
+
+class Prv_state_gov_listReports_args_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_state_gov_state_govReportRow_Out(TypedDict):
+    title: str
+    series: str
+    lastModified: str
+    url: str
+
+class Prv_state_gov_state_govReport_Out(TypedDict):
+    title: str
+    description: str
+    pdfUrl: str
+    sections: list[str]
+    text: str
+    truncated: bool
+    url: str
+
 class Prv_statefarm_StatefarmAgentQuery_In(TypedDict):
     city: str
     state: str
@@ -79807,6 +83195,176 @@ class Prv_tmz_TmzSearchResult_Out(TypedDict):
     results: list[Prv_tmz_TmzItem_Out]
     hasMore: bool
 
+class Prv_toast_ToastSiteReadInput_u0_In(TypedDict):
+    thing: Literal["restaurantV2"]
+    where: Prv_toast_ToastSiteRestaurantV2Where_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSiteRestaurantV2Where_In(TypedDict):
+    guid: str
+
+class Prv_toast_ToastSiteReadInput_u1_In(TypedDict):
+    thing: Literal["restaurantV2ByShortUrl"]
+    where: Prv_toast_ToastSiteRestaurantV2ByShortUrlWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSiteRestaurantV2ByShortUrlWhere_In(TypedDict):
+    shortUrl: str
+
+class Prv_toast_ToastSiteReadInput_u2_In(TypedDict):
+    thing: Literal["nearbyRestaurantSearch"]
+    where: Prv_toast_ToastSiteNearbyRestaurantSearchWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSiteNearbyRestaurantSearchWhere_In(TypedDict):
+    input: Prv_toast_ToastSiteNearbyRestaurantSearchInput_In
+
+class Prv_toast_ToastSiteNearbyRestaurantSearchInput_In(TypedDict):
+    limit: float
+    coordinates: Mapping[str, Any]
+    deliveryAvailable: NotRequired[bool]
+
+class Prv_toast_ToastSiteReadInput_u3_In(TypedDict):
+    thing: Literal["restaurants"]
+    where: Prv_toast_ToastSiteRestaurantsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSiteRestaurantsWhere_In(TypedDict):
+    guids: Sequence[str]
+
+class Prv_toast_ToastSiteReadInput_u4_In(TypedDict):
+    thing: Literal["diningOptions"]
+    where: Prv_toast_ToastSiteDiningOptionsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSiteDiningOptionsWhere_In(TypedDict):
+    input: Prv_toast_ToastSiteDiningOptionsInput_In
+
+class Prv_toast_ToastSiteDiningOptionsInput_In(TypedDict):
+    includeBehaviors: Sequence[str | float]
+    restaurantGuid: NotRequired[str]
+    futureFulfillmentDaysAhead: NotRequired[float]
+
+class Prv_toast_ToastSiteReadInput_u5_In(TypedDict):
+    thing: Literal["paginatedMenuItems"]
+    where: Prv_toast_ToastSitePaginatedMenuItemsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSitePaginatedMenuItemsWhere_In(TypedDict):
+    input: Prv_toast_ToastSitePaginatedMenusInput_In
+
+class Prv_toast_ToastSitePaginatedMenusInput_In(TypedDict):
+    restaurantGuid: NotRequired[str]
+    menuApi: NotRequired[str]
+    visibility: NotRequired[str]
+    slug: NotRequired[str]
+    respectAvailability: NotRequired[bool]
+    hideOutOfStockItems: NotRequired[bool]
+    limit: NotRequired[float]
+    consolidateItemsByProduct: NotRequired[bool]
+    includeSlugs: NotRequired[bool]
+    sort: NotRequired[Sequence[Mapping[str, Any]]]
+
+class Prv_toast_ToastSiteReadInput_u6_In(TypedDict):
+    thing: Literal["menuItemDetails"]
+    where: Prv_toast_ToastSiteMenuItemDetailsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSiteMenuItemDetailsWhere_In(TypedDict):
+    input: Prv_toast_ToastSiteMenuItemDetailsInput_In
+
+class Prv_toast_ToastSiteMenuItemDetailsInput_In(TypedDict):
+    shortUrl: NotRequired[str]
+    restaurantGuid: NotRequired[str]
+    menuApi: NotRequired[str]
+    visibility: NotRequired[str]
+    slug: NotRequired[str]
+    respectAvailability: NotRequired[bool]
+    itemGroupGuid: NotRequired[str]
+    includeSlugs: NotRequired[bool]
+    itemGuid: NotRequired[str]
+
+class Prv_toast_ToastSiteReadInput_u7_In(TypedDict):
+    thing: Literal["searchMenus"]
+    where: Prv_toast_ToastSiteSearchMenusWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSiteSearchMenusWhere_In(TypedDict):
+    input: Prv_toast_ToastSiteMenuSearchInput_In
+
+class Prv_toast_ToastSiteMenuSearchInput_In(TypedDict):
+    restaurantGuid: str
+    searchTerm: str
+    visibility: NotRequired[Sequence[str]]
+    consolidateItemsByProduct: NotRequired[bool]
+    includeSlugs: NotRequired[bool]
+    sort: NotRequired[Sequence[Mapping[str, Any]]]
+    size: NotRequired[float]
+
+class Prv_toast_ToastSiteReadInput_u8_In(TypedDict):
+    thing: Literal["popularItems"]
+    where: Prv_toast_ToastSitePopularItemsWhere_In
+    fields: NotRequired[Sequence[str]]
+
+class Prv_toast_ToastSitePopularItemsWhere_In(TypedDict):
+    input: Prv_toast_ToastSitePopularItemsInput_In
+
+class Prv_toast_ToastSitePopularItemsInput_In(TypedDict):
+    restaurantGuid: str
+    menusInput: Mapping[str, Any]
+
+class Prv_toast_ToastSiteRestaurant_Out(TypedDict):
+    onlineOrderingEnabled: NotRequired[bool | None]
+    toastLocalEnabled: NotRequired[bool | None]
+    guid: NotRequired[str | None]
+    timeZoneId: NotRequired[str | None]
+    hasOnlineOrderingModule: NotRequired[bool | None]
+    deliveryServiceAvailability: NotRequired[Mapping[str, Any] | None]
+    schedule: NotRequired[Mapping[str, Any] | None]
+    shortUrl: NotRequired[str | None]
+    name: NotRequired[str | None]
+    cuisineType: NotRequired[str | None]
+    imageUrl: NotRequired[str | None]
+    managementSetGuid: NotRequired[str | None]
+    minimumDeliveryTime: NotRequired[float | None]
+    minimumTakeoutTime: NotRequired[float | None]
+    deliveryPromotionText: NotRequired[str | None]
+    location: NotRequired[Mapping[str, Any] | None]
+    priceTier: NotRequired[Mapping[str, Any] | None]
+    aggregatedExperienceRatingForDisplay: NotRequired[Mapping[str, Any] | None]
+    deliveryProviders: NotRequired[list[Mapping[str, Any]] | None]
+    bookingConfig: NotRequired[Mapping[str, Any] | None]
+
+class Prv_toast_ToastSiteRestaurantSearchResponse_Out(TypedDict):
+    results: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_toast_ToastSiteDiningOption_Out(TypedDict):
+    behavior: NotRequired[str | float | None]
+    guid: NotRequired[str | None]
+    asapSchedule: NotRequired[Mapping[str, Any] | None]
+    futureSchedule: NotRequired[Mapping[str, Any] | None]
+
+class Prv_toast_ToastSitePaginatedMenus_Out(TypedDict):
+    menus: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_toast_ToastSiteMenuItem_Out(TypedDict):
+    guid: NotRequired[str | None]
+    itemGroupGuid: NotRequired[str | None]
+    description: NotRequired[str | None]
+    name: NotRequired[str | None]
+    prices: NotRequired[list[float] | None]
+    calories: NotRequired[float | None]
+    outOfStock: NotRequired[bool | None]
+    imageUrls: NotRequired[Mapping[str, Any] | None]
+    modifierGroups: NotRequired[list[Mapping[str, Any]] | None]
+    hasModifiers: NotRequired[bool | None]
+
+class Prv_toast_ToastSiteMenuSearchResponse_Out(TypedDict):
+    menuItems: NotRequired[list[Mapping[str, Any]] | None]
+
+class Prv_toast_ToastSitePopularItemsResponse_Out(TypedDict):
+    items: NotRequired[list[Mapping[str, Any]] | None]
+
 class Prv_toast_ToastRestaurant_Out(TypedDict):
     guid: str
     shortUrl: str | None
@@ -80194,6 +83752,7 @@ class Prv_topcashback_TopcashbackStoreRate_Out(TypedDict):
     ratePercent: float | None
     upTo: bool
     categories: list[Prv_topcashback_TopcashbackRateCategory_Out]
+    available: bool
 
 class Prv_topcashback_TopcashbackRateCategory_Out(TypedDict):
     category: str
@@ -80500,6 +84059,185 @@ class Prv_tradingview_Idea_Out(TypedDict):
     viewsCount: float
     likesCount: float
     isHot: bool
+
+class Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestArgs_In(TypedDict):
+    underlyingSymbol: str
+
+class Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out(TypedDict):
+    underlying: str
+    ts: float
+    kind: str
+    items: list[Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out_items_item_Out]
+
+class Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out_items_item_Out(TypedDict):
+    id: str
+    underlying: str
+    exp: float
+    exp_time: str
+    family: str
+    strikes: list[Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out_items_item_Out_strikes_item_Out]
+
+class Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out_items_item_Out_strikes_item_Out(TypedDict):
+    s: float
+    c: Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out_items_item_Out_strikes_item_Out_c_Out
+    p: Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out_items_item_Out_strikes_item_Out_p_Out
+
+class Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out_items_item_Out_strikes_item_Out_c_Out(TypedDict):
+    v: float
+    oi: NotRequired[float]
+
+class Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out_items_item_Out_strikes_item_Out_p_Out(TypedDict):
+    v: float
+    oi: NotRequired[float]
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersArgs_In(TypedDict):
+    screener: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out(TypedDict):
+    version: float
+    screener_key: str
+    columns: Mapping[str, Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out | None]
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out(TypedDict):
+    params: Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out(TypedDict):
+    fiscalPeriod: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_fiscalPeriod_Out]
+    length: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_length_Out]
+    plot: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_plot_Out]
+    resolution: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_resolution_Out]
+    interval: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_interval_Out]
+    period: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_period_Out]
+    timebased: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_timebased_Out]
+    inputsGroup: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_inputsGroup_Out]
+    level: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_level_Out]
+    sentiment: NotRequired[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_sentiment_Out]
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_fiscalPeriod_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_length_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_plot_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_resolution_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_interval_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_period_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_timebased_Out(TypedDict):
+    type: str
+    defaultValue: str
+    groups: list[Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_timebased_Out_groups_item_Out]
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_timebased_Out_groups_item_Out(TypedDict):
+    range: list[str]
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_inputsGroup_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_level_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out_columns_value_u0_Out_params_Out_sentiment_Out(TypedDict):
+    type: str
+    range: list[str]
+    defaultValue: str
+
+class Prv_tradingview_TradingviewListRelatedBondsArgs_In(TypedDict):
+    stockSymbol: str
+
+class Prv_tradingview_TradingviewListRelatedBondsResult_Out(TypedDict):
+    totalCount: float
+    data: list[Prv_tradingview_TradingviewListRelatedBondsResult_Out_data_item_Out]
+
+class Prv_tradingview_TradingviewListRelatedBondsResult_Out_data_item_Out(TypedDict):
+    s: str
+    d: Prv_tradingview_TradingviewListRelatedBondsResult_Out_data_item_Out_d_Out
+
+class Prv_tradingview_TradingviewListRelatedBondsResult_Out_data_item_Out_d_Out(TypedDict):
+    yield_to_maturity: float
+    maturity_date: float
+
+class Prv_tradingview_TradingviewSearchHelpArticlesArgs_In(TypedDict):
+    searchTerm: str
+
+class Prv_tradingview_TradingviewSearchHelpArticlesResult_Out(TypedDict):
+    data: list[Prv_tradingview_TradingviewSearchHelpArticlesResult_Out_data_item_Out]
+    total: float
+
+class Prv_tradingview_TradingviewSearchHelpArticlesResult_Out_data_item_Out(TypedDict):
+    title: str
+    lang: str
+    highlight: Any
+    solutionId: float
+    folderId: float
+    categoryId: float
+
+class Prv_tradingview_TradingviewSearchScriptsArgs_In(TypedDict):
+    query: str
+
+class Prv_tradingview_TradingviewSearchScriptsResult_Out(TypedDict):
+    results: list[Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out]
+    next: Any
+    stats_by_type: Any
+
+class Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out(TypedDict):
+    imageUrl: str
+    scriptName: str
+    title: str
+    shortTitle: str
+    scriptSource: str
+    type: float
+    access: float
+    scriptIdPart: str
+    version: str
+    extra: Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out_extra_Out
+    agreeCount: float
+    isRecommended: bool
+    author: Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out_author_Out
+    weight: float
+
+class Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out_extra_Out(TypedDict):
+    isCompiled: bool
+    is_price_study: bool
+    kind: str
+    originalScriptId: NotRequired[str]
+    originalScriptVersion: NotRequired[str]
+    sourceInputsCount: float
+    stats: NotRequired[Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out_extra_Out_stats_Out]
+
+class Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out_extra_Out_stats_Out(TypedDict):
+    alertcondition: NotRequired[float]
+    plot: float
+    plotshape: NotRequired[float]
+
+class Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out_author_Out(TypedDict):
+    id: float
+    username: str
+    is_broker: bool
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -83400,6 +87138,77 @@ class Prv_usatoday_confirmSignup_return_u3_Out(TypedDict):
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
 
+class Prv_usbank_UsbankCreditCards_Out(TypedDict):
+    cards: list[Prv_usbank_UsbankCreditCard_Out]
+    warnings: list[str]
+
+class Prv_usbank_UsbankCreditCard_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    imageUrl: str | None
+    applyUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    welcomeOffer: str | None
+    introApr: str | None
+    regularApr: str | None
+    earnRates: list[Prv_usbank_UsbankEarnRate_Out]
+    currentRotatingCategories: Prv_usbank_UsbankCreditCard_Out_currentRotatingCategories_u0_Out | None
+    benefits: list[str]
+    kind: Literal["consumer"] | Literal["business"]
+    productCode: str | None
+    offerId: str
+    foreignTransactionFeePercent: float | None
+    balanceTransferFeePercent: float | None
+
+class Prv_usbank_UsbankEarnRate_Out(TypedDict):
+    rate: float
+    unit: Literal["percent"] | Literal["multiplier"]
+    currency: str | None
+    category: str
+    cap: str | None
+    rotating: bool
+    base: bool
+    text: str
+
+class Prv_usbank_UsbankCreditCard_Out_currentRotatingCategories_u0_Out(TypedDict):
+    quarter: str
+    categories: list[str]
+    activationRequired: bool
+
+class Prv_usbank_UsbankCardRef_u1_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+    name: NotRequired[str]
+
+class Prv_usbank_UsbankCreditCardDetail_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    imageUrl: str | None
+    applyUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    welcomeOffer: str | None
+    introApr: str | None
+    regularApr: str | None
+    earnRates: list[Prv_usbank_UsbankEarnRate_Out]
+    currentRotatingCategories: Prv_usbank_UsbankCreditCardDetail_Out_currentRotatingCategories_u0_Out | None
+    benefits: list[str]
+    kind: Literal["consumer"] | Literal["business"]
+    productCode: str | None
+    offerId: str
+    foreignTransactionFeePercent: float | None
+    balanceTransferFeePercent: float | None
+    rewardTerms: list[str]
+    warnings: list[str]
+
+class Prv_usbank_UsbankCreditCardDetail_Out_currentRotatingCategories_u0_Out(TypedDict):
+    quarter: str
+    categories: list[str]
+    activationRequired: bool
+
 class Prv_uscis_CaseStatusArgs_In(TypedDict):
     receiptNumber: str
 
@@ -85044,6 +88853,7 @@ class Prv_walmart_walmartSearchResult_Out(TypedDict):
     wasPrice: float | None
     priceRangeMin: float | None
     conditionCode: float | None
+    sellerName: str | None
     inStock: bool
     rating: float | None
     reviewCount: float
@@ -86520,6 +90330,69 @@ class Prv_wellnessliving_WellnesslivingClassCapacity_Out(TypedDict):
     waitlistEnabled: bool
     canBook: bool
 
+class Prv_wellsfargo_WellsfargoCreditCards_Out(TypedDict):
+    cards: list[Prv_wellsfargo_WellsfargoCreditCard_Out]
+    warnings: list[str]
+
+class Prv_wellsfargo_WellsfargoCreditCard_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    imageUrl: str | None
+    applyUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    welcomeOffer: str | None
+    introApr: str | None
+    regularApr: str | None
+    earnRates: list[Prv_wellsfargo_WellsfargoEarnRate_Out]
+    currentRotatingCategories: Prv_wellsfargo_WellsfargoCreditCard_Out_currentRotatingCategories_u0_Out | None
+    benefits: list[str]
+    kind: Literal["consumer"] | Literal["business"]
+
+class Prv_wellsfargo_WellsfargoEarnRate_Out(TypedDict):
+    rate: float
+    unit: Literal["percent"] | Literal["multiplier"]
+    currency: str | None
+    category: str
+    cap: str | None
+    rotating: bool
+    base: bool
+    text: str
+
+class Prv_wellsfargo_WellsfargoCreditCard_Out_currentRotatingCategories_u0_Out(TypedDict):
+    quarter: str
+    categories: list[str]
+    activationRequired: bool
+
+class Prv_wellsfargo_WellsfargoCardRef_u1_In(TypedDict):
+    id: NotRequired[str]
+    url: NotRequired[str]
+    name: NotRequired[str]
+
+class Prv_wellsfargo_WellsfargoCreditCardDetail_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    imageUrl: str | None
+    applyUrl: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    welcomeOffer: str | None
+    introApr: str | None
+    regularApr: str | None
+    earnRates: list[Prv_wellsfargo_WellsfargoEarnRate_Out]
+    currentRotatingCategories: Prv_wellsfargo_WellsfargoCreditCardDetail_Out_currentRotatingCategories_u0_Out | None
+    benefits: list[str]
+    kind: Literal["consumer"] | Literal["business"]
+    rewardTerms: list[str]
+    warnings: list[str]
+
+class Prv_wellsfargo_WellsfargoCreditCardDetail_Out_currentRotatingCategories_u0_Out(TypedDict):
+    quarter: str
+    categories: list[str]
+    activationRequired: bool
+
 class Prv_westelm_WsgcSearchArgs_In(TypedDict):
     query: str
     sort: NotRequired[Literal["relevance"] | Literal["price_ascending"] | Literal["price_descending"]]
@@ -86696,6 +90569,23 @@ class Prv_whatsapp_WhatsappGroupEvent_Out(TypedDict):
     group: str
     title: str
     startsAt: str
+
+class Prv_whatsapp_WhatsappEventResponse_Out(TypedDict):
+    group: str
+    title: str
+    answer: Literal["going"] | Literal["going_with_guest"] | Literal["maybe"] | Literal["not_going"]
+
+class Prv_whatsapp_WhatsappGroupEventList_Out(TypedDict):
+    group: str
+    events: list[Prv_whatsapp_WhatsappGroupEventRow_Out]
+
+class Prv_whatsapp_WhatsappGroupEventRow_Out(TypedDict):
+    title: str
+    when: str | None
+
+class Prv_whatsapp_WhatsappCancelledEvent_Out(TypedDict):
+    group: str
+    title: str
 
 class Prv_whatsapp_sendMedia_file_In(TypedDict):
     name: str
@@ -93537,6 +97427,43 @@ class Cap_prospect_screening(Protocol):
         qualification.
         """
 
+class Cap_purchase_rewards(Protocol):
+    """The best way to pay at a merchant: every cashback portal's rate (Rakuten, TopCashback,
+    BeFrugal, Capital One Shopping, CashbackMonitor's comparison), each of your credit
+    cards' earn rate in the merchant's category, signed-in card-linked offers (Amex Offers,
+    Chase Offers) when asked, each valued in dollars, plus the best stack. Also ranks every
+    known card for a spending category.
+    """
+
+    async def bestWayToPay(self, args: Cap_purchase_rewards_BestWayToPayArgs_In, options: Cap_purchase_rewards_CallOptions_In | None = None, /) -> Cap_purchase_rewards_BestWayToPayResult_Out:
+        """Every way to earn on one purchase, valued in dollars and stacked —
+        `bowmark.purchase_rewards.bestWayToPay({ merchant: "amazon.com", amount: 120, cards: [{
+        issuer: "Chase", card: "Sapphire Preferred" }, "Blue Cash Everyday"] })`. Reads five
+        cashback portals in parallel (a portal that fails is named in `warnings`, never fatal),
+        places the merchant in a spending category (`merchant.categorySource` says how; pass
+        `category` to override), values each held card's best applicable earn rate (omit `cards`
+        to rank every card Bowmark knows), and returns `bestStack`: one portal + one card + that
+        issuer's best card-linked offer. Card rates are read live from the issuer's own provider
+        when one exists (`source: "live"`), else from Bowmark's reference table (`source:
+        "reference"`, named in `warnings`). Points are valued at each program's issuer-published
+        redemption value, listed in `pointValues` with its source; pass `pointValues: { "Chase
+        Ultimate Rewards": 1.5 }` to use your own. Signed-in offers are read only with
+        `includeOffers: true`, which pauses the run for the cardholder's sign-in; `offerSources`
+        says per issuer whether offers exist, were read, or are not built yet.
+        `options.timeoutMs` sets the per-source budget (default 30000).
+        """
+
+    async def compareCards(self, args: Cap_purchase_rewards_CompareCardsArgs_In, options: Cap_purchase_rewards_CallOptions_In | None = None, /) -> Cap_purchase_rewards_CompareCardsResult_Out:
+        """Ranks every card Bowmark knows by what it earns on `amount` dollars in one spending
+        category — `bowmark.purchase_rewards.compareCards({ category: "dining", amount: 100 })`.
+        Categories: dining, grocery, online_grocery, wholesale_club, gas, travel, airfare,
+        hotels, car_rental, transit, streaming, drugstore, online_retail, home_improvement,
+        entertainment, phone_internet, other. `issuers` narrows to some issuers ("chase",
+        "American Express"); `limit` caps the list (default 25). Each card says whether its
+        rates were read live or from the reference table, and lists `conditions` (a chosen
+        category, a spend cap, a better rate only through the issuer's travel site).
+        """
+
 class Cap_read(Protocol):
     """Read any web page as markdown, text or HTML — or extract the text from a PDF, Word,
     PowerPoint or Excel url — one page or many at once, fast when the page allows it and
@@ -94513,6 +98440,25 @@ class Prv_aa(Protocol):
         for field accuracy.
         """
 
+class Prv_aarp(Protocol):
+    """AARP (aarp.org) — search its articles, guides, events and member offers on Medicare,
+    Social Security, retirement, scams and caregiving, and read one article's full text,
+    author and date.
+    """
+
+    async def search(self, args: Prv_aarp_search_args_In, /) -> Prv_aarp_AarpSearchResult_Out:
+        """Searches aarp.org (AARP's articles, guides, tools, events and member offers) by keyword,
+        e.g. "medicare open enrollment" or "social security scams", optionally narrowed to
+        articles, events, offers or membership pages; returns title, link, type, description,
+        excerpt, publish date and topics, plus the total match count. Browserless, about a
+        second.
+        """
+
+    async def getArticle(self, args: Prv_aarp_getArticle_args_In, /) -> Prv_aarp_AarpArticle_Out:
+        """Reads one aarp.org article by its URL (from search): headline, subtitle, description,
+        authors, publish date, keywords and the full article text.
+        """
+
 class Prv_aauto(Protocol):
     """1A Auto's DIY replacement-parts catalog — search results and one product's real price,
     stock and description — read off the live storefront.
@@ -94797,6 +98743,12 @@ class Prv_accuweather(Protocol):
         Shade, wind, gusts, precipitation chance and type, cloud cover, UV, the Sun & Moon
         rise/set times, and the Temperature History table (forecast vs. average, last year and
         the record).
+        """
+
+    async def getNearbyStationConditions(self, args: Prv_accuweather_AccuweatherGetNearbyStationConditionsArgs_In, /) -> Prv_accuweather_AccuweatherGetNearbyStationConditionsResult_Out:
+        """Returns current weather observations from stations within the supplied geographic
+        bounds, including station details, temperature, precipitation, humidity, and wind
+        conditions.
         """
 
 class Prv_acehardware(Protocol):
@@ -96058,6 +100010,69 @@ class Prv_americashealthrankings(Protocol):
         { measureId: 173, state: "CA" }.
         """
 
+    async def read(self, input: Prv_americashealthrankings_AmericasHealthRankingsReadInput_u0_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u1_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u2_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u3_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u4_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u5_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u6_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u7_In, /) -> list[Prv_americashealthrankings_AmericasHealthRankingsCoreMetric_Out] | Prv_americashealthrankings_AmericasHealthRankingsCoreMetric_Out | list[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricCategory_Out] | list[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricDatum_Out] | list[Prv_americashealthrankings_AmericasHealthRankingsCoreTag_Out] | Prv_americashealthrankings_AmericasHealthRankingsCoreTag_Out | Prv_americashealthrankings_AmericasHealthRankingsCoreGeo_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (core_measures,
+        core_measure, core_measureCategories, core_quintilesByMetricAndEdition, core_reports,
+        core_report, ...), give its `where` inputs, and list the `fields` you want back as dot
+        paths like "state.stateName"; omit `fields` for every plain field.
+        """
+
+class Prv_amex(Protocol):
+    """American Express: every US personal and business card with fees, earn rates by category,
+    welcome offers and credits; and, signed in, the cardholder's own cards, balances,
+    transactions and Amex Offers, including adding an offer to a card.
+    """
+
+    async def listCreditCards(self, args: Prv_amex_ListCreditCardsArgs_In | None = None, /) -> Prv_amex_AmexCreditCardList_Out:
+        """Every US American Express card on offer, personal and business: name, annual fee, earn
+        rates BY CATEGORY (e.g. 4X at restaurants, 4X at US supermarkets, 1X other) and the
+        public welcome offer, with each card's page. `segment` narrows to personal or business;
+        `earnRates: false` skips reading each card's page. Business welcome offers are null: the
+        business shop states its amount only inside an application.
+        """
+
+    async def getCreditCard(self, args: Prv_amex_GetCreditCardArgs_In, /) -> Prv_amex_AmexCreditCard_Out:
+        """One American Express card in full, by the id listCreditCards returns ("gold-card",
+        "business-gold") or its page URL: fee, earn rates by category, welcome offer, APR
+        wording, and every benefit and credit on its page (dining credit, Uber Cash, airline fee
+        credit…), credits flagged with their yearly dollar value.
+        """
+
+    async def listCards(self, opts: ConnectionOption | None = None, /) -> Prv_amex_AmexCards_Out:
+        """SIGNED IN — the cardholder's own American Express cards: cardId, last digits, product
+        name, basic or additional, and for each basic card its balance (current balance,
+        statement balance, unpaid part, payment due and its date, available credit when the site
+        states one). Runs through the caller's own Chrome when Bowmark Buddy is attached,
+        otherwise from a saved American Express sign-in; with neither, the run pauses for the
+        caller to sign in.
+        """
+
+    async def listTransactions(self, args: Prv_amex_ListTransactionsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_amex_AmexTransactions_Out:
+        """SIGNED IN — one card's transactions, posted and pending, newest first: date, statement
+        line, merchant, category, amount, card member. `card` is a cardId from listCards, its
+        last digits or words of its name; `from`/`to` are ISO dates. Runs through the caller's
+        own Chrome when Bowmark Buddy is attached, otherwise from a saved American Express
+        sign-in; with neither, the run pauses for the caller to sign in.
+        """
+
+    async def listOffers(self, args: Prv_amex_ListOffersArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_amex_AmexOffers_Out:
+        """SIGNED IN — the cardholder's Amex Offers, on one card or every active card: merchant,
+        reward wording, spend threshold, reward amount (dollars, points or percent), cap,
+        expiry, whether it is already added to the card, and the per-card offerId activateOffer
+        takes. Runs through the caller's own Chrome when Bowmark Buddy is attached, otherwise
+        from a saved American Express sign-in; with neither, the run pauses for the caller to
+        sign in.
+        """
+
+    async def activateOffer(self, args: Prv_amex_ActivateOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_amex_AmexOfferActivation_Out:
+        """SIGNED IN, WRITES — adds one Amex Offer to one card (the site's "Add to Card"): pass the
+        offerId and cardId from one listOffers row. Returns American Express's own verdict word
+        and whether the offer now shows in the card's Added to Card list. Throws with the site's
+        message when it refuses. Runs through the caller's own Chrome when Bowmark Buddy is
+        attached, otherwise from a saved American Express sign-in; with neither, the run pauses
+        for the caller to sign in.
+        """
+
 class Prv_amramp(Protocol):
     """Amramp's own ZIP/postal-code locator — which of its ~58 US/Canada
     accessibility-equipment franchises covers a given ZIP, and that franchise's own
@@ -97263,6 +101278,13 @@ class Prv_article_com(Protocol):
     price, dimensions, materials, stock and colourways.
     """
 
+    async def read(self, input: Prv_article_com_ArticleComSiteReadInput_u0_In | Prv_article_com_ArticleComSiteReadInput_u1_In | Prv_article_com_ArticleComSiteReadInput_u2_In | Prv_article_com_ArticleComSiteReadInput_u3_In | Prv_article_com_ArticleComSiteReadInput_u4_In | Prv_article_com_ArticleComSiteReadInput_u5_In | Prv_article_com_ArticleComSiteReadInput_u6_In | Prv_article_com_ArticleComSiteReadInput_u7_In | Prv_article_com_ArticleComSiteReadInput_u8_In | Prv_article_com_ArticleComSiteReadInput_u9_In | Prv_article_com_ArticleComSiteReadInput_u10_In | Prv_article_com_ArticleComSiteReadInput_u11_In, /) -> Prv_article_com_ArticleComSiteBloomreachSearchResult_Out | Prv_article_com_ArticleComSiteProduct_Out | Prv_article_com_ArticleComSiteProductSearchResult_Out | Prv_article_com_ArticleComSiteGetLocationResponse_Out | list[Prv_article_com_ArticleComSiteProductSuggestion_Out] | Prv_article_com_ArticleComSiteGetCuratedPagesResponse_Out | list[Prv_article_com_ArticleComSiteHelpCenterSuggestion_Out] | Prv_article_com_ArticleComSiteCollectionPage_Out | Prv_article_com_ArticleComSiteSiteMapResponse_Out | Prv_article_com_ArticleComSiteGetQuizResponse_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (bloomreachProductSearch,
+        product, getUrlDiscount, searchProductsWithFilter, getNavigation, contentfulById, ...),
+        give its `where` inputs, and list the `fields` you want back as dot paths like
+        "state.stateName"; omit `fields` for every plain field.
+        """
+
     async def searchProducts(self, args: Prv_article_com_ArticleSearchArgs_In, /) -> Prv_article_com_ArticleSearchResult_Out:
         """Search Article's furniture catalog by free text (e.g. 'sofa', 'oak dining table'). Rows
         carry productId, title, current price (dollars) and url.
@@ -97923,9 +101945,41 @@ class Prv_bankmycell(Protocol):
         """
 
 class Prv_bankofamerica(Protocol):
-    """Bank of America's public, logged-out site: published mortgage, CD and loan rates, credit
-    card terms, branches and ATMs, routing numbers and help answers.
+    """Bank of America: published mortgage, CD and loan rates, credit card terms with
+    per-category earn rates, branches and ATMs and routing numbers; and, signed in through
+    the caller's own Chrome, their accounts, balances, transactions, rewards and
+    BankAmeriDeals cash-back offers (list and add).
     """
+
+    async def listAccounts(self, opts: ConnectionOption | None = None, /) -> Prv_bankofamerica_BankofamericaAccounts_Out:
+        """The signed-in customer's own Bank of America accounts — credit cards and
+        checking/savings — with each one's id, product name, last 4 digits, balance and, for a
+        card, statement balance, minimum payment, payment due date, available credit and credit
+        limit. Read through the caller's own browser via Bowmark Buddy.
+        """
+
+    async def listTransactions(self, args: Prv_bankofamerica_BankofamericaTransactionsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bankofamerica_BankofamericaTransactions_Out:
+        """The transactions on one of the signed-in customer's Bank of America accounts (account =
+        an id from listAccounts), optionally between from and to (YYYY-MM-DD): date, pending,
+        description, amount, Bank of America's category and merchant. Reads the activity the
+        account page shows and warns when the range asked reaches further back.
+        """
+
+    async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_bankofamerica_BankofamericaRewards_Out:
+        """The signed-in customer's Bank of America credit card rewards: cash rewards, points or
+        miles available on each card, plus the totals.
+        """
+
+    async def listOffers(self, opts: ConnectionOption | None = None, /) -> Prv_bankofamerica_BankofamericaOffers_Out:
+        """The signed-in customer's BankAmeriDeals cash-back offers: merchant, cash back percent or
+        dollar amount, description, expiry date, days left, whether it is already added, and the
+        offerId activateOffer takes.
+        """
+
+    async def activateOffer(self, args: Prv_bankofamerica_BankofamericaActivateOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_bankofamerica_BankofamericaActivation_Out:
+        """Adds one BankAmeriDeals offer (offerId from listOffers) to the signed-in customer's
+        card, then reads the deals page back and returns the offer's new added state.
+        """
 
     async def getCdRates(self, args: Prv_bankofamerica_BankofamericaCdRatesArgs_In, /) -> list[Prv_bankofamerica_BankofamericaCdRate_Out]:
         """Gets Bank of America's published CD rates for a US state: featured, flexible and
@@ -97934,13 +101988,15 @@ class Prv_bankofamerica(Protocol):
 
     async def getCreditCard(self, args: Prv_bankofamerica_BankofamericaCreditCardArgs_In, /) -> Prv_bankofamerica_BankofamericaCreditCardDetail_Out:
         """Gets one Bank of America credit card by campaignId (from listCreditCards): APRs, annual
-        fee, balance-transfer fee, how rewards are earned and redeemed, and its product page
-        URL.
+        fee, balance-transfer fee, earn rates by spend category (e.g. 3% choice category, 2%
+        grocery, 1% everything else, with caps and choice-category options), how rewards are
+        redeemed, and its product page URL.
         """
 
     async def listCreditCards(self, /) -> list[Prv_bankofamerica_BankofamericaCreditCard_Out]:
         """Lists Bank of America's consumer credit cards with each card's name, rewards headline,
-        intro APR, standard APR range, annual fee and product page URL.
+        earn rates by spend category, intro APR, standard APR range, annual fee and product page
+        URL.
         """
 
     async def listDepositAccounts(self, args: Prv_bankofamerica_BankofamericaDepositAccountsArgs_In, /) -> list[Prv_bankofamerica_BankofamericaDepositAccount_Out]:
@@ -97979,6 +102035,27 @@ class Prv_bankofamerica(Protocol):
         """Gets Bank of America's published HELOC (home equity line of credit) rate and APR for a
         state and ZIP: sample payment, draw period, relationship discount and any introductory
         rate.
+        """
+
+class Prv_barclays(Protocol):
+    """Barclays US credit cards: every card Barclays markets (JetBlue, Wyndham Rewards,
+    Emirates Skywards, Lufthansa Miles & More, AARP, Gap/Old Navy/Athleta/Banana Republic,
+    GM, Breeze, Frontier, Carnival, Upromise and more) with earn rates by category, annual
+    fee, APR, intro APR and welcome bonus.
+    """
+
+    async def listCreditCards(self, /) -> Prv_barclays_BarclaysCreditCards_Out:
+        """Every credit card Barclays US markets (26 on 2026-11-25: JetBlue, Wyndham Rewards
+        Earner, Emirates Skywards, Lufthansa Miles & More, AARP, Gap/Old Navy/Athleta/Banana
+        Republic, GM, Breeze, Frontier, Carnival, Upromise, RCI, Capital Vacations, Barnes &
+        Noble): slug id, product code, name, annual fee, earn rates by category (rate, unit,
+        category, cap), welcome bonus, purchase APR range, intro APR, fees, benefits and card
+        art.
+        """
+
+    async def getCreditCard(self, card: str | Prv_barclays_BarclaysCardRef_u1_In, /) -> Prv_barclays_BarclaysCreditCardDetail_Out:
+        """One Barclays card by the id listCreditCards returned (or its name or URL): the listing
+        row plus the card page's own reward terms, including the full welcome-offer condition.
         """
 
 class Prv_barletta(Protocol):
@@ -102072,12 +106149,51 @@ class Prv_charterhomes(Protocol):
         """
 
 class Prv_chase(Protocol):
-    """Search Chase's public site for banking products, rates, branches and help pages."""
+    """Chase's public site search, its whole credit-card catalog (every personal and business
+    card with annual fee, welcome offer, APR and earn rates by category) and one card's
+    benefits and travel/purchase protections; signed in, through the caller's own Chrome,
+    the cardholder's Chase Offers and adding one to a card.
+    """
 
     async def search(self, query: str | Prv_chase_search_query_u1_In | None = None, /) -> list[Prv_chase_ChaseSearchResult_Out]:
         """Searches Chase's public site for products, rates, branches and help pages. Call search()
         with no argument for a current Chase overview, or pass a phrase such as "credit cards".
         Each result has its displayed title, short description and Chase page URL.
+        """
+
+    async def listCreditCards(self, args: Prv_chase_ChaseListCreditCardsArgs_In | None = None, /) -> Prv_chase_ChaseCreditCardList_Out:
+        """Every credit card Chase currently markets, personal and business (optionally { type:
+        "personal" | "business" }): name, id, annual fee (text, ongoing and intro amount),
+        welcome offer, APR, foreign transaction fee, earn rates by category (rate, x or %,
+        points/miles/cash back, category, spending cap, catch-all flag, Chase's own sentence),
+        Chase's short benefit list, and the card, apply, image and pricing-terms links. Read
+        from Chase's own compare-cards catalog.
+        """
+
+    async def getCreditCard(self, card: str | float | Prv_chase_getCreditCard_card_u2_In, /) -> Prv_chase_ChaseCreditCardDetail_Out:
+        """One Chase card by the `id` listCreditCards returns (or its `cardId`, chase.com URL or
+        exact name): everything listCreditCards has, plus the card page's benefits (credits,
+        partner perks, lounge passes) and travel and purchase protections (auto rental coverage,
+        trip cancellation, purchase protection, extended warranty ...), each with Chase's own
+        description. Earn rates come from the card page when it shows rate tiles
+        (`earnRatesFrom`).
+        """
+
+    async def listOffers(self, args: Prv_chase_ChaseListOffersArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_chase_ChaseOffers_Out:
+        """SIGNED IN — the caller's own Chase Offers (card-linked merchant offers) for one card ({
+        account?: last 4 or the card's name in Chase's account picker; default the card Chase
+        shows first}): merchant, reward ("10% cash back", with the percent or dollar amount),
+        expiry as shown, whether it is already added, and the `offerId` activateOffer takes.
+        Runs in the caller's own Chrome through Bowmark Buddy, signed in to chase.com; with none
+        attached the run pauses for sign-in.
+        """
+
+    async def activateOffer(self, args: Prv_chase_ChaseActivateOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_chase_ChaseOfferActivation_Out:
+        """SIGNED IN, WRITE — adds one Chase Offer to a card: { offerId, account } from listOffers.
+        Clicks the offer on the Chase Offers page in the caller's own Chrome through Bowmark
+        Buddy, then reads Chase's page back and returns the offer id, merchant, account and its
+        new state (`added`, and what confirmed it). An offer already added is reported and not
+        clicked; a click Chase does not confirm throws.
         """
 
 class Prv_chatgpt(Protocol):
@@ -102872,6 +106988,58 @@ class Prv_circl(Protocol):
     async def search(self, args: Prv_circl_circlSearchArgs_In, /) -> Prv_circl_circlSearchResult_Out:
         """Full-text search of CVE records by keyword, product or phrase ({ query: "openssh" }),
         each result the same record getCve returns
+        """
+
+class Prv_citi(Protocol):
+    """Citi credit cards: the public card catalog (fees, earn rates by category, welcome
+    offers) and, signed in through the caller's own browser, their Citi accounts,
+    transactions, ThankYou rewards and Merchant Offers, including activating an offer.
+    """
+
+    async def listCreditCards(self, args: Prv_citi_CitiListCreditCardsArgs_In | None = None, /) -> Prv_citi_CitiCreditCards_Out:
+        """Every credit card on citi.com (Strata Premier, Double Cash, Custom Cash, Costco
+        Anywhere, the AAdvantage cards, the store cards…) with its annual fee, earn rates by
+        spend category, welcome offer (bonus, spend, months), APRs and fees, page URL and Citi
+        product id. Public, no sign-in.
+        """
+
+    async def getCreditCard(self, id: str, /) -> Prv_citi_CitiCreditCardDetail_Out:
+        """One Citi card in full: everything listCreditCards returns for it plus the page's feature
+        sections and its rates-and-fees table. Takes the card id from listCreditCards (its page
+        slug, e.g. "citi-strata-premier-credit-card"), its page URL, or its three-digit product
+        id.
+        """
+
+    async def listAccounts(self, opts: ConnectionOption | None = None, /) -> list[Prv_citi_CitiAccount_Out]:
+        """The signed-in cardholder's Citi credit card accounts: accountId, last four digits,
+        product, current balance, statement balance, minimum payment, payment due date,
+        available credit and credit limit. Read through the caller's own browser via Bowmark
+        Buddy.
+        """
+
+    async def listTransactions(self, args: Prv_citi_CitiTransactionsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_citi_CitiTransactionsPage_Out:
+        """Transactions on one of the cardholder's Citi accounts, pending first, then posted: date,
+        description, merchant, amount (positive is a purchase), Citi's category. Takes {
+        account, from?, to?, limit? }, account being an accountId from listAccounts (or its last
+        four digits), from/to YYYY-MM-DD. Pages through Citi's own cursor.
+        """
+
+    async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_citi_CitiRewardsBalance_Out:
+        """The cardholder's Citi rewards: the ThankYou points total, and each card's balance with
+        its program (ThankYou, cash back in dollars, AAdvantage miles).
+        """
+
+    async def listOffers(self, args: Prv_citi_CitiOffersArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_citi_CitiOffers_Out:
+        """Citi Merchant Offers on one of the cardholder's cards: merchant, reward, category,
+        expiry, whether it is already enrolled, and the offerId activateOffer takes. Optional {
+        account } (an accountId from listAccounts); without it, Citi's default card. Also lists
+        every card the offers page can switch to.
+        """
+
+    async def activateOffer(self, args: Prv_citi_CitiActivateOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_citi_CitiOfferActivation_Out:
+        """Enrolls one Citi Merchant Offer on a card ({ offerId, account }) and returns the offer's
+        new enrolled state as Citi's answer reports it. A write on the cardholder's account;
+        enrolling costs nothing.
         """
 
 class Prv_classichome(Protocol):
@@ -104540,6 +108708,18 @@ class Prv_costco(Protocol):
         filters by brand or kind ("restaurant", "fandango"); `limit` defaults to 20.
         """
 
+    async def signup(self, args: Any, /) -> Prv_costco_signup_return_u0_Out | Prv_costco_signup_return_u1_Out | Prv_costco_signup_return_u2_Out | Prv_costco_signup_return_u3_Out:
+        """Makes a NEW Costco account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_costco_confirmSignup_return_u0_Out | Prv_costco_confirmSignup_return_u1_Out | Prv_costco_confirmSignup_return_u2_Out | Prv_costco_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_countycourt_vic_gov_au(Protocol):
     """Reads the County Court of Victoria's daily hearing lists — Crime and Appeals, Civil,
     Circuit — straight off the site's own headless-Drupal JSON:API, no key, no browser.
@@ -104614,6 +108794,12 @@ class Prv_craigslist(Protocol):
     async def listSavedSearches(self, opts: ConnectionOption | None = None, /) -> Prv_craigslist_CraigslistSavedSearches_Out:
         """Lists the signed-in caller's saved Craigslist searches, each with its name and the
         search URL it re-runs. Needs the caller signed in; a dead sign-in throws.
+        """
+
+    async def saveSearch(self, args: str | Prv_craigslist_CraigslistSearchArgs_In, opts: ConnectionOption | None = None, /) -> Prv_craigslist_CraigslistSaveSearchResult_Out:
+        """Saves a Craigslist search (keyword, area, category, price range) to the signed-in
+        caller's saved searches, then reads the saved-searches tab back to confirm it is listed.
+        Needs the caller signed in; a dead sign-in throws.
         """
 
     async def getListingImages(self, url: str, /) -> Prv_craigslist_CraigslistImages_Out:
@@ -106753,6 +110939,31 @@ class Prv_discounttire(Protocol):
         for one.
         """
 
+class Prv_discover(Protocol):
+    """Discover credit cards: every card Discover markets with its earn rates by category, fee
+    and welcome offer, and the 5% Cashback Bonus calendar for this year.
+    """
+
+    async def listCreditCards(self, /) -> Prv_discover_DiscoverCreditCards_Out:
+        """Every credit card Discover markets (Discover it Cash Back, Student, Secured, Balance
+        Transfer, Chrome, Miles, NHL and the 'for Good Credit' variants): name, id, annual fee,
+        earn rates by category (rate, unit, category, cap, rotating flag), welcome offer (bonus
+        and Cashback Match), intro APR, card art and page URL. Cards whose 5% rotates carry this
+        quarter's categories.
+        """
+
+    async def getCreditCard(self, card: str | Prv_discover_DiscoverCardRef_u1_In, /) -> Prv_discover_DiscoverCreditCardDetail_Out:
+        """One Discover card by the id listCreditCards returned (or its name or URL): the listing
+        row plus the card page's own reward terms — the footnotes saying what each category
+        includes and the caps.
+        """
+
+    async def getCashbackCalendar(self, /) -> Prv_discover_DiscoverCashbackCalendar_Out:
+        """This year's Discover 5% Cashback Bonus calendar: each quarter's categories, dates,
+        $1,500 spend cap, when activation opens, which quarter is current, and the full category
+        terms.
+        """
+
 class Prv_disney(Protocol):
     """Walt Disney World's park admission ticket pricing — getTicketPrice reads the ticket
     page's own product-listing endpoint (two keyless GETs, no browser) for a real
@@ -107563,6 +111774,14 @@ class Prv_ebay(Protocol):
         page is the caller's own listings and does not print their username back to them.
         `limit` caps the row count (default 20, ceiling 200).
         """
+
+class Prv_ecosia(Protocol):
+    """Ecosia search engine: autocomplete suggestions for a partial query (suggest is built;
+    web search is queued, it needs a browser).
+    """
+
+    async def suggest(self, args: Prv_ecosia_SuggestArgs_In, /) -> Prv_ecosia_Suggestions_Out:
+        """Ecosia search-box autocomplete suggestions for a partial query, in a chosen market."""
 
 class Prv_edmunds(Protocol):
     """Edmunds car forums (forums.edmunds.com): search discussions and posts, browse make/model
@@ -108483,6 +112702,11 @@ class Prv_eventbrite(Protocol):
         price range; this is the per-tier detail.
         """
 
+    async def listNearbyCities(self, args: Prv_eventbrite_EventbriteListNearbyCitiesArgs_In, /) -> Prv_eventbrite_EventbriteListNearbyCitiesResult_Out:
+        """Returns nearby cities for a place, with each city’s name and events URL plus the queried
+        place’s name.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_eventbrite_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -109276,6 +113500,36 @@ class Prv_farmaciasdirect(Protocol):
     EUR price, discount and stock, and list its current promotions (promociones).
     """
 
+    async def read(self, input: Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u0_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u1_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u2_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u3_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u4_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u5_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u6_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u7_In, /) -> Prv_farmaciasdirect_FarmaciasdirectSiteCollection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteCollectionConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteLocationConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteProduct_Out | Prv_farmaciasdirect_FarmaciasdirectSiteStringConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteProductConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteSearchResultItemConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteSitemap_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (article, articles, blog,
+        blogs, collection, collections, ...), give its `where` inputs, and list the `fields` you
+        want back as dot paths like "state.stateName"; omit `fields` for every plain field.
+        """
+
+    async def cartCreate(self, input: Prv_farmaciasdirect_FarmaciasdirectSiteCartCreateAction_In | None = None, /) -> Prv_farmaciasdirect_FarmaciasdirectSiteCartCreatePayload_Out | None:
+        """Creates a new `Cart` for a buyer session. A write: it changes something on the site,
+        never pays. Its answer carries `cart.checkoutUrl`, the link that opens this cart on the
+        site for the shopper.
+        """
+
+    async def cartLinesAdd(self, input: Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesAddAction_In, /) -> Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesAddPayload_Out | None:
+        """Adds one or more merchandise lines to an existing `Cart`. A write: it changes something
+        on the site, never pays. Its answer carries `cart.checkoutUrl`, the link that opens this
+        cart on the site for the shopper.
+        """
+
+    async def cartLinesRemove(self, input: Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesRemoveAction_In, /) -> Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesRemovePayload_Out | None:
+        """Removes one or more merchandise lines from a `Cart`. A write: it changes something on
+        the site, never pays. Its answer carries `cart.checkoutUrl`, the link that opens this
+        cart on the site for the shopper. Cannot be undone.
+        """
+
+    async def cartLinesUpdate(self, input: Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesUpdateAction_In, /) -> Prv_farmaciasdirect_FarmaciasdirectSiteCartLinesUpdatePayload_Out | None:
+        """Updates one or more merchandise lines on a `Cart`. A write: it changes something on the
+        site, never pays. A quantity of 0 removes the line, which cannot be undone. Its answer
+        carries `cart.checkoutUrl`, the link that opens this cart on the site for the shopper.
+        """
+
     async def getProduct(self, ref: Prv_farmaciasdirect_FarmaciasdirectProduct_In | str, /) -> Prv_farmaciasdirect_FarmaciasdirectProductDetail_Out:
         """Reads one farmaciasdirect.es product by URL or handle: EUR price, pre-discount price and
         % off, stock, brand, category, description, images, and each variant's SKU and EAN
@@ -109384,6 +113638,31 @@ class Prv_ferguson(Protocol):
     async def findBranches(self, args: Prv_ferguson_FindBranchesArgs_In, /) -> list[Prv_ferguson_fergusonBranch_Out]:
         """Lists Ferguson branches in a US state, optionally narrowed by city and branch line
         (plumbing/PVF, HVAC, waterworks, warehouse, …), off ferguson.com's own store sitemap.
+        """
+
+class Prv_fidelity(Protocol):
+    """Fidelity Investments: public stock quotes, mutual fund research, CD rates and Learning
+    Center articles; account reads need the caller's own sign-in.
+    """
+
+    async def screenFunds(self, filters: Prv_fidelity_ScreenFundsArgs_In, /) -> Prv_fidelity_FidelityFundScreen_Out:
+        """Screens Fidelity's own mutual funds by name, asset class, Morningstar category or index
+        funds only: ticker, CUSIP, class, category, inception and no-transaction-fee flag.
+        """
+
+    async def getFund(self, fund: str, /) -> Prv_fidelity_FidelityFund_Out:
+        """Reads a mutual fund's Fidelity research summary by ticker or CUSIP: NAV, expense ratios,
+        minimum, average annual returns, Morningstar rating, objective and top holdings.
+        """
+
+    async def searchSymbols(self, query: str, /) -> Prv_fidelity_FidelitySymbolSearch_Out:
+        """Finds tickers by company or fund name (Fidelity's own autosuggest): symbol, name, CUSIP,
+        security type and exchange per match.
+        """
+
+    async def getQuote(self, symbol: str, /) -> Prv_fidelity_FidelityQuote_Out:
+        """Reads Fidelity's delayed quote for one ticker: last, change, bid/ask, day and 52-week
+        range, volume, market cap, P/E, EPS, dividend and sector.
         """
 
 class Prv_fieldstonehomes(Protocol):
@@ -112038,8 +116317,14 @@ class Prv_goloadup(Protocol):
     """LoadUp's own item-selector and live pricing engine for junk removal, donation and
     furniture pickup — the current catalog of items with base prices, a real ZIP-specific
     guaranteed quote for an exact set of items, and whether/how a ZIP is served, all off the
-    same GraphQL API the site's own booking widget calls.
+    same data API the site's own booking widget calls.
     """
+
+    async def read(self, input: Prv_goloadup_GoloadupSiteReadInput_u0_In | Prv_goloadup_GoloadupSiteReadInput_u1_In | Prv_goloadup_GoloadupSiteReadInput_u2_In | Prv_goloadup_GoloadupSiteReadInput_u3_In, /) -> Prv_goloadup_GoloadupSiteExcludedDates_Out | Prv_goloadup_GoloadupSiteItemTypesData_Out | Prv_goloadup_GoloadupSitePricingDetails_Out | Prv_goloadup_GoloadupSiteServiceAvailability_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (excludedDates, itemTypes,
+        pricingDetails, serviceAvailability), give its `where` inputs, and list the `fields` you
+        want back as dot paths like "state.stateName"; omit `fields` for every plain field.
+        """
 
     async def getPricingCatalog(self, /) -> list[Prv_goloadup_GoloadupItemType_Out]:
         """Returns LoadUp's full current catalog of pickupable items (couches, mattresses,
@@ -112091,6 +116376,13 @@ class Prv_goodreads(Protocol):
     """A social network for book readers: book details and ratings, member reviews, curated
     lists, genre browsing, and (once a caller signs in) shelving, rating and reviewing.
     """
+
+    async def read(self, input: Prv_goodreads_GoodreadsSiteReadInput_u0_In | Prv_goodreads_GoodreadsSiteReadInput_u1_In | Prv_goodreads_GoodreadsSiteReadInput_u2_In | Prv_goodreads_GoodreadsSiteReadInput_u3_In | Prv_goodreads_GoodreadsSiteReadInput_u4_In | Prv_goodreads_GoodreadsSiteReadInput_u5_In, /) -> Prv_goodreads_GoodreadsSiteBook_Out | Prv_goodreads_GoodreadsSitePageBanner_Out | Prv_goodreads_GoodreadsSiteNativeAd_Out | Prv_goodreads_GoodreadsSiteGiveawaysConnection_Out | Prv_goodreads_GoodreadsSiteSiteHeaderBanner_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (getBook, getBookByLegacyId,
+        getPageBanner, getNativeAd, getGiveaways, getSiteHeaderBanner), give its `where` inputs,
+        and list the `fields` you want back as dot paths like "state.stateName"; omit `fields`
+        for every plain field.
+        """
 
     async def searchBooks(self, query: str, /) -> list[Prv_goodreads_GoodreadsBookRow_Out]:
         """Runs goodreads.com's book search and returns title, author, url and (when the card shows
@@ -114818,6 +119110,21 @@ class Prv_ikea(Protocol):
     async def removeFromFavorites(self, args: Prv_ikea_RemoveFromFavoritesArgs_In, /) -> Prv_ikea_IkeaFavoritesList_Out:
         """Removes a product from a favorites list."""
 
+    async def getAccessoryRecommendations(self, args: Prv_ikea_IkeaGetAccessoryRecommendationsArgs_In, /) -> list[Prv_ikea_IkeaGetAccessoryRecommendationsResult_item_Out]:
+        """Returns recommended accessories for a product, with each accessory’s product number,
+        recommendation link, image URL, and image description.
+        """
+
+    async def getProductReviews(self, args: Prv_ikea_IkeaGetProductReviewsArgs_In, /) -> list[Prv_ikea_IkeaGetProductReviewsResult_item_Out]:
+        """Returns reviews for a product, including review text, ratings, recommendation and
+        purchase-verification status, media, and reviewer and submission details.
+        """
+
+    async def searchSupportArticles(self, args: Prv_ikea_IkeaSearchSupportArticlesArgs_In, /) -> list[Prv_ikea_IkeaSearchSupportArticlesResult_item_Out]:
+        """Returns matching IKEA customer-service articles, with each article’s title, summary,
+        full content, and identifier.
+        """
+
 class Prv_illinois_lottery(Protocol):
     """Illinois Lottery (illinoislottery.com): current instant-game (Fast Play) jackpot
     amounts, lottery retailers near a location, the signed-in player's own cart, and a
@@ -116078,6 +120385,13 @@ class Prv_interiordefine(Protocol):
     rather than a researched estimate.
     """
 
+    async def read(self, input: Prv_interiordefine_InteriordefineSiteReadInput_u0_In | Prv_interiordefine_InteriordefineSiteReadInput_u1_In | Prv_interiordefine_InteriordefineSiteReadInput_u2_In | Prv_interiordefine_InteriordefineSiteReadInput_u3_In | Prv_interiordefine_InteriordefineSiteReadInput_u4_In | Prv_interiordefine_InteriordefineSiteReadInput_u5_In | Prv_interiordefine_InteriordefineSiteReadInput_u6_In | Prv_interiordefine_InteriordefineSiteReadInput_u7_In, /) -> Prv_interiordefine_InteriordefineSiteAffirmAslowasPriceConfigData_Out | list[Prv_interiordefine_InteriordefineSiteStoreConfig_Out] | Prv_interiordefine_InteriordefineSiteCategoryResult_Out | list[Prv_interiordefine_InteriordefineSiteCategoryTree_Out] | Prv_interiordefine_InteriordefineSitePickupLocations_Out | Prv_interiordefine_InteriordefineSiteProducts_Out | Prv_interiordefine_InteriordefineSiteRedirectOutput_Out | Prv_interiordefine_InteriordefineSiteStoreLocationView_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (affirmAslowasPrice,
+        affirmBanner, availableStores, careersList, categories, categoryList, ...), give its
+        `where` inputs, and list the `fields` you want back as dot paths like "state.stateName";
+        omit `fields` for every plain field.
+        """
+
     async def searchProducts(self, query: str, /) -> list[Prv_interiordefine_InteriorDefineProductSummary_Out]:
         """Searches Interior Define's catalog by free text (e.g. "sectional", "leather sofa") and
         returns every customizable match with its SKU, name, entry URL and starting price.
@@ -116409,6 +120723,13 @@ class Prv_joybird(Protocol):
     fabric and wood stain, and the live configured price Joybird's own page shows.
     """
 
+    async def read(self, input: Prv_joybird_JoybirdSiteReadInput_u0_In | Prv_joybird_JoybirdSiteReadInput_u1_In | Prv_joybird_JoybirdSiteReadInput_u2_In | Prv_joybird_JoybirdSiteReadInput_u3_In | Prv_joybird_JoybirdSiteReadInput_u4_In | Prv_joybird_JoybirdSiteReadInput_u5_In | Prv_joybird_JoybirdSiteReadInput_u6_In | Prv_joybird_JoybirdSiteReadInput_u7_In | Prv_joybird_JoybirdSiteReadInput_u8_In | Prv_joybird_JoybirdSiteReadInput_u9_In | Prv_joybird_JoybirdSiteReadInput_u10_In | Prv_joybird_JoybirdSiteReadInput_u11_In | Prv_joybird_JoybirdSiteReadInput_u12_In | Prv_joybird_JoybirdSiteReadInput_u13_In | Prv_joybird_JoybirdSiteReadInput_u14_In | Prv_joybird_JoybirdSiteReadInput_u15_In, /) -> Any:
+        """Reads anything this site offers in one call: pick a `thing` (getProduct,
+        getProductVisOptions, getAllActiveOptionsValues, getCollections, getCategory,
+        getCollection, ...), give its `where` inputs, and list the `fields` you want back as dot
+        paths like "state.stateName"; omit `fields` for every plain field.
+        """
+
     async def listConfigurators(self, /) -> list[Prv_joybird_JoybirdConfigurator_Out]:
         """Lists every configurable product Joybird sells — sofas, sectionals, chairs, ottomans,
         beds, organised by collection — with its slug, name, current displayed price, list price
@@ -116684,6 +121005,13 @@ class Prv_katzsdelicatessen(Protocol):
     """Katz's Delicatessen (NYC, since 1888) — search and read its nationwide-shipping store:
     pastrami, corned beef, packages and merch, with live price and stock.
     """
+
+    async def read(self, input: Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u0_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u1_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u2_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u3_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u4_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u5_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u6_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u7_In, /) -> list[Prv_katzsdelicatessen_KatzsdelicatessenSiteStoreConfig_Out] | Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoryResult_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteGTMCodeOutput_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteGTMHeadOutput_Out | Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocations_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteProducts_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteRoutableInterface_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteSlideItems_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (attributesForm,
+        attributesList, availableStores, categories, cmsBlocks, cmsPage, ...), give its `where`
+        inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
+        `fields` for every plain field.
+        """
 
     async def searchProducts(self, query: str, /) -> list[Prv_katzsdelicatessen_katzsdelicatessenProduct_Out]:
         """Searches Katz's Delicatessen's nationwide-shipping store by free text (e.g. 'pastrami',
@@ -117182,6 +121510,13 @@ class Prv_kwworldwide(Protocol):
 class Prv_labcorp(Protocol):
     """Lab test pricing, PSC location lookup and appointment availability from Labcorp."""
 
+    async def read(self, input: Prv_labcorp_LabcorpSiteReadInput_u0_In | Prv_labcorp_LabcorpSiteReadInput_u1_In | Prv_labcorp_LabcorpSiteReadInput_u2_In | Prv_labcorp_LabcorpSiteReadInput_u3_In | Prv_labcorp_LabcorpSiteReadInput_u4_In | Prv_labcorp_LabcorpSiteReadInput_u5_In, /) -> list[Prv_labcorp_LabcorpSiteStoreConfig_Out] | Prv_labcorp_LabcorpSiteCategoryResult_Out | Prv_labcorp_LabcorpSiteDynamicBlocks_Out | Prv_labcorp_LabcorpSitePickupLocations_Out | Prv_labcorp_LabcorpSiteProducts_Out | Prv_labcorp_LabcorpSiteRoutableInterface_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (attributesForm,
+        attributesList, availableStores, categories, cmsBlocks, cmsPage, ...), give its `where`
+        inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
+        `fields` for every plain field.
+        """
+
     async def search(self, query: str, /) -> list[Prv_labcorp_LabcorpTestSummary_Out]:
         """Searches Labcorp's direct-to-consumer test catalog (Labcorp OnDemand) by keyword — e.g.
         "Lyme disease", "Men's Health" — and returns matching tests with their sku, name and
@@ -117191,8 +121526,8 @@ class Prv_labcorp(Protocol):
     async def getTest(self, sku: str, /) -> Prv_labcorp_LabcorpTestDetail_Out:
         """Returns the full OnDemand test detail for one sku — price, descriptions, sample type,
         collection method, turnaround time and acceptable age band. Combines the catalog row
-        (GraphQL) with the specimen/turnaround facts the site renders on the PDP HTML. Pass the
-        sku returned by `search`.
+        (the site's data API) with the specimen/turnaround facts the site renders on the PDP
+        HTML. Pass the sku returned by `search`.
         """
 
 class Prv_landmarkhw_com(Protocol):
@@ -117323,6 +121658,13 @@ class Prv_latimes(Protocol):
         """Lists the free daily games on the L.A. Times /games hub (Daily, Midi and Mini Crossword,
         Sudoku, Wordflower, Word Search and more): game id, title, play url and a one-line
         description.
+        """
+
+    async def getCrossword(self, args: Prv_latimes_GetCrosswordArgs_In, /) -> Prv_latimes_Crossword_Out:
+        """Reads a day's L.A. Times Daily, Midi or Mini Crossword from its Amuse Labs host: title,
+        author, the blank grid, and the numbered across and down clues with lengths and start
+        cells. Pass puzzle (daily, midi, mini), date (YYYY-MM-DD, default the latest) and
+        includeSolution:true for the filled grid.
         """
 
 class Prv_launchpad(Protocol):
@@ -119056,6 +123398,20 @@ class Prv_luma(Protocol):
         discoverEvents takes.
         """
 
+    async def getGuestList(self, args: Prv_luma_GetGuestListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_luma_LumaGuestList_Out:
+        """The full guest list of one Luma event, read with the caller's own signed-in Luma
+        account: every guest's name with the LinkedIn, X, website and bio they gave Luma,
+        following Luma's cursor up to `limit` (default 5000). Luma opens the list only to an
+        account registered for the event: RSVP on the event page first (Luma's one-click RSVP),
+        read the list, then cancelRegistration if you only wanted the list. Without a
+        registration it throws saying so.
+        """
+
+    async def cancelRegistration(self, args: Prv_luma_GetEventArgs_In, opts: ConnectionOption | None = None, /) -> Prv_luma_LumaCancellation_Out:
+        """Cancels the caller's own registration for a Luma event (Luma's 'Cancel registration'),
+        e.g. after an RSVP made only to read the guest list with getGuestList.
+        """
+
 class Prv_lyreco(Protocol):
     """Lyreco's Swedish B2B office supplies webshop — search and per-product guest pricing."""
 
@@ -119082,6 +123438,13 @@ class Prv_magicmadhouse(Protocol):
     or stock: call searchProducts with the product name instead of summarizing the site or
     reading a product page as prose.
     """
+
+    async def read(self, input: Prv_magicmadhouse_MagicmadhouseSiteReadInput_u0_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u1_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u2_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u3_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u4_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u5_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u6_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u7_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u8_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u9_In, /) -> Prv_magicmadhouse_MagicmadhouseSiteNode_Out | Prv_magicmadhouse_MagicmadhouseSiteStore_Out | Prv_magicmadhouse_MagicmadhouseSiteSearchProducts_Out | list[Prv_magicmadhouse_MagicmadhouseSiteCategoryTreeItem_Out] | Prv_magicmadhouse_MagicmadhouseSiteCategory_Out | Prv_magicmadhouse_MagicmadhouseSiteProductConnection_Out | Prv_magicmadhouse_MagicmadhouseSiteProduct_Out | Prv_magicmadhouse_MagicmadhouseSiteWebPage_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (channel, node, inventory,
+        shopperPreferences, store, geography, ...), give its `where` inputs, and list the
+        `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
+        plain field.
+        """
 
     async def searchProducts(self, query: str, /) -> list[Prv_magicmadhouse_MagicMadhouseProduct_Out]:
         """Call this immediately for a Magic Madhouse price, RRP, SKU, or stock lookup: searches
@@ -119589,6 +123952,27 @@ class Prv_maurices(Protocol):
         its category pages and product sitemap instead (source: "sitemap"): rows a category page
         lists carry its price and come first; the rest are url and name only — read prices with
         getProduct. Pass offset (72, 144, …) for the next page.
+        """
+
+class Prv_maxpreps(Protocol):
+    """MaxPreps (maxpreps.com) high school sports: search schools and athletes, read a school's
+    teams, games and scores.
+    """
+
+    async def getSchool(self, url: str, /) -> Prv_maxpreps_MaxprepsSchoolDetail_Out:
+        """Read a MaxPreps school page by its url (from searchSchools): address, phone, state
+        association, athletic director, colours, sports offered and its upcoming/recent games
+        with scores.
+        """
+
+    async def searchAthletes(self, query: str, /) -> Prv_maxpreps_MaxprepsAthletePage_Out:
+        """Find high-school athletes on MaxPreps by name ("Bryce Underwood"); returns each
+        athlete's sports, graduating class, school and profile url.
+        """
+
+    async def searchSchools(self, query: str, /) -> Prv_maxpreps_MaxprepsSchoolPage_Out:
+        """Find US high schools on MaxPreps by name ("Mater Dei", "De La Salle"); returns each
+        school's id, city, state, mascot and the url getSchool takes.
         """
 
 class Prv_mayoclinic(Protocol):
@@ -120529,6 +124913,13 @@ class Prv_mlb(Protocol):
     news, Film Room video search, and the signed-in account's favourites and newsletters.
     """
 
+    async def read(self, input: Prv_mlb_MlbReadInput_u0_In | Prv_mlb_MlbReadInput_u1_In | Prv_mlb_MlbReadInput_u2_In | Prv_mlb_MlbReadInput_u3_In | Prv_mlb_MlbReadInput_u4_In | Prv_mlb_MlbReadInput_u5_In | Prv_mlb_MlbReadInput_u6_In | Prv_mlb_MlbReadInput_u7_In | Prv_mlb_MlbReadInput_u8_In | Prv_mlb_MlbReadInput_u9_In | Prv_mlb_MlbReadInput_u10_In | Prv_mlb_MlbReadInput_u11_In, /) -> list[Prv_mlb_MlbSearchFieldMetadata_Out] | Prv_mlb_MlbPagedClipDetails_Out | list[Prv_mlb_MlbInfoResponse_Out] | list[Prv_mlb_MlbPlayerInfo_Out] | list[Prv_mlb_MlbTeamInfo_Out] | Prv_mlb_MlbPagedReelResponse_Out | list[Prv_mlb_MlbGame_Out] | list[str] | Prv_mlb_MlbStory_Out | list[Prv_mlb_MlbStory_Out] | Prv_mlb_MlbSectionResponse_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (fields, types,
+        commonFields, search, queryInfo, mediaPlayback, ...), give its `where` inputs, and list
+        the `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
+        plain field.
+        """
+
     async def listTeams(self, args: Prv_mlb_MlbListTeamsArgs_In | None = None, /) -> list[Prv_mlb_MlbTeam_Out]:
         """The 30 MLB teams (or a minor league's, via sportId) with id, name, abbreviation, league,
         division and home ballpark. The door for every team id, e.g. listTeams().
@@ -120958,6 +125349,21 @@ class Prv_mossyoak(Protocol):
         before applying the limit — so a caller asking for one category does not have to fetch
         and filter the whole storefront themselves. In-stock products first, then by handle.
         `warnings` names it when the requested productType matched nothing.
+        """
+
+class Prv_ms_now(Protocol):
+    """Search MS NOW (formerly MSNBC, ms.now) news articles by keyword and read an article's
+    full text, authors and dates.
+    """
+
+    async def search(self, args: Prv_ms_now_MsNowSearchArgs_In, /) -> Prv_ms_now_MsNowSearchPage_Out:
+        """Searches MS NOW (formerly MSNBC) articles by keyword. Returns one page of results
+        (title, link, author, date, snippet each) with the site's total match count.
+        """
+
+    async def getArticle(self, args: Prv_ms_now_MsNowGetArticleArgs_In, /) -> Prv_ms_now_MsNowArticle_Out:
+        """Reads one MS NOW article by URL: headline, authors, published and modified dates,
+        section and full body text.
         """
 
 class Prv_msc(Protocol):
@@ -121402,6 +125808,13 @@ class Prv_nationalbusinessfurniture(Protocol):
     resolve a specific configuration to its real variant price rather than a researched
     estimate.
     """
+
+    async def read(self, input: Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u0_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u1_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u2_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u3_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u4_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u5_In, /) -> list[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteStoreConfig_Out] | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoryResult_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyOutput_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocations_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProducts_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteRoutableInterface_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (attributesForm,
+        attributesList, availableStores, categories, cmsBlocks, cmsPage, ...), give its `where`
+        inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
+        `fields` for every plain field.
+        """
 
     async def searchProducts(self, query: str, /) -> list[Prv_nationalbusinessfurniture_NbfProductSummary_Out]:
         """Searches National Business Furniture's office-furniture catalog by free text (e.g.
@@ -124766,6 +129179,37 @@ class Prv_pixabay(Protocol):
         the related images.
         """
 
+    async def searchVideos(self, args: Prv_pixabay_SearchVideosArgs_In, /) -> Prv_pixabay_VideoSearchResult_Out:
+        """Searches Pixabay's free stock videos by keyword, returning each clip with its size,
+        length, creator and tags, plus the page count.
+        """
+
+    async def getVideo(self, args: Prv_pixabay_GetVideoArgs_In, /) -> Prv_pixabay_VideoDetail_Out:
+        """Reads one video page: title, tags, creator, available resolutions with file sizes,
+        views, downloads, likes and the related videos.
+        """
+
+    async def searchMusic(self, args: Prv_pixabay_SearchAudioArgs_In, /) -> Prv_pixabay_AudioSearchResult_Out:
+        """Searches Pixabay's free music tracks by keyword, returning each track with its length,
+        creator, tags and a playable preview, plus the page count.
+        """
+
+    async def searchSoundEffects(self, args: Prv_pixabay_SearchAudioArgs_In, /) -> Prv_pixabay_AudioSearchResult_Out:
+        """Searches Pixabay's free sound effects by keyword, returning each clip with its length,
+        creator, tags and a playable preview, plus the page count.
+        """
+
+    async def getAudio(self, args: Prv_pixabay_GetAudioArgs_In, /) -> Prv_pixabay_AudioDetail_Out:
+        """Reads one music track or sound-effect page: title, creator, length, genres, moods, tags,
+        stream and download URLs, licence attribution, counts and related tracks.
+        """
+
+    async def getUser(self, args: Prv_pixabay_GetUserArgs_In, /) -> Prv_pixabay_UserProfile_Out:
+        """Reads one creator's profile: display name, location, join date, follower and following
+        counts, total likes, views and downloads, social links and how many items they have per
+        type.
+        """
+
     async def signup(self, args: Any, /) -> Prv_pixabay_signup_return_u0_Out | Prv_pixabay_signup_return_u1_Out | Prv_pixabay_signup_return_u2_Out | Prv_pixabay_signup_return_u3_Out:
         """Makes a NEW Pixabay account with the person's own email and password, in a session.
         Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
@@ -126206,6 +130650,12 @@ class Prv_quickbooks(Protocol):
     the ProAdvisor accountant directory, the App Store, Community answers, help articles and
     service status.
     """
+
+    async def read(self, input: Prv_quickbooks_QuickbooksSiteReadInput_u0_In | Prv_quickbooks_QuickbooksSiteReadInput_u1_In, /) -> Prv_quickbooks_QuickbooksSiteMatchmakingSearchListingConnection_Out | Prv_quickbooks_QuickbooksSiteMatchmakingPublicListingConnection_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (searchAccountantListings,
+        publicAccountantListings), give its `where` inputs, and list the `fields` you want back
+        as dot paths like "state.stateName"; omit `fields` for every plain field.
+        """
 
     async def calculateSalesTax(self, args: Prv_quickbooks_QuickbooksCalculateSalesTaxArgs_In, /) -> Prv_quickbooks_QuickbooksSalesTaxResult_Out:
         """Estimates the combined sales tax rate for a US city and ZIP, split into state, city and
@@ -131388,6 +135838,52 @@ class Prv_state_gov(Protocol):
         text, by its state.gov URL.
         """
 
+    async def listBriefings(self, args: Prv_state_gov_listBriefings_args_In | None = None, /) -> list[Prv_state_gov_state_govBriefingRow_Out]:
+        """Lists the department's press briefings, newest first: title, date and link. Pass { limit
+        } to narrow.
+        """
+
+    async def getBriefing(self, url: str, /) -> Prv_state_gov_state_govBriefing_Out:
+        """Returns one press briefing transcript: its date, speakers, location and full text, by
+        its state.gov URL.
+        """
+
+    async def listOfficials(self, args: Prv_state_gov_listOfficials_args_In | None = None, /) -> list[Prv_state_gov_state_govOfficialRow_Out]:
+        """Lists the officials who have a biography page on state.gov: name, page kind and link.
+        Pass { query, limit } to narrow by name.
+        """
+
+    async def getOfficial(self, url: str, /) -> Prv_state_gov_state_govOfficial_Out:
+        """Returns one official's biography page: name, role lines, tenure, tags and biography, by
+        its state.gov URL.
+        """
+
+    async def getVisaInformation(self, url: str, /) -> Prv_state_gov_state_govVisaPage_Out:
+        """Returns one travel.state.gov visa page (for example the Visitor Visa page): its title,
+        breadcrumb, text and links, by its URL. Loads in a headed browser and can take about a
+        minute.
+        """
+
+    async def listBureaus(self, args: Prv_state_gov_listBureaus_args_In | None = None, /) -> list[Prv_state_gov_state_govBureauRow_Out]:
+        """Lists the department's bureaus and offices: name, parent office and link. Pass { query,
+        limit } to narrow by name.
+        """
+
+    async def getBureau(self, url: str, /) -> Prv_state_gov_state_govBureau_Out:
+        """Returns one bureau or office page: its name, mission and the leaders shown on it, by its
+        state.gov URL.
+        """
+
+    async def listReports(self, args: Prv_state_gov_listReports_args_In | None = None, /) -> list[Prv_state_gov_state_govReportRow_Out]:
+        """Lists published department reports (the first 1,000 on the site's report sitemap):
+        title, series and link. Pass { query, limit } to narrow by title or series.
+        """
+
+    async def getReport(self, url: str, /) -> Prv_state_gov_state_govReport_Out:
+        """Returns one report page: title, description, PDF link, section titles and the page text
+        (capped at 100,000 characters), by its state.gov URL.
+        """
+
 class Prv_statefarm(Protocol):
     """Quotes from the largest US home and auto insurer across every line it publishes — auto,
     home, renters, condo, life, small business, pet, the recreational vehicle and specialty
@@ -134056,6 +138552,13 @@ class Prv_toast(Protocol):
     signed-in guest's own orders, bookings, reservations, addresses, cards and rewards.
     """
 
+    async def read(self, input: Prv_toast_ToastSiteReadInput_u0_In | Prv_toast_ToastSiteReadInput_u1_In | Prv_toast_ToastSiteReadInput_u2_In | Prv_toast_ToastSiteReadInput_u3_In | Prv_toast_ToastSiteReadInput_u4_In | Prv_toast_ToastSiteReadInput_u5_In | Prv_toast_ToastSiteReadInput_u6_In | Prv_toast_ToastSiteReadInput_u7_In | Prv_toast_ToastSiteReadInput_u8_In, /) -> Prv_toast_ToastSiteRestaurant_Out | Prv_toast_ToastSiteRestaurantSearchResponse_Out | list[Prv_toast_ToastSiteRestaurant_Out] | list[Prv_toast_ToastSiteDiningOption_Out] | Prv_toast_ToastSitePaginatedMenus_Out | Prv_toast_ToastSiteMenuItem_Out | Prv_toast_ToastSiteMenuSearchResponse_Out | Prv_toast_ToastSitePopularItemsResponse_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (restaurantV2,
+        restaurantV2ByShortUrl, nearbyRestaurantSearch, restaurants, diningOptions,
+        paginatedMenuItems, ...), give its `where` inputs, and list the `fields` you want back
+        as dot paths like "state.stateName"; omit `fields` for every plain field.
+        """
+
     async def getRestaurant(self, ref: str, /) -> Prv_toast_ToastRestaurant_Out:
         """Reads one Toast restaurant by its toast.app URL, slug or guid: name, cuisine, address,
         phone, whether online ordering, delivery, reservations and the waitlist are on, its
@@ -134406,6 +138909,31 @@ class Prv_tradingview(Protocol):
         `author` username, `createdAt`/`updatedAt` (Unix seconds), a `chartUrl` to the full
         idea, and `commentsCount`/`viewsCount`/`likesCount`. An unknown or delisted
         `exchange:symbol` pair returns a caller-fixable error.
+        """
+
+    async def getOptionsVolumeAndOpenInterest(self, args: Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestArgs_In, /) -> Prv_tradingview_TradingviewGetOptionsVolumeAndOpenInterestResult_Out:
+        """Returns options volume and open-interest data for an underlying, including its timestamp
+        and expiration entries with strike-level call and put metrics.
+        """
+
+    async def getScreenerColumnParameters(self, args: Prv_tradingview_TradingviewGetScreenerColumnParametersArgs_In, /) -> Prv_tradingview_TradingviewGetScreenerColumnParametersResult_Out:
+        """Returns parameter definitions for a screener’s columns, including each parameter’s type,
+        available choices, and default value.
+        """
+
+    async def listRelatedBonds(self, args: Prv_tradingview_TradingviewListRelatedBondsArgs_In, /) -> Prv_tradingview_TradingviewListRelatedBondsResult_Out:
+        """Returns bonds related to the specified stock, including the total match count, each
+        bond’s symbol, yield to maturity, and maturity date.
+        """
+
+    async def searchHelpArticles(self, args: Prv_tradingview_TradingviewSearchHelpArticlesArgs_In, /) -> Prv_tradingview_TradingviewSearchHelpArticlesResult_Out:
+        """Returns matching help articles with their titles, language, highlighted text,
+        identifiers, category and folder, plus the total number of matches.
+        """
+
+    async def searchScripts(self, args: Prv_tradingview_TradingviewSearchScriptsArgs_In, /) -> Prv_tradingview_TradingviewSearchScriptsResult_Out:
+        """Returns matching published scripts with identifying, display, author, and engagement
+        details, plus pagination information and counts by script type.
         """
 
 class Prv_travelinsured(Protocol):
@@ -135737,6 +140265,26 @@ class Prv_usatoday(Protocol):
     async def confirmSignup(self, args: Any, /) -> Prv_usatoday_confirmSignup_return_u0_Out | Prv_usatoday_confirmSignup_return_u1_Out | Prv_usatoday_confirmSignup_return_u2_Out | Prv_usatoday_confirmSignup_return_u3_Out:
         """Continues the sign-up `signup` started in this session with the emailed or texted
         `code`, the email's verification `link`, or the person's `phone`.
+        """
+
+class Prv_usbank(Protocol):
+    """U.S. Bank credit cards: every card on usbank.com's card page (Smartly, Shield, Cash+,
+    Altitude Connect and Go, the secured cards) with earn rates by category, live annual
+    fee, APR, intro APR, foreign transaction fee and welcome offer.
+    """
+
+    async def listCreditCards(self, /) -> Prv_usbank_UsbankCreditCards_Out:
+        """Every credit card on U.S. Bank's card page (Smartly, Shield, Cash+ with its
+        choose-your-own 5% categories, Altitude Connect, Altitude Go, and the secured cards):
+        id, name, earn rates by category (rate, unit, category, cap, choose-your-own flag),
+        welcome offer, and U.S. Bank's own live rates — annual fee, purchase APR range, intro
+        APR length, balance transfer and foreign transaction fees.
+        """
+
+    async def getCreditCard(self, card: str | Prv_usbank_UsbankCardRef_u1_In, /) -> Prv_usbank_UsbankCreditCardDetail_Out:
+        """One U.S. Bank card by the id listCreditCards returned (or its name or URL): the listing
+        row plus the card page's own reward terms (what each category earns, the quarterly caps
+        and exclusions).
         """
 
 class Prv_uscis(Protocol):
@@ -137278,6 +141826,24 @@ class Prv_wellnessliving(Protocol):
         one-week window as `getClassDetails`; an unknown classPeriodId throws the same way.
         """
 
+class Prv_wellsfargo(Protocol):
+    """Wells Fargo credit cards: every card Wells Fargo markets (Active Cash, Reflect,
+    Autograph, Autograph Journey, One Key, Choice Privileges, Signify Business Cash) with
+    earn rates by category, annual fee and welcome offer.
+    """
+
+    async def listCreditCards(self, /) -> Prv_wellsfargo_WellsfargoCreditCards_Out:
+        """Every credit card Wells Fargo markets (Active Cash, Reflect, Autograph, Autograph
+        Journey, One Key, Choice Privileges and Select, Signify Business Cash): product code id,
+        name, annual fee, earn rates by category (rate, unit, category, cap), welcome offer,
+        intro APR length, card art, page and apply links.
+        """
+
+    async def getCreditCard(self, card: str | Prv_wellsfargo_WellsfargoCardRef_u1_In, /) -> Prv_wellsfargo_WellsfargoCreditCardDetail_Out:
+        """One Wells Fargo card by the id listCreditCards returned (or its name or URL): the
+        listing row plus the card page's own reward terms (what each category earns and covers).
+        """
+
 class Prv_westelm(Protocol):
     """West Elm (modern furniture and home decor). Searches the catalog with current and
     regular price, sale flag, description and images.
@@ -137454,6 +142020,25 @@ class Prv_whatsapp(Protocol):
         """Creates an event in a group the caller administers, picked by its exact displayed name,
         with a title and a local start time (YYYY-MM-DDTHH:mm), and returns the group, title and
         start. Test writes go only to a group the caller runs. Needs the caller signed in.
+        """
+
+    async def respondToGroupEvent(self, group: str, title: str, answer: Literal["going"] | Literal["going_with_guest"] | Literal["maybe"] | Literal["not_going"], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappEventResponse_Out:
+        """Answers an event in a group the caller is in, the group picked by its exact displayed
+        name and the event by its title, with going, going_with_guest, maybe or not_going.
+        Throws, answering nothing, if the group has no event with that title. Needs the caller
+        signed in.
+        """
+
+    async def listGroupEvents(self, group: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupEventList_Out:
+        """Lists the upcoming events in a group the caller is in, picked by its exact displayed
+        name, each with its title and time label. Needs the caller signed in.
+        """
+
+    async def cancelGroupEvent(self, group: str, title: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappCancelledEvent_Out:
+        """Cancels an event the caller created in a group, the group picked by its exact displayed
+        name and the event by its title (Cancel event, then Cancel Event). Only the event's
+        creator can. Throws, cancelling nothing, if the group has no event with that title.
+        Needs the caller signed in.
         """
 
     async def sendMedia(self, chatName: str, file: Prv_whatsapp_sendMedia_file_In, caption: str | None = None, viewOnce: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMedia_Out:
@@ -140432,6 +145017,7 @@ class BowmarkProviders(Protocol):
     a16z_speedrun: Prv_a16z_speedrun
     a1storage: Prv_a1storage
     aa: Prv_aa
+    aarp: Prv_aarp
     aauto: Prv_aauto
     abercrombie: Prv_abercrombie
     abqplumb: Prv_abqplumb
@@ -140475,6 +145061,7 @@ class BowmarkProviders(Protocol):
     americanstandard: Prv_americanstandard
     americanvisionwindows: Prv_americanvisionwindows
     americashealthrankings: Prv_americashealthrankings
+    amex: Prv_amex
     amramp: Prv_amramp
     analytics_google: Prv_analytics_google
     ancientnutrition: Prv_ancientnutrition
@@ -140527,6 +145114,7 @@ class BowmarkProviders(Protocol):
     banana_republic: Prv_banana_republic
     bankmycell: Prv_bankmycell
     bankofamerica: Prv_bankofamerica
+    barclays: Prv_barclays
     barletta: Prv_barletta
     barnesfoundation: Prv_barnesfoundation
     baublebar: Prv_baublebar
@@ -140647,6 +145235,7 @@ class BowmarkProviders(Protocol):
     chromium_googlesource_com: Prv_chromium_googlesource_com
     cigna_directory: Prv_cigna_directory
     circl: Prv_circl
+    citi: Prv_citi
     classichome: Prv_classichome
     classicrockfab: Prv_classicrockfab
     classpass: Prv_classpass
@@ -140728,6 +145317,7 @@ class BowmarkProviders(Protocol):
     discogs: Prv_discogs
     discord: Prv_discord
     discounttire: Prv_discounttire
+    discover: Prv_discover
     disney: Prv_disney
     disney_plus: Prv_disney_plus
     dmv_virginia_gov: Prv_dmv_virginia_gov
@@ -140740,6 +145330,7 @@ class BowmarkProviders(Protocol):
     duckduckgo: Prv_duckduckgo
     dumpsters: Prv_dumpsters
     ebay: Prv_ebay
+    ecosia: Prv_ecosia
     edmunds: Prv_edmunds
     elase: Prv_elase
     elevenlabs: Prv_elevenlabs
@@ -140779,6 +145370,7 @@ class BowmarkProviders(Protocol):
     fbsappliance: Prv_fbsappliance
     fedex: Prv_fedex
     ferguson: Prv_ferguson
+    fidelity: Prv_fidelity
     fieldstonehomes: Prv_fieldstonehomes
     finders: Prv_finders
     findmcp_app: Prv_findmcp_app
@@ -140971,6 +145563,7 @@ class BowmarkProviders(Protocol):
     marks: Prv_marks
     marriott: Prv_marriott
     maurices: Prv_maurices
+    maxpreps: Prv_maxpreps
     mayoclinic: Prv_mayoclinic
     mcdonalds: Prv_mcdonalds
     mcp_directory: Prv_mcp_directory
@@ -141006,6 +145599,7 @@ class BowmarkProviders(Protocol):
     momence: Prv_momence
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak
+    ms_now: Prv_ms_now
     msc: Prv_msc
     msc_fema: Prv_msc_fema
     msccruzeiros: Prv_msccruzeiros
@@ -141327,6 +145921,7 @@ class BowmarkProviders(Protocol):
     upwork: Prv_upwork
     usa_gov: Prv_usa_gov
     usatoday: Prv_usatoday
+    usbank: Prv_usbank
     uscis: Prv_uscis
     usps: Prv_usps
     va_gov: Prv_va_gov
@@ -141361,6 +145956,7 @@ class BowmarkProviders(Protocol):
     webshare: Prv_webshare
     wellfound: Prv_wellfound
     wellnessliving: Prv_wellnessliving
+    wellsfargo: Prv_wellsfargo
     westelm: Prv_westelm
     whatsapp: Prv_whatsapp
     wholefoodsmarket: Prv_wholefoodsmarket
@@ -141479,6 +146075,7 @@ class Bowmark(Protocol):
     products: Cap_products
     promocodes: Cap_promocodes
     prospect_screening: Cap_prospect_screening
+    purchase_rewards: Cap_purchase_rewards
     read: Cap_read
     real_estate_listings: Cap_real_estate_listings
     restaurant_booking: Cap_restaurant_booking
