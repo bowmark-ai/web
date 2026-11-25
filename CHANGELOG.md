@@ -7,6 +7,402 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.41.0 (2026-11-25)
+
+**Websites**
+
+- +268 websites, +4,689 functions, -8 websites, -581 functions. 140,907 websites and 1,346,054 functions in all.
+
+Added:
+
+- 268 websites, functions not listed yet:
+  - 19yako.com
+  - 52kards.com
+  - aabcollection.com
+  - adamans.com
+  - adjustablebedorlando.com
+  - advanced.gg
+  - aima-online.de
+  - aitokauppa.fi
+  - alanpaine.co.uk
+  - allcam.se
+  - anodefactory.se
+  - anvelopenoi.shop
+  - artisbetter.com
+  - artofthemovies.co.uk
+  - asyntai.com
+  - ati.edu.my
+  - attio.com
+  - aviasurf.com
+  - bamboobody.com.au
+  - batela.com
+  - bayamjewelry.com
+  - beautyblender.com
+  - bebemundo.ec
+  - behang.nl
+  - bejandaruwalla.com
+  - bellisima.mx
+  - berrios.pr
+  - besserimglas.de
+  - bigbangshop.co.za
+  - birdies.com
+  - bluemint.com
+  - bocarosa.com.br
+  - boldbi.com
+  - bolddesignz.com
+  - bpratv.com
+  - bracedirect.com
+  - btf-lighting.com
+  - budureasca.ro
+  - built-different.co
+  - cameleon.rs
+  - caninestyles.com
+  - chlengenharia.pt
+  - chozen.co.il
+  - ciganabeleza.com.br
+  - cizaro.net
+  - clarkrailworks.com
+  - clorebeauty.com
+  - cmdstore.ca
+  - cocinaconbra.com
+  - cocoleni.com
+  - collagedepot.com
+  - contenderbicycles.com
+  - contrapunto.cl
+  - cookology.com
+  - corteszapaterias.com
+  - cottonworld.net
+  - cougar.com.pk
+  - coverscart.com
+  - cozmetica.pk
+  - craftmystic.ro
+  - crashrecords.co.uk
+  - croftmill.co.uk
+  - cycorecords.cl
+  - damagedsociety.co.uk
+  - deckoutgaming.ca
+  - demonsbehindme.com
+  - descrybe.com
+  - dgnonline.com
+  - digitalwalker.ph
+  - dixxon.co.uk
+  - dj.app
+  - dkohome.cl
+  - dodocase.com
+  - dogiswithyou.com
+  - doubletopdartshop.com
+  - downrightnow.in
+  - dreamspakistan.com
+  - dubruitdanslacuisine.fr
+  - dutchgrown.co.uk
+  - edilpiazza.com
+  - electricshop.com
+  - emdashcms.com
+  - eminent.pk
+  - empirechromeshop.com
+  - endro-cosmetiques.com
+  - epetice.com
+  - esica.online
+  - essentiallynatural.co.za
+  - estele.co
+  - executive.co.id
+  - fableroom.com
+  - fahhar.com
+  - falkenhof-mode.de
+  - farmaciadibettolle.it
+  - fatimaart.com
+  - felix.com.pa
+  - fishingmax-webshop.jp
+  - fonezone.ae
+  - footcourt-eg.com
+  - footdistrict.pt
+  - freedomofmovement.co.za
+  - freestyleusa.com
+  - french-modeles.com
+  - freshlypicked.com
+  - fullyfilmy.in
+  - galialahav.com
+  - gbwatchshop.com
+  - gemellicollections.com
+  - genevecompany.com
+  - germainlariviere.com
+  - gigahertz.com.ph
+  - girliegirloriginals.com
+  - glam42.co.il
+  - globaliraq.iq
+  - gorsuch.com
+  - graefenhoftee.de
+  - grayl.com
+  - greenlander.com.mx
+  - grimey.com
+  - gripactive.com
+  - growgood.beauty
+  - gruporojemac.com.br
+  - halamama.com
+  - hannastoowoomba.com
+  - healthroutine.com
+  - heevis.nl
+  - heights.com
+  - herowarscentral.com
+  - heychic.com.au
+  - himalayaoptical.com
+  - hinterland.co.za
+  - hmartdelivery.com
+  - honeywardrobe.com
+  - hooke.com
+  - ikonmotorsports.com
+  - inhair.lt
+  - instaservice.com
+  - intrinsictrading.com
+  - intymipagunda.lt
+  - itsugar.com
+  - ivario.com
+  - jetcards.uk
+  - juggyusa.com
+  - juliancharles.co.uk
+  - kadolandhome.com
+  - karte.bayern
+  - katievanslyke.net
+  - kbc-cinema.com
+  - keyirobot.com
+  - kiwametokyo.com
+  - kookgigant.nl
+  - kotobukiya-us.com
+  - kryptoniteproducts.com
+  - ksubi.com
+  - kwikpets.com
+  - latestbuy.at
+  - lignocolor.de
+  - linkmejor.com
+  - lowaboots.com
+  - luchznaniy.ru
+  - luckyelk.com
+  - maltashopper.com
+  - maximilianequestrian.com
+  - maxtool.com
+  - mediacast.ua
+  - meowcafeshop.com
+  - mintel.net
+  - missrosier.com
+  - modalai.com
+  - motorbunny.com
+  - myclothing.com
+  - natureandnurtureseeds.com
+  - nlpperformance.com
+  - norqain.com
+  - norsegarde.com
+  - nwahype.com
+  - occidentalleather.com
+  - odditiesandcuriositiesexpo.com
+  - oger.nl
+  - oliveandevy.com
+  - ommellinen.fi
+  - orgatex.com
+  - otticariccio.it
+  - pandaliebe.at
+  - paspaley.com
+  - patchology.com
+  - pgs.ne.jp
+  - platinexpress.co.il
+  - poldderre.com
+  - powerboltandtool.com
+  - preeco.fi
+  - primedriven.com
+  - primitiveskate.com
+  - probablysmut.com
+  - psearchery.com
+  - psseasoning.com
+  - puckipuppy.com
+  - qzs-ksa.com
+  - randcards.com
+  - reakcio.hu
+  - ridersjunction.com
+  - rideshop.cl
+  - riiroo.com
+  - rinkit.com
+  - rockandrolldenim.com
+  - rogersgardens.com
+  - ronron-lolita.com
+  - rossellimac.es
+  - rotopax.com
+  - rubiomonocoatusa.com
+  - ruggedrosaries.com
+  - rustyzipper.com
+  - sabbi.com.au
+  - salejano.nl
+  - sarahflint.com
+  - schietwetter.de
+  - schmittmusic.com
+  - seisukeknife.com
+  - serafina.com.au
+  - shinkansen-ticket.com
+  - shopbaseballcollective.com
+  - siliconelovers.com
+  - slickwillies.co.uk
+  - snibbs.co
+  - solbeautyandcare.com.mx
+  - soneda.com.br
+  - sprestondesigns.com
+  - srstore.in
+  - stealthride.co.nz
+  - stylewoerden.nl
+  - suitebenedict.com
+  - suitnegozi.com
+  - sujatra.com
+  - tawheedwnour.com
+  - tennispro.it
+  - texasbootranch.net
+  - thatssofetch.com.au
+  - thecutprice.com
+  - thehealthhealerpk.co
+  - thehijabeez.com.pk
+  - themeatguy.jp
+  - theusabeauty.com
+  - thilakawardhana.com
+  - timetimer.com
+  - tobirarecords.com
+  - tone.shop
+  - tragsmitfassung.com
+  - triumphdirect.co.uk
+  - truckpartsuperstore.ca
+  - trybello.com
+  - uapis.cn
+  - ugreenindia.com
+  - underdog.shop
+  - unicpharma.com.br
+  - urbanmood.sg
+  - vaneersa.com
+  - vans.co.za
+  - visitleevalley.org.uk
+  - vitaminaswim.com
+  - voopter.com.br
+  - vseeboxus.com
+  - webimonline.com
+  - westprimedirect.com
+  - wisetrack.cl
+  - woojer.com
+  - yorkshirefabricshop.com
+  - zanaroberlin.com
+  - zeedog.com
+
+Changed:
+
+- 38 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`; removed `search_shop_policies_and_faqs`:
+  - americanhatmakers.com
+  - andy-cooks.com
+  - bathshack.com
+  - botslab.com
+  - campsnapphoto.com
+  - corelle.com
+  - cribofart.com
+  - cutleryandmore.com
+  - deadstock.ca
+  - dunyadakitap.com
+  - ecosense.io
+  - enginediy.com
+  - everlane.com
+  - harveystore.com
+  - heypocket.com
+  - hom.ee
+  - magiclinen.com
+  - mdaemon.com
+  - millets.co.uk
+  - miraclesuit.com
+  - motomillion.com
+  - moviesunlimited.com
+  - outsetmedia.com
+  - paris-poster.shop
+  - pit-pit.com
+  - qixskateshop.com.br
+  - relaxofootwear.com
+  - sbfilters.com
+  - sheko.com
+  - sleepdoctor.com
+  - stylemywall.com.au
+  - supplyme.com
+  - toysnowman.com
+  - ucon-acrobatics.com
+  - verabradley.com
+  - wyze.com
+  - zellbury.com
+  - zulily.com
+- 18 websites, each added `search_shop_policies_and_faqs`; removed `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - asossamplesale.com
+  - bejuiceful.com
+  - disfragancias.com
+  - dndgel.com
+  - dwmusic.com.au
+  - flyingtiger.com
+  - gelacy.app
+  - josephjoseph.com
+  - k-way.com
+  - littletikes.com
+  - myfahlo.com
+  - olfactoryfactoryllc.com
+  - teeinblue.com
+  - urbanbodyjewelry.com
+  - usealphaco.com.br
+  - vaidban.com
+  - waxcenter.com
+  - weareknitters.com
+- 15 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`; removed `search_shop_policies_and_faqs`:
+  - 2xu.com
+  - ccs.com
+  - citywinery.com
+  - ediblearrangements.com
+  - faberge.com
+  - glossier.com
+  - koorong.com
+  - naturbohne.de
+  - pdhsports.com
+  - repfitness.com
+  - routeone.co.uk
+  - silbonshop.com
+  - spikeprague.cz
+  - thebeaufortbonnetcompany.com
+  - tnuck.com
+- 12 websites, each added `search_shop_policies_and_faqs`; removed `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`:
+  - atlasstationers.com
+  - fearofgod.com
+  - gagliottacalzature.com
+  - gundamplacestore.com
+  - joffzart.com
+  - medisave.co.uk
+  - neewer.com
+  - spyderco.com
+  - thecardvault.co.uk
+  - vastrang.in
+  - wildoakboutique.com
+  - worldwidecyclery.com
+- hukitchen.com: added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`
+- checkleaked.cc: added `checkleaked_site_breach`, `checkleaked_site_breach_search`, `checkleaked_site_briefing`, `checkleaked_site_changelog`, `checkleaked_site_faq`, `checkleaked_site_latest_breach`, `checkleaked_site_pages`, `checkleaked_site_plans`, `checkleaked_site_stats`
+- magichour.ai: added `checkout_create`; changed `create_video_from_image`
+- stubhub.com: added `exploreEvents`
+- genius.com: added `getAlbum`, `listSongComments`
+- alibaba.com: added `getCart`
+- hilton.com: added `getHonorsPrograms`
+- independent.co.uk: added `listBookmarks`
+- feelgrounds.com: added `lookup_locations`, `search_locations`
+- quotewise.io: changed `collection`, `collection_quotes`
+- autoverzekering.nl: changed `compare-car-insurance`
+- fragab.de: changed `create_poll`, `duplicate_poll`, `update_poll`
+- freelancehunt.com: changed `list_bids`, `search_projects`
+
+Removed:
+
+- 2 websites, each with `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`:
+  - aghanoorofficial.com
+  - sail.ca
+- 2 websites, each with `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - homebrewing.org
+  - rimorcorp.com
+- synchtank.net: `BrowseWixRESTDocsMenu`, `CallWixSiteAPI`, `ExecuteWixAPI`, `GenerateVisitorToken`, `GetBusinessDetails`, `ReadFullDocsArticle`, `ReadFullDocsMethodSchema`, `SearchInSite`, `SearchSiteApiDocs`, `WixREADME`
+- sigmanortec.ro: `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`
+- maurten.com: `search_site`
+- wertur.com: `testcheckoutmcp20250101`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.40.0 (2026-11-25)
 
 **Websites**
