@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7dc308d7eeb61ace413cec1428aa752449d58d986405fdf21346c3391485f3bd
-// 99 capabilities, 968 providers, 6071 typed functions, 20 refused.
+// Manifest version: da9ce96045b95a006a2751fd1a2c5c45c973d027fb50ce2ef72e9b71601ae37e
+// 99 capabilities, 968 providers, 6079 typed functions, 20 refused.
 // 122,906 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -56654,6 +56654,24 @@ interface GeniusSongComments {
   comments: GeniusComment[];
 }
 
+interface GeniusQuestion {
+  id: number;
+  body: string; // The question as Genius wrote it.
+  state: string | null; // Genius's state for the question, e.g. pinned.
+  url: string; // The question's Genius page url.
+  votes: number;
+  askedBy: string | null; // The asker's Genius login, or null for an anonymous question.
+  askedAt: string | null; // ISO time the question was asked.
+  pinned: boolean; // True when the song page pins it at the top.
+  // The top answer, or null when nobody has answered.
+  answer: { body: string /* The top answer's text, in Genius markdown. */; votes: number } | null;
+}
+
+interface GeniusSongQuestions {
+  songId: number;
+  questions: GeniusQuestion[]; // The Q&A the song page ships, pinned questions first.
+}
+
   /**
    * Genius (genius.com) song lyrics: search songs, artists and albums, find a song from a line
    * of its lyrics, read a song's details and its full lyrics.
@@ -56688,6 +56706,12 @@ interface GeniusSongComments {
      * page at a time.
      */
     listSongComments(song: string | number, page?: number): Promise<GeniusSongComments>;
+
+    /**
+     * Lists the Q&A on a song's Genius page: each question (pinned first) with its text, who asked
+     * it, votes and top answer.
+     */
+    listSongQuestions(song: string | number): Promise<GeniusSongQuestions>;
 
     /** Lists the annotated lines of a song with each annotation's text, annotator, votes and state. */
     listSongAnnotations(song: string | number, page?: number): Promise<GeniusSongAnnotations>;
@@ -74364,6 +74388,21 @@ interface ListHeadlinesArgs {
   limit?: number;
 }
 
+interface ListLatestArticlesArgs {
+  limit?: number;
+}
+
+interface LatestArticle {
+  title: string;
+  url: string;
+  publishedAt: string;
+  keywords: string[];
+}
+
+interface LatestArticleList {
+  stories: LatestArticle[];
+}
+
 interface HeadlineList {
   stories: Story[];
   url: string;
@@ -74425,6 +74464,12 @@ interface Author {
      * whole body (present in the page although the browser meters it).
      */
     getArticle(args: GetArticleArgs): Promise<Article>;
+
+    /**
+     * Lists every story published in the last day or two from the site's own Google News sitemap:
+     * url, headline, publish time, topic keywords.
+     */
+    listLatestArticles(args?: ListLatestArticlesArgs): Promise<LatestArticleList>;
   }
 }
 
@@ -114154,6 +114199,27 @@ interface SpotifyAudioAnalysis {
     unfollowArtist(ids: string | string[], opts?: ConnectionOption): Promise<{ ids: string[]; following: boolean }>;
 
     /**
+     * Creates a playlist on the signed-in caller's account (name 1-100 characters, optional
+     * description and public flag). Returns the new playlist's id and url. Needs the caller signed
+     * in to Spotify.
+     */
+    createPlaylist(name: string, opts: {description?: string, public?: boolean}, connectionOpts?: ConnectionOption): Promise<{ id: string; name: string; url: string | null; created: boolean }>;
+
+    /**
+     * Adds tracks (1-50 track ids, uris or ids from search) to one of the signed-in caller's own
+     * playlists, at the end. Spotify refuses a playlist the caller does not own. Needs the caller
+     * signed in to Spotify.
+     */
+    addTracksToPlaylist(playlist: string, tracks: string | string[], opts?: ConnectionOption): Promise<{ playlistId: string; ids: string[]; added: boolean }>;
+
+    /**
+     * Controls the signed-in caller's active Spotify device: play, pause, next or previous. Needs
+     * a device already playing or open in Spotify; with none, it says so rather than erroring
+     * silently. Needs the caller signed in to Spotify.
+     */
+    controlPlayback(action: "play" | "pause" | "next" | "previous", opts?: ConnectionOption): Promise<{ action: string; controlled: boolean }>;
+
+    /**
      * The signed-in caller's current playback state — what's playing, where, progress,
      * shuffle/repeat. Nothing playing is a normal, not-playing answer, never an error. Needs the
      * caller signed in to Spotify.
@@ -116855,6 +116921,28 @@ interface stubhubExploreEventsResult {
   warnings: string[];
 }
 
+interface stubhubPerformerEvent {
+  id: string; // pass to getEventListings
+  name: string;
+  url: string;
+  startDate: string | null; // local start, e.g. "2027-01-28T20:30:00"
+  venueId: string | null;
+  venueName: string | null;
+  city: string | null;
+  region: string | null;
+  lowPrice: number | null;
+  currency: string | null;
+  onSale: boolean;
+}
+
+interface stubhubListPerformerEventsResult {
+  performerId: string;
+  performerName: string | null;
+  events: stubhubPerformerEvent[];
+  total: number | null; // events the page says this performer has, all locations
+  warnings: string[];
+}
+
 interface stubhubSellMatch {
   id: string; // pass to the seller flow's own /SellTickets/FindEvent/<id>
   title: string;
@@ -116976,6 +117064,14 @@ interface stubhubFavoritesResult {
      * and limit (default 20, max 100) caps the rows. Browserless and fast.
      */
     exploreEvents(args: {lat: number, lon: number, from?: string, to?: string, limit?: number}): Promise<stubhubExploreEventsResult>;
+
+    /**
+     * A performer's or team's tour dates and games: each event's id, date and time, venue, city,
+     * lowest price and whether tickets are on sale, soonest first. Takes the `id` findPerformers
+     * returns. StubHub's page embeds only its soonest ~10 events, so `total` says how many exist
+     * and a warning marks a short list. Opens a browser, so expect 10-25s.
+     */
+    listPerformerEvents(args: {performerId: string, limit?: number}): Promise<stubhubListPerformerEventsResult>;
 
     /**
      * The seller side of the marketplace: searches StubHub's own event-finder for a performer,
@@ -133816,6 +133912,12 @@ interface WhatsappPrivacyChange {
   applied: string[];
 }
 
+interface WhatsappGroupEvent {
+  group: string;
+  title: string;
+  startsAt: string;
+}
+
   /**
    * WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
    * catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
@@ -133988,6 +134090,21 @@ interface WhatsappPrivacyChange {
      * signed in.
      */
     sendMessageToNumber(phone: string, text: string, opts?: ConnectionOption): Promise<WhatsappSentMessage>;
+
+    /**
+     * Sends a text message as the caller to a person by their exact WhatsApp username, the way
+     * WhatsApp's own new chat search finds them, and returns the sent row's id and time label.
+     * Throws, sending nothing, if no account has that exact username, or if it has a username key
+     * (this function takes no key). A retried run never sends twice. Needs the caller signed in.
+     */
+    sendMessageToUsername(username: string, text: string, opts?: ConnectionOption): Promise<WhatsappSentMessage>;
+
+    /**
+     * Creates an event in a group the caller administers, picked by its exact displayed name, with
+     * a title and a local start time (YYYY-MM-DDTHH:mm), and returns the group, title and start.
+     * Test writes go only to a group the caller runs. Needs the caller signed in.
+     */
+    createGroupEvent(group: string, title: string, startsAt: string, opts?: ConnectionOption): Promise<WhatsappGroupEvent>;
 
     /**
      * Sends a file as the caller to a chat opened by its exact displayed name: an image or video

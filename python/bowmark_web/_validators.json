@@ -1,5 +1,5 @@
 {
-  "version": "7dc308d7eeb61ace413cec1428aa752449d58d986405fdf21346c3391485f3bd",
+  "version": "da9ce96045b95a006a2751fd1a2c5c45c973d027fb50ce2ef72e9b71601ae37e",
   "units": {
     "address_validation": {
       "defs": {
@@ -77286,6 +77286,23 @@
             "optional": true
           }
         ],
+        "listSongQuestions": [
+          {
+            "name": "song",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listSongAnnotations": [
           {
             "name": "song",
@@ -77382,19 +77399,20 @@
         ]
       },
       "digests": {
-        "getAlbum": "b7e879bcc304d335",
-        "getArtist": "cf653f4b49144c77",
-        "listArtistAlbums": "d0fd03909ee24348",
-        "listArtistSongs": "dbe76a44e0bd5d90",
-        "getAnnotation": "c8cc60d4217ba50e",
-        "listSongComments": "53fc262a9b892116",
-        "listSongAnnotations": "1ba355f452444135",
-        "getLyrics": "1edc18476db28744",
-        "getSong": "2d538c6ef9fe2e40",
-        "searchAlbums": "5aff5d81b2c43158",
-        "searchArtists": "2f26b7c47f586469",
-        "searchLyrics": "fddf6c146b65001d",
-        "searchSongs": "2be17abbe5c509d5"
+        "getAlbum": "7a259cefb17d15ae",
+        "getArtist": "f907cbfc70f5804d",
+        "listArtistAlbums": "600e861a40fe826e",
+        "listArtistSongs": "29a179600b63fd9f",
+        "getAnnotation": "761d701749574585",
+        "listSongComments": "b72a150fcf468ac0",
+        "listSongQuestions": "f60931f21cd05ca1",
+        "listSongAnnotations": "77671ee8756772c5",
+        "getLyrics": "f7a8160c5be3f2cd",
+        "getSong": "4b1f20c6471a46f8",
+        "searchAlbums": "e8c6c1d2606ed076",
+        "searchArtists": "22c96c295601a3f4",
+        "searchLyrics": "c5710539ea6fa447",
+        "searchSongs": "c61e356075ff2e3e"
       }
     },
     "providers.github": {
@@ -101949,6 +101967,18 @@
             }
           ]
         },
+        "ListLatestArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchArticlesArgs": {
           "k": "object",
           "props": [
@@ -102020,15 +102050,26 @@
             },
             "optional": false
           }
+        ],
+        "listLatestArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLatestArticlesArgs"
+            },
+            "optional": true
+          }
         ]
       },
       "digests": {
-        "listSections": "efca643f5e2fd9a8",
-        "getAuthor": "8fa886922e12d80f",
-        "listHeadlines": "2ec8d887e9461549",
-        "browseSection": "1e29527a2a436204",
-        "searchArticles": "3f0e8bd28efb3cca",
-        "getArticle": "5e49b36a58cfea2e"
+        "listSections": "27b99f1b65d5080e",
+        "getAuthor": "880ebd78a7b70174",
+        "listHeadlines": "589510cdc159ed49",
+        "browseSection": "2deb657ea26ef482",
+        "searchArticles": "3243877fbc5ea9c1",
+        "getArticle": "2a30c41c34b38da8",
+        "listLatestArticles": "856d88eab18d6031"
       }
     },
     "providers.launchpad": {
@@ -160684,6 +160725,140 @@
             "optional": true
           }
         ],
+        "createPlaylist": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "public",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "connectionOpts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "addTracksToPlaylist": [
+          {
+            "name": "playlist",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "tracks",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "string"
+                  }
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "controlPlayback": [
+          {
+            "name": "action",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "play"
+                },
+                {
+                  "k": "literal",
+                  "v": "pause"
+                },
+                {
+                  "k": "literal",
+                  "v": "next"
+                },
+                {
+                  "k": "literal",
+                  "v": "previous"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getCurrentPlayback": [
           {
             "name": "opts",
@@ -160744,6 +160919,9 @@
         "removeSavedTracks": "6d637466e1528ec6",
         "followArtist": "0bbe2f02ecce701b",
         "unfollowArtist": "0bbe2f02ecce701b",
+        "createPlaylist": "c31b43c604fc6e97",
+        "addTracksToPlaylist": "b3eba1ff68bd4ae5",
+        "controlPlayback": "432534141c2428ff",
         "getCurrentPlayback": "a94f1375381e6e97"
       }
     },
@@ -164519,6 +164697,31 @@
             "optional": false
           }
         ],
+        "listPerformerEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "performerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "findEventsToSell": [
           {
             "name": "args",
@@ -164698,18 +164901,19 @@
         ]
       },
       "digests": {
-        "search": "ad39d9c8994529aa",
-        "getEventListings": "00614f25eedb16d0",
-        "getEvent": "c06f46832676c7f3",
-        "listCategories": "fead9ed118161e89",
-        "findPerformers": "001718b51b56dca6",
-        "findVenues": "1b675fec2f863255",
-        "exploreEvents": "1aa506aa25885e9c",
-        "findEventsToSell": "6617fbeeb59bc454",
-        "getCheckoutHandoff": "57b2ab7b70b8dd66",
-        "createListing": "8b583979ddbe1ce7",
-        "listMyOrders": "27e15578a7f48640",
-        "listFavorites": "0291fef1e8e3a953"
+        "search": "7e3f3bbfd37a50d1",
+        "getEventListings": "6d6571b4ea516b43",
+        "getEvent": "1f38c705b10110f8",
+        "listCategories": "f05ced010e0f3516",
+        "findPerformers": "a6060b2da02493fe",
+        "findVenues": "4a7f9ee52352ef25",
+        "exploreEvents": "fb1a81392e83eba8",
+        "listPerformerEvents": "4233d02b8c16436a",
+        "findEventsToSell": "73c6cf0259424f70",
+        "getCheckoutHandoff": "72d54e8c64be08b1",
+        "createListing": "b7826619a3568131",
+        "listMyOrders": "3ff161a743f65af4",
+        "listFavorites": "0e8ac1f49b0dd9ed"
       }
     },
     "providers.studentaccommodationbath": {
@@ -187824,6 +188028,77 @@
             "optional": true
           }
         ],
+        "sendMessageToUsername": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createGroupEvent": [
+          {
+            "name": "group",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "title",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "startsAt",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "sendMedia": [
           {
             "name": "chatName",
@@ -189771,83 +190046,85 @@
         ]
       },
       "digests": {
-        "getMyProfile": "42aefb8394d8de77",
-        "listChats": "75a3039021956876",
-        "findContact": "ab8f8d9b2ac37a1e",
-        "searchMessages": "251991f3c399ee43",
-        "listContacts": "149b84ec0294a221",
-        "checkNumber": "03ea2a59ee384525",
-        "getChatMessages": "a3ca8e026d258528",
-        "downloadMedia": "6099d259948e3078",
-        "previewGroupInvite": "8ac753361bbeadb9",
-        "createClickToChatLink": "f4bc373577c68772",
-        "previewBusinessCatalog": "76a6c347ea41353a",
-        "getChannel": "0068837f983f6b9a",
-        "listBlogPosts": "ae21ea5cffa9f39f",
-        "getBlogPost": "68baaf40d1c9916b",
-        "searchHelpCenter": "445a8f7215037858",
-        "getHelpArticle": "cd90df4625a2612b",
-        "getGroupInfo": "5702f706babfda01",
-        "searchChannels": "fbdbd5bbbe9cb561",
-        "listFollowedChannels": "c996d6124587ad94",
-        "getCommunity": "84172fcca7da0520",
-        "getChannelUpdates": "f931da70d551ce25",
-        "sendMessage": "c7a3e529e9210937",
-        "sendMessageToNumber": "30b65feeafd073b4",
-        "sendMedia": "839e4048be70e6c6",
-        "reactToMessage": "ce61ce54e5574bb4",
-        "replyToMessage": "0eaf6055771eb5ee",
-        "pinMessage": "804e363f7d7c931e",
-        "setDisappearingMessages": "7412704e68b68233",
-        "editMessage": "f2180e7b66024579",
-        "sendPoll": "398a8f117604b3f0",
-        "votePoll": "822f56b5be882f1c",
-        "sendContact": "04f7b4deefa65624",
-        "postToChannel": "4f590c54430f0c59",
-        "approveGroupJoinRequests": "ee87cff171b74e6a",
-        "sendGif": "b14ff3d1c6c3a8ea",
-        "editChannelUpdate": "0d64d7df8c1bc781",
-        "createBroadcastList": "9110ebf63ba5ffdf",
-        "starMessage": "635a0616f9889c79",
-        "listStarredMessages": "8d7e21d81280e13a",
-        "deleteChat": "5545d8d5258d50da",
-        "lockChat": "a8b50ea42fbce0ff",
-        "createCommunity": "b81b63b5cd75b04e",
-        "saveContact": "4f5a808e2f1cf953",
-        "deleteContact": "882aff01f1ed84b6",
-        "setGroupAdmin": "84e0e54ca5c51a94",
-        "getMessageInfo": "958ce9b5562e9aeb",
-        "sendVoiceMessage": "5ac92c780209fdf4",
-        "startCall": "918d404e1d23463d",
-        "clearChat": "c4e73625c84d322f",
-        "leaveCommunity": "995ded32881b0576",
-        "listLinkedDevices": "2a57f4214bf66f7d",
-        "unlinkDevice": "662e25db3e180585",
-        "reactToChannelUpdate": "70e196684f8c1f3b",
-        "exportChat": "cdfec7649a1f699d",
-        "postStatusMedia": "2f0746f965397fb3",
-        "addGroupToCommunity": "0402501d0425b389",
-        "listCalls": "204579c671c6ebef",
-        "sendLocation": "572c8947dd9c3a77",
-        "createChannel": "23d541f50007adcb",
-        "forwardMessage": "bb48a75ffc545f58",
-        "updateChat": "c2d115623fdbe15e",
-        "createGroup": "33990be0ba055269",
-        "updateGroup": "06d73b9862e791fc",
-        "addGroupParticipants": "558f3c8b4b3f7082",
-        "removeGroupParticipants": "558f3c8b4b3f7082",
-        "joinGroupByInvite": "ea44d53f123435bf",
-        "leaveGroup": "82b2f3f8f164c74c",
-        "followChannel": "04ce6727a87488c5",
-        "unfollowChannel": "04ce6727a87488c5",
-        "postStatus": "e0da05f4afd222b0",
-        "updateProfile": "d67e70defacf8833",
-        "blockContact": "ee069280e5d8f097",
-        "updatePrivacySettings": "ce4db56da29a8d12",
-        "deleteMessage": "71031b3405722e53",
-        "listCatalogProducts": "dfb23efd4d15b5c2",
-        "listStatusUpdates": "a489bceb3a3c33a4",
-        "getGroupInviteLink": "5c8e827da38db03f"
+        "getMyProfile": "75206d6a78ae3ba7",
+        "listChats": "e0684b9b21aacc97",
+        "findContact": "1637c11e9d12c593",
+        "searchMessages": "565afdbd6afdb19b",
+        "listContacts": "b178aa631a8a0657",
+        "checkNumber": "933145f3c47a3639",
+        "getChatMessages": "8293a5625d337664",
+        "downloadMedia": "809a4d553374fec6",
+        "previewGroupInvite": "66e68b213e6a038d",
+        "createClickToChatLink": "b7a6d1048e6c0468",
+        "previewBusinessCatalog": "cda13f7b2e70c40f",
+        "getChannel": "ee4f46c890bc4bfa",
+        "listBlogPosts": "101247b9acd4a7d9",
+        "getBlogPost": "a531ec6b4d9fc044",
+        "searchHelpCenter": "9d7143d1e526d574",
+        "getHelpArticle": "608dc29834bb542b",
+        "getGroupInfo": "23dd9990c7205142",
+        "searchChannels": "37786da147cb568d",
+        "listFollowedChannels": "5a3e7608a2abce22",
+        "getCommunity": "234154c4eb16374a",
+        "getChannelUpdates": "cadbe7e6d05d7676",
+        "sendMessage": "6e047d42398c5f77",
+        "sendMessageToNumber": "2b33e97fbbf166e4",
+        "sendMessageToUsername": "e771120a6b409863",
+        "createGroupEvent": "8ffcd70dfed1940a",
+        "sendMedia": "f2565d0d86b6ff9f",
+        "reactToMessage": "8ffa7afd4b579570",
+        "replyToMessage": "c1088f3d6e6f0b92",
+        "pinMessage": "4f67b4179e7c30a5",
+        "setDisappearingMessages": "f4a38db5c5bae6d3",
+        "editMessage": "08cbb2e5e91abd11",
+        "sendPoll": "46f47b667bfac07b",
+        "votePoll": "bd40fbd9255a3c48",
+        "sendContact": "b75b86d9af01a414",
+        "postToChannel": "59b1fe7d0b01cd0b",
+        "approveGroupJoinRequests": "6eba07716891855e",
+        "sendGif": "a2daa8fb61af1335",
+        "editChannelUpdate": "88aa11b179319d39",
+        "createBroadcastList": "e4562ae6cacc0e28",
+        "starMessage": "8e734db9b801e3d4",
+        "listStarredMessages": "de01d0ec75ed9653",
+        "deleteChat": "748fdbc38ce85e2a",
+        "lockChat": "d429e97b5f8f7535",
+        "createCommunity": "f21a8d530a905fb4",
+        "saveContact": "f35965de6b9f65e3",
+        "deleteContact": "853d8d6dda1e429c",
+        "setGroupAdmin": "02debc8d1083a406",
+        "getMessageInfo": "e778a934535130fb",
+        "sendVoiceMessage": "c89d2b5b6fb09bda",
+        "startCall": "83861f2d119ea991",
+        "clearChat": "33825e136b18fdc3",
+        "leaveCommunity": "2ace442c9725f6ac",
+        "listLinkedDevices": "18746c916ada5819",
+        "unlinkDevice": "b14b60ba447405c0",
+        "reactToChannelUpdate": "816016a2c3e8780a",
+        "exportChat": "f18d735660cbb6e4",
+        "postStatusMedia": "8dcf9280c87901a5",
+        "addGroupToCommunity": "64d38093b6296b72",
+        "listCalls": "878676daddee8797",
+        "sendLocation": "ed6e161406d35969",
+        "createChannel": "0a22b699a1815d1f",
+        "forwardMessage": "101da59ba8c5c8bd",
+        "updateChat": "92b3641929cc318e",
+        "createGroup": "85dd1f93d93b4631",
+        "updateGroup": "7a0cdfc71a673f2b",
+        "addGroupParticipants": "69c8597ef7d7d133",
+        "removeGroupParticipants": "69c8597ef7d7d133",
+        "joinGroupByInvite": "515150c68abfc823",
+        "leaveGroup": "982918e1c1d0332b",
+        "followChannel": "c31bf00036f1b5ac",
+        "unfollowChannel": "c31bf00036f1b5ac",
+        "postStatus": "29b0b9bcb7a993d7",
+        "updateProfile": "a21e0b4efbaca89c",
+        "blockContact": "31131efcace47960",
+        "updatePrivacySettings": "c60133aaf3a527ef",
+        "deleteMessage": "bcc61c8a5372df0f",
+        "listCatalogProducts": "fa4af37864b30944",
+        "listStatusUpdates": "502c6b86710994e5",
+        "getGroupInviteLink": "727116c4cfd95c95"
       }
     },
     "providers.wholefoodsmarket": {

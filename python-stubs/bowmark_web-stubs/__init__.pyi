@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7dc308d7eeb61ace413cec1428aa752449d58d986405fdf21346c3391485f3bd
-# 99 capabilities, 968 providers, 6043 typed functions, 20 refused.
+# Manifest version: da9ce96045b95a006a2751fd1a2c5c45c973d027fb50ce2ef72e9b71601ae37e
+# 99 capabilities, 968 providers, 6051 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36431,6 +36431,25 @@ class Prv_genius_GeniusComment_Out(TypedDict):
     votes: float
     createdAt: str | None
 
+class Prv_genius_GeniusSongQuestions_Out(TypedDict):
+    songId: float
+    questions: list[Prv_genius_GeniusQuestion_Out]
+
+class Prv_genius_GeniusQuestion_Out(TypedDict):
+    id: float
+    body: str
+    state: str | None
+    url: str
+    votes: float
+    askedBy: str | None
+    askedAt: str | None
+    pinned: bool
+    answer: Prv_genius_GeniusQuestion_Out_answer_u0_Out | None
+
+class Prv_genius_GeniusQuestion_Out_answer_u0_Out(TypedDict):
+    body: str
+    votes: float
+
 class Prv_genius_GeniusSongAnnotations_Out(TypedDict):
     songId: float
     page: float
@@ -47314,6 +47333,18 @@ class Prv_latimes_Article_Out(TypedDict):
     body: str
     paragraphs: list[str]
     meteredByBrowser: bool
+
+class Prv_latimes_ListLatestArticlesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_latimes_LatestArticleList_Out(TypedDict):
+    stories: list[Prv_latimes_LatestArticle_Out]
+
+class Prv_latimes_LatestArticle_Out(TypedDict):
+    title: str
+    url: str
+    publishedAt: str
+    keywords: list[str]
 
 class Prv_launchpad_LaunchpadProject_Out(TypedDict):
     name: str
@@ -73138,6 +73169,25 @@ class Prv_spotify_unfollowArtist_return_Out(TypedDict):
     ids: list[str]
     following: bool
 
+class Prv_spotify_createPlaylist_opts_In(TypedDict):
+    description: NotRequired[str]
+    public: NotRequired[bool]
+
+class Prv_spotify_createPlaylist_return_Out(TypedDict):
+    id: str
+    name: str
+    url: str | None
+    created: bool
+
+class Prv_spotify_addTracksToPlaylist_return_Out(TypedDict):
+    playlistId: str
+    ids: list[str]
+    added: bool
+
+class Prv_spotify_controlPlayback_return_Out(TypedDict):
+    action: str
+    controlled: bool
+
 class Prv_spotify_SpotifyCurrentPlayback_Out(TypedDict):
     isPlaying: bool
     progressMs: float | None
@@ -75043,6 +75093,30 @@ class Prv_stubhub_stubhubExploreEvent_Out(TypedDict):
     venueName: str | None
     location: str | None
     hasListings: bool
+
+class Prv_stubhub_listPerformerEvents_args_In(TypedDict):
+    performerId: str
+    limit: NotRequired[float]
+
+class Prv_stubhub_stubhubListPerformerEventsResult_Out(TypedDict):
+    performerId: str
+    performerName: str | None
+    events: list[Prv_stubhub_stubhubPerformerEvent_Out]
+    total: float | None
+    warnings: list[str]
+
+class Prv_stubhub_stubhubPerformerEvent_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    startDate: str | None
+    venueId: str | None
+    venueName: str | None
+    city: str | None
+    region: str | None
+    lowPrice: float | None
+    currency: str | None
+    onSale: bool
 
 class Prv_stubhub_findEventsToSell_args_u0_In(TypedDict):
     query: str
@@ -86005,6 +86079,11 @@ class Prv_whatsapp_WhatsappSentMessage_Out(TypedDict):
     text: str
     id: str | None
     time: str | None
+
+class Prv_whatsapp_WhatsappGroupEvent_Out(TypedDict):
+    group: str
+    title: str
+    startsAt: str
 
 class Prv_whatsapp_sendMedia_file_In(TypedDict):
     name: str
@@ -110371,6 +110450,11 @@ class Prv_genius(Protocol):
         one page at a time.
         """
 
+    async def listSongQuestions(self, song: str | float, /) -> Prv_genius_GeniusSongQuestions_Out:
+        """Lists the Q&A on a song's Genius page: each question (pinned first) with its text, who
+        asked it, votes and top answer.
+        """
+
     async def listSongAnnotations(self, song: str | float, page: float | None = None, /) -> Prv_genius_GeniusSongAnnotations_Out:
         """Lists the annotated lines of a song with each annotation's text, annotator, votes and
         state.
@@ -116538,6 +116622,11 @@ class Prv_latimes(Protocol):
     async def getArticle(self, args: Prv_latimes_GetArticleArgs_In, /) -> Prv_latimes_Article_Out:
         """Reads one article in full from its url: headline, authors, dates, section, image and the
         whole body (present in the page although the browser meters it).
+        """
+
+    async def listLatestArticles(self, args: Prv_latimes_ListLatestArticlesArgs_In | None = None, /) -> Prv_latimes_LatestArticleList_Out:
+        """Lists every story published in the last day or two from the site's own Google News
+        sitemap: url, headline, publish time, topic keywords.
         """
 
 class Prv_launchpad(Protocol):
@@ -130154,6 +130243,24 @@ class Prv_spotify(Protocol):
         to Spotify.
         """
 
+    async def createPlaylist(self, name: str, opts: Prv_spotify_createPlaylist_opts_In, connectionOpts: ConnectionOption | None = None, /) -> Prv_spotify_createPlaylist_return_Out:
+        """Creates a playlist on the signed-in caller's account (name 1-100 characters, optional
+        description and public flag). Returns the new playlist's id and url. Needs the caller
+        signed in to Spotify.
+        """
+
+    async def addTracksToPlaylist(self, playlist: str, tracks: str | Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_spotify_addTracksToPlaylist_return_Out:
+        """Adds tracks (1-50 track ids, uris or ids from search) to one of the signed-in caller's
+        own playlists, at the end. Spotify refuses a playlist the caller does not own. Needs the
+        caller signed in to Spotify.
+        """
+
+    async def controlPlayback(self, action: Literal["play"] | Literal["pause"] | Literal["next"] | Literal["previous"], opts: ConnectionOption | None = None, /) -> Prv_spotify_controlPlayback_return_Out:
+        """Controls the signed-in caller's active Spotify device: play, pause, next or previous.
+        Needs a device already playing or open in Spotify; with none, it says so rather than
+        erroring silently. Needs the caller signed in to Spotify.
+        """
+
     async def getCurrentPlayback(self, opts: ConnectionOption | None = None, /) -> Prv_spotify_SpotifyCurrentPlayback_Out:
         """The signed-in caller's current playback state — what's playing, where, progress,
         shuffle/repeat. Nothing playing is a normal, not-playing answer, never an error. Needs
@@ -130927,6 +131034,13 @@ class Prv_stubhub(Protocol):
         """What's on near a place: StubHub's own Explore feed for a latitude/longitude — event
         name, date, time, venue and city, soonest first. Optional from/to (YYYY-MM-DD) keep a
         date window and limit (default 20, max 100) caps the rows. Browserless and fast.
+        """
+
+    async def listPerformerEvents(self, args: Prv_stubhub_listPerformerEvents_args_In, /) -> Prv_stubhub_stubhubListPerformerEventsResult_Out:
+        """A performer's or team's tour dates and games: each event's id, date and time, venue,
+        city, lowest price and whether tickets are on sale, soonest first. Takes the `id`
+        findPerformers returns. StubHub's page embeds only its soonest ~10 events, so `total`
+        says how many exist and a warning marks a short list. Opens a browser, so expect 10-25s.
         """
 
     async def findEventsToSell(self, args: Prv_stubhub_findEventsToSell_args_u0_In | str, /) -> Prv_stubhub_stubhubFindEventsToSellResult_Out:
@@ -136513,6 +136627,20 @@ class Prv_whatsapp(Protocol):
         contacts, in international format (e.g. "14155238886"), and returns the sent row's id
         and time label. Throws if the number is not on WhatsApp. A retried run never sends
         twice. Needs the caller signed in.
+        """
+
+    async def sendMessageToUsername(self, username: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMessage_Out:
+        """Sends a text message as the caller to a person by their exact WhatsApp username, the way
+        WhatsApp's own new chat search finds them, and returns the sent row's id and time label.
+        Throws, sending nothing, if no account has that exact username, or if it has a username
+        key (this function takes no key). A retried run never sends twice. Needs the caller
+        signed in.
+        """
+
+    async def createGroupEvent(self, group: str, title: str, startsAt: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupEvent_Out:
+        """Creates an event in a group the caller administers, picked by its exact displayed name,
+        with a title and a local start time (YYYY-MM-DDTHH:mm), and returns the group, title and
+        start. Test writes go only to a group the caller runs. Needs the caller signed in.
         """
 
     async def sendMedia(self, chatName: str, file: Prv_whatsapp_sendMedia_file_In, caption: str | None = None, viewOnce: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMedia_Out:
