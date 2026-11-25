@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c97435e735b391d657716ff18ba2503aed937bdd26891cb0836d2e44bb674f56
-// 6032 checked, 20 unchecked.
+// Manifest version: 857a373d7003bd2a39b07fff556d6ec075216ae9b5e6b3389eb34207ba9ec532
+// 6036 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c97435e735b391d657716ff18ba2503aed937bdd26891cb0836d2e44bb674f56",
+  "version": "857a373d7003bd2a39b07fff556d6ec075216ae9b5e6b3389eb34207ba9ec532",
   "units": {
     "address_validation": {
       "defs": {
@@ -39583,6 +39583,40 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getMyProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "username",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listCountryClubs": [
           {
             "name": "args",
@@ -39818,6 +39852,7 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
+        "getMyProfile": "7714ef5ea0b8a261",
         "listCountryClubs": "443f4d1a2635d75a",
         "getTournament": "9ddfa7f4289689ec",
         "getCountry": "4d41d99965053d46",
@@ -77143,6 +77178,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getAnnotation": [
+          {
+            "name": "annotation",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listSongComments": [
           {
             "name": "song",
@@ -77267,6 +77319,7 @@ export const VALIDATORS: ValidatorTable = {
         "getArtist": "cf653f4b49144c77",
         "listArtistAlbums": "d0fd03909ee24348",
         "listArtistSongs": "dbe76a44e0bd5d90",
+        "getAnnotation": "c8cc60d4217ba50e",
         "listSongComments": "53fc262a9b892116",
         "listSongAnnotations": "1ba355f452444135",
         "getLyrics": "1edc18476db28744",
@@ -106399,11 +106452,11 @@ export const VALIDATORS: ValidatorTable = {
         "listCategories": []
       },
       "digests": {
-        "getEvent": "ffb403c5fb87c205",
-        "discoverEvents": "1e3a0e193ccef792",
-        "listCalendarEvents": "2993e3d8d95e7f76",
-        "listPlaces": "34c92863d8b51f08",
-        "listCategories": "aee5382bd83f09d0"
+        "getEvent": "1d632b2c7ea1e0b8",
+        "discoverEvents": "a0e6c26780cb0d9d",
+        "listCalendarEvents": "433c5be9c53c8b2a",
+        "listPlaces": "d0502eaff268ea8c",
+        "listCategories": "4a8bb34b7014931f"
       }
     },
     "providers.lyreco": {
@@ -147518,6 +147571,25 @@ export const VALIDATORS: ValidatorTable = {
         "GetRugArgs": {
           "k": "string"
         },
+        "ListProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchRugsArgs": {
           "k": "object",
           "props": [
@@ -147558,11 +147630,22 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListProductsArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "searchRugs": "05ba4e2e7c9cf763",
-        "getRug": "056b1992a9cf4cfd"
+        "searchRugs": "f9eb72334f74b5ca",
+        "getRug": "4bf4708a548583ab",
+        "listProducts": "b177391f4220f521"
       }
     },
     "providers.rules_nebraska_gov": {
@@ -200409,6 +200492,24 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "listSavedHomes": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "searchLocations": [
           {
             "name": "args",
@@ -200539,19 +200640,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchLocations": "3dd899cdd1b3c241",
-        "searchHomes": "4349fc6272cbb0f8",
-        "getHome": "c7e01023e17804ac",
-        "getZestimate": "b7fb63cfa61e44bc",
-        "getMarketOverview": "68a1f6087b10b693",
-        "searchAgents": "22521104e6749014",
-        "getAgent": "c31859a4d62540ad",
-        "getBuilding": "003a0bb2f1ce9b81",
-        "getMortgageRates": "9bb2c6247c2a75ed",
-        "calculateMortgagePayment": "58bf8cf75e5444bd",
-        "calculateAffordability": "026089982ccf450e",
-        "signup": "63feb8a139c5cdf0",
-        "confirmSignup": "dd9bf7c3efe7c798"
+        "listSavedHomes": "d1a6adc7921a4a07",
+        "searchLocations": "8c4c476127e4a22e",
+        "searchHomes": "71a320567d271616",
+        "getHome": "0143b9781c359298",
+        "getZestimate": "d0b325d880e0b03f",
+        "getMarketOverview": "f689c75c0d3151a6",
+        "searchAgents": "cb050cd2f051f21d",
+        "getAgent": "685517e51fa20577",
+        "getBuilding": "b0d2765a019bcff9",
+        "getMortgageRates": "d33f92c64753c07c",
+        "calculateMortgagePayment": "6294ed7dfd3bc23d",
+        "calculateAffordability": "29241cb9289fa1bb",
+        "signup": "9ab046e34a609a78",
+        "confirmSignup": "2b1facdfcfaf6027"
       }
     },
     "providers.zoom": {

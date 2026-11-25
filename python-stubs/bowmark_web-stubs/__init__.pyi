@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c97435e735b391d657716ff18ba2503aed937bdd26891cb0836d2e44bb674f56
-# 99 capabilities, 968 providers, 6032 typed functions, 20 refused.
+# Manifest version: 857a373d7003bd2a39b07fff556d6ec075216ae9b5e6b3389eb34207ba9ec532
+# 99 capabilities, 968 providers, 6036 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19373,6 +19373,41 @@ class Prv_chesmar_ChesmarQuickMoveInHome_Out(TypedDict):
     garage: str | None
     url: str
 
+class Prv_chess_com_getMyProfile_args_In(TypedDict):
+    username: NotRequired[str]
+
+class Prv_chess_com_getMyProfile_return_Out(TypedDict):
+    player: Prv_chess_com_chess_comPlayer_Out
+    ratings: list[Prv_chess_com_chess_comRating_Out]
+
+class Prv_chess_com_chess_comPlayer_Out(TypedDict):
+    username: str
+    playerId: float | None
+    name: str | None
+    title: str | None
+    url: str | None
+    avatarUrl: str | None
+    country: str | None
+    location: str | None
+    followers: float | None
+    status: str | None
+    league: str | None
+    isStreamer: bool
+    twitchUrl: str | None
+    joined: str | None
+    lastOnline: str | None
+
+class Prv_chess_com_chess_comRating_Out(TypedDict):
+    mode: str
+    rating: float | None
+    ratingDeviation: float | None
+    lastPlayed: str | None
+    bestRating: float | None
+    bestGameUrl: str | None
+    wins: float | None
+    losses: float | None
+    draws: float | None
+
 class Prv_chess_com_chess_comCountryClubsArgs_In(TypedDict):
     country: str
     limit: NotRequired[float]
@@ -19645,34 +19680,6 @@ class Prv_chess_com_chess_comLeaderRow_Out(TypedDict):
     title: str | None
     country: str | None
     url: str | None
-
-class Prv_chess_com_chess_comPlayer_Out(TypedDict):
-    username: str
-    playerId: float | None
-    name: str | None
-    title: str | None
-    url: str | None
-    avatarUrl: str | None
-    country: str | None
-    location: str | None
-    followers: float | None
-    status: str | None
-    league: str | None
-    isStreamer: bool
-    twitchUrl: str | None
-    joined: str | None
-    lastOnline: str | None
-
-class Prv_chess_com_chess_comRating_Out(TypedDict):
-    mode: str
-    rating: float | None
-    ratingDeviation: float | None
-    lastPlayed: str | None
-    bestRating: float | None
-    bestGameUrl: str | None
-    wins: float | None
-    losses: float | None
-    draws: float | None
 
 class Prv_chess_com_chess_comOnline_Out(TypedDict):
     username: str
@@ -36385,6 +36392,17 @@ class Prv_genius_GeniusSongHit_Out(TypedDict):
     pageviews: float | None
     imageUrl: str | None
 
+class Prv_genius_GeniusAnnotation_Out(TypedDict):
+    id: float
+    fragment: str
+    url: str
+    annotator: str | None
+    state: str | None
+    verified: bool
+    votes: float
+    commentCount: float
+    body: str
+
 class Prv_genius_GeniusSongComments_Out(TypedDict):
     songId: float
     page: float
@@ -36403,17 +36421,6 @@ class Prv_genius_GeniusSongAnnotations_Out(TypedDict):
     page: float
     nextPage: float | None
     annotations: list[Prv_genius_GeniusAnnotation_Out]
-
-class Prv_genius_GeniusAnnotation_Out(TypedDict):
-    id: float
-    fragment: str
-    url: str
-    annotator: str | None
-    state: str | None
-    verified: bool
-    votes: float
-    commentCount: float
-    body: str
 
 class Prv_genius_GeniusLyrics_Out(TypedDict):
     url: str
@@ -49075,6 +49082,8 @@ class Prv_luma_LumaEvent_Out(TypedDict):
     isSoldOut: bool
     requiresApproval: bool
     guestCount: float | None
+    guestListPublic: bool | None
+    featuredGuests: list[Prv_luma_LumaHost_Out] | None
     hosts: list[str]
     hostDetails: list[Prv_luma_LumaHost_Out]
     calendar: Prv_luma_LumaCalendar_Out | None
@@ -66588,6 +66597,16 @@ class Prv_ruggable_RuggableVariant_Out(TypedDict):
     compareAtPrice: float | None
     currency: str | None
     available: bool
+
+class Prv_ruggable_ListProductsArgs_In(TypedDict):
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_ruggable_ListProductsResult_Out(TypedDict):
+    total: float
+    offset: float
+    products: list[Prv_ruggable_RuggableRug_Out]
+    warnings: list[str]
 
 class Prv_rules_nebraska_gov_searchRules_args_In(TypedDict):
     query: str
@@ -90586,6 +90605,9 @@ class Prv_zestlovesproperty_ZestListing_Out_address_u0_Out(TypedDict):
     region: str | None
     postcode: str | None
 
+class Prv_zillow_ListSavedHomesResult_Out(TypedDict):
+    raw: Mapping[str, Any]
+
 class Prv_zillow_SearchLocationsArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -101728,6 +101750,9 @@ class Prv_chess_com(Protocol):
     its keyless public API.
     """
 
+    async def getMyProfile(self, args: Prv_chess_com_getMyProfile_args_In, opts: ConnectionOption | None = None, /) -> Prv_chess_com_getMyProfile_return_Out:
+        """Reads the signed-in caller's own Chess.com profile and ratings; needs a saved sign-in."""
+
     async def listCountryClubs(self, args: Prv_chess_com_chess_comCountryClubsArgs_In, /) -> Prv_chess_com_chess_comCountryClubs_Out:
         """Lists the clubs registered to a country by two-letter ISO code, as club slugs, trimmed
         to limit (default 200) with the full count in total.
@@ -110304,6 +110329,11 @@ class Prv_genius(Protocol):
         says whether more exist).
         """
 
+    async def getAnnotation(self, annotation: str | float, /) -> Prv_genius_GeniusAnnotation_Out:
+        """Reads one annotation by id: the lyric fragment it explains, its text, annotator, votes
+        and state.
+        """
+
     async def listSongComments(self, song: str | float, page: float | None = None, /) -> Prv_genius_GeniusSongComments_Out:
         """Lists the comments under a song's Genius page: author, plain-text body, votes and time,
         one page at a time.
@@ -118152,7 +118182,9 @@ class Prv_luma(Protocol):
         (label, required, type, options, terms) so a complete application can be drafted before
         submitting the form — whether the event requires approval or is first-come-first-served
         — plus date and time with timezone, venue and full address, price, spots remaining, sold
-        out, hosts (each with the LinkedIn, X, website and bio they gave Luma), categories, and
+        out, hosts (each with the LinkedIn, X, website and bio they gave Luma), who is going
+        (the guest count, and up to 10 named guests with their LinkedIn and X when the host
+        shows the guest list publicly; the full list needs a signed-in guest), categories, and
         the description as markdown (agenda, prerequisites, what to bring).
         """
 
@@ -127088,6 +127120,11 @@ class Prv_ruggable(Protocol):
     async def getRug(self, handle: str, /) -> Prv_ruggable_RuggableRug_Out:
         """Read one Ruggable rug by handle or url: price range, every size × construction variant
         with its price and availability, description, collections.
+        """
+
+    async def listProducts(self, args: Prv_ruggable_ListProductsArgs_In, /) -> Prv_ruggable_ListProductsResult_Out:
+        """Page through Ruggable's whole catalog ({ limit?, offset? }, up to 24 per call) with each
+        product's full variants (price, availability) — no search words needed.
         """
 
 class Prv_rules_nebraska_gov(Protocol):
@@ -139149,6 +139186,9 @@ class Prv_zillow(Protocol):
     ZIP, with price, beds, baths, Zestimate and listing agent; look up places, current
     mortgage rates, and calculate payments and affordability.
     """
+
+    async def listSavedHomes(self, opts: ConnectionOption | None = None, /) -> Prv_zillow_ListSavedHomesResult_Out:
+        """Lists the homes the signed-in caller has saved (hearted)."""
 
     async def searchLocations(self, args: Prv_zillow_SearchLocationsArgs_In, /) -> list[Prv_zillow_ZillowLocation_Out]:
         """Turn a place name, ZIP, neighborhood or street address into Zillow regions and addresses
