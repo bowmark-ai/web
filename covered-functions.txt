@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 140,551 sites, generated 2026-11-25.
+# Every website Bowmark covers and the functions it has: 140,573 sites, generated 2026-11-25.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -1027,7 +1027,6 @@
 = 5b7f1995 agent_testing_explain_result#c3fc1b85 agent_testing_find_scenarios#78de52fd agent_testing_get_results#e8b9af9c agent_testing_overview#d6b00957 agent_testing_run_suite#7d3befe2 analyzeAppViaTunnel#5cb9e98a analyzeHyperExecuteJob#9d852b17 answerHyperExecuteQuery#d655b47c automationQuery#b2b269ce buildLocalAppForAnalysis#fffbe18a checkAppProcessingStatus#89bd262f deleteBuild#58245d43 deletePrerunFile#47a703ed deleteSession#731dd4cd deleteUploadedApps#938eb3fb deleteUserFile#b69625f0 downloadJobArtifact#c8caa087 generateHyperExecuteYAML#7b0fba6a getAccessibilityReport#e72507cb getAnalyticsData#db0f383f getAnalyticsErrors#91539e18 getAutomationTestBrowserConsoleLogs#75658f45 getAutomationTestCommandLogs#6548918e getAutomationTestDetails#ac509781 getAutomationTestNetworkLogs#acec388d getAutomationTestSeleniumLogs#cb02cb9d getFlakyTests#f57fc457 getHyperExecuteJobArtifacts#91200103 getHyperExecuteJobInfo#02327efb getHyperExecuteJobLiveStream#a9bce54e getHyperExecuteJobSessions#fb645fd0 getHyperExecuteStage#b580ecbf getHyperExecuteStageLogs#c5041a9c getHyperExecuteStageTasks#c5041a9c getHyperExecuteTask#5edb6b79 getHyperExecuteTaskLogs#5edb6b79 getJobArtifactDetail#b582b1df getLiveSessionLogs#97f14a74 getMobileCapabilityGenerator#daea6ffc getMobileConcurrency#daea6ffc getOrgConcurrency#daea6ffc getSessionScreenshots#97f14a74 getSessionV2CommandLogs#97f14a74 getSessionV2SeleniumLogs#97f14a74 getSessionVideo#97f14a74 getSupportedPlatforms#5ae900be getTestTrends#2ac0cc52 listDevicesForTesting#32b1ef45 listHyperExecuteJobs#17548ff5 listMobileBuilds#c1f670ad listMobileSessions#a77e1686 listTunnels#daea6ffc listUploadedApps#eb9e1668 postSessionExceptions#8664b0ef postTestExceptions#6e0d3bc5 smartui_baseline_manage#165b727c smartui_build_query#277d4821 smartui_comparison_analyze#7818b781 smartui_comparison_query#120a2ae8 smartui_project_query#0084502c smartui_screenshot_review#ea913bf0 smartui_screenshot_upload#760e0b7e stopBuild#c927e888 stopSession#6d0d6557 stopTunnel#3704cc1f tm_create_folder#f241ae41 tm_create_milestone#480659a1 tm_create_project#33727f07 tm_create_test_case#f712ca17 tm_create_test_run#137775f2 tm_generate_test_cases#2739b1d1 tm_get_coverage_summary#ce4538ae tm_get_milestone#e59f58fb tm_get_test_cases#4bad85e7 tm_get_test_runs#d4045c23 tm_link_ado_issue#adf194a2 tm_link_jira_issue#071eccbf tm_list_configurations#a48c8231 tm_list_folders#0817c8bb tm_list_modules#08e34b36 tm_list_projects#35cae6f5 tm_record_test_results#a524ac32 tm_update_folder#ba923ecc tm_update_milestone#67677448 tm_update_project#09c96797 tm_update_test_case#80c6af16 tm_update_test_run#cebe45f7 updateBuild#d0a7c396 updateSession#dfda0e08 uploadAppVirtualDevice#2229c9b3 upload_app#39fd7a26
 = 5b9fc8e8 area_insights#768190b0 calculate_mortgage#27985f8d calculate_stamp_duty#af5ad0b3 commute_filter#f882a2f4 compare_homes#263b44df find_agents#88d14037 get_home#3c759bbd plan_viewings#b8754cf3 render_home_detail#1c0c5323 render_home_listings#0d0380bc search_homes#ba1fdc65 sold_prices#8fa68720 typical_rents#98e87c97
 = 5bd6ea7a get_categories#ddfb9735 get_llms_txt#5d578d78 get_markdown_content#16bd70d1 get_menu#41e62348 get_post#16bd70d1 get_site_info#a6449078 retrieve#d2914151 search_posts#1b93df29 woo_get_product#8b374b03 woo_get_product_categories#a6449078 woo_search_products#3e12e76d
-= 5be60429 get_discovery_links#daea6ffc get_product_data_skill#daea6ffc
 = 5be641d8 find-f1-track-data#77a8bf6b
 = 5be6a564 fetch#320a4c39 get_roadmap#0283f1ef search#bd734c7b
 = 5bfeadcc bbs_connector_health#726f4f64 bbs_get_brand_context#6579a11e bbs_get_product#5af2c5f6 bbs_get_store_context#726f4f64 bbs_list_categories#1630aebf bbs_resolve_storefront#726f4f64 bbs_search_products#28d3e422
@@ -47764,7 +47763,6 @@ afcroscoestore.myshopify.com	a9af6443
 afellis.com.mt	bb34c1bd
 afends.com	8b50d914
 aferiy.com	4479a458
-afew-store.com	4479a458
 affdcc-79.myshopify.com	a9af6443
 affichely.com	4479a458
 affiliate-i-city.myshopify.com	a9af6443
@@ -48216,6 +48214,7 @@ airsoftology.myshopify.com	a9af6443
 airsoftstoremalta.com.mt	bb34c1bd
 airsystems.ge	bb34c1bd
 airtable.com	7b9d490c
+airtacdistr.com	da39a3ee
 airtacs.com	4479a458
 airtecmotorsport.com	bb34c1bd
 airtek-systems-inc.myshopify.com	a9af6443
@@ -48606,6 +48605,7 @@ alexkyzamerch.myshopify.com	a9af6443
 alexlambert.myshopify.com	a9af6443
 alexmill.com	37007769
 alexmonroe.com	8b50d914
+alexrossart.com	da39a3ee
 alexsander.co.il	da39a3ee
 alexsaxon.myshopify.com	a9af6443
 alexstrangler.myshopify.com	a9af6443
@@ -51530,6 +51530,7 @@ artekindia.com	bb34c1bd
 artemilo1941association.myshopify.com	a9af6443
 artemisiataos.myshopify.com	a9af6443
 artemlegrand.ch	8b50d914
+artemlegrand.co.uk	da39a3ee
 artemlegrand.com	4479a458
 artemob-international.myshopify.com	a9af6443
 artepluralgaleria.myshopify.com	a9af6443
@@ -54220,7 +54221,6 @@ batterymela.com	bb34c1bd
 batteryservicelimburg.myshopify.com	a9af6443
 batterystrapping.com	bb34c1bd
 batterytender.com	4479a458
-batterytrader.com	5be60429
 battinoptical.myshopify.com	a9af6443
 battlbox.com	4479a458
 battle-borne.myshopify.com	a9af6443
@@ -57086,6 +57086,7 @@ blush-bar.myshopify.com	a9af6443
 blush-bouquets.myshopify.com	a9af6443
 blush-florist-2.myshopify.com	a9af6443
 blush-huidverbetering-3.myshopify.com	a9af6443
+blush-jewels.com	da39a3ee
 blushbookbox.myshopify.com	a9af6443
 blushbox.store	bb34c1bd
 blushcowigs.myshopify.com	a9af6443
@@ -64547,6 +64548,7 @@ conserves-paralleles.myshopify.com	a9af6443
 conshy-girls.myshopify.com	a9af6443
 conshyparty.myshopify.com	a9af6443
 consider-it-done-boutique.myshopify.com	a9af6443
+consider.com	da39a3ee
 considerthelilies.myshopify.com	a9af6443
 consiglioskitchenware.com	37007769
 consignmyfurniture.myshopify.com	a9af6443
@@ -66883,6 +66885,7 @@ daewoo-global.myshopify.com	a9af6443
 daf5df.myshopify.com	a9af6443
 daffodilsme.com	bb34c1bd
 dafinaustralia.myshopify.com	a9af6443
+dafontstyle.io	da39a3ee
 daft-tmd.myshopify.com	a9af6443
 dagi.com.tr	4479a458
 dagnedover.com	37007769
@@ -72302,6 +72305,7 @@ eliteapps.myshopify.com	61e64875
 eliteathleticssportswear.myshopify.com	a9af6443
 elitebasketballstore.myshopify.com	a9af6443
 elitedesignsglobal.com	05a9bb9e
+eliteelevensporting.com	da39a3ee
 eliteflightacademy.myshopify.com	a9af6443
 elitefts.com	4479a458
 elitegamingcompany.myshopify.com	a9af6443
@@ -72438,6 +72442,7 @@ elmojk.myshopify.com	a9af6443
 elmslesters.myshopify.com	a9af6443
 elmwoodreclaimedtimber.com	bb34c1bd
 elnadirect.com.au	bb34c1bd
+elnour-tech.com	da39a3ee
 elo.mn	a9af6443
 elocutionkids.com	bb34c1bd
 elodieamira-fashion.myshopify.com	a9af6443
@@ -81955,6 +81960,7 @@ guitarnuttees.myshopify.com	a9af6443
 guitarparadise.com.bd	bb34c1bd
 guitarpusher.com	4479a458
 guitarsgarden.com	4479a458
+guitarshopegypt.com	da39a3ee
 guitarshopfolkestone.co.uk	bb34c1bd
 guitarspedalsampsandstuff.co.uk	bb34c1bd
 guitartecnica.com	bb34c1bd
@@ -87503,6 +87509,7 @@ interrupting-criminalization.myshopify.com	a9af6443
 interscope.com	4479a458
 intersectionsfilms.myshopify.com	a9af6443
 interspeech.de	bb34c1bd
+intersport.ch	da39a3ee
 intersport.com.au	4479a458
 intersport.com.eg	4479a458
 intersport.dk	37007769
@@ -89292,6 +89299,7 @@ jimmyfairly.com	4479a458
 jimmyjane.com	4479a458
 jimmyjoy.com	b1550f0a
 jimmystickers.com	bb34c1bd
+jimmythemovie.com	da39a3ee
 jimnystyle.myshopify.com	a9af6443
 jimpescott.com	bb34c1bd
 jimrussellart.myshopify.com	a9af6443
@@ -92164,6 +92172,7 @@ klkreig.com	bb34c1bd
 klo-co-watches.myshopify.com	a9af6443
 kloch.in	bb34c1bd
 klocko-and-sons3230.myshopify.com	a9af6443
+klockor4you.nu	da39a3ee
 kloiadka.com	e029e283
 klondike-creek.myshopify.com	a9af6443
 klonescents.com	4479a458
@@ -93483,6 +93492,7 @@ lamplighter-jewelry.myshopify.com	a9af6443
 lamplighter.net	bb34c1bd
 lampmarkett.myshopify.com	a9af6443
 lampsusa.com	4479a458
+lamptitude.com	da39a3ee
 lamptwist.com	4479a458
 lamusainstrumentos.es	37007769
 lamy.com	4479a458
@@ -99602,6 +99612,7 @@ mediderma-medical-spa.myshopify.com	a9af6443
 mediesstore.myshopify.com	a9af6443
 medieval-shop.co.uk	4479a458
 medievalcollectibles.com	bb34c1bd
+medifashion.ro	da39a3ee
 medik-link.com	bb34c1bd
 medik8.com	4479a458
 medilabexports.com	bb34c1bd
@@ -101234,6 +101245,7 @@ mistrustracing.com	bb34c1bd
 misty-creek-acres.myshopify.com	a9af6443
 misty-m-beller-books.myshopify.com	a9af6443
 misty.ps	f0a4e489
+mistymountaingaming.com	da39a3ee
 mistymountainsoap.com	bb34c1bd
 misumiskincare.com	4479a458
 misunderstood-apparel-7954.myshopify.com	a9af6443
@@ -103012,6 +103024,7 @@ musclefood.com	4479a458
 musclegrub-store.myshopify.com	a9af6443
 musclehead320.myshopify.com	a9af6443
 musclemaniaclub.com.my	bb34c1bd
+musclemat.com.au	da39a3ee
 musclenation.org	4479a458
 musclepharmofficial.myshopify.com	a9af6443
 musclepower.pl	a8c77929
@@ -103897,6 +103910,7 @@ na8dhb-dd.myshopify.com	a9af6443
 naacp-san-luis-obispo-county-branch.myshopify.com	a9af6443
 naadam.co	4479a458
 naaipatronen.nl	4479a458
+naak.com	da39a3ee
 naaman-official.myshopify.com	a9af6443
 naaptol.co.in	4479a458
 naaptol.in	a9af6443
@@ -104801,6 +104815,7 @@ neontownmusic.myshopify.com	a9af6443
 neonvietnam.com	bb34c1bd
 neonwolf.myshopify.com	a9af6443
 neopro.myshopify.com	a9af6443
+neoprocycling.com	da39a3ee
 neoprocycling.myshopify.com	a9af6443
 neorep.net	bb34c1bd
 neosabers.com	4479a458
@@ -108570,6 +108585,7 @@ outletjoin.com	bb34c1bd
 outletlite.com	bb34c1bd
 outletpharmacyonline.sa	fde950fe
 outletpicks.com	ecb668bc
+outletshoesmx.com	da39a3ee
 outletshopforkids.com.au	da39a3ee
 outletshopforkids.myshopify.com	a9af6443
 outletspecialist.com	4479a458
@@ -109810,6 +109826,7 @@ paxdepot.com	bb34c1bd
 paxharpmusic.com	bb34c1bd
 paxhealthcare.com	bb34c1bd
 paxtonglew.myshopify.com	a9af6443
+payate.com	da39a3ee
 payboost.myshopify.com	61e64875
 payboxapp.com	685e74a3
 paycms.myshopify.com	a9af6443
@@ -112087,6 +112104,7 @@ poppymerch.store	bb34c1bd
 poppyplaytime.com	4479a458
 poppyseafloristry.myshopify.com	a9af6443
 poppyshop.com.au	bb34c1bd
+poppyshop.org.uk	da39a3ee
 poppysnaturaldogtreats.myshopify.com	a9af6443
 poppyspantryshop.co.uk	bb34c1bd
 poppystores.myshopify.com	a9af6443
@@ -114964,6 +114982,7 @@ rathergoodart.co.uk	bb34c1bd
 rathfarms.myshopify.com	a9af6443
 ratinkhosh.com	bb34c1bd
 ratiochristi.org	bb34c1bd
+ratiocoffee.com	da39a3ee
 ratnamjewellers.in	bb34c1bd
 ratones-de-pccompoentes.myshopify.com	61e64875
 rattan-bow-ties.myshopify.com	a9af6443
@@ -116765,6 +116784,7 @@ ritualwell.myshopify.com	a9af6443
 rituaria.com.br	4479a458
 ritueldefille.com	4479a458
 ritz-magic-wheels.myshopify.com	a9af6443
+ritzcamera.com	da39a3ee
 ritzmarine.com	bb34c1bd
 ritzychristmas.com	bb34c1bd
 rivaanshenergyefficiency.com	bb34c1bd
@@ -125125,6 +125145,7 @@ sportco.co.nz	bb34c1bd
 sportcollections.net	bb34c1bd
 sportdepot.rs	357f4ac8
 sporteer.myshopify.com	a9af6443
+sportega.at	da39a3ee
 sportega.ch	bd7908bd
 sportega.cz	bd7908bd
 sportega.de	bd7908bd

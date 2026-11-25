@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da9ce96045b95a006a2751fd1a2c5c45c973d027fb50ce2ef72e9b71601ae37e
-// 99 capabilities, 968 providers, 6079 typed functions, 20 refused.
+// Manifest version: 581783b5fd015d9ccbf5b67ad31fe6991dfda759cb2fb691b0ea5c6501e7c658
+// 99 capabilities, 970 providers, 6089 typed functions, 20 refused.
 // 122,906 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -4444,12 +4444,15 @@ interface ProductAvailability {
      * equal matches — the same fan-out as `bowmark.retail.search`, reachable under the name
      * callers guess first. The default fan-out does NOT include Amazon; to search Amazon, pass
      * `site: 'amazon'` (any `site` searches that one store only); Amazon answers from amazon.com
-     * unless you pass `market` (`'fr'` is amazon.fr in EUR; `site: 'amazon.fr'` means the same),
-     * and `market` with any other site is refused because those stores are US-only. Every row
-     * carries its `currency`, and `market` on the answer names the store that answered. `limit`
-     * caps the rows. The answer is `{ results, warnings }`, not a bare array. Rows are each
-     * store's own keyword results, so filter on `title` before reading a price off the top row.
-     * `warnings` names any store that did not answer.
+     * unless you pass `market` (`'fr'` is amazon.fr in EUR, `'co.za'` is amazon.co.za in ZAR;
+     * `site: 'amazon.fr'` means the same). A caller who names only a store host such as
+     * amazon.co.za gave no product: search it first, e.g. `search({ query: 'usb c cable', site:
+     * 'amazon', market: 'co.za' })`, and never guess a product URL or ASIN they did not give.
+     * `market` with any other site is refused because those stores are US-only. Every row carries
+     * its `currency`, and `market` on the answer names the store that answered. `limit` caps the
+     * rows. The answer is `{ results, warnings }`, not a bare array. Rows are each store's own
+     * keyword results, so filter on `title` before reading a price off the top row. `warnings`
+     * names any store that did not answer.
      */
     search(args: {query: string, site?: "walmart" | "target" | "bestbuy" | "amazon", market?: "com" | "in" | "com.br" | "ca" | "co.uk" | "de" | "fr" | "com.mx" | "co.za", limit?: number}): Promise<ProductSearchResult>;
 
@@ -4465,9 +4468,13 @@ interface ProductAvailability {
      * take the price from its `<script type="application/ld+json">` blocks. `source` says which
      * one answered. Where a page lists several sellers the price is the lowest, and `warnings`
      * says so. Reports a failure or an unread page IN the result rather than throwing. If the
-     * caller hasn't named a specific product page yet, DO NOT ask them for a url first —
-     * immediately `run` the worked example below, which is a real, live product page, to
-     * demonstrate a genuine price+stock read, THEN ask which product url to check next.
+     * caller named only a STORE HOST (amazon.co.za, walmart.com) and no product, do NOT run this
+     * and never guess a product url or ASIN: ask what they want to find, then
+     * `bowmark.products.search({ query, site, market })` (market "co.za" for amazon.co.za) and
+     * read a result's url from there. If the caller hasn't named a specific product page and named
+     * no store, DO NOT ask them for a url first — immediately `run` the worked example below,
+     * which is a real, live product page, to demonstrate a genuine price+stock read, THEN ask
+     * which product url to check next.
      */
     getAvailability(url: string): Promise<ProductAvailability>;
   }
@@ -74426,6 +74433,21 @@ interface Author {
   url: string;
 }
 
+interface Topic {
+  name: string;
+  slug: string;
+  url: string;
+}
+
+interface TopicList {
+  topics: Topic[];
+}
+
+interface BrowseTopicArgs {
+  topic: string;
+  cursor?: string;
+}
+
   /**
    * Los Angeles Times news: headlines, sections, search, full articles, writers, recipes,
    * restaurant guides, crosswords, newsletters (browseSection, listSections, listHeadlines,
@@ -74470,6 +74492,18 @@ interface Author {
      * url, headline, publish time, topic keywords.
      */
     listLatestArticles(args?: ListLatestArticlesArgs): Promise<LatestArticleList>;
+
+    /**
+     * Lists the editorial topic pages from the site's topic index (Abortion, Earthquakes, Climate
+     * Change…): name, slug and url; pass a slug to browseTopic.
+     */
+    listTopics(): Promise<TopicList>;
+
+    /**
+     * Lists a topic page's stories newest-first (topic slug such as "earthquakes" from
+     * listTopics), paged by nextCursor.
+     */
+    browseTopic(args: BrowseTopicArgs): Promise<StoryPage>;
   }
 }
 
@@ -77117,6 +77151,39 @@ interface LowesSearchResult {
   products: LowesProduct[];
 }
 
+interface LowesGetProductArgs {
+  productId?: string; // the number ending a /pd/ link, e.g. "5014148635" (search rows carry it in `url`)
+  url?: string; // or the full lowes.com /pd/ link
+}
+
+interface LowesSpec {
+  group: string | null;
+  name: string;
+  value: string;
+}
+
+interface LowesProductDetail {
+  productId: string;
+  itemNumber: string | null;
+  modelNumber: string | null;
+  brand: string | null;
+  title: string;
+  description: string | null;
+  price: number | null; // selling price at the nearest store, USD
+  wasPrice: number | null; // regular price, only when above the selling price
+  rating: number | null; // out of 5
+  reviewCount: number | null;
+  bullets: string[]; // marketing feature bullets
+  specs: LowesSpec[];
+  imageUrls: string[];
+  breadcrumbs: string[];
+  buyable: boolean;
+  inStock: boolean | null; // false when Lowe's flags the item out of stock
+  parcelDeliveryDays: number | null; // lead time for parcel delivery, days
+  store: { name: string | null; city: string | null; zip: string | null } | null; // the store whose price and stock the page showed
+  url: string;
+}
+
   /**
    * Search Lowe's (lowes.com) product catalog — tools, hardware, appliances, home improvement —
    * and get each listing's price, brand, model, item number, rating and link.
@@ -77128,6 +77195,14 @@ interface LowesSearchResult {
      * count, image and product link. A real browser load, so expect 15-40 s.
      */
     search(args: LowesSearchArgs): Promise<LowesSearchResult>;
+
+    /**
+     * Reads one Lowe's product page by its product id (the number ending a /pd/ link): title,
+     * brand, model, price and was-price, rating, description, feature bullets, specs, images,
+     * breadcrumbs and the nearest store's pickup and delivery availability. A real browser load,
+     * so expect 15-40 s.
+     */
+    getProduct(args: LowesGetProductArgs): Promise<LowesProductDetail>;
   }
 }
 
@@ -104658,7 +104733,36 @@ interface ListProductsArgs {
 interface ListProductsResult {
   total: number;
   offset: number;
+  limit: number; // the page size applied; a limit above 24 is clamped and warnings says so
   products: RuggableRug[];
+  warnings: string[];
+}
+
+interface RuggableCartItem {
+  variantId: string; // from listProducts / getRug variants[].id
+  quantity?: number;
+}
+
+// Where the PERSON finishes. Bowmark never pays. Switch on `status`.
+interface RuggableCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string;
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page";
+  reason?: string;
+  detail?: string;
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string } | null;
+  warnings: string[];
+}
+
+interface RuggableCart {
+  lines: { lineKey: string; variantId: string; productTitle: string; variantTitle: string | null; quantity: number; price: string; lineTotal: string; url: string | null }[];
+  itemCount: number;
+  subtotal: string;
+  currency: string;
+  cartUrl: string;
+  checkoutUrl: string;
+  checkout?: RuggableCheckoutHandoff;
   warnings: string[];
 }
 
@@ -104685,6 +104789,13 @@ interface ListProductsResult {
      * product's full variants (price, availability) — no search words needed.
      */
     listProducts(args: ListProductsArgs): Promise<ListProductsResult>;
+
+    /**
+     * Put Ruggable variants in a cart ([{ variantId, quantity? }], ids from listProducts or
+     * getRug) and get the checkout link that carries them, with each line's title and price.
+     * Nothing is bought: the shopper opens the link and pays.
+     */
+    addToCart(items: RuggableCartItem[]): Promise<RuggableCart>;
   }
 }
 
@@ -115436,6 +115547,55 @@ interface FindVideogamesArgs {
      * videogameIds.
      */
     findVideogames(args: FindVideogamesArgs): Promise<StartGgVideogame[]>;
+  }
+}
+
+declare namespace BowmarkProvider_state_gov {
+  // ── U.S. Department of State — the unit's own declarations, verbatim ──
+interface state_govAdvisoryRow {
+  country: string; // Country name as the advisory titles it
+  countryCode: string; // ISO country code
+  level: number; // 1 to 4
+  levelLabel: string; // e.g. "Do Not Travel"
+  updated: string;
+  url: string;
+}
+
+interface state_govAdvisory {
+  country: string; // Country name as the advisory titles it
+  countryCode: string; // ISO country code
+  level: number; // 1 to 4
+  levelLabel: string; // e.g. "Do Not Travel"
+  updated: string;
+  url: string;
+  text: string; // Full advisory text, plain
+}
+
+interface state_govCountry {
+  name: string;
+  slug: string;
+  url: string;
+}
+
+  /**
+   * U.S. State Department: travel advisories, country pages, press releases, briefings,
+   * officials and published reports.
+   */
+  interface Unit {
+    /**
+     * Lists every current U.S. travel advisory: country, ISO code, level (1 to 4) with its label,
+     * last updated and page link. Pass { level } to filter.
+     */
+    listTravelAdvisories(args?: {level?: number}): Promise<state_govAdvisoryRow[]>;
+
+    /**
+     * Returns one country's full U.S. travel advisory text with its level, by country name or ISO
+     * code.
+     */
+    getTravelAdvisory(country: string): Promise<state_govAdvisory>;
+
+    /** Lists the countries and areas with a State Department country page: name, slug and link. */
+    listCountries(): Promise<state_govCountry[]>;
   }
 }
 
@@ -132116,6 +132276,92 @@ interface ListWorkflowsResult {
 
     /** Lists Wealthbox workflows — active by default, optionally for one contact. */
     listWorkflows(args: ListWorkflowsArgs): Promise<ListWorkflowsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_wealthbox_store {
+  // ── Wealthbox store — the unit's own declarations, verbatim ──
+interface Variant {
+  id: string; // Fourthwall variant id (what a cart adds)
+  title: string;
+  sku: string | null;
+  price: number;
+  currency: string;
+  available: boolean;
+  options: Record<string, string>;
+  image: string | null;
+}
+
+interface Product {
+  id: string;
+  slug: string;
+  title: string;
+  url: string;
+  description: string | null;
+  price: number; // lowest variant price
+  priceMax: number;
+  compareAtPrice: number | null;
+  currency: string;
+  available: boolean;
+  options: string[];
+  variants: Variant[];
+  images: string[];
+}
+
+interface ProductSummary {
+  id: string;
+  slug: string;
+  title: string;
+  url: string;
+  price: number;
+  priceMax: number;
+  available: boolean;
+  image: string | null;
+}
+
+interface ListProductsArgs {
+  query?: string; // words every title must contain
+}
+
+interface ProductList {
+  products: ProductSummary[];
+}
+
+interface GetProductArgs {
+  slug: string; // product slug or store url
+}
+
+interface GetProductRecommendationsArgs {
+  slug: string;
+}
+
+interface Recommendations {
+  intent: string;
+  products: ProductSummary[];
+}
+
+  /**
+   * Wealthbox's merch store (store.wealthbox.com): list the products, read one with its
+   * variants, prices and stock, and get related products.
+   */
+  interface Unit {
+    /**
+     * Lists every product in the Wealthbox merch store (tees, hoodies, mugs, glasses, caps): slug,
+     * title, price range, availability and image; optional query filters by title words.
+     */
+    listProducts(args?: ListProductsArgs): Promise<ProductList>;
+
+    /**
+     * Reads one Wealthbox store product by slug: description, price, compare-at price, options and
+     * every variant (id, size/colour, sku, price, in stock) and images.
+     */
+    getProduct(args: GetProductArgs): Promise<Product>;
+
+    /**
+     * Lists the products the Wealthbox store recommends alongside one product (the "complementary"
+     * picks shown on the product page), with price and availability.
+     */
+    getProductRecommendations(args: GetProductRecommendationsArgs): Promise<Recommendations>;
   }
 }
 
@@ -534071,6 +534317,7 @@ interface BowmarkProviders {
   stackoverflow: BowmarkProvider_stackoverflow.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   start_gg: BowmarkProvider_start_gg.Unit;
+  state_gov: BowmarkProvider_state_gov.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
   statista: BowmarkProvider_statista.Unit;
   steam: BowmarkProvider_steam.Unit;
@@ -534198,6 +534445,7 @@ interface BowmarkProviders {
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wayfair: BowmarkProvider_wayfair.Unit;
   wealthbox: BowmarkProvider_wealthbox.Unit;
+  wealthbox_store: BowmarkProvider_wealthbox_store.Unit;
   wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
   weather_channel: BowmarkProvider_weather_channel.Unit;
   webpt: BowmarkProvider_webpt.Unit;

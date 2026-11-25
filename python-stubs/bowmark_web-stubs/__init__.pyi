@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: da9ce96045b95a006a2751fd1a2c5c45c973d027fb50ce2ef72e9b71601ae37e
-# 99 capabilities, 968 providers, 6051 typed functions, 20 refused.
+# Manifest version: 581783b5fd015d9ccbf5b67ad31fe6991dfda759cb2fb691b0ea5c6501e7c658
+# 99 capabilities, 970 providers, 6061 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -47346,6 +47346,18 @@ class Prv_latimes_LatestArticle_Out(TypedDict):
     publishedAt: str
     keywords: list[str]
 
+class Prv_latimes_TopicList_Out(TypedDict):
+    topics: list[Prv_latimes_Topic_Out]
+
+class Prv_latimes_Topic_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+
+class Prv_latimes_BrowseTopicArgs_In(TypedDict):
+    topic: str
+    cursor: NotRequired[str]
+
 class Prv_launchpad_LaunchpadProject_Out(TypedDict):
     name: str
     title: str
@@ -48747,6 +48759,41 @@ class Prv_lowes_LowesProduct_Out(TypedDict):
     url: str
     sponsored: bool
     marketplace: bool
+
+class Prv_lowes_LowesGetProductArgs_In(TypedDict):
+    productId: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_lowes_LowesProductDetail_Out(TypedDict):
+    productId: str
+    itemNumber: str | None
+    modelNumber: str | None
+    brand: str | None
+    title: str
+    description: str | None
+    price: float | None
+    wasPrice: float | None
+    rating: float | None
+    reviewCount: float | None
+    bullets: list[str]
+    specs: list[Prv_lowes_LowesSpec_Out]
+    imageUrls: list[str]
+    breadcrumbs: list[str]
+    buyable: bool
+    inStock: bool | None
+    parcelDeliveryDays: float | None
+    store: Prv_lowes_LowesProductDetail_Out_store_u0_Out | None
+    url: str
+
+class Prv_lowes_LowesSpec_Out(TypedDict):
+    group: str | None
+    name: str
+    value: str
+
+class Prv_lowes_LowesProductDetail_Out_store_u0_Out(TypedDict):
+    name: str | None
+    city: str | None
+    zip: str | None
 
 class Prv_lufthansa_LufthansaFlightStatus_Out(TypedDict):
     airline: str
@@ -66651,8 +66698,62 @@ class Prv_ruggable_ListProductsArgs_In(TypedDict):
 class Prv_ruggable_ListProductsResult_Out(TypedDict):
     total: float
     offset: float
+    limit: float
     products: list[Prv_ruggable_RuggableRug_Out]
     warnings: list[str]
+
+class Prv_ruggable_RuggableCartItem_In(TypedDict):
+    variantId: str
+    quantity: NotRequired[float]
+
+class Prv_ruggable_RuggableCart_Out(TypedDict):
+    lines: list[Prv_ruggable_RuggableCart_Out_lines_item_Out]
+    itemCount: float
+    subtotal: str
+    currency: str
+    cartUrl: str
+    checkoutUrl: str
+    checkout: NotRequired[Prv_ruggable_RuggableCheckoutHandoff_Out]
+    warnings: list[str]
+
+class Prv_ruggable_RuggableCart_Out_lines_item_Out(TypedDict):
+    lineKey: str
+    variantId: str
+    productTitle: str
+    variantTitle: str | None
+    quantity: float
+    price: str
+    lineTotal: str
+    url: str | None
+
+class Prv_ruggable_RuggableCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_ruggable_RuggableCheckoutHandoff_Out_account_Out
+    summary: Prv_ruggable_RuggableCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_ruggable_RuggableCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_ruggable_RuggableCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_ruggable_RuggableCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+
+class Prv_ruggable_RuggableCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
 
 class Prv_rules_nebraska_gov_searchRules_args_In(TypedDict):
     query: str
@@ -74118,6 +74219,31 @@ class Prv_start_gg_StartGgTournament_Out(TypedDict):
 class Prv_start_gg_FindVideogamesArgs_In(TypedDict):
     query: str
     limit: NotRequired[float]
+
+class Prv_state_gov_listTravelAdvisories_args_In(TypedDict):
+    level: NotRequired[float]
+
+class Prv_state_gov_state_govAdvisoryRow_Out(TypedDict):
+    country: str
+    countryCode: str
+    level: float
+    levelLabel: str
+    updated: str
+    url: str
+
+class Prv_state_gov_state_govAdvisory_Out(TypedDict):
+    country: str
+    countryCode: str
+    level: float
+    levelLabel: str
+    updated: str
+    url: str
+    text: str
+
+class Prv_state_gov_state_govCountry_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
 
 class Prv_statefarm_StatefarmAgentQuery_In(TypedDict):
     city: str
@@ -85102,6 +85228,57 @@ class Prv_wealthbox_WealthboxWorkflow_Out(TypedDict):
     linkedTo: list[Prv_wealthbox_WealthboxLinked_Out]
     startedAt: str | None
 
+class Prv_wealthbox_store_ListProductsArgs_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_wealthbox_store_ProductList_Out(TypedDict):
+    products: list[Prv_wealthbox_store_ProductSummary_Out]
+
+class Prv_wealthbox_store_ProductSummary_Out(TypedDict):
+    id: str
+    slug: str
+    title: str
+    url: str
+    price: float
+    priceMax: float
+    available: bool
+    image: str | None
+
+class Prv_wealthbox_store_GetProductArgs_In(TypedDict):
+    slug: str
+
+class Prv_wealthbox_store_Product_Out(TypedDict):
+    id: str
+    slug: str
+    title: str
+    url: str
+    description: str | None
+    price: float
+    priceMax: float
+    compareAtPrice: float | None
+    currency: str
+    available: bool
+    options: list[str]
+    variants: list[Prv_wealthbox_store_Variant_Out]
+    images: list[str]
+
+class Prv_wealthbox_store_Variant_Out(TypedDict):
+    id: str
+    title: str
+    sku: str | None
+    price: float
+    currency: str
+    available: bool
+    options: Mapping[str, str]
+    image: str | None
+
+class Prv_wealthbox_store_GetProductRecommendationsArgs_In(TypedDict):
+    slug: str
+
+class Prv_wealthbox_store_Recommendations_Out(TypedDict):
+    intent: str
+    products: list[Prv_wealthbox_store_ProductSummary_Out]
+
 class Prv_wearehirschfeld_WearehirschfeldSitemapPage_Out(TypedDict):
     url: str
     lastmod: str | None
@@ -92855,8 +93032,11 @@ class Cap_products(Protocol):
         among equal matches — the same fan-out as `bowmark.retail.search`, reachable under the
         name callers guess first. The default fan-out does NOT include Amazon; to search Amazon,
         pass `site: 'amazon'` (any `site` searches that one store only); Amazon answers from
-        amazon.com unless you pass `market` (`'fr'` is amazon.fr in EUR; `site: 'amazon.fr'`
-        means the same), and `market` with any other site is refused because those stores are
+        amazon.com unless you pass `market` (`'fr'` is amazon.fr in EUR, `'co.za'` is
+        amazon.co.za in ZAR; `site: 'amazon.fr'` means the same). A caller who names only a
+        store host such as amazon.co.za gave no product: search it first, e.g. `search({ query:
+        'usb c cable', site: 'amazon', market: 'co.za' })`, and never guess a product URL or
+        ASIN they did not give. `market` with any other site is refused because those stores are
         US-only. Every row carries its `currency`, and `market` on the answer names the store
         that answered. `limit` caps the rows. The answer is `{ results, warnings }`, not a bare
         array. Rows are each store's own keyword results, so filter on `title` before reading a
@@ -92875,10 +93055,14 @@ class Cap_products(Protocol):
         `bowmark.read.page(url, { format: "html" })` and take the price from its `<script
         type="application/ld+json">` blocks. `source` says which one answered. Where a page
         lists several sellers the price is the lowest, and `warnings` says so. Reports a failure
-        or an unread page IN the result rather than throwing. If the caller hasn't named a
-        specific product page yet, DO NOT ask them for a url first — immediately `run` the
-        worked example below, which is a real, live product page, to demonstrate a genuine
-        price+stock read, THEN ask which product url to check next.
+        or an unread page IN the result rather than throwing. If the caller named only a STORE
+        HOST (amazon.co.za, walmart.com) and no product, do NOT run this and never guess a
+        product url or ASIN: ask what they want to find, then `bowmark.products.search({ query,
+        site, market })` (market "co.za" for amazon.co.za) and read a result's url from there.
+        If the caller hasn't named a specific product page and named no store, DO NOT ask them
+        for a url first — immediately `run` the worked example below, which is a real, live
+        product page, to demonstrate a genuine price+stock read, THEN ask which product url to
+        check next.
         """
 
 class Cap_promocodes(Protocol):
@@ -116629,6 +116813,16 @@ class Prv_latimes(Protocol):
         sitemap: url, headline, publish time, topic keywords.
         """
 
+    async def listTopics(self, /) -> Prv_latimes_TopicList_Out:
+        """Lists the editorial topic pages from the site's topic index (Abortion, Earthquakes,
+        Climate Change…): name, slug and url; pass a slug to browseTopic.
+        """
+
+    async def browseTopic(self, args: Prv_latimes_BrowseTopicArgs_In, /) -> Prv_latimes_StoryPage_Out:
+        """Lists a topic page's stories newest-first (topic slug such as "earthquakes" from
+        listTopics), paged by nextCursor.
+        """
+
 class Prv_launchpad(Protocol):
     """Launchpad projects, their public source-development branch, and issue-tracker
     availability. For a bare code.launchpad.net request, listLatestProjects returns recently
@@ -118123,6 +118317,13 @@ class Prv_lowes(Protocol):
         """Searches Lowe's product catalog for a shopper's query (e.g. "cordless drill") and
         returns the first page of listings with price, was-price, brand, model, item number,
         rating, review count, image and product link. A real browser load, so expect 15-40 s.
+        """
+
+    async def getProduct(self, args: Prv_lowes_LowesGetProductArgs_In, /) -> Prv_lowes_LowesProductDetail_Out:
+        """Reads one Lowe's product page by its product id (the number ending a /pd/ link): title,
+        brand, model, price and was-price, rating, description, feature bullets, specs, images,
+        breadcrumbs and the nearest store's pickup and delivery availability. A real browser
+        load, so expect 15-40 s.
         """
 
 class Prv_lufthansa(Protocol):
@@ -127248,6 +127449,12 @@ class Prv_ruggable(Protocol):
         product's full variants (price, availability) — no search words needed.
         """
 
+    async def addToCart(self, items: Sequence[Prv_ruggable_RuggableCartItem_In], /) -> Prv_ruggable_RuggableCart_Out:
+        """Put Ruggable variants in a cart ([{ variantId, quantity? }], ids from listProducts or
+        getRug) and get the checkout link that carries them, with each line's title and price.
+        Nothing is bought: the shopper opens the link and pays.
+        """
+
 class Prv_rules_nebraska_gov(Protocol):
     """Reads the Nebraska Administrative Code at rules.nebraska.gov — full-text search of state
     regulations, agencies → titles → chapters with the rule text, chapter history, and the
@@ -130594,6 +130801,24 @@ class Prv_start_gg(Protocol):
         """Find a game's start.gg id by name (e.g. "Street Fighter 6" → 43868), for
         searchTournaments' videogameIds.
         """
+
+class Prv_state_gov(Protocol):
+    """U.S. State Department: travel advisories, country pages, press releases, briefings,
+    officials and published reports.
+    """
+
+    async def listTravelAdvisories(self, args: Prv_state_gov_listTravelAdvisories_args_In | None = None, /) -> list[Prv_state_gov_state_govAdvisoryRow_Out]:
+        """Lists every current U.S. travel advisory: country, ISO code, level (1 to 4) with its
+        label, last updated and page link. Pass { level } to filter.
+        """
+
+    async def getTravelAdvisory(self, country: str, /) -> Prv_state_gov_state_govAdvisory_Out:
+        """Returns one country's full U.S. travel advisory text with its level, by country name or
+        ISO code.
+        """
+
+    async def listCountries(self, /) -> list[Prv_state_gov_state_govCountry_Out]:
+        """Lists the countries and areas with a State Department country page: name, slug and link."""
 
 class Prv_statefarm(Protocol):
     """Quotes from the largest US home and auto insurer across every line it publishes — auto,
@@ -136055,6 +136280,26 @@ class Prv_wealthbox(Protocol):
     async def listWorkflows(self, args: Prv_wealthbox_ListWorkflowsArgs_In, /) -> Prv_wealthbox_ListWorkflowsResult_Out:
         """Lists Wealthbox workflows — active by default, optionally for one contact."""
 
+class Prv_wealthbox_store(Protocol):
+    """Wealthbox's merch store (store.wealthbox.com): list the products, read one with its
+    variants, prices and stock, and get related products.
+    """
+
+    async def listProducts(self, args: Prv_wealthbox_store_ListProductsArgs_In | None = None, /) -> Prv_wealthbox_store_ProductList_Out:
+        """Lists every product in the Wealthbox merch store (tees, hoodies, mugs, glasses, caps):
+        slug, title, price range, availability and image; optional query filters by title words.
+        """
+
+    async def getProduct(self, args: Prv_wealthbox_store_GetProductArgs_In, /) -> Prv_wealthbox_store_Product_Out:
+        """Reads one Wealthbox store product by slug: description, price, compare-at price, options
+        and every variant (id, size/colour, sku, price, in stock) and images.
+        """
+
+    async def getProductRecommendations(self, args: Prv_wealthbox_store_GetProductRecommendationsArgs_In, /) -> Prv_wealthbox_store_Recommendations_Out:
+        """Lists the products the Wealthbox store recommends alongside one product (the
+        "complementary" picks shown on the product page), with price and availability.
+        """
+
 class Prv_wearehirschfeld(Protocol):
     """Hirschfeld's own page index (page-sitemap.xml) and its Connect contact form's real
     fields — name, label, type and required — parsed from the site's server-rendered markup
@@ -140411,6 +140656,7 @@ class BowmarkProviders(Protocol):
     stackoverflow: Prv_stackoverflow
     starlighthomes: Prv_starlighthomes
     start_gg: Prv_start_gg
+    state_gov: Prv_state_gov
     statefarm: Prv_statefarm
     statista: Prv_statista
     steam: Prv_steam
@@ -140538,6 +140784,7 @@ class BowmarkProviders(Protocol):
     waterfurnace: Prv_waterfurnace
     wayfair: Prv_wayfair
     wealthbox: Prv_wealthbox
+    wealthbox_store: Prv_wealthbox_store
     wearehirschfeld: Prv_wearehirschfeld
     weather_channel: Prv_weather_channel
     webpt: Prv_webpt

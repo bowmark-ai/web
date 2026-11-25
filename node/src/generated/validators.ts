@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: da9ce96045b95a006a2751fd1a2c5c45c973d027fb50ce2ef72e9b71601ae37e
-// 6051 checked, 20 unchecked.
+// Manifest version: 581783b5fd015d9ccbf5b67ad31fe6991dfda759cb2fb691b0ea5c6501e7c658
+// 6061 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "da9ce96045b95a006a2751fd1a2c5c45c973d027fb50ce2ef72e9b71601ae37e",
+  "version": "581783b5fd015d9ccbf5b67ad31fe6991dfda759cb2fb691b0ea5c6501e7c658",
   "units": {
     "address_validation": {
       "defs": {
@@ -101936,6 +101936,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BrowseTopicArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "topic",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetArticleArgs": {
           "k": "object",
           "props": [
@@ -102072,16 +102091,29 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listTopics": [],
+        "browseTopic": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseTopicArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "listSections": "27b99f1b65d5080e",
-        "getAuthor": "880ebd78a7b70174",
-        "listHeadlines": "589510cdc159ed49",
-        "browseSection": "2deb657ea26ef482",
-        "searchArticles": "3243877fbc5ea9c1",
-        "getArticle": "2a30c41c34b38da8",
-        "listLatestArticles": "856d88eab18d6031"
+        "listSections": "495794a70d8fa8e2",
+        "getAuthor": "0199879590431bd1",
+        "listHeadlines": "63a5706486b35a8f",
+        "browseSection": "e69ea3e009a1ee08",
+        "searchArticles": "e815f69131284c20",
+        "getArticle": "69dd8c42706bbfee",
+        "listLatestArticles": "fe851ca1cecd677e",
+        "listTopics": "adbe519c4ba5c40b",
+        "browseTopic": "decf52f61c7f517a"
       }
     },
     "providers.launchpad": {
@@ -105753,6 +105785,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.lowes": {
       "defs": {
+        "LowesGetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "LowesSearchArgs": {
           "k": "object",
           "props": [
@@ -105783,10 +105834,21 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LowesGetProductArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "search": "f006b91cf374661b"
+        "search": "f8d1fda1eefbab4b",
+        "getProduct": "78c681bb664748f4"
       }
     },
     "providers.lufthansa": {
@@ -147710,6 +147772,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "RuggableCartItem": {
+          "k": "object",
+          "props": [
+            {
+              "name": "variantId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchRugsArgs": {
           "k": "object",
           "props": [
@@ -147760,12 +147841,26 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "addToCart": [
+          {
+            "name": "items",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "ref",
+                "name": "RuggableCartItem"
+              }
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "searchRugs": "f9eb72334f74b5ca",
-        "getRug": "4bf4708a548583ab",
-        "listProducts": "b177391f4220f521"
+        "searchRugs": "f905c97953e6edc9",
+        "getRug": "cd11fc9941e149e0",
+        "listProducts": "324c302d26da2983",
+        "addToCart": "f1aba37086e9fd9b"
       }
     },
     "providers.rules_nebraska_gov": {
@@ -162353,6 +162448,44 @@ export const VALIDATORS: ValidatorTable = {
       "digests": {
         "searchTournaments": "2b0844269896feed",
         "findVideogames": "f81570efe44c1be7"
+      }
+    },
+    "providers.state_gov": {
+      "defs": {},
+      "functions": {
+        "listTravelAdvisories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "level",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTravelAdvisory": [
+          {
+            "name": "country",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listCountries": []
+      },
+      "digests": {
+        "listTravelAdvisories": "0cb4bfc577dd7fb8",
+        "getTravelAdvisory": "ba4d03303f4d40ad",
+        "listCountries": "c3d85ad6ae75aecb"
       }
     },
     "providers.statefarm": {
@@ -186489,6 +186622,83 @@ export const VALIDATORS: ValidatorTable = {
         "listNotes": "8a52c43196aad76a",
         "listTags": "0e63d14192345ca8",
         "listWorkflows": "bdaa1c771af384d9"
+      }
+    },
+    "providers.wealthbox_store": {
+      "defs": {
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetProductRecommendationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListProductsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProductRecommendations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductRecommendationsArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listProducts": "2c8167cb4acb6e44",
+        "getProduct": "cb8da603b271a9ef",
+        "getProductRecommendations": "b1090a11b96a61ec"
       }
     },
     "providers.wearehirschfeld": {
