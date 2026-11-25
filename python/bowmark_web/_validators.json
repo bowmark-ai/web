@@ -1,5 +1,5 @@
 {
-  "version": "3b50bfc5e3a10e062d2642e1008788110fb52b4874fa5f109eee74c36ec9e91d",
+  "version": "cf42518d2bc2719fbede6fec7407ee795ed2e5fb8a20a4949db702e83bfc7e45",
   "units": {
     "address_validation": {
       "defs": {
@@ -77013,6 +77013,23 @@
     "providers.genius": {
       "defs": {},
       "functions": {
+        "getAlbum": [
+          {
+            "name": "album",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getArtist": [
           {
             "name": "artist",
@@ -77086,6 +77103,30 @@
               ]
             },
             "optional": true
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "listSongComments": [
+          {
+            "name": "song",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
           },
           {
             "name": "page",
@@ -77191,16 +77232,18 @@
         ]
       },
       "digests": {
-        "getArtist": "2f2a255a2ecedfe0",
-        "listArtistAlbums": "322e7640f1007313",
-        "listArtistSongs": "e0e5902033715358",
-        "listSongAnnotations": "25e15e8cc82988d3",
-        "getLyrics": "fd29728bc0050de1",
-        "getSong": "fe9fb8145abc2267",
-        "searchAlbums": "37bf05d4c35221e0",
-        "searchArtists": "28726602556a6296",
-        "searchLyrics": "acbfdeade431c2d0",
-        "searchSongs": "c80bcd6acf56a776"
+        "getAlbum": "b7e879bcc304d335",
+        "getArtist": "cf653f4b49144c77",
+        "listArtistAlbums": "d0fd03909ee24348",
+        "listArtistSongs": "dbe76a44e0bd5d90",
+        "listSongComments": "53fc262a9b892116",
+        "listSongAnnotations": "1ba355f452444135",
+        "getLyrics": "1edc18476db28744",
+        "getSong": "2d538c6ef9fe2e40",
+        "searchAlbums": "5aff5d81b2c43158",
+        "searchArtists": "2f26b7c47f586469",
+        "searchLyrics": "fddf6c146b65001d",
+        "searchSongs": "2be17abbe5c509d5"
       }
     },
     "providers.github": {
@@ -92824,6 +92867,18 @@
               "optional": false
             }
           ]
+        },
+        "UnsubscribeFromNewsletterArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "newsletter",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -92996,6 +93051,50 @@
             "optional": true
           }
         ],
+        "unsubscribeFromNewsletter": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UnsubscribeFromNewsletterArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listCompetitions": [
           {
             "name": "args",
@@ -93068,30 +93167,32 @@
         ]
       },
       "digests": {
-        "listSections": "eb75ff217a8e2226",
-        "browseSection": "f380034fdba0e81d",
-        "getHomepageHeadlines": "9291b62c9bd666bb",
-        "listLatestNews": "6bba04df4ddb2d57",
-        "getArticle": "38b58c44f5027447",
-        "getMostPopular": "03b217ea8723b8ca",
-        "listArticlesByDate": "7f8640b31e43fb11",
-        "getLiveBlog": "881a83aaf5802cc1",
-        "getArticleComments": "0ab931d6e500081b",
-        "getVideo": "da88235b8788c4c7",
-        "listVideos": "bb6e4caf92082dc3",
-        "listQuizzes": "6576704e7b7dc13d",
-        "searchArticles": "819e2ea7a1817f4d",
-        "getQuiz": "6c307eb901bf370e",
-        "listNewsletters": "af154ae8e94f639d",
-        "subscribeToNewsletter": "a166b8431782387b",
-        "listNewsletterSubscriptions": "462a11a1f087b8be",
-        "listCompetitions": "358e0dd637de8227",
-        "listVoucherStores": "b41c4cab5cc96636",
-        "getVoucherCodes": "95465fdaba3c919c",
-        "listTopics": "fb64b1e0a90ade19",
-        "getTopicArticles": "92ce04cc05897da6",
-        "listAuthors": "6eccb3af0ffdeebd",
-        "getAuthorArticles": "e140541e8886cca4"
+        "listSections": "9d291df9f0f6b55b",
+        "browseSection": "f1176a7113b8c8c9",
+        "getHomepageHeadlines": "706c7dc42ddc5bbf",
+        "listLatestNews": "a1d5fc56d874868a",
+        "getArticle": "bf038b06707f9e3e",
+        "getMostPopular": "437e2fa004b52ed1",
+        "listArticlesByDate": "db90dbb2fd3a2887",
+        "getLiveBlog": "9b16a51d1765d780",
+        "getArticleComments": "6188250000d37ad8",
+        "getVideo": "812d3bdf376acc48",
+        "listVideos": "180fb325b716356f",
+        "listQuizzes": "653638a2874b465f",
+        "searchArticles": "725aedd9f775a815",
+        "getQuiz": "855b7fadbdc470e0",
+        "listNewsletters": "abd83fb661660141",
+        "subscribeToNewsletter": "2af59f9914c6e491",
+        "listNewsletterSubscriptions": "1065436787f2bfde",
+        "unsubscribeFromNewsletter": "86d11f61d55706f3",
+        "getAccount": "8205cf7442430389",
+        "listCompetitions": "4416f4f948c71aff",
+        "listVoucherStores": "87ec645106d277ae",
+        "getVoucherCodes": "2ac5ca70126c280d",
+        "listTopics": "41a15eb430e1b57d",
+        "getTopicArticles": "39d7c6e0a9694514",
+        "listAuthors": "0822031deb807d32",
+        "getAuthorArticles": "ec2c35ceb232324a"
       }
     },
     "providers.inspirecommunities": {
@@ -117632,6 +117733,18 @@
             }
           ]
         },
+        "GetSlideshowArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -117802,6 +117915,16 @@
             "optional": false
           }
         ],
+        "getSlideshow": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSlideshowArgs"
+            },
+            "optional": false
+          }
+        ],
         "getLiveBlog": [
           {
             "name": "args",
@@ -117854,20 +117977,21 @@
         ]
       },
       "digests": {
-        "listHeadlines": "1dc05ca480b3db98",
-        "listSectionHeadlines": "0312bfacdf948593",
-        "getArticle": "743eacd17b04730f",
-        "listLatestStories": "1dc05ca480b3db98",
-        "listVideos": "1dc05ca480b3db98",
-        "listPodcasts": "1dc05ca480b3db98",
-        "getVideo": "6659c4cfb6ffedc0",
-        "listSelectDeals": "f6290e44f53e092f",
-        "getRecipe": "b25381602bd7d6c0",
-        "getLiveBlog": "b0d9007dbb2a26e6",
-        "listSections": "ea81d59f567d0e1f",
-        "searchArticles": "32c1b7ce8dbc5f03",
-        "listNewsletters": "00317c3ff6304530",
-        "getAuthor": "626b5fa684752458"
+        "listHeadlines": "1b56ac6976cdd454",
+        "listSectionHeadlines": "b6d410efd3537c2e",
+        "getArticle": "afe658f25fadad45",
+        "listLatestStories": "1b56ac6976cdd454",
+        "listVideos": "1b56ac6976cdd454",
+        "listPodcasts": "1b56ac6976cdd454",
+        "getVideo": "e22e3390c7ae14d1",
+        "listSelectDeals": "22aa2c6289c87bb0",
+        "getRecipe": "d0795753afbb3285",
+        "getSlideshow": "0395bcf98069afdc",
+        "getLiveBlog": "b4becee020c1a147",
+        "listSections": "fe76fcff273aed2c",
+        "searchArticles": "6ba1912fe5ae55c7",
+        "listNewsletters": "dc2e533dd30e16f8",
+        "getAuthor": "8269f5318fe71023"
       }
     },
     "providers.nerdwallet": {
@@ -137811,6 +137935,38 @@
             "optional": true
           }
         ],
+        "signWaiver": [
+          {
+            "name": "gym",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "accept",
+            "schema": {
+              "k": "boolean"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listMyInvoices": [
           {
             "name": "gym",
@@ -137852,22 +138008,23 @@
         ]
       },
       "digests": {
-        "getGym": "959b2279cdd9bbd7",
-        "listClasses": "d06fd6e5b648f557",
-        "getClass": "7acd3c185a487e35",
-        "listPlans": "ece58d4c9b55a1f9",
-        "getPlan": "d7ddc95b0824480b",
-        "listLocations": "0f4122f55fed9c16",
-        "listCoaches": "9aad43460f04ca7f",
-        "listAppointmentTypes": "c358bc29241c555a",
-        "getMyProfile": "95052e349ce459f2",
-        "listMyPlans": "5eb55754a51d998a",
-        "listMyBookings": "93f3e904e741ded4",
-        "bookClass": "9e67aa4f5bf9cc16",
-        "joinWaitlist": "5f44b66341a95a38",
-        "cancelBooking": "93613e84f03b6bdb",
-        "listMyDocuments": "1918f00174116ba7",
-        "listMyInvoices": "7022415d29feb8d3"
+        "getGym": "7a83dbe7e3e0e265",
+        "listClasses": "3adb3514d7121af0",
+        "getClass": "aed0567bb8f3eb6e",
+        "listPlans": "8939bc432b910a8f",
+        "getPlan": "e5a733323b8afef8",
+        "listLocations": "147116a97c0d3c24",
+        "listCoaches": "29e6e464752d3762",
+        "listAppointmentTypes": "a08771aea5ccd891",
+        "getMyProfile": "8923962b4473c42e",
+        "listMyPlans": "67ce49341ebdfcfb",
+        "listMyBookings": "947b5fb4f1d08f5c",
+        "bookClass": "87eb2b605e0a0d9e",
+        "joinWaitlist": "e54f4234c1c6fe40",
+        "cancelBooking": "f62e99254ab0dc09",
+        "listMyDocuments": "a6aec662726d945d",
+        "signWaiver": "ec15718675803da0",
+        "listMyInvoices": "7e4387d889873691"
       }
     },
     "providers.pypi": {
@@ -163966,6 +164123,52 @@
             "optional": false
           }
         ],
+        "exploreEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lat",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "lon",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "findEventsToSell": [
           {
             "name": "args",
@@ -164145,17 +164348,18 @@
         ]
       },
       "digests": {
-        "search": "f83b25d380a4a2e3",
-        "getEventListings": "c3c5a52c43f4669a",
-        "getEvent": "7a1e90411b7b20f6",
-        "listCategories": "10ec3ffdbe2c40d6",
-        "findPerformers": "6d9b34d55c10c4f6",
-        "findVenues": "4c73895c236316f8",
-        "findEventsToSell": "d3ff311b0e3367cd",
-        "getCheckoutHandoff": "e6b96acf11c6e126",
-        "createListing": "3a1300c4313d1524",
-        "listMyOrders": "cf04537f706f524f",
-        "listFavorites": "1b419fd35aca80fd"
+        "search": "ad39d9c8994529aa",
+        "getEventListings": "00614f25eedb16d0",
+        "getEvent": "c06f46832676c7f3",
+        "listCategories": "fead9ed118161e89",
+        "findPerformers": "001718b51b56dca6",
+        "findVenues": "1b675fec2f863255",
+        "exploreEvents": "1aa506aa25885e9c",
+        "findEventsToSell": "6617fbeeb59bc454",
+        "getCheckoutHandoff": "57b2ab7b70b8dd66",
+        "createListing": "8b583979ddbe1ce7",
+        "listMyOrders": "27e15578a7f48640",
+        "listFavorites": "0291fef1e8e3a953"
       }
     },
     "providers.studentaccommodationbath": {
@@ -198527,57 +198731,57 @@
         ]
       },
       "digests": {
-        "search": "8c1199bd4a93340e",
-        "suggestSearches": "3ba67441c7769fcd",
-        "getDislikes": "c69475b6135664c9",
-        "embeddable": "3e21588aa932bd52",
-        "getTranscript": "f3bfa7e5b226c42e",
-        "findChannel": "c6e3e3a25f9b951a",
-        "getVideo": "19550d20562e932f",
-        "listComments": "a4b36f0701f3d952",
-        "listCommentReplies": "baa02e9db8f97510",
-        "commentsPage": "510af5e34bfe5eb7",
-        "listRelatedVideos": "22a5fba7fbb7e040",
-        "listChapters": "09a78c5dd53f6cf5",
-        "getLiveChat": "9ec6f4c9042e1ab0",
-        "listCaptionTracks": "3590182d1493ba73",
-        "listStreamFormats": "71e5fa90eed10e97",
-        "getPlayableStream": "8760d16182af4081",
-        "getPlayback": "636eaad72215f77e",
-        "listHashtagVideos": "a22d1b06168bbc49",
-        "getChannel": "ea9c9002db7ee0fd",
-        "listChannelVideos": "c7f3824bee67c9d3",
-        "listChannelShorts": "35589a740a3e74fc",
-        "listChannelLiveStreams": "11cd72cc942ad084",
-        "listChannelPlaylists": "5454c4ad6d2bf9dc",
-        "listChannelPosts": "333519d018baffdc",
-        "searchWithinChannel": "fd1b0227fcad67e4",
-        "getPlaylist": "2ad7acaabb64dc58",
-        "listPlaylistVideos": "f8c84945630ed971",
-        "listHomeFeed": "0c5b763abde9eded",
-        "homeFeedPage": "1886964feec8b773",
-        "listWatchLater": "aac4773ef6014326",
-        "listLikedVideos": "aac4773ef6014326",
-        "listWatchHistory": "aac4773ef6014326",
-        "createPlaylist": "0b2595f326763b36",
-        "createChannel": "bcab0c5eb2335277",
-        "addToPlaylist": "df90e3309df5d1f0",
-        "removeFromPlaylist": "df90e3309df5d1f0",
-        "updatePlaylist": "0d98c0d7ec082981",
-        "deletePlaylist": "bffe6004f1aa28b9",
-        "listSubscriptions": "14aff55a68035837",
-        "subscribeToChannel": "132fc7927a103896",
-        "likeVideo": "2d3f368496ecc8d4",
-        "markWatched": "9d81590165accdc8",
-        "postComment": "64fb358a8da59a01",
-        "replyToComment": "b370089e3febba3a",
-        "deleteComment": "30ff6cc17a4139ef",
-        "listMyVideos": "51463cb7f2d740b7",
-        "uploadVideo": "6f6342dad3208f2d",
-        "updateVideo": "8628da004cdbd22e",
-        "setThumbnail": "825d269f559acefe",
-        "deleteVideo": "131b4bb7f95b56da",
-        "login": "0b323b0d8f6b77ce"
+        "search": "65d3aa4e1328eb61",
+        "suggestSearches": "6e6b4d28863b033b",
+        "getDislikes": "2675b76dc9a2de6c",
+        "embeddable": "30703ef706a8b01e",
+        "getTranscript": "d6b8af3d564d9e58",
+        "findChannel": "f77eee134944318e",
+        "getVideo": "4b6754b4e5b44368",
+        "listComments": "ab976e89fc11a02a",
+        "listCommentReplies": "78a5583cd852836b",
+        "commentsPage": "c1c0757ef701963d",
+        "listRelatedVideos": "5e8ca838fb5b880e",
+        "listChapters": "1fc1d6028be9cfb4",
+        "getLiveChat": "a7660ec41342e341",
+        "listCaptionTracks": "2cab3de2824caa7e",
+        "listStreamFormats": "8e872e8326a3f95f",
+        "getPlayableStream": "ec544add4c3bdcec",
+        "getPlayback": "82036d909829cdbe",
+        "listHashtagVideos": "59ccf13d30901632",
+        "getChannel": "6f659a6d8ec5264a",
+        "listChannelVideos": "372d04dff7e9c487",
+        "listChannelShorts": "a477b4ef2ed48535",
+        "listChannelLiveStreams": "ad908dd890ccedf3",
+        "listChannelPlaylists": "77564162a1053c18",
+        "listChannelPosts": "9d17ec0ef90aedbe",
+        "searchWithinChannel": "97a035ab9304e0cb",
+        "getPlaylist": "d08b00db22f25fb3",
+        "listPlaylistVideos": "4ea8dac7e2914cc0",
+        "listHomeFeed": "1c188b6b6aa5050b",
+        "homeFeedPage": "bcd622856de54ba7",
+        "listWatchLater": "434cc037a0ffcc00",
+        "listLikedVideos": "434cc037a0ffcc00",
+        "listWatchHistory": "434cc037a0ffcc00",
+        "createPlaylist": "5b0109d1467cdd65",
+        "createChannel": "e6e32a528fa7ebaa",
+        "addToPlaylist": "040755dfcb456cfd",
+        "removeFromPlaylist": "040755dfcb456cfd",
+        "updatePlaylist": "c7028286f61470e2",
+        "deletePlaylist": "ba49c60fdaef1e5e",
+        "listSubscriptions": "f9c870d8827038ef",
+        "subscribeToChannel": "b95001f44c405547",
+        "likeVideo": "cc4392598177fcc3",
+        "markWatched": "1807f286ad7a64bd",
+        "postComment": "90fe9a033737adba",
+        "replyToComment": "8189def5149520f3",
+        "deleteComment": "979992506abbe487",
+        "listMyVideos": "5e5f6730818a78ee",
+        "uploadVideo": "e77a5973a51df284",
+        "updateVideo": "50c3d71c3ef59414",
+        "setThumbnail": "2caa087320bcec9a",
+        "deleteVideo": "23dd3cb3e648842d",
+        "login": "3603882e07898b0e"
       }
     },
     "providers.zen_planner": {

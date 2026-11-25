@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3b50bfc5e3a10e062d2642e1008788110fb52b4874fa5f109eee74c36ec9e91d
-# 99 capabilities, 968 providers, 6022 typed functions, 20 refused.
+# Manifest version: cf42518d2bc2719fbede6fec7407ee795ed2e5fb8a20a4949db702e83bfc7e45
+# 99 capabilities, 968 providers, 6029 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36316,6 +36316,25 @@ class Prv_geico_GeicoAgentSearch_Out_searchedFrom_Out(TypedDict):
     latitude: float
     longitude: float
 
+class Prv_genius_GeniusAlbum_Out(TypedDict):
+    id: float
+    name: str
+    artist: str
+    artistId: float | None
+    fullTitle: str
+    url: str
+    releaseDate: str | None
+    coverUrl: str | None
+    description: str | None
+    tracks: list[Prv_genius_GeniusAlbumTrack_Out]
+
+class Prv_genius_GeniusAlbumTrack_Out(TypedDict):
+    number: float
+    discNumber: float
+    songId: float
+    title: str
+    url: str
+
 class Prv_genius_GeniusArtist_Out(TypedDict):
     id: float
     name: str
@@ -36360,6 +36379,19 @@ class Prv_genius_GeniusSongHit_Out(TypedDict):
     releaseDate: str | None
     pageviews: float | None
     imageUrl: str | None
+
+class Prv_genius_GeniusSongComments_Out(TypedDict):
+    songId: float
+    page: float
+    nextPage: float | None
+    comments: list[Prv_genius_GeniusComment_Out]
+
+class Prv_genius_GeniusComment_Out(TypedDict):
+    id: float
+    author: str | None
+    body: str
+    votes: float
+    createdAt: str | None
 
 class Prv_genius_GeniusSongAnnotations_Out(TypedDict):
     songId: float
@@ -43499,6 +43531,18 @@ class Prv_independent_SubscribeToNewsletterResult_Out(TypedDict):
 
 class Prv_independent_ListNewsletterSubscriptionsResult_Out(TypedDict):
     raw: Any
+
+class Prv_independent_UnsubscribeFromNewsletterArgs_In(TypedDict):
+    newsletter: str
+
+class Prv_independent_UnsubscribeFromNewsletterResult_Out(TypedDict):
+    newsletter: str
+    status: float
+    unsubscribed: bool
+    message: str | None
+
+class Prv_independent_GetAccountResult_Out(TypedDict):
+    raw: Mapping[str, Any]
 
 class Prv_independent_ListCompetitionsArgs_In(TypedDict):
     limit: NotRequired[float]
@@ -54014,6 +54058,25 @@ class Prv_nbcnews_Recipe_Out_ingredients_item_Out_items_item_Out(TypedDict):
     quantity: NotRequired[str]
     unit: NotRequired[str]
 
+class Prv_nbcnews_GetSlideshowArgs_In(TypedDict):
+    url: str
+
+class Prv_nbcnews_Slideshow_Out(TypedDict):
+    title: str
+    url: str
+    publishedAt: NotRequired[str]
+    count: float
+    photos: list[Prv_nbcnews_SlideshowPhoto_Out]
+
+class Prv_nbcnews_SlideshowPhoto_Out(TypedDict):
+    position: float
+    caption: NotRequired[str]
+    altText: NotRequired[str]
+    credit: NotRequired[str]
+    imageUrl: str
+    width: NotRequired[float]
+    height: NotRequired[float]
+
 class Prv_nbcnews_GetLiveBlogArgs_In(TypedDict):
     url: str
     limit: NotRequired[float]
@@ -62446,6 +62509,10 @@ class Prv_pushpress_PushpressMyDocument_Out(TypedDict):
     title: str | None
     signed: bool
     createdAt: str | None
+
+class Prv_pushpress_PushpressSignWaiverResult_Out(TypedDict):
+    version: float
+    signed: bool
 
 class Prv_pushpress_PushpressMyInvoices_Out(TypedDict):
     page: float
@@ -74876,6 +74943,36 @@ class Prv_stubhub_stubhubVenueMatch_Out(TypedDict):
     id: str
     name: str
     url: str
+
+Prv_stubhub_exploreEvents_args_In = TypedDict(
+    "Prv_stubhub_exploreEvents_args_In",
+    {
+    "lat": float,
+    "lon": float,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    "limit": NotRequired[float],
+    },
+)
+
+class Prv_stubhub_stubhubExploreEventsResult_Out(TypedDict):
+    lat: float
+    lon: float
+    events: list[Prv_stubhub_stubhubExploreEvent_Out]
+    total: float | None
+    warnings: list[str]
+
+class Prv_stubhub_stubhubExploreEvent_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    date: str | None
+    dayOfWeek: str | None
+    time: str | None
+    venueId: str | None
+    venueName: str | None
+    location: str | None
+    hasListings: bool
 
 class Prv_stubhub_findEventsToSell_args_u0_In(TypedDict):
     query: str
@@ -89647,6 +89744,7 @@ class Prv_youtube_YoutubePlayback_Out(TypedDict):
     referrer: Literal["any"] | Literal["none"] | str
     warnings: list[str]
     storyboard: Prv_youtube_YoutubePlayback_Out_storyboard_u0_Out | None
+    carry: NotRequired[Prv_youtube_YoutubePlayback_Out_carry_Out]
 
 class Prv_youtube_YoutubePlayback_Out_embed_u0_Out(TypedDict):
     url: str
@@ -89678,6 +89776,21 @@ class Prv_youtube_YoutubePlayback_Out_storyboard_u0_Out(TypedDict):
     count: float
     intervalMs: float
     sheets: list[str]
+
+class Prv_youtube_YoutubePlayback_Out_carry_Out(TypedDict):
+    args: Prv_youtube_YoutubePlayback_Out_carry_Out_args_Out
+    expiresAt: str
+    refusedBy: Prv_youtube_YoutubePlayback_Out_carry_Out_refusedBy_Out
+
+class Prv_youtube_YoutubePlayback_Out_carry_Out_args_Out(TypedDict):
+    poToken: str
+    visitorData: str
+
+class Prv_youtube_YoutubePlayback_Out_carry_Out_refusedBy_Out(TypedDict):
+    hostSuffix: str
+    param: str
+    status: float
+    arg: str
 
 class Prv_youtube_listHashtagVideos_input_In(TypedDict):
     hashtag: str
@@ -94904,16 +95017,16 @@ class Prv_amazon(Protocol):
         """
 
     async def searchWholeFoods(self, args: Prv_amazon_SearchWholeFoodsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
-        """Search Whole Foods Market groceries sold on amazon.com — "organic bananas", "sourdough
-        bread" — and get the product cards with their current price and list price. Same return
-        shape as searchProducts: `{ products, totalResultCount }`, each row `{ asin, title, url,
-        price, listPrice, rating, ratingCount, sponsored, image }`; feed an `asin` to getProduct
-        for detail. Optional `sort` (e.g. "price-asc-rank") and `page`. Prices are Amazon's
-        national Whole Foods prices, not one store's: picking a store needs a signed-in Prime
-        address. When Amazon answers no results to a session with no location (some exits), it
-        sets guest ZIP 10001 and asks once more, and the run notes say the rows are for that
-        ZIP. `warnings` appears only when an empty answer could not be confirmed that way. Never
-        places an order.
+        """Amazon.com only — search Whole Foods Market groceries sold on amazon.com, not another
+        Amazon storefront: "organic bananas", "sourdough bread" — and get the product cards with
+        their current price and list price. Same return shape as searchProducts: `{ products,
+        totalResultCount }`, each row `{ asin, title, url, price, listPrice, rating,
+        ratingCount, sponsored, image }`; feed an `asin` to getProduct for detail. Optional
+        `sort` (e.g. "price-asc-rank") and `page`. Prices are Amazon's national Whole Foods
+        prices, not one store's: picking a store needs a signed-in Prime address. When Amazon
+        answers no results to a session with no location (some exits), it sets guest ZIP 10001
+        and asks once more, and the run notes say the rows are for that ZIP. `warnings` appears
+        only when an empty answer could not be confirmed that way. Never places an order.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
@@ -95028,14 +95141,14 @@ class Prv_amazon(Protocol):
         """
 
     async def getDeliveryEstimate(self, args: Prv_amazon_GetDeliveryEstimateArgs_In, /) -> Prv_amazon_AmazonDeliveryEstimate_Out:
-        """When a product would actually arrive at a given US ZIP, and what it costs to get it
-        there — sets the ZIP for one session (Amazon's own "glow" location picker, no account
-        needed) and reads the delivery block the product page then re-renders for it: the site's
-        own delivery sentence, the price label and the condition it attaches, plus `options` —
-        every shipping option the buy box offers (standard, and the fastest Prime / paid
-        same-day or next-day promise with its order-by cutoff), each with its own date and
-        price. `zipResolved` is false, and the three fields are Amazon's DEFAULT location rather
-        than the caller's ZIP, on an invalid ZIP.
+        """Amazon.com only — when a product would actually arrive at a given US ZIP, and what it
+        costs to get it there — sets the ZIP for one session (Amazon's own "glow" location
+        picker, no account needed) and reads the delivery block the product page then re-renders
+        for it: the site's own delivery sentence, the price label and the condition it attaches,
+        plus `options` — every shipping option the buy box offers (standard, and the fastest
+        Prime / paid same-day or next-day promise with its order-by cutoff), each with its own
+        date and price. `zipResolved` is false, and the three fields are Amazon's DEFAULT
+        location rather than the caller's ZIP, on an invalid ZIP.
         """
 
     async def listSellerOffers(self, asinOrUrl: str, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> Prv_amazon_AmazonSellerOffersResult_Out:
@@ -95076,10 +95189,12 @@ class Prv_amazon(Protocol):
         """
 
     async def listOrders(self, args: Prv_amazon_listOrders_args_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_amazon_SignedInOrderPage_Out:
-        """The signed-in customer's own Amazon orders, newest first — order id, date placed,
-        Amazon's own status words (a cancelled or refunded order keeps them), total, item count
-        and the order's page. Pages with `nextCursor`. Reads Your Orders through the caller's
-        own browser via Bowmark Buddy; with no sign-in the run pauses for one, never answers [].
+        """Amazon.com only — the signed-in customer's own Amazon.com orders, newest first — order
+        id, date placed, Amazon's own status words (a cancelled or refunded order keeps them),
+        total, item count and the order's page. Pages with `nextCursor`. Does not read order
+        history from another Amazon storefront such as amazon.com.br or amazon.in. Reads Your
+        Orders through the caller's own browser via Bowmark Buddy; with no sign-in the run
+        pauses for one, never answers [].
         """
 
 class Prv_amazon_br(Protocol):
@@ -110148,6 +110263,11 @@ class Prv_genius(Protocol):
     line of its lyrics, read a song's details and its full lyrics.
     """
 
+    async def getAlbum(self, album: str | float, /) -> Prv_genius_GeniusAlbum_Out:
+        """Reads a Genius album by id: artist, release date, cover, Genius's description and its
+        track list (each track's song id).
+        """
+
     async def getArtist(self, artist: str | float, /) -> Prv_genius_GeniusArtist_Out:
         """Reads a Genius artist by id: bio, aliases, followers, IQ and social handles."""
 
@@ -110157,6 +110277,11 @@ class Prv_genius(Protocol):
     async def listArtistSongs(self, artist: str | float, sort: Literal["popularity"] | Literal["title"] | None = None, page: float | None = None, /) -> Prv_genius_GeniusArtistSongs_Out:
         """Lists an artist's songs on Genius, by popularity or title, one page at a time (nextPage
         says whether more exist).
+        """
+
+    async def listSongComments(self, song: str | float, page: float | None = None, /) -> Prv_genius_GeniusSongComments_Out:
+        """Lists the comments under a song's Genius page: author, plain-text body, votes and time,
+        one page at a time.
         """
 
     async def listSongAnnotations(self, song: str | float, page: float | None = None, /) -> Prv_genius_GeniusSongAnnotations_Out:
@@ -114236,6 +114361,16 @@ class Prv_independent(Protocol):
     async def listNewsletterSubscriptions(self, opts: ConnectionOption | None = None, /) -> Prv_independent_ListNewsletterSubscriptionsResult_Out:
         """Lists the newsletters the signed-in caller is subscribed to, as the site's
         subscription-status endpoint returns them.
+        """
+
+    async def unsubscribeFromNewsletter(self, args: Prv_independent_UnsubscribeFromNewsletterArgs_In, opts: ConnectionOption | None = None, /) -> Prv_independent_UnsubscribeFromNewsletterResult_Out:
+        """Unsubscribes the signed-in caller from one Independent newsletter (a listNewsletters
+        key) through the site's own profile switch.
+        """
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_independent_GetAccountResult_Out:
+        """Reads the signed-in caller's Independent account profile page: the site's own page data
+        (js-globals) for the logged-in account.
         """
 
     async def listCompetitions(self, args: Prv_independent_ListCompetitionsArgs_In | None = None, /) -> Prv_independent_ListCompetitionsResult_Out:
@@ -120439,6 +120574,11 @@ class Prv_nbcnews(Protocol):
         notes, yield and rating.
         """
 
+    async def getSlideshow(self, args: Prv_nbcnews_GetSlideshowArgs_In, /) -> Prv_nbcnews_Slideshow_Out:
+        """Read one NBC News photo gallery (a /news/photo/ page): its title, date, and each photo's
+        caption, credit, alt text and image URL in order.
+        """
+
     async def getLiveBlog(self, args: Prv_nbcnews_GetLiveBlogArgs_In, /) -> Prv_nbcnews_LiveBlog_Out:
         """Read an NBC News live-updates blog: title, times and each timestamped update (newest
         first) with text and authors.
@@ -125100,6 +125240,11 @@ class Prv_pushpress(Protocol):
         """Lists the waivers and agreements the gym has put in front of the signed-in member, each
         with signed true/false — an unsigned waiver can block a first booking. Needs the caller
         signed in.
+        """
+
+    async def signWaiver(self, gym: str, accept: bool, opts: ConnectionOption | None = None, /) -> Prv_pushpress_PushpressSignWaiverResult_Out:
+        """Signs the gym's current waiver / agreement (its EULA) as the signed-in member. Fires
+        only when the caller passes accept: true explicitly. Needs the caller signed in.
         """
 
     async def listMyInvoices(self, gym: str, page: float | None = None, limit: float | None = None, opts: ConnectionOption | None = None, /) -> Prv_pushpress_PushpressMyInvoices_Out:
@@ -130652,6 +130797,12 @@ class Prv_stubhub(Protocol):
         """Finds a venue by name and returns its id, display name and StubHub's own page url for
         it, for a caller who knows WHERE before they know WHAT. Browserless and fast — the same
         search page as search(), filtered to the hits StubHub itself tags as a venue.
+        """
+
+    async def exploreEvents(self, args: Prv_stubhub_exploreEvents_args_In, /) -> Prv_stubhub_stubhubExploreEventsResult_Out:
+        """What's on near a place: StubHub's own Explore feed for a latitude/longitude — event
+        name, date, time, venue and city, soonest first. Optional from/to (YYYY-MM-DD) keep a
+        date window and limit (default 20, max 100) caps the rows. Browserless and fast.
         """
 
     async def findEventsToSell(self, args: Prv_stubhub_findEventsToSell_args_u0_In | str, /) -> Prv_stubhub_stubhubFindEventsToSellResult_Out:
