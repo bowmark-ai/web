@@ -5,10 +5,10 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cf42518d2bc2719fbede6fec7407ee795ed2e5fb8a20a4949db702e83bfc7e45
-// 99 capabilities, 968 providers, 6057 typed functions, 20 refused.
+// Manifest version: c97435e735b391d657716ff18ba2503aed937bdd26891cb0836d2e44bb674f56
+// 99 capabilities, 968 providers, 6060 typed functions, 20 refused.
 // 124,263 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
-// 17,124 sites under bowmark.sites, 219,934 functions, sharing 2,515 interface(s).
+// 17,315 sites under bowmark.sites, 222,302 functions, sharing 2,526 interface(s).
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -10690,6 +10690,12 @@ interface alibabaGetOrderArgs {
   orderId: string;
 }
 
+interface alibabaCart {
+  itemCount: number | null;
+  totalProductPrice: string | null;
+  groups: unknown[]; // purchaseItemGroupList, as the site sends it
+}
+
   /**
    * Search and browse products on Alibaba's B2B marketplace; read product details, reviews, and
    * supplier information.
@@ -10758,6 +10764,12 @@ interface alibabaGetOrderArgs {
      * caller has none.
      */
     listSavedItems(opts?: ConnectionOption): Promise<alibabaAccountPage>;
+
+    /**
+     * The signed-in caller's shopping cart: item count, total and the supplier groups. Pauses for
+     * sign-in when the caller has none.
+     */
+    getCart(opts?: ConnectionOption): Promise<alibabaCart>;
 
     /**
      * Makes a NEW Alibaba.com account with the person's own email and password, in a session.
@@ -65194,6 +65206,21 @@ interface hiltonRoomOffer {
   totalRate: string;
 }
 
+interface HiltonHonorsTier {
+  name: string;
+  qualification: string; // The site's own text, e.g. "25+ nights".
+}
+
+interface HiltonHonorsBenefit {
+  name: string;
+  includedIn: string[]; // Tier names (as in `tiers`) that include it.
+}
+
+interface HiltonHonorsPrograms {
+  tiers: HiltonHonorsTier[];
+  benefits: HiltonHonorsBenefit[];
+}
+
   /** Hilton-family hotel search, award availability, reservation lookup and property details. */
   interface Unit {
     /**
@@ -65208,6 +65235,13 @@ interface hiltonRoomOffer {
      * yet. See manifest.json's `reach.why`.
      */
     search(args: HiltonSearchArgs): Promise<hiltonRoomOffer[]>;
+
+    /**
+     * Reads the published Hilton Honors tiers (Member, Silver, Gold, Diamond, Diamond Reserve)
+     * with each tier's qualification and which tiers include each benefit, as the public
+     * member-benefits page states them — no sign-in.
+     */
+    getHonorsPrograms(): Promise<HiltonHonorsPrograms>;
 
     /**
      * Makes a NEW Hilton account with the person's own email and password, in a session. Pauses
@@ -68244,6 +68278,10 @@ interface GetAccountResult {
   raw: Record<string, unknown>;
 }
 
+interface ListBookmarksResult {
+  raw: Record<string, unknown>;
+}
+
   /**
    * The Independent (UK news): articles, live blogs, section and topic fronts, most-read,
    * writers, Independent TV video, quizzes, newsletters, voucher codes and comments.
@@ -68358,6 +68396,9 @@ interface GetAccountResult {
      * (js-globals) for the logged-in account.
      */
     getAccount(opts?: ConnectionOption): Promise<GetAccountResult>;
+
+    /** Lists the signed-in caller's bookmarked articles, from the site's Bookmarks page. */
+    listBookmarks(opts?: ConnectionOption): Promise<ListBookmarksResult>;
 
     /**
      * Lists the Independent's open reader competitions and prize draws: title, blurb, URL, image
@@ -158430,77 +158471,6 @@ interface BowmarkSiteTools_0ac0341fc2 {
     }): Promise<unknown>;
 }
 
-interface BowmarkSiteTools_0ac30670ff {
-    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
-    BrowseWixRESTDocsMenu(args: {
-      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
-      reason: string;
-      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
-      menuUrl?: string;
-    }): Promise<unknown>;
-    /** Call apis on site "Synchtank" (https://www.synchtank.net/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess  */
-    CallWixSiteAPI(args: {
-      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
-      url: string;
-      /** A string representing of a valid JSON object to describe the body of the request */
-      body?: string;
-      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
-      method: string;
-      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
-      visitorToken?: string;
-    }): Promise<unknown>;
-    /** Run JavaScript against the Wix REST API on site "Synchtank" (https://www.synchtank.net/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for an */
-    ExecuteWixAPI(args: {
-      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
-      code: string;
-      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
-      files?: string;
-      /** One sentence explaining the original user request and why you are executing code to complete it. */
-      reason: string;
-      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
-      attachments?: {
-          file_id: string;
-          file_name?: string;
-          mime_type?: string;
-          download_url: string;
-        }[];
-      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
-      hasMutations?: boolean;
-      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
-      visitorToken?: string;
-      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
-      sourceDocUrls: string[];
-    }): Promise<unknown>;
-    /** Create a new visitor session and obtain a visitor access token for site "Synchtank" (https://www.synchtank.net/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
-    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
-    /** Get business and site details for "Synchtank" (https://www.synchtank.net/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they  */
-    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
-    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
-    ReadFullDocsArticle(args: {
-      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
-      articleUrl: string;
-    }): Promise<unknown>;
-    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
-    ReadFullDocsMethodSchema(args: {
-      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
-      reason: string;
-      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
-      articleUrl: string;
-    }): Promise<unknown>;
-    /** Searches the site "Synchtank" (https://www.synchtank.net/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entit */
-    SearchInSite(args: {
-      /** The term to search for in the site, e.g. "working hours" or "store locations" */
-      searchTerm: string;
-    }): Promise<unknown>;
-    /** Searches for site "Synchtank" (https://www.synchtank.net/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Synchtank" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site deta */
-    SearchSiteApiDocs(args: {
-      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
-      searchTerm: string;
-    }): Promise<unknown>;
-    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
-    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
-}
-
 interface BowmarkSiteTools_0ac6d14d0f {
     /** Lädt alle Abschnitte einer zuvor gefundenen öffentlichen Dokumentationsseite. */
     get_document(args: {
@@ -202437,252 +202407,6 @@ interface BowmarkSiteTools_257c4d066b {
     }): Promise<unknown>;
 }
 
-interface BowmarkSiteTools_259e3c8a97 {
-    /** Discard a cart. The state before deletion is returned; later calls report not_found. */
-    cancel_cart(args: {
-      /** Identifier of the cart session, as returned when it was created. */
-      id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Abandon a checkout session. */
-    cancel_checkout(args: {
-      /** Identifier of the checkout session, as returned when it was created. */
-      id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Request completion. This shop never takes payment from an agent, so the answer is always requires_escalation with a continue_url. Send the buyer there to pay. */
-    complete_checkout(args: {
-      /** Identifier of the checkout session, as returned when it was created. */
-      id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Start a basket before the buyer has committed to buying. Returns estimated totals including delivery, and a continue_url the buyer can open. Prefer this over create_checkout while the buyer is still exploring. */
-    create_cart(args: {
-      /** Optional buyer details, used for estimates and to prefill checkout. */
-      buyer?: {
-        email?: string;
-        last_name?: string;
-        first_name?: string;
-        /** E.164 format. */
-        phone_number?: string;
-        [key: string]: unknown;
-      };
-      /** Localisation hints. Not authoritative, superseded by a delivery address. */
-      context?: {
-        /** Short description of what the buyer is after. */
-        intent?: string;
-        /** ISO 4217 code. This shop settles in RON. */
-        currency?: string;
-        /** BCP 47 tag, for example ro or en. */
-        language?: string;
-        postal_code?: string;
-        address_region?: string;
-        /** ISO 3166-1 alpha-2, for example RO. */
-        address_country?: string;
-        [key: string]: unknown;
-      };
-      /** Items to buy. Sending this replaces the whole list. */
-      line_items: {
-          item: {
-            /** Identifier as returned by catalog tools: p{product} for a simple product, p{product}-v{variant} for a variant. A product reference is also accepted. */
-            id: string;
-            [key: string]: unknown;
-          };
-          quantity: number;
-          [key: string]: unknown;
-        }[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Open a checkout once the buyer intends to purchase, either from line items or from an existing cart_id. Payment is not accepted over the protocol: the response carries a continue_url where the buyer completes the order. */
-    create_checkout(args?: {
-      /** Optional buyer details, used for estimates and to prefill checkout. */
-      buyer?: {
-        email?: string;
-        last_name?: string;
-        first_name?: string;
-        /** E.164 format. */
-        phone_number?: string;
-        [key: string]: unknown;
-      };
-      /** Convert an existing cart. Its contents replace any line_items sent here. */
-      cart_id?: string;
-      /** Localisation hints. Not authoritative, superseded by a delivery address. */
-      context?: {
-        /** Short description of what the buyer is after. */
-        intent?: string;
-        /** ISO 4217 code. This shop settles in RON. */
-        currency?: string;
-        /** BCP 47 tag, for example ro or en. */
-        language?: string;
-        postal_code?: string;
-        address_region?: string;
-        /** ISO 3166-1 alpha-2, for example RO. */
-        address_country?: string;
-        [key: string]: unknown;
-      };
-      /** Items to buy. Sending this replaces the whole list. */
-      line_items?: {
-          item: {
-            /** Identifier as returned by catalog tools: p{product} for a simple product, p{product}-v{variant} for a variant. A product reference is also accepted. */
-            id: string;
-            [key: string]: unknown;
-          };
-          quantity: number;
-          [key: string]: unknown;
-        }[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Read the current state of a cart, with refreshed prices and availability. */
-    get_cart(args: {
-      /** Identifier of the cart session, as returned when it was created. */
-      id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Read the current state of a checkout, with refreshed totals. */
-    get_checkout(args: {
-      /** Identifier of the checkout session, as returned when it was created. */
-      id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Full detail for one product, including every option axis and variant. Use it after search when the buyer must choose a size, voltage or colour. */
-    get_product(args: {
-      /** Identifier as returned by catalog tools: p{product} for a simple product, p{product}-v{variant} for a variant. A product reference is also accepted. */
-      id: string;
-      /** Localisation hints. Not authoritative, superseded by a delivery address. */
-      context?: {
-        /** Short description of what the buyer is after. */
-        intent?: string;
-        /** ISO 4217 code. This shop settles in RON. */
-        currency?: string;
-        /** BCP 47 tag, for example ro or en. */
-        language?: string;
-        postal_code?: string;
-        address_region?: string;
-        /** ISO 3166-1 alpha-2, for example RO. */
-        address_country?: string;
-        [key: string]: unknown;
-      };
-      /** Option choices already made by the buyer. */
-      selected?: {
-          /** Option axis, such as Size. */
-          name?: string;
-          /** Chosen value, such as 10. */
-          label?: string;
-          [key: string]: unknown;
-        }[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Resolve up to 25 known identifiers to current catalogue data in one call. Accepts product ids, variant ids and product references. Unknown ids are reported as informational messages rather than failing the call. */
-    lookup_catalog(args: {
-      /** Product or variant identifiers. Product references are also accepted. */
-      ids: string[];
-      /** Localisation hints. Not authoritative, superseded by a delivery address. */
-      context?: {
-        /** Short description of what the buyer is after. */
-        intent?: string;
-        /** ISO 4217 code. This shop settles in RON. */
-        currency?: string;
-        /** BCP 47 tag, for example ro or en. */
-        language?: string;
-        postal_code?: string;
-        address_region?: string;
-        /** ISO 3166-1 alpha-2, for example RO. */
-        address_country?: string;
-        [key: string]: unknown;
-      };
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search the shop catalogue by free text, with optional price and category filters. Returns products with prices in RON minor units, stock availability and variants. Use this first when the buyer describes what they want in their own words. */
-    search_catalog(args: {
-      /** Free text search, for example "termostat 12V". */
-      query: string;
-      /** Localisation hints. Not authoritative, superseded by a delivery address. */
-      context?: {
-        /** Short description of what the buyer is after. */
-        intent?: string;
-        /** ISO 4217 code. This shop settles in RON. */
-        currency?: string;
-        /** BCP 47 tag, for example ro or en. */
-        language?: string;
-        postal_code?: string;
-        address_region?: string;
-        /** ISO 3166-1 alpha-2, for example RO. */
-        address_country?: string;
-        [key: string]: unknown;
-      };
-      /** Optional narrowing by price range or category. */
-      filters?: {
-        /** Bounds in minor units, so 5000 means 50.00 RON. */
-        price?: {
-          max?: number;
-          min?: number;
-          [key: string]: unknown;
-        };
-        categories?: string[];
-        [key: string]: unknown;
-      };
-      /** Page size and position within the result set. */
-      pagination?: {
-        /** Results per page, 10 by default. */
-        limit?: number;
-        /** Opaque cursor taken from a previous response. */
-        cursor?: string;
-        [key: string]: unknown;
-      };
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Replace the entire contents of a cart. Send every line to keep, not only the changes: omitted lines are removed. */
-    update_cart(args: {
-      /** Identifier of the cart session, as returned when it was created. */
-      id: string;
-      /** Optional buyer details, used for estimates and to prefill checkout. */
-      buyer?: {
-        email?: string;
-        last_name?: string;
-        first_name?: string;
-        /** E.164 format. */
-        phone_number?: string;
-        [key: string]: unknown;
-      };
-      /** Items to buy. Sending this replaces the whole list. */
-      line_items: {
-          item: {
-            /** Identifier as returned by catalog tools: p{product} for a simple product, p{product}-v{variant} for a variant. A product reference is also accepted. */
-            id: string;
-            [key: string]: unknown;
-          };
-          quantity: number;
-          [key: string]: unknown;
-        }[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Replace buyer details or line items on a checkout. Sending line_items replaces the whole list. */
-    update_checkout(args: {
-      /** Identifier of the checkout session, as returned when it was created. */
-      id: string;
-      /** Optional buyer details, used for estimates and to prefill checkout. */
-      buyer?: {
-        email?: string;
-        last_name?: string;
-        first_name?: string;
-        /** E.164 format. */
-        phone_number?: string;
-        [key: string]: unknown;
-      };
-      /** Items to buy. Sending this replaces the whole list. */
-      line_items?: {
-          item: {
-            /** Identifier as returned by catalog tools: p{product} for a simple product, p{product}-v{variant} for a variant. A product reference is also accepted. */
-            id: string;
-            [key: string]: unknown;
-          };
-          quantity: number;
-          [key: string]: unknown;
-        }[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
 interface BowmarkSiteTools_25a592091d {
     /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
     BrowseWixRESTDocsMenu(args: {
@@ -208964,6 +208688,23 @@ interface BowmarkSiteTools_2c3ebed925 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_2c600845fa {
+    /** Отправка заявки на выбранный курс обучения: ID курса, ФИО, телефон и email заявителя */
+    submit_training_application(args?: {
+      /** Email заявителя для доступа к обучению и получения документов */
+      email?: string;
+      /** Имя заявителя */
+      name1?: string;
+      /** Фамилия заявителя */
+      name2?: string;
+      /** Отчество заявителя */
+      name3?: string;
+      /** Контактный телефон заявителя для связи с менеджером */
+      phone?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_2c6350784d {
     /** Get the summary of one EscortFox listing by its numeric id. Returns the same fields as one search_listings result — name, location, age, starting rate, verification status, incall/outcall, venue type, teaser — and the listing's escortfox.com link; contact details and photos are only on that page. Use it to refresh a listing the user already has, or to read a link they pasted. */
     get_listing(args: {
@@ -211707,6 +211448,323 @@ interface BowmarkSiteTools_2eb7f5a181 {
     }): Promise<unknown>;
     /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_2f15914fdc {
+    /** Adds one fully configured, currently available menu item to the authenticated consumer cart. Call only when the user explicitly requests adding this item and its quantity and required options are clear. Ask about missing or ambiguous choices first; a complete explicit add request is already confirmation. Adding to cart does not place an order or pay. Pass expected_cart_handle only when get_cart re */
+    add_to_cart(args: {
+      quantity: number;
+      selections: unknown[];
+      /** New operation: new UUID. Exact same request retry: retain the original UUID. Never reuse a key for changed parameters. */
+      idempotency_key: string;
+      expected_cart_handle?: string;
+      item_configuration_handle: string;
+    }): Promise<unknown>;
+    /** Returns the current read-only cart for an authenticated restaurant_handle. Public restaurant_reference is not accepted. Use this to inspect the cart before a change or reconcile an unknown write result. Preserve cart_handle and cart_item_handle from the same latest response; editable=false means the item cannot be changed or removed through MCP. An empty snapshot does not rule out a late timed-out */
+    get_cart(args: {
+      restaurant_handle: string;
+    }): Promise<unknown>;
+    /** Read one Fantuan in-store merchant and its available product entries selected from search_deals. Supply its exact id and the same search area. Return its description, displayed price, currency and current availability. LOCATION REQUIRED BEFORE CALLING: use only a city, neighborhood or address supplied or confirmed by the user, or their existing confirmed location reference. If the user only says n */
+    get_deal(args: {
+      /** Exact item id returned by the corresponding search tool; never substitute a product, food restaurant or category id. */
+      id: string;
+      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
+      locale?: "zh-CN" | "en";
+      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
+      country?: string;
+      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
+      address_text?: string;
+      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
+      discovery_session?: string;
+      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
+      location_reference?: string;
+      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
+      candidate_reference?: string;
+    }): Promise<unknown>;
+    /** EVIDENCE AND CONCLUSION BOUNDARIES: Classify each requested condition as supported, contradicted, or unknown from returned evidence. A missing house type, rent period, pet policy or other attribute is unknown, not a negative match. A basement or downstairs mention alone does not establish the building type. Do not certify a listing as real or fake from its title; label QA/test-looking content as s */
+    get_local_listing(args: {
+      /** Exact item id returned by the corresponding search tool; never substitute a product, food restaurant or category id. */
+      id: string;
+      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
+      locale?: "zh-CN" | "en";
+      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
+      country?: string;
+      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
+      address_text?: string;
+      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
+      discovery_session?: string;
+      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
+      location_reference?: string;
+      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
+      candidate_reference?: string;
+    }): Promise<unknown>;
+    /** Get the complete local listing category hierarchy for the user-supplied location. Use this before searching when the requested kind of post is clear and its category ID is unknown, including when the search will also use a keyword. Returns searchable IDs, names and parent_id. Never infer IDs from names; reuse only for the same area and locale. Pass the matching searchable category to search_local_ */
+    get_local_listing_categories(args?: {
+      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
+      locale?: "zh-CN" | "en";
+      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
+      country?: string;
+      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
+      address_text?: string;
+      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
+      discovery_session?: string;
+      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
+      location_reference?: string;
+      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
+      candidate_reference?: string;
+    }): Promise<unknown>;
+    /** Read supported filter definitions for a local listing category and user-supplied location. Returns source labels, keys, selection types, option codes and range limits. RADIO_BUTTON is single choice; never invent multi-select support. Captions such as 5+ are not exact counts; $ alone does not identify a currency. Empty definitions mean no advertised filters. This tool only reads definitions. Pass s */
+    get_local_listing_filters(args: {
+      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
+      locale?: "zh-CN" | "en";
+      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
+      country?: string;
+      /** Exact searchable listing category ID from returned categories; use a specific child when applicable. Never invent IDs. */
+      category_id: string;
+      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
+      address_text?: string;
+      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
+      discovery_session?: string;
+      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
+      location_reference?: string;
+      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
+      candidate_reference?: string;
+    }): Promise<unknown>;
+    /** Gets current read-only catalog detail and Agent-safe option keys for an opaque menu_item_handle returned by the authenticated menu or restaurant search; never substitute public references or arbitrary product IDs. Use compact (default) for recommendations or comparisons; use full only after the user narrows to one item or asks for every option. A compact response is not sufficient for cart configu */
+    get_menu_item(args: {
+      detail_level?: "compact" | "full";
+      menu_item_handle: string;
+    }): Promise<unknown>;
+    /** Returns the current order status, canonical display price breakdown, fulfillment facts, timeline, and visible credentials for an order_handle returned by list_my_orders. This is read-only: it cannot cancel an order, execute refunds or make payments. Requires order:read. */
+    get_my_order(args: {
+      order_handle: string;
+    }): Promise<unknown>;
+    /** Returns the authenticated Fantuan consumer's minimal profile. */
+    get_my_profile(args?: {}): Promise<unknown>;
+    /** Read details for the exact restaurant selected from search_restaurants. Choose the input from the returned result. ACCOUNT PATH: when the result contains restaurant_handle, pass that exact handle with restaurant:read authorization. The response includes menu_categories with category_handle values. If the user wants dishes, continue with list_menu_items, then get_menu_item(detail_level=full) for th */
+    get_restaurant(args?: {
+      discovery_session?: string;
+      restaurant_handle?: string;
+      restaurant_reference?: string;
+    }): Promise<unknown>;
+    /** Lists account-scoped read-only menu items. Requires restaurant:read and an exact restaurant_handle returned by the authenticated restaurant flow, with either category_handle or keyword. Pagination calls accept only the returned opaque cursor. Public restaurant_reference and discovery_session are not accepted; keyword alone is not a valid request. If only a public restaurant reference is available, */
+    list_menu_items(args?: {
+      limit?: number;
+      cursor?: string;
+      keyword?: string;
+      category_handle?: string;
+      restaurant_handle?: string;
+    }): Promise<unknown>;
+    /** Lists safe summaries of the authenticated Fantuan consumer's delivery addresses in one explicitly selected country. Requires address:read. */
+    list_my_addresses(args: {
+      country: "CA" | "US" | "AU" | "GB";
+    }): Promise<unknown>;
+    /** Lists the authenticated consumer's owned coupons for a previously selected market context. These are already-owned account coupons, not public local deal offers; use search_deals for those. This tool does not purchase, redeem or apply a coupon. IDs remain opaque. Requires coupon:read. */
+    list_my_coupons(args?: {
+      limit?: number;
+      cursor?: string;
+      business_type?: "all" | "takeout" | "local_life";
+      market_context_handle?: string;
+    }): Promise<unknown>;
+    /** Lists the authenticated Fantuan consumer's orders in one explicitly selected country. Use the opaque cursor for pagination. Requires order:read. */
+    list_my_orders(args?: {
+      limit?: number;
+      cursor?: string;
+      status?: "all" | "unpaid" | "in_progress" | "completed" | "cancelled" | "refunded" | "expired" | "closed";
+      country?: "CA" | "US" | "AU" | "GB";
+      business_type?: "all" | "takeout" | "local_life";
+    }): Promise<unknown>;
+    /** Receives observations from the Fantuan UI only. Do not call from the assistant. */
+    publish_ui_events(args: {
+      token: string;
+      events: Array<{
+          id: string;
+          event: "WIDGET_LOADED" | "RESTAURANT_IMPRESSION" | "MENU_LINK_CLICKED" | "LINK_OPEN_FAILED" | "SEARCH_LINK_CLICKED" | "SEARCH_LINK_OPEN_FAILED";
+          position: number;
+        }>;
+      widget: string;
+    }): Promise<unknown>;
+    /** Removes exactly one cart item only after the user explicitly requests its removal. Use cart_handle and cart_item_handle from the same latest cart response, and only when that item has editable=true. Requires cart:write. This release returns cart contents and selected options, not calculated prices or discounts. When pricing_available=false, describe amounts as unavailable, not a calculation failur */
+    remove_cart_item(args: {
+      cart_handle: string;
+      idempotency_key: string;
+      cart_item_handle: string;
+    }): Promise<unknown>;
+    /** OPTIONAL STANDARD CITY CONSTRAINT: city_name is optional. When Muse sends city_name, it must be the exact standard municipality name stated or confirmed by the user, or obtained from the confirmed address. Keep address_text as the location source and city_name as the city filter. Never use a metro area, neighbourhood, street or full address as city_name. On CITY_NOT_SUPPORTED, show supported_citie */
+    search_deals(args?: {
+      /** First page by default. For current clients, continue only with next_page_arguments; do not send page with a discovery_cursor. Page numbers above 1 are retained for older clients that also send their original search_session. */
+      page?: number;
+      /** Items per page for a new search, fixed at 30. On cursor continuation the original limit is restored by the server. */
+      limit?: number;
+      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
+      locale?: "zh-CN" | "en";
+      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
+      country?: string;
+      /** Item or service search terms extracted from the user request; pass location separately in address_text. Omit or use an empty string to browse. category_ids must come from returned categories, never guess IDs. Price or property words are text search, not guaranteed structured filters. */
+      keyword?: string;
+      /** Optional city constraint supplied by Muse. When present, it must be the exact standard municipal city name explicitly stated or confirmed by the user, or the municipality from the confirmed address, for example 列治文 or Richmond. Do not pass a metro area, province, neighbourhood, street, 'nearby', or the full address. Keep address_text as the location source and city_name as the city filter, and mak */
+      city_name?: string;
+      /** Fixed search radius in kilometres around the confirmed location. REQUIRED whenever the user gives an explicit distance such as 'within 3 km', '附近3公里' or '3km内': set radius_km=3 and remove that distance phrase from address_text and keyword. Omit only when the user gives no distance, to use the service-area expansion policy. The schema maximum is a transport limit, not a guarantee that every region  */
+      radius_km?: number;
+      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
+      address_text?: string;
+      /** Optional searchable IDs from this business search categories dictionary. parent_id expresses hierarchy; choose a matching specific child when available. Never infer IDs from has_children or listing item categories. Multiple categories are OR, including parent/child selections; keyword and location are AND. */
+      category_ids?: string[];
+      /** Legacy upstream session for callers continuing an older page-number response. Required for a legacy live page above 1. Do not send it with discovery_cursor or when starting a new search. */
+      search_session?: string;
+      /** For the next page, copy next_page_arguments exactly. Send only discovery_cursor and discovery_session to the same search tool. The server restores the original location, filters and page size. Never invent or reuse a cursor for a changed query. */
+      discovery_cursor?: string;
+      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
+      discovery_session?: string;
+      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
+      location_reference?: string;
+      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
+      candidate_reference?: string;
+    }): Promise<unknown>;
+    /** OPTIONAL STANDARD CITY CONSTRAINT: city_name is optional. When Muse sends city_name, it must be the exact standard municipality name stated or confirmed by the user, or obtained from the confirmed address. Keep address_text as the location source and city_name as the city filter. Never use a metro area, neighbourhood, street or full address as city_name. On CITY_NOT_SUPPORTED, show supported_citie */
+    search_local_listings(args?: {
+      /** First page by default. For current clients, continue only with next_page_arguments; do not send page with a discovery_cursor. Page numbers above 1 are retained for older clients that also send their original search_session. */
+      page?: number;
+      /** Items per page for a new search, fixed at 30. On cursor continuation the original limit is restored by the server. */
+      limit?: number;
+      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
+      locale?: "zh-CN" | "en";
+      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
+      country?: string;
+      /** Item or service search terms extracted from the user request; pass location separately in address_text. Omit or use an empty string to browse. category_ids must come from returned categories, never guess IDs. Price or property words are text search, not guaranteed structured filters. */
+      keyword?: string;
+      /** Optional city constraint supplied by Muse. When present, it must be the exact standard municipal city name explicitly stated or confirmed by the user, or the municipality from the confirmed address, for example 列治文 or Richmond. Do not pass a metro area, province, neighbourhood, street, 'nearby', or the full address. Keep address_text as the location source and city_name as the city filter, and mak */
+      city_name?: string;
+      /** Fixed search radius in kilometres around the confirmed location. REQUIRED whenever the user gives an explicit distance such as 'within 3 km', '附近3公里' or '3km内': set radius_km=3 and remove that distance phrase from address_text and keyword. Omit only when the user gives no distance, to use the service-area expansion policy. The schema maximum is a transport limit, not a guarantee that every region  */
+      radius_km?: number;
+      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
+      address_text?: string;
+      /** Searchable IDs from get_local_listing_categories. For a general item request with a keyword, use the matching parent if different children may contain the item. For example, search for a projector under secondhand goods because it may be posted under electronics or home appliances. If one child is too narrow and the user did not require it, retry once with the matching parent before saying too few */
+      category_ids?: string[];
+      /** Optional structured filters for exactly one category_ids entry. First read get_local_listing_filters for the same area/category. Use returned keys. RADIO_BUTTON uses a one-code string array; MULTIPLE_BUTTON uses a code array (OR within that field); RANGE_SLIDER uses {min:number,max:number}, both required. Never invent limits, codes, currency or policy evidence. Unsupported combinations are rejecte */
+      filter_options?: Record<string, unknown>;
+      /** Legacy upstream session for callers continuing an older page-number response. Required for a legacy live page above 1. Do not send it with discovery_cursor or when starting a new search. */
+      search_session?: string;
+      /** For the next page, copy next_page_arguments exactly. Send only discovery_cursor and discovery_session to the same search tool. The server restores the original location, filters and page size. Never invent or reuse a cursor for a changed query. */
+      discovery_cursor?: string;
+      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
+      discovery_session?: string;
+      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
+      location_reference?: string;
+      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
+      candidate_reference?: string;
+    }): Promise<unknown>;
+    /** Find restaurants with or without login. Default to delivery unless the user explicitly requests pickup. Nearby, distance sorting, and a landmark do not imply pickup. Preserve the user's chosen fulfillment on follow-ups; change it only on an explicit user request and search again. An explicitly provided address or selected location reference takes priority over saved addresses. Reuse confirmed loca */
+    search_restaurants(args?: {
+      sort?: "recommended" | "distance" | "delivery_time" | "rating";
+      limit?: number;
+      /** Legacy signed-in account cursor only (rcur_). Never put an anonymous dcur_ here; use discovery_cursor and discovery_session or copy next_page_arguments. */
+      cursor?: string;
+      /** For a new search, set to the user's current requested response language, otherwise conversation language: zh-CN, zh-TW, en, fr. Unsupported languages fall back to en. Never infer country from language. */
+      locale?: string;
+      /** Two-letter ISO 3166-1 alpha-2 country code, e.g. CA for Canada, US for United States, AU for Australia. Never send a country name or an empty string. For address_text, omit when unknown. Use only with address_text or a saved account address request. OMIT with candidate_reference or location_reference: the reference already identifies its country. Do not copy country from search results into refere */
+      country?: string;
+      /** Dish or restaurant words as supplied by the user. One literal query, not an OR list: do not append translations or synonyms. Preserve user-supplied mixed-language names. Retain the keyword when only location or fulfillment changes. */
+      keyword?: string;
+      fulfillment?: "delivery" | "pickup";
+      address_text?: string;
+      /** For another batch, pass next_discovery_cursor and discovery_session ONLY. Preserves all search conditions. Omit cursor when changing conditions. */
+      discovery_cursor?: string;
+      fulfillment_type?: "delivery" | "pickup";
+      discovery_session?: string;
+      /** Set true only when the user explicitly requests their account saved delivery address. Supply a known country, omit public location and personal references. This can trigger login; retry the same arguments after authorization. */
+      use_saved_address?: boolean;
+      /** Address context only (lctx_), never a restaurant reference (drst_) or restaurant handle (rst_). Reuse the exact returned location_reference and discovery_session. Omit country, address_text and candidate_reference; keep the user's keyword, locale and fulfillment. */
+      location_reference?: string;
+      /** Address candidate only (lctx_), never a restaurant reference (drst_) or restaurant handle (rst_). Confirm a user-selected address candidate with its discovery_session. Omit country, address_text and location_reference. */
+      candidate_reference?: string;
+      market_context_handle?: string;
+    }): Promise<unknown>;
+    /** Converts one previously returned address_handle into a short-lived immutable market context for the authenticated consumer. Requires address:read. */
+    select_market_context(args: {
+      address_handle: string;
+    }): Promise<unknown>;
+    /** Shows the current restaurant cart as an interactive panel. Use this instead of get_cart when the host supports MCP Apps UI. Returns the current read-only cart for an authenticated restaurant_handle. Public restaurant_reference is not accepted. Use this to inspect the cart before a change or reconcile an unknown write result. Preserve cart_handle and cart_item_handle from the same latest response;  */
+    show_cart(args: {
+      restaurant_handle: string;
+    }): Promise<unknown>;
+    /** Shows an interactive menu item detail and available option groups. Use this instead of get_menu_item when the host supports MCP Apps UI. Gets current read-only catalog detail and Agent-safe option keys for an opaque menu_item_handle returned by the authenticated menu or restaurant search; never substitute public references or arbitrary product IDs. Use compact (default) for recommendations or comp */
+    show_menu_item(args: {
+      detail_level?: "compact" | "full";
+      menu_item_handle: string;
+    }): Promise<unknown>;
+    /** Shows interactive menu item cards. Use this instead of list_menu_items when the host supports MCP Apps UI. Lists account-scoped read-only menu items. Requires restaurant:read and an exact restaurant_handle returned by the authenticated restaurant flow, with either category_handle or keyword. Pagination calls accept only the returned opaque cursor. Public restaurant_reference and discovery_session  */
+    show_menu_items(args?: {
+      limit?: number;
+      cursor?: string;
+      keyword?: string;
+      category_handle?: string;
+      restaurant_handle?: string;
+    }): Promise<unknown>;
+    /** Shows safe delivery address summaries and lets the user select a market context. Lists safe summaries of the authenticated Fantuan consumer's delivery addresses in one explicitly selected country. Requires address:read. */
+    show_my_addresses(args: {
+      country: "CA" | "US" | "AU" | "GB";
+    }): Promise<unknown>;
+    /** Shows the authenticated consumer's coupons for the selected market. Lists the authenticated consumer's owned coupons for a previously selected market context. These are already-owned account coupons, not public local deal offers; use search_deals for those. This tool does not purchase, redeem or apply a coupon. IDs remain opaque. Requires coupon:read. */
+    show_my_coupons(args?: {
+      limit?: number;
+      cursor?: string;
+      business_type?: "all" | "takeout" | "local_life";
+      market_context_handle?: string;
+    }): Promise<unknown>;
+    /** Shows current status, fulfillment, items, and safe amounts for one owned order. Returns the current order status, canonical display price breakdown, fulfillment facts, timeline, and visible credentials for an order_handle returned by list_my_orders. This is read-only: it cannot cancel an order, execute refunds or make payments. Requires order:read. */
+    show_my_order(args: {
+      order_handle: string;
+    }): Promise<unknown>;
+    /** Shows the authenticated consumer's order history and active orders. Lists the authenticated Fantuan consumer's orders in one explicitly selected country. Use the opaque cursor for pagination. Requires order:read. */
+    show_my_orders(args?: {
+      limit?: number;
+      cursor?: string;
+      status?: "all" | "unpaid" | "in_progress" | "completed" | "cancelled" | "refunded" | "expired" | "closed";
+      country?: "CA" | "US" | "AU" | "GB";
+      business_type?: "all" | "takeout" | "local_life";
+    }): Promise<unknown>;
+    /** Shows the authenticated consumer's minimal Fantuan profile as a visual card. Returns the authenticated Fantuan consumer's minimal profile. */
+    show_my_profile(args?: {}): Promise<unknown>;
+    /** Compatibility alias of get_restaurant. Read details for the exact restaurant selected from search_restaurants. Choose the input from the returned result. ACCOUNT PATH: when the result contains restaurant_handle, pass that exact handle with restaurant:read authorization. The response includes menu_categories with category_handle values. If the user wants dishes, continue with list_menu_items, then  */
+    show_restaurant(args?: {
+      discovery_session?: string;
+      restaurant_handle?: string;
+      restaurant_reference?: string;
+    }): Promise<unknown>;
+    /** Compatibility alias of search_restaurants, with identical location and authentication rules. Prefer search_restaurants: it already renders restaurant cards. Never call this after a search merely to display its results. Find restaurants with or without login. Default to delivery unless the user explicitly requests pickup. Nearby, distance sorting, and a landmark do not imply pickup. Preserve the us */
+    show_restaurants(args?: {
+      sort?: "recommended" | "distance" | "delivery_time" | "rating";
+      limit?: number;
+      /** Legacy signed-in account cursor only (rcur_). Never put an anonymous dcur_ here; use discovery_cursor and discovery_session or copy next_page_arguments. */
+      cursor?: string;
+      /** For a new search, set to the user's current requested response language, otherwise conversation language: zh-CN, zh-TW, en, fr. Unsupported languages fall back to en. Never infer country from language. */
+      locale?: string;
+      /** Two-letter ISO 3166-1 alpha-2 country code, e.g. CA for Canada, US for United States, AU for Australia. Never send a country name or an empty string. For address_text, omit when unknown. Use only with address_text or a saved account address request. OMIT with candidate_reference or location_reference: the reference already identifies its country. Do not copy country from search results into refere */
+      country?: string;
+      /** Dish or restaurant words as supplied by the user. One literal query, not an OR list: do not append translations or synonyms. Preserve user-supplied mixed-language names. Retain the keyword when only location or fulfillment changes. */
+      keyword?: string;
+      fulfillment?: "delivery" | "pickup";
+      address_text?: string;
+      /** For another batch, pass next_discovery_cursor and discovery_session ONLY. Preserves all search conditions. Omit cursor when changing conditions. */
+      discovery_cursor?: string;
+      fulfillment_type?: "delivery" | "pickup";
+      discovery_session?: string;
+      /** Set true only when the user explicitly requests their account saved delivery address. Supply a known country, omit public location and personal references. This can trigger login; retry the same arguments after authorization. */
+      use_saved_address?: boolean;
+      /** Address context only (lctx_), never a restaurant reference (drst_) or restaurant handle (rst_). Reuse the exact returned location_reference and discovery_session. Omit country, address_text and candidate_reference; keep the user's keyword, locale and fulfillment. */
+      location_reference?: string;
+      /** Address candidate only (lctx_), never a restaurant reference (drst_) or restaurant handle (rst_). Confirm a user-selected address candidate with its discovery_session. Omit country, address_text and location_reference. */
+      candidate_reference?: string;
+      market_context_handle?: string;
+    }): Promise<unknown>;
+    /** Sets one cart item's absolute quantity after the user explicitly requests that quantity. Use cart_handle and cart_item_handle from the same latest cart response, and only when that item has editable=true. Requires cart:write. This release returns cart contents and selected options, not calculated prices or discounts. When pricing_available=false, describe amounts as unavailable, not a calculation  */
+    update_cart_item_quantity(args: {
+      quantity: number;
+      cart_handle: string;
+      idempotency_key: string;
+      cart_item_handle: string;
+    }): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_2f709f6524 {
@@ -221747,6 +221805,14 @@ interface BowmarkSiteTools_363e0a2f04 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_365162ae23 {
+    /** Subscribe to Attio product updates and newsletters with a work email address */
+    subscribe_newsletter(args?: {
+      email?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_36535724c0 {
     /** Process a file in a dataset with DOI with datatool tool */
     datatool(args: {
@@ -223163,6 +223229,43 @@ interface BowmarkSiteTools_374e21a9dc {
       brand?: string;
       /** Shop domain or URL, e.g. 'best-shop.de' or 'https://www.best-shop.de/de/grills'. */
       retailer_domain: string;
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_376b93e2ec {
+    /** Check up to 50 domains in one call (Enterprise). Each domain counts toward daily usage. */
+    bulk_check_service_status(args: {
+      /** Domains to check */
+      domains: string[];
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Real-time outage signal for a domain (Free+; REST GET /v1/status). */
+    check_service_status(args: {
+      /** Service domain, e.g. incometax.gov.in */
+      domain: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Deactivate a webhook by ID (Pro+; DELETE /v1/webhooks/:id). */
+    delete_outage_webhook(args: {
+      /** Webhook subscription UUID */
+      id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Returns Echo plan (Pro/Enterprise), subscription end, daily usage, and which MCP tools your live key can call. Does not count toward daily limits. */
+    get_api_subscription_status(args?: Record<string, unknown>): Promise<unknown>;
+    /** List webhook subscriptions for your API key (Pro+; GET /v1/webhooks). */
+    list_outage_webhooks(args?: Record<string, unknown>): Promise<unknown>;
+    /** Top active DOWN/DEGRADED services by crowd reports (Test+). */
+    list_trending_outages(args?: Record<string, unknown>): Promise<unknown>;
+    /** Register HTTPS webhook for competitor domains (Pro: 10 domains, Enterprise: 50). Returns signing secret once. */
+    subscribe_outage_webhook(args: {
+      /** Public HTTPS webhook URL */
+      url: string;
+      /** Default: ["outage"] */
+      events?: Array<"outage" | "degraded" | "recovered">;
+      /** Tracked competitor domains to monitor */
+      domains: string[];
+      [key: string]: unknown;
     }): Promise<unknown>;
 }
 
@@ -228022,6 +228125,126 @@ interface BowmarkSiteTools_3cbcf20bfb {
     }): Promise<unknown>;
     /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_3ccd3712ce {
+    /** Assess a broad or fact-dependent legal research question before searching to identify the jurisdiction, facts, legal issue, and procedural context needed for useful research. Returns ready_for_research or needs_clarification with up to three short clarifying questions. */
+    analyze_legal_question(args: {
+      /** The user's legal question or fact pattern as supplied, including jurisdiction, facts, parties, claims, dates, or procedural posture when those details are available. */
+      query: string;
+    }): Promise<unknown>;
+    /** Checks a known Descrybe case for a quick treatment/status signal before relying on it. Requires a Descrybe case_id. Returns whether later cases appear to treat the case positively, negatively, cautiously, or neutrally, plus a rough authority-weight label. A cautious signal doesn't by itself mean bad law: a court with authority over the case declined to follow it or limited it (declined to extend i */
+    check_case_status(args: {
+      /** Optional. Usually omit. The backend normally determines the case's court from the case_id; only provide this if it is the exact court value returned by a prior Descrybe case lookup for the same case. */
+      court?: string;
+      /** Descrybe canonical case identifier, formatted like c1514149, rd68382347 or so2500012520251110, returned as case_id by Descrybe case search, case-text search, case-reference lookup, or citation-extraction results. Not a reporter citation, docket number, opinion ID, CourtListener ID, or other third-party identifier. */
+      case_id: string;
+    }): Promise<unknown>;
+    /** Extracts case-law citations and references from legal text provided in the text argument. Returns one item per unique resolved case or best unresolved reference cluster, with occurrence counts, raw citations seen, and tagged excerpts. When resolve=true, results include compact case-identity resolution and a quick treatment indicator for each resolved case, including case_id when a Descrybe case is */
+    extract_case_references(args: {
+      /** Text to scan for case citations, case names, short cites, and docket references. */
+      text: string;
+      /** true attaches compact case-identity resolution outcomes to extracted references. */
+      resolve?: boolean;
+      /** Maximum number of case references to extract. */
+      max_references?: number;
+      /** body_first prioritizes argument-body references; all returns references in document order. */
+      section_policy?: "body_first" | "all";
+    }): Promise<unknown>;
+    /** Resolves a citation, case name, case caption, party name, party-name variant, docket number, short cite, quote, or mixed reference into a Descrybe case or candidate set. Use this for party-name or docket-number case lookup when the user does not already have a Descrybe case_id. Resolved cases and candidates include case_id, the Descrybe canonical identifier accepted by known-case tools. The contex */
+    find_case_from_reference(args: {
+      /** Optional decision year hint. */
+      year?: number;
+      /** Free-form case reference to resolve, including citations, case names, case captions, party names, party-name variants, docket numbers, short cites, quote snippets, or nearby reference text. */
+      reference: string;
+      /** Optional court hint. */
+      court_hint?: string;
+      /** Optional quote or phrase believed to appear in the case. */
+      quote_hint?: string;
+      /** Optional docket number hint. Use this when the user gives a docket number, case number, civil action number, criminal action number, or No. value. */
+      docket_hint?: string;
+      /** Optional nearby sentence or paragraph containing the reference, useful for short cites or bare citations. */
+      context_text?: string;
+      /** Optional case-law jurisdiction hint. Accepted values include all, a state name/abbreviation, or a federal case bucket such as Federal, Federal Supreme Court, Federal Appellate, Federal District, or US Bankruptcy. */
+      jurisdiction?: string;
+    }): Promise<unknown>;
+    /** Finds later cases that cite a known Descrybe case. Requires a Descrybe case_id. Useful for updating research, finding treatment, or locating newer authority that follows, distinguishes, limits, or discusses the case. A treatment category of "limited" means the citing court declined to extend the case's rule to a new situation but left the rule intact. Returned citing cases include case_id when a D */
+    find_cases_that_cite(args: {
+      /** Descrybe canonical case identifier, formatted like c1514149, rd68382347 or so2500012520251110, returned as case_id by Descrybe case search, case-text search, case-reference lookup, or citation-extraction results. Not a reporter citation, docket number, opinion ID, CourtListener ID, or other third-party identifier. */
+      case_id: string;
+    }): Promise<unknown>;
+    /** Retrieves case metadata, summary availability, opinion inventory, and treatment summary for a known Descrybe case. Requires a Descrybe case_id. The result can include Later history lines, such as a Supreme Court order denying certiorari, also returned in later_history. A note that later history for this case may be missing is a coverage limitation for some courts and dates, not a negative signal a */
+    get_case_details(args: {
+      /** Descrybe canonical case identifier, formatted like c1514149, rd68382347 or so2500012520251110, returned as case_id by Descrybe case search, case-text search, case-reference lookup, or citation-extraction results. Not a reporter citation, docket number, opinion ID, CourtListener ID, or other third-party identifier. */
+      case_id: string;
+    }): Promise<unknown>;
+    /** Returns a small ranked list of focused raw passages from a known Descrybe case's primary opinion. Requires a Descrybe case_id and a focus issue, phrase, rule, quote, or fact pattern. This is not a full-opinion fetch and does not return every occurrence. For a pin cite, use pages: the reporter, the first and last page the text is on, and pin_cite, the case's citation with those pages (e.g. 17 Cal.  */
+    get_case_passages(args: {
+      /** Legal issue, phrase, quote, rule, or fact pattern to locate in the primary case opinion. */
+      focus: string;
+      /** Descrybe canonical case identifier, formatted like c1514149, rd68382347 or so2500012520251110, returned as case_id by Descrybe case search, case-text search, case-reference lookup, or citation-extraction results. Not a reporter citation, docket number, opinion ID, CourtListener ID, or other third-party identifier. */
+      case_id: string;
+    }): Promise<unknown>;
+    /** Creates or reuses a generated Descrybe case PDF asset and returns its public URL. Requires a Descrybe case_id. Returns URL/job metadata or preparation status, not PDF bytes; present the URL to the user instead of trying to download the file. */
+    get_case_pdf(args: {
+      /** Descrybe canonical case identifier, formatted like c1514149, rd68382347 or so2500012520251110, returned as case_id by Descrybe case search, case-text search, case-reference lookup, or citation-extraction results. Not a reporter citation, docket number, opinion ID, CourtListener ID, or other third-party identifier. */
+      case_id: string;
+    }): Promise<unknown>;
+    /** Retrieves the precomputed standard or simplified summary for a known Descrybe case's primary opinion. Requires a Descrybe case_id; for legal research, prefer the standard summary unless the user asks for a simplified or plain-language explanation. */
+    get_case_summary(args: {
+      /** Descrybe canonical case identifier, formatted like c1514149, rd68382347 or so2500012520251110, returned as case_id by Descrybe case search, case-text search, case-reference lookup, or citation-extraction results. Not a reporter citation, docket number, opinion ID, CourtListener ID, or other third-party identifier. */
+      case_id: string;
+      /** true requests a simplified plain-language summary when available. Prefer false for legal research fidelity unless the user asks for a simplified or plain-language explanation. */
+      simplified?: boolean;
+    }): Promise<unknown>;
+    /** Searches the full text of judicial opinions by exact words or phrases across Descrybe's case-law text index. Useful when specific language matters, such as terms of art, quotes, statutory phrases, or uncommon factual wording. Each result includes case_id, the Descrybe canonical identifier accepted by known-case tools. */
+    search_case_text(args: {
+      /** Keyword, phrase, or text pattern to find in judicial opinions. Exact quoted phrases are supported when supplied by the user. */
+      term: string;
+      /** Case-law jurisdiction to search. Accepted values include all, a state name/abbreviation, or a federal case bucket such as Federal, Federal Supreme Court, Federal Appellate, Federal District, or US Bankruptcy. */
+      jurisdiction?: string;
+    }): Promise<unknown>;
+    /** Use this first when the user wants to find leading or relevant cases about a legal issue, doctrine, fact pattern, jurisdiction, claim, defense, or topic and does not already have a Descrybe case_id. Results are authority-ranked by default to surface stronger legal authorities before ordinary text matches. Use date sorting only when the user asks for recent or newest cases. Each result includes cas */
+    search_cases_by_concept(args: {
+      /** authority returns strong legal authorities first; date returns newer cases first. */
+      sort?: "authority" | "date";
+      /** Legal concept, issue, rule, or fact pattern to search for. Usually provide at least two words for context; single legal terms of art are okay, but bare numbers are not. */
+      term: string;
+      /** Case-law jurisdiction to search. Accepted values include all, a state name/abbreviation, a federal case bucket such as Federal, Federal Supreme Court, Federal Appellate, Federal District, or US Bankruptcy, or an agency board: PTAB, TTAB or BIA (or their full names), or the groups Patent and Trademark and Immigration. */
+      jurisdiction?: string;
+      /** Optional search focus. Use general unless a workflow specifically asks for legal issue exploration. */
+      search_focus?: "general" | "legal_issue";
+    }): Promise<unknown>;
+    /** Semantic/concept search over U.S. non-case primary law, including statutes, regulations, constitutional provisions, court rules, session laws (enacted bills, and federal public laws), and the Federal Register from 1995: final rules, proposed rules, agency notices, and executive orders and other presidential documents (doc_type all leaves out proposed rules and notices unless one is cited, as in 89 */
+    search_laws_and_rules(args: {
+      /** Optional. An enacted bill's number as its state writes it, for example HB 16, H.B. 16, House Bill 16, SHB 1392, LD 1970, L.B. 519 or HB25-1022. Give the state as jurisdiction; forms like H 1173 or A 2444 need it. */
+      bill?: string;
+      /** Optional, with law_id. The page to return; the result gives the next page. */
+      page?: number;
+      /** Words, legal concept, citation, bill number (for example HB 16 89(2)), or topic to search within non-case primary law. */
+      term: string;
+      /** Optional, with law_id. relevance puts the passages most relevant to term first; document reads the law from the start. */
+      order?: "relevance" | "document";
+      /** Optional. The law_id (version_id) of one result, to read that law a page at a time. term is then the question to rank its passages by; jurisdiction and doc_type are ignored. Can't be combined with bill. */
+      law_id?: string;
+      /** Optional, with bill. The bill's session or year, for example 89th Legislature, 2nd Called Session; 2nd Special Session 2025; or 2025. */
+      session?: string;
+      /** Type of legal source to search. Defaults to all. final_rule, proposed_rule, notice and presidential_document are Federal Register documents (federal only); session_law includes federal public laws; agency_guidance and agency_ruling are federal agencies' guidance and rulings (federal only, not law). */
+      doc_type?: "all" | "statute" | "regulation" | "constitution" | "court_rule" | "session_law" | "final_rule" | "proposed_rule" | "notice" | "presidential_document" | "agency_guidance" | "agency_ruling";
+      /** Optional, with law_id. Passages per page. A page may hold fewer to stay under its size limit. */
+      page_size?: number;
+      /** Source-law jurisdiction. Accepted values include all, Federal, or a state name/abbreviation. Federal court buckets such as Federal Appellate or Federal District are not source-law jurisdictions. */
+      jurisdiction?: string;
+      /** Optional, with law_id. The cases_citing next_cursor from an earlier read of the same law, to get the next 10 cases citing it, with a passage around each citation. Returns those cases only, not the law's text. */
+      cases_citing_cursor?: string;
+    }): Promise<unknown>;
+    /** Verifies whether quoted language appears in a known Descrybe case and locates the matching opinion. Requires a Descrybe case_id and exact or near-exact quote text. Returns whether the quote was found, where it matched, and which opinion contained it. A found quote also says how closely it matches: exact, exact apart from omissions marked with an ellipsis, exact apart from [bracketed] alterations ( */
+    verify_quote(args: {
+      /** Exact or near-exact quote text to verify; shorter excerpts often match better. */
+      quote: string;
+      /** Descrybe canonical case identifier, formatted like c1514149, rd68382347 or so2500012520251110, returned as case_id by Descrybe case search, case-text search, case-reference lookup, or citation-extraction results. Not a reporter citation, docket number, opinion ID, CourtListener ID, or other third-party identifier. */
+      case_id: string;
+    }): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_3d29bc525d {
@@ -241814,6 +242037,193 @@ interface BowmarkSiteTools_46b8a6ec86 {
       /** Search query */
       q: string;
       [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_46ead71ef3 {
+    /** Send a DJ control command to an open Transitions DJ mixer. Use a control enum value such as PLAY_PAUSE, not PLAY. Always include value. Pass deck: 0 for the left deck and deck: 1 for the right deck. */
+    execute_dj_control(args: {
+      /** Internal deck index. Pass 0 for the left deck and 1 for the right deck. If the user says deck 1, pass 0; if the user says deck 2, pass 1. */
+      deck?: number;
+      wait?: boolean;
+      /** Required control value. Use true for trigger or toggle controls, false to disable/release, and a number for numeric controls. */
+      value: boolean | number | string;
+      /** Control enum name without the DJ_CONTROL_ prefix. Use PLAY_PAUSE to play or pause; PLAY is not a valid control. */
+      control: "SHIFT" | "PAD_MODE_HOT_CUE" | "PAD_MODE_AUTO_LOOP" | "PAD_MODE_MANUAL_LOOP" | "PAD_MODE_SAMPLE" | "PAD_MODE_FX" | "PAD_MODE_LOOP_ROLL" | "PAD_MODE_SLICER" | "PAD_MODE_STEMS" | "PAD_MODE_SCRATCH" | "DECK" | "PLAY_PAUSE" | "PLAY_PAUSE_ALL" | "REVERSE" | "CENSOR" | "CUE" | "CUE_JUMP_START" | "CUE_JUMP" | "CUE_STUTTER" | "CUE_SET" | "TEMPO_SYNC_ENABLE" | "TEMPO_SYNC" | "TEMPO_SYNC_MASTER" | "TEMPO" | "TEMPO_MINUS" | "TEMPO_PLUS" | "TEMPO_ROTARY" | "TEMPO_RANGE_PREV" | "TEMPO_RANGE_NEXT" | "TEMPO_TAP" | "TEMPO_SHIFT_LEFT" | "TEMPO_SHIFT_RIGHT" | "TEMPO_SCALE_1_2X" | "TEMPO_SCALE_2X" | "KEY_LOCK_ENABLE" | "KEY_LOCK_TOGGLE" | "KEY_SYNC" | "KEY_SHIFT" | "QUANTIZE" | "SLIP_TOGGLE" | "JOG_SEEK_TOGGLE" | "SCRATCH_TOGGLE" | "PLATTER_TOUCH" | "PLATTER_MOVE" | "PLATTER_MOVE_NO_TOUCH" | "SCRATCH_TOUCH" | "SCRATCH_MOVE" | "PITCH_BEND_MINUS" | "PITCH_BEND_PLUS" | "PITCH_BEND_MOVE" | "MASTER_GAIN" | "HEADPHONES_ENABLE" | "HEADPHONES_TOGGLE" | "HEADPHONES_MASTER" | "HEADPHONES_MIX" | "HEADPHONES_MIX_CUE" | "HEADPHONES_MIX_CUE_AND_MASTER" | "HEADPHONES_MIX_MASTER" | "HEADPHONES_GAIN" | "CROSSFADER" | "CROSSFADER_ROTARY" | "CROSSFADER_TRANSITION_LEFT" | "CROSSFADER_TRANSITION_RIGHT" | "CROSSFADER_TRANSITION_CENTER" | "CROSSFADER_CUT_LEFT" | "CROSSFADER_CUT_RIGHT" | "CHANNEL_FADER" | "CHANNEL_FADER_ROTARY" | "CHANNEL_METER" | "EQ_GAIN" | "EQ_GAIN_ROTARY" | "EQ_LOW" | "EQ_MID" | "EQ_HIGH" | "EQ_LOW_ROTARY" | "EQ_MID_ROTARY" | "EQ_HIGH_ROTARY" | "EQ_LOW_KILL" | "EQ_MID_KILL" | "EQ_HIGH_KILL" | "EQ_FILTER" | "EQ_FILTER_ROTARY" | "STEM_DRUMS_GAIN" | "STEM_BASS_GAIN" | "STEM_MELODY_GAIN" | "STEM_VOCALS_GAIN" | "STEM_INSTRUMENTAL_GAIN" | "STEM_DRUMS_KILL" | "STEM_BASS_KILL" | "STEM_MELODY_KILL" | "STEM_VOCALS_KILL" | "STEM_INSTRUMENTAL_KILL" | "FX1_SELECT_ROTARY" | "FX2_SELECT_ROTARY" | "FX3_SELECT_ROTARY" | "FX1_SELECT_PREV" | "FX2_SELECT_PREV" | "FX3_SELECT_PREV" | "FX1_SELECT_NEXT" | "FX2_SELECT_NEXT" | "FX3_SELECT_NEXT" | "FX1_SELECT_INDEX" | "FX2_SELECT_INDEX" | "FX3_SELECT_INDEX" | "FX1_SELECT_HPF" | "FX1_SELECT_LPF" | "FX1_SELECT_FLANGER" | "FX1_SELECT_ECHO" | "FX1_SELECT_REVERB" | "FX1_SELECT_PHASER" | "FX1_ENABLE" | "FX2_ENABLE" | "FX3_ENABLE" | "FX1_TOGGLE" | "FX2_TOGGLE" | "FX3_TOGGLE" | "FX1_WET_DRY" | "FX2_WET_DRY" | "FX3_WET_DRY" | "FX1_WET_DRY_ROTARY" | "FX2_WET_DRY_ROTARY" | "FX3_WET_DRY_ROTARY" | "FX1_BEATS" | "FX2_BEATS" | "FX3_BEATS" | "FX1_BEATS_ROTARY" | "FX2_BEATS_ROTARY" | "FX3_BEATS_ROTARY" | "FX1_BEATS_PREV" | "FX2_BEATS_PREV" | "FX3_BEATS_PREV" | "FX1_BEATS_NEXT" | "FX2_BEATS_NEXT" | "FX3_BEATS_NEXT" | "FX1_BEATS_TAP" | "FX2_BEATS_TAP" | "FX3_BEATS_TAP" | "FX1_BEATS_AUTO" | "FX2_BEATS_AUTO" | "FX3_BEATS_AUTO" | "HOT_CUE_1_JUMP_OR_SET" | "HOT_CUE_2_JUMP_OR_SET" | "HOT_CUE_3_JUMP_OR_SET" | "HOT_CUE_4_JUMP_OR_SET" | "HOT_CUE_5_JUMP_OR_SET" | "HOT_CUE_6_JUMP_OR_SET" | "HOT_CUE_7_JUMP_OR_SET" | "HOT_CUE_8_JUMP_OR_SET" | "HOT_CUE_1_JUMP" | "HOT_CUE_2_JUMP" | "HOT_CUE_3_JUMP" | "HOT_CUE_4_JUMP" | "HOT_CUE_5_JUMP" | "HOT_CUE_6_JUMP" | "HOT_CUE_7_JUMP" | "HOT_CUE_8_JUMP" | "HOT_CUE_1_SET" | "HOT_CUE_2_SET" | "HOT_CUE_3_SET" | "HOT_CUE_4_SET" | "HOT_CUE_5_SET" | "HOT_CUE_6_SET" | "HOT_CUE_7_SET" | "HOT_CUE_8_SET" | "HOT_CUE_1_CLEAR" | "HOT_CUE_2_CLEAR" | "HOT_CUE_3_CLEAR" | "HOT_CUE_4_CLEAR" | "HOT_CUE_5_CLEAR" | "HOT_CUE_6_CLEAR" | "HOT_CUE_7_CLEAR" | "HOT_CUE_8_CLEAR" | "LOOP_TOGGLE" | "LOOP_AUTO_TOGGLE" | "LOOP_BEATS_1_32" | "LOOP_BEATS_1_16" | "LOOP_BEATS_1_8" | "LOOP_BEATS_1_4" | "LOOP_BEATS_1_2" | "LOOP_BEATS_1" | "LOOP_BEATS_2" | "LOOP_BEATS_4" | "LOOP_BEATS_8" | "LOOP_BEATS_16" | "LOOP_BEATS_32" | "LOOP_BEATS_ROTARY" | "LOOP_IN" | "LOOP_OUT" | "LOOP_RELOOP" | "LOOP_CLEAR" | "LOOP_RESIZE_1_2X" | "LOOP_RESIZE_2X" | "LOOP_RESIZE_BEATS" | "LOOP_ROLL_1_32" | "LOOP_ROLL_1_16" | "LOOP_ROLL_1_8" | "LOOP_ROLL_1_4" | "LOOP_ROLL_1_2" | "LOOP_ROLL_1" | "LOOP_ROLL_2" | "LOOP_ROLL_4" | "LOOP_ROLL_8" | "LOOP_ROLL_16" | "LOOP_ROLL_32" | "SAMPLE_1" | "SAMPLE_2" | "SAMPLE_3" | "SAMPLE_4" | "SAMPLE_5" | "SAMPLE_6" | "SAMPLE_7" | "SAMPLE_8" | "BEAT_JUMP_BACK_1_16" | "BEAT_JUMP_BACK_1_8" | "BEAT_JUMP_BACK_1_4" | "BEAT_JUMP_BACK_1_2" | "BEAT_JUMP_BACK_1" | "BEAT_JUMP_BACK_2" | "BEAT_JUMP_BACK_4" | "BEAT_JUMP_BACK_8" | "BEAT_JUMP_BACK_16" | "BEAT_JUMP_FORWARD_1_16" | "BEAT_JUMP_FORWARD_1_8" | "BEAT_JUMP_FORWARD_1_4" | "BEAT_JUMP_FORWARD_1_2" | "BEAT_JUMP_FORWARD_1" | "BEAT_JUMP_FORWARD_2" | "BEAT_JUMP_FORWARD_4" | "BEAT_JUMP_FORWARD_8" | "BEAT_JUMP_FORWARD_16" | "BEAT_JUMP_ROTARY" | "SEEK" | "SEEK_TIME" | "SEEK_TIME_ALIGNED" | "SEEK_ROTARY" | "SLICER_1" | "SLICER_2" | "SLICER_3" | "SLICER_4" | "SLICER_5" | "SLICER_6" | "SLICER_7" | "SLICER_8" | "BROWSER_UP" | "BROWSER_DOWN" | "BROWSER_ROTARY" | "BROWSER_PLAYLISTS" | "BROWSER_SONGS" | "BROWSER_SELECT" | "BROWSER_SELECT_ALL" | "BROWSER_EXPAND" | "BROWSER_SEARCH" | "BROWSER_TEXT_SIZE_ROTARY" | "LOAD" | "LOAD_PREV" | "LOAD_NEXT" | "RECORD" | "EJECT" | "WAVEFORM_VIEW_MODE_SCOPE" | "WAVEFORM_VIEW_MODE_TIMELINE" | "WAVEFORM_VIEW_MODE_SELECT" | "WAVEFORM_RENDER_MODE_WAVES" | "WAVEFORM_RENDER_MODE_STEMS" | "WAVEFORM_RENDER_MODE_SELECT" | "WAVEFORM_ZOOM" | "WAVEFORM_ZOOM_ROTARY" | "WAVEFORM_ZOOM_IN" | "WAVEFORM_ZOOM_OUT" | "WAVEFORM_ZOOM_DEFAULT" | "WAVEFORM_SCROLL" | "WAVEFORM_SCROLL_ROTARY" | "WAVEFORM_SCROLL_LEFT" | "WAVEFORM_SCROLL_RIGHT" | "VIEW_PLATTER_TOGGLE" | "VIEW_EFFECTS_TOGGLE" | "VIEW_FULLSCREEN" | "VIEW_FULLSCREEN_TOGGLE" | "CONNECT";
+      clientId?: string;
+      /** Optional value type. Omit this to infer bool or double from value. */
+      valueType?: "bool" | "int" | "double";
+    }): Promise<unknown>;
+    /** Read the current Transitions DJ browser state: selected playlist, selected track, and currently visible PlaylistCtrl song rows. */
+    get_browser_state(args?: {
+      wait?: boolean;
+      clientId?: string;
+    }): Promise<unknown>;
+    /** Read the current Transitions DJ mixer state. Per-deck state includes loaded track URL, title, artist, playing, normalized position, elapsed and remaining time, duration, BPM, key, gain, volume, tempo, sync, key lock, key sync, current phrase, loop state, cue state, and EQ state. Global state includes crossfader position and master gain. */
+    get_mixer_state(args?: {
+      wait?: boolean;
+      clientId?: string;
+    }): Promise<unknown>;
+    /** Return tracks from a playlist using the same abridged track metadata returned by search_tracks: url, title, artist, duration, bpm, and key. Use playlistId from get_playlists. */
+    get_playlist_tracks(args?: {
+      wait?: boolean;
+      /** Maximum number of tracks to return. */
+      limit?: number;
+      /** Zero-based offset into the playlist. */
+      offset?: number;
+      clientId?: string;
+      /** Playlist object returned by get_playlists. The playlistId or id field is used. */
+      playlist?: {
+        id?: string;
+        name?: string;
+        playlistId?: string;
+        [key: string]: unknown;
+      };
+      /** Playlist id string returned by get_playlists. */
+      playlistId?: string;
+    }): Promise<unknown>;
+    /** Return the Transitions DJ playlist tree. Playlist ids are strings; pass a returned playlistId to get_playlist_tracks. */
+    get_playlists(args?: {
+      wait?: boolean;
+      clientId?: string;
+    }): Promise<unknown>;
+    /** Return current Transitions DJ search results without changing the search query. Use search_tracks to set a new query first. */
+    get_search_results(args?: {
+      wait?: boolean;
+      limit?: number;
+      clientId?: string;
+    }): Promise<unknown>;
+    /** Return detailed metadata for a known library or search-result track URL. The result includes BPM, key, duration, structure sections, song tags, file/audio/source metadata, usage stats, and playlist column values. */
+    get_track_metadata(args?: {
+      /** Track URL already known to Transitions DJ. Use either url or track. */
+      url?: string;
+      wait?: boolean;
+      /** Track object returned by search_tracks. The url field is used for metadata lookup. */
+      track?: {
+        bpm?: number;
+        key?: string;
+        url: string;
+        title?: string;
+        artist?: string;
+        duration?: number;
+        [key: string]: unknown;
+      };
+      clientId?: string;
+    }): Promise<unknown>;
+    /** Open the Transitions DJ web mixer as an interactive widget. */
+    launch_mixer(args?: {
+      initialQuery?: string;
+    }): Promise<unknown>;
+    /** List available DJ control names for execute_dj_control. Control names are returned without the DJ_CONTROL_ prefix. Use PLAY_PAUSE to play or pause; PLAY is not valid. */
+    list_dj_controls(args?: {}): Promise<unknown>;
+    /** Load a known library or search-result track into an explicit deck, with optional preparation such as cueing at the start, syncing tempo/key, and starting or pausing playback. */
+    load_track(args?: {
+      /** Track URL already known to Transitions DJ. Use either url or track. */
+      url?: string;
+      /** Internal deck index. Pass 0 for the left deck and 1 for the right deck. If the user says deck 1, pass 0; if the user says deck 2, pass 1. */
+      deck?: number;
+      /** Playback state after loading. Use true to play; false or omitted pauses after loading. */
+      play?: boolean;
+      wait?: boolean;
+      /** Track object returned by search_tracks. The url field is used for loading. */
+      track?: {
+        bpm?: number;
+        key?: string;
+        url: string;
+        title?: string;
+        artist?: string;
+        duration?: number;
+        [key: string]: unknown;
+      };
+      /** Key sync state after loading. False or omitted disables key sync. */
+      syncKey?: boolean;
+      clientId?: string;
+      /** Tempo sync state after loading. False or omitted disables tempo sync. */
+      syncTempo?: boolean;
+      /** When true, seek the loaded deck to the start before applying playback options. */
+      cueAtStart?: boolean;
+    }): Promise<unknown>;
+    /** Find tracks by query in the open Transitions DJ mixer and return candidate metadata. This does not load or play a track; use load_track with a returned URL or track object to load one. */
+    search_tracks(args: {
+      wait?: boolean;
+      limit?: number;
+      query: string;
+      clientId?: string;
+    }): Promise<unknown>;
+    /** Set or operate a start cue or hot cue on one Transitions DJ deck. Pass deck: 0 for the left deck and deck: 1 for the right deck. Use startCue: true for the start cue. For hot cues, omit startCue or pass false and include cueIndex 0 through 7. */
+    set_cue(args: {
+      /** Internal deck index. Pass 0 for the left deck and 1 for the right deck. If the user says deck 1, pass 0; if the user says deck 2, pass 1. */
+      deck: number;
+      /** Optional cue time in seconds from the track start for the set action. Omit to set at the current deck position. */
+      time?: number;
+      wait?: boolean;
+      /** Cue action. set stores the current position, or the explicit time when provided. clear removes the cue. trigger starts cue playback. release releases cue playback. */
+      action: "set" | "clear" | "trigger" | "release";
+      /** Optional start-cue flag used when setting the start cue at an explicit time. */
+      autoCue?: boolean;
+      clientId?: string;
+      /** Hot cue index, required unless startCue is true. */
+      cueIndex?: number;
+      /** When true, operate on the deck start cue instead of a hot cue. */
+      startCue?: boolean;
+    }): Promise<unknown>;
+    /** Set multiple parameters on one Transitions DJ deck in one structured call. Use this for tempo, deck dB, volume, EQ, filter, key lock, and sync changes. Pass deck: 0 for the left deck and deck: 1 for the right deck. If the user says deck 1, pass 0; if the user says deck 2, pass 1. The sync field controls tempo sync; keySync controls key sync. */
+    set_deck_params(args: {
+      /** EQ changes. Prefer lowDb, midDb, and highDb, which use dB from -12..12. low, mid, and high set approximate linear gain from 0.25..4.0. lowKill, midKill, and highKill set kill switches. */
+      eq?: {
+        /** Low EQ linear gain, about 0.25..4.0. */
+        low?: number;
+        /** Mid EQ linear gain, about 0.25..4.0. */
+        mid?: number;
+        /** High EQ linear gain, about 0.25..4.0. */
+        high?: number;
+        /** Low EQ gain in dB, clamped to -12..12. */
+        lowDb?: number;
+        /** Mid EQ gain in dB, clamped to -12..12. */
+        midDb?: number;
+        /** High EQ gain in dB, clamped to -12..12. */
+        highDb?: number;
+        lowKill?: boolean;
+        midKill?: boolean;
+        highKill?: boolean;
+      };
+      /** Internal deck index. Pass 0 for the left deck and 1 for the right deck. If the user says deck 1, pass 0; if the user says deck 2, pass 1. */
+      deck: number;
+      /** Enable or disable tempo sync using this deck as the sync target when enabling. */
+      sync?: boolean;
+      wait?: boolean;
+      /** Target deck tempo in BPM. Use a positive value; useful limits depend on the loaded track. */
+      tempo?: number;
+      /** Deck gain in dB. The app clamps this to -12..12 dB. */
+      dbGain?: number;
+      /** Deck filter value. The app clamps this to 0..1. */
+      filter?: number;
+      /** Normalized deck channel fader. 0 is silent; 1 is full. */
+      volume?: number;
+      /** Enable or disable key lock on the deck. */
+      keyLock?: boolean;
+      /** Enable or disable key sync using this deck as the sync target when enabling. */
+      keySync?: boolean;
+      clientId?: string;
+      /** Target playback rate multiplier. 1.0 is original speed; useful limits depend on the deck tempo range. */
+      tempoRate?: number;
+    }): Promise<unknown>;
+    /** Set or operate deck loop state on one Transitions DJ deck. Pass deck: 0 for the left deck and deck: 1 for the right deck. Actions: set uses start and end seconds; auto uses beats; resize uses beats; scale uses scale; clear, enable, disable, set_in, and set_out need no extra fields. */
+    set_loop(args: {
+      /** Loop end time in seconds from the track start, required for action set. End must be greater than start; loops shorter than 0.0001 seconds are expanded by the app. */
+      end?: number;
+      /** Internal deck index. Pass 0 for the left deck and 1 for the right deck. If the user says deck 1, pass 0; if the user says deck 2, pass 1. */
+      deck: number;
+      wait?: boolean;
+      /** Loop length in beats, required for auto and resize. Valid range is 0.03125..64. */
+      beats?: number;
+      /** Positive loop length multiplier, required for action scale. The resulting beat length must remain in 0.03125..64 for tempo-aware loops. */
+      scale?: number;
+      /** Loop start time in seconds from the track start, required for action set. */
+      start?: number;
+      /** Loop action. set creates a manual loop from start/end seconds. clear removes the loop. enable and disable toggle loop playback. set_in and set_out set manual loop endpoints at the current position. auto creates/enables an auto loop. resize changes loop length in beats. scale multiplies loop length. */
+      action: "set" | "clear" | "enable" | "disable" | "set_in" | "set_out" | "auto" | "resize" | "scale";
+      clientId?: string;
     }): Promise<unknown>;
 }
 
@@ -264148,6 +264558,77 @@ interface BowmarkSiteTools_555280883f {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_55793cee78 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "mulberrytelecom" (https://www.mintel.net/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to gue */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "mulberrytelecom" (https://www.mintel.net/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "mulberrytelecom" (https://www.mintel.net/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "mulberrytelecom" (https://www.mintel.net/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what th */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "mulberrytelecom" (https://www.mintel.net/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an en */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "mulberrytelecom" (https://www.mintel.net/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "mulberrytelecom" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get  */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_5599099bf4 {
     /** Says who provides this MCP server and gives their website. Call it when someone asks who built or runs this server. It takes no arguments and returns nothing about any catalog. For follow-up calls in this conversation, send the visitorId returned by a previous result unchanged. Omit it on the first call; do not invent one. */
     about_mcp(args?: {
@@ -265967,6 +266448,19 @@ interface BowmarkSiteTools_56ba651800 {
     list_alerts(args?: {}): Promise<unknown>;
     /** Returns all package sources configured on the server (CRAN, PyPI, Bioconductor, local, Git, etc.). Sources provide the upstream package content that repositories expose. Requires a token with the sources:write or global:admin scope. */
     list_sources(args?: {}): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_56d531ef08 {
+    /** Bir alan adı uzantısının (ör. "com", ".com.tr") 1 yıllık kayıt, yenileme ve transfer ücretini (TRY), kayıt süresi aralığını ve ek süre günlerini döndürür. Belirli bir alan adının boş olup olmadığını SÖYLEMEZ. */
+    get_domain_price(args: {
+      /** Uzantı, noktalı veya noktasız (ör. "com.tr"). */
+      tld: string;
+    }): Promise<unknown>;
+    /** Webimonline hosting, cloud/fiziksel sunucu ve SSL paketlerini güncel liste fiyatı (TRY), faturalama dönemi (ISO 8601), teknik özellikleri, stok durumu ve sipariş bağlantısıyla listeler. query ile ad veya ürün grubuna göre süzülebilir (ör. "wildcard", "bayi", "vds"). */
+    list_products(args?: {
+      /** Ad veya ürün grubunda aranacak metin (opsiyonel). */
+      query?: string;
+    }): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_56fd194f50 {
@@ -268653,6 +269147,578 @@ interface BowmarkSiteTools_584a9a6817 {
       radius?: number;
       status?: "lost" | "found";
       species?: "dog" | "cat";
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_585438336a {
+    /** action=create queues a bulk operation (mass SMS, mass email, bulk tag change, or bulk pipeline-stage change) against up to 5000 leads at once. This is asynchronous: the result confirms a plan was queued, not that any message was sent or any lead was updated - those happen afterward, over time. Always confirms before queuing, since a plan cannot be recalled once mass-action starts sending/updating. */
+    bulk_lead_action(args: {
+      /** Required for action=create. */
+      type?: "sms" | "email" | "tag" | "pipeline";
+      action: "create" | "status";
+      /** action=create only. type=sms: 'content' (required). type=email: 'subject' and 'content' (both required). type=tag: 'tagsAdd' and/or 'tagsRemove' (string arrays; at least one non-empty). type=pipeline: 'stage' (required) - the target pipeline stage name. */
+      params?: Record<string, unknown>;
+      /** Required for action=status. The 'planId' from a prior action=create response. */
+      plan_id?: string;
+      /** action=create only. Target leads. Up to 5000 per call. */
+      lead_ids?: string[];
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Create a property alert or market snapshot for a lead - a saved search Lofty emails the lead on a schedule. A property alert emails the lead its first alert right away unless fields.sendFirstEmailNow is false. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
+    create_saved_search(args: {
+      /** The new saved search. 'category' picks the kind of email (PROPERTY_ALERT or MARKET_SNAPSHOT); 'criteria' holds the search filters. */
+      fields: {
+        /** Name given to the search, up to 255 characters. Required and not blank on create; on update it may be omitted but not sent blank. */
+        name: string;
+        /** Which emails the search sends. Required on create, cannot be changed on update. */
+        category: "PROPERTY_ALERT" | "MARKET_SNAPSHOT";
+        criteria: unknown;
+        /** Delivery slots keyed by weekday (SUN to SAT), AM or PM, in the team owner's time zone. DAILY takes one or more days; WEEKLY, BIWEEKLY and MONTHLY take exactly one; INSTANTLY takes none. When omitted on create, Lofty picks the slots: every day for DAILY, the current day for WEEKLY, BIWEEKLY and MONTHLY. When omitted on an update that changes alertFrequency, the slots follow the new cadence: NEVER k */
+        schedule?: {
+          FRI?: "AM" | "PM";
+          MON?: "AM" | "PM";
+          SAT?: "AM" | "PM";
+          SUN?: "AM" | "PM";
+          THU?: "AM" | "PM";
+          TUE?: "AM" | "PM";
+          WED?: "AM" | "PM";
+          [key: string]: unknown;
+        };
+        /** Subject line of the alert emails, up to 255 characters; blank uses the default subject */
+        emailSubject?: string;
+        /** When a scheduled email finds no new matching listing, fill it with listings that match the search and are already on the market, instead of sending nothing new. Has an effect on a PROPERTY_ALERT that is not INSTANTLY and whose listings are not hand-picked by the agent; true on any other saved search is not saved and is listed in ignoredFields. Defaults on create to true for a PROPERTY_ALERT that i */
+        useSupplement?: boolean;
+        /** Delivery cadence: INSTANTLY, DAILY, WEEKLY, BIWEEKLY, MONTHLY, or NEVER to keep the search paused. Required on create. Setting NEVER on update works like the pause endpoint and keeps the schedule, so resume can switch it back on. A search created with NEVER had no earlier cadence: switch it on by setting alertFrequency here. */
+        alertFrequency: "INSTANTLY" | "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY" | "NEVER";
+        /** Email addresses of the lead (or the lead's family members) who receive the alerts. Each must be one of the lead's own email addresses. Defaults on create to the lead's primary email. */
+        recipientEmails?: string[];
+        /** Whether the assigned agent gets a copy of every alert email. Defaults on create to true. */
+        sendCopyToAgent?: boolean;
+        /** Send the first alert email right away instead of waiting for the schedule. Defaults to true when creating a PROPERTY_ALERT, false otherwise; must not be true while the search is paused (NEVER). */
+        sendFirstEmailNow?: boolean;
+        /** Whether the alert emails show the open house details of listings that have an open house. An email setting only: it does not change which listings match. Not the same as criteria.includeOpenHouse, which only matches listings that have an open house. Has an effect on a PROPERTY_ALERT only; true on a MARKET_SNAPSHOT is not saved and is listed in ignoredFields. Defaults on create to true for a PROPER */
+        includeOpenHouseInfo?: boolean;
+        [key: string]: unknown;
+      };
+      /** The lead the saved searches belong to. */
+      lead_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Permanently delete one or more of a lead's saved searches (property alerts / market snapshots); the lead stops receiving their emails. Always returns needsConfirmation first. To stop the emails but keep the search, use pause_saved_searches instead. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
+    delete_saved_search(args: {
+      /** The saved searches to delete. Numeric saved search ids, up to 10. */
+      ids: string[];
+      /** The lead the saved searches belong to. */
+      lead_id: string;
+      /** Replay token from a prior needsConfirmation response. */
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Generate a new AI artifact for a lead: a call script, a pre-call insight, a call summary, or a lead analysis task. Always a write, even for a kind that also has a cached read in search_lead_insights. */
+    generate_lead_insight(args: {
+      kind: "call_script" | "insight" | "call_summary" | "analysis";
+      /** Required for call_script, insight and call_summary. */
+      lead_id?: string;
+      /** Required for kind=call_script. */
+      task_id?: string;
+      /** Required for kind=analysis, instead of lead_id - up to 10. */
+      lead_ids?: string[];
+      /** Required for kind=insight. This generation is slow enough that it routinely exceeds the gateway's own request timeout - a timeout error here does not mean the request was rejected, only that the response did not arrive in time. There is no separate way to check whether it finished; if it matters, retry once before telling the user it failed. */
+      appointment_id?: string;
+      /** Required for kind=call_summary. */
+      call_record_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Add one neighborhood or city to the caller's website as a Feature Area: Lofty writes its intro with AI and publishes its intro, listing-search and market pages, then fills in details, FAQ and a cover picture in the background. This publishes new pages on a public website - always confirm with the user first. */
+    manage_feature_areas(args: {
+      city: string;
+      /** 0 = City, 1 = Subdivision, 2 = Community, 4 = Neighborhood, 5 = SubArea. */
+      type: 0 | 1 | 2 | 4 | 5;
+      /** State / province code, e.g. CA. */
+      state?: string;
+      action: "create";
+      /** Optional name shown on the website instead of the neighborhood. */
+      display_name?: string;
+      /** Required unless type is 0 (City). */
+      neighborhood?: string;
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** All lead writes: create, update, assign (or preview an assignment), trash, update the property address, add an inquiry or website-activity entry, and create/edit/delete notes and manual log entries. See search_lead_activities to read notes, logs and other activity back. Actions past a risk threshold return needsConfirmation - see the tool result, not this schema, for which ones. */
+    manage_leads(args: {
+      /** Existing lead ids (update/trash/assign/update_property/add_inquiry/add_activity), note ids (update_note/delete_note), or manual log ids (delete_manual_log). Up to 10. */
+      ids?: string[];
+      /** assign only: an account email, or a team member's name (resolved against the team's member list - ambiguous or no match is a clear error, never a guess). Required unless fields.preview is true. */
+      owner?: string;
+      action: "create" | "update" | "trash" | "assign" | "update_property" | "add_inquiry" | "add_activity" | "add_note" | "update_note" | "delete_note" | "add_manual_log" | "delete_manual_log";
+      /** create: the new lead body. update/update_property/add_inquiry/add_activity/update_note: the patch applied to every id. add_note: 'content' (required) and 'isPin'. add_manual_log: 'logType' (required, one of logCall/logEmail/logText), 'content' (required), 'leadPhoneNumber' (required when logType=logCall), and optionally 'callingOutcome', 'outboundOrInbound', 'isPin', 'emailSubject'/'toEmail'/'from */
+      fields?: Record<string, unknown>;
+      /** Required for add_note and add_manual_log (which lead the new note/log belongs to). */
+      lead_id?: string;
+      /** Replay token from a prior needsConfirmation response. */
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Change the SEO title, meta description and/or keywords of up to 10 pages on the caller's website. Send only the fields to change; an empty string clears one. Values are raw templates: copy the current raw value and keep variables such as {{Brand Name}} exactly as they are - never write back the rendered text a visitor sees, or the variable is lost for good. Values must not contain < > or ". Each p */
+    manage_page_seo(args: {
+      /** 1-10 pages, each listed once. */
+      pages: {
+          /** SEO title, max 255 chars. */
+          title?: string;
+          /** Page id on the website. */
+          page_id: string;
+          /** Meta keywords, comma separated, max 500 chars. */
+          keywords?: string;
+          /** Meta description, max 1000 chars. */
+          description?: string;
+          [key: string]: unknown;
+        }[];
+      action: "update";
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Add leads to the AI working pool, mute or unmute a working lead, or send SMS via its AI number. Sales Agent settings are read-only here - change them in the Lofty CRM. */
+    manage_sales_agent(args: {
+      action: "add_to_pool" | "mute" | "unmute" | "ai_number_sms";
+      /** Required for mute and unmute. */
+      lead_id?: string;
+      /** The leads to add - for add_to_pool. No hard cap (a real batch endpoint) but confirms past 10. */
+      lead_ids?: string[];
+      /** ai_number_sms: {content} - the message text; the recipient is implicit in the AI number's own configuration, not a lead_id. */
+      settings?: Record<string, unknown>;
+      confirm_token?: string;
+      /** add_to_pool only: target this specific Sales Agent instead of the hierarchy-resolved one for every added lead; seat and quota bill to its owner. */
+      ai_assistant_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Create, update, delete, complete and un-complete tasks and calendar events. kind=showing: create, update, cancel a property showing or add feedback to it. */
+    manage_tasks(args: {
+      /** Existing ids, for update/delete/complete/uncomplete/cancel/add_feedback - the composite ids search_tasks itself returns (kind=task) or showing ids (kind=showing). Up to 10. */
+      ids?: string[];
+      /** Default 'task'. 'showing' manages property showings: create one for a lead, update its time/status/note, cancel it, or add feedback. Only showings this partner created can be updated, cancelled or given feedback. */
+      kind?: "task" | "showing";
+      /** kind=task: create, update, delete, complete, uncomplete. kind=showing: create, update, cancel, add_feedback. */
+      action: "create" | "update" | "delete" | "complete" | "uncomplete" | "cancel" | "add_feedback";
+      /** create: the new task/event body - see properties below for what's required. update: applied to every id in 'ids'. For kind=showing this is a reliable partial patch (startAt/endAt/status/note). For kind=task it is NOT a true partial patch despite accepting a subset of fields (D12) - task updates have been observed failing with a generic 'Invalid parameter' even with every field supplied; treat task */
+      fields?: {
+        /** kind=showing: free-text note. */
+        note?: string;
+        /** Required for create. 'Other'/'Call'/'Email'/'Text' are to-dos; 'Appointment' is a calendar appointment (see startAt). */
+        type?: "Other" | "Call" | "Email" | "Text" | "Appointment";
+        /** ISO 8601 with UTC offset. Required for create - the deadline for a to-do, or the end of the appointment's time range. */
+        endAt?: string;
+        /** Required for create. */
+        leadId?: string;
+        /** kind=showing: requested, scheduled (default on create), in_progress, completed, denied, expired, cancelled. */
+        status?: string;
+        /** Location text. Optional, fields.type=Appointment only. */
+        address?: string;
+        /** Required for create. The free-text description - there is no separate 'title'/'subject' field; this is it. */
+        content?: string;
+        /** kind=showing create: exactly one of {listingId} / {mlsOrgId, mlsListingId} / {address}. Required. */
+        listing?: Record<string, unknown>;
+        /** kind=showing add_feedback: structured feedback, stored as-is. One of content or payload is required. */
+        payload?: Record<string, unknown>;
+        /** ISO 8601 with UTC offset, e.g. '2026-03-01T15:00:00-08:00'. Required for create when fields.type=Appointment; not used otherwise. */
+        startAt?: string;
+        /** kind=showing add_feedback: display name of the author. */
+        authorName?: string;
+        /** kind=showing add_feedback: buyer_agent, lead, listing_agent or partner (default). */
+        authorType?: string;
+        /** kind=showing: the partner's own id - idempotency key for create and add_feedback. */
+        externalId?: string;
+        /** Lofty user id that owns the appointment. Optional, fields.type=Appointment only; defaults to the calling user. Must be on the same team. */
+        ownerUserId?: number;
+        /** Required for create, unless fields.type is 'Appointment' (that combination follows the Appointment requirements instead - see startAt). */
+        assignedRole?: "Agent" | "Assistant";
+        /** Extra appointment attendees. Optional, fields.type=Appointment only. */
+        participants?: {
+          /** Lead ids attending besides the entry's own lead. */
+          leads?: number[];
+          /** Lofty user ids of agents attending. */
+          agents?: number[];
+          [key: string]: unknown;
+        };
+        /** E.g. 'America/Los_Angeles'. Optional. */
+        timeZoneCode?: string;
+        /** Lead role id to assign the to-do to, custom roles included. Use it instead of assignedRole when the task belongs to a role other than Agent or Assistant; read the ids from a lead's customRoleList. The role must have somebody on that lead. */
+        assignedRoleId?: number;
+        [key: string]: unknown;
+      };
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Add a custom field, update lead routing rules, add or update an office, update company info, or create/tag/deactivate/reactivate an agent account. Note the one place Lofty's REST API inverts convention: PUT on the office endpoint adds a new office, POST updates an existing one - this tool hides that behind add_office/update_office so the HTTP verb is never something you need to know. */
+    manage_team_config(args: {
+      action: "add_custom_field" | "update_routing_rule" | "update_default_routing_rule" | "add_office" | "update_office" | "update_company" | "add_agent" | "add_agent_tag" | "deactivate_agent" | "reactivate_agent";
+      /** The body for the resolved action. add_custom_field: 'attributeName' and 'attributeType' (one of text, number, date, anniversary_date, single_select, multi_select, percentage, currency) are required; 'params' (e.g. {"option":["item1","item2"]}) is required for the two select types. Otherwise: a routing rule, an office/company payload, or a new agent's profile/tags. */
+      fields?: Record<string, unknown>;
+      /** Required for add_agent_tag, deactivate_agent, reactivate_agent. */
+      agent_id?: string;
+      /** Required for update_routing_rule and update_default_routing_rule. No other values are accepted (D18). */
+      routing_type?: "agent_lead" | "lender_lead" | "assistant_lead";
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Create or update a transaction, or write its property address. There is no delete - no such endpoint exists in the real API. */
+    manage_transactions(args: {
+      action: "create" | "update" | "update_address";
+      /** The new transaction body. create and update take a LeadTransaction - 'transactionName' is required, the downstream endpoint rejects a blank one with a 400 (TRANSACTION_NAME_BLANK). update is NOT a true partial patch despite accepting a subset of fields (D12) - the downstream endpoint requires 'transactionName' even when only changing something else, so include it or the call fails. update_address  */
+      fields?: {
+        /** Gross Commission Income (GCI) of the transaction. */
+        gci?: number;
+        /** City. */
+        city?: string;
+        /** Unit / apartment number. */
+        unit?: string;
+        /** Free-form label for the address (e.g. 'Investment', 'Primary Residence'). */
+        label?: string;
+        /** State or province code. */
+        state?: string;
+        /** County. */
+        county?: string;
+        /** Transaction creation timestamp, in milliseconds since Unix epoch (UTC). Do not supply on create. */
+        created?: number;
+        /** Transaction last-modified timestamp, in milliseconds since Unix epoch (UTC). Do not supply on create or update. */
+        updated?: number;
+        /** Postal / ZIP code. */
+        zipCode?: string;
+        /** Name of the lead this transaction belongs to. Ignored if supplied in a request body. */
+        leadName?: string;
+        /** Actual close date, in milliseconds since Unix epoch (UTC). */
+        closeDate?: number;
+        /** Home price of the transaction. */
+        homePrice?: number;
+        /** Offer date, in milliseconds since Unix epoch (UTC). */
+        offerDate?: number;
+        /** Escrow date, in milliseconds since Unix epoch (UTC). */
+        escrowDate?: number;
+        /** Expiration date (listing / contract), in milliseconds since Unix epoch (UTC). */
+        expiration?: number;
+        commissions?: unknown;
+        /** Portion of the GCI attributed to the team. */
+        teamRevenue?: number;
+        /** Portion of the GCI attributed to the agent. */
+        agentRevenue?: number;
+        /** Contract date, in milliseconds since Unix epoch (UTC). */
+        contractDate?: number;
+        /** Custom field values; full-coverage update or insertion. See GET /v1.0/transaction/customfields for the team's custom field definitions. */
+        customFields?: unknown[];
+        /** Appraisal date, in milliseconds since Unix epoch (UTC). */
+        appraisalDate?: number;
+        /** User ID of the agent this transaction is assigned to. Ignored if supplied in a request body. */
+        assignedAgent?: number;
+        /** Street address. */
+        streetAddress?: string;
+        /** Transaction ID whose property address is being queried or updated. Required on the update endpoint (carried in the request body, not the URL). */
+        transactionId?: number;
+        /** Commission rate, expressed as a percentage (e.g. 3 for 3%). */
+        commissionRate?: number;
+        /** Appointment date, in milliseconds since Unix epoch (UTC). */
+        appointmentDate?: number;
+        /** Property address or deal name. Required on create. Must not be blank and must not contain '<' or '>' characters. */
+        transactionName?: string;
+        /** Transaction type. Case-sensitive; must be one of the supported values. Values not matching the team's configured pipeline types fall back silently to the first pipeline (typically 'Purchase / Pre-contract'); always pass a valid type to avoid this silent behavior. */
+        transactionType?: "Purchase" | "Listing" | "Lease" | "Other";
+        /** Expected close date, in milliseconds since Unix epoch (UTC). */
+        expectedCloseDate?: number;
+        /** Transaction status name. Must match one of the statuses configured in the team's pipeline for the given transactionType; unmatched values silently fall back to the first status of that type. */
+        transactionStatus?: string;
+        /** Home-inspection date, in milliseconds since Unix epoch (UTC). */
+        homeInspectionDate?: number;
+        /** Agreement-signed date, in milliseconds since Unix epoch (UTC). */
+        agreementSignedDate?: number;
+        [key: string]: unknown;
+      };
+      /** Required for create, update and update_address. */
+      lead_id?: string;
+      confirm_token?: string;
+      /** Required for action=update. */
+      transaction_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Register a new webhook subscription, or remove an existing one. Both change what an external system is told about this account - confirm with the user before calling either. */
+    manage_webhooks(args: {
+      /** subscribe only: which event/list id to subscribe to (the real field is called listId). */
+      event?: string;
+      action: "subscribe" | "unsubscribe";
+      /** subscribe only: extra webhook fields beyond event/target_url - limit, permissionMode. */
+      fields?: Record<string, unknown>;
+      /** subscribe only: the callback URL to POST events to. Required. */
+      target_url?: string;
+      /** Required for action=unsubscribe. */
+      subscribe_id?: string;
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Push an app notification, system SMS or system email to an internal agent, or fire an opportunity alert. Never reaches a lead. Always confirms before sending. agent_id redirects sms/email to a specific teammate; app_push and opportunity_alert always go to the task's assignee or the lead's resolved contact instead, by design. */
+    notify_agent(args: {
+      /** The message text: content for sms/email, description for opportunity_alert. Not used for app_push. */
+      body?: string;
+      channel: "app_push" | "sms" | "email" | "opportunity_alert";
+      /** Required for channel=opportunity_alert. */
+      lead_id?: string;
+      /** Required for channel=email. */
+      subject?: string;
+      /** Required for channel=app_push. */
+      task_id?: string;
+      /** channel=sms/email only: the teammate to notify instead of the caller themselves. Must be on the caller's own team. Silently ignored for app_push (always the task's assignee) and opportunity_alert (always the lead's resolved contact) - those two are never redirectable, by design. */
+      agent_id?: string;
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Stop the emails of a lead's saved searches (property alerts / market snapshots) without deleting them - either the ones in 'ids', or every one of the kinds in 'categories'. resume_saved_searches switches them back on. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
+    pause_saved_searches(args: {
+      /** The saved searches to pause. Give these OR 'categories', not both. Numeric saved search ids, up to 10. */
+      ids?: string[];
+      /** The lead the saved searches belong to. */
+      lead_id: string;
+      /** Pause every saved search of the lead of these kinds. Give this OR 'ids', not both. */
+      categories?: Array<"PROPERTY_ALERT" | "MARKET_SNAPSHOT">;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Switch a lead's paused saved searches (property alerts / market snapshots) back on; each resumes at the cadence it ran at before it was paused. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
+    resume_saved_searches(args: {
+      /** The paused saved searches to resume. Numeric saved search ids, up to 10. */
+      ids: string[];
+      /** The lead the saved searches belong to. */
+      lead_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Read the Feature Areas (AI-generated neighborhood / city community pages) on the caller's website. To add one, use manage_feature_areas. For how much traffic they bring, use search_site_analytics kind=traffic_by_page_type. */
+    search_feature_areas(args: {
+      /** list: the site's Feature Areas, newest first. detail: one area with its generated content. pages: one area's intro / listing-search / market pages. */
+      kind: "list" | "detail" | "pages";
+      /** kind=list: page number from 1. */
+      page?: number;
+      /** kind=list: 1-100, default 20. */
+      size?: number;
+      /** Required for kind=detail and kind=pages. */
+      feature_area_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Everything that happened on a lead, or across every lead one agent touched: calls, texts, emails, notes, manual log entries, system events (stage changes, assignment/routing, subscriptions, smart-plan tasks), and the unified activity timeline. Writing a note or manual log entry is manage_leads (actions add_note/update_note/delete_note/add_manual_log/delete_manual_log) - this tool is read-only. */
+    search_lead_activities(args?: {
+      /** Fetch one entry by id instead of searching. Not valid for channel=all or channel=system_log (no single-item endpoint exists for either) or scope=agent. */
+      id?: string;
+      limit?: number;
+      /** 'lead' looks at one lead's history; 'agent' searches across every lead the caller has touched (e.g. 'how many texts did I send this month'). */
+      scope?: "lead" | "agent";
+      /** Opaque paging cursor from a prior page. */
+      cursor?: string;
+      /** 'all' is the unified timeline (calls, texts, emails and manual logs, both auto-captured and agent-logged, in order) - it does not include notes (D9) or system events, which are their own channels. 'system_log' is the lead's system event audit trail (stage changes, assignment/routing, subscriptions, smart-plan tasks). */
+      channel?: "all" | "note" | "manual_log" | "call" | "sms" | "email" | "system_log";
+      /** Extra query parameters for the resolved endpoint - includeSystemNote for channel=note, startTime/endTime for scope=agent (required there, as epoch milliseconds - not an ISO date string, D10), startTime/endTime/pageNumber/pageSize for channel=system_log (pageNumber is 0-based; limit/cursor are not used for this channel). */
+      filters?: Record<string, unknown>;
+      /** Required when scope=lead. */
+      lead_id?: string;
+      /** Required when searching channel=manual_log (not set with id). */
+      log_type?: string;
+      /** channel=call with id set only: kept for compatibility - the call record fetched by id always carries its recordingUrl. */
+      include_recording_url?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Read a previously generated call summary, or list lead analysis tasks. To generate a new one, use generate_lead_insight. */
+    search_lead_insights(args: {
+      kind: "call_summary" | "analysis_tasks";
+      /** kind=analysis_tasks: pageNum, pageSize. */
+      filters?: Record<string, unknown>;
+      /** Accepted but not used by the real call_summary endpoint today, which is keyed by call_record_id, not lead_id. */
+      lead_id?: string;
+      /** Required for kind=call_summary. */
+      call_record_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Filter leads by status, source, tag, owner or custom field; fetch one or many by id; read the property searches a lead has saved (scope="saved_searches" with lead_id). Set group_by (optionally with metric) instead of paging through records yourself when the question is a count or sum, not a list - e.g. "how many leads per source last month". Notes, manual logs, calls, texts, emails and the activit */
+    search_leads(args?: {
+      /** Fetch these leads by id (full records). Up to 100. When present, filters/sort/limit/cursor/group_by/metric are ignored. */
+      ids?: string[];
+      /** Exact enum name, case-sensitive - not a display label or a camelCase/'-'-prefixed field name. Defaults to CreateTime descending. */
+      sort?: "Default" | "LastContact" | "LastCall" | "LastEmail" | "A2Z" | "LastActivity" | "Inquries" | "CreateTime" | "DeleteTime" | "AssignTime" | "Score" | "Activity" | "Communication" | "HasDrip" | "HasAlert" | "Task" | "Lender" | "ActivitySearch" | "ActivityViews" | "ActivityFavorites" | "DripStatus" | "DripOpenRate" | "AlertFrequency" | "AlertOpenRate" | "SCOREV2" | "SmartPlanStatus" | "FirstName" | "LastName";
+      limit?: number;
+      /** What to read. 'leads' (default): search or fetch leads. 'saved_searches': list one lead's saved property searches / market snapshots - requires lead_id; ids/filters/sort/limit/cursor/group_by/metric are ignored. */
+      scope?: "leads" | "saved_searches";
+      /** Opaque paging cursor from a prior page. */
+      cursor?: string;
+      /** Requires group_by: 'count', or 'sum:<field>' / 'avg:<field>' for a numeric field. Defaults to 'count'. */
+      metric?: string;
+      /** stage, source, phone, email, assignedUserId, contacted, allTags, anyTags, groupIds, key (free text), and more - see the Lofty API reference. */
+      filters?: Record<string, unknown>;
+      /** With scope='saved_searches': the lead whose saved searches to list (required). Deprecated: lead_id alone, with no scope/ids, still lists saved searches - pass scope='saved_searches' instead. */
+      lead_id?: string;
+      /** Field name to group by (e.g. 'stage', 'source'). When set, returns aggregated counts/sums instead of lead records. */
+      group_by?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Published listings by agent or office, or the published feed. Read-only at this layer - listing creation and maintenance isn't part of this API surface. scope=agent/office returns JSON; scope=published returns the feed's own XML verbatim (CHIME-70594), not JSON - that endpoint is an XML-only syndication feed, not a per-team JSON search. */
+    search_listings(args?: {
+      /** Required for scope=published: 'LuxVT', 'AptCom' or 'AllOnMarket'. */
+      type?: string;
+      scope?: "agent" | "office" | "published";
+      /** scope=agent/office: userId, listingId, mlsListingIds, street, limit, agentListings, officeListings, buildingName, buildingAddress, showCondition, originalPictures (defaults to true here: full-size photo URLs; false returns 600px thumbnails). */
+      filters?: Record<string, unknown>;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The AI working-lead pool, membership and mute status, quota, current agent, settings, and plan tasks for a lead. */
+    search_sales_agent(args?: {
+      kind?: "pool" | "is_in_pool" | "mute_status" | "quota" | "current" | "by_lead" | "settings" | "plan_tasks";
+      /** kind=pool only: page size, at most 100 (default 20). */
+      limit?: number;
+      /** kind=pool only: start index of the page (default 0). */
+      offset?: number;
+      /** kind=pool only: aiStage, limit, offset, sort, desc. aiStage is a closed set of real values that this tool does not have a verified complete list for (D18) - e.g. the plausible-looking 'Engaged' is rejected. If a value is rejected, do not keep guessing synonyms. */
+      filters?: Record<string, unknown>;
+      /** Required for is_in_pool, mute_status, by_lead and plan_tasks. */
+      lead_id?: string;
+    }): Promise<unknown>;
+    /** Read the caller's website traffic - the same numbers as the Traffic Report in the Lofty CRM. Pick one chart with 'kind'. Use this to quantify a problem found with search_site_audit, or to check whether a change paid off. */
+    search_site_analytics(args: {
+      /** traffic_overview: visitors / page views / page views per visitor with previous-period change. traffic_trend: the same per day. activity_by_hour: visitors per weekday (0 = Sunday) and hour. visitor_type: new vs returning. visitors_by_source: Direct / Paid / Search Organic / Social Organic / Email / AI / Other. pageviews_by_device: desktop vs mobile. activity_by_source: listing views and searches pe */
+      kind: "traffic_overview" | "traffic_trend" | "activity_by_hour" | "visitor_type" | "visitors_by_source" | "pageviews_by_device" | "activity_by_source" | "traffic_by_page_type";
+      /** Only for agents with several websites; defaults to the primary one. */
+      site_id?: string;
+      /** yyyy-MM-dd. Defaults to today. The period is at most 365 days. */
+      end_date?: string;
+      /** yyyy-MM-dd, agent's time zone. Defaults to 29 days before end_date. */
+      start_date?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Read facts about the caller's own Lofty website to diagnose it, one section per call. Returns raw data only; scoring and recommendations are up to you. Every section is wrapped as {section, siteId, generatedAt, partial, data}; partial=true means a part of the section could not be fetched; the item then carries fetchError saying why. A fetchError starting with "redirected to another domain" means t */
+    search_site_audit(args: {
+      /** overview: id, domain, status, page count and Feature Area count (featureAreaCount, the site's Feature Area count). seo_settings: brand name, intro video link, site keywords and the site's Feature Areas (first 50 by id; featuredAreaCount is the total, equal to overview featureAreaCount). pages: the site's menu pages, the same pages as the CMS SEO > Page SEO table, at most 100; Feature Area pages, l */
+      kind: "overview" | "seo_settings" | "pages" | "page_detail" | "structure" | "technical_files" | "integrations";
+      /** kind=pages: page number from 1. */
+      page?: number;
+      /** kind=pages: 1-50, default 20. */
+      size?: number;
+      /** Required for kind=page_detail: the pageId field of an item returned by kind=pages. */
+      page_id?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Tasks and calendar events - list, fetch one by id, the caller's own tasks across every lead, or open meeting slots. kind=showing switches to property showings (list, fetch one, or its feedback). Writes live in manage_tasks. */
+    search_tasks(args?: {
+      /** Fetch one by id instead of searching. kind=task: accepts either the composite id this tool itself returns, or a bare id (tried against both tasks and appointments). kind=showing: the showing id. */
+      id?: string;
+      /** What to search. Default 'task' = tasks, appointments and calendar events. 'showing' = property showings on a lead (created by partners or inside Lofty): list them, fetch one by id, or fetch one showing's feedback with id + feedback=true. */
+      kind?: "task" | "showing";
+      limit?: number;
+      cursor?: string;
+      /** kind=showing only: requested, scheduled, in_progress, completed, denied, expired or cancelled. */
+      status?: string;
+      /** Extra query parameters - startTime/endTime/includeFinished/page/pageSize/sort for a search or my_tasks (a wide default time window is used when neither startTime nor endTime is supplied), startTime/endTime for available_slots; startAt/endAt (ISO 8601) and externalId for kind=showing. */
+      filters?: Record<string, unknown>;
+      /** Optional filter - restrict to one lead. */
+      lead_id?: string;
+      assignee?: string;
+      /** kind=showing with id only: return the showing's feedback entries instead of the showing. */
+      feedback?: boolean;
+      /** The caller's own tasks and events across every lead. */
+      my_tasks?: boolean;
+      completed?: boolean;
+      due_between?: string[];
+      /** Open meeting slots. */
+      available_slots?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Every read-only piece of team and organization configuration: your own profile (kind=members.me - call this once at the start of a session, every 'my tasks' or 'my leads' query depends on knowing who is asking), team members, tags, custom field definitions, pipelines, ponds, vendors, organization info, permission profiles, and lead routing rules and roles. A lead's own system event log is search_l */
+    search_team_config(args: {
+      kind: "members.me" | "members.list" | "members.find" | "settings.tags" | "settings.custom_fields" | "settings.lead_pipelines" | "settings.transaction_pipelines" | "settings.ponds" | "settings.pond" | "settings.vendors" | "organization.info" | "organization.permission_profiles" | "lead_routing.rules" | "lead_routing.default_rule" | "lead_routing.roles" | "lead_routing.assignable_members";
+      /** Required for members.find (email). */
+      account?: string;
+      /** Extra query parameters for the resolved endpoint - name/currPage/pageSize for settings.lead_pipelines and for members.list (currPage is 0-based - currPage=1 is the second page, D18), groupIds/offset/limit also accepted for members.list, roleId for the lead_routing kinds. */
+      filters?: Record<string, unknown>;
+      /** Required for settings.pond. */
+      pond_id?: string;
+      /** Required for lead_routing.rules, lead_routing.default_rule and lead_routing.assignable_members. No other values are accepted (D18). */
+      routing_type?: "agent_lead" | "lender_lead" | "assistant_lead";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search transactions globally or for one lead, fetch one or many by id, read a transaction's property address, or the team's transaction custom field definitions. Set group_by (optionally with metric) for a count/sum instead of a record list. */
+    search_transactions(args?: {
+      /** Fetch these transactions by id. Requires lead_id (all ids must belong to the same lead). Up to 100. */
+      ids?: string[];
+      /** Requires group_by: 'count', 'sum:<field>' (e.g. 'sum:homePrice' - the real numeric price field is 'homePrice', not 'price', D14) or 'avg:<field>'. */
+      metric?: string;
+      /** pageSize, pageNum, queryKey (free text), transactionType. transactionType is one of 'Purchase', 'Listing', 'Lease', 'Other', or 'All' (returns every type in one call) - defaults to 'Purchase' when omitted, and an unrecognized value (e.g. the plausible-looking 'Buyer') is rejected (D18). */
+      filters?: Record<string, unknown>;
+      /** Required with ids and address_for; otherwise scopes a search to one lead's transactions. */
+      lead_id?: string;
+      /** When set, returns aggregated counts/sums instead of transaction records (e.g. group_by 'transactionStatus' - not 'stage', which does not exist on a transaction record, D14). */
+      group_by?: string;
+      /** A transaction id (requires lead_id) to fetch the property address for, instead of searching. */
+      address_for?: string;
+      /** Return the team's transaction custom field definitions instead of searching. */
+      custom_fields?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** List the caller's currently subscribed webhook event callbacks. */
+    search_webhooks(args?: {}): Promise<unknown>;
+    /** Send the user's feedback about Lofty in this assistant to the Lofty product team. Call this only when the user explicitly asks to report a problem or share feedback, or agrees after you offer (for example after a tool result was wrong or the user is frustrated). Tell the user what will be sent. Include the user's own words; do not include the conversation transcript, passwords, or other people's c */
+    send_feedback(args: {
+      /** What happened instead, if they said. */
+      actual?: string;
+      category: "wrong_result" | "error" | "missing_feature" | "confusing" | "slow" | "sign_up_or_connect" | "praise" | "other";
+      /** What the user expected to happen, if they said. */
+      expected?: string;
+      /** The Lofty tool the feedback is about, if any. */
+      tool_name?: string;
+      /** What the user said, in their own words. */
+      user_quote: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Send SMS or email to one lead from the authenticated agent. Always confirms - the recipient and the full rendered body are shown before sending, and this cannot be undone once sent. */
+    send_message(args: {
+      /** SMS content, or email body. */
+      body: string;
+      channel: "sms" | "email";
+      lead_id: string;
+      /** Required for channel=email. */
+      subject?: string;
+      confirm_token?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Start a free 14-day Lofty trial, or connect an existing Lofty account. Call this when the user wants to try Lofty, says they do not have a Lofty account yet, or asks to use Lofty before connecting it. It opens Lofty's sign-in page, where the user can log in or create a free trial account; never ask for an e-mail, password or verification code in the chat. Takes no arguments. If the account is alre */
+    start_free_trial(args?: {}): Promise<unknown>;
+    /** Change the name, schedule, filters, recipients or other settings of one or more of a lead's saved searches (property alerts / market snapshots). Setting fields.alertFrequency to NEVER pauses one, like pause_saved_searches. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
+    update_saved_search(args: {
+      /** The saved searches to change, all getting the same 'fields'. Numeric saved search ids, up to 10. */
+      ids: string[];
+      /** The fields to change - only these change. 'criteria', when sent, replaces every filter. The kind (category) cannot be changed. */
+      fields: {
+        /** Name given to the search, up to 255 characters. Required and not blank on create; on update it may be omitted but not sent blank. */
+        name?: string;
+        criteria?: unknown;
+        /** Delivery slots keyed by weekday (SUN to SAT), AM or PM, in the team owner's time zone. DAILY takes one or more days; WEEKLY, BIWEEKLY and MONTHLY take exactly one; INSTANTLY takes none. When omitted on create, Lofty picks the slots: every day for DAILY, the current day for WEEKLY, BIWEEKLY and MONTHLY. When omitted on an update that changes alertFrequency, the slots follow the new cadence: NEVER k */
+        schedule?: {
+          FRI?: "AM" | "PM";
+          MON?: "AM" | "PM";
+          SAT?: "AM" | "PM";
+          SUN?: "AM" | "PM";
+          THU?: "AM" | "PM";
+          TUE?: "AM" | "PM";
+          WED?: "AM" | "PM";
+          [key: string]: unknown;
+        };
+        /** Subject line of the alert emails, up to 255 characters; blank uses the default subject */
+        emailSubject?: string;
+        /** When a scheduled email finds no new matching listing, fill it with listings that match the search and are already on the market, instead of sending nothing new. Has an effect on a PROPERTY_ALERT that is not INSTANTLY and whose listings are not hand-picked by the agent; true on any other saved search is not saved and is listed in ignoredFields. Defaults on create to true for a PROPERTY_ALERT that i */
+        useSupplement?: boolean;
+        /** Delivery cadence: INSTANTLY, DAILY, WEEKLY, BIWEEKLY, MONTHLY, or NEVER to keep the search paused. Required on create. Setting NEVER on update works like the pause endpoint and keeps the schedule, so resume can switch it back on. A search created with NEVER had no earlier cadence: switch it on by setting alertFrequency here. */
+        alertFrequency?: "INSTANTLY" | "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY" | "NEVER";
+        /** Email addresses of the lead (or the lead's family members) who receive the alerts. Each must be one of the lead's own email addresses. Defaults on create to the lead's primary email. */
+        recipientEmails?: string[];
+        /** Whether the assigned agent gets a copy of every alert email. Defaults on create to true. */
+        sendCopyToAgent?: boolean;
+        /** Send the first alert email right away instead of waiting for the schedule. Defaults to true when creating a PROPERTY_ALERT, false otherwise; must not be true while the search is paused (NEVER). */
+        sendFirstEmailNow?: boolean;
+        /** Whether the alert emails show the open house details of listings that have an open house. An email setting only: it does not change which listings match. Not the same as criteria.includeOpenHouse, which only matches listings that have an open house. Has an effect on a PROPERTY_ALERT only; true on a MARKET_SNAPSHOT is not saved and is listed in ignoredFields. Defaults on create to true for a PROPER */
+        includeOpenHouseInfo?: boolean;
+        [key: string]: unknown;
+      };
+      /** The lead the saved searches belong to. */
+      lead_id: string;
+      [key: string]: unknown;
     }): Promise<unknown>;
 }
 
@@ -273495,6 +274561,192 @@ interface BowmarkSiteTools_5cda1f9115 {
     get_contact_information(args?: {}): Promise<unknown>;
     /** Return the official mail-in guide for sending a device to the Austin lab without creating an order or collecting personal data. */
     get_mail_in_instructions(args?: {}): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_5cf53621e7 {
+    /** Evaluate a deterministic arithmetic expression for calculations, percentages, averages, costs, and time/distance arithmetic. */
+    calculate(args: {
+      notes?: string;
+      precision?: number;
+      expression: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** List upcoming Karte.Bayern events near a coordinate (Eintritts/Veranstaltungen-Store). */
+    events_nearby(args: {
+      /** ISO timestamp upper bound */
+      to?: string;
+      lat: number;
+      lon: number;
+      /** ISO timestamp lower bound */
+      from?: string;
+      /** Max. results (default 50, max 200) */
+      limit?: number;
+      /** Radius in metres (default 25000) */
+      radius?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Add a stop to the active navigation session and recompute the route. */
+    navigation_add_stop(args: {
+      lat: number;
+      lon: number;
+      label?: string;
+      address?: string;
+      position?: "next" | "end";
+      session_id: string;
+      replace_remaining?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Create a navigation session with route state, guidance resources, and rerouting support. */
+    navigation_create_session(args: {
+      stops: {
+          lat?: number;
+          lon?: number;
+          label?: string;
+          address?: string;
+          stop_id?: string;
+          [key: string]: unknown;
+        }[];
+      profile?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get the current summarized state of a navigation session. */
+    navigation_current_state(args: {
+      session_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Preview the next upcoming stops/instructions for a navigation session. */
+    navigation_guidance_preview(args: {
+      limit?: number;
+      session_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Get the next deterministic instruction for a navigation session. */
+    navigation_next_instruction(args: {
+      session_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Recompute a navigation session from the current position to the remaining stops. */
+    navigation_reroute(args: {
+      lat?: number;
+      lon?: number;
+      session_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Update the current position of a navigation session and refresh off-route detection. */
+    navigation_update_position(args: {
+      lat: number;
+      lon: number;
+      speed_kmh?: number;
+      session_id: string;
+      bearing_deg?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Summarize offline emergency capabilities and optionally include nearby AED, hospital, and doctor results. */
+    offline_emergency_guide(args?: {
+      lat?: number;
+      lon?: number;
+      limit?: number;
+      radius_m?: number;
+      include_nearby?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Compute a route between two coordinates with optional profile and objective hints. */
+    plan_route(args: {
+      end_lat: number;
+      end_lon: number;
+      profile?: string;
+      objective?: string;
+      start_lat: number;
+      start_lon: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search the unified Karte.Bayern POI index by free text. */
+    poi_search_unified(args?: {
+      q?: string;
+      lat?: number;
+      lon?: number;
+      sort?: "relevance" | "distance";
+      limit?: number;
+      query?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Read public warning candidates from the reviewed local cache for a bounded bbox. Missing coordinates return needs_input; no fetch, alarm or route mutation. */
+    public_warnings(args?: {
+      /** Optionale belegte west,south,east,north-Koordinaten; höchstens 8 × 5 Grad. Bei fehlendem bbox begrenzter Ausschnitt um den Chat-Standort. */
+      bbox?: number[];
+      /** Maximale Meldungen, Standard 10. Die kurze Antwort zeigt höchstens drei mit Originalverweis. */
+      limit?: number;
+    }): Promise<unknown>;
+    /** Resolve a coordinate string or free-text location to coordinates. */
+    resolve_address(args: {
+      input: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** List restaurants near a coordinate from the Karte.Bayern speise (dish-first) store. */
+    restaurants_nearby(args: {
+      lat: number;
+      lon: number;
+      /** Max. results (default 20, max 100) */
+      limit?: number;
+      /** Radius in metres (default 3000, max 50000) */
+      radius?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Reverse-geocode a coordinate using Karte.Bayern sources. */
+    reverse_geocode(args: {
+      lat: number;
+      lon: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search POIs along a supplied route polyline or an active navigation session. */
+    search_along_route(args: {
+      limit?: number;
+      query: string;
+      radius?: number;
+      session_id?: string;
+      route_points?: {
+          lat: number;
+          lon: number;
+          [key: string]: unknown;
+        }[];
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Search nearby POIs with free text, optional location context, and ranked structured results. */
+    search_nearby(args: {
+      lat?: number;
+      lon?: number;
+      limit?: number;
+      /** Free-text search term such as Therme, Museum, Restaurant. */
+      query: string;
+      radius?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Snap a coordinate to the nearest routable road node. */
+    snap_to_road(args: {
+      lat: number;
+      lon: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Build a short tourism/day-trip plan from deterministic POI searches; optional LLM output is prose only. */
+    travel_plan(args?: {
+      lat?: number;
+      lon?: number;
+      limit?: number;
+      notes?: string;
+      location?: string;
+      radius_m?: number;
+      interests?: string[];
+      duration_hours?: number;
+      limit_per_interest?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Fetch and summarize one public http/https web page with SSRF protections. Does not crawl private/local URLs. */
+    web_research(args: {
+      url: string;
+      limit?: number;
+      query?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_5d0cb6fe82 {
@@ -310766,557 +312018,6 @@ interface BowmarkSiteTools_75a0d33603 {
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
-interface BowmarkSiteTools_75a1b78e2a {
-    /** action=create queues a bulk operation (mass SMS, mass email, bulk tag change, or bulk pipeline-stage change) against up to 5000 leads at once. This is asynchronous: the result confirms a plan was queued, not that any message was sent or any lead was updated - those happen afterward, over time. Always confirms before queuing, since a plan cannot be recalled once mass-action starts sending/updating. */
-    bulk_lead_action(args: {
-      /** Required for action=create. */
-      type?: "sms" | "email" | "tag" | "pipeline";
-      action: "create" | "status";
-      /** action=create only. type=sms: 'content' (required). type=email: 'subject' and 'content' (both required). type=tag: 'tagsAdd' and/or 'tagsRemove' (string arrays; at least one non-empty). type=pipeline: 'stage' (required) - the target pipeline stage name. */
-      params?: Record<string, unknown>;
-      /** Required for action=status. The 'planId' from a prior action=create response. */
-      plan_id?: string;
-      /** action=create only. Target leads. Up to 5000 per call. */
-      lead_ids?: string[];
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Create a property alert or market snapshot for a lead - a saved search Lofty emails the lead on a schedule. A property alert emails the lead its first alert right away unless fields.sendFirstEmailNow is false. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
-    create_saved_search(args: {
-      /** The new saved search. 'category' picks the kind of email (PROPERTY_ALERT or MARKET_SNAPSHOT); 'criteria' holds the search filters. */
-      fields: {
-        /** Name given to the search, up to 255 characters. Required and not blank on create; on update it may be omitted but not sent blank. */
-        name: string;
-        /** Which emails the search sends. Required on create, cannot be changed on update. */
-        category: "PROPERTY_ALERT" | "MARKET_SNAPSHOT";
-        criteria: unknown;
-        /** Delivery slots keyed by weekday (SUN to SAT), AM or PM, in the team owner's time zone. DAILY takes one or more days; WEEKLY, BIWEEKLY and MONTHLY take exactly one; INSTANTLY takes none. When omitted on create, Lofty picks the slots: every day for DAILY, the current day for WEEKLY, BIWEEKLY and MONTHLY. When omitted on an update that changes alertFrequency, the slots follow the new cadence: NEVER k */
-        schedule?: {
-          FRI?: "AM" | "PM";
-          MON?: "AM" | "PM";
-          SAT?: "AM" | "PM";
-          SUN?: "AM" | "PM";
-          THU?: "AM" | "PM";
-          TUE?: "AM" | "PM";
-          WED?: "AM" | "PM";
-          [key: string]: unknown;
-        };
-        /** Subject line of the alert emails, up to 255 characters; blank uses the default subject */
-        emailSubject?: string;
-        /** Delivery cadence: INSTANTLY, DAILY, WEEKLY, BIWEEKLY, MONTHLY, or NEVER to keep the search paused. Required on create. Setting NEVER on update works like the pause endpoint and keeps the schedule, so resume can switch it back on. A search created with NEVER had no earlier cadence: switch it on by setting alertFrequency here. */
-        alertFrequency: "INSTANTLY" | "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY" | "NEVER";
-        /** Email addresses of the lead (or the lead's family members) who receive the alerts. Each must be one of the lead's own email addresses. Defaults on create to the lead's primary email. */
-        recipientEmails?: string[];
-        /** Whether the assigned agent gets a copy of every alert email. Defaults on create to true. */
-        sendCopyToAgent?: boolean;
-        /** Send the first alert email right away instead of waiting for the schedule. Defaults to true when creating a PROPERTY_ALERT, false otherwise; must not be true while the search is paused (NEVER). */
-        sendFirstEmailNow?: boolean;
-        [key: string]: unknown;
-      };
-      /** The lead the saved searches belong to. */
-      lead_id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Permanently delete one or more of a lead's saved searches (property alerts / market snapshots); the lead stops receiving their emails. Always returns needsConfirmation first. To stop the emails but keep the search, use pause_saved_searches instead. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
-    delete_saved_search(args: {
-      /** The saved searches to delete. Numeric saved search ids, up to 10. */
-      ids: string[];
-      /** The lead the saved searches belong to. */
-      lead_id: string;
-      /** Replay token from a prior needsConfirmation response. */
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Generate a new AI artifact for a lead: a call script, a pre-call insight, a call summary, or a lead analysis task. Always a write, even for a kind that also has a cached read in search_lead_insights. */
-    generate_lead_insight(args: {
-      kind: "call_script" | "insight" | "call_summary" | "analysis";
-      /** Required for call_script, insight and call_summary. */
-      lead_id?: string;
-      /** Required for kind=call_script. */
-      task_id?: string;
-      /** Required for kind=analysis, instead of lead_id - up to 10. */
-      lead_ids?: string[];
-      /** Required for kind=insight. This generation is slow enough that it routinely exceeds the gateway's own request timeout - a timeout error here does not mean the request was rejected, only that the response did not arrive in time. There is no separate way to check whether it finished; if it matters, retry once before telling the user it failed. */
-      appointment_id?: string;
-      /** Required for kind=call_summary. */
-      call_record_id?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Add one neighborhood or city to the caller's website as a Feature Area: Lofty writes its intro with AI and publishes its intro, listing-search and market pages, then fills in details, FAQ and a cover picture in the background. This publishes new pages on a public website - always confirm with the user first. */
-    manage_feature_areas(args: {
-      city: string;
-      /** 0 = City, 1 = Subdivision, 2 = Community, 4 = Neighborhood, 5 = SubArea. */
-      type: 0 | 1 | 2 | 4 | 5;
-      /** State / province code, e.g. CA. */
-      state?: string;
-      action: "create";
-      /** Optional name shown on the website instead of the neighborhood. */
-      display_name?: string;
-      /** Required unless type is 0 (City). */
-      neighborhood?: string;
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** All lead writes: create, update, assign (or preview an assignment), trash, update the property address, add an inquiry or website-activity entry, and create/edit/delete notes and manual log entries. See search_lead_activities to read notes, logs and other activity back. Actions past a risk threshold return needsConfirmation - see the tool result, not this schema, for which ones. */
-    manage_leads(args: {
-      /** Existing lead ids (update/trash/assign/update_property/add_inquiry/add_activity), note ids (update_note/delete_note), or manual log ids (delete_manual_log). Up to 10. */
-      ids?: string[];
-      /** assign only: an account email, or a team member's name (resolved against the team's member list - ambiguous or no match is a clear error, never a guess). Required unless fields.preview is true. */
-      owner?: string;
-      action: "create" | "update" | "trash" | "assign" | "update_property" | "add_inquiry" | "add_activity" | "add_note" | "update_note" | "delete_note" | "add_manual_log" | "delete_manual_log";
-      /** create: the new lead body. update/update_property/add_inquiry/add_activity/update_note: the patch applied to every id. add_note: 'content' (required) and 'isPin'. add_manual_log: 'logType' (required, one of logCall/logEmail/logText), 'content' (required), 'leadPhoneNumber' (required when logType=logCall), and optionally 'callingOutcome', 'outboundOrInbound', 'isPin', 'emailSubject'/'toEmail'/'from */
-      fields?: Record<string, unknown>;
-      /** Required for add_note and add_manual_log (which lead the new note/log belongs to). */
-      lead_id?: string;
-      /** Replay token from a prior needsConfirmation response. */
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Change the SEO title, meta description and/or keywords of up to 10 pages on the caller's website. Send only the fields to change; an empty string clears one. Values are raw templates: copy the current raw value and keep variables such as {{Brand Name}} exactly as they are - never write back the rendered text a visitor sees, or the variable is lost for good. Values must not contain < > or ". Each p */
-    manage_page_seo(args: {
-      /** 1-10 pages, each listed once. */
-      pages: {
-          /** SEO title, max 255 chars. */
-          title?: string;
-          /** Page id on the website. */
-          page_id: string;
-          /** Meta keywords, comma separated, max 500 chars. */
-          keywords?: string;
-          /** Meta description, max 1000 chars. */
-          description?: string;
-          [key: string]: unknown;
-        }[];
-      action: "update";
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Add leads to the AI working pool, mute or unmute a working lead, or send SMS via its AI number. Sales Agent settings are read-only here - change them in the Lofty CRM. */
-    manage_sales_agent(args: {
-      action: "add_to_pool" | "mute" | "unmute" | "ai_number_sms";
-      /** Required for mute and unmute. */
-      lead_id?: string;
-      /** The leads to add - for add_to_pool. No hard cap (a real batch endpoint) but confirms past 10. */
-      lead_ids?: string[];
-      /** ai_number_sms: {content} - the message text; the recipient is implicit in the AI number's own configuration, not a lead_id. */
-      settings?: Record<string, unknown>;
-      confirm_token?: string;
-      /** add_to_pool only: target this specific Sales Agent instead of the hierarchy-resolved one for every added lead; seat and quota bill to its owner. */
-      ai_assistant_id?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Create, update, delete, complete and un-complete tasks and calendar events. kind=showing: create, update, cancel a property showing or add feedback to it. */
-    manage_tasks(args: {
-      /** Existing ids, for update/delete/complete/uncomplete/cancel/add_feedback - the composite ids search_tasks itself returns (kind=task) or showing ids (kind=showing). Up to 10. */
-      ids?: string[];
-      /** Default 'task'. 'showing' manages property showings: create one for a lead, update its time/status/note, cancel it, or add feedback. Only showings this partner created can be updated, cancelled or given feedback. */
-      kind?: "task" | "showing";
-      /** kind=task: create, update, delete, complete, uncomplete. kind=showing: create, update, cancel, add_feedback. */
-      action: "create" | "update" | "delete" | "complete" | "uncomplete" | "cancel" | "add_feedback";
-      /** create: the new task/event body - see properties below for what's required. update: applied to every id in 'ids'. For kind=showing this is a reliable partial patch (startAt/endAt/status/note). For kind=task it is NOT a true partial patch despite accepting a subset of fields (D12) - task updates have been observed failing with a generic 'Invalid parameter' even with every field supplied; treat task */
-      fields?: {
-        /** kind=showing: free-text note. */
-        note?: string;
-        /** Required for create. 'Other'/'Call'/'Email'/'Text' are to-dos; 'Appointment' is a calendar appointment (see startAt). */
-        type?: "Other" | "Call" | "Email" | "Text" | "Appointment";
-        /** ISO 8601 with UTC offset. Required for create - the deadline for a to-do, or the end of the appointment's time range. */
-        endAt?: string;
-        /** Required for create. */
-        leadId?: string;
-        /** kind=showing: requested, scheduled (default on create), in_progress, completed, denied, expired, cancelled. */
-        status?: string;
-        /** Location text. Optional, fields.type=Appointment only. */
-        address?: string;
-        /** Required for create. The free-text description - there is no separate 'title'/'subject' field; this is it. */
-        content?: string;
-        /** kind=showing create: exactly one of {listingId} / {mlsOrgId, mlsListingId} / {address}. Required. */
-        listing?: Record<string, unknown>;
-        /** kind=showing add_feedback: structured feedback, stored as-is. One of content or payload is required. */
-        payload?: Record<string, unknown>;
-        /** ISO 8601 with UTC offset, e.g. '2026-03-01T15:00:00-08:00'. Required for create when fields.type=Appointment; not used otherwise. */
-        startAt?: string;
-        /** kind=showing add_feedback: display name of the author. */
-        authorName?: string;
-        /** kind=showing add_feedback: buyer_agent, lead, listing_agent or partner (default). */
-        authorType?: string;
-        /** kind=showing: the partner's own id - idempotency key for create and add_feedback. */
-        externalId?: string;
-        /** Lofty user id that owns the appointment. Optional, fields.type=Appointment only; defaults to the calling user. Must be on the same team. */
-        ownerUserId?: number;
-        /** Required for create, unless fields.type is 'Appointment' (that combination follows the Appointment requirements instead - see startAt). */
-        assignedRole?: "Agent" | "Assistant";
-        /** Extra appointment attendees. Optional, fields.type=Appointment only. */
-        participants?: {
-          /** Lead ids attending besides the entry's own lead. */
-          leads?: number[];
-          /** Lofty user ids of agents attending. */
-          agents?: number[];
-          [key: string]: unknown;
-        };
-        /** E.g. 'America/Los_Angeles'. Optional. */
-        timeZoneCode?: string;
-        /** Lead role id to assign the to-do to, custom roles included. Use it instead of assignedRole when the task belongs to a role other than Agent or Assistant; read the ids from a lead's customRoleList. The role must have somebody on that lead. */
-        assignedRoleId?: number;
-        [key: string]: unknown;
-      };
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Add a custom field, update lead routing rules, add or update an office, update company info, or create/tag/deactivate/reactivate an agent account. Note the one place Lofty's REST API inverts convention: PUT on the office endpoint adds a new office, POST updates an existing one - this tool hides that behind add_office/update_office so the HTTP verb is never something you need to know. */
-    manage_team_config(args: {
-      action: "add_custom_field" | "update_routing_rule" | "update_default_routing_rule" | "add_office" | "update_office" | "update_company" | "add_agent" | "add_agent_tag" | "deactivate_agent" | "reactivate_agent";
-      /** The body for the resolved action. add_custom_field: 'attributeName' and 'attributeType' (one of text, number, date, anniversary_date, single_select, multi_select, percentage, currency) are required; 'params' (e.g. {"option":["item1","item2"]}) is required for the two select types. Otherwise: a routing rule, an office/company payload, or a new agent's profile/tags. */
-      fields?: Record<string, unknown>;
-      /** Required for add_agent_tag, deactivate_agent, reactivate_agent. */
-      agent_id?: string;
-      /** Required for update_routing_rule and update_default_routing_rule. No other values are accepted (D18). */
-      routing_type?: "agent_lead" | "lender_lead" | "assistant_lead";
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Create or update a transaction, or write its property address. There is no delete - no such endpoint exists in the real API. */
-    manage_transactions(args: {
-      action: "create" | "update" | "update_address";
-      /** The new transaction body. create and update take a LeadTransaction - 'transactionName' is required, the downstream endpoint rejects a blank one with a 400 (TRANSACTION_NAME_BLANK). update is NOT a true partial patch despite accepting a subset of fields (D12) - the downstream endpoint requires 'transactionName' even when only changing something else, so include it or the call fails. update_address  */
-      fields?: {
-        /** Gross Commission Income (GCI) of the transaction. */
-        gci?: number;
-        /** City. */
-        city?: string;
-        /** Unit / apartment number. */
-        unit?: string;
-        /** Free-form label for the address (e.g. 'Investment', 'Primary Residence'). */
-        label?: string;
-        /** State or province code. */
-        state?: string;
-        /** County. */
-        county?: string;
-        /** Transaction creation timestamp, in milliseconds since Unix epoch (UTC). Do not supply on create. */
-        created?: number;
-        /** Transaction last-modified timestamp, in milliseconds since Unix epoch (UTC). Do not supply on create or update. */
-        updated?: number;
-        /** Postal / ZIP code. */
-        zipCode?: string;
-        /** Name of the lead this transaction belongs to. Ignored if supplied in a request body. */
-        leadName?: string;
-        /** Actual close date, in milliseconds since Unix epoch (UTC). */
-        closeDate?: number;
-        /** Home price of the transaction. */
-        homePrice?: number;
-        /** Offer date, in milliseconds since Unix epoch (UTC). */
-        offerDate?: number;
-        /** Escrow date, in milliseconds since Unix epoch (UTC). */
-        escrowDate?: number;
-        /** Expiration date (listing / contract), in milliseconds since Unix epoch (UTC). */
-        expiration?: number;
-        commissions?: unknown;
-        /** Portion of the GCI attributed to the team. */
-        teamRevenue?: number;
-        /** Portion of the GCI attributed to the agent. */
-        agentRevenue?: number;
-        /** Contract date, in milliseconds since Unix epoch (UTC). */
-        contractDate?: number;
-        /** Custom field values; full-coverage update or insertion. See GET /v1.0/transaction/customfields for the team's custom field definitions. */
-        customFields?: unknown[];
-        /** Appraisal date, in milliseconds since Unix epoch (UTC). */
-        appraisalDate?: number;
-        /** User ID of the agent this transaction is assigned to. Ignored if supplied in a request body. */
-        assignedAgent?: number;
-        /** Street address. */
-        streetAddress?: string;
-        /** Transaction ID whose property address is being queried or updated. Required on the update endpoint (carried in the request body, not the URL). */
-        transactionId?: number;
-        /** Commission rate, expressed as a percentage (e.g. 3 for 3%). */
-        commissionRate?: number;
-        /** Appointment date, in milliseconds since Unix epoch (UTC). */
-        appointmentDate?: number;
-        /** Property address or deal name. Required on create. Must not be blank and must not contain '<' or '>' characters. */
-        transactionName?: string;
-        /** Transaction type. Case-sensitive; must be one of the supported values. Values not matching the team's configured pipeline types fall back silently to the first pipeline (typically 'Purchase / Pre-contract'); always pass a valid type to avoid this silent behavior. */
-        transactionType?: "Purchase" | "Listing" | "Lease" | "Other";
-        /** Expected close date, in milliseconds since Unix epoch (UTC). */
-        expectedCloseDate?: number;
-        /** Transaction status name. Must match one of the statuses configured in the team's pipeline for the given transactionType; unmatched values silently fall back to the first status of that type. */
-        transactionStatus?: string;
-        /** Home-inspection date, in milliseconds since Unix epoch (UTC). */
-        homeInspectionDate?: number;
-        /** Agreement-signed date, in milliseconds since Unix epoch (UTC). */
-        agreementSignedDate?: number;
-        [key: string]: unknown;
-      };
-      /** Required for create, update and update_address. */
-      lead_id?: string;
-      confirm_token?: string;
-      /** Required for action=update. */
-      transaction_id?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Register a new webhook subscription, or remove an existing one. Both change what an external system is told about this account - confirm with the user before calling either. */
-    manage_webhooks(args: {
-      /** subscribe only: which event/list id to subscribe to (the real field is called listId). */
-      event?: string;
-      action: "subscribe" | "unsubscribe";
-      /** subscribe only: extra webhook fields beyond event/target_url - limit, permissionMode. */
-      fields?: Record<string, unknown>;
-      /** subscribe only: the callback URL to POST events to. Required. */
-      target_url?: string;
-      /** Required for action=unsubscribe. */
-      subscribe_id?: string;
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Push an app notification, system SMS or system email to an internal agent, or fire an opportunity alert. Never reaches a lead. Always confirms before sending. agent_id redirects sms/email to a specific teammate; app_push and opportunity_alert always go to the task's assignee or the lead's resolved contact instead, by design. */
-    notify_agent(args: {
-      /** The message text: content for sms/email, description for opportunity_alert. Not used for app_push. */
-      body?: string;
-      channel: "app_push" | "sms" | "email" | "opportunity_alert";
-      /** Required for channel=opportunity_alert. */
-      lead_id?: string;
-      /** Required for channel=email. */
-      subject?: string;
-      /** Required for channel=app_push. */
-      task_id?: string;
-      /** channel=sms/email only: the teammate to notify instead of the caller themselves. Must be on the caller's own team. Silently ignored for app_push (always the task's assignee) and opportunity_alert (always the lead's resolved contact) - those two are never redirectable, by design. */
-      agent_id?: string;
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Stop the emails of a lead's saved searches (property alerts / market snapshots) without deleting them - either the ones in 'ids', or every one of the kinds in 'categories'. resume_saved_searches switches them back on. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
-    pause_saved_searches(args: {
-      /** The saved searches to pause. Give these OR 'categories', not both. Numeric saved search ids, up to 10. */
-      ids?: string[];
-      /** The lead the saved searches belong to. */
-      lead_id: string;
-      /** Pause every saved search of the lead of these kinds. Give this OR 'ids', not both. */
-      categories?: Array<"PROPERTY_ALERT" | "MARKET_SNAPSHOT">;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Switch a lead's paused saved searches (property alerts / market snapshots) back on; each resumes at the cadence it ran at before it was paused. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
-    resume_saved_searches(args: {
-      /** The paused saved searches to resume. Numeric saved search ids, up to 10. */
-      ids: string[];
-      /** The lead the saved searches belong to. */
-      lead_id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Read the Feature Areas (AI-generated neighborhood / city community pages) on the caller's website. To add one, use manage_feature_areas. For how much traffic they bring, use search_site_analytics kind=traffic_by_page_type. */
-    search_feature_areas(args: {
-      /** list: the site's Feature Areas, newest first. detail: one area with its generated content. pages: one area's intro / listing-search / market pages. */
-      kind: "list" | "detail" | "pages";
-      /** kind=list: page number from 1. */
-      page?: number;
-      /** kind=list: 1-100, default 20. */
-      size?: number;
-      /** Required for kind=detail and kind=pages. */
-      feature_area_id?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Everything that happened on a lead, or across every lead one agent touched: calls, texts, emails, notes, manual log entries, system events (stage changes, assignment/routing, subscriptions, smart-plan tasks), and the unified activity timeline. Writing a note or manual log entry is manage_leads (actions add_note/update_note/delete_note/add_manual_log/delete_manual_log) - this tool is read-only. */
-    search_lead_activities(args?: {
-      /** Fetch one entry by id instead of searching. Not valid for channel=all or channel=system_log (no single-item endpoint exists for either) or scope=agent. */
-      id?: string;
-      limit?: number;
-      /** 'lead' looks at one lead's history; 'agent' searches across every lead the caller has touched (e.g. 'how many texts did I send this month'). */
-      scope?: "lead" | "agent";
-      /** Opaque paging cursor from a prior page. */
-      cursor?: string;
-      /** 'all' is the unified timeline (calls, texts, emails and manual logs, both auto-captured and agent-logged, in order) - it does not include notes (D9) or system events, which are their own channels. 'system_log' is the lead's system event audit trail (stage changes, assignment/routing, subscriptions, smart-plan tasks). */
-      channel?: "all" | "note" | "manual_log" | "call" | "sms" | "email" | "system_log";
-      /** Extra query parameters for the resolved endpoint - includeSystemNote for channel=note, startTime/endTime for scope=agent (required there, as epoch milliseconds - not an ISO date string, D10), startTime/endTime/pageNumber/pageSize for channel=system_log (pageNumber is 0-based; limit/cursor are not used for this channel). */
-      filters?: Record<string, unknown>;
-      /** Required when scope=lead. */
-      lead_id?: string;
-      /** Required when searching channel=manual_log (not set with id). */
-      log_type?: string;
-      /** channel=call with id set only: kept for compatibility - the call record fetched by id always carries its recordingUrl. */
-      include_recording_url?: boolean;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Read a previously generated call summary, or list lead analysis tasks. To generate a new one, use generate_lead_insight. */
-    search_lead_insights(args: {
-      kind: "call_summary" | "analysis_tasks";
-      /** kind=analysis_tasks: pageNum, pageSize. */
-      filters?: Record<string, unknown>;
-      /** Accepted but not used by the real call_summary endpoint today, which is keyed by call_record_id, not lead_id. */
-      lead_id?: string;
-      /** Required for kind=call_summary. */
-      call_record_id?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Filter leads by status, source, tag, owner or custom field; fetch one or many by id; read the property searches a lead has saved (scope="saved_searches" with lead_id). Set group_by (optionally with metric) instead of paging through records yourself when the question is a count or sum, not a list - e.g. "how many leads per source last month". Notes, manual logs, calls, texts, emails and the activit */
-    search_leads(args?: {
-      /** Fetch these leads by id (full records). Up to 100. When present, filters/sort/limit/cursor/group_by/metric are ignored. */
-      ids?: string[];
-      /** Exact enum name, case-sensitive - not a display label or a camelCase/'-'-prefixed field name. Defaults to CreateTime descending. */
-      sort?: "Default" | "LastContact" | "LastCall" | "LastEmail" | "A2Z" | "LastActivity" | "Inquries" | "CreateTime" | "DeleteTime" | "AssignTime" | "Score" | "Activity" | "Communication" | "HasDrip" | "HasAlert" | "Task" | "Lender" | "ActivitySearch" | "ActivityViews" | "ActivityFavorites" | "DripStatus" | "DripOpenRate" | "AlertFrequency" | "AlertOpenRate" | "SCOREV2" | "SmartPlanStatus" | "FirstName" | "LastName";
-      limit?: number;
-      /** What to read. 'leads' (default): search or fetch leads. 'saved_searches': list one lead's saved property searches / market snapshots - requires lead_id; ids/filters/sort/limit/cursor/group_by/metric are ignored. */
-      scope?: "leads" | "saved_searches";
-      /** Opaque paging cursor from a prior page. */
-      cursor?: string;
-      /** Requires group_by: 'count', or 'sum:<field>' / 'avg:<field>' for a numeric field. Defaults to 'count'. */
-      metric?: string;
-      /** stage, source, phone, email, assignedUserId, contacted, allTags, anyTags, groupIds, key (free text), and more - see the Lofty API reference. */
-      filters?: Record<string, unknown>;
-      /** With scope='saved_searches': the lead whose saved searches to list (required). Deprecated: lead_id alone, with no scope/ids, still lists saved searches - pass scope='saved_searches' instead. */
-      lead_id?: string;
-      /** Field name to group by (e.g. 'stage', 'source'). When set, returns aggregated counts/sums instead of lead records. */
-      group_by?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Published listings by agent or office, or the published feed. Read-only at this layer - listing creation and maintenance isn't part of this API surface. scope=agent/office returns JSON; scope=published returns the feed's own XML verbatim (CHIME-70594), not JSON - that endpoint is an XML-only syndication feed, not a per-team JSON search. */
-    search_listings(args?: {
-      /** Required for scope=published: 'LuxVT', 'AptCom' or 'AllOnMarket'. */
-      type?: string;
-      scope?: "agent" | "office" | "published";
-      /** scope=agent/office: userId, listingId, mlsListingIds, street, limit, agentListings, officeListings, buildingName, buildingAddress, showCondition, originalPictures (defaults to true here: full-size photo URLs; false returns 600px thumbnails). */
-      filters?: Record<string, unknown>;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** The AI working-lead pool, membership and mute status, quota, current agent, settings, and plan tasks for a lead. */
-    search_sales_agent(args?: {
-      kind?: "pool" | "is_in_pool" | "mute_status" | "quota" | "current" | "by_lead" | "settings" | "plan_tasks";
-      /** kind=pool only: page size, at most 100 (default 20). */
-      limit?: number;
-      /** kind=pool only: start index of the page (default 0). */
-      offset?: number;
-      /** kind=pool only: aiStage, limit, offset, sort, desc. aiStage is a closed set of real values that this tool does not have a verified complete list for (D18) - e.g. the plausible-looking 'Engaged' is rejected. If a value is rejected, do not keep guessing synonyms. */
-      filters?: Record<string, unknown>;
-      /** Required for is_in_pool, mute_status, by_lead and plan_tasks. */
-      lead_id?: string;
-    }): Promise<unknown>;
-    /** Read the caller's website traffic - the same numbers as the Traffic Report in the Lofty CRM. Pick one chart with 'kind'. Use this to quantify a problem found with search_site_audit, or to check whether a change paid off. */
-    search_site_analytics(args: {
-      /** traffic_overview: visitors / page views / page views per visitor with previous-period change. traffic_trend: the same per day. activity_by_hour: visitors per weekday (0 = Sunday) and hour. visitor_type: new vs returning. visitors_by_source: Direct / Paid / Search Organic / Social Organic / Email / AI / Other. pageviews_by_device: desktop vs mobile. activity_by_source: listing views and searches pe */
-      kind: "traffic_overview" | "traffic_trend" | "activity_by_hour" | "visitor_type" | "visitors_by_source" | "pageviews_by_device" | "activity_by_source" | "traffic_by_page_type";
-      /** Only for agents with several websites; defaults to the primary one. */
-      site_id?: string;
-      /** yyyy-MM-dd. Defaults to today. The period is at most 365 days. */
-      end_date?: string;
-      /** yyyy-MM-dd, agent's time zone. Defaults to 29 days before end_date. */
-      start_date?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Read facts about the caller's own Lofty website to diagnose it, one section per call. Returns raw data only; scoring and recommendations are up to you. Every section is wrapped as {section, siteId, generatedAt, partial, data}; partial=true means a part of the section could not be fetched; the item then carries fetchError saying why. A fetchError starting with "redirected to another domain" means t */
-    search_site_audit(args: {
-      /** overview: id, domain, status, page count and Feature Area count (featureAreaCount, the site's Feature Area count). seo_settings: brand name, intro video link, site keywords and the site's Feature Areas (first 50 by id; featuredAreaCount is the total, equal to overview featureAreaCount). pages: the site's menu pages, the same pages as the CMS SEO > Page SEO table, at most 100; Feature Area pages, l */
-      kind: "overview" | "seo_settings" | "pages" | "page_detail" | "structure" | "technical_files" | "integrations";
-      /** kind=pages: page number from 1. */
-      page?: number;
-      /** kind=pages: 1-50, default 20. */
-      size?: number;
-      /** Required for kind=page_detail: the pageId field of an item returned by kind=pages. */
-      page_id?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Tasks and calendar events - list, fetch one by id, the caller's own tasks across every lead, or open meeting slots. kind=showing switches to property showings (list, fetch one, or its feedback). Writes live in manage_tasks. */
-    search_tasks(args?: {
-      /** Fetch one by id instead of searching. kind=task: accepts either the composite id this tool itself returns, or a bare id (tried against both tasks and appointments). kind=showing: the showing id. */
-      id?: string;
-      /** What to search. Default 'task' = tasks, appointments and calendar events. 'showing' = property showings on a lead (created by partners or inside Lofty): list them, fetch one by id, or fetch one showing's feedback with id + feedback=true. */
-      kind?: "task" | "showing";
-      limit?: number;
-      cursor?: string;
-      /** kind=showing only: requested, scheduled, in_progress, completed, denied, expired or cancelled. */
-      status?: string;
-      /** Extra query parameters - startTime/endTime/includeFinished/page/pageSize/sort for a search or my_tasks (a wide default time window is used when neither startTime nor endTime is supplied), startTime/endTime for available_slots; startAt/endAt (ISO 8601) and externalId for kind=showing. */
-      filters?: Record<string, unknown>;
-      /** Optional filter - restrict to one lead. */
-      lead_id?: string;
-      assignee?: string;
-      /** kind=showing with id only: return the showing's feedback entries instead of the showing. */
-      feedback?: boolean;
-      /** The caller's own tasks and events across every lead. */
-      my_tasks?: boolean;
-      completed?: boolean;
-      due_between?: string[];
-      /** Open meeting slots. */
-      available_slots?: boolean;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Every read-only piece of team and organization configuration: your own profile (kind=members.me - call this once at the start of a session, every 'my tasks' or 'my leads' query depends on knowing who is asking), team members, tags, custom field definitions, pipelines, ponds, vendors, organization info, permission profiles, and lead routing rules and roles. A lead's own system event log is search_l */
-    search_team_config(args: {
-      kind: "members.me" | "members.list" | "members.find" | "settings.tags" | "settings.custom_fields" | "settings.lead_pipelines" | "settings.transaction_pipelines" | "settings.ponds" | "settings.pond" | "settings.vendors" | "organization.info" | "organization.permission_profiles" | "lead_routing.rules" | "lead_routing.default_rule" | "lead_routing.roles" | "lead_routing.assignable_members";
-      /** Required for members.find (email). */
-      account?: string;
-      /** Extra query parameters for the resolved endpoint - name/currPage/pageSize for settings.lead_pipelines and for members.list (currPage is 0-based - currPage=1 is the second page, D18), groupIds/offset/limit also accepted for members.list, roleId for the lead_routing kinds. */
-      filters?: Record<string, unknown>;
-      /** Required for settings.pond. */
-      pond_id?: string;
-      /** Required for lead_routing.rules, lead_routing.default_rule and lead_routing.assignable_members. No other values are accepted (D18). */
-      routing_type?: "agent_lead" | "lender_lead" | "assistant_lead";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Search transactions globally or for one lead, fetch one or many by id, read a transaction's property address, or the team's transaction custom field definitions. Set group_by (optionally with metric) for a count/sum instead of a record list. */
-    search_transactions(args?: {
-      /** Fetch these transactions by id. Requires lead_id (all ids must belong to the same lead). Up to 100. */
-      ids?: string[];
-      /** Requires group_by: 'count', 'sum:<field>' (e.g. 'sum:homePrice' - the real numeric price field is 'homePrice', not 'price', D14) or 'avg:<field>'. */
-      metric?: string;
-      /** pageSize, pageNum, queryKey (free text), transactionType. transactionType is one of 'Purchase', 'Listing', 'Lease', 'Other', or 'All' (returns every type in one call) - defaults to 'Purchase' when omitted, and an unrecognized value (e.g. the plausible-looking 'Buyer') is rejected (D18). */
-      filters?: Record<string, unknown>;
-      /** Required with ids and address_for; otherwise scopes a search to one lead's transactions. */
-      lead_id?: string;
-      /** When set, returns aggregated counts/sums instead of transaction records (e.g. group_by 'transactionStatus' - not 'stage', which does not exist on a transaction record, D14). */
-      group_by?: string;
-      /** A transaction id (requires lead_id) to fetch the property address for, instead of searching. */
-      address_for?: string;
-      /** Return the team's transaction custom field definitions instead of searching. */
-      custom_fields?: boolean;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** List the caller's currently subscribed webhook event callbacks. */
-    search_webhooks(args?: {}): Promise<unknown>;
-    /** Send SMS or email to one lead from the authenticated agent. Always confirms - the recipient and the full rendered body are shown before sending, and this cannot be undone once sent. */
-    send_message(args: {
-      /** SMS content, or email body. */
-      body: string;
-      channel: "sms" | "email";
-      lead_id: string;
-      /** Required for channel=email. */
-      subject?: string;
-      confirm_token?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Start a free 14-day Lofty trial, or connect an existing Lofty account. Call this when the user wants to try Lofty, says they do not have a Lofty account yet, or asks to use Lofty before connecting it. It opens Lofty's sign-in page, where the user can log in or create a free trial account; never ask for an e-mail, password or verification code in the chat. Takes no arguments. If the account is alre */
-    start_free_trial(args?: {}): Promise<unknown>;
-    /** Change the name, schedule, filters, recipients or other settings of one or more of a lead's saved searches (property alerts / market snapshots). Setting fields.alertFrequency to NEVER pauses one, like pause_saved_searches. List a lead's saved searches and their ids with search_leads (scope="saved_searches", lead_id). */
-    update_saved_search(args: {
-      /** The saved searches to change, all getting the same 'fields'. Numeric saved search ids, up to 10. */
-      ids: string[];
-      /** The fields to change - only these change. 'criteria', when sent, replaces every filter. The kind (category) cannot be changed. */
-      fields: {
-        /** Name given to the search, up to 255 characters. Required and not blank on create; on update it may be omitted but not sent blank. */
-        name?: string;
-        criteria?: unknown;
-        /** Delivery slots keyed by weekday (SUN to SAT), AM or PM, in the team owner's time zone. DAILY takes one or more days; WEEKLY, BIWEEKLY and MONTHLY take exactly one; INSTANTLY takes none. When omitted on create, Lofty picks the slots: every day for DAILY, the current day for WEEKLY, BIWEEKLY and MONTHLY. When omitted on an update that changes alertFrequency, the slots follow the new cadence: NEVER k */
-        schedule?: {
-          FRI?: "AM" | "PM";
-          MON?: "AM" | "PM";
-          SAT?: "AM" | "PM";
-          SUN?: "AM" | "PM";
-          THU?: "AM" | "PM";
-          TUE?: "AM" | "PM";
-          WED?: "AM" | "PM";
-          [key: string]: unknown;
-        };
-        /** Subject line of the alert emails, up to 255 characters; blank uses the default subject */
-        emailSubject?: string;
-        /** Delivery cadence: INSTANTLY, DAILY, WEEKLY, BIWEEKLY, MONTHLY, or NEVER to keep the search paused. Required on create. Setting NEVER on update works like the pause endpoint and keeps the schedule, so resume can switch it back on. A search created with NEVER had no earlier cadence: switch it on by setting alertFrequency here. */
-        alertFrequency?: "INSTANTLY" | "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY" | "NEVER";
-        /** Email addresses of the lead (or the lead's family members) who receive the alerts. Each must be one of the lead's own email addresses. Defaults on create to the lead's primary email. */
-        recipientEmails?: string[];
-        /** Whether the assigned agent gets a copy of every alert email. Defaults on create to true. */
-        sendCopyToAgent?: boolean;
-        /** Send the first alert email right away instead of waiting for the schedule. Defaults to true when creating a PROPERTY_ALERT, false otherwise; must not be true while the search is paused (NEVER). */
-        sendFirstEmailNow?: boolean;
-        [key: string]: unknown;
-      };
-      /** The lead the saved searches belong to. */
-      lead_id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
 interface BowmarkSiteTools_75a938f143 {
     /** Make a reservation at a Flow-discounted time slot. Phone must be E.164 (e.g. +34911234567). To make retries safe, send the same Idempotency-Key HTTP header on retries (any UUID); replays within 24h return the original reservation. Rate limited to 5 reservations per email per day and 10 attempts per IP per minute. */
     book_flow_reservation(args: {
@@ -344687,6 +345388,1362 @@ interface BowmarkSiteTools_87df31be74 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_88099c9a03 {
+    /** Brings the person's own images — a logo, screenshots, artwork — onto this server and returns an image_ref for each, to use as contents[].image_ref. Takes files the host hands over (ChatGPT fills files with the images attached to the chat) and public links (urls). With neither, it shows the person a drop zone in the chat (hosts that show apps) and waits up to about three minutes for what they drop. */
+    add_images(args?: {
+      /** Public links to images. */
+      urls?: string[];
+      /** Image files the host hands over. */
+      files?: {
+          /** The host's id of the file. */
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          /** Where the file can be downloaded. */
+          download_url: string;
+          [key: string]: unknown;
+        }[];
+      /** What the images are for, shown to the person, e.g. "Your logo for the coffee cup". */
+      purpose?: string;
+      /** The files are on the person's computer: answer with upload links instead of a drop zone. */
+      from_disk?: boolean;
+      /** Only list the kept images; ask for nothing. */
+      list_only?: boolean;
+      /** How many images to take. Default 1. */
+      max_files?: number;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Takes a screenshot of a public web page — the person's site, landing page or web app — at a device's size (desktop 1440, laptop 1280, tablet 834, phone 390 CSS px), light or dark, the whole page or its first screen, and keeps it as an image_ref to put on a mockup's screen. The whole page is cut at about 16,000 px high. Pages behind a sign-in show what a visitor sees. Returns the image_ref, its pix */
+    capture_url(args: {
+      /** The page, http or https. */
+      url: string;
+      /** Whose screen the page is laid out for. */
+      device?: "desktop" | "laptop" | "tablet" | "phone";
+      /** The language the browser asks the site for, e.g. "en-US", "ru-RU": the language of the person's request unless they name another. Default en-US. */
+      locale?: string;
+      /** Extra wait after the page settled, for animations or late content. */
+      delay_ms?: number;
+      /** The whole page down to its end, or only its first screen. */
+      full_page?: boolean;
+      /** The page's prefers-color-scheme. */
+      color_scheme?: "light" | "dark";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Records a public web page as a video — it scrolls down the page and its animations play, frame by frame at the device's size (desktop 1440, laptop 1280, tablet 834, phone 390 CSS px) — and keeps it as a video_ref for render_mockup with format mp4 or webm, which plays it on a mockup's screen. To animate a device with it, render_scene with device and contents [{video_ref}] (a Studio preset's own ani */
+    capture_video(args: {
+      /** Frames a second; 60 for fast motion. */
+      fps?: 30 | 60;
+      /** The page, http or https. */
+      url: string;
+      /** Whose screen the page is laid out for: the one of the mockup it goes on. */
+      device?: "desktop" | "laptop" | "tablet" | "phone";
+      /** The language the browser asks the site for, e.g. "en-US", "ru-RU": the language of the person's request unless they name another. Default en-US. */
+      locale?: string;
+      /** "auto": down the page at a calm pace (a few screens); "end": to the page's end; "none": the first screen with its animations; a number: down to that many CSS px. */
+      scroll?: "auto" | "none" | "end" | number;
+      /** Length of the recording. */
+      seconds?: number;
+      /** Extra wait after the page settled, before recording. */
+      delay_ms?: number;
+      /** The page's prefers-color-scheme. */
+      color_scheme?: "light" | "dark";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The plan behind the API key, what it allows (size, watermark, formats) and today's render usage. Today only: there is no history of past days or past renders. */
+    get_account(args?: Record<string, unknown>): Promise<unknown>;
+    /** The brands kept in the person's ls.graphics account (save_brand). Without a name: each brand's name, colours and when it was saved. With a name: its colours, fonts, notes and logos — each logo as an image_ref ready for contents (an SVG logo as image_svg markup). */
+    get_brand(args?: {
+      /** The brand to read; leave out to list them. */
+      name?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The designs saved in the person's ls.graphics account (save_design). Without a name: each one's name, what it renders and when it was saved. With a name: its tool and arguments, ready to pass to that render tool — image_refs are fresh (uploads expire; these are made now), an SVG as image_svg. To redo it with something new, change what you need in the arguments (e.g. a new logo's image_ref in place */
+    get_design(args?: {
+      /** The design to read; leave out to list them. */
+      name?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Describes a mockup: what render_mockup can change, and the ids and names it refers to. Placeholders with their proportions and the ideal image size (a mismatched image is cropped); colour layers, largest first, with where they are (show_color_layers adds a picture of which part each paints); shadows/reflections; the background (photo or colour); and the variants — print mockups often come as EU an */
+    get_mockup(args?: {
+      /** As in render_mockup. */
+      asset?: string;
+      /** As in render_mockup. */
+      mockup_id?: string;
+      /** As in render_mockup. */
+      variant_id?: string;
+      /** Also return a picture with every colour layer painted a vivid marker colour, and a legend — to see which part of the mockup each layer recolours before choosing colours. Takes a few seconds more; not counted as a render. */
+      show_color_layers?: boolean;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The video file the person's browser rendered from a render_scene preview (their Download video button in the card), by the preview's handoff_id: its link, size and when it stops working. Says so when none has been rendered yet. Renders nothing and is not counted; a video made on the server is get_render's. */
+    get_scene_video(args: {
+      /** The preview's handoff_id, from the render_scene result. */
+      handoff_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The poses the designers tagged on a Studio preset, which render_scene motion film is cut from: each pose by number (1 first) with its tag (start_end: a film opens and closes on these; accent: a close-up; general: a wide pose), its plan (wide or close), its angle (yaw, pitch in degrees) and the poses it may glide to (same plan) or cut to (the plan changes and the angle turns 25° or more). Takes sce */
+    list_poses(args?: {
+      /** Instead of scene_id: a product word in English ("iphone 17 pro", "macbook"); the preset render_scene would pick for it. */
+      device?: string;
+      /** The preset's root_id, as search gave it. */
+      root_id?: string;
+      /** A Studio preset's scene_id, as search gave it. Or pass device. */
+      scene_id?: string;
+      /** studio: poses are a Studio preset's. */
+      scene_type?: "studio";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Opens the mockup in the ls.graphics online editor on ls.graphics, where the person adjusts by hand what render_mockup cannot: drag, scale or rotate the content, crop it, fine-tune by eye. Given the same contents, layer_colors, layers, adjustments and background as a render, the editor opens with that design in place (the link lasts a week); with none, it opens the mockup as published. Where the ho */
+    open_in_editor(args?: {
+      /** As in render_mockup. */
+      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
+      /** As in render_mockup. */
+      asset?: string;
+      /** As in render_mockup. */
+      layers?: {
+          layer: string;
+          opacity?: number;
+          visible?: boolean;
+          [key: string]: unknown;
+        }[];
+      /** As in render_mockup. */
+      effects?: {
+        blur?: {
+          focus?: {
+            x?: number;
+            y?: number;
+            size?: number;
+            [key: string]: unknown;
+          };
+          amount: number;
+          [key: string]: unknown;
+        };
+        grain?: number;
+        vignette?: number;
+        aberration?: number;
+        [key: string]: unknown;
+      };
+      /** What goes into the placeholders (up to 32). One item per placeholder; to put the same picture in many, repeat the item with the same image_ref or image_url. Each item needs exactly one image source. A phone screen's notch and rounded corners cover its edges, so a title or a button belongs more than a few percent away from the top and bottom of the image. Each item takes the fields of render_mockup */
+      contents?: Array<{
+          fit?: "cover" | "contain" | "fill" | "pattern";
+          url?: string;
+          fill?: string;
+          align?: "center" | "top" | "bottom" | "left" | "right";
+          color?: string;
+          scale?: number;
+          ui_size?: number;
+          offset_x?: number;
+          offset_y?: number;
+          ui_theme?: "light" | "dark";
+          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
+          device_ui?: "auto" | "browser" | "system" | "none";
+          image_ref?: string;
+          image_svg?: string;
+          image_url?: string;
+          placement?: {
+            x?: number;
+            y?: number;
+            as?: "logo" | "artwork";
+            fill?: string | {
+                gradient: {
+                  angle: unknown;
+                  stops: unknown;
+                  [key: string]: unknown;
+                };
+                [key: string]: unknown;
+              };
+            mode: "logo" | "window" | "print";
+            color?: string;
+            radius?: number;
+            shadow?: number;
+            size_pct?: number;
+            wallpaper?: {
+              color?: string;
+              preset?: number | string;
+              gradient?: {
+                angle: number;
+                stops: unknown[];
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            };
+            padding_pct?: number;
+            fill_opacity?: number;
+            rotation_deg?: number;
+            [key: string]: unknown;
+          };
+          video_ref?: string;
+          video_url?: string;
+          placeholder?: string;
+          image_base64?: string;
+          rotation_deg?: number;
+          [key: string]: unknown;
+        }>;
+      /** As in render_mockup. */
+      mockup_id?: string;
+      /** As in render_mockup. */
+      background?: string | {
+          gradient: {
+            angle: number;
+            stops: {
+                color: string;
+                position: number;
+                [key: string]: unknown;
+              }[];
+            [key: string]: unknown;
+          };
+          [key: string]: unknown;
+        };
+      /** As in render_mockup. */
+      variant_id?: string;
+      /** As in render_mockup. */
+      adjustments?: {
+        hue?: number;
+        contrast?: number;
+        vibrance?: number;
+        lightness?: number;
+        saturation?: number;
+        [key: string]: unknown;
+      };
+      /** As in render_mockup. */
+      composition?: {
+        fit?: "crop" | "contain" | "product";
+        width?: number;
+        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
+        height?: number;
+        [key: string]: unknown;
+      };
+      /** As in render_mockup. */
+      layer_colors?: {
+          color?: string;
+          layer: string;
+          gradient?: {
+            angle: number;
+            stops: {
+                color: string;
+                position: number;
+                [key: string]: unknown;
+              }[];
+            [key: string]: unknown;
+          };
+          [key: string]: unknown;
+        }[];
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** The card of a render_scene result calls this from its Open in editor button; an agent rarely needs it. Opens the Live or Studio scene in the ls.graphics online editor with the person's pictures or clips on its screens already in place, as render_scene was given them; the files are kept for a week under a private link. Takes render_scene's scene_id or device, scene_type, root_id, contents and motio */
+    open_scene_in_editor(args?: {
+      /** Instead of scene_id: a product word in English ("iphone 17 pro", "macbook", "ipad", "imac"). The server picks a Studio preset of that device and plays the preset's own animation. The answer names the scene it picked. */
+      device?: string;
+      /** Default: the scene's own motion — but a device word whose preset has tagged poses plays a film (smooth, 10 s). The camera is the scene's own or the tagged poses'; never a camera move of your own. */
+      motion?: {
+        /** "preset": the scene's own motion (a Studio preset's shots, a Live scene's animation; duration_s sets its length). "film" (Studio presets with tagged poses): a film cut from the poses the designers tagged — list_poses first. */
+        type: "preset" | "film";
+        /** film: the poses in order, as you chose them from list_poses; held to the rules (repairs come back in the answer, a film that breaks one is refused with the reason). Leave recipe out. */
+        beats?: Array<{
+            /** How it leaves for the next beat: a glide inside one shot size, a cut where it changes (wide ↔ close-up). Left out, the rules choose. Not on the last beat. */
+            next?: {
+                /** The glide's length; default from the distance and the mood. */
+                ms?: number;
+                kind: "glide";
+                /** The curve, by name: Soft, Flow, Sweep, Settle, Ease, Smooth, Snap, Linear. */
+                easing?: string;
+              } | {
+                kind: "cut";
+              };
+            /** The pose's number from list_poses (1 first). */
+            pose: number;
+            /** How long the camera stays on the pose (it drifts round it), ms. */
+            hold_ms: number;
+          }>;
+        /** film: what the film should be; the server picks and orders the poses by the rules. Leave beats out. */
+        recipe?: {
+          /** Close on the pose it opened with, so the film loops. */
+          loop?: boolean;
+          /** calm: long holds, slow soft glides. smooth (default): even holds, flowing glides. dynamic: quick glides, snappy curve. Every mood cuts where the shot size changes. */
+          mood: "calm" | "smooth" | "dynamic";
+          /** Another take of the same recipe. Default 1. */
+          seed?: number;
+          /** How many close-ups (Accent poses) at most. */
+          accents: number;
+          /** The film's length in ms, 2000–60000. A target, not exact: the shortest hold and glide of each beat can make a short film run a little over (a 4 s recipe came out 4.5 s); the answer states the length it played. */
+          duration_ms: number;
+        };
+        /** preset only (a Studio preset's own motion): the video's length in seconds, 1–60. The preset's animation plays again to that length when the scene loops, else holds its last frame; shorter than the animation, it is cut. Not with film (a film has its own duration_ms). A render on the server, never the live preview. */
+        duration_s?: number;
+      };
+      /** A Studio preset's root_id, as search gave it; absent for a Studio model and for Live. */
+      root_id?: string;
+      /** A picture or a clip for each screen (one of image_ref, image_url, video_ref, video_url); a screen left out keeps the scene's own. A screenshot of other proportions than the screen gets the device's UI around it (device_ui), never stretched under the Dynamic Island. */
+      contents?: Array<{
+          /** The address the browser bar shows. Default: the captured page's. With no image, render_mockup captures this page for the screen: its first screen at the size the browser UI leaves, light or dark as ui_theme says (default light), no extra call. */
+          url?: string;
+          /** Which screen, 0 first; default: the item's place in the list. */
+          screen?: number;
+          /** Laptop or monitor only: the device UI's size in percent, 100 = the device's own (a 27" display's bars are already smaller than a laptop's). Default 100. */
+          ui_size?: number;
+          /** Light or dark device UI. Default: the capture's colour scheme, else from the image. */
+          ui_theme?: "light" | "dark";
+          /** Whose UI, when the guess from the mockup's name is wrong (the result says what was read): a phone ios or android, a tablet ipad, a laptop or monitor macos, windows or neutral (the design's window alone on a wallpaper). */
+          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
+          /** The device's own UI round the picture, as in render_mockup: "auto" (default) draws it round a screenshot whose proportions differ from the screen's (status bar on a phone or tablet, the browser on a laptop or monitor) and always round a website (a capture_url page); a picture matching the screen fills it. "browser" (the address shows url), "system" (OS bars only), "none" when the picture already s */
+          device_ui?: "auto" | "browser" | "system" | "none";
+          image_ref?: string;
+          image_url?: string;
+          video_ref?: string;
+          video_url?: string;
+          [key: string]: unknown;
+        }>;
+      /** The scene_id search gave a Live or Studio result. Leave it out and pass device instead to animate a device. */
+      scene_id?: string;
+      /** Required: the result's scene_type, live or studio (not its kind field, which names the object). */
+      scene_type?: "live" | "studio";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Renders 2–6 colour schemes of one mockup (product colours, brand colourways, light and dark) as small previews side by side, labelled A, B, C…. Loads the scene once; the whole sheet counts as one render. Returns the previews with the render_mockup arguments for each scheme. */
+    preview_colorways(args: {
+      /** As in render_mockup. */
+      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
+      /** As in render_mockup. */
+      asset?: string;
+      /** As in render_mockup. */
+      effects?: {
+        blur?: {
+          focus?: {
+            x?: number;
+            y?: number;
+            size?: number;
+            [key: string]: unknown;
+          };
+          amount: number;
+          [key: string]: unknown;
+        };
+        grain?: number;
+        vignette?: number;
+        aberration?: number;
+        [key: string]: unknown;
+      };
+      /** What goes into the placeholders (up to 32). One item per placeholder; to put the same picture in many, repeat the item with the same image_ref or image_url. Each item needs exactly one image source. A phone screen's notch and rounded corners cover its edges, so a title or a button belongs more than a few percent away from the top and bottom of the image. Each item takes the fields of render_mockup */
+      contents?: Array<{
+          fit?: "cover" | "contain" | "fill" | "pattern";
+          url?: string;
+          fill?: string;
+          align?: "center" | "top" | "bottom" | "left" | "right";
+          color?: string;
+          scale?: number;
+          ui_size?: number;
+          offset_x?: number;
+          offset_y?: number;
+          ui_theme?: "light" | "dark";
+          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
+          device_ui?: "auto" | "browser" | "system" | "none";
+          image_ref?: string;
+          image_svg?: string;
+          image_url?: string;
+          placement?: {
+            x?: number;
+            y?: number;
+            as?: "logo" | "artwork";
+            fill?: string | {
+                gradient: {
+                  angle: unknown;
+                  stops: unknown;
+                  [key: string]: unknown;
+                };
+                [key: string]: unknown;
+              };
+            mode: "logo" | "window" | "print";
+            color?: string;
+            radius?: number;
+            shadow?: number;
+            size_pct?: number;
+            wallpaper?: {
+              color?: string;
+              preset?: number | string;
+              gradient?: {
+                angle: number;
+                stops: unknown[];
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            };
+            padding_pct?: number;
+            fill_opacity?: number;
+            rotation_deg?: number;
+            [key: string]: unknown;
+          };
+          video_ref?: string;
+          video_url?: string;
+          placeholder?: string;
+          image_base64?: string;
+          rotation_deg?: number;
+          [key: string]: unknown;
+        }>;
+      /** Longest side of each preview. Default 800. */
+      max_edge?: number;
+      /** 2–6 colour schemes to compare side by side. For a brand, 3–4 from its palette, each named in plain words: A brand (main part primary, small parts accent), B accent (main part neutral, brand colour on small parts), C monochrome (everything and the background in the primary), D inverted (dark main part, light details). */
+      colorways: Array<{
+          /** What the scheme is, e.g. "brand body, accent handles". */
+          name?: string;
+          /** A hex colour or a gradient {gradient: {angle, stops}}, or "original" to keep the scene's background. */
+          background?: string | {
+              gradient: {
+                angle: number;
+                stops: unknown[];
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            };
+          /** Colours for this scheme. Colour layers left out keep their original colour in this scheme. */
+          layer_colors?: {
+              color?: string;
+              layer: string;
+              gradient?: {
+                angle: number;
+                stops: unknown[];
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            }[];
+        }>;
+      /** As in render_mockup. */
+      mockup_id?: string;
+      /** As in render_mockup. */
+      variant_id?: string;
+      /** As in render_mockup. */
+      composition?: {
+        fit?: "crop" | "contain" | "product";
+        width?: number;
+        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
+        height?: number;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Rank ls.graphics mockups against a design profile — the objects wanted, brand colours, style/mood, what it is for or the client's industry, composition. kind limits the results to those objects, and several kinds take turns in the list; without it any object can surface. Brand colours count as a match when the scene has them or a render can apply them (colour layers, background). English words onl */
+    recommend_mockups(args?: {
+      /** Only these objects: phone, tablet, laptop, desktop, watch, tv, device-set, business-card, stationery, envelope, book, magazine, brochure, flyer, poster, billboard, signage, frame, box, bag, cup, bottle, can, jar, label, food, t-shirt, hoodie, cap, tote, apparel, textile, sticker, badge. E.g. ["cup", "bag"] for coffee-shop packaging. */
+      kind?: string[];
+      /** How many to return. Default 5. */
+      limit?: number;
+      /** Mood/style keywords from: minimal, clean, bold, premium, elegant, dark, light, playful, warm, cold, tech, editorial, retro, vintage, futuristic, natural. */
+      style?: string[];
+      /** Brand colours as hex, e.g. #FF5A36. */
+      palette?: string[];
+      /** What the mockups are for, in English, e.g. "fitness app on a phone", "coffee shop packaging". Industries it understands: tech, saas, fintech, ecommerce, fashion, beauty, fitness, health, food, coffee, restaurant, drinks, education, travel, real-estate, interior, music, gaming, media, events, corporate, kids, sports, automotive. */
+      use_case?: string;
+      /** Only mockups marked free on ls.graphics. */
+      free_only?: boolean;
+      /** Which catalogue: "static" (default: still mockups you can render here), "live" (Origin: animated scenes), "studio" (3D Studio presets and models) or "any" (Static plus animated scenes). Live and Studio results are animated scenes rendered as video or a still frame, need ls.graphics Pro, and render with render_scene or open on their ls.graphics page (page_url). */
+      scene_type?: "static" | "live" | "studio" | "any";
+      composition?: {
+        /** E.g. "front", "flat-lay", "in-hand", "on-wall". */
+        shot?: string;
+        /** E.g. "solid", "gradient", "textured", "scene". */
+        background?: string;
+        /** E.g. "studio", "desk", "interior". */
+        environment?: string;
+        /** "portrait", "landscape" or "square". */
+        orientation?: string;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Used by the ls.graphics card when a scene preview is drawn again after its access ran out: a fresh embed grant and upload token for the same preview. Nothing is stored or counted. */
+    refresh_scene_preview(args: {
+      scene_id: string;
+      handoff_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Renders one design — an app screen, a website, a logo, artwork — on 2–12 different mockups in one call (or, with csv or rows, a table of up to 50 outputs, one row each, in one ZIP): a screen on several devices, a logo on a cup, a tote, a t-shirt and a box. Each mockup renders as render_mockup would (the plan's size and watermark, logo placement, device UI). The design goes into each mockup's main  */
+    render_batch(args?: {
+      /** Instead of mockups: a table, one output per row, up to 50 rows rendered in turns into one ZIP. CSV text with a header row (commas, semicolons or tabs; quotes allowed). Columns: mockup_id (required, the 24-character id from search_mockups — never a search word), variant_id, image_ref or image_url (this row's own picture, one of them, optional: it replaces design for the row; no video), color (#hex: */
+      csv?: string;
+      /** As in render_mockup. */
+      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
+      /** Instead of mockups or csv: the same table as objects, one per output, with the same keys as the CSV columns. */
+      rows?: Record<string, unknown>[];
+      /** As in render_mockup. */
+      trim?: boolean;
+      /** The design that goes on every mockup, as render_mockup's contents (images, colours, placement, device_ui): the first item into each mockup's main screen or surface — the placeholder whose proportions are closest to the image, a front before a back or side — further items into the next best placeholders. placeholder is ignored here: placeholders differ per mockup (mockups[].placeholder names one). */
+      design?: Array<{
+          fit?: "cover" | "contain" | "fill" | "pattern";
+          url?: string;
+          fill?: string;
+          align?: "center" | "top" | "bottom" | "left" | "right";
+          color?: string;
+          scale?: number;
+          ui_size?: number;
+          offset_x?: number;
+          offset_y?: number;
+          ui_theme?: "light" | "dark";
+          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
+          device_ui?: "auto" | "browser" | "system" | "none";
+          image_ref?: string;
+          image_svg?: string;
+          image_url?: string;
+          placement?: {
+            x?: number;
+            y?: number;
+            as?: "logo" | "artwork";
+            fill?: string | {
+                gradient: {
+                  angle: unknown;
+                  stops: unknown;
+                  [key: string]: unknown;
+                };
+                [key: string]: unknown;
+              };
+            mode: "logo" | "window" | "print";
+            color?: string;
+            radius?: number;
+            shadow?: number;
+            size_pct?: number;
+            wallpaper?: {
+              color?: string;
+              preset?: number | string;
+              gradient?: {
+                angle: number;
+                stops: unknown[];
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            };
+            padding_pct?: number;
+            fill_opacity?: number;
+            rotation_deg?: number;
+            [key: string]: unknown;
+          };
+          video_ref?: string;
+          video_url?: string;
+          placeholder?: string;
+          image_base64?: string;
+          rotation_deg?: number;
+          [key: string]: unknown;
+        }>;
+      /** As in render_mockup: default jpeg (png when background is "transparent"). A video is render_mockup with format mp4. */
+      format?: "png" | "jpeg";
+      /** As in render_mockup. */
+      effects?: {
+        blur?: {
+          focus?: {
+            x?: number;
+            y?: number;
+            size?: number;
+            [key: string]: unknown;
+          };
+          amount: number;
+          [key: string]: unknown;
+        };
+        grain?: number;
+        vignette?: number;
+        aberration?: number;
+        [key: string]: unknown;
+      };
+      /** 2–12 mockups, in order; each one file. The same mockup twice with other variant_id values is fine. Not with csv or rows. */
+      mockups?: Array<{
+          /** What this one is, e.g. "iPhone" or "tote", used in its file name. */
+          name?: string;
+          /** As in render_mockup. */
+          asset?: string;
+          /** As in render_mockup. */
+          layers?: {
+              layer: string;
+              opacity?: number;
+              visible?: boolean;
+              [key: string]: unknown;
+            }[];
+          /** Instead of the design: this mockup's own contents, exactly as in render_mockup. */
+          contents?: Array<{
+              fit?: "cover" | "contain" | "fill" | "pattern";
+              url?: string;
+              fill?: string;
+              align?: "center" | "top" | "bottom" | "left" | "right";
+              color?: string;
+              scale?: number;
+              ui_size?: number;
+              offset_x?: number;
+              offset_y?: number;
+              ui_theme?: "light" | "dark";
+              device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
+              device_ui?: "auto" | "browser" | "system" | "none";
+              image_ref?: string;
+              image_svg?: string;
+              image_url?: string;
+              placement?: {
+                x?: number;
+                y?: number;
+                as?: "logo" | "artwork";
+                fill?: unknown;
+                mode: "logo" | "window" | "print";
+                color?: string;
+                radius?: number;
+                shadow?: number;
+                size_pct?: number;
+                wallpaper?: {
+                  color?: unknown;
+                  preset?: unknown;
+                  gradient?: unknown;
+                  [key: string]: unknown;
+                };
+                padding_pct?: number;
+                fill_opacity?: number;
+                rotation_deg?: number;
+                [key: string]: unknown;
+              };
+              video_ref?: string;
+              video_url?: string;
+              placeholder?: string;
+              image_base64?: string;
+              rotation_deg?: number;
+              [key: string]: unknown;
+            }>;
+          /** As in render_mockup. */
+          mockup_id?: string;
+          /** Corrects the shared design's logo on this mockup alone: these keys are merged over the design's own placement (a plain image becomes a logo), everything not named stays as the design has it. Not with contents (put placement inside them); the other mockups keep the shared placement. Use it when the result says a logo may need x or y. */
+          placement?: {
+            /** Centre of the logo across the placeholder, 0 left .. 1 right. */
+            x?: number;
+            /** Centre of the logo down the placeholder, 0 top .. 1 bottom. */
+            y?: number;
+            /** Logo width as a percent of the placeholder's width. */
+            size_pct?: number;
+            /** Logo: degrees clockwise about its centre. */
+            rotation_deg?: number;
+          };
+          /** As in render_mockup. */
+          variant_id?: string;
+          /** Where the design's first item goes on this mockup: placeholder id, name or number from get_mockup. Default: the main screen or surface. */
+          placeholder?: string;
+          /** As in render_mockup. */
+          layer_colors?: {
+              color?: string;
+              layer: string;
+              gradient?: {
+                angle: number;
+                stops: unknown[];
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            }[];
+        }>;
+      /** As in render_mockup. */
+      max_edge?: number | "full";
+      /** As in render_mockup. */
+      background?: string | {
+          gradient: {
+            angle: number;
+            stops: {
+                color: string;
+                position: number;
+                [key: string]: unknown;
+              }[];
+            [key: string]: unknown;
+          };
+          [key: string]: unknown;
+        };
+      /** As in render_mockup. */
+      adjustments?: {
+        hue?: number;
+        contrast?: number;
+        vibrance?: number;
+        lightness?: number;
+        saturation?: number;
+        [key: string]: unknown;
+      };
+      /** As in render_mockup. */
+      composition?: {
+        fit?: "crop" | "contain" | "product";
+        width?: number;
+        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
+        height?: number;
+        [key: string]: unknown;
+      };
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Puts images into a mockup (contents), recolours it (layer_colors), sets shadows, layers and background, and returns the file: a download link (kept for a week) and a preview. One render of the daily limit; several can run in parallel. composition gives any shape (a banner, OG, store sizes) as a crop of the scene (zoomed to the product where it fits, cut and said so where it does not; nothing is pa */
+    render_mockup(args?: {
+      /** A finished colour grade for the whole image: "warm" (golden), "cool" (blue), "film" (faded, soft), "punchy" (contrast and colour), "muted" (calm, desaturated), "mono" (black and white). Applied before adjustments, which still tune on top. */
+      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
+      /** Transparent PNG only (background "transparent"): crops the empty margins around the product, a few px of padding left — the file is the product, not a large empty canvas. Default false. */
+      trim?: boolean;
+      /** Instead of mockup_id: an ls.graphics asset slug or page URL, e.g. https://www.ls.graphics/assets/i-phone-18-pro-009 */
+      asset?: string;
+      /** Also return a second small picture (480 px, about 20 KB): the preview with each placeholder outlined and numbered as in scene_state ("1 Screen") and a light grid labelled in the output picture's pixels. Only in this result — never in the file, the ZIP or the card. Default false. */
+      marks?: boolean;
+      /** A SET of output sizes in ONE call and ONE render against the daily limit (the scene loads and the design applies once): 8 at most, each a preset name (og, product-hunt, x-header, x-post, linkedin-banner, facebook-cover, youtube-thumbnail, instagram-square, instagram-portrait, instagram-story, app-store-6.7, app-store-6.5, app-store-5.5, app-store-ipad-12.9, google-play, google-play-feature) or {wi */
+      sizes?: Array<string | {
+            /** As composition.fit. */
+            fit?: "crop" | "contain" | "product";
+            width?: number;
+            height?: number;
+            /** A preset name, instead of width and height. */
+            preset?: string;
+            [key: string]: unknown;
+          }>;
+      /** Format mp4 or webm only: how the video is made. Its size is max_edge on the long side (default 1920, at most 2560) at the scene's or composition's proportion. */
+      video?: {
+        /** Frames a second. Default 30. */
+        fps?: 30 | 60;
+        /** Length; default the clip's own length, at most 60. */
+        seconds?: number;
+        [key: string]: unknown;
+      };
+      /** Default jpeg (png when background is "transparent"). jpeg files are far smaller — full-size PNG scenes run to 20–35 MB; png keeps transparency. mp4 (H.264) or webm: a video — a clip (video_ref, video_url) playing on a screen; Static mockups only, needs ls.graphics Pro. */
+      format?: "png" | "jpeg" | "mp4" | "webm";
+      layers?: {
+          /** Layer id or name from get_mockup — a shadow or reflection, or a scene layer such as a table or a backdrop. */
+          layer: string;
+          opacity?: number;
+          visible?: boolean;
+          [key: string]: unknown;
+        }[];
+      /** Full-frame effects over the finished picture, the editor's Effects section. Nothing is on unless named. */
+      effects?: {
+        /** Defocus that grows away from the focus area, over everything outside it (a device that is taller than the area blurs at its ends). Not a background-only blur. */
+        blur?: {
+          /** The area that stays sharp; everything away from it blurs. */
+          focus?: {
+            /** Centre of the sharp area, 0 left .. 1 right. Default 0.5. */
+            x?: number;
+            /** 0 top .. 1 bottom. Default 0.5. */
+            y?: number;
+            /** The sharp area's diameter as a fraction of the picture's height. Default 0.53. */
+            size?: number;
+            [key: string]: unknown;
+          };
+          /** 0 off .. 100 the strongest the editor's slider gives. A depth of field over the whole picture, the device and its screen included: the falloff is gentle, so on a square picture 25 reaches only about 0.4% of its height at the corners and 100 about 1.6% (the result says the reach). */
+          amount: number;
+          [key: string]: unknown;
+        };
+        /** Film noise, 0 off .. 100 the strongest of the editor's slider; 10–25 is visible but fine. */
+        grain?: number;
+        /** Darkened corners, 0 off .. 100 the strongest. */
+        vignette?: number;
+        /** Colour fringing at the edges, 0 off .. 100 the strongest; keep it under 30 for a lens-like look. */
+        aberration?: number;
+        [key: string]: unknown;
+      };
+      /** What goes into the placeholders (up to 32). One item per placeholder; to put the same picture in many, repeat the item with the same image_ref or image_url. Each item needs exactly one image source. A phone screen's notch and rounded corners cover its edges, so a title or a button belongs more than a few percent away from the top and bottom of the image. */
+      contents?: Array<{
+          /** cover (default) fills the placeholder and crops what overflows — a wider or taller image loses its edges; contain shows the whole image, and the fill colour fills the space around it; fill stretches; pattern tiles. */
+          fit?: "cover" | "contain" | "fill" | "pattern";
+          /** The address the browser bar shows. Default: the captured page's. With no image, render_mockup captures this page for the screen: its first screen at the size the browser UI leaves, light or dark as ui_theme says (default light), no extra call. */
+          url?: string;
+          /** Hex colour behind the image inside the placeholder: it fills the space around a contained image (or around a screenshot in the device UI — without it a phone's strips take the image's own edge colour). Not for a logo: its plate is placement.fill. */
+          fill?: string;
+          /** Which part of the image stays in view when it overflows the placeholder. Default center — except a long image (a full-page screenshot, twice as tall as the placeholder or more), which starts at its top, because the middle of a page shows nothing. "bottom" shows the end of it. For one exact part, cut the image to the placeholder's proportions first. */
+          align?: "center" | "top" | "bottom" | "left" | "right";
+          /** Instead of an image: fill the placeholder with this solid hex colour, e.g. #FF5A36. It is how to recolour a surface that has no colour layer in get_mockup (a box, a poster, a bag: the placeholder is the surface). Use layer_colors where a colour layer paints that part. Not together with an image. */
+          color?: string;
+          /** Zoom on top of the fit. Default 1. */
+          scale?: number;
+          /** Laptop or monitor only: the device UI's size in percent, 100 = the device's own (a 27" display's bars are already smaller than a laptop's). Default 100. */
+          ui_size?: number;
+          /** Horizontal pan as a fraction of the placeholder width. */
+          offset_x?: number;
+          /** Vertical pan as a fraction of the placeholder height. */
+          offset_y?: number;
+          /** Light or dark device UI. Default: the capture's colour scheme, else from the image. */
+          ui_theme?: "light" | "dark";
+          /** Whose UI, when the guess from the mockup's name is wrong (the result says what was read): a phone ios or android, a tablet ipad, a laptop or monitor macos, windows or neutral (the design's window alone on a wallpaper). */
+          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
+          /** The device's own UI around a screenshot on a phone, tablet, laptop or monitor screen, so an image of other proportions is never cropped: browser (status bar or menu bar + a browser showing url — without url its address field is empty), system (OS bars only, for an app screen), none. On a laptop or monitor the image is whole in a window the desktop surrounds. On a phone or tablet: within 30% of the */
+          device_ui?: "auto" | "browser" | "system" | "none";
+          /** An image already on this server: what add_images answered for the person's file, or the ref an upload link or POST /v1/uploads (same key) answered with. */
+          image_ref?: string;
+          /** Instead of an image file: SVG markup as text, e.g. a logo or a pattern tile drawn as vector — no base64 needed. Drawn sharp at any size; the root needs a viewBox (or width and height). Fonts are the system's: outline text that must look exact. */
+          image_svg?: string;
+          /** Public http(s) image URL. */
+          image_url?: string;
+          /** A logo or mark on a cup, bag, box, garment or print: never stretched or made to fill the placeholder — it keeps its own proportions on a plate (placement.fill: white by default, black under a light-only logo; a colour or a gradient only when the person named one). Off a garment a transparent PNG sent without placement goes in this way by itself; on a garment placement is required (mode "logo" a ch */
+          placement?: {
+            /** Centre of the logo across the placeholder, 0 left .. 1 right. Default: the placeholder's visual centre when get_mockup lists one (a garment's chest, the seen side of a cup), else 0.5. */
+            x?: number;
+            /** Centre of the logo down the placeholder, 0 top .. 1 bottom. Default: the visual centre when listed, else 0.33 on apparel and 0.5 on packaging and print. */
+            y?: number;
+            /** Logo: how to read the image when the server guesses wrong. "logo": a mark on a plain background (a JPG logo on white) still goes on the plate at its own proportions; "artwork": a full design fills the surface. */
+            as?: "logo" | "artwork";
+            /** Logo: the plate under the logo (the garment or surface colour) — "#RRGGBB", or {gradient: {angle, stops: [{color, position}]}} when the person asks for a gradient. Leave it out unless the person named a colour for the product itself — not a brand colour, not one picked for contrast — except for a logo with its own opaque background (a JPG on white or a colour): its background is never removed, so  */
+            fill?: string | {
+                gradient: {
+                  /** Degrees: 0 bottom→top, 90 left→right. */
+                  angle: unknown;
+                  stops: unknown;
+                  [key: string]: unknown;
+                };
+                [key: string]: unknown;
+              };
+            /** "logo": the image keeps its own proportions and sits on a transparent field over the surface (on a garment: a mark on the chest). "print": the image fills the whole area, the explicit full print a garment asks for (anywhere else it is what no placement does). "window": an app shown as a window on a desktop wallpaper inside a LAPTOP or MONITOR screen (the Static editor's Backdrop) — wallpaper, padd */
+            mode: "logo" | "window" | "print";
+            /** #RRGGBB (logo): repaints a one-colour logo — every opaque pixel takes it, the transparency stays (a multi-colour logo becomes a one-colour silhouette). A black logo made white for a black garment. */
+            color?: string;
+            /** mode "window": corner radius of the window, percent of the screen's short side. Default 2. */
+            radius?: number;
+            /** mode "window": shadow strength. Default 40. */
+            shadow?: number;
+            /** Logo width (its visible pixels, not the canvas) as a percent of the placeholder's width. Default 25 on apparel (a chest print); on packaging and print 35 (less for a tall mark). */
+            size_pct?: number;
+            /** mode "window" only: exactly one of color, gradient, preset. Default: the editor's own wallpaper (preset 1). */
+            wallpaper?: {
+              /** #RRGGBB: a flat wallpaper. */
+              color?: string;
+              /** One of the Static editor's ready-made wallpapers: its number 1-15 on the shelf (1 is the editor's default) or its file name. */
+              preset?: number | string;
+              /** A linear gradient wallpaper. */
+              gradient?: {
+                /** Degrees: 0 bottom→top, 90 left→right. */
+                angle: number;
+                stops: unknown[];
+                [key: string]: unknown;
+              };
+              [key: string]: unknown;
+            };
+            /** mode "window": space around the window, percent of the screen's short side. Default 12. */
+            padding_pct?: number;
+            /** Logo: opacity of the plate (placement.fill), percent. 0 keeps the product's own colour and texture under the logo. Default 100. */
+            fill_opacity?: number;
+            /** Logo: degrees clockwise about its centre. Default 0. */
+            rotation_deg?: number;
+            [key: string]: unknown;
+          };
+          /** A video for a screen: the video_ref capture_video answered, or an MP4/WebM the person added (add_images). render_mockup with format mp4 or webm only. */
+          video_ref?: string;
+          /** A video for a screen at a public http(s) link, MP4 or WebM (up to 100 MB). render_mockup with format mp4 or webm only. */
+          video_url?: string;
+          /** Placeholder id, name or number from get_mockup. May be omitted when the mockup has one placeholder. */
+          placeholder?: string;
+          /** Image bytes as base64 or a data: URL: PNG, JPEG, WebP, GIF, AVIF or SVG. */
+          image_base64?: string;
+          /** Turns the image inside the placeholder; at 90°/270° a non-square image is cropped — use a square source for spins. */
+          rotation_deg?: number;
+          [key: string]: unknown;
+        }>;
+      /** Longest side of the result in pixels. Default 3000 — plenty for social, web and decks, far lighter than the scene's own size (often 6000). "full" or a larger number only when print or a client asked for it; a smaller one only when asked. Never above the scene's size, and free accounts are capped by their plan. */
+      max_edge?: number | "full";
+      /** Mockup id from search_mockups. */
+      mockup_id?: string;
+      /** A hex colour, a linear gradient {gradient: {angle, stops: [{color, position}]}}, "transparent" (PNG only, chosen automatically; add trim: true to crop the empty margins around the product) or "original". A colour or gradient replaces a photo background as a whole — a hand, a table or props that are part of the photo go with it, and the product can end up floating; "original" keeps them. "transpare */
+      background?: string | {
+          gradient: {
+            /** Degrees: 0 bottom→top, 90 left→right. */
+            angle: number;
+            stops: {
+                /** Hex colour. */
+                color: string;
+                position: number;
+                [key: string]: unknown;
+              }[];
+            [key: string]: unknown;
+          };
+          [key: string]: unknown;
+        };
+      /** Colour/size variant: its id from get_mockup, or its name such as "US" or "EU" (paper size) or a colour name. Default: the variant search_mockups listed for an asset, else the first. */
+      variant_id?: string;
+      /** Whole-image corrections, each -1..1 with 0 unchanged. */
+      adjustments?: {
+        hue?: number;
+        contrast?: number;
+        vibrance?: number;
+        lightness?: number;
+        saturation?: number;
+        [key: string]: unknown;
+      };
+      /** Crops the render to a shape, like the composition chip of the online editor — give aspect OR width and height. An aspect is the largest centred frame of that shape in the scene (a crop, never an upscale: a 4:3 scene at 16:9 loses top and bottom). A size is the same crop at the proportion width:height, and the file is exactly width×height px (an OG image: 1200×630) — max_edge is ignored with it, an */
+      composition?: {
+        /** Default: the scene is cropped to the shape and, where the product's bounds are known, zoomed to the product (the whole of it with a margin). A product that does not fit the shape (a wide scene at 9:16) gets the largest centred crop the scene allows and is cut: the answer says so. "product" asks for the zoom explicitly. "crop" is the plain centred crop. "contain" keeps the WHOLE scene and needs bac */
+        fit?: "crop" | "contain" | "product";
+        /** With height: an exact size in px instead of aspect. */
+        width?: number;
+        /** A proportion: "1:1", "4:5" (posts), "9:16" (stories, reels), "16:9" (OG images, banners), "4:3", "3:4". */
+        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
+        /** With width. */
+        height?: number;
+        [key: string]: unknown;
+      };
+      /** Recolour layers such as a device body or packaging — only when the person asked for it or a kept brand applies. */
+      layer_colors?: {
+          /** Hex colour, e.g. #FF5A36. */
+          color?: string;
+          /** Colour layer id or name from get_mockup. */
+          layer: string;
+          gradient?: {
+            /** Degrees: 0 bottom→top, 90 left→right. */
+            angle: number;
+            stops: {
+                color: string;
+                position: number;
+                [key: string]: unknown;
+              }[];
+            [key: string]: unknown;
+          };
+          [key: string]: unknown;
+        }[];
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Not for a still picture of a device: that is render_mockup on a Static mockup; png or jpeg here only when the person asks for a frame of this Live or Studio scene. The tool for animating a device: pass device (an English product word: "iphone 17 pro", "macbook", "ipad", "imac") instead of scene_id and the server picks a Studio preset of that device and plays a film of its tagged poses, or the pres */
+    render_scene(args?: {
+      fps?: 30 | 60;
+      /** Pixels, even. A video is at most 2560 on its long edge; a still (png/jpeg) at most 2800 (App Store 1290×2796). */
+      width?: number;
+      /** Instead of scene_id: a product word in English ("iphone 17 pro", "macbook", "ipad", "imac"). The server picks a Studio preset of that device and plays the preset's own animation. The answer names the scene it picked. */
+      device?: string;
+      /** Run the video to the end of the longest screen video (MP4/MOV, up to 60 s) instead of the scene's own length. Video only. */
+      extend?: boolean;
+      /** mp4 or webm: a video. png or jpeg: one still frame of it (time_s). */
+      format?: "mp4" | "webm" | "png" | "jpeg";
+      height?: number;
+      /** Default: the scene's own motion — but a device word whose preset has tagged poses plays a film (smooth, 10 s). The camera is the scene's own or the tagged poses'; never a camera move of your own. */
+      motion?: {
+        /** "preset": the scene's own motion (a Studio preset's shots, a Live scene's animation; duration_s sets its length). "film" (Studio presets with tagged poses): a film cut from the poses the designers tagged — list_poses first. */
+        type: "preset" | "film";
+        /** film: the poses in order, as you chose them from list_poses; held to the rules (repairs come back in the answer, a film that breaks one is refused with the reason). Leave recipe out. */
+        beats?: Array<{
+            /** How it leaves for the next beat: a glide inside one shot size, a cut where it changes (wide ↔ close-up). Left out, the rules choose. Not on the last beat. */
+            next?: {
+                /** The glide's length; default from the distance and the mood. */
+                ms?: number;
+                kind: "glide";
+                /** The curve, by name: Soft, Flow, Sweep, Settle, Ease, Smooth, Snap, Linear. */
+                easing?: string;
+              } | {
+                kind: "cut";
+              };
+            /** The pose's number from list_poses (1 first). */
+            pose: number;
+            /** How long the camera stays on the pose (it drifts round it), ms. */
+            hold_ms: number;
+          }>;
+        /** film: what the film should be; the server picks and orders the poses by the rules. Leave beats out. */
+        recipe?: {
+          /** Close on the pose it opened with, so the film loops. */
+          loop?: boolean;
+          /** calm: long holds, slow soft glides. smooth (default): even holds, flowing glides. dynamic: quick glides, snappy curve. Every mood cuts where the shot size changes. */
+          mood: "calm" | "smooth" | "dynamic";
+          /** Another take of the same recipe. Default 1. */
+          seed?: number;
+          /** How many close-ups (Accent poses) at most. */
+          accents: number;
+          /** The film's length in ms, 2000–60000. A target, not exact: the shortest hold and glide of each beat can make a short film run a little over (a 4 s recipe came out 4.5 s); the answer states the length it played. */
+          duration_ms: number;
+        };
+        /** preset only (a Studio preset's own motion): the video's length in seconds, 1–60. The preset's animation plays again to that length when the scene loops, else holds its last frame; shorter than the animation, it is cut. Not with film (a film has its own duration_ms). A render on the server, never the live preview. */
+        duration_s?: number;
+      };
+      /** A device animation (device instead of scene_id, a video) is answered as a live preview the person plays in the chat card — no render, no video counted, up to 100 previews a day; the card's Download video renders the file in the person's browser. true: render the video file on the server instead (a video of the day), for a person who asked for a video file or approved the preview. Stills and a scen */
+      render?: boolean;
+      /** A still's moment, in seconds into the scene's video; default the middle of the clip, past its end the last frame. png/jpeg only. */
+      time_s?: number;
+      /** A Studio preset's root_id, as search gave it; absent for a Studio model and for Live. */
+      root_id?: string;
+      /** A picture or a clip for each screen (one of image_ref, image_url, video_ref, video_url); a screen left out keeps the scene's own. A screenshot of other proportions than the screen gets the device's UI around it (device_ui), never stretched under the Dynamic Island. */
+      contents?: Array<{
+          /** The address the browser bar shows. Default: the captured page's. With no image, render_mockup captures this page for the screen: its first screen at the size the browser UI leaves, light or dark as ui_theme says (default light), no extra call. */
+          url?: string;
+          /** Which screen, 0 first; default: the item's place in the list. */
+          screen?: number;
+          /** Laptop or monitor only: the device UI's size in percent, 100 = the device's own (a 27" display's bars are already smaller than a laptop's). Default 100. */
+          ui_size?: number;
+          /** Light or dark device UI. Default: the capture's colour scheme, else from the image. */
+          ui_theme?: "light" | "dark";
+          /** Whose UI, when the guess from the mockup's name is wrong (the result says what was read): a phone ios or android, a tablet ipad, a laptop or monitor macos, windows or neutral (the design's window alone on a wallpaper). */
+          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
+          /** The device's own UI round the picture, as in render_mockup: "auto" (default) draws it round a screenshot whose proportions differ from the screen's (status bar on a phone or tablet, the browser on a laptop or monitor) and always round a website (a capture_url page); a picture matching the screen fills it. "browser" (the address shows url), "system" (OS bars only), "none" when the picture already s */
+          device_ui?: "auto" | "browser" | "system" | "none";
+          image_ref?: string;
+          image_url?: string;
+          video_ref?: string;
+          video_url?: string;
+          [key: string]: unknown;
+        }>;
+      /** The scene_id search gave a Live or Studio result. Leave it out and pass device instead to animate a device. */
+      scene_id?: string;
+      /** Studio only: the scene's settings for THIS render, as a person sets them in Studio's panels — background (solid, gradient, an image on mckp-live-s3-directus.b-cdn.net, matched to the design, transparent), effects (blur, lens blur, aberration, vignette, fisheye, grain, bloom, CRT, glass ghosting, colour balance, grade), lights (overall brightness, a lamp by name, the environment), screen (glow, ref */
+      overrides?: {
+        camera?: {
+          /** Field of view in degrees. */
+          lens?: number;
+          /** The scene's zoom times this (1 = as designed); a push-in keeps its shape. */
+          zoom?: number;
+          /** The device HELD at this turn (degrees): its turning animation stops; other motion stays. */
+          angle?: {
+            x?: number;
+            y?: number;
+            z?: number;
+          };
+        };
+        device?: {
+          /** How far a lid or hinge stands open, degrees. */
+          lid?: number;
+          /** The device colour by name ("space black", "silver") or #hex, from the colours the model is made in; the answer names them when one does not match. */
+          color?: string;
+          /** By the material's name in the model. */
+          materials?: Record<string, unknown>;
+        };
+        lights?: {
+          /** By the lamp's name in the scene (e.g. key, rim); an unknown name changes nothing: the answer says so and lists the scene's lamps (list_poses shows them too). */
+          lamps?: Record<string, unknown>;
+          /** Every lamp's intensity times this (1 = as designed), animated ones too. */
+          brightness?: number;
+          /** The HDR environment light. */
+          environment?: {
+            enabled?: boolean;
+            /** Degrees. */
+            rotation?: number;
+            /** Percent. */
+            intensity?: number;
+          };
+        };
+        screen?: {
+          /** Frame plates only: the plate's curl. */
+          bend?: number;
+          /** Screen glow intensity, 0–500. */
+          glow?: number;
+          /** The display, 0 (off) – 100. */
+          opacity?: number;
+          /** Reflection on the glass, 0–100. */
+          reflection?: number;
+        };
+        /** Post effects. Each: false = off, or its dials; left out = as the scene has it. */
+        effects?: {
+          /** CRT lines on the screen. false takes it off (the pass and its animation). */
+          crt?: false | {
+              /** Strength, 0–100 % of the Studio slider. */
+              amount: number;
+            };
+          /** Screen blur (depth of field round a focus point). false takes it off (the pass and its animation). */
+          blur?: false | {
+              /** Strength, 0–100 % of the Studio slider. */
+              amount: number;
+              /** Focus point, 0–1 of the frame's width. */
+              focusX?: number;
+              focusY?: number;
+              /** Sharp area's size, 0–100 % of the Studio slider. */
+              focusSize?: number;
+            };
+          /** Bloom (glow round bright parts). false takes it off (the pass and its animation). */
+          bloom?: false | {
+              /** Strength, 0–100 % of the Studio slider. */
+              amount: number;
+              /** Radius, 0–100 % of the Studio slider. */
+              radius?: number;
+              /** Threshold, 0–100 % of the Studio slider. */
+              threshold?: number;
+            };
+          /** The colour grade, each dial −100–100 (0 untouched). false takes it off (the pass and its animation). */
+          grade?: false | {
+              tint?: number;
+              gamma?: number;
+              blacks?: number;
+              dehaze?: number;
+              whites?: number;
+              clarity?: number;
+              shadows?: number;
+              contrast?: number;
+              exposure?: number;
+              vibrance?: number;
+              sharpness?: number;
+              highlights?: number;
+              saturation?: number;
+              temperature?: number;
+            };
+          /** Film grain. false takes it off (the pass and its animation). */
+          grain?: false | {
+              /** Grain size, 0–100 % of the Studio slider. */
+              size?: number;
+              /** Strength, 0–100 % of the Studio slider. */
+              amount: number;
+            };
+          /** Fisheye lens. false takes it off (the pass and its animation). */
+          fisheye?: false | {
+              /** Strength, 0–100 % of the Studio slider. */
+              amount: number;
+            };
+          /** Depth-based lens blur. false takes it off (the pass and its animation). */
+          lensBlur?: false | {
+              /** Focus distance, 0–100 % of the Studio slider. */
+              focus?: number;
+              /** Focus range, 0–100 % of the Studio slider. */
+              range?: number;
+              /** Strength, 0–100 % of the Studio slider. */
+              amount?: number;
+            };
+          /** Vignette. false takes it off (the pass and its animation). */
+          vignette?: false | {
+              /** Darkness, 0–100 % of the Studio slider. */
+              amount: number;
+            };
+          /** Chromatic aberration. false takes it off (the pass and its animation). */
+          aberration?: false | {
+              /** Strength, 0–100 % of the Studio slider. */
+              amount: number;
+            };
+          /** Colour balance per channel, 0–200 (100 untouched). false takes it off (the pass and its animation). */
+          colorBalance?: false | {
+              b?: number;
+              g?: number;
+              r?: number;
+            };
+          /** Glass ghosting on the screen. false takes it off (the pass and its animation). */
+          glassGhosting?: false | {
+              /** Strength, 0–100 % of the Studio slider. */
+              amount: number;
+            };
+        };
+        /** The plate behind the device: {type: "solid", color}, "linear" / "radial" (stops), "image" (url), "match" (picked from the design) or "transparent". */
+        background?: {
+            type: "solid";
+            color: string;
+          } | {
+            type: "linear";
+            /** CSS degrees: 180 (default) top → bottom, 90 left → right. */
+            angle?: number;
+            stops: {
+                color: string;
+                opacity?: number;
+                /** 0–100 along the ramp; default evenly spread. */
+                position?: number;
+              }[];
+          } | {
+            type: "radial";
+            stops: {
+                color: string;
+                opacity?: number;
+                /** 0–100 along the ramp; default evenly spread. */
+                position?: number;
+              }[];
+          } | {
+            fit?: "cover" | "fit" | "tile";
+            /** An https URL on mckp-live-s3-directus.b-cdn.net (an ls.graphics / mckp.live CDN file). Other hosts are refused; a picture of the person's own cannot be a background yet. */
+            url: string;
+            type: "image";
+          } | {
+            /** Another pick. */
+            seed?: number;
+            type: "match";
+          } | {
+            type: "transparent";
+          };
+      };
+      /** Required: the result's scene_type, live or studio (not its kind field, which names the object). */
+      scene_type?: "live" | "studio";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Renders 2–12 files of one mockup with one look — the same colours, background, adjustments, format and size — and different contents in each: App Store screens, slides, before/after, one design per language or per client. Loads the scene once, so a series takes about as long as two or three single renders. Returns a download link and a small preview for each file, in order. Each file counts as one */
+    render_series(args: {
+      /** As in render_mockup. */
+      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
+      /** As in render_mockup. */
+      trim?: boolean;
+      /** As in render_mockup. */
+      asset?: string;
+      /** 2–12 files, in order: each its own contents, everything else shared. */
+      items: Array<{
+          /** What this one is, e.g. "screen 2 — workout" or "de", used in its file name. */
+          name?: string;
+          /** What goes into the placeholders for this file, as in render_mockup. */
+          contents: Array<{
+              fit?: "cover" | "contain" | "fill" | "pattern";
+              url?: string;
+              fill?: string;
+              align?: "center" | "top" | "bottom" | "left" | "right";
+              color?: string;
+              scale?: number;
+              ui_size?: number;
+              offset_x?: number;
+              offset_y?: number;
+              ui_theme?: "light" | "dark";
+              device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
+              device_ui?: "auto" | "browser" | "system" | "none";
+              image_ref?: string;
+              image_svg?: string;
+              image_url?: string;
+              placement?: {
+                x?: number;
+                y?: number;
+                as?: "logo" | "artwork";
+                fill?: unknown;
+                mode: "logo" | "window" | "print";
+                color?: string;
+                radius?: number;
+                shadow?: number;
+                size_pct?: number;
+                wallpaper?: {
+                  color?: unknown;
+                  preset?: unknown;
+                  gradient?: unknown;
+                  [key: string]: unknown;
+                };
+                padding_pct?: number;
+                fill_opacity?: number;
+                rotation_deg?: number;
+                [key: string]: unknown;
+              };
+              video_ref?: string;
+              video_url?: string;
+              placeholder?: string;
+              image_base64?: string;
+              rotation_deg?: number;
+              [key: string]: unknown;
+            }>;
+        }>;
+      /** As in render_mockup: default jpeg (png when background is "transparent"). A video is render_mockup with format mp4. */
+      format?: "png" | "jpeg";
+      /** As in render_mockup. */
+      layers?: {
+          layer: string;
+          opacity?: number;
+          visible?: boolean;
+          [key: string]: unknown;
+        }[];
+      /** As in render_mockup. */
+      effects?: {
+        blur?: {
+          focus?: {
+            x?: number;
+            y?: number;
+            size?: number;
+            [key: string]: unknown;
+          };
+          amount: number;
+          [key: string]: unknown;
+        };
+        grain?: number;
+        vignette?: number;
+        aberration?: number;
+        [key: string]: unknown;
+      };
+      /** As in render_mockup. */
+      max_edge?: number | "full";
+      /** As in render_mockup. */
+      mockup_id?: string;
+      /** As in render_mockup. */
+      background?: string | {
+          gradient: {
+            angle: number;
+            stops: {
+                color: string;
+                position: number;
+                [key: string]: unknown;
+              }[];
+            [key: string]: unknown;
+          };
+          [key: string]: unknown;
+        };
+      /** As in render_mockup. */
+      variant_id?: string;
+      /** As in render_mockup. */
+      adjustments?: {
+        hue?: number;
+        contrast?: number;
+        vibrance?: number;
+        lightness?: number;
+        saturation?: number;
+        [key: string]: unknown;
+      };
+      /** As in render_mockup. */
+      composition?: {
+        fit?: "crop" | "contain" | "product";
+        width?: number;
+        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
+        height?: number;
+        [key: string]: unknown;
+      };
+      /** As in render_mockup. */
+      layer_colors?: {
+          color?: string;
+          layer: string;
+          gradient?: {
+            angle: number;
+            stops: {
+                color: string;
+                position: number;
+                [key: string]: unknown;
+              }[];
+            [key: string]: unknown;
+          };
+          [key: string]: unknown;
+        }[];
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Keeps a brand in the person's ls.graphics account — its colours (with roles), fonts, logos and a few words on its style — under a name, so it can be read back in a later chat with get_brand. Saving under a name that is kept updates it: fields left out stay as they were, logos are added (remove_logos takes some out). delete removes the brand. Up to 30 brands, 12 colours, 6 fonts and 5 logos each. */
+    save_brand(args: {
+      /** The client's or the product's name. */
+      name: string;
+      /** Replaces the kept fonts. */
+      fonts?: {
+          name: string;
+          role?: string;
+          [key: string]: unknown;
+        }[];
+      /** Logos to add, each one of image_ref, image_url, image_svg or image_base64. */
+      logos?: {
+          /** Which logo this is: full, mark, white… */
+          name?: string;
+          image_ref?: string;
+          image_svg?: string;
+          image_url?: string;
+          image_base64?: string;
+          [key: string]: unknown;
+        }[];
+      /** Style, mood, tone, what to avoid. Replaces the kept notes. */
+      notes?: string;
+      /** Replaces the kept colours. */
+      colors?: Array<{
+          /** #RRGGBB */
+          hex: string;
+          name?: string;
+          role?: "primary" | "secondary" | "accent" | "neutral" | "background" | "text";
+          [key: string]: unknown;
+        }>;
+      /** Remove the whole brand. */
+      delete?: boolean;
+      /** Ids of kept logos to remove. */
+      remove_logos?: string[];
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Keeps a design in the person's ls.graphics account under a name, to render again in a later chat (get_design): pass the arguments of the render_mockup, render_series or render_batch call as they were sent (mockup ids, variants, contents with placements, layer_colors, background, composition, look, effects, format). Every image_ref in them is copied into the design, so it outlives the day an upload */
+    save_design(args: {
+      /** Short, e.g. "Acme hero on iPhone". */
+      name: string;
+      /** Which render tool the arguments are for. Needed unless remove is true. */
+      tool?: "render_mockup" | "render_series" | "render_batch";
+      /** Delete the kept design of this name. */
+      remove?: boolean;
+      /** That tool's arguments, exactly as they were passed. */
+      arguments?: Record<string, unknown>;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Used by the ls.graphics card: stores the PNG the online editor exported in the chat and returns its download link. */
+    save_edited_mockup(args: {
+      /** The PNG, base64 or a data: URL. */
+      data: string;
+      name?: string;
+      mockup_id: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Find mockups in the ls.graphics catalog by product name: devices, packaging, apparel, print. Matches English product words in names — typos and other languages return nothing; when names give fewer than 3 on the first page, mockups whose description matches the words follow (matched_by "description"). Industries or moods ("fitness", "premium") are recommend_mockups'. Each result has its mockup_id, */
+    search_mockups(args?: {
+      /** 0-based page of limit results (default 12): page 1 starts right after the first limit results. */
+      page?: number;
+      /** Results per page, 1–60 (default 12). Ask for more only when the person wants to browse; the next page starts after these. */
+      limit?: number;
+      /** English product words, e.g. "iphone 17 pro", "coffee cup", "hoodie", "business card". Empty lists the newest mockups first. */
+      query?: string;
+      /** Only mockups marked free on ls.graphics. */
+      free_only?: boolean;
+      /** Which catalogue: "static" (default: still mockups you can render here), "live" (Origin: animated scenes), "studio" (3D Studio presets and models) or "any" (Static plus animated scenes). Live and Studio results are animated scenes rendered as video or a still frame, need ls.graphics Pro, and render with render_scene or open on their ls.graphics page (page_url). */
+      scene_type?: "static" | "live" | "studio" | "any";
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Used by the ls.graphics card: stores an image the person dropped into the chat and returns its image_ref. */
+    upload_image(args: {
+      /** The image, base64 or a data: URL. */
+      data: string;
+      name?: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_8811a9e9d2 {
     /** Use to find the eesel AI API docs, authentication policy, versioning, rate limits, errors, and machine-readable files. */
     get_eesel_ai_developer_resources(args?: {}): Promise<unknown>;
@@ -349114,323 +351171,6 @@ interface BowmarkSiteTools_8d5151bff5 {
       context?: string;
       post_id: string;
       [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_8d5162acd0 {
-    /** Adds one fully configured, currently available menu item to the authenticated consumer cart. Call only when the user explicitly requests adding this item and its quantity and required options are clear. Ask about missing or ambiguous choices first; a complete explicit add request is already confirmation. Adding to cart does not place an order or pay. Pass expected_cart_handle only when get_cart re */
-    add_to_cart(args: {
-      quantity: number;
-      selections: unknown[];
-      /** New operation: new UUID. Exact same request retry: retain the original UUID. Never reuse a key for changed parameters. */
-      idempotency_key: string;
-      expected_cart_handle?: string;
-      item_configuration_handle: string;
-    }): Promise<unknown>;
-    /** Returns the current read-only cart for an authenticated restaurant_handle. Public restaurant_reference is not accepted. Use this to inspect the cart before a change or reconcile an unknown write result. Preserve cart_handle and cart_item_handle from the same latest response; editable=false means the item cannot be changed or removed through MCP. An empty snapshot does not rule out a late timed-out */
-    get_cart(args: {
-      restaurant_handle: string;
-    }): Promise<unknown>;
-    /** Read one Fantuan in-store merchant and its available product entries selected from search_deals. Supply its exact id and the same search area. Return its description, displayed price, currency and current availability. LOCATION REQUIRED BEFORE CALLING: use only a city, neighborhood or address supplied or confirmed by the user, or their existing confirmed location reference. If the user only says n */
-    get_deal(args: {
-      /** Exact item id returned by the corresponding search tool; never substitute a product, food restaurant or category id. */
-      id: string;
-      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
-      locale?: "zh-CN" | "en";
-      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
-      country?: string;
-      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
-      address_text?: string;
-      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
-      discovery_session?: string;
-      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
-      location_reference?: string;
-      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
-      candidate_reference?: string;
-    }): Promise<unknown>;
-    /** EVIDENCE AND CONCLUSION BOUNDARIES: Classify each requested condition as supported, contradicted, or unknown from returned evidence. A missing house type, rent period, pet policy or other attribute is unknown, not a negative match. A basement or downstairs mention alone does not establish the building type. Do not certify a listing as real or fake from its title; label QA/test-looking content as s */
-    get_local_listing(args: {
-      /** Exact item id returned by the corresponding search tool; never substitute a product, food restaurant or category id. */
-      id: string;
-      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
-      locale?: "zh-CN" | "en";
-      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
-      country?: string;
-      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
-      address_text?: string;
-      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
-      discovery_session?: string;
-      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
-      location_reference?: string;
-      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
-      candidate_reference?: string;
-    }): Promise<unknown>;
-    /** Get the complete local listing category hierarchy for the user-supplied location. Use this before searching when the requested kind of post is clear and its category ID is unknown, including when the search will also use a keyword. Returns searchable IDs, names and parent_id. Never infer IDs from names; reuse only for the same area and locale. Pass the matching searchable category to search_local_ */
-    get_local_listing_categories(args?: {
-      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
-      locale?: "zh-CN" | "en";
-      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
-      country?: string;
-      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
-      address_text?: string;
-      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
-      discovery_session?: string;
-      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
-      location_reference?: string;
-      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
-      candidate_reference?: string;
-    }): Promise<unknown>;
-    /** Read supported filter definitions for a local listing category and user-supplied location. Returns source labels, keys, selection types, option codes and range limits. RADIO_BUTTON is single choice; never invent multi-select support. Captions such as 5+ are not exact counts; $ alone does not identify a currency. Empty definitions mean no advertised filters. This tool only reads definitions. Pass s */
-    get_local_listing_filters(args: {
-      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
-      locale?: "zh-CN" | "en";
-      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
-      country?: string;
-      /** Exact searchable listing category ID from returned categories; use a specific child when applicable. Never invent IDs. */
-      category_id: string;
-      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
-      address_text?: string;
-      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
-      discovery_session?: string;
-      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
-      location_reference?: string;
-      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
-      candidate_reference?: string;
-    }): Promise<unknown>;
-    /** Gets current read-only catalog detail and Agent-safe option keys for an opaque menu_item_handle returned by the authenticated menu or restaurant search; never substitute public references or arbitrary product IDs. Use compact (default) for recommendations or comparisons; use full only after the user narrows to one item or asks for every option. A compact response is not sufficient for cart configu */
-    get_menu_item(args: {
-      detail_level?: "compact" | "full";
-      menu_item_handle: string;
-    }): Promise<unknown>;
-    /** Returns the current order status, canonical display price breakdown, fulfillment facts, timeline, and visible credentials for an order_handle returned by list_my_orders. This is read-only: it cannot cancel an order, execute refunds or make payments. Requires order:read. */
-    get_my_order(args: {
-      order_handle: string;
-    }): Promise<unknown>;
-    /** Returns the authenticated Fantuan consumer's minimal profile. */
-    get_my_profile(args?: {}): Promise<unknown>;
-    /** Read details for the exact restaurant selected from search_restaurants. Choose the input from the returned result. ACCOUNT PATH: when the result contains restaurant_handle, pass that exact handle with restaurant:read authorization. The response includes menu_categories with category_handle values. If the user wants dishes, continue with list_menu_items, then get_menu_item(detail_level=full) for th */
-    get_restaurant(args?: {
-      discovery_session?: string;
-      restaurant_handle?: string;
-      restaurant_reference?: string;
-    }): Promise<unknown>;
-    /** Lists account-scoped read-only menu items. Requires restaurant:read and an exact restaurant_handle returned by the authenticated restaurant flow, with either category_handle or keyword. Pagination calls accept only the returned opaque cursor. Public restaurant_reference and discovery_session are not accepted; keyword alone is not a valid request. If only a public restaurant reference is available, */
-    list_menu_items(args?: {
-      limit?: number;
-      cursor?: string;
-      keyword?: string;
-      category_handle?: string;
-      restaurant_handle?: string;
-    }): Promise<unknown>;
-    /** Lists safe summaries of the authenticated Fantuan consumer's delivery addresses in one explicitly selected country. Requires address:read. */
-    list_my_addresses(args: {
-      country: "CA" | "US" | "AU" | "GB";
-    }): Promise<unknown>;
-    /** Lists the authenticated consumer's owned coupons for a previously selected market context. These are already-owned account coupons, not public local deal offers; use search_deals for those. This tool does not purchase, redeem or apply a coupon. IDs remain opaque. Requires coupon:read. */
-    list_my_coupons(args?: {
-      limit?: number;
-      cursor?: string;
-      business_type?: "all" | "takeout" | "local_life";
-      market_context_handle?: string;
-    }): Promise<unknown>;
-    /** Lists the authenticated Fantuan consumer's orders in one explicitly selected country. Use the opaque cursor for pagination. Requires order:read. */
-    list_my_orders(args?: {
-      limit?: number;
-      cursor?: string;
-      status?: "all" | "unpaid" | "in_progress" | "completed" | "cancelled" | "refunded" | "expired" | "closed";
-      country?: "CA" | "US" | "AU" | "GB";
-      business_type?: "all" | "takeout" | "local_life";
-    }): Promise<unknown>;
-    /** Receives observations from the Fantuan UI only. Do not call from the assistant. */
-    publish_ui_events(args: {
-      token: string;
-      events: Array<{
-          id: string;
-          event: "WIDGET_LOADED" | "RESTAURANT_IMPRESSION" | "MENU_LINK_CLICKED" | "LINK_OPEN_FAILED" | "SEARCH_LINK_CLICKED" | "SEARCH_LINK_OPEN_FAILED";
-          position: number;
-        }>;
-      widget: string;
-    }): Promise<unknown>;
-    /** Removes exactly one cart item only after the user explicitly requests its removal. Use cart_handle and cart_item_handle from the same latest cart response, and only when that item has editable=true. Requires cart:write. This release returns cart contents and selected options, not calculated prices or discounts. When pricing_available=false, describe amounts as unavailable, not a calculation failur */
-    remove_cart_item(args: {
-      cart_handle: string;
-      idempotency_key: string;
-      cart_item_handle: string;
-    }): Promise<unknown>;
-    /** OPTIONAL STANDARD CITY CONSTRAINT: city_name is optional. When Muse sends city_name, it must be the exact standard municipality name stated or confirmed by the user, or obtained from the confirmed address. Keep address_text as the location source and city_name as the city filter. Never use a metro area, neighbourhood, street or full address as city_name. On CITY_NOT_SUPPORTED, show supported_citie */
-    search_deals(args?: {
-      /** First page by default. For current clients, continue only with next_page_arguments; do not send page with a discovery_cursor. Page numbers above 1 are retained for older clients that also send their original search_session. */
-      page?: number;
-      /** Items per page for a new search, fixed at 30. On cursor continuation the original limit is restored by the server. */
-      limit?: number;
-      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
-      locale?: "zh-CN" | "en";
-      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
-      country?: string;
-      /** Item or service search terms extracted from the user request; pass location separately in address_text. Omit or use an empty string to browse. category_ids must come from returned categories, never guess IDs. Price or property words are text search, not guaranteed structured filters. */
-      keyword?: string;
-      /** Optional city constraint supplied by Muse. When present, it must be the exact standard municipal city name explicitly stated or confirmed by the user, or the municipality from the confirmed address, for example 列治文 or Richmond. Do not pass a metro area, province, neighbourhood, street, 'nearby', or the full address. Keep address_text as the location source and city_name as the city filter, and mak */
-      city_name?: string;
-      /** Fixed search radius in kilometres around the confirmed location. REQUIRED whenever the user gives an explicit distance such as 'within 3 km', '附近3公里' or '3km内': set radius_km=3 and remove that distance phrase from address_text and keyword. Omit only when the user gives no distance, to use the service-area expansion policy. The schema maximum is a transport limit, not a guarantee that every region  */
-      radius_km?: number;
-      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
-      address_text?: string;
-      /** Optional searchable IDs from this business search categories dictionary. parent_id expresses hierarchy; choose a matching specific child when available. Never infer IDs from has_children or listing item categories. Multiple categories are OR, including parent/child selections; keyword and location are AND. */
-      category_ids?: string[];
-      /** Legacy upstream session for callers continuing an older page-number response. Required for a legacy live page above 1. Do not send it with discovery_cursor or when starting a new search. */
-      search_session?: string;
-      /** For the next page, copy next_page_arguments exactly. Send only discovery_cursor and discovery_session to the same search tool. The server restores the original location, filters and page size. Never invent or reuse a cursor for a changed query. */
-      discovery_cursor?: string;
-      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
-      discovery_session?: string;
-      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
-      location_reference?: string;
-      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
-      candidate_reference?: string;
-    }): Promise<unknown>;
-    /** OPTIONAL STANDARD CITY CONSTRAINT: city_name is optional. When Muse sends city_name, it must be the exact standard municipality name stated or confirmed by the user, or obtained from the confirmed address. Keep address_text as the location source and city_name as the city filter. Never use a metro area, neighbourhood, street or full address as city_name. On CITY_NOT_SUPPORTED, show supported_citie */
-    search_local_listings(args?: {
-      /** First page by default. For current clients, continue only with next_page_arguments; do not send page with a discovery_cursor. Page numbers above 1 are retained for older clients that also send their original search_session. */
-      page?: number;
-      /** Items per page for a new search, fixed at 30. On cursor continuation the original limit is restored by the server. */
-      limit?: number;
-      /** Requested language. effective_locale reports the actual returned language; do not claim translated content when the source returns a different language. */
-      locale?: "zh-CN" | "en";
-      /** Optional ISO country constraint from the user, for example CA; do not infer it from language. */
-      country?: string;
-      /** Item or service search terms extracted from the user request; pass location separately in address_text. Omit or use an empty string to browse. category_ids must come from returned categories, never guess IDs. Price or property words are text search, not guaranteed structured filters. */
-      keyword?: string;
-      /** Optional city constraint supplied by Muse. When present, it must be the exact standard municipal city name explicitly stated or confirmed by the user, or the municipality from the confirmed address, for example 列治文 or Richmond. Do not pass a metro area, province, neighbourhood, street, 'nearby', or the full address. Keep address_text as the location source and city_name as the city filter, and mak */
-      city_name?: string;
-      /** Fixed search radius in kilometres around the confirmed location. REQUIRED whenever the user gives an explicit distance such as 'within 3 km', '附近3公里' or '3km内': set radius_km=3 and remove that distance phrase from address_text and keyword. Omit only when the user gives no distance, to use the service-area expansion policy. The schema maximum is a transport limit, not a guarantee that every region  */
-      radius_km?: number;
-      /** Location explicitly supplied or confirmed by the user. If unknown, ask the user before calling; never fill this from tool examples, mock coverage or language. */
-      address_text?: string;
-      /** Searchable IDs from get_local_listing_categories. For a general item request with a keyword, use the matching parent if different children may contain the item. For example, search for a projector under secondhand goods because it may be posted under electronics or home appliances. If one child is too narrow and the user did not require it, retry once with the matching parent before saying too few */
-      category_ids?: string[];
-      /** Optional structured filters for exactly one category_ids entry. First read get_local_listing_filters for the same area/category. Use returned keys. RADIO_BUTTON uses a one-code string array; MULTIPLE_BUTTON uses a code array (OR within that field); RANGE_SLIDER uses {min:number,max:number}, both required. Never invent limits, codes, currency or policy evidence. Unsupported combinations are rejecte */
-      filter_options?: Record<string, unknown>;
-      /** Legacy upstream session for callers continuing an older page-number response. Required for a legacy live page above 1. Do not send it with discovery_cursor or when starting a new search. */
-      search_session?: string;
-      /** For the next page, copy next_page_arguments exactly. Send only discovery_cursor and discovery_session to the same search tool. The server restores the original location, filters and page size. Never invent or reuse a cursor for a changed query. */
-      discovery_cursor?: string;
-      /** Original discovery session accompanying discovery_cursor, location_reference or candidate_reference. This is context, not a location source; never mix references from different sessions. */
-      discovery_session?: string;
-      /** Confirmed location reference returned by an earlier tool. Pair with its original discovery_session; omit address_text and candidate_reference. For a different area, use the new user-supplied address_text without old references. */
-      location_reference?: string;
-      /** Location candidate returned for clarification. Use only after the user selects it, with its original discovery_session; omit address_text and location_reference. */
-      candidate_reference?: string;
-    }): Promise<unknown>;
-    /** Find restaurants with or without login. This tool already supplies restaurant UI cards; do not call show_restaurants to render the same search again. Default to delivery unless the user explicitly requests pickup. Nearby, distance sorting, and a landmark do not imply pickup. Preserve the user's chosen fulfillment on follow-ups; change it only on an explicit user request and search again. An explic */
-    search_restaurants(args?: {
-      sort?: "recommended" | "distance" | "delivery_time" | "rating";
-      limit?: number;
-      /** Legacy signed-in account cursor only (rcur_). Never put an anonymous dcur_ here; use discovery_cursor and discovery_session or copy next_page_arguments. */
-      cursor?: string;
-      /** For a new search, set to the user's current requested response language, otherwise conversation language: zh-CN, zh-TW, en, fr. Unsupported languages fall back to en. Never infer country from language. */
-      locale?: string;
-      /** Two-letter ISO 3166-1 alpha-2 country code, e.g. CA for Canada, US for United States, AU for Australia. Never send a country name or an empty string. For address_text, omit when unknown. Use only with address_text or a saved account address request. OMIT with candidate_reference or location_reference: the reference already identifies its country. Do not copy country from search results into refere */
-      country?: string;
-      /** Dish or restaurant words as supplied by the user. One literal query, not an OR list: do not append translations or synonyms. Preserve user-supplied mixed-language names. Retain the keyword when only location or fulfillment changes. */
-      keyword?: string;
-      fulfillment?: "delivery" | "pickup";
-      address_text?: string;
-      /** For another batch, pass next_discovery_cursor and discovery_session ONLY. Preserves all search conditions. Omit cursor when changing conditions. */
-      discovery_cursor?: string;
-      fulfillment_type?: "delivery" | "pickup";
-      discovery_session?: string;
-      /** Set true only when the user explicitly requests their account saved delivery address. Supply a known country, omit public location and personal references. This can trigger login; retry the same arguments after authorization. */
-      use_saved_address?: boolean;
-      /** Address context only (lctx_), never a restaurant reference (drst_) or restaurant handle (rst_). Reuse the exact returned location_reference and discovery_session. Omit country, address_text and candidate_reference; keep the user's keyword, locale and fulfillment. */
-      location_reference?: string;
-      /** Address candidate only (lctx_), never a restaurant reference (drst_) or restaurant handle (rst_). Confirm a user-selected address candidate with its discovery_session. Omit country, address_text and location_reference. */
-      candidate_reference?: string;
-      market_context_handle?: string;
-    }): Promise<unknown>;
-    /** Converts one previously returned address_handle into a short-lived immutable market context for the authenticated consumer. Requires address:read. */
-    select_market_context(args: {
-      address_handle: string;
-    }): Promise<unknown>;
-    /** Shows the current restaurant cart as an interactive panel. Use this instead of get_cart when the host supports MCP Apps UI. Returns the current read-only cart for an authenticated restaurant_handle. Public restaurant_reference is not accepted. Use this to inspect the cart before a change or reconcile an unknown write result. Preserve cart_handle and cart_item_handle from the same latest response;  */
-    show_cart(args: {
-      restaurant_handle: string;
-    }): Promise<unknown>;
-    /** Shows an interactive menu item detail and available option groups. Use this instead of get_menu_item when the host supports MCP Apps UI. Gets current read-only catalog detail and Agent-safe option keys for an opaque menu_item_handle returned by the authenticated menu or restaurant search; never substitute public references or arbitrary product IDs. Use compact (default) for recommendations or comp */
-    show_menu_item(args: {
-      detail_level?: "compact" | "full";
-      menu_item_handle: string;
-    }): Promise<unknown>;
-    /** Shows interactive menu item cards. Use this instead of list_menu_items when the host supports MCP Apps UI. Lists account-scoped read-only menu items. Requires restaurant:read and an exact restaurant_handle returned by the authenticated restaurant flow, with either category_handle or keyword. Pagination calls accept only the returned opaque cursor. Public restaurant_reference and discovery_session  */
-    show_menu_items(args?: {
-      limit?: number;
-      cursor?: string;
-      keyword?: string;
-      category_handle?: string;
-      restaurant_handle?: string;
-    }): Promise<unknown>;
-    /** Shows safe delivery address summaries and lets the user select a market context. Lists safe summaries of the authenticated Fantuan consumer's delivery addresses in one explicitly selected country. Requires address:read. */
-    show_my_addresses(args: {
-      country: "CA" | "US" | "AU" | "GB";
-    }): Promise<unknown>;
-    /** Shows the authenticated consumer's coupons for the selected market. Lists the authenticated consumer's owned coupons for a previously selected market context. These are already-owned account coupons, not public local deal offers; use search_deals for those. This tool does not purchase, redeem or apply a coupon. IDs remain opaque. Requires coupon:read. */
-    show_my_coupons(args?: {
-      limit?: number;
-      cursor?: string;
-      business_type?: "all" | "takeout" | "local_life";
-      market_context_handle?: string;
-    }): Promise<unknown>;
-    /** Shows current status, fulfillment, items, and safe amounts for one owned order. Returns the current order status, canonical display price breakdown, fulfillment facts, timeline, and visible credentials for an order_handle returned by list_my_orders. This is read-only: it cannot cancel an order, execute refunds or make payments. Requires order:read. */
-    show_my_order(args: {
-      order_handle: string;
-    }): Promise<unknown>;
-    /** Shows the authenticated consumer's order history and active orders. Lists the authenticated Fantuan consumer's orders in one explicitly selected country. Use the opaque cursor for pagination. Requires order:read. */
-    show_my_orders(args?: {
-      limit?: number;
-      cursor?: string;
-      status?: "all" | "unpaid" | "in_progress" | "completed" | "cancelled" | "refunded" | "expired" | "closed";
-      country?: "CA" | "US" | "AU" | "GB";
-      business_type?: "all" | "takeout" | "local_life";
-    }): Promise<unknown>;
-    /** Shows the authenticated consumer's minimal Fantuan profile as a visual card. Returns the authenticated Fantuan consumer's minimal profile. */
-    show_my_profile(args?: {}): Promise<unknown>;
-    /** Compatibility alias of get_restaurant. Read details for the exact restaurant selected from search_restaurants. Choose the input from the returned result. ACCOUNT PATH: when the result contains restaurant_handle, pass that exact handle with restaurant:read authorization. The response includes menu_categories with category_handle values. If the user wants dishes, continue with list_menu_items, then  */
-    show_restaurant(args?: {
-      discovery_session?: string;
-      restaurant_handle?: string;
-      restaurant_reference?: string;
-    }): Promise<unknown>;
-    /** Compatibility alias of search_restaurants, with identical location and authentication rules. Prefer search_restaurants: it already renders restaurant cards. Never call this after a search merely to display its results. Find restaurants with or without login. This tool already supplies restaurant UI cards; do not call show_restaurants to render the same search again. Default to delivery unless the  */
-    show_restaurants(args?: {
-      sort?: "recommended" | "distance" | "delivery_time" | "rating";
-      limit?: number;
-      /** Legacy signed-in account cursor only (rcur_). Never put an anonymous dcur_ here; use discovery_cursor and discovery_session or copy next_page_arguments. */
-      cursor?: string;
-      /** For a new search, set to the user's current requested response language, otherwise conversation language: zh-CN, zh-TW, en, fr. Unsupported languages fall back to en. Never infer country from language. */
-      locale?: string;
-      /** Two-letter ISO 3166-1 alpha-2 country code, e.g. CA for Canada, US for United States, AU for Australia. Never send a country name or an empty string. For address_text, omit when unknown. Use only with address_text or a saved account address request. OMIT with candidate_reference or location_reference: the reference already identifies its country. Do not copy country from search results into refere */
-      country?: string;
-      /** Dish or restaurant words as supplied by the user. One literal query, not an OR list: do not append translations or synonyms. Preserve user-supplied mixed-language names. Retain the keyword when only location or fulfillment changes. */
-      keyword?: string;
-      fulfillment?: "delivery" | "pickup";
-      address_text?: string;
-      /** For another batch, pass next_discovery_cursor and discovery_session ONLY. Preserves all search conditions. Omit cursor when changing conditions. */
-      discovery_cursor?: string;
-      fulfillment_type?: "delivery" | "pickup";
-      discovery_session?: string;
-      /** Set true only when the user explicitly requests their account saved delivery address. Supply a known country, omit public location and personal references. This can trigger login; retry the same arguments after authorization. */
-      use_saved_address?: boolean;
-      /** Address context only (lctx_), never a restaurant reference (drst_) or restaurant handle (rst_). Reuse the exact returned location_reference and discovery_session. Omit country, address_text and candidate_reference; keep the user's keyword, locale and fulfillment. */
-      location_reference?: string;
-      /** Address candidate only (lctx_), never a restaurant reference (drst_) or restaurant handle (rst_). Confirm a user-selected address candidate with its discovery_session. Omit country, address_text and location_reference. */
-      candidate_reference?: string;
-      market_context_handle?: string;
-    }): Promise<unknown>;
-    /** Sets one cart item's absolute quantity after the user explicitly requests that quantity. Use cart_handle and cart_item_handle from the same latest cart response, and only when that item has editable=true. Requires cart:write. This release returns cart contents and selected options, not calculated prices or discounts. When pricing_available=false, describe amounts as unavailable, not a calculation  */
-    update_cart_item_quantity(args: {
-      quantity: number;
-      cart_handle: string;
-      idempotency_key: string;
-      cart_item_handle: string;
     }): Promise<unknown>;
 }
 
@@ -364361,6 +366101,17 @@ interface BowmarkSiteTools_989ec8b3d5 {
       limit?: number;
       query: string;
       locale?: "en" | "de" | "fr";
+    }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_98a2d912ed {
+    /** Search the EmDash CMS documentation. Returns relevant chunks with source URLs and similarity scores. */
+    search_docs(args: {
+      /** Natural-language query against the EmDash docs. */
+      query: string;
+      /** Maximum number of chunks to return. Defaults to 8. */
+      max_results?: number;
+      [key: string]: unknown;
     }): Promise<unknown>;
 }
 
@@ -380905,6 +382656,77 @@ interface BowmarkSiteTools_a1794e7595 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_a18111a823 {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "Mysite" (https://www.19yako.com/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess the AP */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "Mysite" (https://www.19yako.com/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for any Wix  */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "Mysite" (https://www.19yako.com/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "Mysite" (https://www.19yako.com/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they can do */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "Mysite" (https://www.19yako.com/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entity (e.g */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "Mysite" (https://www.19yako.com/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "Mysite" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site details endpo */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_a181bb0a47 {
     /** Read the booking options of a single office: the services it offers, allowed insurances, consultation type, payment type, consultation channels, required patient fields, plus one derived decision. `booking_mode` is one of "online", "external" or "offline". Messages the doctor wants the patient to read live in `office.display_rules.appointment_information`. The legacy office fields `attends_first_v */
     get_appointment_options(args: {
@@ -389718,1017 +391540,6 @@ interface BowmarkSiteTools_aa64763e5f {
       substitutes?: number;
       /** Si un mismo usuario comentó varias veces, contarlo una sola vez */
       remove_duplicates?: boolean;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-}
-
-interface BowmarkSiteTools_aa766f2f16 {
-    /** Brings the person's own images — a logo, screenshots, artwork — onto this server and returns an image_ref for each, to use as contents[].image_ref. Takes files the host hands over (ChatGPT fills files with the images attached to the chat) and public links (urls). With neither, it shows the person a drop zone in the chat (hosts that show apps) and waits up to about three minutes for what they drop. */
-    add_images(args?: {
-      /** Public links to images. */
-      urls?: string[];
-      /** Image files the host hands over. */
-      files?: {
-          /** The host's id of the file. */
-          file_id: string;
-          file_name?: string;
-          mime_type?: string;
-          /** Where the file can be downloaded. */
-          download_url: string;
-          [key: string]: unknown;
-        }[];
-      /** What the images are for, shown to the person, e.g. "Your logo for the coffee cup". */
-      purpose?: string;
-      /** The files are on the person's computer: answer with upload links instead of a drop zone. */
-      from_disk?: boolean;
-      /** Only list the kept images; ask for nothing. */
-      list_only?: boolean;
-      /** How many images to take. Default 1. */
-      max_files?: number;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Takes a screenshot of a public web page — the person's site, landing page or web app — at a device's size (desktop 1440, laptop 1280, tablet 834, phone 390 CSS px), light or dark, the whole page or its first screen, and keeps it as an image_ref to put on a mockup's screen. The whole page is cut at about 16,000 px high. Pages behind a sign-in show what a visitor sees. Returns the image_ref, its pix */
-    capture_url(args: {
-      /** The page, http or https. */
-      url: string;
-      /** Whose screen the page is laid out for. */
-      device?: "desktop" | "laptop" | "tablet" | "phone";
-      /** The language the browser asks the site for, e.g. "en-US", "ru-RU": the language of the person's request unless they name another. Default en-US. */
-      locale?: string;
-      /** Extra wait after the page settled, for animations or late content. */
-      delay_ms?: number;
-      /** The whole page down to its end, or only its first screen. */
-      full_page?: boolean;
-      /** The page's prefers-color-scheme. */
-      color_scheme?: "light" | "dark";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Records a public web page as a video — it scrolls down the page and its animations play, frame by frame at the device's size (desktop 1440, laptop 1280, tablet 834, phone 390 CSS px) — and keeps it as a video_ref for render_mockup with format mp4 or webm, which plays it on a mockup's screen. Record for the device the scene has: phone for an iPhone or other phone, tablet for an iPad, laptop for a M */
-    capture_video(args: {
-      /** Frames a second; 60 for fast motion. */
-      fps?: 30 | 60;
-      /** The page, http or https. */
-      url: string;
-      /** Whose screen the page is laid out for: the one of the mockup it goes on. */
-      device?: "desktop" | "laptop" | "tablet" | "phone";
-      /** The language the browser asks the site for, e.g. "en-US", "ru-RU": the language of the person's request unless they name another. Default en-US. */
-      locale?: string;
-      /** "auto": down the page at a calm pace (a few screens); "end": to the page's end; "none": the first screen with its animations; a number: down to that many CSS px. */
-      scroll?: "auto" | "none" | "end" | number;
-      /** Length of the recording. */
-      seconds?: number;
-      /** Extra wait after the page settled, before recording. */
-      delay_ms?: number;
-      /** The page's prefers-color-scheme. */
-      color_scheme?: "light" | "dark";
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** The plan behind the API key, what it allows (size, watermark, formats) and today's render usage. Today only: there is no history of past days or past renders. */
-    get_account(args?: Record<string, unknown>): Promise<unknown>;
-    /** The brands kept in the person's ls.graphics account (save_brand). Without a name: each brand's name, colours and when it was saved. With a name: its colours, fonts, notes and logos — each logo as an image_ref ready for contents (an SVG logo as image_svg markup). */
-    get_brand(args?: {
-      /** The brand to read; leave out to list them. */
-      name?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** The designs saved in the person's ls.graphics account (save_design). Without a name: each one's name, what it renders and when it was saved. With a name: its tool and arguments, ready to pass to that render tool — image_refs are fresh (uploads expire; these are made now), an SVG as image_svg. To redo it with something new, change what you need in the arguments (e.g. a new logo's image_ref in place */
-    get_design(args?: {
-      /** The design to read; leave out to list them. */
-      name?: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Describes a mockup: what render_mockup can change, and the ids and names it refers to. Placeholders with their proportions and the ideal image size (a mismatched image is cropped); colour layers, largest first, with where they are (show_color_layers adds a picture of which part each paints); shadows/reflections; the background (photo or colour); and the variants — print mockups often come as EU an */
-    get_mockup(args?: {
-      /** As in render_mockup. */
-      asset?: string;
-      /** As in render_mockup. */
-      mockup_id?: string;
-      /** As in render_mockup. */
-      variant_id?: string;
-      /** Also return a picture with every colour layer painted a vivid marker colour, and a legend — to see which part of the mockup each layer recolours before choosing colours. Takes a few seconds more; not counted as a render. */
-      show_color_layers?: boolean;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Opens the mockup in the ls.graphics online editor on ls.graphics, where the person adjusts by hand what render_mockup cannot: drag, scale or rotate the content, crop it, fine-tune by eye. Given the same contents, layer_colors, layers, adjustments and background as a render, the editor opens with that design in place (the link lasts a week); with none, it opens the mockup as published. Where the ho */
-    open_in_editor(args?: {
-      /** As in render_mockup. */
-      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
-      /** As in render_mockup. */
-      asset?: string;
-      /** As in render_mockup. */
-      layers?: {
-          layer: string;
-          opacity?: number;
-          visible?: boolean;
-          [key: string]: unknown;
-        }[];
-      /** As in render_mockup. */
-      effects?: {
-        blur?: {
-          focus?: {
-            x?: number;
-            y?: number;
-            size?: number;
-            [key: string]: unknown;
-          };
-          amount: number;
-          [key: string]: unknown;
-        };
-        grain?: number;
-        vignette?: number;
-        aberration?: number;
-        [key: string]: unknown;
-      };
-      /** What goes into the placeholders (up to 32). One item per placeholder; to put the same picture in many, repeat the item with the same image_ref or image_url. Each item needs exactly one image source. A phone screen's notch and rounded corners cover its edges, so a title or a button belongs more than a few percent away from the top and bottom of the image. Each item takes the fields of render_mockup */
-      contents?: Array<{
-          fit?: "cover" | "contain" | "fill" | "pattern";
-          url?: string;
-          fill?: string;
-          align?: "center" | "top" | "bottom" | "left" | "right";
-          color?: string;
-          scale?: number;
-          ui_size?: number;
-          offset_x?: number;
-          offset_y?: number;
-          ui_theme?: "light" | "dark";
-          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
-          device_ui?: "auto" | "browser" | "system" | "none";
-          image_ref?: string;
-          image_svg?: string;
-          image_url?: string;
-          placement?: {
-            x?: number;
-            y?: number;
-            as?: "logo" | "artwork";
-            fill?: string | {
-                gradient: {
-                  angle: unknown;
-                  stops: unknown;
-                  [key: string]: unknown;
-                };
-                [key: string]: unknown;
-              };
-            mode: "logo" | "window" | "print";
-            color?: string;
-            radius?: number;
-            shadow?: number;
-            size_pct?: number;
-            wallpaper?: {
-              color?: string;
-              preset?: number | string;
-              gradient?: {
-                angle: number;
-                stops: unknown[];
-                [key: string]: unknown;
-              };
-              [key: string]: unknown;
-            };
-            padding_pct?: number;
-            fill_opacity?: number;
-            rotation_deg?: number;
-            [key: string]: unknown;
-          };
-          video_ref?: string;
-          video_url?: string;
-          placeholder?: string;
-          image_base64?: string;
-          rotation_deg?: number;
-          [key: string]: unknown;
-        }>;
-      /** As in render_mockup. */
-      mockup_id?: string;
-      /** As in render_mockup. */
-      background?: string | {
-          gradient: {
-            angle: number;
-            stops: {
-                color: string;
-                position: number;
-                [key: string]: unknown;
-              }[];
-            [key: string]: unknown;
-          };
-          [key: string]: unknown;
-        };
-      /** As in render_mockup. */
-      variant_id?: string;
-      /** As in render_mockup. */
-      adjustments?: {
-        hue?: number;
-        contrast?: number;
-        vibrance?: number;
-        lightness?: number;
-        saturation?: number;
-        [key: string]: unknown;
-      };
-      /** As in render_mockup. */
-      composition?: {
-        fit?: "crop" | "contain" | "product";
-        width?: number;
-        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
-        height?: number;
-        [key: string]: unknown;
-      };
-      /** As in render_mockup. */
-      layer_colors?: {
-          color?: string;
-          layer: string;
-          gradient?: {
-            angle: number;
-            stops: {
-                color: string;
-                position: number;
-                [key: string]: unknown;
-              }[];
-            [key: string]: unknown;
-          };
-          [key: string]: unknown;
-        }[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Renders 2–6 colour schemes of one mockup (product colours, brand colourways, light and dark) as small previews side by side, labelled A, B, C…. Loads the scene once; the whole sheet counts as one render. Returns the previews with the render_mockup arguments for each scheme. */
-    preview_colorways(args: {
-      /** As in render_mockup. */
-      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
-      /** As in render_mockup. */
-      asset?: string;
-      /** As in render_mockup. */
-      effects?: {
-        blur?: {
-          focus?: {
-            x?: number;
-            y?: number;
-            size?: number;
-            [key: string]: unknown;
-          };
-          amount: number;
-          [key: string]: unknown;
-        };
-        grain?: number;
-        vignette?: number;
-        aberration?: number;
-        [key: string]: unknown;
-      };
-      /** What goes into the placeholders (up to 32). One item per placeholder; to put the same picture in many, repeat the item with the same image_ref or image_url. Each item needs exactly one image source. A phone screen's notch and rounded corners cover its edges, so a title or a button belongs more than a few percent away from the top and bottom of the image. Each item takes the fields of render_mockup */
-      contents?: Array<{
-          fit?: "cover" | "contain" | "fill" | "pattern";
-          url?: string;
-          fill?: string;
-          align?: "center" | "top" | "bottom" | "left" | "right";
-          color?: string;
-          scale?: number;
-          ui_size?: number;
-          offset_x?: number;
-          offset_y?: number;
-          ui_theme?: "light" | "dark";
-          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
-          device_ui?: "auto" | "browser" | "system" | "none";
-          image_ref?: string;
-          image_svg?: string;
-          image_url?: string;
-          placement?: {
-            x?: number;
-            y?: number;
-            as?: "logo" | "artwork";
-            fill?: string | {
-                gradient: {
-                  angle: unknown;
-                  stops: unknown;
-                  [key: string]: unknown;
-                };
-                [key: string]: unknown;
-              };
-            mode: "logo" | "window" | "print";
-            color?: string;
-            radius?: number;
-            shadow?: number;
-            size_pct?: number;
-            wallpaper?: {
-              color?: string;
-              preset?: number | string;
-              gradient?: {
-                angle: number;
-                stops: unknown[];
-                [key: string]: unknown;
-              };
-              [key: string]: unknown;
-            };
-            padding_pct?: number;
-            fill_opacity?: number;
-            rotation_deg?: number;
-            [key: string]: unknown;
-          };
-          video_ref?: string;
-          video_url?: string;
-          placeholder?: string;
-          image_base64?: string;
-          rotation_deg?: number;
-          [key: string]: unknown;
-        }>;
-      /** Longest side of each preview. Default 800. */
-      max_edge?: number;
-      /** 2–6 colour schemes to compare side by side. For a brand, 3–4 from its palette, each named in plain words: A brand (main part primary, small parts accent), B accent (main part neutral, brand colour on small parts), C monochrome (everything and the background in the primary), D inverted (dark main part, light details). */
-      colorways: Array<{
-          /** What the scheme is, e.g. "brand body, accent handles". */
-          name?: string;
-          /** A hex colour or a gradient {gradient: {angle, stops}}, or "original" to keep the scene's background. */
-          background?: string | {
-              gradient: {
-                angle: number;
-                stops: unknown[];
-                [key: string]: unknown;
-              };
-              [key: string]: unknown;
-            };
-          /** Colours for this scheme. Colour layers left out keep their original colour in this scheme. */
-          layer_colors?: {
-              color?: string;
-              layer: string;
-              gradient?: {
-                angle: number;
-                stops: unknown[];
-                [key: string]: unknown;
-              };
-              [key: string]: unknown;
-            }[];
-        }>;
-      /** As in render_mockup. */
-      mockup_id?: string;
-      /** As in render_mockup. */
-      variant_id?: string;
-      /** As in render_mockup. */
-      composition?: {
-        fit?: "crop" | "contain" | "product";
-        width?: number;
-        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
-        height?: number;
-        [key: string]: unknown;
-      };
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Rank ls.graphics mockups against a design profile — the objects wanted, brand colours, style/mood, what it is for or the client's industry, composition. kind limits the results to those objects, and several kinds take turns in the list; without it any object can surface. Brand colours count as a match when the scene has them or a render can apply them (colour layers, background). English words onl */
-    recommend_mockups(args?: {
-      /** Only these objects: phone, tablet, laptop, desktop, watch, tv, device-set, business-card, stationery, envelope, book, magazine, brochure, flyer, poster, billboard, signage, frame, box, bag, cup, bottle, can, jar, label, food, t-shirt, hoodie, cap, tote, apparel, textile, sticker, badge. E.g. ["cup", "bag"] for coffee-shop packaging. */
-      kind?: string[];
-      /** How many to return. Default 5. */
-      limit?: number;
-      /** Mood/style keywords from: minimal, clean, bold, premium, elegant, dark, light, playful, warm, cold, tech, editorial, retro, vintage, futuristic, natural. */
-      style?: string[];
-      /** Brand colours as hex, e.g. #FF5A36. */
-      palette?: string[];
-      /** What the mockups are for, in English, e.g. "fitness app on a phone", "coffee shop packaging". Industries it understands: tech, saas, fintech, ecommerce, fashion, beauty, fitness, health, food, coffee, restaurant, drinks, education, travel, real-estate, interior, music, gaming, media, events, corporate, kids, sports, automotive. */
-      use_case?: string;
-      /** Only mockups marked free on ls.graphics. */
-      free_only?: boolean;
-      composition?: {
-        /** E.g. "front", "flat-lay", "in-hand", "on-wall". */
-        shot?: string;
-        /** E.g. "solid", "gradient", "textured", "scene". */
-        background?: string;
-        /** E.g. "studio", "desk", "interior". */
-        environment?: string;
-        /** "portrait", "landscape" or "square". */
-        orientation?: string;
-        [key: string]: unknown;
-      };
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Renders one design — an app screen, a website, a logo, artwork — on 2–12 different mockups in one call (or, with csv or rows, a table of up to 50 outputs, one row each, in one ZIP): a screen on several devices, a logo on a cup, a tote, a t-shirt and a box. Each mockup renders as render_mockup would (the plan's size and watermark, logo placement, device UI). The design goes into each mockup's main  */
-    render_batch(args?: {
-      /** Instead of mockups: a table, one output per row, up to 50 rows rendered in turns into one ZIP. CSV text with a header row (commas, semicolons or tabs; quotes allowed). Columns: mockup_id (required, the 24-character id from search_mockups — never a search word), variant_id, image_ref or image_url (this row's own picture, one of them, optional: it replaces design for the row; no video), color (#hex: */
-      csv?: string;
-      /** As in render_mockup. */
-      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
-      /** Instead of mockups or csv: the same table as objects, one per output, with the same keys as the CSV columns. */
-      rows?: Record<string, unknown>[];
-      /** As in render_mockup. */
-      trim?: boolean;
-      /** The design that goes on every mockup, as render_mockup's contents (images, colours, placement, device_ui): the first item into each mockup's main screen or surface — the placeholder whose proportions are closest to the image, a front before a back or side — further items into the next best placeholders. placeholder is ignored here: placeholders differ per mockup (mockups[].placeholder names one). */
-      design?: Array<{
-          fit?: "cover" | "contain" | "fill" | "pattern";
-          url?: string;
-          fill?: string;
-          align?: "center" | "top" | "bottom" | "left" | "right";
-          color?: string;
-          scale?: number;
-          ui_size?: number;
-          offset_x?: number;
-          offset_y?: number;
-          ui_theme?: "light" | "dark";
-          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
-          device_ui?: "auto" | "browser" | "system" | "none";
-          image_ref?: string;
-          image_svg?: string;
-          image_url?: string;
-          placement?: {
-            x?: number;
-            y?: number;
-            as?: "logo" | "artwork";
-            fill?: string | {
-                gradient: {
-                  angle: unknown;
-                  stops: unknown;
-                  [key: string]: unknown;
-                };
-                [key: string]: unknown;
-              };
-            mode: "logo" | "window" | "print";
-            color?: string;
-            radius?: number;
-            shadow?: number;
-            size_pct?: number;
-            wallpaper?: {
-              color?: string;
-              preset?: number | string;
-              gradient?: {
-                angle: number;
-                stops: unknown[];
-                [key: string]: unknown;
-              };
-              [key: string]: unknown;
-            };
-            padding_pct?: number;
-            fill_opacity?: number;
-            rotation_deg?: number;
-            [key: string]: unknown;
-          };
-          video_ref?: string;
-          video_url?: string;
-          placeholder?: string;
-          image_base64?: string;
-          rotation_deg?: number;
-          [key: string]: unknown;
-        }>;
-      /** As in render_mockup: default jpeg (png when background is "transparent"). A video is render_mockup with format mp4. */
-      format?: "png" | "jpeg";
-      /** As in render_mockup. */
-      effects?: {
-        blur?: {
-          focus?: {
-            x?: number;
-            y?: number;
-            size?: number;
-            [key: string]: unknown;
-          };
-          amount: number;
-          [key: string]: unknown;
-        };
-        grain?: number;
-        vignette?: number;
-        aberration?: number;
-        [key: string]: unknown;
-      };
-      /** 2–12 mockups, in order; each one file. The same mockup twice with other variant_id values is fine. Not with csv or rows. */
-      mockups?: Array<{
-          /** What this one is, e.g. "iPhone" or "tote", used in its file name. */
-          name?: string;
-          /** As in render_mockup. */
-          asset?: string;
-          /** As in render_mockup. */
-          layers?: {
-              layer: string;
-              opacity?: number;
-              visible?: boolean;
-              [key: string]: unknown;
-            }[];
-          /** Instead of the design: this mockup's own contents, exactly as in render_mockup. */
-          contents?: Array<{
-              fit?: "cover" | "contain" | "fill" | "pattern";
-              url?: string;
-              fill?: string;
-              align?: "center" | "top" | "bottom" | "left" | "right";
-              color?: string;
-              scale?: number;
-              ui_size?: number;
-              offset_x?: number;
-              offset_y?: number;
-              ui_theme?: "light" | "dark";
-              device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
-              device_ui?: "auto" | "browser" | "system" | "none";
-              image_ref?: string;
-              image_svg?: string;
-              image_url?: string;
-              placement?: {
-                x?: number;
-                y?: number;
-                as?: "logo" | "artwork";
-                fill?: unknown;
-                mode: "logo" | "window" | "print";
-                color?: string;
-                radius?: number;
-                shadow?: number;
-                size_pct?: number;
-                wallpaper?: {
-                  color?: unknown;
-                  preset?: unknown;
-                  gradient?: unknown;
-                  [key: string]: unknown;
-                };
-                padding_pct?: number;
-                fill_opacity?: number;
-                rotation_deg?: number;
-                [key: string]: unknown;
-              };
-              video_ref?: string;
-              video_url?: string;
-              placeholder?: string;
-              image_base64?: string;
-              rotation_deg?: number;
-              [key: string]: unknown;
-            }>;
-          /** As in render_mockup. */
-          mockup_id?: string;
-          /** Corrects the shared design's logo on this mockup alone: these keys are merged over the design's own placement (a plain image becomes a logo), everything not named stays as the design has it. Not with contents (put placement inside them); the other mockups keep the shared placement. Use it when the result says a logo may need x or y. */
-          placement?: {
-            /** Centre of the logo across the placeholder, 0 left .. 1 right. */
-            x?: number;
-            /** Centre of the logo down the placeholder, 0 top .. 1 bottom. */
-            y?: number;
-            /** Logo width as a percent of the placeholder's width. */
-            size_pct?: number;
-            /** Logo: degrees clockwise about its centre. */
-            rotation_deg?: number;
-          };
-          /** As in render_mockup. */
-          variant_id?: string;
-          /** Where the design's first item goes on this mockup: placeholder id, name or number from get_mockup. Default: the main screen or surface. */
-          placeholder?: string;
-          /** As in render_mockup. */
-          layer_colors?: {
-              color?: string;
-              layer: string;
-              gradient?: {
-                angle: number;
-                stops: unknown[];
-                [key: string]: unknown;
-              };
-              [key: string]: unknown;
-            }[];
-        }>;
-      /** As in render_mockup. */
-      max_edge?: number | "full";
-      /** As in render_mockup. */
-      background?: string | {
-          gradient: {
-            angle: number;
-            stops: {
-                color: string;
-                position: number;
-                [key: string]: unknown;
-              }[];
-            [key: string]: unknown;
-          };
-          [key: string]: unknown;
-        };
-      /** As in render_mockup. */
-      adjustments?: {
-        hue?: number;
-        contrast?: number;
-        vibrance?: number;
-        lightness?: number;
-        saturation?: number;
-        [key: string]: unknown;
-      };
-      /** As in render_mockup. */
-      composition?: {
-        fit?: "crop" | "contain" | "product";
-        width?: number;
-        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
-        height?: number;
-        [key: string]: unknown;
-      };
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Puts images into a mockup (contents), recolours it (layer_colors), sets shadows, layers and background, and returns the file: a download link (kept for a week) and a preview. One render of the daily limit; several can run in parallel. composition gives any shape (a banner, OG, store sizes) as a crop of the scene (zoomed to the product where it fits, cut and said so where it does not; nothing is pa */
-    render_mockup(args?: {
-      /** A finished colour grade for the whole image: "warm" (golden), "cool" (blue), "film" (faded, soft), "punchy" (contrast and colour), "muted" (calm, desaturated), "mono" (black and white). Applied before adjustments, which still tune on top. */
-      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
-      /** Transparent PNG only (background "transparent"): crops the empty margins around the product, a few px of padding left — the file is the product, not a large empty canvas. Default false. */
-      trim?: boolean;
-      /** Instead of mockup_id: an ls.graphics asset slug or page URL, e.g. https://www.ls.graphics/assets/i-phone-18-pro-009 */
-      asset?: string;
-      /** Also return a second small picture (480 px, about 20 KB): the preview with each placeholder outlined and numbered as in scene_state ("1 Screen") and a light grid labelled in the output picture's pixels. Only in this result — never in the file, the ZIP or the card. Default false. */
-      marks?: boolean;
-      /** A SET of output sizes in ONE call and ONE render against the daily limit (the scene loads and the design applies once): 8 at most, each a preset name (og, product-hunt, x-header, x-post, linkedin-banner, facebook-cover, youtube-thumbnail, instagram-square, instagram-portrait, instagram-story, app-store-6.7, app-store-6.5, app-store-5.5, app-store-ipad-12.9, google-play, google-play-feature) or {wi */
-      sizes?: Array<string | {
-            /** As composition.fit. */
-            fit?: "crop" | "contain" | "product";
-            width?: number;
-            height?: number;
-            /** A preset name, instead of width and height. */
-            preset?: string;
-            [key: string]: unknown;
-          }>;
-      /** Format mp4 or webm only: how the video is made. Its size is max_edge on the long side (default 1920, at most 2560) at the scene's or composition's proportion. */
-      video?: {
-        /** Frames a second. Default 30. */
-        fps?: 30 | 60;
-        /** Length; default the clip's own length, at most 60. */
-        seconds?: number;
-        [key: string]: unknown;
-      };
-      /** Default jpeg (png when background is "transparent"). jpeg files are far smaller — full-size PNG scenes run to 20–35 MB; png keeps transparency. mp4 (H.264) or webm: a video — a clip (video_ref, video_url) playing on a screen; Static mockups only, needs ls.graphics Pro. */
-      format?: "png" | "jpeg" | "mp4" | "webm";
-      layers?: {
-          /** Layer id or name from get_mockup — a shadow or reflection, or a scene layer such as a table or a backdrop. */
-          layer: string;
-          opacity?: number;
-          visible?: boolean;
-          [key: string]: unknown;
-        }[];
-      /** Full-frame effects over the finished picture, the editor's Effects section. Nothing is on unless named. */
-      effects?: {
-        /** Defocus that grows away from the focus area, over everything outside it (a device that is taller than the area blurs at its ends). Not a background-only blur. */
-        blur?: {
-          /** The area that stays sharp; everything away from it blurs. */
-          focus?: {
-            /** Centre of the sharp area, 0 left .. 1 right. Default 0.5. */
-            x?: number;
-            /** 0 top .. 1 bottom. Default 0.5. */
-            y?: number;
-            /** The sharp area's diameter as a fraction of the picture's height. Default 0.53. */
-            size?: number;
-            [key: string]: unknown;
-          };
-          /** 0 off .. 100 the strongest the editor's slider gives. A depth of field over the whole picture, the device and its screen included: the falloff is gentle, so on a square picture 25 reaches only about 0.4% of its height at the corners and 100 about 1.6% (the result says the reach). */
-          amount: number;
-          [key: string]: unknown;
-        };
-        /** Film noise, 0 off .. 100 the strongest of the editor's slider; 10–25 is visible but fine. */
-        grain?: number;
-        /** Darkened corners, 0 off .. 100 the strongest. */
-        vignette?: number;
-        /** Colour fringing at the edges, 0 off .. 100 the strongest; keep it under 30 for a lens-like look. */
-        aberration?: number;
-        [key: string]: unknown;
-      };
-      /** What goes into the placeholders (up to 32). One item per placeholder; to put the same picture in many, repeat the item with the same image_ref or image_url. Each item needs exactly one image source. A phone screen's notch and rounded corners cover its edges, so a title or a button belongs more than a few percent away from the top and bottom of the image. */
-      contents?: Array<{
-          /** cover (default) fills the placeholder and crops what overflows — a wider or taller image loses its edges; contain shows the whole image, and the fill colour fills the space around it; fill stretches; pattern tiles. */
-          fit?: "cover" | "contain" | "fill" | "pattern";
-          /** The address the browser bar shows. Default: the captured page's. With no image, render_mockup captures this page for the screen: its first screen at the size the browser UI leaves, light or dark as ui_theme says (default light), no extra call. */
-          url?: string;
-          /** Hex colour behind the image inside the placeholder: it fills the space around a contained image (or around a screenshot in the device UI — without it a phone's strips take the image's own edge colour). Not for a logo: its plate is placement.fill. */
-          fill?: string;
-          /** Which part of the image stays in view when it overflows the placeholder. Default center — except a long image (a full-page screenshot, twice as tall as the placeholder or more), which starts at its top, because the middle of a page shows nothing. "bottom" shows the end of it. For one exact part, cut the image to the placeholder's proportions first. */
-          align?: "center" | "top" | "bottom" | "left" | "right";
-          /** Instead of an image: fill the placeholder with this solid hex colour, e.g. #FF5A36. It is how to recolour a surface that has no colour layer in get_mockup (a box, a poster, a bag: the placeholder is the surface). Use layer_colors where a colour layer paints that part. Not together with an image. */
-          color?: string;
-          /** Zoom on top of the fit. Default 1. */
-          scale?: number;
-          /** Laptop or monitor only: the device UI's size in percent, 100 = the device's own (a 27" display's bars are already smaller than a laptop's). Default 100. */
-          ui_size?: number;
-          /** Horizontal pan as a fraction of the placeholder width. */
-          offset_x?: number;
-          /** Vertical pan as a fraction of the placeholder height. */
-          offset_y?: number;
-          /** Light or dark device UI. Default: the capture's colour scheme, else from the image. */
-          ui_theme?: "light" | "dark";
-          /** Whose UI, when the guess from the mockup's name is wrong (the result says what was read): a phone ios or android, a tablet ipad, a laptop or monitor macos, windows or neutral (the design's window alone on a wallpaper). */
-          device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
-          /** The device's own UI around a screenshot on a phone, tablet, laptop or monitor screen, so an image of other proportions is never cropped: browser (status bar or menu bar + a browser showing url — without url its address field is empty), system (OS bars only, for an app screen), none. On a laptop or monitor the image is whole in a window the desktop surrounds. On a phone or tablet: within 30% of the */
-          device_ui?: "auto" | "browser" | "system" | "none";
-          /** An image already on this server: what add_images answered for the person's file, or the ref an upload link or POST /v1/uploads (same key) answered with. */
-          image_ref?: string;
-          /** Instead of an image file: SVG markup as text, e.g. a logo or a pattern tile drawn as vector — no base64 needed. Drawn sharp at any size; the root needs a viewBox (or width and height). Fonts are the system's: outline text that must look exact. */
-          image_svg?: string;
-          /** Public http(s) image URL. */
-          image_url?: string;
-          /** A logo or mark on a cup, bag, box, garment or print: never stretched or made to fill the placeholder — it keeps its own proportions on a plate (placement.fill: white by default, black under a light-only logo; a colour or a gradient only when the person named one). Off a garment a transparent PNG sent without placement goes in this way by itself; on a garment placement is required (mode "logo" a ch */
-          placement?: {
-            /** Centre of the logo across the placeholder, 0 left .. 1 right. Default: the placeholder's visual centre when get_mockup lists one (a garment's chest, the seen side of a cup), else 0.5. */
-            x?: number;
-            /** Centre of the logo down the placeholder, 0 top .. 1 bottom. Default: the visual centre when listed, else 0.33 on apparel and 0.5 on packaging and print. */
-            y?: number;
-            /** Logo: how to read the image when the server guesses wrong. "logo": a mark on a plain background (a JPG logo on white) still goes on the plate at its own proportions; "artwork": a full design fills the surface. */
-            as?: "logo" | "artwork";
-            /** Logo: the plate under the logo (the garment or surface colour) — "#RRGGBB", or {gradient: {angle, stops: [{color, position}]}} when the person asks for a gradient. Leave it out unless the person named a colour for the product itself — not a brand colour, not one picked for contrast — except for a logo with its own opaque background (a JPG on white or a colour): its background is never removed, so  */
-            fill?: string | {
-                gradient: {
-                  /** Degrees: 0 bottom→top, 90 left→right. */
-                  angle: unknown;
-                  stops: unknown;
-                  [key: string]: unknown;
-                };
-                [key: string]: unknown;
-              };
-            /** "logo": the image keeps its own proportions and sits on a transparent field over the surface (on a garment: a mark on the chest). "print": the image fills the whole area, the explicit full print a garment asks for (anywhere else it is what no placement does). "window": an app shown as a window on a desktop wallpaper inside a LAPTOP or MONITOR screen (the Static editor's Backdrop) — wallpaper, padd */
-            mode: "logo" | "window" | "print";
-            /** #RRGGBB (logo): repaints a one-colour logo — every opaque pixel takes it, the transparency stays (a multi-colour logo becomes a one-colour silhouette). A black logo made white for a black garment. */
-            color?: string;
-            /** mode "window": corner radius of the window, percent of the screen's short side. Default 2. */
-            radius?: number;
-            /** mode "window": shadow strength. Default 40. */
-            shadow?: number;
-            /** Logo width (its visible pixels, not the canvas) as a percent of the placeholder's width. Default 25 on apparel (a chest print); on packaging and print 35 (less for a tall mark). */
-            size_pct?: number;
-            /** mode "window" only: exactly one of color, gradient, preset. Default: the editor's own wallpaper (preset 1). */
-            wallpaper?: {
-              /** #RRGGBB: a flat wallpaper. */
-              color?: string;
-              /** One of the Static editor's ready-made wallpapers: its number 1-15 on the shelf (1 is the editor's default) or its file name. */
-              preset?: number | string;
-              /** A linear gradient wallpaper. */
-              gradient?: {
-                /** Degrees: 0 bottom→top, 90 left→right. */
-                angle: number;
-                stops: unknown[];
-                [key: string]: unknown;
-              };
-              [key: string]: unknown;
-            };
-            /** mode "window": space around the window, percent of the screen's short side. Default 12. */
-            padding_pct?: number;
-            /** Logo: opacity of the plate (placement.fill), percent. 0 keeps the product's own colour and texture under the logo. Default 100. */
-            fill_opacity?: number;
-            /** Logo: degrees clockwise about its centre. Default 0. */
-            rotation_deg?: number;
-            [key: string]: unknown;
-          };
-          /** A video for a screen: the video_ref capture_video answered, or an MP4/WebM the person added (add_images). render_mockup with format mp4 or webm only. */
-          video_ref?: string;
-          /** A video for a screen at a public http(s) link, MP4 or WebM (up to 100 MB). render_mockup with format mp4 or webm only. */
-          video_url?: string;
-          /** Placeholder id, name or number from get_mockup. May be omitted when the mockup has one placeholder. */
-          placeholder?: string;
-          /** Image bytes as base64 or a data: URL: PNG, JPEG, WebP, GIF, AVIF or SVG. */
-          image_base64?: string;
-          /** Turns the image inside the placeholder; at 90°/270° a non-square image is cropped — use a square source for spins. */
-          rotation_deg?: number;
-          [key: string]: unknown;
-        }>;
-      /** Longest side of the result in pixels. Default 3000 — plenty for social, web and decks, far lighter than the scene's own size (often 6000). "full" or a larger number only when print or a client asked for it; a smaller one only when asked. Never above the scene's size, and free accounts are capped by their plan. */
-      max_edge?: number | "full";
-      /** Mockup id from search_mockups. */
-      mockup_id?: string;
-      /** A hex colour, a linear gradient {gradient: {angle, stops: [{color, position}]}}, "transparent" (PNG only, chosen automatically; add trim: true to crop the empty margins around the product) or "original". A colour or gradient replaces a photo background as a whole — a hand, a table or props that are part of the photo go with it, and the product can end up floating; "original" keeps them. "transpare */
-      background?: string | {
-          gradient: {
-            /** Degrees: 0 bottom→top, 90 left→right. */
-            angle: number;
-            stops: {
-                /** Hex colour. */
-                color: string;
-                position: number;
-                [key: string]: unknown;
-              }[];
-            [key: string]: unknown;
-          };
-          [key: string]: unknown;
-        };
-      /** Colour/size variant: its id from get_mockup, or its name such as "US" or "EU" (paper size) or a colour name. Default: the variant search_mockups listed for an asset, else the first. */
-      variant_id?: string;
-      /** Whole-image corrections, each -1..1 with 0 unchanged. */
-      adjustments?: {
-        hue?: number;
-        contrast?: number;
-        vibrance?: number;
-        lightness?: number;
-        saturation?: number;
-        [key: string]: unknown;
-      };
-      /** Crops the render to a shape, like the composition chip of the online editor — give aspect OR width and height. An aspect is the largest centred frame of that shape in the scene (a crop, never an upscale: a 4:3 scene at 16:9 loses top and bottom). A size is the same crop at the proportion width:height, and the file is exactly width×height px (an OG image: 1200×630) — max_edge is ignored with it, an */
-      composition?: {
-        /** Default: the scene is cropped to the shape and, where the product's bounds are known, zoomed to the product (the whole of it with a margin). A product that does not fit the shape (a wide scene at 9:16) gets the largest centred crop the scene allows and is cut: the answer says so. "product" asks for the zoom explicitly. "crop" is the plain centred crop. "contain" keeps the WHOLE scene and needs bac */
-        fit?: "crop" | "contain" | "product";
-        /** With height: an exact size in px instead of aspect. */
-        width?: number;
-        /** A proportion: "1:1", "4:5" (posts), "9:16" (stories, reels), "16:9" (OG images, banners), "4:3", "3:4". */
-        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
-        /** With width. */
-        height?: number;
-        [key: string]: unknown;
-      };
-      /** Recolour layers such as a device body or packaging — only when the person asked for it or a kept brand applies. */
-      layer_colors?: {
-          /** Hex colour, e.g. #FF5A36. */
-          color?: string;
-          /** Colour layer id or name from get_mockup. */
-          layer: string;
-          gradient?: {
-            /** Degrees: 0 bottom→top, 90 left→right. */
-            angle: number;
-            stops: {
-                color: string;
-                position: number;
-                [key: string]: unknown;
-              }[];
-            [key: string]: unknown;
-          };
-          [key: string]: unknown;
-        }[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Renders 2–12 files of one mockup with one look — the same colours, background, adjustments, format and size — and different contents in each: App Store screens, slides, before/after, one design per language or per client. Loads the scene once, so a series takes about as long as two or three single renders. Returns a download link and a small preview for each file, in order. Each file counts as one */
-    render_series(args: {
-      /** As in render_mockup. */
-      look?: "warm" | "cool" | "film" | "punchy" | "muted" | "mono";
-      /** As in render_mockup. */
-      trim?: boolean;
-      /** As in render_mockup. */
-      asset?: string;
-      /** 2–12 files, in order: each its own contents, everything else shared. */
-      items: Array<{
-          /** What this one is, e.g. "screen 2 — workout" or "de", used in its file name. */
-          name?: string;
-          /** What goes into the placeholders for this file, as in render_mockup. */
-          contents: Array<{
-              fit?: "cover" | "contain" | "fill" | "pattern";
-              url?: string;
-              fill?: string;
-              align?: "center" | "top" | "bottom" | "left" | "right";
-              color?: string;
-              scale?: number;
-              ui_size?: number;
-              offset_x?: number;
-              offset_y?: number;
-              ui_theme?: "light" | "dark";
-              device_os?: "ios" | "android" | "ipad" | "macos" | "windows" | "neutral";
-              device_ui?: "auto" | "browser" | "system" | "none";
-              image_ref?: string;
-              image_svg?: string;
-              image_url?: string;
-              placement?: {
-                x?: number;
-                y?: number;
-                as?: "logo" | "artwork";
-                fill?: unknown;
-                mode: "logo" | "window" | "print";
-                color?: string;
-                radius?: number;
-                shadow?: number;
-                size_pct?: number;
-                wallpaper?: {
-                  color?: unknown;
-                  preset?: unknown;
-                  gradient?: unknown;
-                  [key: string]: unknown;
-                };
-                padding_pct?: number;
-                fill_opacity?: number;
-                rotation_deg?: number;
-                [key: string]: unknown;
-              };
-              video_ref?: string;
-              video_url?: string;
-              placeholder?: string;
-              image_base64?: string;
-              rotation_deg?: number;
-              [key: string]: unknown;
-            }>;
-        }>;
-      /** As in render_mockup: default jpeg (png when background is "transparent"). A video is render_mockup with format mp4. */
-      format?: "png" | "jpeg";
-      /** As in render_mockup. */
-      layers?: {
-          layer: string;
-          opacity?: number;
-          visible?: boolean;
-          [key: string]: unknown;
-        }[];
-      /** As in render_mockup. */
-      effects?: {
-        blur?: {
-          focus?: {
-            x?: number;
-            y?: number;
-            size?: number;
-            [key: string]: unknown;
-          };
-          amount: number;
-          [key: string]: unknown;
-        };
-        grain?: number;
-        vignette?: number;
-        aberration?: number;
-        [key: string]: unknown;
-      };
-      /** As in render_mockup. */
-      max_edge?: number | "full";
-      /** As in render_mockup. */
-      mockup_id?: string;
-      /** As in render_mockup. */
-      background?: string | {
-          gradient: {
-            angle: number;
-            stops: {
-                color: string;
-                position: number;
-                [key: string]: unknown;
-              }[];
-            [key: string]: unknown;
-          };
-          [key: string]: unknown;
-        };
-      /** As in render_mockup. */
-      variant_id?: string;
-      /** As in render_mockup. */
-      adjustments?: {
-        hue?: number;
-        contrast?: number;
-        vibrance?: number;
-        lightness?: number;
-        saturation?: number;
-        [key: string]: unknown;
-      };
-      /** As in render_mockup. */
-      composition?: {
-        fit?: "crop" | "contain" | "product";
-        width?: number;
-        aspect?: "1:1" | "4:5" | "16:9" | "9:16" | "4:3" | "3:4";
-        height?: number;
-        [key: string]: unknown;
-      };
-      /** As in render_mockup. */
-      layer_colors?: {
-          color?: string;
-          layer: string;
-          gradient?: {
-            angle: number;
-            stops: {
-                color: string;
-                position: number;
-                [key: string]: unknown;
-              }[];
-            [key: string]: unknown;
-          };
-          [key: string]: unknown;
-        }[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Keeps a brand in the person's ls.graphics account — its colours (with roles), fonts, logos and a few words on its style — under a name, so it can be read back in a later chat with get_brand. Saving under a name that is kept updates it: fields left out stay as they were, logos are added (remove_logos takes some out). delete removes the brand. Up to 30 brands, 12 colours, 6 fonts and 5 logos each. */
-    save_brand(args: {
-      /** The client's or the product's name. */
-      name: string;
-      /** Replaces the kept fonts. */
-      fonts?: {
-          name: string;
-          role?: string;
-          [key: string]: unknown;
-        }[];
-      /** Logos to add, each one of image_ref, image_url, image_svg or image_base64. */
-      logos?: {
-          /** Which logo this is: full, mark, white… */
-          name?: string;
-          image_ref?: string;
-          image_svg?: string;
-          image_url?: string;
-          image_base64?: string;
-          [key: string]: unknown;
-        }[];
-      /** Style, mood, tone, what to avoid. Replaces the kept notes. */
-      notes?: string;
-      /** Replaces the kept colours. */
-      colors?: Array<{
-          /** #RRGGBB */
-          hex: string;
-          name?: string;
-          role?: "primary" | "secondary" | "accent" | "neutral" | "background" | "text";
-          [key: string]: unknown;
-        }>;
-      /** Remove the whole brand. */
-      delete?: boolean;
-      /** Ids of kept logos to remove. */
-      remove_logos?: string[];
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Keeps a design in the person's ls.graphics account under a name, to render again in a later chat (get_design): pass the arguments of the render_mockup, render_series or render_batch call as they were sent (mockup ids, variants, contents with placements, layer_colors, background, composition, look, effects, format). Every image_ref in them is copied into the design, so it outlives the day an upload */
-    save_design(args: {
-      /** Short, e.g. "Acme hero on iPhone". */
-      name: string;
-      /** Which render tool the arguments are for. Needed unless remove is true. */
-      tool?: "render_mockup" | "render_series" | "render_batch";
-      /** Delete the kept design of this name. */
-      remove?: boolean;
-      /** That tool's arguments, exactly as they were passed. */
-      arguments?: Record<string, unknown>;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Used by the ls.graphics card: stores the PNG the online editor exported in the chat and returns its download link. */
-    save_edited_mockup(args: {
-      /** The PNG, base64 or a data: URL. */
-      data: string;
-      name?: string;
-      mockup_id: string;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Find mockups in the ls.graphics catalog by product name: devices, packaging, apparel, print. Matches English product words in names — typos and other languages return nothing; when names give fewer than 3 on the first page, mockups whose description matches the words follow (matched_by "description"). Industries or moods ("fitness", "premium") are recommend_mockups'. Each result has its mockup_id, */
-    search_mockups(args?: {
-      /** 0-based page of limit results (default 12): page 1 starts right after the first limit results. */
-      page?: number;
-      /** Results per page, 1–60 (default 12). Ask for more only when the person wants to browse; the next page starts after these. */
-      limit?: number;
-      /** English product words, e.g. "iphone 17 pro", "coffee cup", "hoodie", "business card". Empty lists the newest mockups first. */
-      query?: string;
-      /** Only mockups marked free on ls.graphics. */
-      free_only?: boolean;
-      [key: string]: unknown;
-    }): Promise<unknown>;
-    /** Used by the ls.graphics card: stores an image the person dropped into the chat and returns its image_ref. */
-    upload_image(args: {
-      /** The image, base64 or a data: URL. */
-      data: string;
-      name?: string;
       [key: string]: unknown;
     }): Promise<unknown>;
 }
@@ -407544,6 +408355,77 @@ interface BowmarkSiteTools_b84213fdeb {
       /** The game: pokemon, one-piece, lorcana, riftbound, gundam, fusion-world (Dragon Ball Super Fusion World), sorcery, grand-archive or cyberpunk. */
       game?: "pokemon" | "riftbound" | "one-piece" | "lorcana" | "gundam" | "fusion-world" | "sorcery" | "grand-archive" | "cyberpunk";
     }): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_b8778faafb {
+    /** Browse the Wix REST API documentation menu hierarchy. Alternative to SearchWixRESTDocumentation - use this to explore and discover APIs by navigating the menu structure instead of searching by keywords. - Omit the `menuUrl` param to see top-level categories - Pass a `menuUrl` param to drill into a category - copy the URL from previous responses Example `menuUrl` param values for main Wix verticals */
+    BrowseWixRESTDocsMenu(args: {
+      /** One sentence describing the original user request and why you are browsing this part of the docs menu. */
+      reason: string;
+      /** URL of the menu to browse. Empty/omitted returns the root menu. Copy the URL from links in previous responses of this tool. Example: "https://dev.wix.com/docs/api-reference/ecommerce" or "https://dev.wix.com/docs/api-reference/ecommerce/catalog" */
+      menuUrl?: string;
+    }): Promise<unknown>;
+    /** Call apis on site "ATI COLLEGE" (https://www.ati.edu.my/_api/mcp). Use this to perform an action on visitor's behalf, for example, query the site's data or book an appointment. Before calling this tool, you should ALWAYS check the rest docs (use "SearchSiteApiDocs" tool) for the specific API you want to call. The mentioned tool will give you instructions how to use the API.', 'NEVER try to guess t */
+    CallWixSiteAPI(args: {
+      /** The url of the api to call - ALWAYS get the information from the API docs retrieved using the 'SearchSiteApiDocs' tool or from the conversation context, the URL MUST BE ABSOLUTE URL. Usually it starts with 'https://www.wixapis.com'. */
+      url: string;
+      /** A string representing of a valid JSON object to describe the body of the request */
+      body?: string;
+      /** The HTTP method to use for the API call (e.g. GET, POST, PUT, DELETE) */
+      method: string;
+      /** Visitor access token. Omit it when the caller sent an access token in the Authorization header - that token is used instead. Otherwise: if you have a visitor token in your context, ALWAYS use it and do not create a new one; if you do not have one, use the GenerateVisitorToken tool to get it. */
+      visitorToken?: string;
+    }): Promise<unknown>;
+    /** Run JavaScript against the Wix REST API on site "ATI COLLEGE" (https://www.ati.edu.my/_api/mcp), on the visitor's behalf. The code runs in a sandbox and you get back whatever it returns. PREFER THIS TOOL OVER CallWixSiteAPI. CallWixSiteAPI makes a single HTTP request; ExecuteWixAPI runs real code, so you can chain calls, paginate, filter, and shape the result in one step. Use ExecuteWixAPI for any */
+    ExecuteWixAPI(args: {
+      /** JavaScript async function expression to execute against the Wix REST API. The value must be the function itself, for example `async function() { ... }` or `async () => { ... }`, not a script body and not an invoked function. Return the final answer from inside the function. Do not write top-level `const`, top-level `await`, or top-level `return` outside the function body. Do not import Node.js bui */
+      code: string;
+      /** Optional bundle of raw file contents for uploads, so file bytes never go through the `code` JavaScript (no escaping, no string-literal/`${}`/backtick pitfalls). Never inline file contents in `code`. Format: sections delimited by a line `=== FILE: <path> ===` (text, raw) or `=== FILE: <path> base64 ===` (binary, base64); `<path>` is relative to the site root. Example: `=== FILE: index.html ===\n<!d */
+      files?: string;
+      /** One sentence explaining the original user request and why you are executing code to complete it. */
+      reason: string;
+      /** A file you have (attached in the chat or created in your sandbox), passed by its file id or path. In OpenAI clients (ChatGPT, Codex) it arrives as { download_url, file_id, file_name?, mime_type? }. Other clients send the path as written, which Wix can't read; there, leave this out and use `files`, or upload from your shell if it reaches the internet. Any type: a zip of a site, HTML, images, PDFs.  */
+      attachments?: {
+          file_id: string;
+          file_name?: string;
+          mime_type?: string;
+          download_url: string;
+        }[];
+      /** Optional. Whether the code writes site data (create, update, delete, import, upload) or only reads it. */
+      hasMutations?: boolean;
+      /** Visitor access token, for an anonymous call. Omit it when you are signed in and sending your access token in the Authorization header - that token is used instead. Otherwise, if you have a visitor token in your context, ALWAYS use it and do not create a new one; if not, use the GenerateVisitorToken tool. */
+      visitorToken?: string;
+      /** The URLs of the documentation, recipes, API articles, or schema sources where you confirmed the Wix REST endpoints, HTTP methods, request body shapes, auth contexts, and required fields used by this code. Include every docs/schema source needed for the endpoints and request shapes used in the code. The endpoints and request shapes must appear in those sources; do not guess them. Each value must be */
+      sourceDocUrls: string[];
+    }): Promise<unknown>;
+    /** Create a new visitor session and obtain a visitor access token for site "ATI COLLEGE" (https://www.ati.edu.my/_api/mcp). You must use this tool before calling CallWixSiteAPI for this first time. If you already have a visitor token in your context, DO NOT USE THIS TOOL AGAIN. */
+    GenerateVisitorToken(args?: Record<string, unknown>): Promise<unknown>;
+    /** Get business and site details for "ATI COLLEGE" (https://www.ati.edu.my/_api/mcp). This tool will return business details: timezone, phone, address, site name, business name, description, business schedule, special hour period. It will also return site features that you can use via other tools (bookings, store, etc.). Call this tool when user asks for business contact details, or about what they c */
+    GetBusinessDetails(args?: Record<string, unknown>): Promise<unknown>;
+    /** Fetches the full Wix docs article or method article with code examples for using the method. Docs articles looks like this: https://dev.wix.com/docs/... and they can either be general docs articles or method articles. Also reads Wix skills pages — https://www.wix.com/skills/<skill>, https://dev.wix.com/docs/skills/<skill>, and the files they link (e.g. .../<skill>/references/<file>.md) — and Wix H */
+    ReadFullDocsArticle(args: {
+      /** The URL of the docs article or method article to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). Wix Help Center articles (https://support.wix.com/en/article/...) are read as-is. Wix skills pages (https://www.wix.com/skills/..., https */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Fetches the full method schema for a given method. This will give you the entire request/response schema with all the fields and their descriptions. For REST and SDK API-reference methods, prefer SearchWixAPISpec when it is available: it can fetch and inspect the exact method schema by docs URL, return the request/response shape, the JavaScript SDK call (`method.sdk`: package, namespace, method, p */
+    ReadFullDocsMethodSchema(args: {
+      /** One sentence describing the original user request, the task you are trying to accomplish, and why you need the full schema (e.g., no relevant code example found in docs or recipes). */
+      reason: string;
+      /** The URL of the documentation to fetch. Should be something like https://dev.wix.com/docs/.../... For REST docs, use the URL as-is. For SDK docs, the URL SHOULD include the query param ?apiView=SDK (e.g. https://dev.wix.com/docs/...?apiView=SDK). */
+      articleUrl: string;
+    }): Promise<unknown>;
+    /** Searches the site "ATI COLLEGE" (https://www.ati.edu.my/_api/mcp) for information. Use this tool ONLY in the following cases: 1. You just used "GetBusinessDetails" tool and you did not find the information you need. 2. User asked a generic business question about their business (e.g., business address, business hours, contact information, return policy, etc.) 3. You already tried to find an entity */
+    SearchInSite(args: {
+      /** The term to search for in the site, e.g. "working hours" or "store locations" */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** Searches for site "ATI COLLEGE" (https://www.ati.edu.my/_api/mcp) API documentation and returns how to use the site using the API. You are a helpful "ATI COLLEGE" site assistant chatbot and you are helping the user perform actions on the site - to query the site's data or to perform an action on the site. Specify the API endpoint, resource, or action you need information about (e.g., 'get site det */
+    SearchSiteApiDocs(args: {
+      /** A short, natural-language search term describing the API capability you need — a generic term, not too specific (e.g., "how to fetch products" instead of "avocados in stock"). Use plain words only: no code, SQL, shell commands, HTML, URLs, file paths, or special symbols. */
+      searchTerm: string;
+    }): Promise<unknown>;
+    /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
+    WixREADME(args?: Record<string, unknown>): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_b891c45019 {
@@ -430790,60 +431672,6 @@ interface BowmarkSiteTools_c9f0b8b284 {
     }): Promise<unknown>;
 }
 
-interface BowmarkSiteTools_ca0962279f {
-    /** ERGO NEXT Insurance appetite check and starting price for U.S. small businesses — General Liability (GL), Workers' Compensation (WC) and Business Owner's Policy (BP). Use it when the user wants a quote, starting price or eligibility check for small-business insurance, or asks whether their type of business can get coverage, whether or not they mention ERGO NEXT. Not for: another carrier the user n */
-    get_early_quote(args?: {
-      /** Optional. Only set this when the user picked a Class of Business from a list the tool presented: the chosen name, sent together with cob_id. A directly matched Class of Business is already stored for the session. */
-      cob?: string;
-      /** Line of business / insurance type code. One of: GL (General Liability), WC (Workers' Compensation), BP (Business Owner's Policy). */
-      lob?: "GL" | "WC" | "BP";
-      /** Optional. Set to true to discard all fields previously stored under `purchase_flow_id` and start fresh — use this when the user wants to quote a genuinely new, unrelated business under the same purchase_flow_id rather than continuing the current one. */
-      reset?: boolean;
-      /** Optional. Only set this when the user picked a Class of Business from a list the tool presented: the cob_id the tool listed for that option, sent together with cob. A directly matched Class of Business is already stored for the session. */
-      cob_id?: number;
-      /** The business's location, as this structured object. zip_code is required — the quote runs on it — so if the user's address text has no ZIP code, ask for it specifically rather than submitting the address without it. Send only the ZIP code: not the street, city or state. */
-      address?: {
-        /** ZIP code (5 digits, or ZIP+4 format). */
-        zip_code: string;
-      };
-      /** Number of business owners. */
-      num_owners?: number;
-      /** For Business Owner's Policy (BP) only. The business location's burglar alarm: NONE, LOCAL (sounds on site only) or CENTRAL (monitored by a central station). */
-      burglar_alarm?: "NONE" | "LOCAL" | "CENTRAL";
-      /** Name of the business */
-      business_name?: string;
-      /** Total number of employees (full-time + part-time) */
-      num_employees?: number;
-      /** Total annual revenue in USD (e.g. 250000 for $250k). Used for General Liability (GL) and Business Owner's Policy (BP). Not used for Workers' Compensation (WC). */
-      annual_revenue?: number;
-      /** For Business Owner's Policy (BP) only. Square feet the business occupies. */
-      square_footage?: number;
-      /** For General Liability (GL) and Business Owner's Policy (BP) only. Once the tool has presented ISO activity options, pass the chosen isoClassCode value(s) here. Do not include for WC. */
-      iso_class_codes?: number[];
-      /** Optional. The `purchase_flow_id` from a previous get_early_quote response in this conversation. When present, the server fills in previously-collected fields for you — only send purchase_flow_id plus new/changed fields. Omit on the very first call of a conversation. */
-      purchase_flow_id?: string;
-      /** For Business Owner's Policy (BP) only. Stories in the building the business is in. */
-      number_of_stories?: number;
-      /** For Business Owner's Policy (BP) only. Whether the building has fire sprinklers. */
-      has_fire_sprinklers?: boolean;
-      /** For Business Owner's Policy (BP) only. How many locations the business operates from. */
-      number_of_locations?: number;
-      /** Short free-text description of what the business does — what they sell or what services they provide (e.g. "dog walker", "bakery", "mobile auto detailer"). Leave out location, state, city, ZIP, employee count, payroll, qualifiers like "small", "freelance", "self-employed" or "part-time", or any other non-business-type details. If the user says "dog walker in California", pass "dog walker". If they */
-      business_description?: string;
-      /** For Business Owner's Policy (BP) only. HOME_APARTMENT (run from a home or apartment), SPACE_RENT (rents commercial space), SPACE_OWNED (owns its commercial space) or SPACE_OWN_AND_RENT (owns the commercial space and rents part of it to others). */
-      building_location_type?: "HOME_APARTMENT" | "SPACE_RENT" | "SPACE_OWNED" | "SPACE_OWN_AND_RENT";
-      /** For Workers' Compensation (WC) only. Once the tool has presented employee activity options, explain that the payroll is split across the activities the employees perform, name the activities that fit this business, and ask for the total annual payroll and how much goes to each activity (by default, the full amount goes to the best-fitting one). Refer to them as employee activities and present each */
-      class_codes_with_payrolls?: {
-          /** Annual payroll in USD allocated to this employee activity. */
-          payroll: number;
-          /** The "ncciCode" value of an employee activity from the options the tool most recently presented. */
-          classCode: string;
-        }[];
-      /** For Business Owner's Policy (BP) only. The coverage limit for the business's own property (equipment, inventory, furniture), in USD: from 10000 to 500000. If the user's estimate is below 10000, send 10000. */
-      business_personal_property_limit?: number;
-    }): Promise<unknown>;
-}
-
 interface BowmarkSiteTools_ca0a3132e0 {
     /** Termékek keresése a webáruházban. */
     search(args?: {
@@ -438303,6 +439131,15 @@ interface BowmarkSiteTools_ceb37016b4 {
     }): Promise<unknown>;
     /** # Tool: WixREADME The context every other Wix tool assumes. Call it first, once per conversation, for any Wix task or question; for another site later in the conversation, call `GetSiteContext` instead of calling this again. A Wix task includes reading or changing a site's or account's data: products, inventory, carts, checkouts, orders, bookings, services, staff, time slots, rentals, restaurant m */
     WixREADME(args?: Record<string, unknown>): Promise<unknown>;
+}
+
+interface BowmarkSiteTools_cee22c68fc {
+    /** Keresés a Reakció hírei, videói és véleményei között kulcsszó alapján. */
+    search_articles(args: {
+      /** A keresett kulcsszó vagy kifejezés, magyarul. */
+      q: string;
+      [key: string]: unknown;
+    }): Promise<unknown>;
 }
 
 interface BowmarkSiteTools_cee6b41c7a {
@@ -506858,6 +507695,60 @@ interface BowmarkSiteTools_fe27c17251 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_fe3c58edb7 {
+    /** ERGO NEXT Insurance appetite check and starting price for U.S. small businesses — General Liability (GL), Workers' Compensation (WC), Business Owner's Policy (BP), Professional Liability (PL) and Inland Marine (IM). Use it when the user wants a quote, starting price or eligibility check for small-business insurance, or asks whether their type of business can get coverage, whether or not they menti */
+    get_early_quote(args?: {
+      /** Optional. Only set this when the user picked a Class of Business from a list the tool presented: the chosen name, sent together with cob_id. A directly matched Class of Business is already stored for the session. */
+      cob?: string;
+      /** Line of business / insurance type code. One of: GL (General Liability), WC (Workers' Compensation), BP (Business Owner's Policy), PL (Professional Liability) or IM (Inland Marine). */
+      lob?: "GL" | "WC" | "BP" | "PL" | "IM";
+      /** Optional. Set to true to discard all fields previously stored under `purchase_flow_id` and start fresh — use this when the user wants to quote a genuinely new, unrelated business under the same purchase_flow_id rather than continuing the current one. */
+      reset?: boolean;
+      /** Optional. Only set this when the user picked a Class of Business from a list the tool presented: the cob_id the tool listed for that option, sent together with cob. A directly matched Class of Business is already stored for the session. */
+      cob_id?: number;
+      /** The business's location, as this structured object. zip_code is required — the quote runs on it — so if the user's address text has no ZIP code, ask for it specifically rather than submitting the address without it. Send only the ZIP code: not the street, city or state. */
+      address?: {
+        /** ZIP code (5 digits, or ZIP+4 format). */
+        zip_code: string;
+      };
+      /** Number of business owners. */
+      num_owners?: number;
+      /** For Business Owner's Policy (BP) only. The business location's burglar alarm: NONE, LOCAL (sounds on site only) or CENTRAL (monitored by a central station). */
+      burglar_alarm?: "NONE" | "LOCAL" | "CENTRAL";
+      /** Name of the business */
+      business_name?: string;
+      /** Total number of employees (full-time + part-time) */
+      num_employees?: number;
+      /** Total annual revenue in USD (e.g. 250000 for $250k). Used for General Liability (GL) and Business Owner's Policy (BP). Not used for Workers' Compensation (WC). */
+      annual_revenue?: number;
+      /** For Business Owner's Policy (BP) only. Square feet the business occupies. */
+      square_footage?: number;
+      /** For General Liability (GL) and Business Owner's Policy (BP) only. Once the tool has presented ISO activity options, pass the chosen isoClassCode value(s) here. Do not include for WC. */
+      iso_class_codes?: number[];
+      /** Optional. The `purchase_flow_id` from a previous get_early_quote response in this conversation. When present, the server fills in previously-collected fields for you — only send purchase_flow_id plus new/changed fields. Omit on the very first call of a conversation. */
+      purchase_flow_id?: string;
+      /** For Business Owner's Policy (BP) only. Stories in the building the business is in. */
+      number_of_stories?: number;
+      /** For Business Owner's Policy (BP) only. Whether the building has fire sprinklers. */
+      has_fire_sprinklers?: boolean;
+      /** For Business Owner's Policy (BP) only. How many locations the business operates from. */
+      number_of_locations?: number;
+      /** Short free-text description of what the business does — what they sell or what services they provide (e.g. "dog walker", "bakery", "mobile auto detailer"). Leave out location, state, city, ZIP, employee count, payroll, qualifiers like "small", "freelance", "self-employed" or "part-time", or any other non-business-type details. If the user says "dog walker in California", pass "dog walker". If they */
+      business_description?: string;
+      /** For Business Owner's Policy (BP) only. HOME_APARTMENT (run from a home or apartment), SPACE_RENT (rents commercial space), SPACE_OWNED (owns its commercial space) or SPACE_OWN_AND_RENT (owns the commercial space and rents part of it to others). */
+      building_location_type?: "HOME_APARTMENT" | "SPACE_RENT" | "SPACE_OWNED" | "SPACE_OWN_AND_RENT";
+      /** For Workers' Compensation (WC) only. Once the tool has presented employee activity options, explain that the payroll is split across the activities the employees perform, name the activities that fit this business, and ask for the total annual payroll and how much goes to each activity (by default, the full amount goes to the best-fitting one). Refer to them as employee activities and present each */
+      class_codes_with_payrolls?: {
+          /** Annual payroll in USD allocated to this employee activity. */
+          payroll: number;
+          /** The "ncciCode" value of an employee activity from the options the tool most recently presented. */
+          classCode: string;
+        }[];
+      /** For Business Owner's Policy (BP) only. The coverage limit for the business's own property (equipment, inventory, furniture), in USD: from 10000 to 500000. If the user's estimate is below 10000, send 10000. */
+      business_personal_property_limit?: number;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_fe3c8399aa {
     /** Report the plan, monthly and daily call usage, remaining quota, reset times, rate limit and overage status for the DoorProfit API key authenticating this session. Takes no arguments — it always describes the calling key, never another account. Call it when the user asks how many calls they have left, or after any other tool returns QUOTA_EXCEEDED or DAILY_LIMIT_EXCEEDED, to confirm the limit and r */
     get_api_usage(args?: Record<string, unknown>): Promise<unknown>;
@@ -508333,6 +509224,34 @@ interface BowmarkSiteTools_ff11327ac7 {
     }): Promise<unknown>;
 }
 
+interface BowmarkSiteTools_ff71711b1b {
+    /** Ferramenta interna da interface: carrega os dados de uma busca para o carrossel. Não é destinada a chamadas do modelo. */
+    load_search_results(args: {
+      request: unknown;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Compara de uma a sete datas consecutivas de ida, incluindo só ida e ida e volta. Quando uma volta é informada, as opções de ida e volta usam essa data fixa; sem volta informada, usa as datas de volta observadas no banco. Preserve minimum_stay_days. Resultados são preços encontrados para um adulto, não tarifas confirmadas em tempo real. Mostra os resultados no carrossel interativo com alternância d */
+    search_flexible_dates(args: {
+      request: unknown;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Busca observações recentes por aeroportos e data de ida exatos. Sempre inclui só ida e ida e volta; uma volta informada limita a data da volta, e sem volta informada usa as datas de volta observadas no banco. Preserve minimum_stay_days. Retorna preços por adulto em BRL, data da observação e links originais do Voopter. Não consulta disponibilidade ao vivo e não reserva. Mostra os resultados no carr */
+    search_flights(args: {
+      request: unknown;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Compara de 2 a 10 destinos em uma única busca e exibe tudo em um só carrossel. Use quando o usuário não tiver escolhido destino ou pedir uma categoria de lugares, como praias do Nordeste. Escolha destinos coerentes com o pedido e consulte todos juntos; não faça uma chamada por destino. Sempre inclui só ida e ida e volta para alternância. Preserve minimum_stay_days quando pedido e só considere dest */
+    search_upcoming_destinations(args: {
+      request: unknown;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+    /** Busca datas flexíveis, padrão nos próximos 90 dias, sem exigir datas exatas. Sempre consulte ambos os tipos de viagem; não limite os resultados ao valor trip_type recebido. Use para pedidos como 'quando estiver barato', 'datas flexíveis' ou sem período definido; não pergunte datas e não invente uma única data. Se o usuário pedir um período amplo (ex.: fim do ano), use start_date e days para cobri- */
+    search_upcoming_flights(args: {
+      request: unknown;
+      [key: string]: unknown;
+    }): Promise<unknown>;
+}
+
 interface BowmarkSiteTools_ffac085d70 {
     /** Browse Amazon products by brand name. Returns products matching the given brand. */
     browse_by_brand(args: {
@@ -509113,6 +510032,7 @@ interface BowmarkSites {
   "1861.ca": BowmarkSiteTools_e8ae28a971;
   "19damoa.org": BowmarkSiteTools_732b2b427a;
   "19grams.coffee": BowmarkSiteTools_1a8e16d918;
+  "19yako.com": BowmarkSiteTools_a18111a823;
   "1e9.community": BowmarkSiteTools_8c404e0963;
   "1hotpieceofglass.com": BowmarkSiteTools_e8ae28a971;
   "1md.org": BowmarkSiteTools_921614d236;
@@ -509178,7 +510098,7 @@ interface BowmarkSites {
   "48.club": BowmarkSiteTools_91edb26576;
   "4dayweek.io": BowmarkSiteTools_8d316384c5;
   "4dsystems.com.au": BowmarkSiteTools_1a8e16d918;
-  "4endurance.de": BowmarkSiteTools_921614d236;
+  "4endurance.de": BowmarkSiteTools_1a8e16d918;
   "4ip.info": BowmarkSiteTools_6b99301dd6;
   "4murs.com": BowmarkSiteTools_921614d236;
   "4ocean.com": BowmarkSiteTools_921614d236;
@@ -509315,6 +510235,7 @@ interface BowmarkSites {
   "activetruth.com.au": BowmarkSiteTools_921614d236;
   "actofcaring.com": BowmarkSiteTools_1a8e16d918;
   "acurite.com": BowmarkSiteTools_1a8e16d918;
+  "adamans.com": BowmarkSiteTools_921614d236;
   "adamspolishes.com": BowmarkSiteTools_e8ae28a971;
   "adanola.com": BowmarkSiteTools_921614d236;
   "adanslibas.com": BowmarkSiteTools_921614d236;
@@ -509346,6 +510267,7 @@ interface BowmarkSites {
   "adultsmart.com.au": BowmarkSiteTools_921614d236;
   "adultvibetoys.com": BowmarkSiteTools_921614d236;
   "adurofire.com": BowmarkSiteTools_921614d236;
+  "advanced.gg": BowmarkSiteTools_e8ae28a971;
   "advancedmixology.com": BowmarkSiteTools_921614d236;
   "advancedpressuresystems.com": BowmarkSiteTools_921614d236;
   "adventurecamp.com": BowmarkSiteTools_921614d236;
@@ -509396,7 +510318,6 @@ interface BowmarkSites {
   "agentskills.io": BowmarkSiteTools_e72342c6a8;
   "agesthreeandup.ca": BowmarkSiteTools_921614d236;
   "aghanim.com": BowmarkSiteTools_0f65fe1768;
-  "aghanoorofficial.com": BowmarkSiteTools_e8ae28a971;
   "agileoffroad.com": BowmarkSiteTools_e8ae28a971;
   "agingresearch.news": BowmarkSiteTools_85b0928a25;
   "agip.com": BowmarkSiteTools_5622e02211;
@@ -509444,6 +510365,7 @@ interface BowmarkSites {
   "aiseo.ai": BowmarkSiteTools_9d32602628;
   "aislesinventory.com": BowmarkSiteTools_8a0af769b7;
   "aitmpl.com": BowmarkSiteTools_933ee3f3d5;
+  "aitokauppa.fi": BowmarkSiteTools_921614d236;
   "aizal.pk": BowmarkSiteTools_921614d236;
   "ajansspor.com": BowmarkSiteTools_b9a010e108;
   "ajel.sa": BowmarkSiteTools_c51e1f548e;
@@ -509469,6 +510391,7 @@ interface BowmarkSites {
   "alakazam.co.uk": BowmarkSiteTools_e8ae28a971;
   "alamomusic.com": BowmarkSiteTools_921614d236;
   "alaninu.com": BowmarkSiteTools_921614d236;
+  "alanpaine.co.uk": BowmarkSiteTools_921614d236;
   "alansbmx.com": BowmarkSiteTools_e8ae28a971;
   "alastin.com": BowmarkSiteTools_921614d236;
   "albanypark.com": BowmarkSiteTools_921614d236;
@@ -509536,6 +510459,7 @@ interface BowmarkSites {
   "allbrandsfurniture.net": BowmarkSiteTools_921614d236;
   "allbuy.com": BowmarkSiteTools_921614d236;
   "allcam.nl": BowmarkSiteTools_921614d236;
+  "allcam.se": BowmarkSiteTools_921614d236;
   "allcitycandy.com": BowmarkSiteTools_921614d236;
   "alldataresource.com": BowmarkSiteTools_921614d236;
   "allegra-k.com": BowmarkSiteTools_921614d236;
@@ -509620,7 +510544,7 @@ interface BowmarkSites {
   "alteserien.de": BowmarkSiteTools_921614d236;
   "altestore.com": BowmarkSiteTools_921614d236;
   "altfragrances.com": BowmarkSiteTools_1a8e16d918;
-  "altn.com": BowmarkSiteTools_921614d236;
+  "altn.com": BowmarkSiteTools_1a8e16d918;
   "altoe.co.uk": BowmarkSiteTools_921614d236;
   "altolab-usa.com": BowmarkSiteTools_921614d236;
   "altomusic.com": BowmarkSiteTools_1a8e16d918;
@@ -509631,7 +510555,7 @@ interface BowmarkSites {
   "altuzarra.com": BowmarkSiteTools_e8ae28a971;
   "alumitubs.com": BowmarkSiteTools_1a8e16d918;
   "alwaysfit.com.br": BowmarkSiteTools_921614d236;
-  "alwaysfit.net.br": BowmarkSiteTools_1a8e16d918;
+  "alwaysfit.net.br": BowmarkSiteTools_921614d236;
   "alyceparis.com": BowmarkSiteTools_921614d236;
   "am-qualitaetsmatratzen.de": BowmarkSiteTools_921614d236;
   "ama.one": BowmarkSiteTools_33ba7709bc;
@@ -509724,7 +510648,7 @@ interface BowmarkSites {
   "analizafirm.pl": BowmarkSiteTools_6df120eb18;
   "analoguewonderland.co.uk": BowmarkSiteTools_e8ae28a971;
   "anara.com": BowmarkSiteTools_c5c7bb60a4;
-  "anastasiabeverlyhills.com": BowmarkSiteTools_921614d236;
+  "anastasiabeverlyhills.com": BowmarkSiteTools_1a8e16d918;
   "anbernic.com": BowmarkSiteTools_921614d236;
   "ancel.com": BowmarkSiteTools_921614d236;
   "ancestralsupplements.com": BowmarkSiteTools_921614d236;
@@ -509827,7 +510751,7 @@ interface BowmarkSites {
   "anveshan.farm": BowmarkSiteTools_921614d236;
   "anyaactive.com": BowmarkSiteTools_e8ae28a971;
   "anyahindmarch.com": BowmarkSiteTools_e8ae28a971;
-  "anycubic3d.com": BowmarkSiteTools_921614d236;
+  "anycubic3d.com": BowmarkSiteTools_1a8e16d918;
   "anymeansnecessary.com": BowmarkSiteTools_921614d236;
   "aop.com": BowmarkSiteTools_921614d236;
   "aosulife.com": BowmarkSiteTools_921614d236;
@@ -509943,7 +510867,7 @@ interface BowmarkSites {
   "aristocrazy.com": BowmarkSiteTools_1a8e16d918;
   "arkenopticsusa.com": BowmarkSiteTools_921614d236;
   "arkivmusic.com": BowmarkSiteTools_921614d236;
-  "arkon.com": BowmarkSiteTools_1a8e16d918;
+  "arkon.com": BowmarkSiteTools_921614d236;
   "arktis.de": BowmarkSiteTools_921614d236;
   "arlingtonpower.com": BowmarkSiteTools_1a8e16d918;
   "armadasnow.com": BowmarkSiteTools_921614d236;
@@ -509972,7 +510896,7 @@ interface BowmarkSites {
   "aroya.io": BowmarkSiteTools_2cd4dac970;
   "arrae.com": BowmarkSiteTools_921614d236;
   "arredocasadasogno.com": BowmarkSiteTools_921614d236;
-  "arrocha.com": BowmarkSiteTools_1a8e16d918;
+  "arrocha.com": BowmarkSiteTools_921614d236;
   "art-and-see.com": BowmarkSiteTools_921614d236;
   "art09.co.kr": BowmarkSiteTools_08120da766;
   "artakedowntool.com": BowmarkSiteTools_921614d236;
@@ -509995,6 +510919,7 @@ interface BowmarkSites {
   "artisan.co": BowmarkSiteTools_23516bddb9;
   "artisanpalace.com": BowmarkSiteTools_1a8e16d918;
   "artisantg.com": BowmarkSiteTools_e4ebfce1fd;
+  "artisbetter.com": BowmarkSiteTools_921614d236;
   "artismore.net": BowmarkSiteTools_1a8e16d918;
   "artistictile.com": BowmarkSiteTools_921614d236;
   "artistika.fr": BowmarkSiteTools_921614d236;
@@ -510041,7 +510966,7 @@ interface BowmarkSites {
   "ashridgetrees.co.uk": BowmarkSiteTools_921614d236;
   "asiamarche.fr": BowmarkSiteTools_921614d236;
   "asiamarket.ie": BowmarkSiteTools_e8ae28a971;
-  "asiangroceronline.com.au": BowmarkSiteTools_921614d236;
+  "asiangroceronline.com.au": BowmarkSiteTools_1a8e16d918;
   "asianpantry.com.au": BowmarkSiteTools_921614d236;
   "asienmarkt.online": BowmarkSiteTools_921614d236;
   "asihome.ro": BowmarkSiteTools_921614d236;
@@ -510054,7 +510979,7 @@ interface BowmarkSites {
   "askscores.com": BowmarkSiteTools_8b75f16259;
   "asl-automation.com": BowmarkSiteTools_ef77119b75;
   "asmartblonde.com": BowmarkSiteTools_921614d236;
-  "asmc.com": BowmarkSiteTools_e8ae28a971;
+  "asmc.com": BowmarkSiteTools_1a8e16d918;
   "asmc.de": BowmarkSiteTools_e8ae28a971;
   "asmia.in": BowmarkSiteTools_921614d236;
   "asmodee.co.uk": BowmarkSiteTools_921614d236;
@@ -510105,6 +511030,7 @@ interface BowmarkSites {
   "athletesthread.com": BowmarkSiteTools_921614d236;
   "athleticbrewing.com": BowmarkSiteTools_921614d236;
   "athleticpropulsionlabs.com": BowmarkSiteTools_e8ae28a971;
+  "ati.edu.my": BowmarkSiteTools_b8778faafb;
   "atipicishop.com": BowmarkSiteTools_e8ae28a971;
   "atk.store": BowmarkSiteTools_921614d236;
   "atkgear.com": BowmarkSiteTools_921614d236;
@@ -510126,7 +511052,7 @@ interface BowmarkSites {
   "atlys.com": BowmarkSiteTools_1c5330e870;
   "atmos.co.id": BowmarkSiteTools_921614d236;
   "atmos.ph": BowmarkSiteTools_921614d236;
-  "atmosfx.com": BowmarkSiteTools_1a8e16d918;
+  "atmosfx.com": BowmarkSiteTools_921614d236;
   "atol-bs.com": BowmarkSiteTools_c5b9295e05;
   "atoleajewelry.com": BowmarkSiteTools_1a8e16d918;
   "atom.com": BowmarkSiteTools_394241d705;
@@ -510145,6 +511071,7 @@ interface BowmarkSites {
   "attackshark.com": BowmarkSiteTools_921614d236;
   "attackshark.net.br": BowmarkSiteTools_921614d236;
   "attaquercycling.com": BowmarkSiteTools_921614d236;
+  "attio.com": BowmarkSiteTools_365162ae23;
   "attirebyayaana.com": BowmarkSiteTools_921614d236;
   "attitudeliving.com": BowmarkSiteTools_921614d236;
   "attracione.com.br": BowmarkSiteTools_921614d236;
@@ -510330,7 +511257,7 @@ interface BowmarkSites {
   "babytula.com": BowmarkSiteTools_921614d236;
   "baccabucci.com": BowmarkSiteTools_1a8e16d918;
   "bachaaparty.com": BowmarkSiteTools_921614d236;
-  "backbone.com": BowmarkSiteTools_921614d236;
+  "backbone.com": BowmarkSiteTools_1a8e16d918;
   "backroad-goods.com": BowmarkSiteTools_921614d236;
   "backstage.com": BowmarkSiteTools_ca55d8cffe;
   "backtotheoffice.co.uk": BowmarkSiteTools_921614d236;
@@ -510370,7 +511297,7 @@ interface BowmarkSites {
   "bakersgas.com": BowmarkSiteTools_1a8e16d918;
   "bakesy.app": BowmarkSiteTools_7f825b7cc7;
   "bakeyy.com": BowmarkSiteTools_e8ae28a971;
-  "balabala.com": BowmarkSiteTools_1a8e16d918;
+  "balabala.com": BowmarkSiteTools_921614d236;
   "balardi.com": BowmarkSiteTools_921614d236;
   "balaroti.com.br": BowmarkSiteTools_bc107286d0;
   "baldwins.co.uk": BowmarkSiteTools_921614d236;
@@ -510388,6 +511315,7 @@ interface BowmarkSites {
   "bamaoverstock.com": BowmarkSiteTools_e8ae28a971;
   "bambibaby.com": BowmarkSiteTools_e8ae28a971;
   "bambinijo.com": BowmarkSiteTools_921614d236;
+  "bamboobody.com.au": BowmarkSiteTools_e8ae28a971;
   "bambooclothing.co.uk": BowmarkSiteTools_1a8e16d918;
   "bamboom.it": BowmarkSiteTools_1a8e16d918;
   "bambuni.dk": BowmarkSiteTools_1a8e16d918;
@@ -510407,9 +511335,9 @@ interface BowmarkSites {
   "bangalorerefinery.com": BowmarkSiteTools_921614d236;
   "bangbang.com.hk": BowmarkSiteTools_1a8e16d918;
   "banknotecoinstamp.com": BowmarkSiteTools_921614d236;
-  "bankspower.com": BowmarkSiteTools_1a8e16d918;
+  "bankspower.com": BowmarkSiteTools_921614d236;
   "bannerandoak.com": BowmarkSiteTools_921614d236;
-  "banoidea.com": BowmarkSiteTools_1a8e16d918;
+  "banoidea.com": BowmarkSiteTools_921614d236;
   "banyanbotanicals.com": BowmarkSiteTools_921614d236;
   "banzaihobby.com": BowmarkSiteTools_921614d236;
   "baofengradio.com": BowmarkSiteTools_921614d236;
@@ -510469,6 +511397,7 @@ interface BowmarkSites {
   "bat-safe.com": BowmarkSiteTools_fa3611543b;
   "bata.com.pk": BowmarkSiteTools_921614d236;
   "batabd.com": BowmarkSiteTools_921614d236;
+  "batela.com": BowmarkSiteTools_921614d236;
   "bath4all.com": BowmarkSiteTools_921614d236;
   "bathandbodyworks.de": BowmarkSiteTools_e8ae28a971;
   "bathmatedirect.com": BowmarkSiteTools_921614d236;
@@ -510494,6 +511423,7 @@ interface BowmarkSites {
   "baumkantentische.de": BowmarkSiteTools_921614d236;
   "baumundpferdgarten.com": BowmarkSiteTools_921614d236;
   "bautz.de": BowmarkSiteTools_43b495ae92;
+  "bayamjewelry.com": BowmarkSiteTools_921614d236;
   "baylanguagebooks.co.uk": BowmarkSiteTools_921614d236;
   "bayoptiks.com": BowmarkSiteTools_1a8e16d918;
   "baysmokes.com": BowmarkSiteTools_921614d236;
@@ -510575,6 +511505,7 @@ interface BowmarkSites {
   "beautyworksonline.com": BowmarkSiteTools_10afeb213b;
   "beavertools.com": BowmarkSiteTools_921614d236;
   "bebe.com": BowmarkSiteTools_1a8e16d918;
+  "bebemundo.ec": BowmarkSiteTools_921614d236;
   "bebesit.cl": BowmarkSiteTools_921614d236;
   "becandbridge.com.au": BowmarkSiteTools_921614d236;
   "becausetees.com": BowmarkSiteTools_1a8e16d918;
@@ -510604,11 +511535,13 @@ interface BowmarkSites {
   "beginningboutique.com": BowmarkSiteTools_e8ae28a971;
   "beginningboutique.com.au": BowmarkSiteTools_e8ae28a971;
   "beglarianfabrics.com": BowmarkSiteTools_921614d236;
+  "behang.nl": BowmarkSiteTools_921614d236;
   "beide.com.br": BowmarkSiteTools_a5d5ad65c1;
   "beinghumanclothing.com": BowmarkSiteTools_921614d236;
   "beisat.com": BowmarkSiteTools_921614d236;
   "beisbolmania.mx": BowmarkSiteTools_921614d236;
   "beistravel.com": BowmarkSiteTools_921614d236;
+  "bejandaruwalla.com": BowmarkSiteTools_921614d236;
   "bejuiceful.com": BowmarkSiteTools_1a8e16d918;
   "belantti.co.uk": BowmarkSiteTools_921614d236;
   "belartestudio.com": BowmarkSiteTools_921614d236;
@@ -510633,6 +511566,7 @@ interface BowmarkSites {
   "bellavitaluxe.com": BowmarkSiteTools_921614d236;
   "bellavitaorganic.com": BowmarkSiteTools_1a8e16d918;
   "bellerose.com": BowmarkSiteTools_921614d236;
+  "bellisima.mx": BowmarkSiteTools_921614d236;
   "bellissima.com": BowmarkSiteTools_921614d236;
   "bellross.com": BowmarkSiteTools_921614d236;
   "bellsofsteel.com": BowmarkSiteTools_e8ae28a971;
@@ -510670,6 +511604,7 @@ interface BowmarkSites {
   "bernalcutlery.com": BowmarkSiteTools_e8ae28a971;
   "berndwolf.de": BowmarkSiteTools_921614d236;
   "bernstein-badshop.de": BowmarkSiteTools_921614d236;
+  "berrios.pr": BowmarkSiteTools_921614d236;
   "berryperformancesales.com": BowmarkSiteTools_921614d236;
   "berserker-coffee.com": BowmarkSiteTools_921614d236;
   "berylove.com": BowmarkSiteTools_921614d236;
@@ -510678,6 +511613,7 @@ interface BowmarkSites {
   "bescards.com": BowmarkSiteTools_921614d236;
   "beserk.com.au": BowmarkSiteTools_921614d236;
   "besque.co": BowmarkSiteTools_921614d236;
+  "besserimglas.de": BowmarkSiteTools_921614d236;
   "best-doctor.com.tw": BowmarkSiteTools_ec46a75fdc;
   "bestattar.com": BowmarkSiteTools_921614d236;
   "bestauto.bg": BowmarkSiteTools_06a53f4999;
@@ -510718,7 +511654,7 @@ interface BowmarkSites {
   "beyond-memories.com": BowmarkSiteTools_921614d236;
   "beyond-power.com": BowmarkSiteTools_921614d236;
   "beyondappliances.in": BowmarkSiteTools_921614d236;
-  "beyondpolish.com": BowmarkSiteTools_921614d236;
+  "beyondpolish.com": BowmarkSiteTools_1a8e16d918;
   "beyondthebox.ph": BowmarkSiteTools_1a8e16d918;
   "beyondyoga.com": BowmarkSiteTools_e8ae28a971;
   "beywarehouse.com": BowmarkSiteTools_921614d236;
@@ -510739,6 +511675,7 @@ interface BowmarkSites {
   "bicyclewarehouse.com": BowmarkSiteTools_1a8e16d918;
   "biffi.com": BowmarkSiteTools_1a8e16d918;
   "bigagnes.com": BowmarkSiteTools_921614d236;
+  "bigbangshop.co.za": BowmarkSiteTools_e8ae28a971;
   "bigblanket.com": BowmarkSiteTools_921614d236;
   "bigboyswithcooltoys.ca": BowmarkSiteTools_e8ae28a971;
   "bigelowchemists.com": BowmarkSiteTools_921614d236;
@@ -510827,6 +511764,7 @@ interface BowmarkSites {
   "birdcollective.com": BowmarkSiteTools_1a8e16d918;
   "birdertown.com": BowmarkSiteTools_921614d236;
   "birdfy.com": BowmarkSiteTools_921614d236;
+  "birdies.com": BowmarkSiteTools_921614d236;
   "birdseyeblue.com": BowmarkSiteTools_921614d236;
   "birdshopchristina.com": BowmarkSiteTools_921614d236;
   "birdsnest.com.au": BowmarkSiteTools_e8ae28a971;
@@ -510969,6 +511907,7 @@ interface BowmarkSites {
   "blueisland.in": BowmarkSiteTools_921614d236;
   "blueland.com": BowmarkSiteTools_921614d236;
   "bluemercury.com": BowmarkSiteTools_921614d236;
+  "bluemint.com": BowmarkSiteTools_921614d236;
   "blueowl.us": BowmarkSiteTools_e8ae28a971;
   "blueplanetchocolate.com": BowmarkSiteTools_921614d236;
   "blueq.com": BowmarkSiteTools_921614d236;
@@ -511018,6 +511957,7 @@ interface BowmarkSites {
   "bobochoses.com": BowmarkSiteTools_e8ae28a971;
   "bobomoda.ro": BowmarkSiteTools_3f6e447273;
   "boc24.de": BowmarkSiteTools_921614d236;
+  "bocarosa.com.br": BowmarkSiteTools_e8ae28a971;
   "bode.com": BowmarkSiteTools_e8ae28a971;
   "boden.com": BowmarkSiteTools_921614d236;
   "bodenglueck.de": BowmarkSiteTools_921614d236;
@@ -511050,6 +511990,7 @@ interface BowmarkSites {
   "bokksu.com": BowmarkSiteTools_921614d236;
   "bokliv.se": BowmarkSiteTools_921614d236;
   "bold.cl": BowmarkSiteTools_e8ae28a971;
+  "bolddesignz.com": BowmarkSiteTools_921614d236;
   "boldfit.com": BowmarkSiteTools_921614d236;
   "boldsign.com": BowmarkSiteTools_f665f55bb1;
   "bollandbranch.com": BowmarkSiteTools_e8ae28a971;
@@ -511074,7 +512015,7 @@ interface BowmarkSites {
   "bonnegueule.fr": BowmarkSiteTools_e8ae28a971;
   "bonnemaman.us": BowmarkSiteTools_921614d236;
   "bonnersmusic.co.uk": BowmarkSiteTools_e8ae28a971;
-  "bonnieplants.com": BowmarkSiteTools_921614d236;
+  "bonnieplants.com": BowmarkSiteTools_1a8e16d918;
   "bonobos.com": BowmarkSiteTools_e8ae28a971;
   "bonpoint.com": BowmarkSiteTools_921614d236;
   "bonprix.hr": BowmarkSiteTools_921614d236;
@@ -511305,6 +512246,7 @@ interface BowmarkSites {
   "bspot.com": BowmarkSiteTools_50e3679dad;
   "btartboxnails.com": BowmarkSiteTools_921614d236;
   "btc.com": BowmarkSiteTools_d7b74acd65;
+  "btf-lighting.com": BowmarkSiteTools_921614d236;
   "btosports.com": BowmarkSiteTools_1a8e16d918;
   "btwzoeken.be": BowmarkSiteTools_186ad5d0da;
   "buah.de": BowmarkSiteTools_921614d236;
@@ -511348,6 +512290,7 @@ interface BowmarkSites {
   "builddirect.com": BowmarkSiteTools_1a8e16d918;
   "building-supplies-online.co.uk": BowmarkSiteTools_921614d236;
   "buildmat.com.au": BowmarkSiteTools_e8ae28a971;
+  "built-different.co": BowmarkSiteTools_921614d236;
   "built.com": BowmarkSiteTools_e8ae28a971;
   "builtwith.com": BowmarkSiteTools_726a13168a;
   "bujairami.com.au": BowmarkSiteTools_e8ae28a971;
@@ -511362,7 +512305,7 @@ interface BowmarkSites {
   "bulletjournal.com": BowmarkSiteTools_921614d236;
   "bulletpointmountingsolutions.com": BowmarkSiteTools_921614d236;
   "bulletproof.com": BowmarkSiteTools_921614d236;
-  "bulletproofzone.com": BowmarkSiteTools_921614d236;
+  "bulletproofzone.com": BowmarkSiteTools_1a8e16d918;
   "bullionknot.com": BowmarkSiteTools_921614d236;
   "bulliontradingllc.com": BowmarkSiteTools_c614a48d43;
   "bullringfabrics.co.uk": BowmarkSiteTools_921614d236;
@@ -511566,6 +512509,7 @@ interface BowmarkSites {
   "canecreek.com": BowmarkSiteTools_e8ae28a971;
   "caneswear.com": BowmarkSiteTools_e8ae28a971;
   "canineandco.co.za": BowmarkSiteTools_921614d236;
+  "caninestyles.com": BowmarkSiteTools_921614d236;
   "cannacabana.com": BowmarkSiteTools_921614d236;
   "cannonkeys.com": BowmarkSiteTools_921614d236;
   "cantabilshop.com": BowmarkSiteTools_921614d236;
@@ -511724,7 +512668,7 @@ interface BowmarkSites {
   "cbdmd.com": BowmarkSiteTools_921614d236;
   "cbeautymall.com": BowmarkSiteTools_921614d236;
   "cbrands.com": BowmarkSiteTools_921614d236;
-  "cbsdeals.com": BowmarkSiteTools_921614d236;
+  "cbsdeals.com": BowmarkSiteTools_1a8e16d918;
   "ccache.cc": BowmarkSiteTools_e8ae28a971;
   "ccs.com": BowmarkSiteTools_e8ae28a971;
   "cctvimporters.com.au": BowmarkSiteTools_921614d236;
@@ -511845,7 +512789,7 @@ interface BowmarkSites {
   "chelseapeers.com": BowmarkSiteTools_921614d236;
   "chelseysmithcosmetics.com": BowmarkSiteTools_921614d236;
   "chemexcoffeemaker.com": BowmarkSiteTools_921614d236;
-  "chemicalguys.com": BowmarkSiteTools_921614d236;
+  "chemicalguys.com": BowmarkSiteTools_1a8e16d918;
   "chemistwarehouse.ae": BowmarkSiteTools_921614d236;
   "chemmarkt.de": BowmarkSiteTools_921614d236;
   "chemtronica.com": BowmarkSiteTools_2cd24acf04;
@@ -511914,6 +512858,7 @@ interface BowmarkSites {
   "chopshopstore.com": BowmarkSiteTools_921614d236;
   "choptones.com": BowmarkSiteTools_921614d236;
   "chosenfoods.com": BowmarkSiteTools_921614d236;
+  "chozen.co.il": BowmarkSiteTools_921614d236;
   "chrisking.com": BowmarkSiteTools_921614d236;
   "christianartworkshop.com": BowmarkSiteTools_921614d236;
   "christianpure.com": BowmarkSiteTools_4ade724eb5;
@@ -511938,6 +512883,7 @@ interface BowmarkSites {
   "cicatribem.com.br": BowmarkSiteTools_921614d236;
   "cicerone.co.uk": BowmarkSiteTools_921614d236;
   "cieleathletics.com": BowmarkSiteTools_921614d236;
+  "ciganabeleza.com.br": BowmarkSiteTools_e8ae28a971;
   "cigarsdirect.com": BowmarkSiteTools_e8ae28a971;
   "cilek.com": BowmarkSiteTools_921614d236;
   "cimalp.com": BowmarkSiteTools_e8ae28a971;
@@ -511976,6 +512922,7 @@ interface BowmarkSites {
   "civilim.com": BowmarkSiteTools_921614d236;
   "civitai.com": BowmarkSiteTools_2c32000c26;
   "civivi.com": BowmarkSiteTools_921614d236;
+  "cizaro.net": BowmarkSiteTools_921614d236;
   "cjcoffroad.com": BowmarkSiteTools_921614d236;
   "cklass.com": BowmarkSiteTools_1a8e16d918;
   "cklinternational.com": BowmarkSiteTools_921614d236;
@@ -511993,6 +512940,7 @@ interface BowmarkSites {
   "claritymd.co": BowmarkSiteTools_921614d236;
   "clarkesgolf.co.uk": BowmarkSiteTools_e8ae28a971;
   "clarkesofcavan.ie": BowmarkSiteTools_e8ae28a971;
+  "clarkrailworks.com": BowmarkSiteTools_921614d236;
   "clarks.co.jp": BowmarkSiteTools_921614d236;
   "clarks.com.au": BowmarkSiteTools_921614d236;
   "clarovantdigital.com": BowmarkSiteTools_207a76bb81;
@@ -512059,6 +513007,7 @@ interface BowmarkSites {
   "clockworkpi.com": BowmarkSiteTools_b2d028b22a;
   "clogau.co.uk": BowmarkSiteTools_921614d236;
   "clonezonedirect.co.uk": BowmarkSiteTools_921614d236;
+  "clorebeauty.com": BowmarkSiteTools_e8ae28a971;
   "cloro.dev": BowmarkSiteTools_f3529e6a33;
   "close-up.be": BowmarkSiteTools_e8ae28a971;
   "close.com": BowmarkSiteTools_5102aaab2f;
@@ -512099,6 +513048,7 @@ interface BowmarkSites {
   "cluse.com": BowmarkSiteTools_921614d236;
   "cm.com": BowmarkSiteTools_f5e7833d18;
   "cm7brasil.com": BowmarkSiteTools_f1ab61eb40;
+  "cmdstore.ca": BowmarkSiteTools_921614d236;
   "cmdstore.com": BowmarkSiteTools_921614d236;
   "cmsinter.net": BowmarkSiteTools_cfd609eab7;
   "cncpts.com": BowmarkSiteTools_e8ae28a971;
@@ -512115,6 +513065,7 @@ interface BowmarkSites {
   "cobsbread.com": BowmarkSiteTools_921614d236;
   "cocacoca.jp": BowmarkSiteTools_921614d236;
   "coccomiami.com": BowmarkSiteTools_921614d236;
+  "cocinaconbra.com": BowmarkSiteTools_921614d236;
   "cockpitusa.com": BowmarkSiteTools_e8ae28a971;
   "cocktail.glass": BowmarkSiteTools_bca5deef22;
   "cocoandeve.com": BowmarkSiteTools_921614d236;
@@ -512171,6 +513122,7 @@ interface BowmarkSites {
   "colettehayman.com.au": BowmarkSiteTools_921614d236;
   "coleyes.com": BowmarkSiteTools_71d51d6fe1;
   "colineal.com": BowmarkSiteTools_921614d236;
+  "collagedepot.com": BowmarkSiteTools_921614d236;
   "collarsandco.com": BowmarkSiteTools_e8ae28a971;
   "collectiflondon.com": BowmarkSiteTools_e8ae28a971;
   "collectivemindsstore.com": BowmarkSiteTools_921614d236;
@@ -512182,7 +513134,7 @@ interface BowmarkSites {
   "colombomilano1911.com": BowmarkSiteTools_921614d236;
   "coloradocyclist.com": BowmarkSiteTools_921614d236;
   "coloradopublichealth.org": BowmarkSiteTools_9d87d394cd;
-  "colorauction.com": BowmarkSiteTools_1a8e16d918;
+  "colorauction.com": BowmarkSiteTools_921614d236;
   "coloredorganics.com": BowmarkSiteTools_921614d236;
   "colorescience.com": BowmarkSiteTools_921614d236;
   "colorfulcute.com": BowmarkSiteTools_e8ae28a971;
@@ -512274,10 +513226,12 @@ interface BowmarkSites {
   "contactfy.cloud": BowmarkSiteTools_4b81a3abf3;
   "contarmarket.com": BowmarkSiteTools_921614d236;
   "contempee.com": BowmarkSiteTools_921614d236;
+  "contenderbicycles.com": BowmarkSiteTools_e8ae28a971;
   "context.dev": BowmarkSiteTools_59fc9d3536;
   "context7.com": BowmarkSiteTools_97a3e4c152;
   "contractorsdirect.com": BowmarkSiteTools_921614d236;
   "contrail.shop": BowmarkSiteTools_921614d236;
+  "contrapunto.cl": BowmarkSiteTools_921614d236;
   "controlla.xyz": BowmarkSiteTools_c8f2c7ea21;
   "controlledinsanity.com": BowmarkSiteTools_921614d236;
   "controlz.world": BowmarkSiteTools_921614d236;
@@ -512293,11 +513247,12 @@ interface BowmarkSites {
   "cookery-store.ca": BowmarkSiteTools_1a8e16d918;
   "cookiepal.io": BowmarkSiteTools_ce330b41da;
   "cookinglife.nl": BowmarkSiteTools_921614d236;
+  "cookology.com": BowmarkSiteTools_921614d236;
   "cool-time.com": BowmarkSiteTools_921614d236;
   "coolibar.com": BowmarkSiteTools_921614d236;
   "coolwallet.io": BowmarkSiteTools_921614d236;
   "coopsleepgoods.com": BowmarkSiteTools_921614d236;
-  "coosy.es": BowmarkSiteTools_1a8e16d918;
+  "coosy.es": BowmarkSiteTools_921614d236;
   "copafootball.com": BowmarkSiteTools_921614d236;
   "copilotkit.ai": BowmarkSiteTools_02550daa51;
   "copperfitusa.com": BowmarkSiteTools_921614d236;
@@ -512334,6 +513289,7 @@ interface BowmarkSites {
   "correggio-consulting.eu": BowmarkSiteTools_5303ca3b9c;
   "corruptedblood.de": BowmarkSiteTools_921614d236;
   "corston.com": BowmarkSiteTools_921614d236;
+  "corteszapaterias.com": BowmarkSiteTools_921614d236;
   "corvettestoreonline.com": BowmarkSiteTools_1a8e16d918;
   "cosabella.com": BowmarkSiteTools_921614d236;
   "cosatto.com": BowmarkSiteTools_921614d236;
@@ -512370,7 +513326,9 @@ interface BowmarkSites {
   "cotopaxi.com": BowmarkSiteTools_e8ae28a971;
   "cotswold-fayre.co.uk": BowmarkSiteTools_921614d236;
   "cottonique.com": BowmarkSiteTools_921614d236;
+  "cottonworld.net": BowmarkSiteTools_921614d236;
   "coucouintimates.com": BowmarkSiteTools_921614d236;
+  "cougar.com.pk": BowmarkSiteTools_921614d236;
   "counter.com": BowmarkSiteTools_e8ae28a971;
   "counterculturecoffee.com": BowmarkSiteTools_921614d236;
   "countries.dev": BowmarkSiteTools_e0717513f6;
@@ -512392,6 +513350,7 @@ interface BowmarkSites {
   "coverary.com": BowmarkSiteTools_921614d236;
   "coverchord.com": BowmarkSiteTools_921614d236;
   "coverking.com": BowmarkSiteTools_1a8e16d918;
+  "coverscart.com": BowmarkSiteTools_921614d236;
   "coverstore.com": BowmarkSiteTools_921614d236;
   "covertinstruments.com": BowmarkSiteTools_921614d236;
   "cowaymega.com": BowmarkSiteTools_921614d236;
@@ -512402,6 +513361,7 @@ interface BowmarkSites {
   "coyu.com": BowmarkSiteTools_18e6dd14da;
   "coyuchi.com": BowmarkSiteTools_e8ae28a971;
   "cozeymaison.com": BowmarkSiteTools_921614d236;
+  "cozmetica.pk": BowmarkSiteTools_921614d236;
   "cozyearth.com": BowmarkSiteTools_e8ae28a971;
   "cpac.org": BowmarkSiteTools_0c8bd1ee7c;
   "cpap.com": BowmarkSiteTools_921614d236;
@@ -512422,6 +513382,7 @@ interface BowmarkSites {
   "crafterscompanion.co.uk": BowmarkSiteTools_1a8e16d918;
   "crafterscompanion.com": BowmarkSiteTools_921614d236;
   "craftifyx.com": BowmarkSiteTools_921614d236;
+  "craftmystic.ro": BowmarkSiteTools_e8ae28a971;
   "craftnest.net": BowmarkSiteTools_921614d236;
   "craftnest.org": BowmarkSiteTools_921614d236;
   "craftonline.com.au": BowmarkSiteTools_921614d236;
@@ -512433,6 +513394,7 @@ interface BowmarkSites {
   "cranes-country-store.com": BowmarkSiteTools_1a8e16d918;
   "crankbrothers.com": BowmarkSiteTools_921614d236;
   "crapeyewear.com": BowmarkSiteTools_e8ae28a971;
+  "crashrecords.co.uk": BowmarkSiteTools_e8ae28a971;
   "cratejoy.com": BowmarkSiteTools_921614d236;
   "crawlora.net": BowmarkSiteTools_67dcf4b0e1;
   "crazyaarons.com": BowmarkSiteTools_e8ae28a971;
@@ -512484,6 +513446,7 @@ interface BowmarkSites {
   "crocs.com.mx": BowmarkSiteTools_921614d236;
   "crocs.com.tr": BowmarkSiteTools_921614d236;
   "crocssa.co.za": BowmarkSiteTools_e8ae28a971;
+  "croftmill.co.uk": BowmarkSiteTools_921614d236;
   "croissant-shop.co.jp": BowmarkSiteTools_921614d236;
   "croissant.com": BowmarkSiteTools_9058531df3;
   "crompton.co.in": BowmarkSiteTools_921614d236;
@@ -512608,6 +513571,7 @@ interface BowmarkSites {
   "cycletyres.fr": BowmarkSiteTools_921614d236;
   "cyclingboutique.in": BowmarkSiteTools_e8ae28a971;
   "cyclingfactory.be": BowmarkSiteTools_5c6d599c05;
+  "cycorecords.cl": BowmarkSiteTools_921614d236;
   "cykloteket.se": BowmarkSiteTools_da842bbdf4;
   "cymatics.fm": BowmarkSiteTools_921614d236;
   "cymbiotika.com": BowmarkSiteTools_921614d236;
@@ -512653,6 +513617,7 @@ interface BowmarkSites {
   "dallaslibrary.org": BowmarkSiteTools_6164d9ac3a;
   "dallaswind.com": BowmarkSiteTools_921614d236;
   "dalstrong.com": BowmarkSiteTools_921614d236;
+  "damagedsociety.co.uk": BowmarkSiteTools_921614d236;
   "dame.com": BowmarkSiteTools_921614d236;
   "dames.ro": BowmarkSiteTools_3f6e447273;
   "damilano.com": BowmarkSiteTools_921614d236;
@@ -512661,10 +513626,10 @@ interface BowmarkSites {
   "danceandsway.com": BowmarkSiteTools_921614d236;
   "dancovershop.com": BowmarkSiteTools_921614d236;
   "dandanthemattressman.com": BowmarkSiteTools_921614d236;
-  "dandelionchocolate.com": BowmarkSiteTools_921614d236;
+  "dandelionchocolate.com": BowmarkSiteTools_1a8e16d918;
   "dandolahora.cl": BowmarkSiteTools_921614d236;
   "dandysworld.gg": BowmarkSiteTools_921614d236;
-  "dandyworldwide.com": BowmarkSiteTools_e8ae28a971;
+  "dandyworldwide.com": BowmarkSiteTools_1a8e16d918;
   "danessamyricksbeauty.com": BowmarkSiteTools_921614d236;
   "danetti.com": BowmarkSiteTools_921614d236;
   "danformshoesvt.com": BowmarkSiteTools_921614d236;
@@ -512791,6 +513756,7 @@ interface BowmarkSites {
   "deckaura.com": BowmarkSiteTools_921614d236;
   "decked.com": BowmarkSiteTools_921614d236;
   "deckorators.com": BowmarkSiteTools_921614d236;
+  "deckoutgaming.ca": BowmarkSiteTools_e8ae28a971;
   "decoart.com": BowmarkSiteTools_921614d236;
   "decocuir.com": BowmarkSiteTools_921614d236;
   "decofurnsa.co.za": BowmarkSiteTools_1a8e16d918;
@@ -512871,10 +513837,11 @@ interface BowmarkSites {
   "dermatouch.com": BowmarkSiteTools_921614d236;
   "dermave.co": BowmarkSiteTools_921614d236;
   "dermazonestore.com": BowmarkSiteTools_921614d236;
-  "dermstreet.com": BowmarkSiteTools_921614d236;
+  "dermstreet.com": BowmarkSiteTools_1a8e16d918;
   "derschutze.com": BowmarkSiteTools_921614d236;
   "deryan.com": BowmarkSiteTools_921614d236;
   "deschutesbrewery.com": BowmarkSiteTools_921614d236;
+  "descrybe.com": BowmarkSiteTools_3ccd3712ce;
   "desenvolvecidade.com.br": BowmarkSiteTools_ca5e6a9a4c;
   "deserres.ca": BowmarkSiteTools_921614d236;
   "design.com": BowmarkSiteTools_5e2b8f9fc2;
@@ -512930,6 +513897,7 @@ interface BowmarkSites {
   "dfvmobile.store": BowmarkSiteTools_921614d236;
   "dg-yug.ru": BowmarkSiteTools_7d78a43f68;
   "dgfloors.com": BowmarkSiteTools_7cffe51dcd;
+  "dgnonline.com": BowmarkSiteTools_921614d236;
   "dharmatrading.com": BowmarkSiteTools_921614d236;
   "dhem-france.com": BowmarkSiteTools_921614d236;
   "dhi.io": BowmarkSiteTools_f2d9945768;
@@ -512972,6 +513940,7 @@ interface BowmarkSites {
   "diginrecords.com": BowmarkSiteTools_921614d236;
   "digitalbayshop.it": BowmarkSiteTools_1a8e16d918;
   "digitalpurchaseorder.com": BowmarkSiteTools_0365a1ea04;
+  "digitalwalker.ph": BowmarkSiteTools_921614d236;
   "digitek.net.in": BowmarkSiteTools_921614d236;
   "dillonprecision.com": BowmarkSiteTools_921614d236;
   "dim.com": BowmarkSiteTools_921614d236;
@@ -513036,7 +514005,7 @@ interface BowmarkSites {
   "distritomax.com": BowmarkSiteTools_1a8e16d918;
   "disturbia.co.uk": BowmarkSiteTools_921614d236;
   "disturbia.de": BowmarkSiteTools_921614d236;
-  "disturbia.nl": BowmarkSiteTools_921614d236;
+  "disturbia.nl": BowmarkSiteTools_1a8e16d918;
   "disturbia.us": BowmarkSiteTools_921614d236;
   "dita.com": BowmarkSiteTools_1a8e16d918;
   "ditano.com": BowmarkSiteTools_921614d236;
@@ -513062,12 +514031,14 @@ interface BowmarkSites {
   "diyfixtool.com": BowmarkSiteTools_921614d236;
   "diyfpv.com": BowmarkSiteTools_d5bf251dd2;
   "diykeycap.com": BowmarkSiteTools_921614d236;
+  "dj.app": BowmarkSiteTools_46ead71ef3;
   "djbox.ie": BowmarkSiteTools_1a8e16d918;
   "djiusa.com": BowmarkSiteTools_921614d236;
   "djkit.com": BowmarkSiteTools_1a8e16d918;
   "djshadow.com": BowmarkSiteTools_921614d236;
   "dk.com": BowmarkSiteTools_921614d236;
   "dkny.com": BowmarkSiteTools_921614d236;
+  "dkohome.cl": BowmarkSiteTools_921614d236;
   "dkv.global": BowmarkSiteTools_ec91e6b2a4;
   "dlawlesshardware.com": BowmarkSiteTools_e8ae28a971;
   "dlk.com.br": BowmarkSiteTools_921614d236;
@@ -513100,6 +514071,7 @@ interface BowmarkSites {
   "doctorskin.ro": BowmarkSiteTools_92ea810f30;
   "doctosan.com": BowmarkSiteTools_45bb77a071;
   "docuseal.com": BowmarkSiteTools_3581289563;
+  "dodocase.com": BowmarkSiteTools_921614d236;
   "dodojewels.com": BowmarkSiteTools_921614d236;
   "dodopayments.com": BowmarkSiteTools_eaead5e1da;
   "dodoskin.com": BowmarkSiteTools_921614d236;
@@ -513107,6 +514079,7 @@ interface BowmarkSites {
   "dogechain.com": BowmarkSiteTools_6e43a961bb;
   "dogfriendlyco.com": BowmarkSiteTools_921614d236;
   "dogishuman.com": BowmarkSiteTools_921614d236;
+  "dogiswithyou.com": BowmarkSiteTools_71d51d6fe1;
   "doglinegroup.com": BowmarkSiteTools_921614d236;
   "dogshood.com": BowmarkSiteTools_1a8e16d918;
   "dogsht.com.au": BowmarkSiteTools_1a8e16d918;
@@ -513160,6 +514133,7 @@ interface BowmarkSites {
   "doublegood.com": BowmarkSiteTools_3a15f12c66;
   "doubleneat.com": BowmarkSiteTools_921614d236;
   "doublesleeved.co.uk": BowmarkSiteTools_921614d236;
+  "doubletopdartshop.com": BowmarkSiteTools_e8ae28a971;
   "doublewoodsupplements.com": BowmarkSiteTools_1a8e16d918;
   "doughguy.co": BowmarkSiteTools_921614d236;
   "doulton.com": BowmarkSiteTools_921614d236;
@@ -513168,6 +514142,7 @@ interface BowmarkSites {
   "dowinx.com": BowmarkSiteTools_921614d236;
   "download.vn": BowmarkSiteTools_b3f97053a3;
   "downpour.com": BowmarkSiteTools_1a8e16d918;
+  "downrightnow.in": BowmarkSiteTools_376b93e2ec;
   "downtofab.com": BowmarkSiteTools_921614d236;
   "downunderwatches.com": BowmarkSiteTools_921614d236;
   "doxa.app": BowmarkSiteTools_eef27a8868;
@@ -513202,8 +514177,9 @@ interface BowmarkSites {
   "dreamdrive.co.za": BowmarkSiteTools_921614d236;
   "dreame.de": BowmarkSiteTools_921614d236;
   "dreamerdesigns.com": BowmarkSiteTools_921614d236;
-  "dreametech.com": BowmarkSiteTools_921614d236;
+  "dreametech.com": BowmarkSiteTools_1a8e16d918;
   "dreams4kids.de": BowmarkSiteTools_e8ae28a971;
+  "dreamspakistan.com": BowmarkSiteTools_921614d236;
   "dreamvs.jp": BowmarkSiteTools_921614d236;
   "dreo.com": BowmarkSiteTools_921614d236;
   "dressbarn.com": BowmarkSiteTools_921614d236;
@@ -513232,7 +514208,7 @@ interface BowmarkSites {
   "drivelinebaseball.com": BowmarkSiteTools_e8ae28a971;
   "driveone.eu": BowmarkSiteTools_921614d236;
   "driver.codes": BowmarkSiteTools_f44411407a;
-  "driveto.cz": BowmarkSiteTools_1a8e16d918;
+  "driveto.cz": BowmarkSiteTools_921614d236;
   "drivos.com": BowmarkSiteTools_1a8e16d918;
   "drkellyann.com": BowmarkSiteTools_1a8e16d918;
   "drlivingood.com": BowmarkSiteTools_921614d236;
@@ -513270,7 +514246,7 @@ interface BowmarkSites {
   "dryeyerescue.com": BowmarkSiteTools_921614d236;
   "dryrobe.com": BowmarkSiteTools_921614d236;
   "ds18.com": BowmarkSiteTools_921614d236;
-  "dsanddurga.com": BowmarkSiteTools_e8ae28a971;
+  "dsanddurga.com": BowmarkSiteTools_1a8e16d918;
   "dshop.com.au": BowmarkSiteTools_921614d236;
   "dsifootcandy.lk": BowmarkSiteTools_921614d236;
   "dtbrownseeds.co.uk": BowmarkSiteTools_921614d236;
@@ -513284,6 +514260,7 @@ interface BowmarkSites {
   "dubby.gg": BowmarkSiteTools_921614d236;
   "dubiaroaches.com": BowmarkSiteTools_921614d236;
   "dublin-360.com": BowmarkSiteTools_9eb73a8610;
+  "dubruitdanslacuisine.fr": BowmarkSiteTools_e8ae28a971;
   "ducfarm.ro": BowmarkSiteTools_3f6e447273;
   "ducky.global": BowmarkSiteTools_921614d236;
   "duer.com": BowmarkSiteTools_e8ae28a971;
@@ -513313,6 +514290,7 @@ interface BowmarkSites {
   "dustie.se": BowmarkSiteTools_921614d236;
   "dutch.com": BowmarkSiteTools_e8ae28a971;
   "dutchbulbs.com": BowmarkSiteTools_1a8e16d918;
+  "dutchgrown.co.uk": BowmarkSiteTools_921614d236;
   "dutchgrown.com": BowmarkSiteTools_1a8e16d918;
   "dutchgrown.eu": BowmarkSiteTools_921614d236;
   "dutchies.com": BowmarkSiteTools_e8ae28a971;
@@ -513394,14 +514372,14 @@ interface BowmarkSites {
   "easyweek.io": BowmarkSiteTools_83993bcd4c;
   "eatfishwife.com": BowmarkSiteTools_921614d236;
   "eatshameless.com": BowmarkSiteTools_921614d236;
-  "eauto.co.in": BowmarkSiteTools_1a8e16d918;
+  "eauto.co.in": BowmarkSiteTools_921614d236;
   "eayonhair.com": BowmarkSiteTools_921614d236;
   "ebagaje.ro": BowmarkSiteTools_3f6e447273;
   "ebarza.com": BowmarkSiteTools_921614d236;
   "ebbets.com": BowmarkSiteTools_921614d236;
   "ebebek.co.uk": BowmarkSiteTools_1a8e16d918;
   "eberjey.com": BowmarkSiteTools_921614d236;
-  "eberlestock.com": BowmarkSiteTools_1a8e16d918;
+  "eberlestock.com": BowmarkSiteTools_e8ae28a971;
   "ebiohippo.com": BowmarkSiteTools_921614d236;
   "ebisujapan.com": BowmarkSiteTools_1a8e16d918;
   "ebmini.de": BowmarkSiteTools_921614d236;
@@ -513466,6 +514444,7 @@ interface BowmarkSites {
   "edicola.shop": BowmarkSiteTools_59d1da6de9;
   "edikted.co.uk": BowmarkSiteTools_921614d236;
   "edikted.com": BowmarkSiteTools_921614d236;
+  "edilpiazza.com": BowmarkSiteTools_921614d236;
   "editorspick.com": BowmarkSiteTools_921614d236;
   "edituradph.ro": BowmarkSiteTools_3f6e447273;
   "edleessfashions.com": BowmarkSiteTools_921614d236;
@@ -513523,6 +514502,7 @@ interface BowmarkSites {
   "electricfireplacesdepot.com": BowmarkSiteTools_921614d236;
   "electricfireplacesdirect.com": BowmarkSiteTools_1a8e16d918;
   "electricpicks.com": BowmarkSiteTools_921614d236;
+  "electricshop.com": BowmarkSiteTools_921614d236;
   "electroandcompany.com": BowmarkSiteTools_921614d236;
   "electroeshop.com": BowmarkSiteTools_921614d236;
   "electrosalam.ma": BowmarkSiteTools_921614d236;
@@ -513607,15 +514587,17 @@ interface BowmarkSites {
   "emarketpeople.com": BowmarkSiteTools_921614d236;
   "embarkvet.com": BowmarkSiteTools_1a8e16d918;
   "embelleze.com": BowmarkSiteTools_921614d236;
-  "ember.com": BowmarkSiteTools_1a8e16d918;
+  "ember.com": BowmarkSiteTools_921614d236;
   "embeyvally.in": BowmarkSiteTools_921614d236;
   "emblibrary.com": BowmarkSiteTools_921614d236;
-  "emedals.com": BowmarkSiteTools_921614d236;
+  "emdashcms.com": BowmarkSiteTools_98a2d912ed;
+  "emedals.com": BowmarkSiteTools_1a8e16d918;
   "emeet.com": BowmarkSiteTools_921614d236;
   "emijay.com": BowmarkSiteTools_921614d236;
   "emikanorden.com": BowmarkSiteTools_921614d236;
   "emilyley.com": BowmarkSiteTools_921614d236;
   "eminent.com": BowmarkSiteTools_921614d236;
+  "eminent.pk": BowmarkSiteTools_921614d236;
   "emka.si": BowmarkSiteTools_921614d236;
   "emma-sleep.com": BowmarkSiteTools_921614d236;
   "emma-sleep.in": BowmarkSiteTools_e8ae28a971;
@@ -513635,6 +514617,7 @@ interface BowmarkSites {
   "emoryblanc.com": BowmarkSiteTools_921614d236;
   "emotiva.com": BowmarkSiteTools_1a8e16d918;
   "empereur.fr": BowmarkSiteTools_e8ae28a971;
+  "empirechromeshop.com": BowmarkSiteTools_e8ae28a971;
   "emporiamobile.com": BowmarkSiteTools_921614d236;
   "empregare.com": BowmarkSiteTools_5c02392d5c;
   "empress-clothing.com": BowmarkSiteTools_1a8e16d918;
@@ -513655,6 +514638,7 @@ interface BowmarkSites {
   "endclothing.com": BowmarkSiteTools_921614d236;
   "endgamegear.com": BowmarkSiteTools_921614d236;
   "endotaspa.com.au": BowmarkSiteTools_921614d236;
+  "endro-cosmetiques.com": BowmarkSiteTools_921614d236;
   "endurasport.com": BowmarkSiteTools_921614d236;
   "energybits.com": BowmarkSiteTools_921614d236;
   "energymuse.com": BowmarkSiteTools_921614d236;
@@ -513666,7 +514650,7 @@ interface BowmarkSites {
   "enginediy.com": BowmarkSiteTools_921614d236;
   "engineersealstamps.com": BowmarkSiteTools_921614d236;
   "englishbook.fi": BowmarkSiteTools_1a8e16d918;
-  "englishbook.pl": BowmarkSiteTools_1a8e16d918;
+  "englishbook.pl": BowmarkSiteTools_921614d236;
   "englishelm.com": BowmarkSiteTools_921614d236;
   "engwe-bikes-eu.com": BowmarkSiteTools_921614d236;
   "engwe.com": BowmarkSiteTools_921614d236;
@@ -513745,6 +514729,7 @@ interface BowmarkSites {
   "eseoese.com": BowmarkSiteTools_e8ae28a971;
   "eseven-store.com": BowmarkSiteTools_2c1343b9af;
   "eshop.aero": BowmarkSiteTools_921614d236;
+  "esica.online": BowmarkSiteTools_921614d236;
   "eskiin.com": BowmarkSiteTools_921614d236;
   "eskinstore.ca": BowmarkSiteTools_921614d236;
   "eskute.com": BowmarkSiteTools_921614d236;
@@ -513757,13 +514742,14 @@ interface BowmarkSites {
   "espressomaschinendoctor.de": BowmarkSiteTools_921614d236;
   "espressooutlet.com": BowmarkSiteTools_921614d236;
   "espressoparts.com": BowmarkSiteTools_921614d236;
-  "espressoshop.se": BowmarkSiteTools_921614d236;
+  "espressoshop.se": BowmarkSiteTools_1a8e16d918;
   "esprit-padel-shop.com": BowmarkSiteTools_e8ae28a971;
   "esprit.com.co": BowmarkSiteTools_921614d236;
   "esrtech.com": BowmarkSiteTools_921614d236;
   "essencemakeup.com": BowmarkSiteTools_921614d236;
   "essenciel.cl": BowmarkSiteTools_921614d236;
   "essentialbag.de": BowmarkSiteTools_921614d236;
+  "essentiallynatural.co.za": BowmarkSiteTools_921614d236;
   "essentialparfums.com": BowmarkSiteTools_e8ae28a971;
   "essentialphoto.co.uk": BowmarkSiteTools_e8ae28a971;
   "essenzshop.at": BowmarkSiteTools_921614d236;
@@ -513842,7 +514828,7 @@ interface BowmarkSites {
   "evergoods.us": BowmarkSiteTools_e8ae28a971;
   "evergreen.ie": BowmarkSiteTools_921614d236;
   "everlane.com": BowmarkSiteTools_921614d236;
-  "everlast.com": BowmarkSiteTools_1a8e16d918;
+  "everlast.com": BowmarkSiteTools_e8ae28a971;
   "everlit.audio": BowmarkSiteTools_0568fb7d18;
   "everloot.app": BowmarkSiteTools_7b5d872cba;
   "evernew.ca": BowmarkSiteTools_921614d236;
@@ -513888,6 +514874,7 @@ interface BowmarkSites {
   "exchange-life.com": BowmarkSiteTools_1a8e16d918;
   "exclusivebooks.co.za": BowmarkSiteTools_921614d236;
   "exclusivefurniture.com": BowmarkSiteTools_921614d236;
+  "executive.co.id": BowmarkSiteTools_921614d236;
   "exercere.com": BowmarkSiteTools_e8ae28a971;
   "exfigure.com": BowmarkSiteTools_921614d236;
   "exorgames.com": BowmarkSiteTools_e8ae28a971;
@@ -513914,7 +514901,7 @@ interface BowmarkSites {
   "eyebobs.com": BowmarkSiteTools_e8ae28a971;
   "eyecandys.com": BowmarkSiteTools_921614d236;
   "eyedictive.com": BowmarkSiteTools_921614d236;
-  "eyemartexpress.com": BowmarkSiteTools_1a8e16d918;
+  "eyemartexpress.com": BowmarkSiteTools_921614d236;
   "eyeons.com": BowmarkSiteTools_921614d236;
   "ezarctools.com": BowmarkSiteTools_921614d236;
   "ezfurnitureofmayfair.com": BowmarkSiteTools_921614d236;
@@ -513939,6 +514926,7 @@ interface BowmarkSites {
   "fabini.cz": BowmarkSiteTools_921614d236;
   "fable.com": BowmarkSiteTools_e8ae28a971;
   "fableengland.com": BowmarkSiteTools_921614d236;
+  "fableroom.com": BowmarkSiteTools_921614d236;
   "fabpersona.com": BowmarkSiteTools_921614d236;
   "fabricahost.com.br": BowmarkSiteTools_497e288a8b;
   "fabricdepot.com": BowmarkSiteTools_921614d236;
@@ -513976,6 +514964,7 @@ interface BowmarkSites {
   "faguo-store.com": BowmarkSiteTools_e8ae28a971;
   "faheem-ai.app": BowmarkSiteTools_12251f8410;
   "fahertybrand.com": BowmarkSiteTools_e8ae28a971;
+  "fahhar.com": BowmarkSiteTools_921614d236;
   "fahrrad.de": BowmarkSiteTools_e8ae28a971;
   "failiem.lv": BowmarkSiteTools_a7615d03cb;
   "fairdealmusic.co.uk": BowmarkSiteTools_e8ae28a971;
@@ -513997,6 +514986,7 @@ interface BowmarkSites {
   "fal.ai": BowmarkSiteTools_df16dee326;
   "falcontech.com": BowmarkSiteTools_921614d236;
   "falkemedia.de": BowmarkSiteTools_c6ae3a5516;
+  "falkenhof-mode.de": BowmarkSiteTools_921614d236;
   "falstaff.com": BowmarkSiteTools_9df798eb23;
   "famcapstore.com": BowmarkSiteTools_921614d236;
   "fameartgallery.com": BowmarkSiteTools_921614d236;
@@ -514024,10 +515014,10 @@ interface BowmarkSites {
   "fantasyislandtoys.com": BowmarkSiteTools_1a8e16d918;
   "fantechworld.com": BowmarkSiteTools_921614d236;
   "fanttik.com": BowmarkSiteTools_921614d236;
-  "fantuan.ca": BowmarkSiteTools_8d5162acd0;
+  "fantuan.ca": BowmarkSiteTools_2f15914fdc;
   "fanyil.com": BowmarkSiteTools_1a8e16d918;
   "faoschwarz.com": BowmarkSiteTools_921614d236;
-  "faraone.shop": BowmarkSiteTools_921614d236;
+  "faraone.shop": BowmarkSiteTools_1a8e16d918;
   "farashaonline.pk": BowmarkSiteTools_1a8e16d918;
   "farbank.com": BowmarkSiteTools_921614d236;
   "farbenloewe.de": BowmarkSiteTools_921614d236;
@@ -514038,6 +515028,7 @@ interface BowmarkSites {
   "faridagupta.com": BowmarkSiteTools_921614d236;
   "farm.bot": BowmarkSiteTools_921614d236;
   "farma2go.com": BowmarkSiteTools_921614d236;
+  "farmaciadibettolle.it": BowmarkSiteTools_921614d236;
   "farmaciasdirect.es": BowmarkSiteTools_921614d236;
   "farmaciasdirect.it": BowmarkSiteTools_921614d236;
   "farmacievigorito.it": BowmarkSiteTools_921614d236;
@@ -514069,7 +515060,7 @@ interface BowmarkSites {
   "fashionnova.com": BowmarkSiteTools_921614d236;
   "fashionphile.com": BowmarkSiteTools_1a8e16d918;
   "fashionspark.com": BowmarkSiteTools_e8ae28a971;
-  "fashionworld.co.za": BowmarkSiteTools_1a8e16d918;
+  "fashionworld.co.za": BowmarkSiteTools_921614d236;
   "fashorio.com": BowmarkSiteTools_921614d236;
   "fast-growing-trees.com": BowmarkSiteTools_921614d236;
   "fastammo.com": BowmarkSiteTools_921614d236;
@@ -514089,6 +515080,7 @@ interface BowmarkSites {
   "fatherandsons.fr": BowmarkSiteTools_1a8e16d918;
   "fathersonsclothing.com": BowmarkSiteTools_921614d236;
   "fathyibrahim.com": BowmarkSiteTools_e8ae28a971;
+  "fatimaart.com": BowmarkSiteTools_921614d236;
   "fatpossum.com": BowmarkSiteTools_921614d236;
   "fatty15.com": BowmarkSiteTools_921614d236;
   "fatwreck.com": BowmarkSiteTools_921614d236;
@@ -514096,7 +515088,7 @@ interface BowmarkSites {
   "faunusplant.ro": BowmarkSiteTools_921614d236;
   "fawbushs.com": BowmarkSiteTools_e8ae28a971;
   "fayettevillefurnituregallery.com": BowmarkSiteTools_1a8e16d918;
-  "fayrouzstyle.com": BowmarkSiteTools_921614d236;
+  "fayrouzstyle.com": BowmarkSiteTools_1a8e16d918;
   "fayrouztileandstone.com": BowmarkSiteTools_921614d236;
   "fbasd.org": BowmarkSiteTools_ae18d3bdfa;
   "fbcountyusa.com": BowmarkSiteTools_921614d236;
@@ -514137,6 +515129,7 @@ interface BowmarkSites {
   "felco.com": BowmarkSiteTools_921614d236;
   "felicegals.com": BowmarkSiteTools_1a8e16d918;
   "felina.com": BowmarkSiteTools_921614d236;
+  "felix.com.pa": BowmarkSiteTools_e8ae28a971;
   "fellers.com": BowmarkSiteTools_1a8e16d918;
   "fellowproducts.com": BowmarkSiteTools_1a8e16d918;
   "feltbicycles.com": BowmarkSiteTools_921614d236;
@@ -514267,7 +515260,8 @@ interface BowmarkSites {
   "firstshop.co.za": BowmarkSiteTools_921614d236;
   "firsttactical.com": BowmarkSiteTools_921614d236;
   "firstwefeast.com": BowmarkSiteTools_921614d236;
-  "fischer-wolle.de": BowmarkSiteTools_1a8e16d918;
+  "fischer-wolle.de": BowmarkSiteTools_921614d236;
+  "fishingmax-webshop.jp": BowmarkSiteTools_921614d236;
   "fishpools.co.uk": BowmarkSiteTools_921614d236;
   "fiskars.com": BowmarkSiteTools_921614d236;
   "fissler.com": BowmarkSiteTools_921614d236;
@@ -514408,6 +515402,7 @@ interface BowmarkSites {
   "foligain.com": BowmarkSiteTools_921614d236;
   "folkclothing.com": BowmarkSiteTools_e8ae28a971;
   "fomostore.in": BowmarkSiteTools_921614d236;
+  "fonezone.ae": BowmarkSiteTools_921614d236;
   "fonezone.com": BowmarkSiteTools_921614d236;
   "fonezone.me": BowmarkSiteTools_921614d236;
   "fontainesdc.com": BowmarkSiteTools_921614d236;
@@ -514418,7 +515413,9 @@ interface BowmarkSites {
   "foodora.com": BowmarkSiteTools_6cab5ac4fd;
   "foodpanda.com": BowmarkSiteTools_6cab5ac4fd;
   "foom.id": BowmarkSiteTools_921614d236;
+  "footcourt-eg.com": BowmarkSiteTools_921614d236;
   "footdistrict.com": BowmarkSiteTools_921614d236;
+  "footdistrict.pt": BowmarkSiteTools_921614d236;
   "footkorner.com": BowmarkSiteTools_e8ae28a971;
   "footlocker.co.il": BowmarkSiteTools_921614d236;
   "footpatrol.com": BowmarkSiteTools_e8ae28a971;
@@ -514529,6 +515526,7 @@ interface BowmarkSites {
   "freedomdebtrelief.com": BowmarkSiteTools_a2e30106b7;
   "freedomgorilla.com": BowmarkSiteTools_921614d236;
   "freedommunitions.com": BowmarkSiteTools_921614d236;
+  "freedomofmovement.co.za": BowmarkSiteTools_e8ae28a971;
   "freedsbakery.com": BowmarkSiteTools_e8ae28a971;
   "freeflyapparel.com": BowmarkSiteTools_921614d236;
   "freelancehunt.com": BowmarkSiteTools_aa05eb7415;
@@ -514537,13 +515535,14 @@ interface BowmarkSites {
   "freertool.com": BowmarkSiteTools_921614d236;
   "freeserp.ai": BowmarkSiteTools_05660b914b;
   "freespirit.com.co": BowmarkSiteTools_921614d236;
+  "freestyleusa.com": BowmarkSiteTools_921614d236;
   "freethesheep.com": BowmarkSiteTools_921614d236;
   "freewellgear.com": BowmarkSiteTools_921614d236;
   "freightdirectfurniture.com": BowmarkSiteTools_921614d236;
   "freiluftkind.de": BowmarkSiteTools_921614d236;
   "frejanyc.com": BowmarkSiteTools_921614d236;
   "french-bandit.com": BowmarkSiteTools_921614d236;
-  "frenchbeautyhub.com": BowmarkSiteTools_1a8e16d918;
+  "frenchbeautyhub.com": BowmarkSiteTools_921614d236;
   "frenchbulldog.com": BowmarkSiteTools_c9a1633a3a;
   "frenchcrown.com": BowmarkSiteTools_1a8e16d918;
   "frenchcrown.in": BowmarkSiteTools_1a8e16d918;
@@ -514632,11 +515631,12 @@ interface BowmarkSites {
   "fuaark.com": BowmarkSiteTools_921614d236;
   "fuegodance.com": BowmarkSiteTools_921614d236;
   "fueledutv.com": BowmarkSiteTools_e8ae28a971;
-  "fujisports.com": BowmarkSiteTools_e8ae28a971;
+  "fujisports.com": BowmarkSiteTools_1a8e16d918;
   "ful.io": BowmarkSiteTools_c3b80746ef;
   "fulfillengine.com": BowmarkSiteTools_921614d236;
   "fullleafteacompany.com": BowmarkSiteTools_921614d236;
   "fulltimestore.in": BowmarkSiteTools_921614d236;
+  "fullyfilmy.in": BowmarkSiteTools_921614d236;
   "fullypromoteddavie.com": BowmarkSiteTools_921614d236;
   "fultonandroark.com": BowmarkSiteTools_921614d236;
   "fultonfishmarket.com": BowmarkSiteTools_921614d236;
@@ -514721,6 +515721,7 @@ interface BowmarkSites {
   "galaxysecurity.com": BowmarkSiteTools_e8ae28a971;
   "galenleather.com": BowmarkSiteTools_921614d236;
   "galeriaavanti.com": BowmarkSiteTools_921614d236;
+  "galialahav.com": BowmarkSiteTools_e8ae28a971;
   "galileosports.shop": BowmarkSiteTools_921614d236;
   "galison.com": BowmarkSiteTools_921614d236;
   "gallagherfence.net": BowmarkSiteTools_921614d236;
@@ -514766,7 +515767,7 @@ interface BowmarkSites {
   "gardenjoygame.com": BowmarkSiteTools_b940ca31e2;
   "gardepro.com": BowmarkSiteTools_921614d236;
   "gardnerswisconsincheese.com": BowmarkSiteTools_921614d236;
-  "garlands.com": BowmarkSiteTools_e8ae28a971;
+  "garlands.com": BowmarkSiteTools_1a8e16d918;
   "garmade.com": BowmarkSiteTools_921614d236;
   "garmont.com": BowmarkSiteTools_921614d236;
   "garneau.com": BowmarkSiteTools_921614d236;
@@ -514824,6 +515825,7 @@ interface BowmarkSites {
   "geloky.com": BowmarkSiteTools_d9531273e4;
   "gelshadow.com": BowmarkSiteTools_921614d236;
   "gemashop.de": BowmarkSiteTools_921614d236;
+  "gemellicollections.com": BowmarkSiteTools_921614d236;
   "geminfo.app": BowmarkSiteTools_1cdda887af;
   "gemonediamond.com": BowmarkSiteTools_921614d236;
   "gempages.net": BowmarkSiteTools_921614d236;
@@ -514834,6 +515836,7 @@ interface BowmarkSites {
   "generalpants.com": BowmarkSiteTools_921614d236;
   "generation.com.pk": BowmarkSiteTools_921614d236;
   "genesis17.com": BowmarkSiteTools_921614d236;
+  "genevecompany.com": BowmarkSiteTools_921614d236;
   "geniecompany.com": BowmarkSiteTools_372874f36d;
   "genkidama.de": BowmarkSiteTools_921614d236;
   "genmobile.com": BowmarkSiteTools_921614d236;
@@ -514859,6 +515862,7 @@ interface BowmarkSites {
   "gerards.com": BowmarkSiteTools_921614d236;
   "gerberchildrenswear.com": BowmarkSiteTools_921614d236;
   "gerbergear.com": BowmarkSiteTools_921614d236;
+  "germainlariviere.com": BowmarkSiteTools_921614d236;
   "gerryanderson.com": BowmarkSiteTools_921614d236;
   "geschenke-online.de": BowmarkSiteTools_921614d236;
   "gestalten.com": BowmarkSiteTools_e8ae28a971;
@@ -514946,6 +515950,7 @@ interface BowmarkSites {
   "giftory.com": BowmarkSiteTools_921614d236;
   "giftsforyounme.com": BowmarkSiteTools_1a8e16d918;
   "giftsoul.co": BowmarkSiteTools_921614d236;
+  "gigahertz.com.ph": BowmarkSiteTools_921614d236;
   "gigistudios.com": BowmarkSiteTools_921614d236;
   "giii-japan.org": BowmarkSiteTools_574c26a1d0;
   "gikacoustics.com": BowmarkSiteTools_1a8e16d918;
@@ -514964,6 +515969,7 @@ interface BowmarkSites {
   "giriusa.com": BowmarkSiteTools_e8ae28a971;
   "girlboss.com": BowmarkSiteTools_921614d236;
   "girlfriend.com": BowmarkSiteTools_1a8e16d918;
+  "girliegirloriginals.com": BowmarkSiteTools_921614d236;
   "girlswithgems.com": BowmarkSiteTools_e8ae28a971;
   "gisada.com": BowmarkSiteTools_e8ae28a971;
   "gisela.com": BowmarkSiteTools_1a8e16d918;
@@ -514986,6 +515992,7 @@ interface BowmarkSites {
   "gkutech.com": BowmarkSiteTools_921614d236;
   "gl-inet.com": BowmarkSiteTools_921614d236;
   "gladiatorgarageworks.com": BowmarkSiteTools_921614d236;
+  "glam42.co.il": BowmarkSiteTools_921614d236;
   "glamaholiclifestyle.com": BowmarkSiteTools_e8ae28a971;
   "glamarashop.com": BowmarkSiteTools_921614d236;
   "glamnetic.com": BowmarkSiteTools_921614d236;
@@ -515010,6 +516017,7 @@ interface BowmarkSites {
   "globalextend.de": BowmarkSiteTools_921614d236;
   "globalfinreg.com": BowmarkSiteTools_1c699ebd6c;
   "globalhealing.com": BowmarkSiteTools_921614d236;
+  "globaliraq.iq": BowmarkSiteTools_921614d236;
   "globallearnandearn.com": BowmarkSiteTools_3cb0761c1b;
   "globalpetfoods.com": BowmarkSiteTools_e8ae28a971;
   "globalseafoods.com": BowmarkSiteTools_921614d236;
@@ -515052,7 +516060,7 @@ interface BowmarkSites {
   "gobob.xyz": BowmarkSiteTools_4e7c97df60;
   "goboony.co.uk": BowmarkSiteTools_bcf9a4a2cf;
   "goboony.nl": BowmarkSiteTools_bcf9a4a2cf;
-  "goboult.co.in": BowmarkSiteTools_1a8e16d918;
+  "goboult.co.in": BowmarkSiteTools_921614d236;
   "gobuckeyes.com": BowmarkSiteTools_921614d236;
   "gocdkeys.com": BowmarkSiteTools_5d8d565367;
   "gocheckin.net": BowmarkSiteTools_03eebc9035;
@@ -515100,7 +516108,7 @@ interface BowmarkSites {
   "golfio.com": BowmarkSiteTools_1a8e16d918;
   "golfposer.com": BowmarkSiteTools_921614d236;
   "golfroots.com": BowmarkSiteTools_e8ae28a971;
-  "golfwang.com": BowmarkSiteTools_921614d236;
+  "golfwang.com": BowmarkSiteTools_1a8e16d918;
   "goli.com": BowmarkSiteTools_921614d236;
   "golo.com": BowmarkSiteTools_921614d236;
   "gomilaintersole.pk": BowmarkSiteTools_921614d236;
@@ -515152,7 +516160,7 @@ interface BowmarkSites {
   "gossamergear.com": BowmarkSiteTools_921614d236;
   "gosun.co": BowmarkSiteTools_921614d236;
   "got-bag.com": BowmarkSiteTools_e8ae28a971;
-  "gotailwind.com": BowmarkSiteTools_921614d236;
+  "gotailwind.com": BowmarkSiteTools_1a8e16d918;
   "gotenna.com": BowmarkSiteTools_921614d236;
   "gothamcentralcomics.com": BowmarkSiteTools_e8ae28a971;
   "gothnrock.com": BowmarkSiteTools_921614d236;
@@ -515193,6 +516201,7 @@ interface BowmarkSites {
   "gracestore.pk": BowmarkSiteTools_921614d236;
   "gracins.com": BowmarkSiteTools_921614d236;
   "gradolabs.com": BowmarkSiteTools_921614d236;
+  "graefenhoftee.de": BowmarkSiteTools_921614d236;
   "graefin-von-zeppelin.de": BowmarkSiteTools_921614d236;
   "graeters.com": BowmarkSiteTools_921614d236;
   "graffitiwallarts.com": BowmarkSiteTools_921614d236;
@@ -515228,6 +516237,7 @@ interface BowmarkSites {
   "gravitypope.com": BowmarkSiteTools_921614d236;
   "gravl.ai": BowmarkSiteTools_6063229aae;
   "gray-nicolls.co.uk": BowmarkSiteTools_921614d236;
+  "grayl.com": BowmarkSiteTools_e8ae28a971;
   "graylinemedical.com": BowmarkSiteTools_921614d236;
   "graysonliving.com": BowmarkSiteTools_921614d236;
   "graza.co": BowmarkSiteTools_921614d236;
@@ -515254,6 +516264,7 @@ interface BowmarkSites {
   "greenguardia.de": BowmarkSiteTools_921614d236;
   "greenhousemegastore.com": BowmarkSiteTools_921614d236;
   "greenice.com": BowmarkSiteTools_921614d236;
+  "greenlander.com.mx": BowmarkSiteTools_921614d236;
   "greenly.earth": BowmarkSiteTools_7e8473606c;
   "greenpan.us": BowmarkSiteTools_921614d236;
   "greenpeople.co.uk": BowmarkSiteTools_e8ae28a971;
@@ -515271,10 +516282,12 @@ interface BowmarkSites {
   "greysonclothiers.com": BowmarkSiteTools_e8ae28a971;
   "griffbuildingsupplies.com": BowmarkSiteTools_921614d236;
   "grillpartsreplacement.com": BowmarkSiteTools_921614d236;
+  "grimey.com": BowmarkSiteTools_e8ae28a971;
   "grimms.eu": BowmarkSiteTools_e8ae28a971;
   "grind.co.uk": BowmarkSiteTools_921614d236;
   "grindstore.com": BowmarkSiteTools_921614d236;
   "gringa.com.br": BowmarkSiteTools_e8ae28a971;
+  "gripactive.com": BowmarkSiteTools_921614d236;
   "gripmode.com": BowmarkSiteTools_921614d236;
   "grips4less.com": BowmarkSiteTools_921614d236;
   "gritbrokerage.com": BowmarkSiteTools_b2bed75523;
@@ -515289,6 +516302,7 @@ interface BowmarkSites {
   "groundies.com": BowmarkSiteTools_921614d236;
   "groundingwell.com": BowmarkSiteTools_921614d236;
   "groupelivre.com": BowmarkSiteTools_921614d236;
+  "growgood.beauty": BowmarkSiteTools_e8ae28a971;
   "growhoss.com": BowmarkSiteTools_921614d236;
   "growhub.ae": BowmarkSiteTools_921614d236;
   "growindustry.es": BowmarkSiteTools_e8ae28a971;
@@ -515305,6 +516319,7 @@ interface BowmarkSites {
   "grunt.com": BowmarkSiteTools_921614d236;
   "gruntstyle.com": BowmarkSiteTools_e8ae28a971;
   "grupodecme.com": BowmarkSiteTools_921614d236;
+  "gruporojemac.com.br": BowmarkSiteTools_921614d236;
   "gruv.com": BowmarkSiteTools_921614d236;
   "gsequestrian.co.uk": BowmarkSiteTools_921614d236;
   "gsequestrian.com": BowmarkSiteTools_921614d236;
@@ -515404,6 +516419,7 @@ interface BowmarkSites {
   "hak5.org": BowmarkSiteTools_921614d236;
   "haka.com": BowmarkSiteTools_921614d236;
   "haku-clothing.com": BowmarkSiteTools_921614d236;
+  "halamama.com": BowmarkSiteTools_921614d236;
   "halcyonyarn.com": BowmarkSiteTools_e8ae28a971;
   "halfdays.com": BowmarkSiteTools_e8ae28a971;
   "halfpe.com": BowmarkSiteTools_921614d236;
@@ -515589,6 +516605,8 @@ interface BowmarkSites {
   "hedonism.co.uk": BowmarkSiteTools_e8ae28a971;
   "heelboy.com": BowmarkSiteTools_e8ae28a971;
   "heelys.com": BowmarkSiteTools_921614d236;
+  "heevis.nl": BowmarkSiteTools_1a8e16d918;
+  "heights.com": BowmarkSiteTools_921614d236;
   "heimdallgeekstore.pt": BowmarkSiteTools_921614d236;
   "heimplanet.com": BowmarkSiteTools_e8ae28a971;
   "heirloomroses.com": BowmarkSiteTools_921614d236;
@@ -515666,6 +516684,7 @@ interface BowmarkSites {
   "hexoskin.com": BowmarkSiteTools_1a8e16d918;
   "heybalu.com": BowmarkSiteTools_921614d236;
   "heybike.com": BowmarkSiteTools_921614d236;
+  "heychic.com.au": BowmarkSiteTools_921614d236;
   "heyhappiness.com": BowmarkSiteTools_921614d236;
   "heynori.com": BowmarkSiteTools_1a8e16d918;
   "heypocket.com": BowmarkSiteTools_921614d236;
@@ -515704,11 +516723,13 @@ interface BowmarkSites {
   "hillmalaya.com.hk": BowmarkSiteTools_e8ae28a971;
   "hillmangroup.com": BowmarkSiteTools_921614d236;
   "hilo.com": BowmarkSiteTools_921614d236;
+  "himalayaoptical.com": BowmarkSiteTools_921614d236;
   "himalayas.app": BowmarkSiteTools_bb174ac110;
   "himalayawellness.in": BowmarkSiteTools_921614d236;
   "himiwaybike.com": BowmarkSiteTools_921614d236;
   "hindbag.fr": BowmarkSiteTools_e8ae28a971;
   "hinoya.shop": BowmarkSiteTools_1a8e16d918;
+  "hinterland.co.za": BowmarkSiteTools_921614d236;
   "hipeac.net": BowmarkSiteTools_9b35f6320a;
   "hipomarket.shop": BowmarkSiteTools_921614d236;
   "hipuffy.com": BowmarkSiteTools_921614d236;
@@ -515740,6 +516761,7 @@ interface BowmarkSites {
   "hkarmy.com": BowmarkSiteTools_e8ae28a971;
   "hl24.eu": BowmarkSiteTools_5d41f16559;
   "hlgross.com": BowmarkSiteTools_921614d236;
+  "hmartdelivery.com": BowmarkSiteTools_921614d236;
   "hmy.com": BowmarkSiteTools_110f641994;
   "hndrd.co": BowmarkSiteTools_921614d236;
   "hoamesim.com": BowmarkSiteTools_341678541f;
@@ -515832,6 +516854,7 @@ interface BowmarkSites {
   "honeyflow.com": BowmarkSiteTools_921614d236;
   "honeylove.com": BowmarkSiteTools_921614d236;
   "honeystinger.com": BowmarkSiteTools_921614d236;
+  "honeywardrobe.com": BowmarkSiteTools_921614d236;
   "honeywellhome.com": BowmarkSiteTools_921614d236;
   "honorstore.cl": BowmarkSiteTools_921614d236;
   "hoodartwear.com": BowmarkSiteTools_71d51d6fe1;
@@ -515839,6 +516862,7 @@ interface BowmarkSites {
   "hoodmaps.com": BowmarkSiteTools_4c53eeeeef;
   "hoodrichuk.com": BowmarkSiteTools_921614d236;
   "hoody.com": BowmarkSiteTools_9c84430a55;
+  "hooke.com": BowmarkSiteTools_e8ae28a971;
   "hooksounds.com": BowmarkSiteTools_867a0bad68;
   "hoonigan.com": BowmarkSiteTools_e8ae28a971;
   "hoooyi.com": BowmarkSiteTools_921614d236;
@@ -515863,7 +516887,7 @@ interface BowmarkSites {
   "horse.com": BowmarkSiteTools_921614d236;
   "horseandbuggychrome.com": BowmarkSiteTools_e8ae28a971;
   "horseloverz.com": BowmarkSiteTools_921614d236;
-  "horze.de": BowmarkSiteTools_921614d236;
+  "horze.de": BowmarkSiteTools_1a8e16d918;
   "horze.fr": BowmarkSiteTools_921614d236;
   "hosannarevival.com": BowmarkSiteTools_921614d236;
   "hoselink.com.au": BowmarkSiteTools_e8ae28a971;
@@ -515995,7 +517019,7 @@ interface BowmarkSites {
   "hygiene-hero.com": BowmarkSiteTools_921614d236;
   "hypeandvice.com": BowmarkSiteTools_921614d236;
   "hypeneedz.com": BowmarkSiteTools_921614d236;
-  "hyperice.com": BowmarkSiteTools_1a8e16d918;
+  "hyperice.com": BowmarkSiteTools_921614d236;
   "hyperiontiles.co.uk": BowmarkSiteTools_e8ae28a971;
   "hyperli.com": BowmarkSiteTools_921614d236;
   "hyperlitemountaingear.com": BowmarkSiteTools_921614d236;
@@ -516099,6 +517123,7 @@ interface BowmarkSites {
   "ikmultimedia.com": BowmarkSiteTools_921614d236;
   "ikoho.in": BowmarkSiteTools_921614d236;
   "ikonick.com": BowmarkSiteTools_921614d236;
+  "ikonmotorsports.com": BowmarkSiteTools_921614d236;
   "ikrinka.de": BowmarkSiteTools_921614d236;
   "iku-den.co.jp": BowmarkSiteTools_f65ed3acfa;
   "ilacsizyasam.com": BowmarkSiteTools_921614d236;
@@ -516151,7 +517176,7 @@ interface BowmarkSites {
   "incase.com": BowmarkSiteTools_921614d236;
   "incerunmen.com": BowmarkSiteTools_921614d236;
   "incipio.com": BowmarkSiteTools_921614d236;
-  "includ.com": BowmarkSiteTools_1a8e16d918;
+  "includ.com": BowmarkSiteTools_921614d236;
   "incogniton.com": BowmarkSiteTools_026e1722f2;
   "incrediblefi.com": BowmarkSiteTools_782623dbb9;
   "incrediblerugsanddecor.com": BowmarkSiteTools_921614d236;
@@ -516288,7 +517313,7 @@ interface BowmarkSites {
   "intersport.com.eg": BowmarkSiteTools_921614d236;
   "intersport.dk": BowmarkSiteTools_e8ae28a971;
   "intersport.nl": BowmarkSiteTools_921614d236;
-  "intex.in": BowmarkSiteTools_921614d236;
+  "intex.in": BowmarkSiteTools_1a8e16d918;
   "intheboxperfumes.com.br": BowmarkSiteTools_921614d236;
   "inthelighturns.com": BowmarkSiteTools_921614d236;
   "inthestyle.com": BowmarkSiteTools_921614d236;
@@ -516297,6 +517322,8 @@ interface BowmarkSites {
   "intimica.pl": BowmarkSiteTools_921614d236;
   "intimorosa.com": BowmarkSiteTools_e8ae28a971;
   "intotheam.com": BowmarkSiteTools_921614d236;
+  "intrinsictrading.com": BowmarkSiteTools_921614d236;
+  "intymipagunda.lt": BowmarkSiteTools_921614d236;
   "inuikii.com": BowmarkSiteTools_921614d236;
   "inventables.com": BowmarkSiteTools_921614d236;
   "inventta.eu": BowmarkSiteTools_921614d236;
@@ -516391,6 +517418,7 @@ interface BowmarkSites {
   "itsa10haircare.com": BowmarkSiteTools_921614d236;
   "itsbaba.com": BowmarkSiteTools_8e8d3dac55;
   "itsoptimal.com": BowmarkSiteTools_921614d236;
+  "itsugar.com": BowmarkSiteTools_921614d236;
   "itsukijapan.com": BowmarkSiteTools_921614d236;
   "itzoo.eu": BowmarkSiteTools_921614d236;
   "itzyritzy.com": BowmarkSiteTools_921614d236;
@@ -516609,7 +517637,7 @@ interface BowmarkSites {
   "join-eby.com": BowmarkSiteTools_e8ae28a971;
   "joinem.co": BowmarkSiteTools_921614d236;
   "joinflyp.com": BowmarkSiteTools_1b2974140b;
-  "joinform.com": BowmarkSiteTools_e8ae28a971;
+  "joinform.com": BowmarkSiteTools_1a8e16d918;
   "joinloop.com": BowmarkSiteTools_921614d236;
   "jokerandwitch.com": BowmarkSiteTools_921614d236;
   "jolect.com": BowmarkSiteTools_921614d236;
@@ -516649,7 +517677,7 @@ interface BowmarkSites {
   "jovianarchive.com": BowmarkSiteTools_921614d236;
   "jovs.com": BowmarkSiteTools_921614d236;
   "jowissa.com": BowmarkSiteTools_921614d236;
-  "jowua-life.com": BowmarkSiteTools_1a8e16d918;
+  "jowua-life.com": BowmarkSiteTools_921614d236;
   "joyasdechina.com": BowmarkSiteTools_921614d236;
   "joyashoes.swiss": BowmarkSiteTools_921614d236;
   "joybadminton.com": BowmarkSiteTools_921614d236;
@@ -516683,6 +517711,7 @@ interface BowmarkSites {
   "julditec.com": BowmarkSiteTools_753a12e57c;
   "julep.com": BowmarkSiteTools_921614d236;
   "julian-fashion.com": BowmarkSiteTools_921614d236;
+  "juliancharles.co.uk": BowmarkSiteTools_921614d236;
   "juliettehasagun.com": BowmarkSiteTools_921614d236;
   "julietteparis.com": BowmarkSiteTools_921614d236;
   "julievos.com": BowmarkSiteTools_921614d236;
@@ -516732,6 +517761,7 @@ interface BowmarkSites {
   "kabishah.com": BowmarkSiteTools_921614d236;
   "kaceymusgraves.com": BowmarkSiteTools_921614d236;
   "kachava.com": BowmarkSiteTools_921614d236;
+  "kadolandhome.com": BowmarkSiteTools_1a8e16d918;
   "kaeltebringer.de": BowmarkSiteTools_921614d236;
   "kaftanize.com": BowmarkSiteTools_e8ae28a971;
   "kaged.com": BowmarkSiteTools_921614d236;
@@ -516751,7 +517781,7 @@ interface BowmarkSites {
   "kalenderwinkel.nl": BowmarkSiteTools_921614d236;
   "kalevala.fi": BowmarkSiteTools_e8ae28a971;
   "kalifano.com": BowmarkSiteTools_e8ae28a971;
-  "kalkifashion.com": BowmarkSiteTools_921614d236;
+  "kalkifashion.com": BowmarkSiteTools_1a8e16d918;
   "kalloslondon.com": BowmarkSiteTools_921614d236;
   "kalori.jp": BowmarkSiteTools_ecca126f07;
   "kalypsomedia.com": BowmarkSiteTools_c7fdbf1d81;
@@ -516797,6 +517827,7 @@ interface BowmarkSites {
   "karmasgems.com": BowmarkSiteTools_921614d236;
   "karneval-universe.de": BowmarkSiteTools_921614d236;
   "karpos-outdoor.com": BowmarkSiteTools_921614d236;
+  "karte.bayern": BowmarkSiteTools_5cf53621e7;
   "karupdesign.com": BowmarkSiteTools_921614d236;
   "karuvadukadai.com": BowmarkSiteTools_921614d236;
   "karwansaraypublishers.com": BowmarkSiteTools_921614d236;
@@ -516833,6 +517864,7 @@ interface BowmarkSites {
   "kaybeauty.com": BowmarkSiteTools_1a8e16d918;
   "kaylascollectives.com": BowmarkSiteTools_921614d236;
   "kaynscans.com": BowmarkSiteTools_1eeb56f36a;
+  "kbc-cinema.com": BowmarkSiteTools_921614d236;
   "kbdfans.com": BowmarkSiteTools_1a8e16d918;
   "kbrugs.ca": BowmarkSiteTools_921614d236;
   "kbuses.in": BowmarkSiteTools_ccdd19ba6d;
@@ -516930,7 +517962,7 @@ interface BowmarkSites {
   "kiddom.co": BowmarkSiteTools_c21da5b333;
   "kidkraft.com": BowmarkSiteTools_921614d236;
   "kidoriman.com": BowmarkSiteTools_1a8e16d918;
-  "kidrobot.com": BowmarkSiteTools_921614d236;
+  "kidrobot.com": BowmarkSiteTools_1a8e16d918;
   "kidrock.com": BowmarkSiteTools_921614d236;
   "kids-wall.com": BowmarkSiteTools_921614d236;
   "kidsmood.de": BowmarkSiteTools_921614d236;
@@ -517111,6 +518143,7 @@ interface BowmarkSites {
   "konzolvilag.hu": BowmarkSiteTools_ca0a3132e0;
   "kookai.com.au": BowmarkSiteTools_921614d236;
   "kookai.us": BowmarkSiteTools_921614d236;
+  "kookgigant.nl": BowmarkSiteTools_e8ae28a971;
   "koolseoul.com": BowmarkSiteTools_921614d236;
   "koolydesign.store": BowmarkSiteTools_921614d236;
   "koonbooks.com": BowmarkSiteTools_921614d236;
@@ -517125,7 +518158,7 @@ interface BowmarkSites {
   "koreanskincare.nl": BowmarkSiteTools_921614d236;
   "koreessentials.com": BowmarkSiteTools_e8ae28a971;
   "korelock.com": BowmarkSiteTools_7113607cd4;
-  "korendy.com.tr": BowmarkSiteTools_e8ae28a971;
+  "korendy.com.tr": BowmarkSiteTools_1a8e16d918;
   "koriderm.com": BowmarkSiteTools_921614d236;
   "koroshishop.com": BowmarkSiteTools_e8ae28a971;
   "korres.com": BowmarkSiteTools_e8ae28a971;
@@ -517139,6 +518172,7 @@ interface BowmarkSites {
   "kostuempalast.de": BowmarkSiteTools_921614d236;
   "kotlinlang.org": BowmarkSiteTools_2e748846a6;
   "kotn.com": BowmarkSiteTools_e8ae28a971;
+  "kotobukiya-us.com": BowmarkSiteTools_921614d236;
   "kplaceshop.com": BowmarkSiteTools_e8ae28a971;
   "kpm-berlin.com": BowmarkSiteTools_921614d236;
   "kpopalbums.com": BowmarkSiteTools_921614d236;
@@ -517161,6 +518195,7 @@ interface BowmarkSites {
   "kronan.is": BowmarkSiteTools_8edb7f292c;
   "krosno.com": BowmarkSiteTools_921614d236;
   "kruschiki.com": BowmarkSiteTools_921614d236;
+  "kryptoniteproducts.com": BowmarkSiteTools_921614d236;
   "krystal.app": BowmarkSiteTools_35443b3505;
   "ksiautoparts.com": BowmarkSiteTools_ceb37016b4;
   "ksm-motorsports.com": BowmarkSiteTools_921614d236;
@@ -517204,6 +518239,7 @@ interface BowmarkSites {
   "kuzcolighting.com": BowmarkSiteTools_1a8e16d918;
   "kwanzoo.com": BowmarkSiteTools_d90ec38153;
   "kwikley.com": BowmarkSiteTools_921614d236;
+  "kwikpets.com": BowmarkSiteTools_921614d236;
   "kwlt.net": BowmarkSiteTools_d3f3493d38;
   "kxkshop.com": BowmarkSiteTools_921614d236;
   "kydschoice.com": BowmarkSiteTools_921614d236;
@@ -517313,7 +518349,7 @@ interface BowmarkSites {
   "lancasterarchery.com": BowmarkSiteTools_921614d236;
   "lancedb.com": BowmarkSiteTools_52e8ee5aa1;
   "lancel.com": BowmarkSiteTools_921614d236;
-  "landairsea.com": BowmarkSiteTools_1a8e16d918;
+  "landairsea.com": BowmarkSiteTools_921614d236;
   "landbot.io": BowmarkSiteTools_8d7e5df037;
   "landomo.com": BowmarkSiteTools_51ff3fe93a;
   "landpark-shop.de": BowmarkSiteTools_921614d236;
@@ -517334,7 +518370,7 @@ interface BowmarkSites {
   "laprairie.com": BowmarkSiteTools_921614d236;
   "laptop.lk": BowmarkSiteTools_921614d236;
   "lardesports.com": BowmarkSiteTools_921614d236;
-  "larelojeria.cl": BowmarkSiteTools_e8ae28a971;
+  "larelojeria.cl": BowmarkSiteTools_1a8e16d918;
   "larkandclover.com": BowmarkSiteTools_921614d236;
   "larkandrowan.com": BowmarkSiteTools_921614d236;
   "larkinthemorning.com": BowmarkSiteTools_e8ae28a971;
@@ -517342,7 +518378,7 @@ interface BowmarkSites {
   "larroude.com": BowmarkSiteTools_921614d236;
   "larsonjewelers.com": BowmarkSiteTools_e8ae28a971;
   "lasallesancristobal.edu.mx": BowmarkSiteTools_19abb188e7;
-  "lasenza.com": BowmarkSiteTools_1a8e16d918;
+  "lasenza.com": BowmarkSiteTools_921614d236;
   "laserpecker.net": BowmarkSiteTools_921614d236;
   "lasfit.com": BowmarkSiteTools_921614d236;
   "lashify.com": BowmarkSiteTools_1a8e16d918;
@@ -517375,7 +518411,7 @@ interface BowmarkSites {
   "laura.ca": BowmarkSiteTools_e8ae28a971;
   "laurageller.com": BowmarkSiteTools_921614d236;
   "lauramercier.com": BowmarkSiteTools_1a8e16d918;
-  "lauravita.com": BowmarkSiteTools_e8ae28a971;
+  "lauravita.com": BowmarkSiteTools_1a8e16d918;
   "laureldenise.com": BowmarkSiteTools_921614d236;
   "laurelmercantile.com": BowmarkSiteTools_e8ae28a971;
   "laurenceking.com": BowmarkSiteTools_921614d236;
@@ -517511,7 +518547,7 @@ interface BowmarkSites {
   "lesbenjamins.com": BowmarkSiteTools_921614d236;
   "lescent.com.br": BowmarkSiteTools_921614d236;
   "leset.com": BowmarkSiteTools_e8ae28a971;
-  "leslainesbiscotte.com": BowmarkSiteTools_e8ae28a971;
+  "leslainesbiscotte.com": BowmarkSiteTools_1a8e16d918;
   "lesleyevers.com": BowmarkSiteTools_e8ae28a971;
   "leslipfrancais.fr": BowmarkSiteTools_1a8e16d918;
   "leslunes.de": BowmarkSiteTools_921614d236;
@@ -517623,6 +518659,7 @@ interface BowmarkSites {
   "lights4fun.de": BowmarkSiteTools_921614d236;
   "lightslacquer.com": BowmarkSiteTools_921614d236;
   "lightwaverf.com": BowmarkSiteTools_921614d236;
+  "lignocolor.de": BowmarkSiteTools_921614d236;
   "lik.com": BowmarkSiteTools_921614d236;
   "likebrands.gr": BowmarkSiteTools_921614d236;
   "likemychoice.com": BowmarkSiteTools_71d51d6fe1;
@@ -517650,7 +518687,7 @@ interface BowmarkSites {
   "limitedrungames.com": BowmarkSiteTools_921614d236;
   "limitlesswalls.com": BowmarkSiteTools_921614d236;
   "limolin.com": BowmarkSiteTools_e8ae28a971;
-  "limonada.cl": BowmarkSiteTools_921614d236;
+  "limonada.cl": BowmarkSiteTools_1a8e16d918;
   "limoya.com": BowmarkSiteTools_921614d236;
   "lincraft.com.au": BowmarkSiteTools_921614d236;
   "lindafarrow.com": BowmarkSiteTools_921614d236;
@@ -517780,7 +518817,7 @@ interface BowmarkSites {
   "lofta.com": BowmarkSiteTools_921614d236;
   "lofthome.com": BowmarkSiteTools_921614d236;
   "loftmodern.com": BowmarkSiteTools_921614d236;
-  "lofty.com": BowmarkSiteTools_75a1b78e2a;
+  "lofty.com": BowmarkSiteTools_585438336a;
   "loganspianos.com.au": BowmarkSiteTools_e8ae28a971;
   "logees.com": BowmarkSiteTools_e8ae28a971;
   "logicofenglish.com": BowmarkSiteTools_921614d236;
@@ -517819,7 +518856,7 @@ interface BowmarkSites {
   "lonewolfpaintball.com": BowmarkSiteTools_921614d236;
   "longdan.co.uk": BowmarkSiteTools_921614d236;
   "longfield-gardens.com": BowmarkSiteTools_921614d236;
-  "longislandwatch.com": BowmarkSiteTools_921614d236;
+  "longislandwatch.com": BowmarkSiteTools_1a8e16d918;
   "longlifenutri.com": BowmarkSiteTools_921614d236;
   "longsjewelers.com": BowmarkSiteTools_921614d236;
   "lonowear.com": BowmarkSiteTools_921614d236;
@@ -517894,6 +518931,7 @@ interface BowmarkSites {
   "lovisajewellery.co.za": BowmarkSiteTools_921614d236;
   "lovisajewellery.eu": BowmarkSiteTools_921614d236;
   "lovuso.com": BowmarkSiteTools_921614d236;
+  "lowaboots.com": BowmarkSiteTools_921614d236;
   "lowbank.com.br": BowmarkSiteTools_921614d236;
   "lowbrowcustoms.com": BowmarkSiteTools_921614d236;
   "lowfruitsolutions.com": BowmarkSiteTools_921614d236;
@@ -517901,7 +518939,7 @@ interface BowmarkSites {
   "loyalsnap.com": BowmarkSiteTools_72be651f85;
   "loyaltypalm.com": BowmarkSiteTools_921614d236;
   "lozendafashion.com": BowmarkSiteTools_921614d236;
-  "ls.graphics": BowmarkSiteTools_aa766f2f16;
+  "ls.graphics": BowmarkSiteTools_88099c9a03;
   "lskd.co": BowmarkSiteTools_e8ae28a971;
   "lspace.com": BowmarkSiteTools_e8ae28a971;
   "lsport.com.br": BowmarkSiteTools_921614d236;
@@ -517913,10 +518951,12 @@ interface BowmarkSites {
   "lucasgift.com": BowmarkSiteTools_921614d236;
   "lucchese.com": BowmarkSiteTools_921614d236;
   "lucentglobe.com": BowmarkSiteTools_921614d236;
+  "luchznaniy.ru": BowmarkSiteTools_2c600845fa;
   "lucialiving.com": BowmarkSiteTools_1a8e16d918;
   "luckbg.com": BowmarkSiteTools_921614d236;
   "lucky.diamonds": BowmarkSiteTools_e8ae28a971;
   "luckybag.fr": BowmarkSiteTools_e8ae28a971;
+  "luckyelk.com": BowmarkSiteTools_921614d236;
   "luckyfeetshoes.com": BowmarkSiteTools_e8ae28a971;
   "luckyfours.com": BowmarkSiteTools_921614d236;
   "luckyhemp.de": BowmarkSiteTools_921614d236;
@@ -518160,6 +519200,7 @@ interface BowmarkSites {
   "malinandgoetz.com": BowmarkSiteTools_1a8e16d918;
   "malloftoys.com": BowmarkSiteTools_921614d236;
   "malo.com": BowmarkSiteTools_921614d236;
+  "maltashopper.com": BowmarkSiteTools_921614d236;
   "mam-bricolaj.ro": BowmarkSiteTools_3f6e447273;
   "mamaearth.in": BowmarkSiteTools_e8ae28a971;
   "mamakana.com": BowmarkSiteTools_921614d236;
@@ -518207,7 +519248,7 @@ interface BowmarkSites {
   "manymoons.com": BowmarkSiteTools_921614d236;
   "manyrealms.com": BowmarkSiteTools_e8ae28a971;
   "mao-mao.de": BowmarkSiteTools_921614d236;
-  "maono.com": BowmarkSiteTools_921614d236;
+  "maono.com": BowmarkSiteTools_1a8e16d918;
   "map.flights": BowmarkSiteTools_2897c98d2d;
   "maperformance.com": BowmarkSiteTools_921614d236;
   "mapleprime.com": BowmarkSiteTools_921614d236;
@@ -518346,6 +519387,7 @@ interface BowmarkSites {
   "maxi-pet.ro": BowmarkSiteTools_921614d236;
   "maxicosi.com": BowmarkSiteTools_921614d236;
   "maximilian.it": BowmarkSiteTools_921614d236;
+  "maximilianequestrian.com": BowmarkSiteTools_921614d236;
   "maximo-moto.com": BowmarkSiteTools_e8ae28a971;
   "maxishirt.fr": BowmarkSiteTools_921614d236;
   "maxizoo.dk": BowmarkSiteTools_921614d236;
@@ -518353,6 +519395,7 @@ interface BowmarkSites {
   "maxpedition.com": BowmarkSiteTools_921614d236;
   "maxsport.com.co": BowmarkSiteTools_921614d236;
   "maxtondesign.com": BowmarkSiteTools_921614d236;
+  "maxtool.com": BowmarkSiteTools_921614d236;
   "maxwarehouse.com": BowmarkSiteTools_921614d236;
   "maxxsave.com": BowmarkSiteTools_921614d236;
   "maybellindia.com": BowmarkSiteTools_921614d236;
@@ -518592,7 +519635,7 @@ interface BowmarkSites {
   "midwestsupplies.com": BowmarkSiteTools_921614d236;
   "mielleorganics.com": BowmarkSiteTools_921614d236;
   "mieuxquedesfleurs.com": BowmarkSiteTools_921614d236;
-  "migardener.com": BowmarkSiteTools_e8ae28a971;
+  "migardener.com": BowmarkSiteTools_1a8e16d918;
   "migdal.co.il": BowmarkSiteTools_63572df2ea;
   "mightycarmods.com": BowmarkSiteTools_921614d236;
   "mightynetworks.com": BowmarkSiteTools_cef28a3a18;
@@ -518627,7 +519670,7 @@ interface BowmarkSites {
   "milly.com": BowmarkSiteTools_921614d236;
   "milton.in": BowmarkSiteTools_921614d236;
   "miltonindustries.com": BowmarkSiteTools_921614d236;
-  "milwaukeemotorcycleclothing.com": BowmarkSiteTools_921614d236;
+  "milwaukeemotorcycleclothing.com": BowmarkSiteTools_1a8e16d918;
   "mimao.eu": BowmarkSiteTools_e8ae28a971;
   "mimco.com.au": BowmarkSiteTools_e8ae28a971;
   "mimeophotos.com": BowmarkSiteTools_921614d236;
@@ -518671,6 +519714,7 @@ interface BowmarkSites {
   "mint-bikes.com": BowmarkSiteTools_921614d236;
   "mintandlily.com": BowmarkSiteTools_921614d236;
   "mintcollectables.com.au": BowmarkSiteTools_e8ae28a971;
+  "mintel.net": BowmarkSiteTools_55793cee78;
   "mintlify.app": BowmarkSiteTools_9ea56cc367;
   "mintlify.site": BowmarkSiteTools_9ea56cc367;
   "mintvelvet.com": BowmarkSiteTools_e8ae28a971;
@@ -518753,9 +519797,10 @@ interface BowmarkSites {
   "mobility2you.com": BowmarkSiteTools_e8ae28a971;
   "mobimatter.com": BowmarkSiteTools_24fa4f2f60;
   "mobspares.com": BowmarkSiteTools_921614d236;
-  "mochishoes.com": BowmarkSiteTools_1a8e16d918;
+  "mochishoes.com": BowmarkSiteTools_921614d236;
   "mocka.com.au": BowmarkSiteTools_e8ae28a971;
   "modainpelle.com": BowmarkSiteTools_921614d236;
+  "modalai.com": BowmarkSiteTools_921614d236;
   "modamarepositano.com": BowmarkSiteTools_921614d236;
   "modani.com": BowmarkSiteTools_e8ae28a971;
   "modastil.ro": BowmarkSiteTools_3f6e447273;
@@ -518792,7 +519837,7 @@ interface BowmarkSites {
   "moea.io": BowmarkSiteTools_921614d236;
   "moeflavor.com": BowmarkSiteTools_921614d236;
   "moen.com": BowmarkSiteTools_921614d236;
-  "moft.com": BowmarkSiteTools_1a8e16d918;
+  "moft.com": BowmarkSiteTools_e8ae28a971;
   "moftmalaysia.com": BowmarkSiteTools_921614d236;
   "mofusand-mofumofu-market.jp": BowmarkSiteTools_921614d236;
   "mohawkgeneralstore.com": BowmarkSiteTools_e8ae28a971;
@@ -518865,7 +519910,7 @@ interface BowmarkSites {
   "montane.com": BowmarkSiteTools_921614d236;
   "montce.com": BowmarkSiteTools_e8ae28a971;
   "montecarlo.com.br": BowmarkSiteTools_a3ce7e5287;
-  "montecarlo.in": BowmarkSiteTools_921614d236;
+  "montecarlo.in": BowmarkSiteTools_1a8e16d918;
   "montessorigeneration.com": BowmarkSiteTools_921614d236;
   "monticelloshop.org": BowmarkSiteTools_1a8e16d918;
   "montirex.com": BowmarkSiteTools_e8ae28a971;
@@ -518877,7 +519922,7 @@ interface BowmarkSites {
   "monumentgrills.com": BowmarkSiteTools_921614d236;
   "monumenthobbies.com": BowmarkSiteTools_921614d236;
   "moodfabrics.com": BowmarkSiteTools_e8ae28a971;
-  "moodylenses.com": BowmarkSiteTools_921614d236;
+  "moodylenses.com": BowmarkSiteTools_1a8e16d918;
   "moogaudio.com": BowmarkSiteTools_921614d236;
   "mooiehome.com": BowmarkSiteTools_1a8e16d918;
   "mooierthuis.nl": BowmarkSiteTools_921614d236;
@@ -519047,7 +520092,7 @@ interface BowmarkSites {
   "multimarcasperfumes.cl": BowmarkSiteTools_921614d236;
   "muna.com.br": BowmarkSiteTools_a5d5ad65c1;
   "munbyn.com": BowmarkSiteTools_921614d236;
-  "munchkin.com": BowmarkSiteTools_1a8e16d918;
+  "munchkin.com": BowmarkSiteTools_921614d236;
   "munclemikes.com": BowmarkSiteTools_921614d236;
   "mundimotos.com": BowmarkSiteTools_1a8e16d918;
   "mundotorajo.com.br": BowmarkSiteTools_a5d5ad65c1;
@@ -519132,7 +520177,7 @@ interface BowmarkSites {
   "mybeautyaffairs.com": BowmarkSiteTools_1a8e16d918;
   "mybeebalmco.com": BowmarkSiteTools_921614d236;
   "mybinding.com": BowmarkSiteTools_1a8e16d918;
-  "myborosil.com": BowmarkSiteTools_1a8e16d918;
+  "myborosil.com": BowmarkSiteTools_921614d236;
   "mycarpe.com": BowmarkSiteTools_921614d236;
   "mychatelles.com": BowmarkSiteTools_e8ae28a971;
   "mychoicesoftware.com": BowmarkSiteTools_921614d236;
@@ -519243,7 +520288,7 @@ interface BowmarkSites {
   "myxprs.com": BowmarkSiteTools_921614d236;
   "n01darts.com": BowmarkSiteTools_f9ce7d4340;
   "n09.co.kr": BowmarkSiteTools_08120da766;
-  "naadam.co": BowmarkSiteTools_1a8e16d918;
+  "naadam.co": BowmarkSiteTools_921614d236;
   "naaipatronen.nl": BowmarkSiteTools_921614d236;
   "naaptol.co.in": BowmarkSiteTools_921614d236;
   "naaptoloffers.com": BowmarkSiteTools_921614d236;
@@ -519299,7 +520344,7 @@ interface BowmarkSites {
   "nanuk.com": BowmarkSiteTools_921614d236;
   "naoko-store.com": BowmarkSiteTools_1a8e16d918;
   "naoko-store.pl": BowmarkSiteTools_921614d236;
-  "naot.com": BowmarkSiteTools_921614d236;
+  "naot.com": BowmarkSiteTools_1a8e16d918;
   "napapijri.com": BowmarkSiteTools_921614d236;
   "napavalleywineacademy.com": BowmarkSiteTools_921614d236;
   "napoleoncat.com": BowmarkSiteTools_4d239b101e;
@@ -519383,7 +520428,7 @@ interface BowmarkSites {
   "ndure.com": BowmarkSiteTools_921614d236;
   "neakasa.com": BowmarkSiteTools_921614d236;
   "nealsyardremedies.com": BowmarkSiteTools_e8ae28a971;
-  "nearlynatural.com": BowmarkSiteTools_1a8e16d918;
+  "nearlynatural.com": BowmarkSiteTools_921614d236;
   "nebuleusebijoux.com": BowmarkSiteTools_1a8e16d918;
   "necesit.ro": BowmarkSiteTools_51f577c628;
   "necessaire.com": BowmarkSiteTools_921614d236;
@@ -519419,10 +520464,10 @@ interface BowmarkSites {
   "nerdsintheknow.com": BowmarkSiteTools_5970b74f52;
   "nerdwax.com": BowmarkSiteTools_921614d236;
   "nerdywave.com": BowmarkSiteTools_71d51d6fe1;
-  "nerdzoic.com": BowmarkSiteTools_e8ae28a971;
+  "nerdzoic.com": BowmarkSiteTools_1a8e16d918;
   "nerigestory.com": BowmarkSiteTools_e8ae28a971;
   "nerofabric.com": BowmarkSiteTools_921614d236;
-  "nerogiardini.it": BowmarkSiteTools_921614d236;
+  "nerogiardini.it": BowmarkSiteTools_1a8e16d918;
   "nerq.ai": BowmarkSiteTools_94e6be05ae;
   "nestig.com": BowmarkSiteTools_1a8e16d918;
   "nestnewyork.com": BowmarkSiteTools_921614d236;
@@ -519474,9 +520519,9 @@ interface BowmarkSites {
   "nexfoto.com": BowmarkSiteTools_921614d236;
   "nexlorac.com": BowmarkSiteTools_71d51d6fe1;
   "nextadventure.net": BowmarkSiteTools_e8ae28a971;
-  "nextinsurance.com": BowmarkSiteTools_ca0962279f;
+  "nextinsurance.com": BowmarkSiteTools_fe3c58edb7;
   "nextjump.com": BowmarkSiteTools_2f77340cf7;
-  "nextleveldecor.in": BowmarkSiteTools_921614d236;
+  "nextleveldecor.in": BowmarkSiteTools_1a8e16d918;
   "nextroundgolf.com": BowmarkSiteTools_1a8e16d918;
   "nextstepstore.com": BowmarkSiteTools_921614d236;
   "nextvital.de": BowmarkSiteTools_e8ae28a971;
@@ -519533,7 +520578,7 @@ interface BowmarkSites {
   "ninewest.com": BowmarkSiteTools_921614d236;
   "ninja.fi": BowmarkSiteTools_e8ae28a971;
   "ninjapatches.com": BowmarkSiteTools_1a8e16d918;
-  "ninjatransfers.com": BowmarkSiteTools_921614d236;
+  "ninjatransfers.com": BowmarkSiteTools_1a8e16d918;
   "ninoma.com": BowmarkSiteTools_921614d236;
   "ninoskids.com": BowmarkSiteTools_1a8e16d918;
   "nintendo.co.za": BowmarkSiteTools_921614d236;
@@ -519626,6 +520671,8 @@ interface BowmarkSites {
   "normareed.ca": BowmarkSiteTools_921614d236;
   "normareed.co.uk": BowmarkSiteTools_1a8e16d918;
   "normatel.com.br": BowmarkSiteTools_bc107286d0;
+  "norqain.com": BowmarkSiteTools_921614d236;
+  "norsegarde.com": BowmarkSiteTools_921614d236;
   "norseorganics.co": BowmarkSiteTools_921614d236;
   "north-alpine.com": BowmarkSiteTools_921614d236;
   "northantstrade.co.uk": BowmarkSiteTools_921614d236;
@@ -519645,7 +520692,7 @@ interface BowmarkSites {
   "nothingbutstyle.com": BowmarkSiteTools_921614d236;
   "nothosaur.com": BowmarkSiteTools_921614d236;
   "notjustcollectibles.com": BowmarkSiteTools_921614d236;
-  "notresucces.com": BowmarkSiteTools_1a8e16d918;
+  "notresucces.com": BowmarkSiteTools_921614d236;
   "nouecosmeticos.com.br": BowmarkSiteTools_921614d236;
   "nour-hammour.com": BowmarkSiteTools_e8ae28a971;
   "nourishedlife.com.au": BowmarkSiteTools_921614d236;
@@ -519715,7 +520762,7 @@ interface BowmarkSites {
   "nutrifactor.com.pk": BowmarkSiteTools_921614d236;
   "nutrimea.com": BowmarkSiteTools_921614d236;
   "nutrimill.com": BowmarkSiteTools_1a8e16d918;
-  "nutrimuscle.com": BowmarkSiteTools_e8ae28a971;
+  "nutrimuscle.com": BowmarkSiteTools_1a8e16d918;
   "nutritiongeeks.co": BowmarkSiteTools_921614d236;
   "nutritionplus.com": BowmarkSiteTools_e8ae28a971;
   "nutritionwarehouse.com.au": BowmarkSiteTools_1a8e16d918;
@@ -519788,6 +520835,7 @@ interface BowmarkSites {
   "ofix.com": BowmarkSiteTools_9b1673d003;
   "ofrex.ch": BowmarkSiteTools_921614d236;
   "ogee.com": BowmarkSiteTools_921614d236;
+  "oger.nl": BowmarkSiteTools_921614d236;
   "oggo.gg": BowmarkSiteTools_6e73ecd876;
   "oglmove.com": BowmarkSiteTools_921614d236;
   "ogslimes.com": BowmarkSiteTools_921614d236;
@@ -519835,6 +520883,7 @@ interface BowmarkSites {
   "olfastory.com": BowmarkSiteTools_4fb80225eb;
   "olgaperfume.com": BowmarkSiteTools_921614d236;
   "olitef.com.br": BowmarkSiteTools_57666b0832;
+  "oliveandevy.com": BowmarkSiteTools_921614d236;
   "oliveandjet.com": BowmarkSiteTools_921614d236;
   "oliveandjune.com": BowmarkSiteTools_921614d236;
   "oliveandpiper.com": BowmarkSiteTools_921614d236;
@@ -520025,6 +521074,7 @@ interface BowmarkSites {
   "organictraveller.store": BowmarkSiteTools_921614d236;
   "organifer.com": BowmarkSiteTools_921614d236;
   "organifishop.com": BowmarkSiteTools_921614d236;
+  "orgatex.com": BowmarkSiteTools_921614d236;
   "oribe.com": BowmarkSiteTools_921614d236;
   "oriclehearing.com": BowmarkSiteTools_921614d236;
   "orientelectric.com": BowmarkSiteTools_921614d236;
@@ -520082,6 +521132,7 @@ interface BowmarkSites {
   "otterbox.eu": BowmarkSiteTools_1a8e16d918;
   "otticanet.com": BowmarkSiteTools_921614d236;
   "otticanet.it": BowmarkSiteTools_921614d236;
+  "otticariccio.it": BowmarkSiteTools_921614d236;
   "ottocast.com": BowmarkSiteTools_921614d236;
   "ottofrei.com": BowmarkSiteTools_921614d236;
   "ottolenghi.co.uk": BowmarkSiteTools_921614d236;
@@ -520227,6 +521278,7 @@ interface BowmarkSites {
   "pand.co": BowmarkSiteTools_e8ae28a971;
   "pandadrum.com": BowmarkSiteTools_921614d236;
   "pandaize.com": BowmarkSiteTools_921614d236;
+  "pandaliebe.at": BowmarkSiteTools_921614d236;
   "pandaliebe.de": BowmarkSiteTools_1a8e16d918;
   "pandavideo.com": BowmarkSiteTools_f9e3fb411e;
   "pandit.com": BowmarkSiteTools_921614d236;
@@ -520262,7 +521314,7 @@ interface BowmarkSites {
   "paps.jp": BowmarkSiteTools_665fbb7dd0;
   "parabita.com": BowmarkSiteTools_e8ae28a971;
   "paracay.com": BowmarkSiteTools_921614d236;
-  "parachutehome.com": BowmarkSiteTools_e8ae28a971;
+  "parachutehome.com": BowmarkSiteTools_1a8e16d918;
   "paradex.trade": BowmarkSiteTools_bf9630e6ae;
   "paradise-kitchens.com.au": BowmarkSiteTools_e8ae28a971;
   "paradisefibers.com": BowmarkSiteTools_b57741ab64;
@@ -520272,7 +521324,7 @@ interface BowmarkSites {
   "parallel.ai": BowmarkSiteTools_5dbcc513e6;
   "parallel42.com": BowmarkSiteTools_921614d236;
   "parami.edu.mm": BowmarkSiteTools_f89a50dfbf;
-  "paramountshop.com": BowmarkSiteTools_1a8e16d918;
+  "paramountshop.com": BowmarkSiteTools_e8ae28a971;
   "parcel2go.com": BowmarkSiteTools_0f4d46058e;
   "parcelsapp.com": BowmarkSiteTools_48a0015407;
   "parchem.com": BowmarkSiteTools_921614d236;
@@ -520323,6 +521375,7 @@ interface BowmarkSites {
   "pashtush.in": BowmarkSiteTools_921614d236;
   "pasoroblesfurniture.com": BowmarkSiteTools_921614d236;
   "pasos.edu.ec": BowmarkSiteTools_150d8e01a5;
+  "paspaley.com": BowmarkSiteTools_921614d236;
   "passagedudesir.com": BowmarkSiteTools_921614d236;
   "passenger-clothing.com": BowmarkSiteTools_921614d236;
   "passionata.com": BowmarkSiteTools_921614d236;
@@ -520334,6 +521387,7 @@ interface BowmarkSites {
   "pasweetdreams.com": BowmarkSiteTools_921614d236;
   "patagonia.com.au": BowmarkSiteTools_921614d236;
   "patchcollection.com": BowmarkSiteTools_e8ae28a971;
+  "patchology.com": BowmarkSiteTools_921614d236;
   "patentbear.com": BowmarkSiteTools_1a191adb9d;
   "patenthub.cn": BowmarkSiteTools_f8e04d7ad8;
   "pathfactory.com": BowmarkSiteTools_92b58a41d5;
@@ -520501,7 +521555,7 @@ interface BowmarkSites {
   "persol.com": BowmarkSiteTools_921614d236;
   "personalchic.com": BowmarkSiteTools_921614d236;
   "personalplanner.com": BowmarkSiteTools_921614d236;
-  "peruvianconnection.com": BowmarkSiteTools_1a8e16d918;
+  "peruvianconnection.com": BowmarkSiteTools_e8ae28a971;
   "pescar-expert.ro": BowmarkSiteTools_3f6e447273;
   "pestlab.co": BowmarkSiteTools_921614d236;
   "pet-centar.hr": BowmarkSiteTools_921614d236;
@@ -520538,6 +521592,7 @@ interface BowmarkSites {
   "pfaltzgraff.com": BowmarkSiteTools_921614d236;
   "pfflyers.com": BowmarkSiteTools_921614d236;
   "pga.com": BowmarkSiteTools_4c3db524f0;
+  "pgs.ne.jp": BowmarkSiteTools_921614d236;
   "pgtc.com": BowmarkSiteTools_97528af5c6;
   "pgytech.com": BowmarkSiteTools_921614d236;
   "phaidon.com": BowmarkSiteTools_921614d236;
@@ -520619,7 +521674,7 @@ interface BowmarkSites {
   "pinkcherry.com": BowmarkSiteTools_921614d236;
   "pinkfort.co": BowmarkSiteTools_921614d236;
   "pinkgellac.com": BowmarkSiteTools_e8ae28a971;
-  "pinklily.com": BowmarkSiteTools_1a8e16d918;
+  "pinklily.com": BowmarkSiteTools_e8ae28a971;
   "pinkngreens.com": BowmarkSiteTools_921614d236;
   "pinko.com": BowmarkSiteTools_921614d236;
   "pinkpalmpuff.com": BowmarkSiteTools_921614d236;
@@ -520681,7 +521736,7 @@ interface BowmarkSites {
   "planetmissy.com": BowmarkSiteTools_921614d236;
   "planetofthevapes.com": BowmarkSiteTools_921614d236;
   "planetorganic.com": BowmarkSiteTools_921614d236;
-  "planetorganic.com.au": BowmarkSiteTools_921614d236;
+  "planetorganic.com.au": BowmarkSiteTools_1a8e16d918;
   "planetrack.ai": BowmarkSiteTools_5f882ab37e;
   "planetx.co.uk": BowmarkSiteTools_921614d236;
   "plankandbeam.com": BowmarkSiteTools_921614d236;
@@ -520698,9 +521753,10 @@ interface BowmarkSites {
   "plastmodel.pl": BowmarkSiteTools_921614d236;
   "platanomelon.com": BowmarkSiteTools_921614d236;
   "platanomelon.mx": BowmarkSiteTools_921614d236;
-  "plateful.co": BowmarkSiteTools_921614d236;
+  "plateful.co": BowmarkSiteTools_1a8e16d918;
   "platenzaak.nl": BowmarkSiteTools_1a8e16d918;
   "plati.market": BowmarkSiteTools_3ad64be25c;
+  "platinexpress.co.il": BowmarkSiteTools_921614d236;
   "platinumshop.it": BowmarkSiteTools_921614d236;
   "platinumtherapylights.com": BowmarkSiteTools_921614d236;
   "plaud.ai": BowmarkSiteTools_921614d236;
@@ -520730,7 +521786,7 @@ interface BowmarkSites {
   "plowhearth.com": BowmarkSiteTools_921614d236;
   "pltdaddy.com": BowmarkSiteTools_921614d236;
   "plug.tech": BowmarkSiteTools_921614d236;
-  "plugable.com": BowmarkSiteTools_921614d236;
+  "plugable.com": BowmarkSiteTools_1a8e16d918;
   "pluggy.ai": BowmarkSiteTools_d6f3aa8a4a;
   "plugin-alliance.com": BowmarkSiteTools_921614d236;
   "plukkers.com": BowmarkSiteTools_921614d236;
@@ -520772,6 +521828,7 @@ interface BowmarkSites {
   "polaroideyewear.com": BowmarkSiteTools_1a8e16d918;
   "polarpro.com": BowmarkSiteTools_921614d236;
   "polartech.com.au": BowmarkSiteTools_e8ae28a971;
+  "poldderre.com": BowmarkSiteTools_921614d236;
   "polejunkie.com": BowmarkSiteTools_921614d236;
   "polene-paris.com": BowmarkSiteTools_e8ae28a971;
   "polhill.co.uk": BowmarkSiteTools_921614d236;
@@ -520800,7 +521857,7 @@ interface BowmarkSites {
   "pompea.com": BowmarkSiteTools_921614d236;
   "pompeiibrand.com": BowmarkSiteTools_921614d236;
   "pompomlondon.com": BowmarkSiteTools_1a8e16d918;
-  "ponchooutdoors.com": BowmarkSiteTools_e8ae28a971;
+  "ponchooutdoors.com": BowmarkSiteTools_1a8e16d918;
   "pondurance.com": BowmarkSiteTools_9a014a6700;
   "poobienaidoos.co.za": BowmarkSiteTools_1a8e16d918;
   "pooky.com": BowmarkSiteTools_e8ae28a971;
@@ -520890,6 +521947,7 @@ interface BowmarkSites {
   "preciousmoments.com": BowmarkSiteTools_921614d236;
   "precisionit.net": BowmarkSiteTools_45025444fc;
   "predatorcues.com": BowmarkSiteTools_1a8e16d918;
+  "preeco.fi": BowmarkSiteTools_921614d236;
   "preethiwear.in": BowmarkSiteTools_1a8e16d918;
   "preetpret.pk": BowmarkSiteTools_921614d236;
   "prefect.io": BowmarkSiteTools_014004dec8;
@@ -520941,6 +521999,7 @@ interface BowmarkSites {
   "primalwear.com": BowmarkSiteTools_1a8e16d918;
   "primary.com": BowmarkSiteTools_921614d236;
   "primcast.com": BowmarkSiteTools_ca883031b6;
+  "primedriven.com": BowmarkSiteTools_921614d236;
   "primegastro.pl": BowmarkSiteTools_921614d236;
   "primelights.com": BowmarkSiteTools_921614d236;
   "primeline.com": BowmarkSiteTools_921614d236;
@@ -520950,6 +522009,7 @@ interface BowmarkSites {
   "primetimepaint.ca": BowmarkSiteTools_1a8e16d918;
   "primini.tn": BowmarkSiteTools_8364122d0e;
   "primitive.dev": BowmarkSiteTools_9d5fc5411e;
+  "primitiveskate.com": BowmarkSiteTools_921614d236;
   "primos.com": BowmarkSiteTools_921614d236;
   "princessace.com": BowmarkSiteTools_1a8e16d918;
   "princesshighway.com.au": BowmarkSiteTools_921614d236;
@@ -520974,6 +522034,7 @@ interface BowmarkSites {
   "pro-nutrition.fr": BowmarkSiteTools_921614d236;
   "proactiv.com": BowmarkSiteTools_921614d236;
   "proamgolfusa.com": BowmarkSiteTools_e8ae28a971;
+  "probablysmut.com": BowmarkSiteTools_e8ae28a971;
   "probikeshop.com": BowmarkSiteTools_921614d236;
   "probikeshop.de": BowmarkSiteTools_921614d236;
   "probikeshop.fr": BowmarkSiteTools_921614d236;
@@ -520989,7 +522050,7 @@ interface BowmarkSites {
   "procurementresource.com": BowmarkSiteTools_48c46e9867;
   "prodirectsport.com": BowmarkSiteTools_e8ae28a971;
   "prodirectsport.fr": BowmarkSiteTools_921614d236;
-  "prodirectsport.us": BowmarkSiteTools_921614d236;
+  "prodirectsport.us": BowmarkSiteTools_1a8e16d918;
   "prodj.com": BowmarkSiteTools_921614d236;
   "producthunt.com": BowmarkSiteTools_f3cc33066d;
   "productionlist.com": BowmarkSiteTools_a1dedfb02f;
@@ -521053,8 +522114,10 @@ interface BowmarkSites {
   "psaudio.com": BowmarkSiteTools_921614d236;
   "psbspeakers.com": BowmarkSiteTools_921614d236;
   "psd.com": BowmarkSiteTools_921614d236;
+  "psearchery.com": BowmarkSiteTools_921614d236;
   "psicoweb.com": BowmarkSiteTools_501bf822ac;
   "psr-parts.com": BowmarkSiteTools_921614d236;
+  "psseasoning.com": BowmarkSiteTools_921614d236;
   "pstrstudio.com": BowmarkSiteTools_921614d236;
   "psychobunny.com": BowmarkSiteTools_e8ae28a971;
   "psynclabs.com": BowmarkSiteTools_921614d236;
@@ -521071,6 +522134,7 @@ interface BowmarkSites {
   "publicgoods.com": BowmarkSiteTools_921614d236;
   "pucara.org": BowmarkSiteTools_06fc76cedc;
   "pucci.com": BowmarkSiteTools_921614d236;
+  "puckipuppy.com": BowmarkSiteTools_921614d236;
   "pueblodirect.com": BowmarkSiteTools_921614d236;
   "puffco.com": BowmarkSiteTools_921614d236;
   "puffit.com": BowmarkSiteTools_921614d236;
@@ -521182,7 +522246,7 @@ interface BowmarkSites {
   "quest.com.co": BowmarkSiteTools_921614d236;
   "questionbeauty.com": BowmarkSiteTools_921614d236;
   "questnutrition.com": BowmarkSiteTools_921614d236;
-  "quicketail.com": BowmarkSiteTools_1a8e16d918;
+  "quicketail.com": BowmarkSiteTools_921614d236;
   "quickjack.com": BowmarkSiteTools_1a8e16d918;
   "quicksilverscientific.com": BowmarkSiteTools_e8ae28a971;
   "quickvit.co.uk": BowmarkSiteTools_921614d236;
@@ -521203,6 +522267,7 @@ interface BowmarkSites {
   "qvr.com": BowmarkSiteTools_921614d236;
   "qwertykeys.com": BowmarkSiteTools_921614d236;
   "qwetch.com": BowmarkSiteTools_921614d236;
+  "qzs-ksa.com": BowmarkSiteTools_2c1343b9af;
   "r13.com": BowmarkSiteTools_e8ae28a971;
   "r1s-test.com": BowmarkSiteTools_551161cdb8;
   "rabbitroom.com": BowmarkSiteTools_e94e24a04c;
@@ -521253,7 +522318,7 @@ interface BowmarkSites {
   "raintreenursery.com": BowmarkSiteTools_921614d236;
   "rainyroses.com": BowmarkSiteTools_921614d236;
   "raisacreationz.com": BowmarkSiteTools_921614d236;
-  "rajasahib.com": BowmarkSiteTools_921614d236;
+  "rajasahib.com": BowmarkSiteTools_1a8e16d918;
   "rakhys.com": BowmarkSiteTools_da86572c51;
   "ralakde.com": BowmarkSiteTools_921614d236;
   "rallitek.com": BowmarkSiteTools_921614d236;
@@ -521310,7 +522375,7 @@ interface BowmarkSites {
   "rawganique.com": BowmarkSiteTools_921614d236;
   "rawson.co.za": BowmarkSiteTools_1a99c8a1fa;
   "rawspiritual.com": BowmarkSiteTools_921614d236;
-  "rayconglobal.com": BowmarkSiteTools_921614d236;
+  "rayconglobal.com": BowmarkSiteTools_1a8e16d918;
   "raygunsite.com": BowmarkSiteTools_1a8e16d918;
   "raymond-weil.com": BowmarkSiteTools_921614d236;
   "rayneo.com": BowmarkSiteTools_921614d236;
@@ -521320,7 +522385,7 @@ interface BowmarkSites {
   "rbnr.it": BowmarkSiteTools_921614d236;
   "rboutique.com": BowmarkSiteTools_921614d236;
   "rbsellars.com.au": BowmarkSiteTools_e8ae28a971;
-  "rbxactive.com": BowmarkSiteTools_921614d236;
+  "rbxactive.com": BowmarkSiteTools_1a8e16d918;
   "rca.com": BowmarkSiteTools_921614d236;
   "rcdrone.top": BowmarkSiteTools_921614d236;
   "rchopupparts.com": BowmarkSiteTools_921614d236;
@@ -521339,6 +522404,7 @@ interface BowmarkSites {
   "readingglasses.com": BowmarkSiteTools_921614d236;
   "readyourheart.com": BowmarkSiteTools_1a8e16d918;
   "readysetpedal.com": BowmarkSiteTools_921614d236;
+  "reakcio.hu": BowmarkSiteTools_cee22c68fc;
   "realdoll.com": BowmarkSiteTools_921614d236;
   "realeactives.com": BowmarkSiteTools_921614d236;
   "realgroovy.com": BowmarkSiteTools_921614d236;
@@ -521401,7 +522467,7 @@ interface BowmarkSites {
   "redocly.com": BowmarkSiteTools_45ccd17a74;
   "redpim.de": BowmarkSiteTools_4ade1d9789;
   "redqueen.mx": BowmarkSiteTools_1a8e16d918;
-  "redragonshop.com": BowmarkSiteTools_1a8e16d918;
+  "redragonshop.com": BowmarkSiteTools_921614d236;
   "redstone.finance": BowmarkSiteTools_ce2ce605f5;
   "redtape.com": BowmarkSiteTools_1a8e16d918;
   "redtigercam.com": BowmarkSiteTools_921614d236;
@@ -521414,7 +522480,7 @@ interface BowmarkSites {
   "reebok.com.ar": BowmarkSiteTools_921614d236;
   "reebok.com.au": BowmarkSiteTools_921614d236;
   "reebok.eu": BowmarkSiteTools_e8ae28a971;
-  "reeder.com.tr": BowmarkSiteTools_1a8e16d918;
+  "reeder.com.tr": BowmarkSiteTools_921614d236;
   "reef.com": BowmarkSiteTools_921614d236;
   "reef.eu": BowmarkSiteTools_921614d236;
   "reefcoaquariums.com": BowmarkSiteTools_921614d236;
@@ -521528,7 +522594,7 @@ interface BowmarkSites {
   "retro-stage.de": BowmarkSiteTools_921614d236;
   "retro-stage.fr": BowmarkSiteTools_1a8e16d918;
   "retrofete.com": BowmarkSiteTools_e8ae28a971;
-  "retrogamingofdenver.com": BowmarkSiteTools_e8ae28a971;
+  "retrogamingofdenver.com": BowmarkSiteTools_1a8e16d918;
   "retroremake.co": BowmarkSiteTools_921614d236;
   "retrosoccerkit.com": BowmarkSiteTools_921614d236;
   "retrospec.com": BowmarkSiteTools_921614d236;
@@ -521593,6 +522659,8 @@ interface BowmarkSites {
   "rideaux-deco.fr": BowmarkSiteTools_921614d236;
   "ridefox.com": BowmarkSiteTools_1a8e16d918;
   "riderly.com": BowmarkSiteTools_d3b47bf1cf;
+  "ridersjunction.com": BowmarkSiteTools_e8ae28a971;
+  "rideshop.cl": BowmarkSiteTools_921614d236;
   "ridge.com": BowmarkSiteTools_1a8e16d918;
   "ridgeandriver.com": BowmarkSiteTools_e8ae28a971;
   "ridgemerino.com": BowmarkSiteTools_e8ae28a971;
@@ -521604,6 +522672,7 @@ interface BowmarkSites {
   "rightboat.com": BowmarkSiteTools_b48fceb096;
   "righteousbabe.com": BowmarkSiteTools_921614d236;
   "rihoas.com": BowmarkSiteTools_921614d236;
+  "riiroo.com": BowmarkSiteTools_921614d236;
   "rimoco.de": BowmarkSiteTools_e8ae28a971;
   "rimorcorp.com": BowmarkSiteTools_921614d236;
   "rinascimento.com": BowmarkSiteTools_921614d236;
@@ -521614,6 +522683,7 @@ interface BowmarkSites {
   "ringkestore.com": BowmarkSiteTools_921614d236;
   "ringtones.com": BowmarkSiteTools_921614d236;
   "ringtons.co.uk": BowmarkSiteTools_921614d236;
+  "rinkit.com": BowmarkSiteTools_921614d236;
   "rino-pelle.com": BowmarkSiteTools_1a8e16d918;
   "riolasvegas.com": BowmarkSiteTools_d52001abd0;
   "ripcurl.com": BowmarkSiteTools_921614d236;
@@ -521739,6 +522809,7 @@ interface BowmarkSites {
   "rondorff.com": BowmarkSiteTools_921614d236;
   "ronin.pk": BowmarkSiteTools_921614d236;
   "ronis.com.au": BowmarkSiteTools_e8ae28a971;
+  "ronron-lolita.com": BowmarkSiteTools_921614d236;
   "ronsterrides.com": BowmarkSiteTools_921614d236;
   "rontomson.com": BowmarkSiteTools_e8ae28a971;
   "ronyohananov.com": BowmarkSiteTools_91ef34993c;
@@ -521746,7 +522817,7 @@ interface BowmarkSites {
   "roomundo.com": BowmarkSiteTools_2cfbaa191d;
   "rootandbones.com": BowmarkSiteTools_921614d236;
   "rootsoffight.com": BowmarkSiteTools_921614d236;
-  "roottcostore.com": BowmarkSiteTools_921614d236;
+  "roottcostore.com": BowmarkSiteTools_1a8e16d918;
   "rootz.global": BowmarkSiteTools_a14307dba8;
   "rosaselvagemoficial.com.br": BowmarkSiteTools_921614d236;
   "roschic.com": BowmarkSiteTools_921614d236;
@@ -521760,12 +522831,14 @@ interface BowmarkSites {
   "rosier.com": BowmarkSiteTools_71d51d6fe1;
   "rosierfoods.com": BowmarkSiteTools_921614d236;
   "ross-simons.com": BowmarkSiteTools_1a8e16d918;
+  "rossellimac.es": BowmarkSiteTools_e8ae28a971;
   "rossmanngroup.com": BowmarkSiteTools_5cda1f9115;
   "rossmetals.com": BowmarkSiteTools_921614d236;
   "rosymae.com": BowmarkSiteTools_921614d236;
   "rotarywatches.com": BowmarkSiteTools_921614d236;
   "rotho.com": BowmarkSiteTools_921614d236;
   "rothys.com": BowmarkSiteTools_1a8e16d918;
+  "rotopax.com": BowmarkSiteTools_e8ae28a971;
   "rotorriot.com": BowmarkSiteTools_921614d236;
   "rottentomatoes.com": BowmarkSiteTools_49d4928644;
   "rouje.com": BowmarkSiteTools_921614d236;
@@ -521791,7 +522864,7 @@ interface BowmarkSites {
   "roxyaustralia.com.au": BowmarkSiteTools_921614d236;
   "roxynailsparis.com": BowmarkSiteTools_921614d236;
   "royalcdkeys.com": BowmarkSiteTools_921614d236;
-  "royalchessmall.com": BowmarkSiteTools_921614d236;
+  "royalchessmall.com": BowmarkSiteTools_1a8e16d918;
   "royalcoffee.com": BowmarkSiteTools_921614d236;
   "royalcopenhagen.com": BowmarkSiteTools_921614d236;
   "royaldelft.com": BowmarkSiteTools_921614d236;
@@ -521822,6 +522895,7 @@ interface BowmarkSites {
   "rugeditorial.com": BowmarkSiteTools_921614d236;
   "rugette.com": BowmarkSiteTools_921614d236;
   "ruggedradios.com": BowmarkSiteTools_e8ae28a971;
+  "ruggedrosaries.com": BowmarkSiteTools_921614d236;
   "rugone.net": BowmarkSiteTools_921614d236;
   "rugsdirect.co.uk": BowmarkSiteTools_921614d236;
   "rugsdoneright.com": BowmarkSiteTools_921614d236;
@@ -521876,11 +522950,12 @@ interface BowmarkSites {
   "saalt.com": BowmarkSiteTools_921614d236;
   "saba.com.au": BowmarkSiteTools_921614d236;
   "sabai.design": BowmarkSiteTools_921614d236;
+  "sabbi.com.au": BowmarkSiteTools_e8ae28a971;
   "saberspro.com": BowmarkSiteTools_921614d236;
   "sabhyataclothing.com": BowmarkSiteTools_921614d236;
   "sabon.co.jp": BowmarkSiteTools_921614d236;
   "saboresdemarise.com.br": BowmarkSiteTools_2da2d60703;
-  "saboskirt.com": BowmarkSiteTools_1a8e16d918;
+  "saboskirt.com": BowmarkSiteTools_e8ae28a971;
   "sabre-paris.com": BowmarkSiteTools_e8ae28a971;
   "sabrent.com": BowmarkSiteTools_921614d236;
   "sabritextile.store": BowmarkSiteTools_921614d236;
@@ -521920,7 +522995,6 @@ interface BowmarkSites {
   "sagepilot.ai": BowmarkSiteTools_f1c6551fff;
   "saguaro.com": BowmarkSiteTools_921614d236;
   "saiehello.com": BowmarkSiteTools_921614d236;
-  "sail.ca": BowmarkSiteTools_e8ae28a971;
   "sailrace.com": BowmarkSiteTools_921614d236;
   "sainsmart.com": BowmarkSiteTools_e8ae28a971;
   "saint-james.com": BowmarkSiteTools_921614d236;
@@ -521964,7 +523038,7 @@ interface BowmarkSites {
   "saltrock.com": BowmarkSiteTools_921614d236;
   "saltxo.com": BowmarkSiteTools_921614d236;
   "salty-crew.com": BowmarkSiteTools_921614d236;
-  "salty.co.in": BowmarkSiteTools_1a8e16d918;
+  "salty.co.in": BowmarkSiteTools_e8ae28a971;
   "saltycrush.com": BowmarkSiteTools_921614d236;
   "sam-turner.co.uk": BowmarkSiteTools_921614d236;
   "samag.shop": BowmarkSiteTools_921614d236;
@@ -521988,7 +523062,7 @@ interface BowmarkSites {
   "sandgrainstudio.com": BowmarkSiteTools_921614d236;
   "sandmarc.com": BowmarkSiteTools_921614d236;
   "sands-uae.com": BowmarkSiteTools_e8ae28a971;
-  "sandshop.it": BowmarkSiteTools_1a8e16d918;
+  "sandshop.it": BowmarkSiteTools_921614d236;
   "saneshoppe.com": BowmarkSiteTools_1a8e16d918;
   "sanfe.in": BowmarkSiteTools_921614d236;
   "sanjosewarehouseca.com": BowmarkSiteTools_921614d236;
@@ -522096,6 +523170,7 @@ interface BowmarkSites {
   "schilderopnr.nl": BowmarkSiteTools_921614d236;
   "schlummersack.de": BowmarkSiteTools_e8ae28a971;
   "schmidts.store": BowmarkSiteTools_921614d236;
+  "schmittmusic.com": BowmarkSiteTools_921614d236;
   "schmuck.ch": BowmarkSiteTools_921614d236;
   "schoffelcountry.com": BowmarkSiteTools_921614d236;
   "scholar-sidekick.com": BowmarkSiteTools_2460accda7;
@@ -522130,7 +523205,7 @@ interface BowmarkSites {
   "screenmoove.com": BowmarkSiteTools_921614d236;
   "screenprinting.com": BowmarkSiteTools_921614d236;
   "screensearch.co.uk": BowmarkSiteTools_65cf91438a;
-  "screenzen.co": BowmarkSiteTools_1a8e16d918;
+  "screenzen.co": BowmarkSiteTools_921614d236;
   "scribbler.com": BowmarkSiteTools_e8ae28a971;
   "scriptengine.net": BowmarkSiteTools_921614d236;
   "scrt.onl": BowmarkSiteTools_e8ae28a971;
@@ -522205,6 +523280,7 @@ interface BowmarkSites {
   "seikousa.com": BowmarkSiteTools_921614d236;
   "seikowatches.co.in": BowmarkSiteTools_921614d236;
   "seintofficial.com": BowmarkSiteTools_921614d236;
+  "seisukeknife.com": BowmarkSiteTools_921614d236;
   "sekelskifte.com": BowmarkSiteTools_921614d236;
   "selby.shop": BowmarkSiteTools_921614d236;
   "select-living.de": BowmarkSiteTools_e8ae28a971;
@@ -522247,7 +523323,7 @@ interface BowmarkSites {
   "sensalytics.io": BowmarkSiteTools_c4a5143275;
   "sensalytics.net": BowmarkSiteTools_9d5344a34e;
   "sense-u.com": BowmarkSiteTools_921614d236;
-  "senseofreasons.com": BowmarkSiteTools_1a8e16d918;
+  "senseofreasons.com": BowmarkSiteTools_921614d236;
   "sensibo.com": BowmarkSiteTools_921614d236;
   "sentaifilmworks.com": BowmarkSiteTools_1a8e16d918;
   "senteur.ca": BowmarkSiteTools_921614d236;
@@ -522368,6 +523444,7 @@ interface BowmarkSites {
   "shinecharity.org.uk": BowmarkSiteTools_921614d236;
   "shineon.co.nz": BowmarkSiteTools_921614d236;
   "shinesty.com": BowmarkSiteTools_e8ae28a971;
+  "shinkansen-ticket.com": BowmarkSiteTools_921614d236;
   "shinola.com": BowmarkSiteTools_921614d236;
   "shinychiefs.de": BowmarkSiteTools_921614d236;
   "ship24.com": BowmarkSiteTools_78d3bea3a2;
@@ -522421,7 +523498,7 @@ interface BowmarkSites {
   "shopbentley.com": BowmarkSiteTools_921614d236;
   "shopbetseys.com": BowmarkSiteTools_921614d236;
   "shopbrickcraft.com": BowmarkSiteTools_921614d236;
-  "shopbuildmate.com": BowmarkSiteTools_1a8e16d918;
+  "shopbuildmate.com": BowmarkSiteTools_e8ae28a971;
   "shopcalendars.com": BowmarkSiteTools_1a8e16d918;
   "shopcannastyle.com": BowmarkSiteTools_921614d236;
   "shopcapcity.com": BowmarkSiteTools_921614d236;
@@ -522484,7 +523561,7 @@ interface BowmarkSites {
   "shopnutrapure.com": BowmarkSiteTools_921614d236;
   "shoppeamberlewis.com": BowmarkSiteTools_e8ae28a971;
   "shoppi.app": BowmarkSiteTools_44e0c14e89;
-  "shoppingworldyt.com": BowmarkSiteTools_921614d236;
+  "shoppingworldyt.com": BowmarkSiteTools_1a8e16d918;
   "shoppremiumoutlets.com": BowmarkSiteTools_921614d236;
   "shoppromesa.com": BowmarkSiteTools_921614d236;
   "shoppureflow.net": BowmarkSiteTools_921614d236;
@@ -522538,7 +523615,6 @@ interface BowmarkSites {
   "sierramadrecollection.com": BowmarkSiteTools_921614d236;
   "sigg.com": BowmarkSiteTools_921614d236;
   "sigmabeauty.com": BowmarkSiteTools_921614d236;
-  "sigmanortec.ro": BowmarkSiteTools_259e3c8a97;
   "sigmasports.com": BowmarkSiteTools_e8ae28a971;
   "sigmatiendas.com": BowmarkSiteTools_e8ae28a971;
   "sign.com": BowmarkSiteTools_6ec401c715;
@@ -522652,9 +523728,9 @@ interface BowmarkSites {
   "sizeofficial.de": BowmarkSiteTools_921614d236;
   "sizeofficial.es": BowmarkSiteTools_921614d236;
   "sizeofficial.ie": BowmarkSiteTools_921614d236;
-  "sizzlebrothers.de": BowmarkSiteTools_1a8e16d918;
+  "sizzlebrothers.de": BowmarkSiteTools_921614d236;
   "sizzlefish.com": BowmarkSiteTools_921614d236;
-  "sk-ii.com": BowmarkSiteTools_1a8e16d918;
+  "sk-ii.com": BowmarkSiteTools_921614d236;
   "skaarhoj.com": BowmarkSiteTools_f0725430c8;
   "skalhuset.se": BowmarkSiteTools_921614d236;
   "skapetze.com": BowmarkSiteTools_921614d236;
@@ -522705,7 +523781,7 @@ interface BowmarkSites {
   "skiny.com": BowmarkSiteTools_1a8e16d918;
   "skiplagged.com": BowmarkSiteTools_9e31fd505d;
   "skipro.com": BowmarkSiteTools_921614d236;
-  "skirack.com": BowmarkSiteTools_921614d236;
+  "skirack.com": BowmarkSiteTools_1a8e16d918;
   "skisises.com": BowmarkSiteTools_921614d236;
   "skiuphill.ca": BowmarkSiteTools_1a8e16d918;
   "skmei.com.pk": BowmarkSiteTools_1a8e16d918;
@@ -522823,6 +523899,7 @@ interface BowmarkSites {
   "sneakersouqq.com": BowmarkSiteTools_921614d236;
   "sneakersoutfit.com": BowmarkSiteTools_921614d236;
   "sneakinpeace.com": BowmarkSiteTools_921614d236;
+  "snibbs.co": BowmarkSiteTools_921614d236;
   "snif.co": BowmarkSiteTools_921614d236;
   "snocks.com": BowmarkSiteTools_921614d236;
   "snomed.org": BowmarkSiteTools_08fb9913ed;
@@ -522891,6 +523968,7 @@ interface BowmarkSites {
   "solarvie.at": BowmarkSiteTools_921614d236;
   "solawave.co": BowmarkSiteTools_921614d236;
   "solawoodflowers.com": BowmarkSiteTools_921614d236;
+  "solbeautyandcare.com.mx": BowmarkSiteTools_e8ae28a971;
   "soldejaneiro.com": BowmarkSiteTools_e8ae28a971;
   "soldiersnutrition.com.br": BowmarkSiteTools_921614d236;
   "solebliss.com": BowmarkSiteTools_921614d236;
@@ -522910,6 +523988,7 @@ interface BowmarkSites {
   "sonance.com": BowmarkSiteTools_921614d236;
   "sonares.org": BowmarkSiteTools_6895b90360;
   "sondeflor.com": BowmarkSiteTools_921614d236;
+  "soneda.com.br": BowmarkSiteTools_bc107286d0;
   "songmics.com": BowmarkSiteTools_921614d236;
   "songmics.de": BowmarkSiteTools_921614d236;
   "songmics.fr": BowmarkSiteTools_921614d236;
@@ -522925,7 +524004,7 @@ interface BowmarkSites {
   "sonofastag.com": BowmarkSiteTools_1a8e16d918;
   "sonoff.tech": BowmarkSiteTools_921614d236;
   "soofthelabel.co": BowmarkSiteTools_921614d236;
-  "soolinen.com": BowmarkSiteTools_921614d236;
+  "soolinen.com": BowmarkSiteTools_1a8e16d918;
   "sootang.jp": BowmarkSiteTools_921614d236;
   "sophiajewelers.com": BowmarkSiteTools_921614d236;
   "sophiawebster.com": BowmarkSiteTools_921614d236;
@@ -522979,7 +524058,7 @@ interface BowmarkSites {
   "spamhero.com": BowmarkSiteTools_d7437a8c3e;
   "spanx.ca": BowmarkSiteTools_921614d236;
   "spanx.com": BowmarkSiteTools_921614d236;
-  "sparesplc.com": BowmarkSiteTools_921614d236;
+  "sparesplc.com": BowmarkSiteTools_1a8e16d918;
   "sparify.co": BowmarkSiteTools_1a8e16d918;
   "sparkl.gg": BowmarkSiteTools_b84213fdeb;
   "sparklayer.io": BowmarkSiteTools_63ec343594;
@@ -523057,7 +524136,7 @@ interface BowmarkSites {
   "spirithoods.com": BowmarkSiteTools_921614d236;
   "spiritpieces.com": BowmarkSiteTools_921614d236;
   "spiritualgangster.com": BowmarkSiteTools_921614d236;
-  "spiritualsociety.co": BowmarkSiteTools_1a8e16d918;
+  "spiritualsociety.co": BowmarkSiteTools_921614d236;
   "spiru.nl": BowmarkSiteTools_921614d236;
   "spitfireaudio.com": BowmarkSiteTools_921614d236;
   "spkr.store": BowmarkSiteTools_921614d236;
@@ -523103,6 +524182,7 @@ interface BowmarkSites {
   "sprayground.eu": BowmarkSiteTools_921614d236;
   "spraygunner.com": BowmarkSiteTools_e8ae28a971;
   "sprenger.de": BowmarkSiteTools_921614d236;
+  "sprestondesigns.com": BowmarkSiteTools_e8ae28a971;
   "sprig.store": BowmarkSiteTools_921614d236;
   "springfieldleather.com": BowmarkSiteTools_e8ae28a971;
   "springhillnursery.com": BowmarkSiteTools_921614d236;
@@ -523136,6 +524216,7 @@ interface BowmarkSites {
   "sreeleathersonline.com": BowmarkSiteTools_921614d236;
   "srisritattva.com": BowmarkSiteTools_1a8e16d918;
   "srqfabrications.com": BowmarkSiteTools_921614d236;
+  "srstore.in": BowmarkSiteTools_921614d236;
   "ss-gtm.com": BowmarkSiteTools_1a8e16d918;
   "ss.ge": BowmarkSiteTools_44de148123;
   "ssemble.com": BowmarkSiteTools_4aea0b8ac0;
@@ -523260,7 +524341,7 @@ interface BowmarkSites {
   "stilacosmetics.com": BowmarkSiteTools_921614d236;
   "stillandslow.com": BowmarkSiteTools_921614d236;
   "stilord.de": BowmarkSiteTools_921614d236;
-  "stimm.com": BowmarkSiteTools_921614d236;
+  "stimm.com": BowmarkSiteTools_1a8e16d918;
   "stinegoya.com": BowmarkSiteTools_921614d236;
   "sting.com": BowmarkSiteTools_921614d236;
   "stingerdrive.com": BowmarkSiteTools_921614d236;
@@ -523359,6 +524440,7 @@ interface BowmarkSites {
   "stylemywall.com.au": BowmarkSiteTools_921614d236;
   "stylesock.com": BowmarkSiteTools_921614d236;
   "styleunion.in": BowmarkSiteTools_921614d236;
+  "stylewoerden.nl": BowmarkSiteTools_921614d236;
   "stylishoccult.com": BowmarkSiteTools_921614d236;
   "stylo.pk": BowmarkSiteTools_921614d236;
   "styxworld.com": BowmarkSiteTools_921614d236;
@@ -523383,10 +524465,13 @@ interface BowmarkSites {
   "sugoicollections.com": BowmarkSiteTools_921614d236;
   "sugoimart.com": BowmarkSiteTools_921614d236;
   "suigenkyo.store": BowmarkSiteTools_921614d236;
+  "suitebenedict.com": BowmarkSiteTools_921614d236;
   "suiteness.com": BowmarkSiteTools_64e9fcec67;
+  "suitnegozi.com": BowmarkSiteTools_e8ae28a971;
   "suitsoutlets.com": BowmarkSiteTools_921614d236;
   "suitsuit.com": BowmarkSiteTools_921614d236;
   "sujathaonegramgold.com": BowmarkSiteTools_921614d236;
+  "sujatra.com": BowmarkSiteTools_921614d236;
   "sukli.com": BowmarkSiteTools_921614d236;
   "sukooon.com": BowmarkSiteTools_921614d236;
   "sullenclothing.com": BowmarkSiteTools_921614d236;
@@ -523468,7 +524553,7 @@ interface BowmarkSites {
   "suportbicicleta.ro": BowmarkSiteTools_3f6e447273;
   "supplementfirst.com": BowmarkSiteTools_921614d236;
   "supplementmart.com.au": BowmarkSiteTools_921614d236;
-  "supplementsource.ca": BowmarkSiteTools_1a8e16d918;
+  "supplementsource.ca": BowmarkSiteTools_921614d236;
   "supplementwarehouse.com": BowmarkSiteTools_e8ae28a971;
   "supplementwholesalers.com.au": BowmarkSiteTools_921614d236;
   "supplymaster.store": BowmarkSiteTools_921614d236;
@@ -523511,7 +524596,7 @@ interface BowmarkSites {
   "svakom.com": BowmarkSiteTools_921614d236;
   "svelte.dev": BowmarkSiteTools_ca588b80b4;
   "svenskridsport.com": BowmarkSiteTools_921614d236;
-  "svicloudnet.com": BowmarkSiteTools_921614d236;
+  "svicloudnet.com": BowmarkSiteTools_1a8e16d918;
   "svpsports.ca": BowmarkSiteTools_921614d236;
   "svsound.com": BowmarkSiteTools_921614d236;
   "swadesii.com": BowmarkSiteTools_921614d236;
@@ -523569,7 +524654,6 @@ interface BowmarkSites {
   "symbiosis.finance": BowmarkSiteTools_f948e6e5aa;
   "syncee.com": BowmarkSiteTools_ecb53c5d41;
   "synchro-diffusion.com": BowmarkSiteTools_921614d236;
-  "synchtank.net": BowmarkSiteTools_0ac30670ff;
   "syndic.digital": BowmarkSiteTools_210b008369;
   "synthetix.com": BowmarkSiteTools_91a7cc500c;
   "syrn.com": BowmarkSiteTools_921614d236;
@@ -523687,10 +524771,11 @@ interface BowmarkSites {
   "taverneducollectionneur.com": BowmarkSiteTools_e8ae28a971;
   "tavily.com": BowmarkSiteTools_c1eaa747db;
   "tavrn.ai": BowmarkSiteTools_0bb539bbb9;
+  "tawheedwnour.com": BowmarkSiteTools_e8ae28a971;
   "taxact.com": BowmarkSiteTools_6f27710f4e;
   "taxi-point.co.uk": BowmarkSiteTools_bb572c6389;
   "taxi.de": BowmarkSiteTools_26250dc394;
-  "taylorstitch.com": BowmarkSiteTools_e8ae28a971;
+  "taylorstitch.com": BowmarkSiteTools_1a8e16d918;
   "taztycandy.com": BowmarkSiteTools_921614d236;
   "tbco.com": BowmarkSiteTools_921614d236;
   "tbm.com.my": BowmarkSiteTools_921614d236;
@@ -523776,7 +524861,7 @@ interface BowmarkSites {
   "tempcon.co.uk": BowmarkSiteTools_921614d236;
   "temperleylondon.com": BowmarkSiteTools_e8ae28a971;
   "templedesigner.com": BowmarkSiteTools_921614d236;
-  "templesdivided.com": BowmarkSiteTools_1a8e16d918;
+  "templesdivided.com": BowmarkSiteTools_921614d236;
   "tempo.com": BowmarkSiteTools_9116588045;
   "tempo.xyz": BowmarkSiteTools_9116588045;
   "tempusshop.com": BowmarkSiteTools_921614d236;
@@ -523798,6 +524883,7 @@ interface BowmarkSites {
   "tennis-point.nl": BowmarkSiteTools_921614d236;
   "tennispro.eu": BowmarkSiteTools_921614d236;
   "tennispro.fr": BowmarkSiteTools_921614d236;
+  "tennispro.it": BowmarkSiteTools_921614d236;
   "tenseipearl.com": BowmarkSiteTools_e8ae28a971;
   "tentbox.com": BowmarkSiteTools_921614d236;
   "tenthousand.cc": BowmarkSiteTools_1a8e16d918;
@@ -523828,6 +524914,7 @@ interface BowmarkSites {
   "testhelden.com": BowmarkSiteTools_921614d236;
   "teveo.com": BowmarkSiteTools_e8ae28a971;
   "texasbelting.com": BowmarkSiteTools_921614d236;
+  "texasbootranch.net": BowmarkSiteTools_921614d236;
   "texasoemwheels.com": BowmarkSiteTools_921614d236;
   "texassnax.com": BowmarkSiteTools_921614d236;
   "text.com": BowmarkSiteTools_11e4b74aec;
@@ -523848,6 +524935,7 @@ interface BowmarkSites {
   "thankyoumart.jp": BowmarkSiteTools_1a8e16d918;
   "thatsme.organic": BowmarkSiteTools_1a8e16d918;
   "thatssofetch.com": BowmarkSiteTools_921614d236;
+  "thatssofetch.com.au": BowmarkSiteTools_921614d236;
   "thcasmallbuds.com": BowmarkSiteTools_921614d236;
   "the-are.com": BowmarkSiteTools_e8ae28a971;
   "the-citizenry.com": BowmarkSiteTools_1a8e16d918;
@@ -523872,7 +524960,7 @@ interface BowmarkSites {
   "thearmypainter.com": BowmarkSiteTools_e8ae28a971;
   "theartment.com": BowmarkSiteTools_921614d236;
   "theartofservice.com": BowmarkSiteTools_b534ec266d;
-  "theartofstitch.com": BowmarkSiteTools_921614d236;
+  "theartofstitch.com": BowmarkSiteTools_1a8e16d918;
   "theater.xyz": BowmarkSiteTools_e8ae28a971;
   "theatticstreetwear.com": BowmarkSiteTools_e8ae28a971;
   "theaudio.co": BowmarkSiteTools_921614d236;
@@ -523935,6 +525023,7 @@ interface BowmarkSites {
   "thecuratedlobe.com": BowmarkSiteTools_e8ae28a971;
   "thecuriousdrinker.com": BowmarkSiteTools_921614d236;
   "thecushionlab.com": BowmarkSiteTools_921614d236;
+  "thecutprice.com": BowmarkSiteTools_921614d236;
   "thedailygraceco.com": BowmarkSiteTools_921614d236;
   "thedairy.com": BowmarkSiteTools_921614d236;
   "thedarkslide.com": BowmarkSiteTools_e8ae28a971;
@@ -524002,7 +525091,9 @@ interface BowmarkSites {
   "thehappywife.com": BowmarkSiteTools_921614d236;
   "theharringtonsisters.com": BowmarkSiteTools_921614d236;
   "thehatke.com": BowmarkSiteTools_921614d236;
+  "thehealthhealerpk.co": BowmarkSiteTools_1a8e16d918;
   "theherocompany.co": BowmarkSiteTools_921614d236;
+  "thehijabeez.com.pk": BowmarkSiteTools_921614d236;
   "thehockeyshop.com": BowmarkSiteTools_e8ae28a971;
   "thehoffbrand.com": BowmarkSiteTools_921614d236;
   "thehok.com": BowmarkSiteTools_921614d236;
@@ -524048,6 +525139,7 @@ interface BowmarkSites {
   "themagnifico.net": BowmarkSiteTools_921614d236;
   "themahjongline.com": BowmarkSiteTools_e8ae28a971;
   "themancompany.com": BowmarkSiteTools_921614d236;
+  "themeatguy.jp": BowmarkSiteTools_1a8e16d918;
   "themeignite.com": BowmarkSiteTools_921614d236;
   "themelidisjewels.com": BowmarkSiteTools_921614d236;
   "thememo.com.au": BowmarkSiteTools_e8ae28a971;
@@ -524171,7 +525263,7 @@ interface BowmarkSites {
   "thewashitapeshop.com": BowmarkSiteTools_921614d236;
   "thewebster.com": BowmarkSiteTools_e8ae28a971;
   "thewellnessshop.in": BowmarkSiteTools_921614d236;
-  "thewellstore.com.au": BowmarkSiteTools_1a8e16d918;
+  "thewellstore.com.au": BowmarkSiteTools_e8ae28a971;
   "thewhiskyclub.com.au": BowmarkSiteTools_921614d236;
   "thewholesaler.eu": BowmarkSiteTools_921614d236;
   "thewillowtree.com": BowmarkSiteTools_1a8e16d918;
@@ -524186,6 +525278,7 @@ interface BowmarkSites {
   "theyetee.com": BowmarkSiteTools_e8ae28a971;
   "theyond.com": BowmarkSiteTools_544036ad26;
   "thezebra.com": BowmarkSiteTools_76e48a76c4;
+  "thilakawardhana.com": BowmarkSiteTools_921614d236;
   "thinkedu.com": BowmarkSiteTools_921614d236;
   "thinkempire.com": BowmarkSiteTools_921614d236;
   "thinkgeo.com": BowmarkSiteTools_040cae541c;
@@ -524303,6 +525396,7 @@ interface BowmarkSites {
   "timepour.com.au": BowmarkSiteTools_921614d236;
   "timesbook.com": BowmarkSiteTools_921614d236;
   "timesourcejewelers.com": BowmarkSiteTools_921614d236;
+  "timetimer.com": BowmarkSiteTools_921614d236;
   "timex.ca": BowmarkSiteTools_921614d236;
   "timex.co.uk": BowmarkSiteTools_921614d236;
   "timex.com": BowmarkSiteTools_921614d236;
@@ -524433,7 +525527,7 @@ interface BowmarkSites {
   "toolworld.dk": BowmarkSiteTools_921614d236;
   "toot.jp": BowmarkSiteTools_921614d236;
   "tootimid.com": BowmarkSiteTools_921614d236;
-  "topatoco.com": BowmarkSiteTools_921614d236;
+  "topatoco.com": BowmarkSiteTools_1a8e16d918;
   "topcollectibles.com": BowmarkSiteTools_921614d236;
   "topdoctors.cl": BowmarkSiteTools_2d6137493b;
   "topdoctors.co.uk": BowmarkSiteTools_cee6b41c7a;
@@ -524538,6 +525632,7 @@ interface BowmarkSites {
   "traditionalmedicinals.com": BowmarkSiteTools_921614d236;
   "traditiondesvosges.com": BowmarkSiteTools_1a8e16d918;
   "trafi.com": BowmarkSiteTools_12ee8509da;
+  "tragsmitfassung.com": BowmarkSiteTools_921614d236;
   "trailerpartsnz.com": BowmarkSiteTools_921614d236;
   "trailforks.com": BowmarkSiteTools_63dc547772;
   "trailhiking.com.au": BowmarkSiteTools_db1d4444f2;
@@ -524578,7 +525673,7 @@ interface BowmarkSites {
   "traya.health": BowmarkSiteTools_921614d236;
   "trayvax.com": BowmarkSiteTools_921614d236;
   "trb-creation.com": BowmarkSiteTools_921614d236;
-  "trcelectronics.com": BowmarkSiteTools_1a8e16d918;
+  "trcelectronics.com": BowmarkSiteTools_921614d236;
   "treadmillfactory.ca": BowmarkSiteTools_921614d236;
   "treasurebox.co.nz": BowmarkSiteTools_e8ae28a971;
   "treasuretrails.co.uk": BowmarkSiteTools_921614d236;
@@ -524626,6 +525721,7 @@ interface BowmarkSites {
   "tripuck.com": BowmarkSiteTools_bdfad91afe;
   "triquetrahealth.com": BowmarkSiteTools_1a8e16d918;
   "trisport.ro": BowmarkSiteTools_bbeca27065;
+  "triumphdirect.co.uk": BowmarkSiteTools_921614d236;
   "trivago.com": BowmarkSiteTools_1ab88c4dd4;
   "triveniworld.com": BowmarkSiteTools_921614d236;
   "trixie.shop": BowmarkSiteTools_921614d236;
@@ -524648,6 +525744,7 @@ interface BowmarkSites {
   "trtltravel.com": BowmarkSiteTools_921614d236;
   "trubeehoney.com": BowmarkSiteTools_921614d236;
   "truckit.net": BowmarkSiteTools_6f62d2a01f;
+  "truckpartsuperstore.ca": BowmarkSiteTools_921614d236;
   "truclothing.com": BowmarkSiteTools_e8ae28a971;
   "trudiamonds.com": BowmarkSiteTools_921614d236;
   "trudoor.com": BowmarkSiteTools_921614d236;
@@ -524678,6 +525775,7 @@ interface BowmarkSites {
   "trxtraining.com": BowmarkSiteTools_1a8e16d918;
   "try-forge.com": BowmarkSiteTools_921614d236;
   "tryautobrush.com": BowmarkSiteTools_921614d236;
+  "trybello.com": BowmarkSiteTools_921614d236;
   "tryblushe.com": BowmarkSiteTools_921614d236;
   "trychannel3.com": BowmarkSiteTools_b46500da5a;
   "trycleantra.com": BowmarkSiteTools_921614d236;
@@ -524739,7 +525837,7 @@ interface BowmarkSites {
   "tunigamers.com": BowmarkSiteTools_923c6dfee0;
   "tuningsupply.com": BowmarkSiteTools_921614d236;
   "tupperware-eu.com": BowmarkSiteTools_921614d236;
-  "tupperware.com": BowmarkSiteTools_1a8e16d918;
+  "tupperware.com": BowmarkSiteTools_921614d236;
   "tupperware.com.br": BowmarkSiteTools_921614d236;
   "turath.io": BowmarkSiteTools_24ae32b212;
   "turbobrandsfactory.com": BowmarkSiteTools_921614d236;
@@ -524825,11 +525923,12 @@ interface BowmarkSites {
   "ugmonk.com": BowmarkSiteTools_921614d236;
   "ugreen.com": BowmarkSiteTools_921614d236;
   "ugreen.jp": BowmarkSiteTools_921614d236;
+  "ugreenindia.com": BowmarkSiteTools_921614d236;
   "uhrinstinkt.de": BowmarkSiteTools_1a8e16d918;
   "uhs-hardware.com": BowmarkSiteTools_921614d236;
   "ui-skills.com": BowmarkSiteTools_c393fe63f5;
   "ukbabycentre.com": BowmarkSiteTools_e8ae28a971;
-  "ukflooringdirect.co.uk": BowmarkSiteTools_e8ae28a971;
+  "ukflooringdirect.co.uk": BowmarkSiteTools_1a8e16d918;
   "uklash.com": BowmarkSiteTools_921614d236;
   "ukmedi.co.uk": BowmarkSiteTools_921614d236;
   "ukradiators.com": BowmarkSiteTools_921614d236;
@@ -524868,6 +525967,7 @@ interface BowmarkSites {
   "underarmour.com.co": BowmarkSiteTools_921614d236;
   "underarmour.com.ph": BowmarkSiteTools_921614d236;
   "underd0g.com": BowmarkSiteTools_e8ae28a971;
+  "underdog.shop": BowmarkSiteTools_921614d236;
   "underneat.in": BowmarkSiteTools_e8ae28a971;
   "underoutfit.com": BowmarkSiteTools_921614d236;
   "understand.com": BowmarkSiteTools_921614d236;
@@ -524882,6 +525982,7 @@ interface BowmarkSites {
   "unibling.com": BowmarkSiteTools_71d51d6fe1;
   "unibrands.co": BowmarkSiteTools_921614d236;
   "unico-fan.co.jp": BowmarkSiteTools_921614d236;
+  "unicpharma.com.br": BowmarkSiteTools_e8ae28a971;
   "unicum.gg": BowmarkSiteTools_eb6486d613;
   "unicutil.ro": BowmarkSiteTools_3f6e447273;
   "uniden.com": BowmarkSiteTools_921614d236;
@@ -524932,7 +526033,7 @@ interface BowmarkSites {
   "unrl.com": BowmarkSiteTools_921614d236;
   "untamedstreet.com": BowmarkSiteTools_921614d236;
   "untitledui.com": BowmarkSiteTools_02ad2b56aa;
-  "untuckit.com": BowmarkSiteTools_921614d236;
+  "untuckit.com": BowmarkSiteTools_1a8e16d918;
   "unusualwhales.com": BowmarkSiteTools_8d612d4905;
   "unze.com.pk": BowmarkSiteTools_921614d236;
   "uooyaa.com": BowmarkSiteTools_921614d236;
@@ -524977,6 +526078,7 @@ interface BowmarkSites {
   "urbanindustry.co.uk": BowmarkSiteTools_1a8e16d918;
   "urbanjngl.com": BowmarkSiteTools_921614d236;
   "urbanmonkey.com": BowmarkSiteTools_e8ae28a971;
+  "urbanmood.sg": BowmarkSiteTools_921614d236;
   "urbannatural.com": BowmarkSiteTools_e8ae28a971;
   "urbanofashion.com": BowmarkSiteTools_921614d236;
   "urbanpro.com": BowmarkSiteTools_beb9cb759c;
@@ -524985,7 +526087,7 @@ interface BowmarkSites {
   "urbansophistication.com": BowmarkSiteTools_921614d236;
   "urbanspacestore.in": BowmarkSiteTools_921614d236;
   "urbanstaroma.com": BowmarkSiteTools_1a8e16d918;
-  "urbanstems.com": BowmarkSiteTools_921614d236;
+  "urbanstems.com": BowmarkSiteTools_1a8e16d918;
   "urbansurfer.co.uk": BowmarkSiteTools_e8ae28a971;
   "urbanthreads.com": BowmarkSiteTools_1a8e16d918;
   "urevo.com": BowmarkSiteTools_921614d236;
@@ -525073,6 +526175,7 @@ interface BowmarkSites {
   "vancassotableware.com": BowmarkSiteTools_921614d236;
   "vancastvideo.com": BowmarkSiteTools_324ef0ff98;
   "vandale.nl": BowmarkSiteTools_921614d236;
+  "vaneersa.com": BowmarkSiteTools_2c1343b9af;
   "vanguardmil.com": BowmarkSiteTools_921614d236;
   "vanillabeankings.com": BowmarkSiteTools_921614d236;
   "vanitysklep.pl": BowmarkSiteTools_e8ae28a971;
@@ -525328,6 +526431,7 @@ interface BowmarkSites {
   "vitalsignstracker.com": BowmarkSiteTools_74656a7ba5;
   "vitalsvault.com": BowmarkSiteTools_9b6b6dee2c;
   "vitalydesign.com": BowmarkSiteTools_921614d236;
+  "vitaminaswim.com": BowmarkSiteTools_921614d236;
   "vitaminsuk.com": BowmarkSiteTools_921614d236;
   "vitaminversand24.com": BowmarkSiteTools_921614d236;
   "vitaminworld.com": BowmarkSiteTools_921614d236;
@@ -525385,6 +526489,7 @@ interface BowmarkSites {
   "vontaro.de": BowmarkSiteTools_921614d236;
   "vooks.com": BowmarkSiteTools_c2683eacba;
   "voomisupply.com": BowmarkSiteTools_921614d236;
+  "voopter.com.br": BowmarkSiteTools_ff71711b1b;
   "voordeelgordijnen.nl": BowmarkSiteTools_921614d236;
   "voordeelscooters.nl": BowmarkSiteTools_e8ae28a971;
   "vootbuy.in": BowmarkSiteTools_921614d236;
@@ -525443,7 +526548,7 @@ interface BowmarkSites {
   "wafuu.com": BowmarkSiteTools_921614d236;
   "waiko.hk": BowmarkSiteTools_921614d236;
   "wajo.ai": BowmarkSiteTools_e00889af19;
-  "wajos.de": BowmarkSiteTools_1a8e16d918;
+  "wajos.de": BowmarkSiteTools_921614d236;
   "walensky-shop.fr": BowmarkSiteTools_921614d236;
   "walkaroo.in": BowmarkSiteTools_921614d236;
   "walkingpad.com": BowmarkSiteTools_921614d236;
@@ -525543,7 +526648,7 @@ interface BowmarkSites {
   "wazoodle.com": BowmarkSiteTools_921614d236;
   "wbbarber.com": BowmarkSiteTools_e8ae28a971;
   "wbshop.com": BowmarkSiteTools_921614d236;
-  "wcosmetics.com.au": BowmarkSiteTools_921614d236;
+  "wcosmetics.com.au": BowmarkSiteTools_1a8e16d918;
   "wcsaunas.com": BowmarkSiteTools_1a8e16d918;
   "weadultshop.com": BowmarkSiteTools_921614d236;
   "wealthenhancement.com": BowmarkSiteTools_717d4aedeb;
@@ -525570,6 +526675,7 @@ interface BowmarkSites {
   "webability.io": BowmarkSiteTools_56fd194f50;
   "webcontrive.com": BowmarkSiteTools_921614d236;
   "webdock.io": BowmarkSiteTools_72875a3b66;
+  "webimonline.com": BowmarkSiteTools_56d531ef08;
   "weboke.nl": BowmarkSiteTools_18e3f899be;
   "webspareparts.com": BowmarkSiteTools_921614d236;
   "webtic.it": BowmarkSiteTools_09b90be7fb;
@@ -525618,7 +526724,7 @@ interface BowmarkSites {
   "welovefrugi.com": BowmarkSiteTools_921614d236;
   "weloveplugs.com": BowmarkSiteTools_71d51d6fe1;
   "weltbild.ch": BowmarkSiteTools_921614d236;
-  "weltpixel.com": BowmarkSiteTools_1a8e16d918;
+  "weltpixel.com": BowmarkSiteTools_921614d236;
   "welzo.com": BowmarkSiteTools_921614d236;
   "wematik.de": BowmarkSiteTools_e8ae28a971;
   "wendellaboats.com": BowmarkSiteTools_921614d236;
@@ -525628,16 +526734,16 @@ interface BowmarkSites {
   "weratedogs.com": BowmarkSiteTools_921614d236;
   "werlecomercial.com.br": BowmarkSiteTools_a5d5ad65c1;
   "weroad.com": BowmarkSiteTools_7a2da0986d;
-  "wertur.com": BowmarkSiteTools_71d51d6fe1;
   "westbasedirect.com": BowmarkSiteTools_921614d236;
   "westcoastcorvette.com": BowmarkSiteTools_921614d236;
-  "westcoastseeds.com": BowmarkSiteTools_1a8e16d918;
+  "westcoastseeds.com": BowmarkSiteTools_e8ae28a971;
   "westend61.de": BowmarkSiteTools_5a2c503c76;
   "westengw.com": BowmarkSiteTools_921614d236;
   "westinghouse.com": BowmarkSiteTools_921614d236;
   "westman-atelier.com": BowmarkSiteTools_921614d236;
   "weston.com.sg": BowmarkSiteTools_921614d236;
   "westportbigandtall.com": BowmarkSiteTools_921614d236;
+  "westprimedirect.com": BowmarkSiteTools_921614d236;
   "westside.com": BowmarkSiteTools_921614d236;
   "westslopegear.com": BowmarkSiteTools_921614d236;
   "wetforher.com": BowmarkSiteTools_921614d236;
@@ -525653,7 +526759,7 @@ interface BowmarkSites {
   "whatjobs.com": BowmarkSiteTools_74fe818f75;
   "whatsmenu.com.br": BowmarkSiteTools_29ee69eb77;
   "whatstheid.com": BowmarkSiteTools_6f2d3ba568;
-  "whatthef.nl": BowmarkSiteTools_1a8e16d918;
+  "whatthef.nl": BowmarkSiteTools_921614d236;
   "wheediez.com": BowmarkSiteTools_921614d236;
   "wheelsup.cz": BowmarkSiteTools_921614d236;
   "wheelwarehouse.com": BowmarkSiteTools_e8ae28a971;
@@ -525778,6 +526884,7 @@ interface BowmarkSites {
   "wisemanswestern.com": BowmarkSiteTools_e8ae28a971;
   "wisephone.com": BowmarkSiteTools_921614d236;
   "wisetekmarket.com": BowmarkSiteTools_921614d236;
+  "wisetrack.cl": BowmarkSiteTools_921614d236;
   "wishin.com.br": BowmarkSiteTools_a5d5ad65c1;
   "wiskiiactive.com": BowmarkSiteTools_921614d236;
   "witchery.com.au": BowmarkSiteTools_e8ae28a971;
@@ -525842,6 +526949,7 @@ interface BowmarkSites {
   "woodupp.com": BowmarkSiteTools_e8ae28a971;
   "woodupp.de": BowmarkSiteTools_e8ae28a971;
   "woodyjobs.com": BowmarkSiteTools_68523a461d;
+  "woojer.com": BowmarkSiteTools_921614d236;
   "wooland.com": BowmarkSiteTools_e8ae28a971;
   "woolandcompany.com": BowmarkSiteTools_e8ae28a971;
   "woolandprince.com": BowmarkSiteTools_e8ae28a971;
@@ -525920,7 +527028,7 @@ interface BowmarkSites {
   "xandres.com": BowmarkSiteTools_921614d236;
   "xbloom.com": BowmarkSiteTools_921614d236;
   "xbotgo.com": BowmarkSiteTools_921614d236;
-  "xbyx.de": BowmarkSiteTools_921614d236;
+  "xbyx.de": BowmarkSiteTools_1a8e16d918;
   "xcvi.com": BowmarkSiteTools_921614d236;
   "xd21.co.za": BowmarkSiteTools_921614d236;
   "xerjoff.com": BowmarkSiteTools_921614d236;
@@ -525928,7 +527036,7 @@ interface BowmarkSites {
   "xeroshoes.eu": BowmarkSiteTools_921614d236;
   "xh1b.org": BowmarkSiteTools_95080849dc;
   "xiaomisale.com": BowmarkSiteTools_921614d236;
-  "xiaomistore.pt": BowmarkSiteTools_1a8e16d918;
+  "xiaomistore.pt": BowmarkSiteTools_e8ae28a971;
   "xiaozhaobao.com.cn": BowmarkSiteTools_1d436d49a0;
   "xidax.com": BowmarkSiteTools_921614d236;
   "xinghaoya.net": BowmarkSiteTools_921614d236;
@@ -526037,7 +527145,7 @@ interface BowmarkSites {
   "yosekastationery.com": BowmarkSiteTools_e8ae28a971;
   "yoshimura-rd.com": BowmarkSiteTools_921614d236;
   "yosmart.com": BowmarkSiteTools_921614d236;
-  "yotaxpedition.com": BowmarkSiteTools_921614d236;
+  "yotaxpedition.com": BowmarkSiteTools_1a8e16d918;
   "you.com": BowmarkSiteTools_3986f4fd1f;
   "youandallfashion.com": BowmarkSiteTools_921614d236;
   "youkey.com": BowmarkSiteTools_921614d236;
@@ -526084,6 +527192,7 @@ interface BowmarkSites {
   "zagg.com": BowmarkSiteTools_921614d236;
   "zakkyobiru.com": BowmarkSiteTools_921614d236;
   "zamberlan.com": BowmarkSiteTools_921614d236;
+  "zanaroberlin.com": BowmarkSiteTools_921614d236;
   "zanskarhealth.in": BowmarkSiteTools_1a8e16d918;
   "zanzzea.com": BowmarkSiteTools_921614d236;
   "zapaka.com": BowmarkSiteTools_921614d236;
@@ -526103,11 +527212,12 @@ interface BowmarkSites {
   "zavya.co": BowmarkSiteTools_921614d236;
   "zbiotics.com": BowmarkSiteTools_1a8e16d918;
   "zeabur.com": BowmarkSiteTools_e24f7a2b6f;
-  "zeb.be": BowmarkSiteTools_1a8e16d918;
+  "zeb.be": BowmarkSiteTools_921614d236;
   "zebrapen.com": BowmarkSiteTools_921614d236;
   "zecplus.de": BowmarkSiteTools_e8ae28a971;
   "zedem.ca": BowmarkSiteTools_921614d236;
   "zeecon.com": BowmarkSiteTools_c668782301;
+  "zeedog.com": BowmarkSiteTools_921614d236;
   "zeeg.me": BowmarkSiteTools_10b2b5fa56;
   "zeemaps.com": BowmarkSiteTools_623617e7b5;
   "zeenwoman.com": BowmarkSiteTools_921614d236;

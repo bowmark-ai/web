@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cf42518d2bc2719fbede6fec7407ee795ed2e5fb8a20a4949db702e83bfc7e45
-# 99 capabilities, 968 providers, 6029 typed functions, 20 refused.
+# Manifest version: c97435e735b391d657716ff18ba2503aed937bdd26891cb0836d2e44bb674f56
+# 99 capabilities, 968 providers, 6032 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6408,6 +6408,11 @@ class Prv_alibaba_alibabaAccountPage_Out(TypedDict):
 
 class Prv_alibaba_alibabaGetOrderArgs_In(TypedDict):
     orderId: str
+
+class Prv_alibaba_alibabaCart_Out(TypedDict):
+    itemCount: float | None
+    totalProductPrice: str | None
+    groups: list[Any]
 
 class Prv_alibaba_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -41495,6 +41500,18 @@ class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     nightlyRate: str
     totalRate: str
 
+class Prv_hilton_HiltonHonorsPrograms_Out(TypedDict):
+    tiers: list[Prv_hilton_HiltonHonorsTier_Out]
+    benefits: list[Prv_hilton_HiltonHonorsBenefit_Out]
+
+class Prv_hilton_HiltonHonorsTier_Out(TypedDict):
+    name: str
+    qualification: str
+
+class Prv_hilton_HiltonHonorsBenefit_Out(TypedDict):
+    name: str
+    includedIn: list[str]
+
 class Prv_hilton_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -43542,6 +43559,9 @@ class Prv_independent_UnsubscribeFromNewsletterResult_Out(TypedDict):
     message: str | None
 
 class Prv_independent_GetAccountResult_Out(TypedDict):
+    raw: Mapping[str, Any]
+
+class Prv_independent_ListBookmarksResult_Out(TypedDict):
     raw: Mapping[str, Any]
 
 class Prv_independent_ListCompetitionsArgs_In(TypedDict):
@@ -94896,6 +94916,11 @@ class Prv_alibaba(Protocol):
         the caller has none.
         """
 
+    async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaCart_Out:
+        """The signed-in caller's shopping cart: item count, total and the supplier groups. Pauses
+        for sign-in when the caller has none.
+        """
+
     async def signup(self, args: Any, /) -> Prv_alibaba_signup_return_u0_Out | Prv_alibaba_signup_return_u1_Out | Prv_alibaba_signup_return_u2_Out | Prv_alibaba_signup_return_u3_Out:
         """Makes a NEW Alibaba.com account with the person's own email and password, in a session.
         Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
@@ -113429,6 +113454,12 @@ class Prv_hilton(Protocol):
         app and says it is not supported yet. See manifest.json's `reach.why`.
         """
 
+    async def getHonorsPrograms(self, /) -> Prv_hilton_HiltonHonorsPrograms_Out:
+        """Reads the published Hilton Honors tiers (Member, Silver, Gold, Diamond, Diamond Reserve)
+        with each tier's qualification and which tiers include each benefit, as the public
+        member-benefits page states them — no sign-in.
+        """
+
     async def signup(self, args: Any, /) -> Prv_hilton_signup_return_u0_Out | Prv_hilton_signup_return_u1_Out | Prv_hilton_signup_return_u2_Out | Prv_hilton_signup_return_u3_Out:
         """Makes a NEW Hilton account with the person's own email and password, in a session.
         Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
@@ -114372,6 +114403,9 @@ class Prv_independent(Protocol):
         """Reads the signed-in caller's Independent account profile page: the site's own page data
         (js-globals) for the logged-in account.
         """
+
+    async def listBookmarks(self, opts: ConnectionOption | None = None, /) -> Prv_independent_ListBookmarksResult_Out:
+        """Lists the signed-in caller's bookmarked articles, from the site's Bookmarks page."""
 
     async def listCompetitions(self, args: Prv_independent_ListCompetitionsArgs_In | None = None, /) -> Prv_independent_ListCompetitionsResult_Out:
         """Lists the Independent's open reader competitions and prize draws: title, blurb, URL,

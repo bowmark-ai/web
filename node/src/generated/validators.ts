@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cf42518d2bc2719fbede6fec7407ee795ed2e5fb8a20a4949db702e83bfc7e45
-// 6029 checked, 20 unchecked.
+// Manifest version: c97435e735b391d657716ff18ba2503aed937bdd26891cb0836d2e44bb674f56
+// 6032 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cf42518d2bc2719fbede6fec7407ee795ed2e5fb8a20a4949db702e83bfc7e45",
+  "version": "c97435e735b391d657716ff18ba2503aed937bdd26891cb0836d2e44bb674f56",
   "units": {
     "address_validation": {
       "defs": {
@@ -13563,6 +13563,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getCart": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -13583,21 +13601,22 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchProducts": "9bbcf5698965f806",
-        "getProduct": "c67abdd3782e9fac",
-        "listCategories": "b229cf2447135d85",
-        "getSuggestions": "35713d453b0df759",
-        "listSuppliers": "98d26b6d2dbc769e",
-        "getSupplier": "69e4412ea135ccf6",
-        "getProductReviews": "4faa65231718fbd7",
-        "listSupplierProducts": "f7e1554b67a33139",
-        "getProfile": "84415e3d56a52236",
-        "listMessages": "84415e3d56a52236",
-        "listOrders": "84415e3d56a52236",
-        "getOrder": "7878d9f1d228d468",
-        "listSavedItems": "84415e3d56a52236",
-        "signup": "9f83eb70e215cfb2",
-        "confirmSignup": "e3bdc99d0c38f031"
+        "searchProducts": "2b67a1cfc595f94f",
+        "getProduct": "0773bdfcf042c388",
+        "listCategories": "4c98adf9b6f25abd",
+        "getSuggestions": "47288218825a3924",
+        "listSuppliers": "ebd27eb4c60c4085",
+        "getSupplier": "038d08dabcd21c43",
+        "getProductReviews": "d5973cbf2b18eaff",
+        "listSupplierProducts": "1328f479d4ace486",
+        "getProfile": "204ea2d905e4e18b",
+        "listMessages": "204ea2d905e4e18b",
+        "listOrders": "204ea2d905e4e18b",
+        "getOrder": "37c18358c1763e21",
+        "listSavedItems": "204ea2d905e4e18b",
+        "getCart": "b5e7292bb0892641",
+        "signup": "b4de67fd3481388e",
+        "confirmSignup": "42012d42c3902cf2"
       }
     },
     "providers.aliexpress": {
@@ -88483,6 +88502,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getHonorsPrograms": [],
         "signup": [
           {
             "name": "args",
@@ -88503,9 +88523,10 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "a7efdcd1523dca73",
-        "signup": "e714036c2a951c91",
-        "confirmSignup": "1966f35a0e05fdfd"
+        "search": "69cfa8bcc6447d3d",
+        "getHonorsPrograms": "55ce124cc655cda2",
+        "signup": "c0db6695649cb2de",
+        "confirmSignup": "d93ba1df2ce833a4"
       }
     },
     "providers.hipcamp": {
@@ -93107,6 +93128,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listBookmarks": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listCompetitions": [
           {
             "name": "args",
@@ -93179,32 +93218,33 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listSections": "9d291df9f0f6b55b",
-        "browseSection": "f1176a7113b8c8c9",
-        "getHomepageHeadlines": "706c7dc42ddc5bbf",
-        "listLatestNews": "a1d5fc56d874868a",
-        "getArticle": "bf038b06707f9e3e",
-        "getMostPopular": "437e2fa004b52ed1",
-        "listArticlesByDate": "db90dbb2fd3a2887",
-        "getLiveBlog": "9b16a51d1765d780",
-        "getArticleComments": "6188250000d37ad8",
-        "getVideo": "812d3bdf376acc48",
-        "listVideos": "180fb325b716356f",
-        "listQuizzes": "653638a2874b465f",
-        "searchArticles": "725aedd9f775a815",
-        "getQuiz": "855b7fadbdc470e0",
-        "listNewsletters": "abd83fb661660141",
-        "subscribeToNewsletter": "2af59f9914c6e491",
-        "listNewsletterSubscriptions": "1065436787f2bfde",
-        "unsubscribeFromNewsletter": "86d11f61d55706f3",
-        "getAccount": "8205cf7442430389",
-        "listCompetitions": "4416f4f948c71aff",
-        "listVoucherStores": "87ec645106d277ae",
-        "getVoucherCodes": "2ac5ca70126c280d",
-        "listTopics": "41a15eb430e1b57d",
-        "getTopicArticles": "39d7c6e0a9694514",
-        "listAuthors": "0822031deb807d32",
-        "getAuthorArticles": "ec2c35ceb232324a"
+        "listSections": "569de4fefd280eb1",
+        "browseSection": "959a7785355fa159",
+        "getHomepageHeadlines": "a95f5e3b3148302c",
+        "listLatestNews": "ddec3d504ee99db7",
+        "getArticle": "d419695d70772fa2",
+        "getMostPopular": "7486a5d0b0934dd8",
+        "listArticlesByDate": "e70932d8b5075c66",
+        "getLiveBlog": "59ce8630f0bd5aee",
+        "getArticleComments": "21a90becd253df9b",
+        "getVideo": "03ea54c83bb57e17",
+        "listVideos": "3334423ddc5a5d3a",
+        "listQuizzes": "225432ec9d75a0ee",
+        "searchArticles": "304447320ca11b07",
+        "getQuiz": "9e0a16113968e55b",
+        "listNewsletters": "0e986835bcd8cd6b",
+        "subscribeToNewsletter": "820c0b82937ad92b",
+        "listNewsletterSubscriptions": "60514628b21e5843",
+        "unsubscribeFromNewsletter": "ebd762ee04ef4c45",
+        "getAccount": "3aeddd06b8eb3e1d",
+        "listBookmarks": "41936e217ca13de5",
+        "listCompetitions": "864573cf9d9726ca",
+        "listVoucherStores": "aaebb9ea99d06048",
+        "getVoucherCodes": "ee84a5bd37c42be4",
+        "listTopics": "33562eedf103fb1f",
+        "getTopicArticles": "9df0d92635319dce",
+        "listAuthors": "bdafc9372471cd7d",
+        "getAuthorArticles": "c8a7bb6c2d8f7e07"
       }
     },
     "providers.inspirecommunities": {
