@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 140,828 sites, generated 2026-11-25.
+# Every website Bowmark covers and the functions it has: 140,837 sites, generated 2026-11-25.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -334,7 +334,6 @@
 = 1e2cf394 exportGame getUser searchPlayers topPlayers
 = 1e9cbd32 lookup_fipe_price#9939b3d5 search_articles#6113a4bb search_dealers#28b7629c search_motorcycle_guides#acb2ae54 search_motorcycles_for_sale#501cac3e
 = 1eb61617 find_by_file#f11c8db5 find_by_provides#31c6500e get_package#27b24f16 get_stats#a6449078 list_distros#a6449078 search_packages#f3d69839
-= 1eca2c14 check_domain#e40e716a compare_plans#87b6e8d7 get_domain_pricing#4f2fea84 get_plan#1a5ac66b list_plans#2811cd04 list_product_lines#d846585d quote_migration#d846585d
 = 1ed9ee95 findFranchise getAvailability getServiceTypes
 = 1ee1e0c6 ask_arn#b83f2e52 count_pipeline#295138c2 find_entities#aefcfb0c follow#4027f73b get_ask_answer#fb293a59 get_asset#44c0a07b get_conference#ce00e0ff get_entity#991e6b88 get_paper#f5132c99 get_trial#411f60fd list_assets#f4b39dcf list_claims#defcf837 list_conferences#a95f5222 list_follows#daea6ffc list_grants#1a2b6d2c list_news#48da2e83 list_papers#5e130b40 list_questions#60a58f69 list_stories#0e313d5d list_trials#3ff17eb6 search_papers#347c37cc start_ultradeep#b83f2e52 unfollow#4027f73b
 = 1eed03d5 discover library
@@ -1234,7 +1233,6 @@
 = 705d1eb7 inspect_image_c2pa#4b9b055b scan_images_c2pa#946a9cf4 searchProducts
 = 70701edf build_basket#2b29a37b get_product#1267dfa2 lookup_catalog#7572c325 plan_party#525109c0 search_catalog#bb622112
 = 707583a6 tavily_crawl#c0762342 tavily_extract#0f3c7092 tavily_map#62b4c803 tavily_research#0d502850 tavily_search#1d04ba00
-= 70999b56 getAlbum getAnnotation getArtist getCharts getLyrics getSong listArtistAlbums listArtistSongs listSongAnnotations listSongComments listSongQuestions searchAlbums searchArtists searchLyrics searchSongs
 = 70a9c2ea get_booking_link#2b67f856 get_event#2b67f856 get_package_options#2b67f856 search_events#e6f1e2c8
 = 70c0ad23 browse_portfolio#a76a3ed1 fetch#9488a006 fetch_many#44b81a41 fetch_map_layer#1550fcc0 fiscal_catalog#61f30894 fiscal_checks#b03d3601 fiscal_query#5d8b6b13 get_passages#78a3debb list_documents#469e782c search#cb692b87 server_info#ac63038e
 = 70dcb786 getReport listReports
@@ -1948,7 +1946,6 @@
 = b0cd169e get_reference#a68a3a60 search_reference#fcc221b6
 = b0d191f7 create_plan#cde6d29d estimate_plan#d487f042 get_plan#85d76497 get_plan_report#817f180c get_profile#a6449078 list_plans#5a345c6a search_inventory#33d291e2 share_plan#85d76497 suggest_inventory_for_budget#68d3463e update_plan#636a414a
 = b13041db get_erc20_balance#f66cb5db get_evm_balance#fb04479e get_evm_block#13600b70 get_evm_transaction#c6f7af62 get_network_status#eb54b783 get_zero_account#f553c6ea get_zero_table_rows#74833777
-= b14f4871 check_stock#1f70f8ae get_policy#38f2e487 get_product#dd597f3c recommend_products#dd0538b8 search_products#c2c7c755
 = b1550f0a addToCart ask_business#5c396c6f cancel_cart#58b90052 cancel_checkout#bd9db33f complete_checkout#d01ec3ad create_cart#7859511f create_checkout#e049d654 getCart getCollection getProduct getProducts getSetEvidence get_cart#58b90052 get_checkout#bd9db33f get_order#c54d1d98 get_product#e6f5dc4f listCollections listProducts lookup_catalog#1b7541e7 resolveProductUrl search search_catalog#00f04bbe update_cart#e19c1555 update_checkout#7c15eb83
 = b170dae2 get_category#c36c3914 get_product#1f352092 get_store_info#c717a67c list_categories#c717a67c list_products#599adc4a search_policies#c01c4cdf search_products#6621508d
 = b17270f3 ask_chatgpt#efbf9f8d ask_gemini#ca4ca0f4 extract_page_data#ce0d9e6c fast_search#2f52602b get_amazon_pricing#92027539 get_amazon_product_details#fa064c4d get_amazon_search_results#5c012c57 get_file#f4255205 get_google_search_results#e7ed5704 get_page_html#7a6c53a5 get_page_text#188a9630 get_scrapingbee_usage#daea6ffc get_screenshot#0ab87d47 get_walmart_product_details#94994507 get_walmart_search_results#45ce2340 get_youtube_search_results#cabd9c67 get_youtube_video_metadata#a311af79 get_youtube_video_subtitles#efddb3fc
@@ -2629,6 +2626,7 @@
 = f58d40d4 getEvent#95ece6ba listCategories#a6449078 listEvents#a1352584 listNews#27f383c0 listPlaces#a6449078
 = f59533e7 ask#5bda9d9b balance_method#1867ff92 classical_calendar#974e0dc9 explain_connection#d4f70714 formula_composition#6f891257 formula_similarity#6f891257 get_content#11d66f16 granule_dosing#dcf8ea4f herb_drug_interactions#006bbcbc plan_day#5c3ce6c3 point_open_hours#26e159aa safety_check#4093031f search#1f1a02f6
 = f5a3a70b diff_fund_holdings#ccf94e6f fund_overlap#1289aa29 get_fund#96b7a79c get_fund_holdings#f7093ea9 search_funds#a263e5e4 security_history#6f5bb47b similar_funds#96b7a79c who_owns_security#afabb56d
+= f5a6a5e2 getAlbum getAnnotation getArticle getArtist getCharts getLyrics getSong getUser listArticles listArtistAlbums listArtistSongs listSongAnnotations listSongComments listSongQuestions listUserAnnotations searchAlbums searchArtists searchLyrics searchSongs
 = f5b4a35a get_market_info#daea6ffc get_product#2edc7e7f search_products#bba01e0c
 = f5c09001 abcau_article#c4dc3f47 abcau_author#454b1b06 abcau_headlines#fc1fc877 abcau_news#d9873742 abcau_sections#d9873742 abcnews_article#13d347ce abcnews_author#99a78fba abcnews_headlines#5bafb4e4 abcnews_news#d9873742 abcnews_sections#d9873742 accor_amenities#d9873742 accor_brands#d9873742 accor_catalog_hotels#38ad8455 accor_destination_hotels#53a9c2ab accor_property#23663560 accor_search#844b4d9b accor_search_details#f6b8dbf3 accor_search_suggest#6dec47c7 adidas_product#b938c1e7 adidas_product_review_topics#4fb5f198 adidas_product_reviews#0060b565 adidas_search#0b222563 adidas_store#99737600 adidas_stores#1ccf145b adidas_suggest#a27f5c12 agoda_activities_search#a40507c7 agoda_activity_detail#4543e562 agoda_flights_itinerary_amenities#4ee3f875 agoda_flights_search#a9227075 agoda_flights_search_locations#d3e5aced agoda_homes_search#ab7cb038 agoda_hotel_detail#22838304 agoda_hotels_search#d28da527 airbnb_host#6fffe41b airbnb_host_listings#63d33b0a airbnb_host_reviews#63d33b0a airbnb_room#edade8da airbnb_room_calendar#edade8da airbnb_room_reviews#c3febe62 airbnb_search#0a3f7da7 alcom_headlines#6d9ffd28 alcom_news#d9873742 alcom_sections#d9873742 aliexpress_categories#b5a72a8a aliexpress_category_ids#7fa20287 aliexpress_category_products#b2f90f9a aliexpress_reviews#82369d5a aliexpress_search#63817bf5 aliexpress_search_filters#c3ec75a6 aliexpress_suggest#0cb1a69a aliexpress_trending_searches#4ab5587f aljazeera_article#e87e476d aljazeera_author#4329b7dd aljazeera_categories#d9873742 aljazeera_headlines#d9873742 aljazeera_topic#71570a6a allbirds_collection_products#051f31ec allbirds_collections#23fe7f69 allbirds_page#c92a6d6b allbirds_pages#8bb2a9ab allbirds_product#78059a48 allbirds_product_recommendations#3bb33c73 allbirds_products#1383eb56 allbirds_search_suggest#0e688528 allbirds_sitemap_urls#93be1e22 allbirds_sitemaps#d9873742 allbirds_store#d9873742 alt_asset#048385e8 alt_auctions#2ae8ed9e alt_card_search#d2f683d9 alt_categories#d9873742 alt_listing#3e3dc010 alt_market_trends#7bf9af34 alt_search#e6b564b1 alt_sold_listings#c425e72d alt_top_movers#d59be20f amazon_charts#00ecc1bc amazon_charts_categories#a8a885d5 amazon_jobs_categories#d9873742 amazon_jobs_job#7b027b66 amazon_jobs_search#6856b361 amazon_product#bb15255b amazon_search#3e42cd01 amazon_suggest#438750d9 androidauthority_article#6b14b049 androidauthority_headlines#845f6bb3 androidauthority_news#d9873742 androidauthority_sections#d9873742 androidpolice_article#214fa2e8 androidpolice_author#d3e29631 androidpolice_headlines#d6998440 androidpolice_news#d9873742 androidpolice_sections#d9873742 anime_airing_schedule#3753d9fe anime_character#3d82ea56 anime_character_search#a376d193 anime_rankings#1914fe9d anime_search#033ba8b2 anime_title#2d00f758 anime_title_characters#954904f3 anime_title_recommendations#954904f3 anime_title_staff#954904f3 apk_teardown_compare_ownership#1abbb5df apk_teardown_delete_job#664ade9a apk_teardown_diff#4da44323 apk_teardown_job_status#664ade9a apk_teardown_submit#0c5f2cfe apk_teardown_timeline#5874d9b4 apnews_article#5a300daa apnews_author#32d1d2ae apnews_fact_check#d9873742 apnews_headlines#21e169c6 apnews_news#d9873742 apnews_sections#d9873742 apple_books_audiobook#632b1634 apple_books_audiobook_charts#cad51afd apple_books_audiobook_reviews#ce903c36 apple_books_audiobook_search#fa8d0624 apple_books_audiobook_series#fbc5b92e apple_books_audiobook_similar#632b1634 apple_books_author#363ac283 apple_books_book#5988ebad apple_books_book_reviews#7fb24bf7 apple_books_book_similar#5988ebad apple_books_charts#acdb8e62 apple_books_genres#b27cb11a apple_books_search#f15c0a6c apple_books_series#92836b6c apple_jobs_job#56ad932f apple_jobs_locations#c5ffd341 apple_jobs_search#ba6b1c94 apple_maps_autocomplete#dbdd5f6b apple_maps_categories#7ceeceb4 apple_maps_category_search#115c16c1 apple_maps_directions#2882377f apple_maps_eta#04925ed5 apple_maps_guide#4640cd77 apple_maps_guides#70b4c4b0 apple_maps_guides_cities#bc577e79 apple_maps_guides_lookup#9061d2c5 apple_maps_guides_nearby#21c17bfa apple_maps_guides_publisher#b760a535 apple_maps_guides_publishers#70b4c4b0 apple_maps_place#f93ace39 apple_maps_place_photos#f93ace39 apple_maps_places#6a40a4f8 apple_maps_reverse_geocode#5d68a80f apple_maps_search#7c2a870a apple_maps_transit_departures#f93ace39 apple_maps_venue_browse#b1ad0dcc apple_podcasts_charts#9add7ff1 apple_podcasts_charts_rankings#5ace4e1e apple_podcasts_episodes_search#db7ef287 apple_podcasts_new#3f53fca5 apple_podcasts_search#48f59fda apple_podcasts_show#1836f7d7 apple_podcasts_show_episodes#9534f5a6 apple_podcasts_show_related#e725c03f appstore_app#cc9a08e2 appstore_categories#d9873742 appstore_collection#bbe1c225 appstore_collections#9d8a5a47 appstore_developer#3f76b2c5 appstore_editorial#f4e764ef appstore_editorial_category#050c7ee4 appstore_list#d376107f appstore_privacy#2ba73b94 appstore_ratings#d8bef017 appstore_reviews#f8643542 appstore_search#728ed410 appstore_similar#81c3e51c appstore_suggest#90aae612 appstore_version_history#2ba73b94 aptoide_app#3a57c859 aptoide_categories#484c7a7a aptoide_collections#76957624 aptoide_list#78c17a26 aptoide_reviews#65d115b3 aptoide_search#c1b7301e aptoide_similar#0888f5de aptoide_store#d5d47c56 aptoide_versions#d5d289bc arbys_categories#99ed772b arbys_directory#c4db8701 arbys_location#ae4fd23a arbys_locations#68ebd0a0 arbys_menu#fe15c258 arstechnica_article#c766f667 arstechnica_author#2646e7e0 arstechnica_headlines#9a20387d arstechnica_news#d9873742 arstechnica_sections#d9873742 audible_author_charts#72d0ad2b audible_categories#d9873742 audible_category#5ad6d580 audible_charts#b6c75e11 audible_editorial_list#c056a3b0 audible_product#f30d3e70 audible_product_related#8a907af4 audible_product_reviews#0410983d
 = f5dfe4f7 navigation searchStores store suggestions
@@ -39068,6 +39066,7 @@
 3digitaltech.myshopify.com	a9af6443
 3dimaginables.myshopify.com	a9af6443
 3dimensiongames.myshopify.com	a9af6443
+3dinbox.ro	da39a3ee
 3dinc.nl	a9af6443
 3diosound.myshopify.com	a9af6443
 3djewelrymodel.myshopify.com	a9af6443
@@ -48772,6 +48771,7 @@ aliyabora.com	bb34c1bd
 aliyah-return-center.myshopify.com	a9af6443
 aliyahs-reborn-world.myshopify.com	a9af6443
 aliyanpharma.com	bb34c1bd
+alizeh.pk	da39a3ee
 alizoni.com	bb34c1bd
 alizuhome.myshopify.com	a9af6443
 alizz-professional.myshopify.com	a9af6443
@@ -52790,6 +52790,7 @@ autonomous-press.myshopify.com	a9af6443
 autopainthq.com	4479a458
 autoparkcarclub.myshopify.com	a9af6443
 autopartesbascar.com	a9af6443
+autoparts.com	da39a3ee
 autoperfectioncarcare.com	bb34c1bd
 autopia.ie	bb34c1bd
 autopot.asia	bb34c1bd
@@ -55159,6 +55160,7 @@ bellytox-tea.myshopify.com	a9af6443
 belmarjewelers.myshopify.com	a9af6443
 belminplantshop.myshopify.com	a9af6443
 belmontfurnishings.co.uk	bb34c1bd
+belmontsecurite.ca	da39a3ee
 belonginbaldwin.myshopify.com	a9af6443
 belouissome.myshopify.com	a9af6443
 belovedcapetown.myshopify.com	a9af6443
@@ -74126,7 +74128,6 @@ ewyrfv-2r.myshopify.com	a9af6443
 ex-aequo-shop.myshopify.com	a9af6443
 ex-mag.com	bb34c1bd
 ex-ten.com	bb34c1bd
-ex2.com	1eca2c14
 exa.ai	fbc0f7e4
 exagym.com.au	bb34c1bd
 exam-banks.com	bb34c1bd
@@ -77544,7 +77545,6 @@ francisasburytriptych.com	bb34c1bd
 franciscanaction.myshopify.com	a9af6443
 francisimmigration.ca	bb34c1bd
 francisjtaylor.co.uk	bb34c1bd
-francobordo.com	b14f4871
 francrudolf.myshopify.com	a9af6443
 frangipanifurnituretest.myshopify.com	a9af6443
 frank-and-beanz-doggie-apparel.myshopify.com	a9af6443
@@ -78092,6 +78092,7 @@ fueledutv.com	37007769
 fuelexpress.mv	bb34c1bd
 fuelinjectionent.myshopify.com	a9af6443
 fuelledbyfreedom.myshopify.com	a9af6443
+fuelmeals.com	da39a3ee
 fuelperformance.co.uk	bb34c1bd
 fuelperformance.co.za	bb34c1bd
 fuelsaver24.com	a9af6443
@@ -79273,7 +79274,7 @@ geniebidet.myshopify.com	a9af6443
 geniecompany.com	685e74a3
 geniemerce.com	bb34c1bd
 genius-lounge-inc.myshopify.com	a9af6443
-genius.com	70999b56
+genius.com	f5a6a5e2
 geniusbowtie.com	bb34c1bd
 geniusmobile.lk	bb34c1bd
 genkidama.de	4479a458
@@ -86689,6 +86690,7 @@ imgix.com	035b077d
 imgkits.com	9020e68a
 imgsol.com	bb34c1bd
 imgur.com	782e999f
+imho.run	da39a3ee
 imi-equipment.com	bb34c1bd
 imidaily.com	1ccef01f
 imimedicaldevice.com	bb34c1bd
@@ -88255,6 +88257,7 @@ itstea.co.uk	bb34c1bd
 itsugar.com	4479a458
 itsukijapan.com	4479a458
 itsupinsmoke.com	bb34c1bd
+itsvoip.com	da39a3ee
 itswessmithyo.myshopify.com	a9af6443
 itsyoyo.myshopify.com	a9af6443
 itsz-hair-beauty.myshopify.com	a9af6443
@@ -97026,6 +97029,7 @@ lumene-beauty-and-accessories.myshopify.com	a9af6443
 lumene.com	4479a458
 lumensgroups.com	bb34c1bd
 lumera.pk	a9af6443
+lumeraura.com	da39a3ee
 lumevelab.myshopify.com	a9af6443
 lumi-magiccandle.myshopify.com	a9af6443
 lumi-plugin.com	bb34c1bd
@@ -98268,6 +98272,7 @@ managediamonds.com	bb34c1bd
 managemen.myshopify.com	a9af6443
 managing-your-mind-coaching-seminars.myshopify.com	a9af6443
 manahilmart.pk	bb34c1bd
+manalejandro.com	da39a3ee
 manalounge.ca	37007769
 manan-bakery-las-vegas.myshopify.com	a9af6443
 manana-vintage.myshopify.com	a9af6443
@@ -128068,6 +128073,7 @@ switchblade-stiletto.myshopify.com	a9af6443
 switchboardlgbt.myshopify.com	a9af6443
 switchbot.jp	8b50d914
 switchfoot-merch.myshopify.com	a9af6443
+switchfoot.com	da39a3ee
 switchshop.it	bb34c1bd
 switchstance.co.nz	bb34c1bd
 switchterminal.co.uk	bb34c1bd
@@ -138304,6 +138310,7 @@ viragelondon.com	da39a3ee
 viralclick.myshopify.com	a9af6443
 viraldes.com	bb34c1bd
 virascience.com	e8e99eb5
+viravira.co	da39a3ee
 virchew-shop.myshopify.com	a9af6443
 virella-consulting-llc.myshopify.com	a9af6443
 virgin-hair-memphis.myshopify.com	a9af6443
