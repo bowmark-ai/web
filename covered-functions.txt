@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 140,252 sites, generated 2026-11-25.
+# Every website Bowmark covers and the functions it has: 140,273 sites, generated 2026-11-25.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -97,7 +97,6 @@
 = 0a114de3 site-search#00621b74
 = 0a2c24c4 getVisitingHours
 = 0a419d1e get-endpoint#1725373a get-server-variables#c72b9783 list-endpoints#c72b9783 list-specs#a6449078 search-endpoints#956f018e
-= 0a4d9783 browseSection getArticle getAuthor listHeadlines listSections searchArticles
 = 0a790c2f fetch#a9ff3257 search#0657bfd9
 = 0a8bc9eb search_products#eeb83f11
 = 0a9db3af browse_collection#220dcc0f get_changes#e3971b05 get_document#594e720e get_page#91d99855 search_records#fb664993
@@ -933,6 +932,7 @@
 = 53c386f1 fetch#35a8d219 search#d519ffa1
 = 53ce2c09 getProductOverview
 = 53dc744f getDialogpostRates
+= 53fd1219 browseSection getArticle getAuthor listHeadlines listLatestArticles listSections searchArticles
 = 541450ff ban_suggest#b9c7ece4 brawler_info#5a92deef current_rotation#d9873742 draft_suggest#416b4acc map_info#58cc70b3 meta_changes#14255f8c player_profile#5f8a7b45 player_recent_battles#94ac736c tier_list#ab26610a
 = 541fb2aa accept-deploy#6e120902 cancel-cloud-agent-task#d7a32ad8 check-cloud-agent-task#6a0f017b connect-service-source#6d496182 create-bucket#b741cb01 create-deployment#cfaed64e create-function#07f799f0 create-project#71a42aa5 create-service#cf329461 create-tcp-proxy#6b02801f create-volume#f37da039 create-webhook#995eb9f6 delete-bucket#2a51a254 delete-domain#040d0f8a delete-feature-flag#d3cb96f2 delete-service#15dc13eb delete-tcp-proxy#7e760d22 delete-volume#118f8f14 delete-webhook#26a301a2 deploy-template#9e79b4de describe-environment#bafe2a72 describe-service#9499f71d describe-template#2b80b962 discard-staged-changes#bff6864c domain-status#5e5ebb40 environment-status#bf03496b fetch-docs#fde9d67d fork-create#3853047c fork-exec#014a0689 fork-list#0469b03a fork-push#3a7cc2aa fork-status#ddcfdc2d generate-domain#71aee02a get-bucket-credentials#5944b5cb get-cloud-agent-transcript#1bb3de48 get-deployment-diagnosis#9aaf3719 get-feature-flag#1e52100e get-function-source-code#210a87c0 get-logs#277d2256 get-service-config#9499f71d get-service-metrics#fa305b49 get-staged-changes#90e8f8cc get-status#ef3ce7d0 get-trace#4f98c221 get-tracing#7d79b05a get-tracing-coverage#992e1188 http-error-rate#caa01aed http-requests#caa01aed http-response-time#0ecdcac3 list-beta-features#a6449078 list-cloud-agent-models#db556b33 list-cloud-agent-tasks#1a10b52b list-deployments#b9bf7099 list-domains#9499f71d list-feature-flags#1b138131 list-projects#a6449078 list-services#2083ae42 list-tcp-proxies#76d5a2d4 list-traces#45069053 list-variables#9499f71d list-webhooks#0469b03a list-workspaces#a6449078 purge-cdn-cache#8ed9a224 railway-agent#3700426a redeploy#48ad9c1b release-fork#5896a3e4 reset-bucket-credentials#55d7698d respond-cloud-agent-task#bdfb6835 restart-service#9bb98cb5 retry-domain-certificate#943668f1 run-cloud-agent-task#59a6d3a6 search-docs#55baba37 search-templates#e7088f35 set-beta-feature#a0bbbb86 set-feature-flag#34106968 set-service-tracing#84ecb9f5 set-variables#29039c93 test-webhook#d0d34b49 update-bucket#30636a34 update-domain#afbdc778 update-function-source-code#e9e1c6c8 update-service#9ae73c06 update-volume#fd50c417 update-webhook#b3a5d981 whoami#a6449078
 = 54329dda create_post#9a5f4905 read_post#0d3e4841 search_posts#34abef76
@@ -52511,6 +52511,7 @@ auralinebeauty.com	bb34c1bd
 auraliving.cl	a9af6443
 auralunamagic.myshopify.com	a9af6443
 aurament.com	bb34c1bd
+auramodernhome.com	da39a3ee
 auramonaco.de	bb34c1bd
 auraplusplus.com	ac1857ba
 aurarollons.myshopify.com	a9af6443
@@ -55164,6 +55165,7 @@ bendavisdesigns.myshopify.com	a9af6443
 benddxntbreak.myshopify.com	a9af6443
 bendigotoilethire.com.au	bb34c1bd
 bendpak.com	4479a458
+bendpetexpress.com	da39a3ee
 bendtsensbakery.myshopify.com	a9af6443
 bendykneesdesign.myshopify.com	a9af6443
 bene-casa.myshopify.com	a9af6443
@@ -61296,6 +61298,7 @@ cb7b33-9c.myshopify.com	a9af6443
 cbac.com	4736db0a
 cbacademystore.myshopify.com	a9af6443
 cbbqa.com	bb34c1bd
+cbc.edu	da39a3ee
 cbd-provisions.com	bb34c1bd
 cbd-vape-oil.myshopify.com	a9af6443
 cbdailyllc.com	bb34c1bd
@@ -63384,6 +63387,7 @@ clickmothercare.com	bb34c1bd
 clickmyproject.com	bb34c1bd
 clicknecom.com	bb34c1bd
 clicknplant.co.za	bb34c1bd
+clickoncare.com	da39a3ee
 clicksoffice.com	bb34c1bd
 clicksteel.com.au	bb34c1bd
 clickstore.com.pk	bb34c1bd
@@ -67028,6 +67032,7 @@ danakintershop.myshopify.com	a9af6443
 danam-antique.com	4479a458
 danami.ng	bb34c1bd
 danarexx.myshopify.com	a9af6443
+danario.de	da39a3ee
 danasimson.com	bb34c1bd
 danautozone.com	bb34c1bd
 danawilliamsco.myshopify.com	a9af6443
@@ -70341,6 +70346,7 @@ drsambunting.com	4479a458
 drsanchari.com	bb34c1bd
 drscholls.com	4479a458
 drschrammekusa.com	bb34c1bd
+drsebis.com	da39a3ee
 drshannynpearce.myshopify.com	a9af6443
 drsheths.com	4479a458
 drsimi.com	4479a458
@@ -76233,6 +76239,7 @@ flailrecords.myshopify.com	a9af6443
 flair-4-five.myshopify.com	a9af6443
 flair-patterns.myshopify.com	a9af6443
 flair.co	4479a458
+flairespresso.com	da39a3ee
 flairfutbol.com	4479a458
 flairno-menscosme.myshopify.com	a9af6443
 flakasurfing.com	bb34c1bd
@@ -79586,6 +79593,7 @@ giladshop.myshopify.com	a9af6443
 gilarpgs.myshopify.com	a9af6443
 gilautomation.com	da39a3ee
 gilbert-young-art.myshopify.com	a9af6443
+gilbertrugby.com	da39a3ee
 gilcrease-museum-store.myshopify.com	a9af6443
 gilded-decay.myshopify.com	a9af6443
 gileaz.com	bb34c1bd
@@ -79721,6 +79729,7 @@ gitdiagram.com	e89d8be2
 github.com	2bedb8d8
 gitit-shoval-music.myshopify.com	a9af6443
 gitlab.com	0801e0a8
+gitmcp.io	da39a3ee
 gitostores.myshopify.com	a9af6443
 gitticonsciousbeauty.com	4479a458
 giufashop.myshopify.com	a9af6443
@@ -80518,6 +80527,7 @@ gomagpie.co.uk	bb34c1bd
 gomarbeauty.com	bb34c1bd
 gomez-westernwear.myshopify.com	a9af6443
 gomilaintersole.pk	4479a458
+gomilitar.com	da39a3ee
 gomlacenter.com	bb34c1bd
 gomobility.ie	bb34c1bd
 gomotomn.myshopify.com	a9af6443
@@ -81532,6 +81542,7 @@ grit3d.com	bb34c1bd
 gritbrokerage.com	685e74a3
 grits-biscuits.myshopify.com	a9af6443
 gritstones.com	8b50d914
+grivetoutdoors.com	da39a3ee
 grizzly-ag.myshopify.com	a9af6443
 grizzlycolombia.com	a9af6443
 grizzlyherb.com	bb34c1bd
@@ -93641,7 +93652,7 @@ lathernsuds.myshopify.com	a9af6443
 laticoleathers.com	4479a458
 latiendaatnif.myshopify.com	a9af6443
 latigo-lights.myshopify.com	a9af6443
-latimes.com	0a4d9783
+latimes.com	53fd1219
 latin-accents.com	bb34c1bd
 latinlock-checkout.myshopify.com	61e64875
 latinobookawards.org	05a9bb9e
@@ -97813,6 +97824,7 @@ makeveteransapriority.myshopify.com	a9af6443
 makewells.myshopify.com	a9af6443
 makeymakey.com	4479a458
 maki-glass.myshopify.com	a9af6443
+makia.com	da39a3ee
 makiandampars.com	bb34c1bd
 makidy-muttermilchschmuck.de	bb34c1bd
 makineustasi.com	562ad505
@@ -97950,6 +97962,7 @@ mammaly.de	4479a458
 mammoeducationcourses.com	bb34c1bd
 mammoth-audio.myshopify.com	a9af6443
 mammoth-beard-co-wholesale.myshopify.com	a9af6443
+mammothheadwear.com	da39a3ee
 mammothonion.co.uk	bb34c1bd
 mammotion.com	4479a458
 mamo.com.br	f3d439c4
@@ -113273,6 +113286,7 @@ psql.myshopify.com	a9af6443
 psr-parts.com	4479a458
 pssdirect.myshopify.com	a9af6443
 psseasoning.com	4479a458
+pst.ag	da39a3ee
 pstificio-chelucci.myshopify.com	a9af6443
 pstrstudio.com	4479a458
 psxkx8-ef.myshopify.com	a9af6443
@@ -114295,6 +114309,7 @@ racehead.com.au	bb34c1bd
 raceofchampions.com	685e74a3
 racepacing.com	bb34c1bd
 racer-industries2.myshopify.com	61e64875
+racerworldwide.net	da39a3ee
 racerxmarine.com.au	bb34c1bd
 raceskis.com	a9af6443
 racespot.myshopify.com	a9af6443
@@ -118564,6 +118579,7 @@ saltyrootsboutique.myshopify.com	a9af6443
 saltysews.myshopify.com	a9af6443
 saltysouls.myshopify.com	a9af6443
 saltytogsswim.myshopify.com	a9af6443
+salugea.com	da39a3ee
 salumeriaprimo.nl	bb34c1bd
 salumisorrentino.com	a9af6443
 salutemworkwear.com	bb34c1bd
@@ -122011,6 +122027,7 @@ sideways.myshopify.com	a9af6443
 sidewaysfive.com	a9af6443
 sidewayzradio.com	a9af6443
 sidi.com	4479a458
+sidiz.com	da39a3ee
 sidomdoors.com	bb34c1bd
 sidonios-for-men.myshopify.com	a9af6443
 sidow-sobrino.myshopify.com	a9af6443
@@ -126008,6 +126025,7 @@ stonz.com	da39a3ee
 stoov.com	4479a458
 stop-n-go.co.uk	a9af6443
 stopboxusa.com	37007769
+stopflex-ccb.com	da39a3ee
 stopforumspam.com	46c54aff
 stophangover.myshopify.com	a9af6443
 stophouse.myshopify.com	a9af6443
@@ -130710,6 +130728,7 @@ thebrick.com	4479a458
 thebrickbikeboutique.myshopify.com	a9af6443
 thebridaledit-mtl.myshopify.com	a9af6443
 thebridesbouquet.co.uk	bb34c1bd
+thebridge.it	da39a3ee
 thebridgechurch.myshopify.com	a9af6443
 thebrilliance.myshopify.com	a9af6443
 thebritishseedcompany.co.uk	bb34c1bd
@@ -134585,6 +134604,7 @@ truebodymedispa.myshopify.com	a9af6443
 truebotanicals.com	4479a458
 truecable.com	4479a458
 truechemists.com	bb34c1bd
+truecitrus.com	da39a3ee
 trueclassic.com	a9af6443
 trueclassictees.com	37007769
 truecolor-wholesale.myshopify.com	a9af6443
@@ -137236,7 +137256,6 @@ veterans-army.myshopify.com	a9af6443
 veteransflagdepot.com	bb34c1bd
 veteranshearing.org.uk	bb34c1bd
 veteransinc.myshopify.com	a9af6443
-veterinarians.org	4479a458
 veterinarydrugsupplier.com	bb34c1bd
 veterinaryemergencygroup.com	685e74a3
 vetgear.co.uk	bb34c1bd
@@ -137303,6 +137322,7 @@ viacondotti.store	4479a458
 viaggio-hardware.myshopify.com	a9af6443
 viagrauae.ae	bb34c1bd
 viagrow.myshopify.com	a9af6443
+viaircorp.com	da39a3ee
 viajarentreviagens.myshopify.com	a9af6443
 vialuna.myshopify.com	a9af6443
 viamaja.dk	4479a458
@@ -140373,6 +140393,7 @@ winning-team-publishing.myshopify.com	a9af6443
 winningseasonn.myshopify.com	a9af6443
 winningwaysct.myshopify.com	a9af6443
 winnipegprototyping.ca	bb34c1bd
+winnowlabs.com	da39a3ee
 winononline.com	bb34c1bd
 winpac-winter-lights.myshopify.com	a9af6443
 winscombefurniture.com	bb34c1bd
