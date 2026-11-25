@@ -7,6 +7,434 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.43.0 (2026-11-25)
+
+**Websites**
+
+- +249 websites, +4,775 functions, -7 websites, -894 functions. 139,937 websites and 1,338,531 functions in all.
+
+Added:
+
+- 201 websites, functions not listed yet:
+  - 7ohplus.com
+  - aadyaa.com
+  - accessorychoice.com
+  - activehomecentre.com
+  - aldo.com.sa
+  - alephksa.com
+  - alexsander.co.il
+  - allingtons.com.au
+  - allurebeauty.pk
+  - almanacplanting.com
+  - annerosehair.com
+  - anwar.store
+  - armazemdoschinelos.com.br
+  - artesintonia.com.br
+  - artisticafineart.com
+  - azjasklep.com
+  - babyvillage.com.au
+  - baeckerei-cafe-eckert.de
+  - bakven.com
+  - bayusomerset.com
+  - beautygirl.pk
+  - beautyoutlet.co.uk
+  - begoldenlabel.com
+  - beurbanrunning.com
+  - biomecanics.com
+  - birthdayadjp.shop
+  - blackmoneystacks.de
+  - blacksheepcoffee.co.uk
+  - boldbeanco.com
+  - boseindia.com
+  - bugece.co
+  - carzilla.ca
+  - chch.live
+  - cobaltindustrial.ca
+  - colehaan.sa
+  - copperstatetackle.com
+  - corsaperformance.com
+  - cosmeticsnow.ae
+  - crawlerzoo.com
+  - cycplus.com
+  - cygnett.com
+  - debras.com.au
+  - denzellwear.com
+  - descente.com
+  - diegodallapalma.com
+  - dinkydoo.com
+  - donotage.org
+  - downies.com
+  - dupattabazaar.com
+  - edufeed.org
+  - eileenwest.com
+  - engelcoolers.com
+  - englewoodwinemerchants.com
+  - eyalsflowers.com
+  - faizasaqlain.pk
+  - flashdetail.com
+  - fluxe-and-co.com
+  - foot-sport.com
+  - frenchmush.com
+  - furniturebrosil.com
+  - galenica.com
+  - getgrinds.com
+  - gilautomation.com
+  - globalfoodhub.com
+  - hanfihandicraft.com
+  - hausofmode.de
+  - headcaddy.com
+  - hemlockandoak.com
+  - hijabistahub.com
+  - hilarioushumanitarian.com
+  - hollywooddj.com
+  - hoodsly.com
+  - hugrug.co.uk
+  - humanrightsresearch.org
+  - ikrush.com
+  - innbeautyproject.com
+  - inshape-nutrition.com
+  - ixs.com
+  - jukupop.com
+  - kairyu.fr
+  - kingsloot.com
+  - kipling-usa.com
+  - kringlecandle.com
+  - kufiya.org
+  - laboutiquemythique.com
+  - lacedrecords.co
+  - latitudeoutdoors.com
+  - levlup.com
+  - lineageprovisions.com
+  - lius.cc
+  - macscdp.com
+  - madlady.se
+  - magiedinatale.it
+  - maisontosport.fr
+  - makerlab.ph
+  - marinevinylfabric.com
+  - marketcode.ai
+  - mawwal.com.br
+  - mickjagger.com
+  - mobauto.net
+  - modells.com
+  - moonveilgames.com
+  - motorize.nl
+  - mrvitamins.com.au
+  - muckelmeister.de
+  - muir-way.com
+  - murderapparel.com
+  - nabalis.com
+  - ndorvyn.com
+  - nordwolle.com
+  - nosugarshop.ro
+  - notre-shop.com
+  - ora.ai
+  - organicblank.com
+  - outletshopforkids.com.au
+  - oxfordstationers.in
+  - paradigme.fr
+  - peachloft.com
+  - pelvini.com
+  - peppermint.in
+  - petitekeep.com
+  - photospring.com
+  - piercingxxl.pl
+  - pjoutdoors.co.uk
+  - pluspige.dk
+  - pokipair.com
+  - postmoda.com
+  - primenaturals.store
+  - pyrex.fr
+  - qicaiye.com
+  - rasoishop.com
+  - redapplefireworks.com
+  - rel.net
+  - rescue-essentials.com
+  - reway.nl
+  - sangath.in
+  - sausagemaker.com
+  - schwartzsdeli.com
+  - sebikes.bike
+  - seclock.com
+  - secretlab.co.uk
+  - seekshine.com
+  - sempertex.com
+  - sendra.com
+  - shaktimat.de
+  - shopsimsfurniture.com
+  - shopwonderwall.com
+  - shrimpupaquatics.com
+  - shuffleandcutgames.co.nz
+  - simplymary.co
+  - simplytek.lk
+  - snusvikings.co.uk
+  - socksnob.co.uk
+  - songmics.it
+  - soprata.com.br
+  - souqscent.com
+  - sourcebeauty.com
+  - spilforsyningen.dk
+  - sportsfuel.co.nz
+  - stadika.ru
+  - starfirebodyjewelry.com
+  - stonz.com
+  - strongful.co.il
+  - swederm.pl
+  - tandwinkel.nl
+  - tastydose.com
+  - tennisonly.com
+  - thebrokenbindingsub.com
+  - tokupochi.com
+  - toolbrothers.nl
+  - touchesport.com
+  - tripsy.app
+  - trollbeads.it
+  - try-clearvision.com
+  - tulsiresin.com
+  - tunerdepot.com
+  - tuscanbasins.com
+  - twisteddough.shop
+  - uglystik.com
+  - uniqbuy.in
+  - uniquemaps.co.uk
+  - urbanjunglestore.com
+  - urns.com
+  - valhallatactical.com.au
+  - verdi.ro
+  - verymuchindian.com
+  - vesync.jp
+  - villa-sophie.com
+  - vintagewholesalesupplyltd.com
+  - vloerkledenloods.nl
+  - vuurenrook.nl
+  - walkeaze.com
+  - wanzar.com.my
+  - weshoes.co.il
+  - wild-spirit.store
+  - wondertivity.com.au
+  - zag-store.com
+  - zaqq.de
+  - zenpanda.ro
+  - zeya-brand.com
+  - zimopouches.com
+- 38 websites, each with `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - aistra.lt
+  - asianportal-fishing.com
+  - bagscity.co.id
+  - benchmademodern.com
+  - breezebalm.com
+  - brotures.com
+  - builtathletics.com
+  - casemira.com
+  - coyotejocks.com
+  - daiwa.us
+  - dwarvenforge.com
+  - edhardy.eu
+  - eternallightco.com
+  - farmaciasdirect.fr
+  - froggtoggs.com
+  - glam-moda.com
+  - hareruya3.com
+  - hobbyexpert.ca
+  - hofsilk.com
+  - holybro.com
+  - huecanada.com
+  - icklebubba.com
+  - iris.ca
+  - ironhorsehobbies.co.nz
+  - koel.shoes
+  - megannielsen.com
+  - merakitech.com
+  - mertra.com
+  - miniklub.in
+  - officinegenerale.com
+  - ormsdirect.co.za
+  - shoefreaks.ca
+  - sodastream.co.uk
+  - suprememobiles.in
+  - thinkjinx.com
+  - tierliebhaber.de
+  - tomatostores.com
+  - voviabags.com
+- 8 websites, each with `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`:
+  - 1001coques.fr
+  - briskheat.com
+  - elbenwald.fr
+  - graceandmila.com
+  - hophopshop.rs
+  - murphysdiesel.com
+  - roccamore.com
+  - woodbrass.pt
+- aicut.pro: `add_app_reveal`, `analyze_video`, `browse_series`, `browse_studio_styles`, `cancel_post`, `change_story_scene`, `change_voice`, `confirm_upload`, `create_drama`, `create_next_drama_part`, `delete_video`, `describe_cast_member`, `draft_app_headlines`, `edit_drama_plan`, `edit_drama_script`, `edit_video`, `estimate_cost`, `extend_video`, `fire_story_video`, `generate_audio`, `generate_cast`, `generate_cast_portraits`, `generate_drama_film`, `generate_drama_pictures`, `generate_explainer_video`, `generate_fake_text_video`, `generate_from_niche`, `generate_image`, `generate_image_story`, `generate_lipsync`, `generate_story_video`, `generate_video`, `get_analysis`, `get_audio`, `get_balance`, `get_drama`, `get_image`, `get_post_status`, `get_recipe`, `get_recreate_brief`, `get_studio_run`, `get_video`, `image_to_prompt`, `import_link`, `import_studio_reference`, `import_video`, `list_analyses`, `list_audio`, `list_characters`, `list_dramas`, `list_image_story_styles`, `list_images`, `list_models`, `list_niches`, `list_reshot_templates`, `list_series`, `list_series_ideas`, `list_social_accounts`, `list_studio_styles`, `list_trends`, `list_uploads`, `list_videos`, `list_voices`, `motion_control`, `plan_drama`, `prepare_post`, `preview_niche_script`, `publish_post`, `regenerate_cast_portrait`, `regenerate_drama_clip`, `regenerate_drama_picture`, `regenerate_story_frame`, `remove_background`, `remove_story_scene`, `render_app_headline`, `render_story_video`, `reserve_studio_run`, `reshot_video`, `review_post`, `rewrite_drama_script`, `sandbox_exec`, `set_drama_picture`, `set_youtube_thumbnail`, `show_generation`, `show_images`, `show_library`, `show_uploads`, `upload_media`, `upload_media_widget`, `upscale_image`, `upscale_video`, `wait_for_generation`
+- joblet.ai: `search_jobs`
+
+Changed:
+
+- 72 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`; removed `search_shop_policies_and_faqs`:
+  - alisa.ua
+  - americanduchess.com
+  - atari.com
+  - barnesandnoble.com
+  - beardo.in
+  - biogo.de
+  - bonanzasatrangi.com
+  - bonne-maman.com
+  - butcherbox.com
+  - cashncarry.ca
+  - crossstitch.pk
+  - damsonmadder.com
+  - disfracessimon.com
+  - eddiebauer.com
+  - edgebyks.com
+  - farmacorp.com
+  - firstalert.com
+  - fittaste.com
+  - flair.co
+  - flipsidegaming.com
+  - freebeatfit.com
+  - genopalate.com
+  - halosleep.com
+  - hexoskin.com
+  - huhandle.com
+  - indiemerchstore.com
+  - jackjones.in
+  - joyfolie.com
+  - langwill.com
+  - lbclighting.com
+  - leatherman.com
+  - lights.com
+  - lovesano.it
+  - mccormick.com
+  - modernmemorydesign.com
+  - mundimotos.com
+  - nativepath.com
+  - pangolin.com
+  - picmondoo.com
+  - pinkboutique.co.uk
+  - pinter.com
+  - plgautomation.com
+  - pothys.com
+  - presonus.com
+  - ragofabrication.com
+  - reliableaftermarketparts.com
+  - ridge.com
+  - rollingreens.com
+  - sajiero.com
+  - salsacycles.com
+  - scop.onl
+  - senegence.com
+  - shahzebsaeed.com
+  - shopcircle.co
+  - shopmissa.com
+  - shreehari.co
+  - simonsaysstamp.com
+  - soundboks.com
+  - ss-gtm.com
+  - stripeandstare.com
+  - sunnyhealthfitness.com
+  - suzhoudress.com
+  - terrauno.de
+  - theessencevault.co.uk
+  - theoutnet.com
+  - u2.com
+  - uskidsgolf.com
+  - vimvigr.com
+  - virtualmuebles.com
+  - vitacost.com
+  - xmiles.co.uk
+  - zerolifestyle.co
+- 39 websites, each added `search_shop_policies_and_faqs`; removed `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - ahava.com
+  - aveclesfilles.com
+  - bombayshavingcompany.com
+  - bugatti-shoes.com
+  - carvedesigns.com
+  - catholiccompany.com
+  - civilclothing.com
+  - clubllondon.us
+  - connectinglives.com
+  - coofandy.com
+  - danielhouse.club
+  - danielwellington.com
+  - farbenloewe.de
+  - filimin.com
+  - filson.com
+  - harrypottershop.com
+  - intheboxperfumes.com.br
+  - johnbeerens.com
+  - jujubit.ai
+  - kentstreetcellars.com.au
+  - lacemade.com
+  - lgparts.com
+  - lucchese.com
+  - nakednutrition.com
+  - neighborhood.jp
+  - neweracap.jp
+  - onyxaqua.com
+  - perfumebox.com
+  - revivalrugs.com
+  - ritikart.com
+  - seedheritage.com
+  - silkfolks.com
+  - thehoodproduction.com
+  - tiendasishop.com
+  - toolbrothers.de
+  - trincos.com
+  - trudoor.com
+  - umusic.ca
+  - xmondohair.com
+- 14 websites, each added `search_shop_policies_and_faqs`; removed `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`:
+  - churchsource.com
+  - easyplants-kunstplanten.nl
+  - goodamerican.com
+  - gorjana.com
+  - homebodii.com
+  - k-way.fr
+  - luckyfeetshoes.com
+  - mkc.co
+  - montirex.com
+  - motocentral.co.uk
+  - musicplaza.com
+  - nkuku.com
+  - notbranded.de
+  - nutridome.pl
+- 10 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`; removed `search_shop_policies_and_faqs`:
+  - barkershoes.com
+  - consuelastyle.com
+  - countryroad.com.au
+  - fellowproducts.com
+  - kanthabae.com
+  - littlewordsproject.com
+  - maccosmetics.com
+  - sellierknightsbridge.com
+  - ygiafy.com
+  - zippyonline.com
+- 2 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - bulldogskincare.com
+  - tru.earth
+- unicum.gg: added `clans_by_tag_period`, `players_by_nickname_period`, `players_by_nickname_period_mode`
+- alion.io: added `compare_suppliers`, `find_suppliers`; changed `get_company`, `get_investor`, `match_people`, `my_matches`, `search_companies`, `search_jobs`, `search_people`, `similar_companies`
+- layer.ai: added `confirm_agent_spend`
+- databuddy.cc: added `get_log_connection`, `get_search_console`, `list_github_repos`, `list_integrations`, `list_log_sources`, `list_slack_channels`, `query_logs`, `set_github_repo`, `set_slack_channel`, `update_log_fields`, `update_log_links`; changed `execute_sql_query`, `get_data`, `get_schema`
+- zillow.com: added `getAccount`, `listConversations`, `listSavedSearches`
+- jufair.com: added `updateExhibitionPostReport`, `updateExhibitionSuitableExhibitors`
+- failiem.lv: changed `filesfm_dvs_add_comment`, `filesfm_dvs_create_document`, `filesfm_dvs_get_comments`, `filesfm_dvs_get_document`, `filesfm_dvs_get_fields`, `filesfm_dvs_get_users`, `filesfm_dvs_list_documents`, `filesfm_dvs_update_document`, `filesfm_dvs_upload_file`
+- api-ninjas.com: changed `getCurrentInterestRates`, `getHistoricalInterestRates`
+- doctosan.com: changed `search_doctors`, `show_doctor_search`
+- kindora.co: changed `search_open_grants`
+
+Removed:
+
+- fiberoptics4sale.com: `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`
+- tacticalshop24.com: `cancel_cart`, `create_cart`, `get_cart`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`
+- euplatesc.ro: `carduri_test`, `cauta_documentatie`, `citeste_sectiune`, `exemple_cod`, `explica_cod_eroare`, `fetch`, `informatii_euplatesc`, `intrebari_frecvente`, `operatii_webservice`, `search`
+- chemtronica.com: `checkout_session`, `search_products`
+- craftcms.com: `docs-glossary-search`, `docs-glossary-term-get`, `docs-search`
+- proxies.sx: `get_service_status`, `pool_build_proxy_url`, `pool_explain_error`, `pool_get_facets`, `pool_get_stock`
+- nora-energy.ro: `search_products`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.42.0 (2026-11-25)
 
 **Websites**

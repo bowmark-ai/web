@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 139,835 sites, generated 2026-11-25.
+# Every website Bowmark covers: 139,937 sites, generated 2026-11-25.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -43891,6 +43891,7 @@ aacorp.in	A and A CORPORATION Kohler Exclusive Channel Partner	6
 aadikailashworldvacations.com	Aadi Kailash World Vacations	6
 aadp-store.myshopify.com	AADP Store	10
 aadrones.co.za	Afri Air	6
+aadyaa.com	aadyaa.com	16
 aae-black-art.myshopify.com	Black-Art	10
 aahardware.com.au	Australian Architectural Hardware	6
 aaharya.myshopify.com	Aaharya	10
@@ -44485,6 +44486,7 @@ activeaid.com	ActiveAid	6
 activediscovery.myshopify.com	Active Discovery	10
 activedistributionshop.org	Active Distribution	6
 activegarden.co.uk	Active Garden	6
+activehomecentre.com	activehomecentre.com	14
 activeie.myshopify.com	Active Inland Empire Store	10
 activelifestyler.com	Active Lifestyler	6
 activeliving.ie	Active Living	6
@@ -44517,7 +44519,7 @@ acupress.myshopify.com	ACU Press & Leafwood Publishers	10
 acuratedthriftshop.myshopify.com	A Curated Thrift	10
 acuren-group-inc.myshopify.com	Acuren Group Inc	10
 acurite-chaney.myshopify.com	AcuRite	10
-acurite.com	acurite.com	1
+acurite.com	acurite.com	14
 acurweight.com	ACUR Weighing Solutions - Hong Kong	6
 acustomshop.com	A Custom Shop	6
 acusupplies.net	MAC Co. Welcome	6
@@ -45024,7 +45026,7 @@ afcindustries.com	AFC Industries	6
 afcroscoestore.myshopify.com	AFC Roscoe	10
 afellis.com.mt	A. F. Ellis	6
 afends.com	afends.com	1
-aferiy.com	aferiy.com	14
+aferiy.com	aferiy.com	1
 afew-store.com	afew-store.com	14
 affdcc-79.myshopify.com	Twitch Elements	10
 affichely.com	affichely.com	14
@@ -45770,6 +45772,7 @@ alderman-arts.myshopify.com	Alderman Arts	10
 aldgatehome.com	Aldgate Home Ltd	6
 aldimobile.com.au	aldimobile.com.au	14
 aldnshop.myshopify.com	SHOP | Aktion Liebe Deinen Nächsten e.V.	10
+aldo.com.sa	aldo.com.sa	14
 aldoconti.com	aldoconti.com	14
 aldokana.com	Aldokana	6
 aldoshoes.co.uk	aldoshoes.co.uk	14
@@ -45800,6 +45803,7 @@ alen.com	alen.com	14
 alenagreen.com	Greenway product	6
 alencooper.com	Alencooper	6
 alephcontemporary.com	alephcontemporary.com	14
+alephksa.com	alephksa.com	14
 aleplaur.com	aleplaur	6
 alerina.myshopify.com	Alerina	10
 alert-me-y2mac4cn.myshopify.com	Alert me	8
@@ -45861,6 +45865,7 @@ alexkyzamerch.myshopify.com	AlexKyzaMerch	10
 alexlambert.myshopify.com	Alex Lambert	10
 alexmill.com	alexmill.com	16
 alexmonroe.com	alexmonroe.com	1
+alexsander.co.il	alexsander.co.il	14
 alexsaxon.myshopify.com	alexsaxon	10
 alexstrangler.myshopify.com	Alex Strangler Shop	10
 alexsyberiadesigns.myshopify.com	Alex Syberia Designs UK	10
@@ -46205,6 +46210,7 @@ allies-sweet-tooth.myshopify.com	Allie's Sweet Tooth	10
 alligatorboard.myshopify.com	AlligatorBoard	10
 alligatorlane.myshopify.com	Alligator Lane 🐊	10
 allilon-education.myshopify.com	Allilon Education	10
+allingtons.com.au	allingtons.com.au	1
 allinoneposters.com	allinoneposters.com	14
 allintattoova.myshopify.com	ALLinTATTOOva	10
 allipcare.co.in	All IP CARE	6
@@ -46292,6 +46298,7 @@ alluraflorist.id	Allura Florist	6
 allure-aesthetics.myshopify.com	Allure Aesthetics	10
 allure-kabukithemes.myshopify.com	allure.kabukithemes	10
 allurebeauty.co.nz	Shop Allure Beauty	6
+allurebeauty.pk	allurebeauty.pk	14
 allurebeautybox.com	allurebeautybox.com	16
 allurebridals.com	allurebridals.com	14
 allurenailbeautysupplies.myshopify.com	Allure Nail Beauty Supplies	10
@@ -46321,6 +46328,7 @@ almadinamart.pk	Almadina Mart Online Store	6
 almaenpena.com	almaenpena.com	16
 almagems.com	almagems.com	14
 almajarahgold.com	Al Majarah Jewellers	6
+almanacplanting.com	almanacplanting.com	14
 almanatureoils.myshopify.com	Alma Nature	10
 almaryum.com	Al Maryum	6
 almas-art-foundation.myshopify.com	Almas Art Foundation	10
@@ -47489,6 +47497,7 @@ annelies-visser.myshopify.com	atelier lol.	10
 annelise-official-store.myshopify.com	The Annelise Shop	10
 annelsshop.myshopify.com	Annels Store	10
 anneparker.myshopify.com	AnneParker	10
+annerosehair.com	annerosehair.com	14
 annessa.com	Annessa.com	6
 annettapowell-com.myshopify.com	ANNETTA POWELL	10
 annettescakesupplies.com	Annettes Cake Supplies	6
@@ -47670,6 +47679,7 @@ anuja-tolia-2020.myshopify.com	Anuja Tolia	10
 anuschkaleather.com	anuschkaleather.com	14
 anvelopenoi.shop	anvelopenoi.shop	1
 anveshan.farm	anveshan.farm	14
+anwar.store	anwar.store	14
 anwarghader.myshopify.com	Anwarghader	10
 anx-ety-3.myshopify.com	ANX!ETY	10
 anxiarty.myshopify.com	IdentityPollution	10
@@ -48529,6 +48539,7 @@ armamentshield.myshopify.com	Armament Shield	10
 armancookbook.myshopify.com	Arman	10
 armanianabolics.is	Armani Anabolics	6
 armanifinewoodworking.com	Armani Fine Woodworking	6
+armazemdoschinelos.com.br	armazemdoschinelos.com.br	1
 armconprecast.com	Armcon Precast	6
 armdeot.world	Armdeot Interiors	6
 armedandgorgeous.com	Armed & Gorgeous	6
@@ -48766,6 +48777,7 @@ artepublicopress.com	Arte Publico Press	6
 arterfakproject.com	Arterfak Project	6
 artesanodemexico.com	Artesano de Mexico Webshop	6
 artescape-shop.myshopify.com	Artescape Shop	10
+artesintonia.com.br	artesintonia.com.br	14
 artevaris.com	artevaris.com	14
 artexdirect.com	Artexdirect	6
 artexplore.net	artexplore.net	14
@@ -50368,6 +50380,7 @@ azideliciouscupcakes.com.au	Azidelicious	6
 azienda-agraria-carlo-e-marco-carini.myshopify.com	AZIENDA AGRARIA CARLO & MARCO CARINI	10
 azienda-agricola-fratelli-renzo.myshopify.com	Azienda Agricola Fratelli Renzo	10
 azippysale.myshopify.com	AZippysale	10
+azjasklep.com	azjasklep.com	14
 azm-music-online.myshopify.com	azm music online	10
 azmotorsport-next.myshopify.com	AZ Motorsport	10
 azoffice.com	Arizona Office Furniture & Designs	6
@@ -50588,7 +50601,7 @@ babiesfrock-main.myshopify.com	babiesfrock	10
 babiesworld.com.pk	babiesworld.com.pk	1
 babiolab.com	Premium Dry Powder Culture Media for Accurate Microbial Testing	6
 babiolescoquettes.myshopify.com	Babioles Coquettes	10
-babipur.co.uk	babipur.co.uk	1
+babipur.co.uk	babipur.co.uk	14
 babkis.com	babkis.com	10
 babloolahori.store	babloolahori.store	14
 babo.lk	babo.lk	6
@@ -50893,6 +50906,7 @@ baking-fun.myshopify.com	Baking Fun	10
 bakingyogi.myshopify.com	BakingYogi	10
 bakkies.co.za	Bakkies.co.za	10
 bakribrothersgroup.com	bakribrothersgroup.com	6
+bakven.com	bakven.com	14
 balabala.com	balabala.com	14
 baladigalamx.myshopify.com	BALA DI GALA MEXICO	10
 balajicomputersghy.com	Balaji Computers	6
@@ -51514,6 +51528,7 @@ baysidecaravanspares.com.au	Bayside Caravan Spares	6
 baysmokes.com	baysmokes.com	14
 baythree.myshopify.com	BAYTHREE	10
 baytonhorticulturecentre.co.uk	Bayton Horticulture Centre	6
+bayusomerset.com	bayusomerset.com	16
 bayview-furniture.myshopify.com	Bayview Furniture	10
 baywa.de	baywa.de	14
 bazaar-bazaar.com	bazaar-bazaar.com	14
@@ -51963,6 +51978,7 @@ beautyforyoumalta.com	Beauty for you Malta	6
 beautyfrombees.ca	beautyfrombees.ca	14
 beautyfrombees.us	beautyfrombees.us	14
 beautyfuljewelry.myshopify.com	Beautyful Jewelry	10
+beautygirl.pk	beautygirl.pk	16
 beautyglowessentials.myshopify.com	BeautyGlowEssentials	8
 beautygold.shop	Beauty Gold Manetti	6
 beautyhabit.com	beautyhabit.com	14
@@ -51978,6 +51994,7 @@ beautynewstore.myshopify.com	beautynewstore	10
 beautynx.com	BeautyNX.com	10
 beautyofjoseon.com	Beauty of Joseon	24
 beautyonline.co.za	Beauty Online	6
+beautyoutlet.co.uk	beautyoutlet.co.uk	14
 beautyoutlet.pk	BeautyOutlet	6
 beautypie.com	Beauty Pie®	24
 beautypluslaserclinic.com.au	Laser Skin Cosmetic Aesthetics Tattoo Removal Mesotherapy CM Slim HIFU Hydraderm	6
@@ -52803,6 +52820,7 @@ betweenthereedsco.myshopify.com	BetweenTheReedsCo	10
 betwixt-studios.myshopify.com	Betwixt Studios	10
 beulah-media-store.myshopify.com	Beulah Baptist Church Media Store	10
 beupsoft.com	BeUpSoft	6
+beurbanrunning.com	beurbanrunning.com	16
 beuricobeautysupply.com	Beurico Beauty Supply	6
 beutejagd.myshopify.com	Ally&Melli	10
 beverage-handbook-store.myshopify.com	EPG Specialty Information Store	10
@@ -53349,6 +53367,7 @@ biomat.com	biomat.com	14
 biomatik.com	biomatik.com	14
 biomatrixnutrition.com	BioMatrix Dietary Supplements	6
 biome.com.au	biome.com.au	14
+biomecanics.com	biomecanics.com	14
 biomedindia.net	Bio Med	6
 biomedis.gr	Biomedis.gr	6
 biometrixlabs.co.za	Home Page	6
@@ -53450,6 +53469,7 @@ birrgolfshop.ie	Birr Golf Shop	6
 birrificio-agricolo-morosina.myshopify.com	Birrificio Agricolo Morosina	10
 birtchnells.com	Birtchnells of Highcliffe	6
 birthcenterequity.myshopify.com	BirthCenterEquity	10
+birthdayadjp.shop	birthdayadjp.shop	14
 birthdaycufflinks.com	Handmade Coin Cufflinks	6
 birthdaywinegifts.co.uk	Birthday Wine Gifts	6
 birthsupplies.com	Baby Birth and Beyond	6
@@ -53709,6 +53729,7 @@ blackmarketbakers.myshopify.com	BlackMarketBakers	10
 blackmarketglass.com	Black Market Glass	6
 blackmetalmercantile.com	Black Metal Mercantile	6
 blackmilkclothing.com	blackmilkclothing.com	16
+blackmoneystacks.de	blackmoneystacks.de	14
 blackmore-apparel.myshopify.com	Blackmore Apparel	10
 blackmountainroast.myshopify.com	Black Mountain Roast	10
 blackmudpuppy.myshopify.com	BlackMudpuppy	10
@@ -56200,6 +56221,7 @@ bug-away.myshopify.com	Bug Away	10
 bugasalt.com	bugasalt.com	14
 bugatti-fashion.com	bugatti-fashion.com	14
 bugatti-shoes.com	bugatti-shoes.com	1
+bugece.co	bugece.co	5
 bugfrenzy.com.au	Bug Frenzy	6
 buggez.com.au	Buggez Bugeyes	6
 buggs-fishing.myshopify.com	Buggs Fishing	10
@@ -57199,7 +57221,7 @@ calebwygal.myshopify.com	Caleb Wygal Books	10
 calecimprofessional.com	calecimprofessional.com	14
 caledonia-aviation.myshopify.com	Caledonia Aviation SHOP	10
 caledoniaworks.com	Caledonia Works	6
-caleffionline.it	caleffionline.it	1
+caleffionline.it	caleffionline.it	16
 calendar-wholesale.myshopify.com	Calendar Wholesale	10
 calendarcheese.com.au	Calendar Cheese Company	6
 calendargx.com	Calendar GX	6
@@ -59322,6 +59344,7 @@ chavis-performance.myshopify.com	Chavis Performance & Engineering	10
 chaycebeckham.myshopify.com	chaycebeckham	10
 chazify-reviews.myshopify.com	Chazify Reviews	8
 chcaeaglestore.myshopify.com	chca-eagle-store	10
+chch.live	chch.live	6
 che-performance.myshopify.com	CHE Performance	10
 che-sara.myshopify.com	Che Sara	10
 cheap-furniture.co.uk	Cheap-Furniture	6
@@ -59453,7 +59476,6 @@ chemsconnect.net	Chems Connect	6
 chemsmart.com.au	Chemsmart	6
 chemstock.ae	Chemstock	6
 chemsxpress.com	SHOP MDPHP	6
-chemtronica.com	chemtronica.com	2
 chenangosupplycompany.com	Chenango Supply Company	6
 chene-gear.myshopify.com	Chêne Gear®	10
 chengyicraft.com	Chengyi Craft	6
@@ -59588,7 +59610,7 @@ chicfashionusa.com	chicfashionusa.com	1
 chicforcheap2.com	Chic For Cheap	6
 chicgoal.myshopify.com	ChicGoal	10
 chicherjewelry.com	chicherjewelry.com	1
-chichiclothing.com	chichiclothing.com	1
+chichiclothing.com	chichiclothing.com	14
 chichlavin.com	שיק חלאבין	6
 chicitysports.myshopify.com	ChiCityVintage	10
 chick-fil-a.com	Chick-fil-A	2
@@ -60932,6 +60954,7 @@ coatpaints.com	coatpaints.com	14
 cobaflooring.com	COBA Flooring	6
 cobagin.myshopify.com	cobagin	10
 cobahom.com	CobaHom	6
+cobaltindustrial.ca	cobaltindustrial.ca	16
 cobancoffeeclub.myshopify.com	Cobán Coffee Club.	10
 cobbleskitchen.myshopify.com	cobbleskitchen	10
 cobbs-popcorn.myshopify.com	Cobb's Popcorn	10
@@ -61319,7 +61342,7 @@ colors2u.net	Corian&reg; Design Samples	6
 colorsdisposable.com	COLORS EXTRACTS	6
 colorsforearth.com	Colors For Earth, LLC	6
 colorsofsurf2.myshopify.com	Colors of Surfing	10
-colorsoutlet.it	colorsoutlet.it	14
+colorsoutlet.it	colorsoutlet.it	1
 colorstreet.com	colorstreet.com	14
 colorstrokes.com	ColorStrokes Cosmetics	6
 colortrak.myshopify.com	Colortrak	10
@@ -64757,7 +64780,7 @@ dc-power-2.myshopify.com	DC Power	10
 dc-rainmaker.myshopify.com	DC Rainmaker	10
 dc-seed-and-garden-supply.myshopify.com	DC Seed and Garden Supply	8
 dc.gov	DC Medicaid	1
-dc1.co.za	dc1.co.za	1
+dc1.co.za	dc1.co.za	14
 dc1996-e4.myshopify.com	Quad Coffee Lab	10
 dc1j43-46.myshopify.com	Nanda Hagenaars	10
 dc21ac-15.myshopify.com	London Art Exchange	10
@@ -64958,6 +64981,7 @@ debradunbar.com	Debra Dunbar	6
 debrahayesfloral.com	Debra Hayes Floral	6
 debramoiofferbooks.myshopify.com	Debra Moioffer Books	10
 debras-skin-care-bodyworks.myshopify.com	Debra's Skin Care & Vitality Spa	10
+debras.com.au	debras.com.au	14
 debridge.com	debridge.com	5
 debs-last-artist.myshopify.com	Debs Last Artist	10
 debsoils.com	DebsOils.com online store	10
@@ -66163,6 +66187,7 @@ dingo.gallery	Dingo Gallery	6
 diningout-festivals.myshopify.com	DiningOut Events	10
 diningoutmedia.myshopify.com	DiningOutMedia Shop	10
 dinkins-aquatic-gardens.myshopify.com	Dinkins Aquatic Gardens	10
+dinkydoo.com	dinkydoo.com	1
 dinneronthetablecatering.myshopify.com	Dinner on the Table	8
 dinossi.com	dinossi.com	16
 dinossi.us	dinossi.us	16
@@ -66304,7 +66329,7 @@ discovernac.myshopify.com	discovernac	10
 discovernutrisource.com	discovernutrisource.com	14
 discoverpilgrim.com	discoverpilgrim.com	14
 discoverroatan.net	Discover Roatan Excursions & Tours	6
-discovertreluxe.com	discovertreluxe.com	1
+discovertreluxe.com	discovertreluxe.com	14
 discoverwine.fr	Discover Wine	6
 discovery-bookshop.com	Discovery Book Shop	6
 discovery-couture.myshopify.com	Discovery Couture	10
@@ -66875,6 +66900,7 @@ donnatella-perfumes.myshopify.com	DH&P	10
 donnatellaperfumes.com	donnatellaperfumes.com	14
 donnaward.ca	Northwood Press	6
 donny-osmond-store.myshopify.com	Donny Osmond	10
+donotage.org	donotage.org	6
 donotdisturbatl.myshopify.com	donotdisturbatl	10
 donothingcongress.myshopify.com	Do Nothing Congress ™	10
 donsappliances.com	Don's Appliances	2
@@ -69997,6 +70023,7 @@ engagementringsuk.co.uk	Engagement Rings Boutique	6
 engagemii.com	engagemii.com	13
 engeishizai.myshopify.com	熊本園芸資材.com	10
 engelbert-humperdinck-store.myshopify.com	Engelbert Humperdinck Store	10
+engelcoolers.com	engelcoolers.com	16
 engelsheepskin.com	Engel Sheepskin Horse Tack	6
 engfilt.com	Engineered Filtration, Inc.	6
 engine.com.pk	engine.com.pk	1
@@ -70194,7 +70221,7 @@ epicitems.uk	Epic Items	6
 epicpxls.com	epicpxls.com	9
 epicracewear.ca	EPIC Racewear	6
 epicreads.com	epicreads.com	1
-epicure.com	epicure.com	1
+epicure.com	epicure.com	14
 epicurean.com	epicurean.com	14
 epicurehomewares.com.au	Epicure Homewares	6
 epicuros-food.myshopify.com	Epicuros	10
@@ -71365,6 +71392,7 @@ extremerestraints.com	extremerestraints.com	14
 exult-life.myshopify.com	EXULT LIFE	10
 exvalve.com	ExValve	6
 exyan.fr	EXYAN	6
+eyalsflowers.com	eyalsflowers.com	10
 eyam-museum.myshopify.com	Eyam Museum	10
 eyasportsfoundation.myshopify.com	EYA Sports Foundation	10
 eydology.com	eydology.com	14
@@ -72692,7 +72720,6 @@ fiannahillsconsignment.myshopify.com	Fianna Hills Consignment Boutique	10
 fiatdirectparts.co.uk	Fiat Direct Parts	6
 fiaz.com.pk	Fiaz Electrical Solutions	6
 fibercore.myshopify.com	FiberCore	10
-fiberoptics4sale.com	fiberoptics4sale.com	14
 fiberopticstools.com	Fiber Optics Tools	6
 fibfa.myshopify.com	FIBFA™	10
 fibonaccicorp.com	Fibonacci Corp	6
@@ -73428,6 +73455,7 @@ flash-free-gift-upsell.myshopify.com	Flash Free Gift Upsell	8
 flash-talk.myshopify.com	Flash Talk	8
 flasharkracing.com	flasharkracing.com	14
 flashdancersnyc.myshopify.com	FlashDancersNYC	10
+flashdetail.com	flashdetail.com	14
 flashdiscountstore.myshopify.com	Flash Discount UK	10
 flashed.com	Flashed	6
 flashfictiononline.com	Flash Fiction Online	6
@@ -73815,6 +73843,7 @@ flux-bundle.myshopify.com	flux-bundle	8
 flux-co-5223.myshopify.com	Flux Co.	10
 flux-electronics.myshopify.com	FLUX3D	10
 flux-product-options.myshopify.com	flux-product-options	8
+fluxe-and-co.com	fluxe-and-co.com	14
 fluxfootwear.com	fluxfootwear.com	14
 fluxjetkayaks.myshopify.com	FluxJet Kayaks	10
 fluxsage.com	fluxsage.com	6
@@ -74753,6 +74782,7 @@ frenchie-farm.myshopify.com	Frenchie Farm	10
 frenchiestamps.com	Frenchie Stamps	6
 frenchified.com	Frenchified	6
 frenchmotoshop.com	frenchmotoshop.com	1
+frenchmush.com	frenchmush.com	14
 frenchpickupartist.com	French Pick Up Artist	6
 frenchtoast.myshopify.com	Shop French Toast	10
 frenchylive-2.myshopify.com	Frenchylive Online Store	10
@@ -75261,6 +75291,7 @@ furniture011.myshopify.com	Furniture Forum	10
 furnitureandthings.com	Furniture and Things	6
 furniturebox.co.uk	furniturebox.co.uk	14
 furniturebrokerswestlake.myshopify.com	furniturebrokerswestlake	10
+furniturebrosil.com	furniturebrosil.com	14
 furniturecity.com	furniturecity.com	14
 furnitureconcepts.com	Furniture Concepts	6
 furniturefactoryca.com	furniturefactoryca.com	14
@@ -75584,6 +75615,7 @@ galda-verlag.de	Galda Verlag	6
 galearmstronggallery.com	Gale Armstrong Studio	6
 galenas-merchandise.myshopify.com	Galenas Merchandise	10
 galenhealthcare-5336.myshopify.com	GALEN Healthcare & Aesthetics	10
+galenica.com	galenica.com	5
 galenleather.com	galenleather.com	14
 galenorn.myshopify.com	Yasmine Galenorn's Bookstore	10
 galeria-carola-morales.myshopify.com	CAROLA MORALES Galería	10
@@ -76434,6 +76466,7 @@ getfreewrite.com	getfreewrite.com	14
 getfurnished.ie	Get Furnished	6
 getfussy.com	Fussy	24
 getgoodgear.com.au	Get Good Gear	6
+getgrinds.com	getgrinds.com	14
 getgroundworx.myshopify.com	GroundWorx Store	10
 getguardify.myshopify.com	Guardify	10
 getgunsnammo.com	Get Guns N Ammo -Buy Firearms, Shotguns, N Ammunition Online	6
@@ -76725,6 +76758,7 @@ giii-japan.org	giii-japan.org	10
 gikacoustics.com	gikacoustics.com	1
 giladshop.myshopify.com	giladshop	10
 gilarpgs.myshopify.com	gilarpgs	10
+gilautomation.com	gilautomation.com	14
 gilbert-young-art.myshopify.com	Gilbert Young Art	10
 gilcrease-museum-store.myshopify.com	Gilcrease Museum Store	10
 gilded-decay.myshopify.com	Gilded Decay	10
@@ -77106,6 +77140,7 @@ globalexportsonline.com	GlobalExports Online	6
 globalexpress.com.bd	Global Express	6
 globalextend.de	globalextend.de	14
 globalfinreg.com	globalfinreg.com	6
+globalfoodhub.com	globalfoodhub.com	14
 globalgirlapothecary.myshopify.com	Olivia & Queen	10
 globalhealing.com	globalhealing.com	14
 globalherbalfarms.com	Global Herbal Farms	6
@@ -80040,6 +80075,7 @@ hauschka.myshopify.com	Volker Bertelmann & Hauschka Shop	10
 hauscollectiveinteriors.myshopify.com	Haus & Home	10
 hausdahlia.myshopify.com	HAUS DAHLIA	10
 hauslabs.com	Haus Labs by Lady Gaga	17
+hausofmode.de	hausofmode.de	14
 hausofrimmy.myshopify.com	hausofrimmy	10
 hausoftools.com	hausoftools.com	14
 hausofwicks-com.myshopify.com	The Haus of Wicks Candle Company	10
@@ -80206,6 +80242,7 @@ head2tail.com	Longhorns Head To Tail Store	6
 head2toes.ae	Head2Toes	6
 headandshoulders.com	headandshoulders.com	14
 headbitchmusic.myshopify.com	Head Bitch Music	10
+headcaddy.com	headcaddy.com	14
 headcoversonline.com	HeadcoversOnline.com	6
 headers-and-volleys-shirts.myshopify.com	Headers & Volleys	10
 headingley-sport-shop.myshopify.com	Headingley Sport Shop	10
@@ -80629,6 +80666,7 @@ hemaniherbals.com	hemaniherbals.com	14
 hemet-store.myshopify.com	Hemet Store	10
 hemi-sync.com	HemiSync	6
 hemispherejazz.myshopify.com	Hemisphereband	10
+hemlockandoak.com	hemlockandoak.com	14
 hemlockbazaar.com	Hemlock Bazaar	6
 hemlocke-springs.myshopify.com	Hemlocke Springs	10
 hemmetsunglasses.myshopify.com	Hemmet® Brand	10
@@ -81181,6 +81219,7 @@ hikishop.com	hikishop.com	14
 hikmahbooks.org	hikmahbooks.org	10
 hikoco.co.nz	hikoco.co.nz	16
 hikvisionsolution.com	Hikvision Best Price in Sri Lanka	6
+hilarioushumanitarian.com	hilarioushumanitarian.com	14
 hilarycolleen.com	Hilary Colleen	6
 hilaryrobertsphotography.com	Hilary Roberts Photography	6
 hilaryschwartz.myshopify.com	HilarySchwartz	10
@@ -81662,6 +81701,7 @@ hollywarnerhealth.com	Holly Warner Health	6
 hollywood-eye-magic.myshopify.com	Hollywood Eye Magic	10
 hollywood-sensation.myshopify.com	Dloria	10
 hollywoodavondale.myshopify.com	hollywoodavondale	10
+hollywooddj.com	hollywooddj.com	16
 hollywoodfashionus.myshopify.com	Needles Guru	10
 hollywoodfishfarm.co.nz	Legacy Aquatics & Reptiles NZ	6
 hollywoodhistoryonline.com	HHO Hollywood History Online	6
@@ -81982,6 +82022,7 @@ hoodrichuk.com	hoodrichuk.com	14
 hoods-goods-uk.myshopify.com	Hoods & Goods UK	10
 hoods-to-woods.myshopify.com	Hoods to Woods	10
 hoodskinz.myshopify.com	HoodSkinz	10
+hoodsly.com	hoodsly.com	14
 hoody.com	hoody.com	1
 hoodzpahdesign.com	Hoodzpah	6
 hoofbeats-and-pawprints-rescue.myshopify.com	Hoofbeats and Pawprints Rescue	10
@@ -82293,7 +82334,7 @@ housedumonde.com	housedumonde.com	10
 householdandgift.com	Household and Gifts	6
 houseindanang.com.vn	House In Da Nang	6
 houseofalyssasmith.com	House of Alyssa Smith	6
-houseofanansi.com	houseofanansi.com	14
+houseofanansi.com	houseofanansi.com	1
 houseofandar.myshopify.com	House of Andar	10
 houseofase.com	House of Àṣẹ	6
 houseofavid.myshopify.com	HouseofAvid	10
@@ -83195,7 +83236,7 @@ ideon.co.uk	Ideon	6
 ideou.com	ideou.com	1
 idescat.cat	idescat.cat	7
 idevgames.co.uk	iDev Games Assets Store	6
-idgaming.co.uk	idgaming.co.uk	1
+idgaming.co.uk	idgaming.co.uk	14
 idhbfn-0q.myshopify.com	PaulyGraphX	10
 idiemart.com	IDI E-Mart	6
 idinfinitedetail.co.uk	ID Infinite Detail	6
@@ -83403,6 +83444,7 @@ ikonremedies.com	Ikon Remedies	6
 ikoshy.myshopify.com	Ikoshy	10
 ikoyi-chapmans.myshopify.com	Ikoyi Chapmans Ltd	10
 ikrinka.de	ikrinka.de	14
+ikrush.com	ikrush.com	14
 iku-den.co.jp	iku-den.co.jp	3
 iku-libreria-infantil.myshopify.com	LIBRERIA INFANTIL IKU	10
 ikuhara-shop.myshopify.com	生原商店	10
@@ -84141,6 +84183,7 @@ inmyownkitchen.com	In My Own Kitchen	6
 innatgreenpastures.myshopify.com	NOAH MARION AT GREEN PASTURES	10
 innaturetea.myshopify.com	In Nature Teas	10
 innavative-prints-llc.myshopify.com	InNavative Prints LLC	10
+innbeautyproject.com	innbeautyproject.com	14
 inner-cosmetics-brand.myshopify.com	INNER Cosmetics	10
 inner-radio.com	Day 092 :: Eric Scott :: INNER-RADIO	6
 inner-strength-performance-centre.myshopify.com	Inner Strength Supplements	10
@@ -84223,6 +84266,7 @@ insert-header-footer-script.myshopify.com	Insert Header Footer Script	10
 insertblancpress.myshopify.com	Insert Press	10
 inserto-shop.myshopify.com	INSERTO SHOP	10
 inshanti.com	Inshanti	6
+inshape-nutrition.com	inshape-nutrition.com	14
 inshobby.com	inshobby.com	14
 insidelinemodels.com	Inside Line Models	6
 insiderjourneys.co.uk	Insider Journeys	6
@@ -85197,6 +85241,7 @@ iwyn.myshopify.com	I WANT YOU NAKED - Naturkosmetik	10
 ix9t0p-xd.myshopify.com	72survive	10
 ixhub-official.myshopify.com	IXHUB	10
 ixias-flower.myshopify.com	ixias	10
+ixs.com	ixs.com	14
 ixvm1r-uf.myshopify.com	Rock Over Climbing	10
 iy8e14-dd.myshopify.com	Cleat & Anchor	10
 iy8myh-ah.myshopify.com	Stonebridge Guitars International	10
@@ -86983,6 +87028,7 @@ jukiaofan.myshopify.com	jukiaofan	10
 jukido-shop.myshopify.com	Jukido Shop	10
 jukiindustrial.co.uk	Juki Industrial Sewing Machines	6
 jukinordic.myshopify.com	JUKI Nordic	10
+jukupop.com	jukupop.com	14
 julditec.com	julditec.com	4
 julelysbutikken.no	Julelysbutikken.no	10
 julen-iztueta.myshopify.com	Julen Iztueta	10
@@ -87032,7 +87078,7 @@ juliettehasagun.com	juliettehasagun.com	14
 julietteparis.com	julietteparis.com	14
 julievos.com	julievos.com	14
 juliewebb.myshopify.com	Julie Webb	10
-juliska.com	juliska.com	1
+juliska.com	juliska.com	16
 juls-and-jane.myshopify.com	Juls and Jane	10
 july.com	July AU	10
 julyprom.myshopify.com	JulyProm	10
@@ -87433,6 +87479,7 @@ kairaundroeh.myshopify.com	kairaundröh	10
 kairosmedwear.myshopify.com	Kairos Medwear	10
 kairostrainingculture.myshopify.com	kairostrainingculture	10
 kairu-eco-art-studio.myshopify.com	KAIRU ECO-ART STUDIO	10
+kairyu.fr	kairyu.fr	14
 kaiscrystalcarriage.com	Kais Crystal Carriage	6
 kaiserpermanente.org	Kaiser Permanente	4
 kaiserplus-co.myshopify.com	KAISER PLUS - Korean Smart Digital Door Locks	10
@@ -87558,7 +87605,7 @@ kamvasna.in	kamvasna.in	10
 kan-tan-douga.myshopify.com	かんたん動画販売	10
 kanabaya.myshopify.com	kanabaya	10
 kanadel-art.myshopify.com	KANADEL ART	10
-kanademono.design	kanademono.design	16
+kanademono.design	kanademono.design	1
 kanatapaint.myshopify.com	Kanata Paint	10
 kanatechsys.co.ke	KanaTech Shop	6
 kanati-shop.myshopify.com	Kanati Shop	10
@@ -88481,7 +88528,7 @@ kick.com	Kick	28
 kickashapparel.com	kickashapparel	6
 kickasshair.com	Kickass Hair	6
 kickassproducts.com.au	kickassproducts.com.au	16
-kickers.co.uk	kickers.co.uk	1
+kickers.co.uk	kickers.co.uk	14
 kickfizz.myshopify.com	Kick Fizz	10
 kickflip-3.myshopify.com	Palo Alto	10
 kickflips.co.uk	Kickflips	6
@@ -88869,6 +88916,7 @@ kipalohadamesmode.nl	kipalohadamesmode.nl	14
 kipandco.com.au	kipandco.com.au	16
 kipanis-kloset.myshopify.com	Kipani's Kloset	10
 kipli.com	kipli.com	14
+kipling-usa.com	kipling-usa.com	14
 kipon.com	KIPON	6
 kippaco.com	Hand Knitted Yarmulkes, Hand Knitted Kippahs for any occasion. Wedding Kippahs, 	4
 kira-k-designs.myshopify.com	Kira K Designs	10
@@ -89368,7 +89416,7 @@ konopelski-group2096.myshopify.com	YodaStore	10
 konosbog.com	Konosbog	6
 konouzalmustakbal.com	Konouz AL Mustakbal	6
 konpak.com.tr	Konpak Ambalaj	6
-konsciousketo.com	konsciousketo.com	14
+konsciousketo.com	konsciousketo.com	1
 konstantina-1187.myshopify.com	Konstantina	10
 kontekst.io	kontekst.io	9
 kontenermart.com	KontenerMart	6
@@ -89590,6 +89638,7 @@ krielandpartners.co.za	Kriel Care Specialists	6
 kriestengarten.myshopify.com	Kriestengarten	10
 krietzcustoms.com	Krietz Customs Offroad Center	6
 krimelifeboys.myshopify.com	KLB Global	10
+kringlecandle.com	kringlecandle.com	14
 krinnerscrews.io	Krinnerscrews.io	10
 krinos.com	krinos.com	14
 kriptogfxstudio.myshopify.com	SNKR ZMBZ	10
@@ -90065,7 +90114,7 @@ labellov.com	labellov.com	16
 labelly-product-labels-badges.myshopify.com	Labelly – Product Labels & Badges	8
 labelmatch.myshopify.com	Labelmatch	10
 labelmate.com	Labelmate	6
-labelnize.com	labelnize.com	1
+labelnize.com	labelnize.com	14
 labelrose.it	labelrose.it	16
 labelsandmore.com	Labels And More	6
 labelservice.co.uk	Labelservice	6
@@ -90105,6 +90154,7 @@ laboucherie.mt	La Boucherie	6
 labourseauxlivres.fr	labourseauxlivres.fr	14
 laboutiquedebabette.myshopify.com	La boutique de Babette	10
 laboutiquedubracelet.fr	laboutiquedubracelet.fr	14
+laboutiquemythique.com	laboutiquemythique.com	16
 labplan.ie	Labplan	6
 labradoodlesbycucciolini.ca	Cucciolini Doodles	6
 labradorinnoutajakerho-labshop.myshopify.com	Labradorinnoutajakerho Labshop	10
@@ -90142,6 +90192,7 @@ lace-birch-flower-shop.myshopify.com	Bloom & Lace	10
 lace-dream.myshopify.com	Laced Fetish	10
 laceandlush.com	laceandlush.com	14
 laced-honey.myshopify.com	Laced Honey	10
+lacedrecords.co	lacedrecords.co	14
 laceeze.myshopify.com	Laceeze	10
 lacemade.com	lacemade.com	1
 laceupnyc-2.myshopify.com	Lace Up NYC	10
@@ -94436,6 +94487,7 @@ madisons-uncommon-label.myshopify.com	The Uncommon Label	10
 madizm.myshopify.com	MAD IZM	10
 madjincreations.myshopify.com	Madjin - Creations	10
 madkudu.com	madkudu.com	14
+madlady.se	madlady.se	14
 madmakerlabs.com	MadMakerLabs.com	10
 madmanapps.myshopify.com	madmanapps	8
 madmaseframes.myshopify.com	madmaseframes	10
@@ -94771,6 +94823,7 @@ maisonpavane.com	maisonpavane.com	14
 maisonsarahlavoine.com	maisonsarahlavoine.com	14
 maisonsl.com	maisonsl.com	1
 maisonspecial.co.jp	maisonspecial.co.jp	14
+maisontosport.fr	maisontosport.fr	14
 maisonvallier.fr	maisonvallier.fr	14
 maisonvillevert.myshopify.com	Maison Villevert	10
 maisonvogue.com	maisonvogue.com	14
@@ -95175,7 +95228,7 @@ manual-para-enamorarse.myshopify.com	Manual Para Enamorarse	10
 manuale-digitale.myshopify.com	Manuale digitale	10
 manualsforyou.com	Manuals For You	6
 manualsmart.myshopify.com	Manuals Mart	10
-manucurist.com	manucurist.com	16
+manucurist.com	manucurist.com	1
 manuel-barrera.myshopify.com	Habitables	10
 manuela-negreiro-cabeleireiros.myshopify.com	Manuela Negreiro Cabeleireiros	10
 manuelabarem.myshopify.com	Manuela Barem	10
@@ -95412,6 +95465,7 @@ marinersmerchandise.myshopify.com	Official Maine Mariners Team Store	10
 marineshark.myshopify.com	MARINESHARK	10
 marinesmartenergy.com	Marine Smart Energy	6
 marinetradesupplies.com.au	Marine Trade Supplies	6
+marinevinylfabric.com	marinevinylfabric.com	14
 marinewarehouseaquarium.com	Marine Warehouse Aquarium	6
 marinhistory.myshopify.com	Marin History Museum Store	10
 marinkiart.myshopify.com	MarinkiArt	10
@@ -95467,6 +95521,7 @@ markertrail.com	MarkerTrail	6
 market76082.myshopify.com	Market 76082	10
 marketamerica.com	marketamerica.com	14
 marketbeat.com	marketbeat.com	1
+marketcode.ai	marketcode.ai	134
 marketcoin.myshopify.com	CryptoTerminal	10
 marketdominance.myshopify.com	MARKET DOMINANCE SHOP	10
 marketees.com	MARKET TEES	6
@@ -96020,6 +96075,7 @@ mawest.ee	Mawest	6
 mawmaws-boutique-2.myshopify.com	Maw Maw's Boutique	10
 mawomenshistory.myshopify.com	MA Women's History Center	10
 mawta.myshopify.com	mawta	10
+mawwal.com.br	mawwal.com.br	14
 max-and-moose.myshopify.com	Max and Moose	8
 max-bundle.myshopify.com	max-bundle	8
 max-ferreteria.myshopify.com	Max Ferretería	10
@@ -97371,6 +97427,7 @@ michismealplans.myshopify.com	Honest Roots Meal Plans	10
 mickelberry-gardens.myshopify.com	Mickelberry Gardens	10
 mickey-lamantia.myshopify.com	Mickey Lamantia	10
 mickgowphoto.myshopify.com	Mick Gow Photography	10
+mickjagger.com	mickjagger.com	1
 mickmorgans.myshopify.com	MickMorgans	10
 mickscreepycrawlies.com.au	Micks Creepy Crawlies	6
 micky-dolenz.myshopify.com	Micky Dolenz Merchandise Store	10
@@ -98331,6 +98388,7 @@ mob-society.myshopify.com	Mob Society	10
 mob-stop.myshopify.com	MOB Stop	10
 mobapad.com	mobapad.com	14
 mobarika.myshopify.com	mobarika	10
+mobauto.net	mobauto.net	10
 mobedco.com	Mobedco	6
 mobexpert.ro	mobexpert.ro	14
 mobiassist.com.au	MobiAssist Freedom of Movement	6
@@ -98441,6 +98499,7 @@ modelcarstoo.com	Model Cars Too	6
 modelcitizenbrands.com	Model Citizen	6
 modelcontextprotocol.io	MCP Registry	4
 modello-green.myshopify.com	modello-green	10
+modells.com	modells.com	14
 modelmatic.uk	modelmatic.uk	14
 modelousa.com	modelousa.com	14
 modelrailelectrics.co.uk	Model Rail Electrics	6
@@ -99726,6 +99785,7 @@ muhamedsshops.com	Muha Meds Shop	6
 muhammadistores.pk	Best Home Appliances & Electronics in Islamabad & Rawalpindi	6
 muhdo-b2b.myshopify.com	Muhdo B2B	10
 muhi0y-kj.myshopify.com	Read Five Designs	10
+muir-way.com	muir-way.com	14
 muitacalmasports.myshopify.com	MC SPORTS	10
 muji.ca	muji.ca	14
 muji.us	MUJI USA	24
@@ -99835,6 +99895,7 @@ murat-cihan-kurtoglu.myshopify.com	For Fun	10
 murchison-hume-us-wholesale.myshopify.com	Murchison-Hume Wholesale	10
 murchisonwines.com.au	Murchison Wines	6
 murder-mediocrity-market.myshopify.com	Murder Mediocrity Market	10
+murderapparel.com	murderapparel.com	14
 murdochinternational.co.uk	Murdoch International	6
 murdochshoes.myshopify.com	Murdoch Shoes	10
 murdocklandandcattle.myshopify.com	Murdock Land and Cattle	10
@@ -100024,12 +100085,12 @@ mutiny-online.myshopify.com	Mutiny Comics & Coffee Online	10
 mutnetze.myshopify.com	MU.T Netze	8
 muto-sendagaya.myshopify.com	MUTO online shop	10
 muttluks-ca.myshopify.com	Muttluks CA	10
-mutts.com	mutts.com	1
+mutts.com	mutts.com	14
 mutual-muse.myshopify.com	Mutual Muse	10
 mutualfaith.myshopify.com	Mutual Faith Online Store	10
 mutualpublishing.com	Staradvertiser	6
 muumuu-factory.myshopify.com	Muumuu Factory	10
-muumuu-outlet.com	muumuu-outlet.com	1
+muumuu-outlet.com	muumuu-outlet.com	14
 muvjph-in.myshopify.com	Candy Shop	10
 muvluv-official-store.myshopify.com	マブラヴ公式通販	10
 muxsound.com	Muxsound	6
@@ -101478,6 +101539,7 @@ ndhobbies.com	ND Hobbies	6
 ndiyku-t1.myshopify.com	Dave's Diesel Repair	10
 ndna.org.uk	NDNA	6
 ndnapps.myshopify.com	ndnapps	10
+ndorvyn.com	ndorvyn.com	1
 ndpac.com	Food & Beverage Processing Equipment and Turnkey Solutions	6
 ndssorg.myshopify.com	NDSS Merch Store	10
 ndt-indonesia.com	NDT-INDONESIA.COM	6
@@ -102342,7 +102404,7 @@ ninja.fi	ninja.fi	16
 ninja99.myshopify.com	ninja99	10
 ninjacue.myshopify.com	Ninjacue Original Dry Rubs	10
 ninjaferretart.myshopify.com	Ninja Ferret Art	10
-ninjapatches.com	ninjapatches.com	1
+ninjapatches.com	ninjapatches.com	14
 ninjatransfers.com	ninjatransfers.com	1
 ninkear.com	Ninkear.com	10
 ninny-franks.myshopify.com	Ninny Franks	10
@@ -102749,6 +102811,7 @@ nordrheinpharma.de	Nordrhein Pharma	6
 nordskogs.myshopify.com	Nordskogs	10
 nordurequipment.myshopify.com	My Store	10
 nordwearshop.myshopify.com	Nordwearshop	10
+nordwolle.com	nordwolle.com	16
 norea-mediemisjons-nettbutikk.myshopify.com	Noreas nettbutikk	10
 norev.com	norev.com	14
 norfolk-admirals-hockey.myshopify.com	Norfolk Admirals Hockey	10
@@ -102911,6 +102974,7 @@ nosscrstore.myshopify.com	NOSSCR Store	10
 nostalgia-fashion-zone.myshopify.com	Nostalgia Fashion Zone	10
 nostalgic-neutral.myshopify.com	Nostalgic Neutral	8
 nostalgicmediastore.myshopify.com	Nostalgic Media	10
+nosugarshop.ro	nosugarshop.ro	1
 not-just-quiltz.myshopify.com	NotJustQuiltz	10
 not-travis.myshopify.com	not.travis	10
 not-your-average-candy.myshopify.com	Not Your Average Candy	10
@@ -104931,6 +104995,7 @@ organicandwholesale.com	Nature's Superfoods Store	6
 organicbasics.com	organicbasics.com	14
 organicbazar.net	organicbazar.net	14
 organicbeautyiseasy.com	Organic Beauty is Easy	6
+organicblank.com	organicblank.com	14
 organicchoice.co.za	Organic Choice	6
 organicera.eu	OrganicEra	6
 organicfootprint.myshopify.com	Organic Footprint 786 N. Hwy. 16 Denver NC 28037	10
@@ -105516,6 +105581,7 @@ oxfordgarden.com	Oxford Garden	6
 oxfordowl.co.uk	Oxford Owl for Home	6
 oxfordpaediatricdietitians.com	oxfordpaediatricdietitians.com	6
 oxfordshop.com.au	oxfordshop.com.au	14
+oxfordstationers.in	oxfordstationers.in	1
 oxfordstore.cl	oxfordstore.cl	1
 oxfordyogatuition.com	Oxford Yoga Tuition	6
 oxi-plus-2.myshopify.com	oxi-plus	8
@@ -106086,6 +106152,7 @@ parade-calendars.myshopify.com	Parade Calendars	10
 paradeusa.myshopify.com	PARADE	10
 paradex.trade	paradex.trade	16
 paradigm-medical-inc.myshopify.com	Paradigm Medical Inc.	10
+paradigme.fr	paradigme.fr	14
 paradigmpicturestv.myshopify.com	Paradigm Pictures Shop	10
 paradigmtrends.com	Paradigm Trends	6
 paradise-apple.myshopify.com	Paradise Apple	10
@@ -106955,6 +107022,7 @@ pelsbarn.se	Pelsbarn.se	10
 peltjazz-publishing.myshopify.com	Peltjazz Publishing	10
 peltzshoes.com	peltzshoes.com	1
 pelusomicrophonelab.com	Peluso Microphone Lab	6
+pelvini.com	pelvini.com	14
 pelzgolf.com	Pelz Golf	6
 pem-photography-shop.myshopify.com	PEM Photography Shop	10
 pembertonstore.com	Pembertons Cleaning and Restoration Supply	6
@@ -108225,7 +108293,7 @@ planet-skyler-hq.myshopify.com	PLANET SKYLER HQ	10
 planeta-espasante.myshopify.com	Planeta espasante	10
 planetahuerto.es	planetahuerto.es	14
 planetaortopedico.com	planetaortopedico.com	14
-planetbeauty.com	planetbeauty.com	1
+planetbeauty.com	planetbeauty.com	16
 planetbox.com	planetbox.com	1
 planetcomicsdirect.com	planetcomicsdirect.com	16
 planetdesert.com	planetdesert.com	14
@@ -108540,6 +108608,7 @@ plushtechnologies.in	plushtechnologies.in	19
 plusletics.myshopify.com	Plusletics® Apparel - Fitness Chick Enterprises, Inc.	10
 plusminusco.com	plusminusco.com	14
 plusotoha.shop	plusotoha.shop	14
+pluspige.dk	pluspige.dk	14
 pluspool.myshopify.com	+ POOL Shop	10
 plustek.co.id	Plustek Indonesia	6
 plusvibe.ai	plusvibe.ai	137
@@ -108573,7 +108642,7 @@ pmwoodwind.com	PM Woodwind	6
 pmworld360.com	PMWorld360	6
 pneeble.myshopify.com	Pneeble Ceramics	10
 pngate.com	PNGate	6
-pngjewellers.com	pngjewellers.com	1
+pngjewellers.com	pngjewellers.com	16
 pnklts.co	PNKLTS.CO	10
 pnoestudio.com	pnoestudio.com	14
 pnw-stormwater.myshopify.com	Pacific Northwest Stormwater	10
@@ -108656,6 +108725,7 @@ pokeninjapan.store	pokeninjapan.store	14
 pokercardsstud.com	pokercardsstud_	6
 pokharamobilestore.com	Pokhara Mobile Store	6
 pokiesforsale.com	Pokies for Sale	6
+pokipair.com	pokipair.com	3
 pola.rs	pola.rs	1
 polarbearhealth.com	Polar Bear Health & Water	6
 polarbears.com	Polarbears.com	10
@@ -109065,6 +109135,7 @@ postgresql.org	PostgreSQL	3
 posthog.com	PostHog	4
 posthypnoticpress.com	Post Hypnotic Press Audiobooks	6
 postmanflowers.myshopify.com	Postman Flowers	10
+postmoda.com	postmoda.com	14
 postmodernjukebox.myshopify.com	postmodernjukebox	8
 postnord-ship-connect.myshopify.com	PostNord Ship Connect	8
 postoakll.myshopify.com	Post Oak Little League	10
@@ -110197,7 +110268,6 @@ provsv.com	Providence Sound And Vision	6
 prowin-corp-martial-arts.myshopify.com	Prowin Corp.	10
 prowlers.myshopify.com	prowlers	10
 prowriting.co	ProWriting	6
-proxies.sx	proxies.sx	5
 proximusmedical.com	Proximus Medical	6
 proxmox.com	Proxmox	1
 proxoxie.myshopify.com	Proxoxie	10
@@ -110732,6 +110802,7 @@ pyramidmoto.co.uk	pyramidmoto.co.uk	14
 pyramidpens.com	Pyramid Pens Shop	6
 pyranha.co.nz	Grip Socks NZ Performance Sports Grip Socks PYRANHA	6
 pyrenex.com	pyrenex.com	14
+pyrex.fr	pyrex.fr	14
 pyrexhome.com	pyrexhome.com	14
 pyritecubes.myshopify.com	Pyrite Cubes	10
 pyrodrone.com	pyrodrone.com	14
@@ -110845,6 +110916,7 @@ qha4yw-4h.myshopify.com	La taverne du gamer	10
 qhdqpc-bq.myshopify.com	Unforeseen Confidence.	10
 qi.com	qi.com	10
 qialum.com	FOSHAN QI ALUMINUM DECORATIVE MATERIALS CO.,LTD.	6
+qicaiye.com	qicaiye.com	1
 qidi3d.com	qidi3d.com	1
 qiditech3dprinter.com	qiditech3dprinter.com	14
 qikify-boosterkit.myshopify.com	qikify boosterkit (pw: 123)	8
@@ -111263,7 +111335,7 @@ raberstoragebarns.com	Raber Storage Barns	6
 rabful.com	Rabful	6
 rabisrael.co.il	Rab® ישראל האתר הרשמי	6
 rabitech.co.za	Rabitech	6
-raboesy.com	raboesy.com	1
+raboesy.com	raboesy.com	14
 rabsbooks.com	RAB's Books	6
 raccan-japan.myshopify.com	RACCAN	10
 raccoon-motel.myshopify.com	Raccoon Motel	10
@@ -111721,6 +111793,7 @@ rasinstrumentation.com	RAS Instrumentation	6
 raskgem.myshopify.com	RaskGem	10
 raskolapparel.com	raskolapparel.com	14
 rasman.in	Rasman Technologies	6
+rasoishop.com	rasoishop.com	14
 raspberry-pie.myshopify.com	Raspberry Pie	10
 raspberrypi.dk	RaspberryPi.dk	6
 raspini-winery.myshopify.com	Raspini Winery	10
@@ -113093,6 +113166,7 @@ revynox.myshopify.com	revynox	8
 rewardfoundation.org	The Reward Foundation	6
 rewardscla-example-store.myshopify.com	Jane's Boutique	10
 rewardsweb.com	rewardsweb.com	10
+reway.nl	reway.nl	14
 reweaving-wealth-us.myshopify.com	Reweaving Wealth US	10
 reweaving-wealth.myshopify.com	ReWeaving Wealth	10
 rewild-farms.myshopify.com	Rewild Farms	10
@@ -113854,7 +113928,7 @@ rockabillychica.myshopify.com	Vintage Galeria	10
 rockabuyrecords.myshopify.com	Rockabuy Records	10
 rockacademy.com	Rock Academy	6
 rockadex.myshopify.com	RockaDex	10
-rockalingua.com	rockalingua.com	21
+rockalingua.com	rockalingua.com	22
 rockallsafety.co.uk	Rockall Safety	6
 rockandrollbingo.co.uk	Rock and Roll Bingo	6
 rockandrolldenim.com	rockandrolldenim.com	16
@@ -116040,6 +116114,7 @@ sauna.guide	sauna.guide	7
 sauna4seasons.myshopify.com	SAUNA 4 SEASONS GmbH	10
 saunabox.com	saunabox.com	14
 saunacore.com	Saunacore	6
+sausagemaker.com	sausagemaker.com	14
 sausewind-shop.com	sausewind-shop.com	5
 sauteezy.myshopify.com	Sauteezy	10
 sava-amsterdam.com	sava-amsterdam.com	14
@@ -116739,7 +116814,7 @@ seaweed-wholesale.myshopify.com	The Seaweed Bath Co. Wholesale	10
 seawicks.myshopify.com	Seawicks Candle Company	10
 seaworld-shop.myshopify.com	SeaWorld Parks & Entertainment Shop	10
 seawrightmotorsports16.myshopify.com	Seawright Motorsports	10
-sebago.com	sebago.com	14
+sebago.com	sebago.com	1
 sebago.myshopify.com	Sebago Brewing Company	10
 sebastiaannieuwland.nl	Sebastiaannieuwland.nl -VitaNova Trainingen	10
 sebco-laundry.myshopify.com	SEBCO Laundry LLC.	10
@@ -116791,6 +116866,7 @@ secretdrift.myshopify.com	secretdrift	10
 secretgarden.ro	secretgarden.ro	14
 secretjunction.com	Secret Junction	6
 secretlab.co	Secretlab US	11
+secretlab.co.uk	secretlab.co.uk	14
 secretlab.eu	secretlab.eu	14
 secretlab.sg	secretlab.sg	14
 secretlabus.myshopify.com	Secretlab US	10
@@ -117106,7 +117182,7 @@ sensthys.myshopify.com	SensThys	10
 sensuousbean.com	The Sensuous Bean	6
 sensushair.com.au	Sens.us Australia	6
 sent2light.myshopify.com	Sent2Light	10
-sentaifilmworks.com	sentaifilmworks.com	1
+sentaifilmworks.com	sentaifilmworks.com	14
 senteshop.myshopify.com	SenteShop	10
 senteur.ca	senteur.ca	14
 sentient-healthcare.ie	Sentient Healthcare	6
@@ -117487,6 +117563,7 @@ shakethenationsuk.myshopify.com	Shake The Nations UK & Europe	10
 shakiraaz-homewares.myshopify.com	SHAKIRAAZ HOMEWARES	10
 shaktidiva.myshopify.com	swaahaa	10
 shaktimat.co.jp	shaktimat.co.jp	14
+shaktimat.de	shaktimat.de	16
 shakylaundry.myshopify.com	Shaky Knees Festival	10
 shaliroseco.myshopify.com	Shali Rose Co	10
 shalkurforhealth.myshopify.com	Shalkur for Health	10
@@ -118674,6 +118751,7 @@ shopside-bloom.myshopify.com	Shopside Bloom	8
 shopside-earlybird.myshopify.com	Shopside Earlybird	8
 shopsiimply.myshopify.com	ShopSiimply	10
 shopsimplydiyhome.myshopify.com	Simply DIY Home	10
+shopsimsfurniture.com	shopsimsfurniture.com	14
 shopsjcce.myshopify.com	SJC Cultural Events	10
 shopskinny.myshopify.com	The Skinny Confidential Shop	10
 shopskinnydukes.myshopify.com	Shop-Skinny-Dukes	10
@@ -118884,6 +118962,7 @@ shtmz.com	SHANDONG SHENGHANG TECHNOLOGY CO., LTD	6
 shtnonm.myshopify.com	SHTNONM	10
 shubh-aangan.com	Shubh Aangan	6
 shubies.myshopify.com	Shubies	10
+shuffleandcutgames.co.nz	shuffleandcutgames.co.nz	14
 shuffled-ink.myshopify.com	Shuffled Ink	10
 shugarysweets.myshopify.com	ShugarySweets	10
 shugaskrub.myshopify.com	Shugaskrub	10
@@ -120266,7 +120345,7 @@ smilax-04.myshopify.com	smilax-04	10
 smile-better-look-better.myshopify.com	Medical Holidays Bulgaria	8
 smile-together-corp.myshopify.com	Smile Together Corp.	10
 smile.io	smile.io	3
-smileactives.com	smileactives.com	14
+smileactives.com	smileactives.com	1
 smileadyus.com	smileadyus.com	14
 smilebutiken.se	smilebutiken.se	16
 smilee.pk	Smilee Thoughtful Gifts in Pakistan	6
@@ -120530,6 +120609,7 @@ snuggleback.ca	Snuggleback.ca	10
 snugglebugz.ca	snugglebugz.ca	16
 snusclub.ch	Snusclub.ch	10
 snusifer.com	Snusifer	6
+snusvikings.co.uk	snusvikings.co.uk	14
 snuzone.com	snuzone.com	14
 snyads-services.myshopify.com	SNYADS Services	10
 snydepels.dk	snydepels.dk	16
@@ -121391,7 +121471,7 @@ spankingbooks.com	Spanking Books and Audiobooks	6
 spankshirt.com	Your Fashion Partner	6
 spanningglobal.com	SpanningGlobal	6
 spanx.ca	spanx.ca	14
-spanx.com	Spanx	24
+spanx.com	Spanx	11
 sparepartwala.in	Spare Part Wala	6
 spareroom.co.uk	SpareRoom	2
 sparesmaster.co.uk	Sparesmaster	6
@@ -122319,6 +122399,7 @@ starduststore-japan.myshopify.com	Stardust Store	10
 starex.com.au	Starex	6
 starface.world	Starface World	24
 starfinn-designs.myshopify.com	Starfinn Designs	10
+starfirebodyjewelry.com	starfirebodyjewelry.com	14
 starfishlane.com.au	Starfish Lane Invitation Specialists	6
 starfishmagick.com	Starfish Magick	6
 starforged.com	starforged.com	14
@@ -124347,6 +124428,7 @@ sweatshopind.myshopify.com	sweatshopind	10
 swebuild.myshopify.com	We Build	10
 swedcham.com.br	Swedcham	6
 swedenborg.org.uk	Swedenborg Society	6
+swederm.pl	swederm.pl	1
 swedesolutions.com	SwedeSolutions	6
 swedish-wild-germany.myshopify.com	Swedish Wild	10
 swedishgamefair.myshopify.com	Swedish Game Fair - Frans August AB	10
@@ -124802,7 +124884,6 @@ tacticalarchery.co.uk	tacticalarchery.co.uk	14
 tacticaldistributors.com	tacticaldistributors.com	14
 tacticaldropship.com	Tactical Dropship Wholesale Drop Shippers	6
 tacticalrecoveryequipment.com	Tactical Recovery Equipment - Off Road Recovery and Towing Products Products	6
-tacticalshop24.com	tacticalshop24.com	7
 tacticaltactile.myshopify.com	Tactical Tactile	10
 tacticaltrophy.com	tacticaltrophy.com	14
 tacticoolgun.com	Tacti-Cool Guns Ammo and Gear	6
@@ -128616,7 +128697,7 @@ thepaperclip-co.myshopify.com	The Paper Clip & Co.	10
 thepapercupfactory.com	The Paper Cup Factory	6
 thepaperworm.com	thepaperworm.com	14
 theparadoxmerch.myshopify.com	The Paradox Merch Store	10
-theparkwholesale.com	theparkwholesale.com	14
+theparkwholesale.com	theparkwholesale.com	1
 theparrotplace.co.nz	The Parrot Place	6
 thepartycentre.com	The Party Centre	6
 thepassionatetoys.com	The Passionate Toys	6
@@ -130164,6 +130245,7 @@ tokotas-llc.myshopify.com	Tokotas LLC	10
 tokotoyz.jp	tokotoyz.jp	14
 tokubetsu.eu	Tokubetsu	6
 tokullectibles.com	tokullectibles.com	14
+tokupochi.com	tokupochi.com	14
 tokyo-beerzilla.myshopify.com	Tokyo BeerZilla	10
 tokyo-heartbeats.myshopify.com	Tokyo Heartbeats	10
 tokyo-recycle.net	tokyo-recycle.net	14
@@ -131322,10 +131404,11 @@ trippin-with-dixi.myshopify.com	TRIPPIN' WITH DIXI FIBER CO.	10
 tripplanner-store.myshopify.com	Trip Planner	10
 trippnyc.com	trippnyc.com	14
 trippyhippy.myshopify.com	TrippyHippy	10
+tripsy.app	tripsy.app	54
 tripuck.com	tripuck.com	7
 tripulse.myshopify.com	Tripulse	10
 tripwire-7402.myshopify.com	Tripwire	10
-triquetrahealth.com	triquetrahealth.com	1
+triquetrahealth.com	triquetrahealth.com	14
 trisha-yearwood.myshopify.com	Trisha Yearwood Official Store	10
 trishalyn.com	Trisha Lyn Gifts	6
 trishawaldrondesigns.com	Trisha Waldron Designs	6
@@ -131361,6 +131444,7 @@ troiseandsons.myshopify.com	troiseandsons	10
 troispilier-shop.myshopify.com	trois pilier	10
 trojanstorage.com	Trojan Storage	2
 trollbeads.com	trollbeads.com	16
+trollbeads.it	trollbeads.it	14
 trollcoclothing-com.myshopify.com	Troll Co.	10
 trolley-books.myshopify.com	Trolley Books	10
 trolltradercards.com	trolltradercards.com	14
@@ -131580,7 +131664,7 @@ try-forge.com	try-forge.com	14
 try-on-it-ao90d2z2.myshopify.com	try-on-it	8
 tryalma.com	Alma — US immigration legal services	2
 tryandscore.co.za	Tryandscore Sports (Pty) Ltd	6
-tryautobrush.com	tryautobrush.com	14
+tryautobrush.com	tryautobrush.com	1
 trybeafrica.com	Trybe Africa	6
 trybello.com	trybello.com	14
 tryblushe.com	tryblushe.com	14
@@ -131883,6 +131967,7 @@ turtlewax.com	turtlewax.com	14
 turuki-6585.myshopify.com	Turuki Health care	10
 tus-audio.myshopify.com	TUS Audio	10
 tuscanarchitectural.myshopify.com	Tuscan Hardware	10
+tuscanbasins.com	tuscanbasins.com	14
 tuscany-la-costa.myshopify.com	Spencer Grey Eyewear	10
 tuseibella.net	Tu Sei Bella	6
 tushlamp-by-tushled.myshopify.com	TUSHLAMP	10
@@ -132264,6 +132349,7 @@ uggexpress.com.au	uggexpress.com.au	14
 uggexpress.myshopify.com	UGG EXPRESS	10
 ugly-glass-co.myshopify.com	Ugly Glass & Co.	10
 ugly-prints.myshopify.com	Ugly Prints	10
+uglystik.com	uglystik.com	14
 ugmonk.com	ugmonk.com	14
 ugoexperience.it	Ugo Experience	6
 ugopaulon.myshopify.com	Ugo Paulon	10
@@ -132642,6 +132728,7 @@ unioncoffeeco.myshopify.com	Union Coffee Co.	10
 unionismpro.myshopify.com	UNION･ISM SHOP	10
 unionlosangeles.com	unionlosangeles.com	16
 unipv.it	Kiro — University of Pavia e-learning	2
+uniqbuy.in	uniqbuy.in	14
 uniqkart.in	uniqkart.in	14
 uniqlo-minimal.myshopify.com	uniqlo-minimal	10
 uniqlo.com	Uniqlo	2
@@ -132673,6 +132760,7 @@ uniquehousecollection.co.ke	Unique House Collection	6
 uniquelycomplex.myshopify.com	Uniquely Complex	10
 uniquelyinviting.com	Uniquely Inviting	6
 uniquelyuniversal.com.au	Uniquely Universal	6
+uniquemaps.co.uk	uniquemaps.co.uk	1
 uniquemaps.com	uniquemaps.com	14
 uniquemaps.eu	uniquemaps.eu	14
 uniquepiecefurniture.com	uniquepiecefurniture.com	14
@@ -132994,6 +133082,7 @@ urbanindustry.co.uk	urbanindustry.co.uk	1
 urbanithe.myshopify.com	Urbanithé	10
 urbanjaipur.com	Urban Jaipur	6
 urbanjngl.com	urbanjngl.com	24
+urbanjunglestore.com	urbanjunglestore.com	14
 urbanmedium.myshopify.com	UrbanMedium	10
 urbanmonkey.com	urbanmonkey.com	16
 urbanmood.sg	urbanmood.sg	14
@@ -133047,6 +133136,7 @@ urlvoid.com	urlvoid.com	1
 urneeds.co.uk	urneeds.co.uk	6
 urnes-begin.myshopify.com	Urnes Bégin	10
 urns-2.myshopify.com	Urns	10
+urns.com	urns.com	14
 urnsforsale.com.au	Urns for Sale	6
 urnstudios.com	urn studios	6
 uro-books.myshopify.com	Bookshop by Uro	10
@@ -133407,6 +133497,7 @@ valextra.com	valextra.com	16
 valgrai.eu	valgrAI	6
 valgusevabrik.ee	Võhma	6
 valhallaknives.com	Valhalla Knives	6
+valhallatactical.com.au	valhallatactical.com.au	16
 valhallavft.myshopify.com	Valhalla VFT	10
 valhalore.myshopify.com	Valhalore	10
 valid.co.hu	valid.co.hu	10
@@ -133989,6 +134080,7 @@ verdehaven.myshopify.com	Verde Haven	10
 verdeimports.com	Verde Import Company	6
 verdewatches.al	Verde Watches	6
 verdi-and-sparkletini.myshopify.com	Verdi and Sparkletini	10
+verdi.ro	verdi.ro	14
 verdipreserved.co.uk	Verdi Preserved	6
 verdunchocolates.myshopify.com	VerdunChocolates	10
 verdura.myshopify.com	Verdura	10
@@ -134087,6 +134179,7 @@ veryarsh.co.uk	Very Arsh	6
 verycoolthing.myshopify.com	Belro	10
 verygently.myshopify.com	verygently	10
 verymarts.com	Verymarts - Choose Life. Choose Style!	6
+verymuchindian.com	verymuchindian.com	14
 verynile.shop	VeryNile.Shop	10
 veryverityinteriors.co.uk	Very Verity Interiors	6
 veschwabstore.myshopify.com	V.E. Schwab Store	10
@@ -134587,6 +134680,7 @@ vintagevirginiaapples.myshopify.com	Vintage Virginia Apples	10
 vintagewatchbands.com	VintageWatchbands.com	10
 vintagewatcholic.in	vintagewatcholic.in	14
 vintagewholesalespain.com	vintagewholesalespain.com	14
+vintagewholesalesupplyltd.com	vintagewholesalesupplyltd.com	14
 vintagewoodngoods.myshopify.com	VINTARAMA	10
 vintagily.myshopify.com	The LED Heroes	10
 vintaprints.myshopify.com	Vintaprints	10
@@ -134953,6 +135047,7 @@ vlisco.com	vlisco.com	14
 vljaesthetics.myshopify.com	vljaesthetics	10
 vlmakesjewelry.myshopify.com	VLmakesJewelry	10
 vlntstore.myshopify.com	Valiant Airsoft Co.	10
+vloerkledenloods.nl	vloerkledenloods.nl	14
 vloved.ph	Vloved.ph	10
 vm-blue-online.myshopify.com	vm/ヴーム‐ONLINE STORE	10
 vmagazine.myshopify.com	VMagazine Shop	10
@@ -135417,6 +135512,7 @@ walkabout-platforms.myshopify.com	Walkabout Platforms	10
 walkaboutoutfitter.myshopify.com	Walkabout Outfitter	10
 walkaroo.in	walkaroo.in	14
 walkbyfaithoffcial.myshopify.com	WalkxFaithOfficial	10
+walkeaze.com	walkeaze.com	14
 walker-airsep-superstore.myshopify.com	Walker Airsep Superstore	10
 walker-hayes-official-store.myshopify.com	Walker Hayes Official Store	10
 walkerandhawkes.com	Walker & Hawkes	6
@@ -135553,6 +135649,7 @@ wannawanga.com	WannaWanga	6
 wanneroo-stockfeeders.myshopify.com	Wanneroo Stock Feeders	10
 wannifugang.myshopify.com	WANNI FUGA NIGERIA	10
 wanp.org	Washington Association for Naturopathic Physicians	6
+wanzar.com.my	wanzar.com.my	1
 wanzhi-steel.com	Wanzhi steel	6
 waowig-llc.myshopify.com	WAOWIG STUDIO	10
 wappi.pro	wappi.pro	4
@@ -136348,6 +136445,7 @@ werunshop.com	We Run Shop	6
 wes-snyder-photography-calendar.myshopify.com	Wes Snyder Photography Calendar	10
 wesbellwireandcable.com	WesBell Electronics	6
 weseeyougbgh.myshopify.com	We See You Campaign Merch	10
+weshoes.co.il	weshoes.co.il	14
 wesleep.bg	WeSleep.bg	10
 wesleyallen.com	Wesley Allen	6
 wesleybiblical.myshopify.com	Wesley Biblical Shop	10
@@ -137575,6 +137673,7 @@ wonderpetcare.myshopify.com	Wonderpetcare	10
 wonderprintshop.com	wonderprintshop.com	1
 wonders-journey.myshopify.com	Wonder's Journey	10
 wonderskin.com	wonderskin.com	1
+wondertivity.com.au	wondertivity.com.au	14
 wonderwoods.myshopify.com	Wonderwoods	10
 wondra-4782.myshopify.com	Wondra	8
 woneclean.com	WONE	6
@@ -139235,6 +139334,7 @@ zacs-sweet-shop.myshopify.com	Zac's Sweet Shop	10
 zadamusic.myshopify.com	ZADA OFFICIAL	10
 zadig-et-voltaire.com	zadig-et-voltaire.com	14
 zafyleather.com	Zafy Leather	6
+zag-store.com	zag-store.com	14
 zagbijoux.fr	zagbijoux.fr	14
 zagg.com	zagg.com	14
 zagrabba.com	Za Grabba	6
@@ -139332,7 +139432,7 @@ zazzol.myshopify.com	Zazzol	10
 zbarre-official.myshopify.com	ZBarre Official	10
 zbarreworkout.myshopify.com	ZBarre Official	10
 zbfnij-1q.myshopify.com	Roshni Candle Studio	10
-zbiotics.com	zbiotics.com	1
+zbiotics.com	zbiotics.com	14
 zbms.co.zw	Zimbabwe Building Materials Suppliers	6
 zbody-fitness.myshopify.com	ZBody Fitness	10
 zbpy6m-rr.myshopify.com	Goalker	10
@@ -139532,6 +139632,7 @@ zevana.co	zevana.co	14
 zevia.com	zevia.com	14
 zevkos.com	zevkos	6
 zexus-car.myshopify.com	株式会社ゼクサス	10
+zeya-brand.com	zeya-brand.com	14
 zeylanicabooks.com	Zeylanica Books	4
 zeynepdemirhan.myshopify.com	zepy	10
 zeytiniskelesi.myshopify.com	zeytiniskelesi	10
@@ -139583,7 +139684,7 @@ zillacoutureofficial.myshopify.com	Zilla Couture	10
 zillazon.com	Zillazon	6
 zillinger-weinshop.myshopify.com	Zillinger Weinshop	10
 zillionparts.com	zillionparts.com	1
-zillow.com	Zillow	12
+zillow.com	Zillow	15
 zilpahtart.com.au	Zilpah Tart	6
 zimadental.com	zimadental.com	14
 zimairdisplays.myshopify.com	ZimairDisplays	10
@@ -139591,6 +139692,7 @@ zimaspace.com	zimaspace.com	1
 zimbi.co.za	Zimbi	6
 zimgi.com	Zimgi Cosmetics	6
 zimmerli.com	zimmerli.com	16
+zimopouches.com	zimopouches.com	14
 zimsonwatches.com	zimsonwatches.com	14
 zinatexrugs.com	Zinatex Wholesale Rugs & LVP Luxury Vinyl Flooring	6
 zinc-cafe-market.myshopify.com	Zinc Cafe & Market	10
@@ -139765,7 +139867,7 @@ zulaykitchen.com	zulaykitchen.com	14
 zuleeg.myshopify.com	Wilhelm Zuleeg GmbH	10
 zuleika.london	Zuleika	6
 zulily.com	zulily.com	14
-zulusgames.com	zulusgames.com	1
+zulusgames.com	zulusgames.com	16
 zulutails.myshopify.com	ZuluTails	10
 zumba.com	zumba.com	4
 zumbadortequila.myshopify.com	Zumbador Tequila	10
