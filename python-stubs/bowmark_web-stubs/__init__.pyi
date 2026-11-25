@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 24a67fd4a06e9a7c353601a03422ee0c72c1c9090e4f407c513acac8588d14b4
-# 99 capabilities, 971 providers, 6072 typed functions, 20 refused.
+# Manifest version: b7aba4c50d784e92de62764fcf04453886e423c701986b48e19c717816c746b9
+# 99 capabilities, 971 providers, 6080 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36343,6 +36343,75 @@ class Prv_geico_GeicoAgentSearch_Out_searchedFrom_Out(TypedDict):
     latitude: float
     longitude: float
 
+class Prv_genius_GeniusArticle_Out(TypedDict):
+    id: float
+    title: str
+    dek: str | None
+    url: str
+    kind: str | None
+    author: str | None
+    publishedAt: str | None
+    imageUrl: str | None
+    votes: float
+    body: str
+    authors: list[str]
+    commentCount: float
+
+class Prv_genius_GeniusArticleList_Out(TypedDict):
+    page: float
+    nextPage: float | None
+    articles: list[Prv_genius_GeniusArticleSummary_Out]
+
+class Prv_genius_GeniusArticleSummary_Out(TypedDict):
+    id: float
+    title: str
+    dek: str | None
+    url: str
+    kind: str | None
+    author: str | None
+    publishedAt: str | None
+    imageUrl: str | None
+    votes: float
+
+class Prv_genius_GeniusUser_Out(TypedDict):
+    id: float
+    login: str
+    name: str | None
+    url: str
+    role: str | None
+    iq: float | None
+    about: str | None
+    avatarUrl: str | None
+    followers: float
+    following: float
+    annotationsCount: float
+    commentsCount: float
+    answersCount: float
+    questionsCount: float
+    transcriptionsCount: float
+    isVerified: bool
+    artistId: float | None
+
+class Prv_genius_GeniusUserAnnotations_Out(TypedDict):
+    userId: float
+    page: float
+    nextPage: float | None
+    annotations: list[Prv_genius_GeniusUserAnnotation_Out]
+
+class Prv_genius_GeniusUserAnnotation_Out(TypedDict):
+    id: float
+    fragment: str
+    url: str
+    annotator: str | None
+    state: str | None
+    verified: bool
+    votes: float
+    commentCount: float
+    body: str
+    songId: float | None
+    songTitle: str | None
+    createdAt: str | None
+
 class Prv_genius_GeniusAlbum_Out(TypedDict):
     id: float
     name: str
@@ -47396,6 +47465,33 @@ Prv_latimes_Recipe_Out = TypedDict(
     "steps": list[str],
     },
 )
+
+class Prv_latimes_GuideList_Out(TypedDict):
+    guides: list[Prv_latimes_GuideLink_Out]
+
+class Prv_latimes_GuideLink_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_latimes_GetGuideArgs_In(TypedDict):
+    url: str
+
+class Prv_latimes_Guide_Out(TypedDict):
+    url: str
+    title: str
+    description: str | None
+    publishedAt: str | None
+    places: list[Prv_latimes_GuidePlace_Out]
+
+class Prv_latimes_GuidePlace_Out(TypedDict):
+    rank: float
+    name: str
+    url: str | None
+    address: str | None
+    cuisine: list[str]
+    priceRange: str | None
+    description: str | None
+    image: str | None
 
 class Prv_launchpad_LaunchpadProject_Out(TypedDict):
     name: str
@@ -60689,6 +60785,46 @@ class Prv_pixabay_ImageDetail_Out_relatedImages_item_Out(TypedDict):
     id: str
     url: str
     thumbnailUrl: str | None
+
+class Prv_pixabay_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_pixabay_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_pixabay_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_pixabay_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_pixabay_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_pixabay_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_pixabay_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_pixabay_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_pizzahut_getMenu_args_In(TypedDict):
     storeNumber: str
@@ -110848,6 +110984,22 @@ class Prv_genius(Protocol):
     line of its lyrics, read a song's details and its full lyrics.
     """
 
+    async def getArticle(self, article: str | float, /) -> Prv_genius_GeniusArticle_Out:
+        """Reads one Genius news or video article by id: title, author, date and plain-text body."""
+
+    async def listArticles(self, page: float | None = None, /) -> Prv_genius_GeniusArticleList_Out:
+        """Lists Genius's own music news and video articles, newest first, 20 per page."""
+
+    async def getUser(self, user: str | float, /) -> Prv_genius_GeniusUser_Out:
+        """Reads a public Genius user by id: login, role, IQ, bio, followers and contribution
+        counts.
+        """
+
+    async def listUserAnnotations(self, user: str | float, page: float | None = None, /) -> Prv_genius_GeniusUserAnnotations_Out:
+        """Lists a Genius user's annotations, each with the lyric fragment, song, text and votes,
+        newest first.
+        """
+
     async def getAlbum(self, album: str | float, /) -> Prv_genius_GeniusAlbum_Out:
         """Reads a Genius album by id: artist, release date, cover, Genius's description and its
         track list (each track's song id).
@@ -117077,6 +117229,16 @@ class Prv_latimes(Protocol):
     async def getRecipe(self, args: Prv_latimes_GetRecipeArgs_In, /) -> Prv_latimes_Recipe_Out:
         """Reads one recipe from its url: ingredients, steps, yield, time, author and image, from
         the page's Recipe data.
+        """
+
+    async def listGuides(self, /) -> Prv_latimes_GuideList_Out:
+        """Lists the L.A. Times food, travel and lifestyle guides from the guides index (101 Best
+        Restaurants, best pizza, gift guides): title and url; pass a url to getGuide.
+        """
+
+    async def getGuide(self, args: Prv_latimes_GetGuideArgs_In, /) -> Prv_latimes_Guide_Out:
+        """Reads one guide from its url: each place's rank, name, address, cuisine, price range,
+        description and image, from the page's ItemList data.
         """
 
 class Prv_launchpad(Protocol):
@@ -124518,6 +124680,18 @@ class Prv_pixabay(Protocol):
     async def getImage(self, args: Prv_pixabay_GetImageArgs_In, /) -> Prv_pixabay_ImageDetail_Out:
         """Reads one image page: title, tags, creator, sizes, licence, views, downloads, likes and
         the related images.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_pixabay_signup_return_u0_Out | Prv_pixabay_signup_return_u1_Out | Prv_pixabay_signup_return_u2_Out | Prv_pixabay_signup_return_u3_Out:
+        """Makes a NEW Pixabay account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_pixabay_confirmSignup_return_u0_Out | Prv_pixabay_confirmSignup_return_u1_Out | Prv_pixabay_confirmSignup_return_u2_Out | Prv_pixabay_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_pizzahut(Protocol):

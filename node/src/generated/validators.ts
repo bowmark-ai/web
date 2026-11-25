@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 24a67fd4a06e9a7c353601a03422ee0c72c1c9090e4f407c513acac8588d14b4
-// 6072 checked, 20 unchecked.
+// Manifest version: b7aba4c50d784e92de62764fcf04453886e423c701986b48e19c717816c746b9
+// 6080 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "24a67fd4a06e9a7c353601a03422ee0c72c1c9090e4f407c513acac8588d14b4",
+  "version": "b7aba4c50d784e92de62764fcf04453886e423c701986b48e19c717816c746b9",
   "units": {
     "address_validation": {
       "defs": {
@@ -77158,6 +77158,73 @@ export const VALIDATORS: ValidatorTable = {
     "providers.genius": {
       "defs": {},
       "functions": {
+        "getArticle": [
+          {
+            "name": "article",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listArticles": [
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getUser": [
+          {
+            "name": "user",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listUserAnnotations": [
+          {
+            "name": "user",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
         "getAlbum": [
           {
             "name": "album",
@@ -77473,21 +77540,25 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getAlbum": "f8b73cefa1830179",
-        "getCharts": "6504bce822ebf0e6",
-        "getArtist": "8309c1b3eda22f15",
-        "listArtistAlbums": "cc165736200331ae",
-        "listArtistSongs": "485646e2b20b12cf",
-        "getAnnotation": "1f77e4ec7999f292",
-        "listSongComments": "26635e4ffb602beb",
-        "listSongQuestions": "a5a6c5ec82931962",
-        "listSongAnnotations": "e66512a05823c873",
-        "getLyrics": "5cc4f777b863a837",
-        "getSong": "c07826d48cb96b52",
-        "searchAlbums": "fc0153533e3afa8a",
-        "searchArtists": "7710cf069a325782",
-        "searchLyrics": "8c0c0e34b3262bfb",
-        "searchSongs": "b1e51aaee130d2ec"
+        "getArticle": "693c27a98b4fbd00",
+        "listArticles": "a6a3c617b4f233e0",
+        "getUser": "7506f89d6993c0ed",
+        "listUserAnnotations": "ee2ba36646b99c82",
+        "getAlbum": "8a5a5f3b67eeb7af",
+        "getCharts": "7b9a7d52a00ecb53",
+        "getArtist": "d4916dc3e4de25c0",
+        "listArtistAlbums": "217b891f6e7a92a5",
+        "listArtistSongs": "4c4be44b7b48d463",
+        "getAnnotation": "3c2f41b38930c9fe",
+        "listSongComments": "d15b344fb883bea7",
+        "listSongQuestions": "62ae8fad8c2e74bc",
+        "listSongAnnotations": "999b72ec69203d68",
+        "getLyrics": "cf865dbfce432e5e",
+        "getSong": "479f6493fe1d1d7f",
+        "searchAlbums": "cd3fd62193ac0eb8",
+        "searchArtists": "7e9861110e0e8ce1",
+        "searchLyrics": "fd31a0b1b81d6005",
+        "searchSongs": "06b5074fb772d3e1"
       }
     },
     "providers.github": {
@@ -102049,6 +102120,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetGuideArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetRecipeArgs": {
           "k": "object",
           "props": [
@@ -102216,20 +102299,33 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listGuides": [],
+        "getGuide": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGuideArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "listSections": "b1ba1819c6964c89",
-        "getAuthor": "4d2d5918246333f6",
-        "listHeadlines": "d7e868ac7f56d0b1",
-        "browseSection": "69c9f00619c52122",
-        "searchArticles": "2c86d5453139cbef",
-        "getArticle": "10f653c2700e48d6",
-        "listLatestArticles": "5e178a4d3140bdda",
-        "listTopics": "d6efc87cf72d56d7",
-        "browseTopic": "916d60bdf2d2f820",
-        "searchRecipes": "6a454964053b4f3f",
-        "getRecipe": "9039e25854f31507"
+        "listSections": "25b0fbb1b3c41894",
+        "getAuthor": "2a25ffc5ff0686be",
+        "listHeadlines": "b69455b76c995b3f",
+        "browseSection": "eb7b59612de77199",
+        "searchArticles": "b64c0f05b639b947",
+        "getArticle": "8bac13bb4dc1f8b1",
+        "listLatestArticles": "f319d3d7109e5e00",
+        "listTopics": "cfc4f103e7e578df",
+        "browseTopic": "db4fbc14c6321c6f",
+        "searchRecipes": "7e6a72aebed154c6",
+        "getRecipe": "b8cebe12d17f3d3e",
+        "listGuides": "dc59e5c0956c9727",
+        "getGuide": "a8c99d9916795852"
       }
     },
     "providers.launchpad": {
@@ -126972,13 +127068,13 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "c2e9ca0cd0bc63c6",
-        "checkAvailability": "7327daf12a811b83",
-        "startBooking": "bc179fe32ff17709",
-        "confirmBooking": "6c585605f0557fc7",
-        "cancelBooking": "722d3a6b17fe838d",
-        "getBooking": "4d0d5511d0d107dc",
-        "listMyReservations": "9a937f756782ecbe"
+        "search": "9aeabb25f7cc7669",
+        "checkAvailability": "4d91c4c12464c13d",
+        "startBooking": "774d7bb2ada31e08",
+        "confirmBooking": "bd4a4148c131ba3f",
+        "cancelBooking": "82eeaa90a5f4ea05",
+        "getBooking": "7b20e344dd085c3c",
+        "listMyReservations": "22965c0e0e55f341"
       }
     },
     "providers.ophanimus_com": {
@@ -132720,11 +132816,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
         "searchImages": "fffbbbe992b9a736",
-        "getImage": "08bc31f1602a85ae"
+        "getImage": "08bc31f1602a85ae",
+        "signup": "ca9770c9045607e0",
+        "confirmSignup": "2698bb832df48cd9"
       }
     },
     "providers.pizzahut": {

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 24a67fd4a06e9a7c353601a03422ee0c72c1c9090e4f407c513acac8588d14b4
-// 99 capabilities, 971 providers, 6100 typed functions, 20 refused.
+// Manifest version: b7aba4c50d784e92de62764fcf04453886e423c701986b48e19c717816c746b9
+// 99 capabilities, 971 providers, 6108 typed functions, 20 refused.
 // 122,906 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -56692,11 +56692,101 @@ interface GeniusSongQuestions {
   questions: GeniusQuestion[]; // The Q&A the song page ships, pinned questions first.
 }
 
+interface GeniusArticleSummary {
+  id: number;
+  title: string;
+  dek: string | null;
+  url: string;
+  kind: string | null; // Genius article type, e.g. "news" or "video".
+  author: string | null;
+  publishedAt: string | null; // ISO timestamp.
+  imageUrl: string | null;
+  votes: number;
+}
+
+interface GeniusArticleList {
+  page: number;
+  nextPage: number | null; // The next page number, or null when no more.
+  articles: GeniusArticleSummary[];
+}
+
+interface GeniusArticle {
+  id: number;
+  title: string;
+  dek: string | null;
+  url: string;
+  kind: string | null; // Genius article type, e.g. "news" or "video".
+  author: string | null;
+  publishedAt: string | null; // ISO timestamp.
+  imageUrl: string | null;
+  votes: number;
+  body: string; // The article text, plain.
+  authors: string[];
+  commentCount: number;
+}
+
+interface GeniusUser {
+  id: number;
+  login: string;
+  name: string | null;
+  url: string;
+  role: string | null;
+  iq: number | null;
+  about: string | null;
+  avatarUrl: string | null;
+  followers: number;
+  following: number;
+  annotationsCount: number;
+  commentsCount: number;
+  answersCount: number;
+  questionsCount: number;
+  transcriptionsCount: number;
+  isVerified: boolean;
+  artistId: number | null; // The artist page id when the user is an artist.
+}
+
+interface GeniusUserAnnotation {
+  id: number;
+  fragment: string; // The lyric line(s) the annotation is attached to.
+  url: string;
+  annotator: string | null;
+  state: string | null;
+  verified: boolean;
+  votes: number;
+  commentCount: number;
+  body: string;
+  songId: number | null;
+  songTitle: string | null;
+  createdAt: string | null; // ISO timestamp.
+}
+
+interface GeniusUserAnnotations {
+  userId: number;
+  page: number;
+  nextPage: number | null; // The next page number, or null when no more.
+  annotations: GeniusUserAnnotation[];
+}
+
   /**
    * Genius (genius.com) song lyrics: search songs, artists and albums, find a song from a line
    * of its lyrics, read a song's details and its full lyrics.
    */
   interface Unit {
+    /** Reads one Genius news or video article by id: title, author, date and plain-text body. */
+    getArticle(article: string | number): Promise<GeniusArticle>;
+
+    /** Lists Genius's own music news and video articles, newest first, 20 per page. */
+    listArticles(page?: number): Promise<GeniusArticleList>;
+
+    /** Reads a public Genius user by id: login, role, IQ, bio, followers and contribution counts. */
+    getUser(user: string | number): Promise<GeniusUser>;
+
+    /**
+     * Lists a Genius user's annotations, each with the lyric fragment, song, text and votes,
+     * newest first.
+     */
+    listUserAnnotations(user: string | number, page?: number): Promise<GeniusUserAnnotations>;
+
     /**
      * Reads a Genius album by id: artist, release date, cover, Genius's description and its track
      * list (each track's song id).
@@ -74429,6 +74519,38 @@ interface Recipe {
   steps: string[];
 }
 
+interface GuideLink {
+  title: string;
+  url: string;
+}
+
+interface GuideList {
+  guides: GuideLink[];
+}
+
+interface GetGuideArgs {
+  url: string;
+}
+
+interface GuidePlace {
+  rank: number;
+  name: string;
+  url: string | null;
+  address: string | null;
+  cuisine: string[];
+  priceRange: string | null;
+  description: string | null;
+  image: string | null;
+}
+
+interface Guide {
+  url: string;
+  title: string;
+  description: string | null;
+  publishedAt: string | null;
+  places: GuidePlace[];
+}
+
 interface NavSection {
   name: string;
   path: string;
@@ -74564,6 +74686,18 @@ interface BrowseTopicArgs {
      * page's Recipe data.
      */
     getRecipe(args: GetRecipeArgs): Promise<Recipe>;
+
+    /**
+     * Lists the L.A. Times food, travel and lifestyle guides from the guides index (101 Best
+     * Restaurants, best pizza, gift guides): title and url; pass a url to getGuide.
+     */
+    listGuides(): Promise<GuideList>;
+
+    /**
+     * Reads one guide from its url: each place's rank, name, address, cuisine, price range,
+     * description and image, from the page's ItemList data.
+     */
+    getGuide(args: GetGuideArgs): Promise<Guide>;
   }
 }
 
@@ -91684,8 +91818,8 @@ interface OpenTableRestaurant {
   longitude: number | null;
 }
 
-// A fast read of a restaurant a search already named carries the SEARCH row's fields:
-// address, cuisine, priceBand, rating, reviewCount and maxPartySize may then be null.
+// A fast read of a restaurant a search already named fills address, cuisine, priceBand
+// and rating from the restaurant's page; if that page read is refused, they may be null.
 // slots are always read live.
 interface OpenTableAvailability extends OpenTableRestaurant {
   date: string;
@@ -95642,6 +95776,20 @@ interface ImageDetail {
      * related images.
      */
     getImage(args: GetImageArgs): Promise<ImageDetail>;
+
+    /**
+     * Makes a NEW Pixabay account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
