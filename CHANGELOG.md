@@ -7,6 +7,490 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.40.0 (2026-11-25)
+
+**Websites**
+
+- +217 websites, +4,906 functions, -2 websites, -1,390 functions. 140,647 websites and 1,342,451 functions in all.
+
+Added:
+
+- 217 websites, functions not listed yet:
+  - activetruth.com.au
+  - al-ikhsan.com
+  - alborgdx.com
+  - allgeareduputv.com
+  - anfos.it
+  - antler.com
+  - aqua-teck.de
+  - armeriapato.com
+  - atlantis-comics.com
+  - atmos.ph
+  - atol-bs.com
+  - aubinandwills.com
+  - auregistre.fr
+  - avenlur.com
+  - avia.lt
+  - axesfemme-kawaii.com
+  - bellabathrooms.co.za
+  - berettagalleryusa.com
+  - bicyclesquilicot.com
+  - blendbunnycosmetics.com
+  - bolpianos.com
+  - bonprix.hr
+  - booknook.de
+  - brecksbulbs.ca
+  - brics-craft.com
+  - bspot.com
+  - buddhaspa.com.br
+  - bump.sh
+  - callaghan.es
+  - camillelavie.com
+  - cardgrader.ai
+  - cardzone.es
+  - cartoys.com
+  - chiquel.ca
+  - clarks.com.au
+  - cornishseaweedbath.co.uk
+  - currier.org
+  - d1store.com.au
+  - dansfish.com
+  - desenvolvecidade.com.br
+  - discgolfdealsusa.com
+  - dislicores.com
+  - dodojewels.com
+  - dolcevitahub.com
+  - donajobrand.com
+  - easyplumbing.com
+  - elfaleh.sa
+  - eliveragroup.com
+  - evamats.pl
+  - fabulove.co
+  - filigreejewelers.com
+  - fitnesssuperstore.com
+  - foodi.de
+  - forevernew.co.nz
+  - french-bandit.com
+  - frenchicpaint.co.uk
+  - gallo1927.com
+  - gearwrenchshop.com
+  - gemsmantra.com
+  - genoma.work
+  - glasshousefragrances.com
+  - glucora-lab.com
+  - goldcanna.com
+  - goodprotein.ca
+  - gorillacasestore.com
+  - growhub.ae
+  - gummy.com.br
+  - gym-side.de
+  - harobikes.com
+  - hera.com
+  - herbalgoodnessco.com
+  - horizondiecast.com
+  - hotelroost.com
+  - illcurrency.com
+  - importbike.mx
+  - incase.com
+  - infinitytools.com
+  - invokely.ai
+  - istorm.gr
+  - istyle.bg
+  - italianshoescompany.com
+  - ivonne.com
+  - jamiekay.com.au
+  - jewelove.in
+  - jewelrugs.com
+  - jimmyeatworld.com
+  - jlmmarine.com
+  - josephjewelry.com
+  - julzshoes.com
+  - keenielts.com
+  - kendamil.com
+  - kernowmodelrailcentre.com
+  - kidzstation.co.id
+  - kingmcneal.com
+  - kinsarvik.no
+  - kipalohadamesmode.nl
+  - klikk.com.mt
+  - koalababycare.com
+  - kobitos.com
+  - kokorojapanstore.com
+  - konnybaby.jp
+  - koreacosmeticsbn.com
+  - krishnawatch.com
+  - kruschiki.com
+  - kurk24.nl
+  - lacariaricami.store
+  - ladylee.net
+  - lakshita.com
+  - langevinforest.com
+  - lapetiteetoile.com
+  - lashilebeauty.com
+  - latestbuy.fr
+  - ldj.com
+  - leaderonline.com
+  - leanintree.com
+  - lepratique-du-motard.fr
+  - leuchtturm1917.us
+  - libascollective.com
+  - likebrands.gr
+  - lilibee.com.br
+  - lindasdekor.no
+  - littlepartydress.com.au
+  - lojacoty.com.br
+  - lojavirus.com.br
+  - lollipops.fr
+  - lonowear.com
+  - lovable.it
+  - lowbank.com.br
+  - lucky.diamonds
+  - luvland.co.za
+  - luxurionworld.com
+  - lyft-fit.com
+  - madesa.mx
+  - maenwatches.com
+  - maha.com.mx
+  - mahajanelectronics.com
+  - maisonh.com
+  - maisonspecial.co.jp
+  - malaika.jp
+  - marais.com.au
+  - marshallscientific.com
+  - materialhandling.com
+  - mecrobremake.com
+  - meinmaison.de
+  - merchantoftennis.com
+  - mintcollectables.com.au
+  - mintwellautotech.com
+  - mitchellbarocio.com
+  - miumlab.com
+  - mizuno-hk.com
+  - mode-klein.com
+  - monticelloshop.org
+  - musclepower.pl
+  - muziker.ee
+  - myfancydress.ie
+  - myplusone.com
+  - myxprs.com
+  - ncr.gov.ua
+  - neofaa.com
+  - nitrosnowboards.com
+  - normatel.com.br
+  - oasiscloud.co.uk
+  - ohmybag.com
+  - onlyfresh.com
+  - optica.africa
+  - pacersteamstore.com
+  - pagewings.com
+  - performancebyie.com
+  - podiumarcher.com
+  - polipet.com.br
+  - pramogh.com
+  - privateflare.com
+  - raptorracing.com
+  - reebok.co.za
+  - rekhtabooks.com
+  - resparked.com
+  - romance.com.br
+  - roycebridal.com
+  - sagamorepub.com
+  - sansarushop.com
+  - scentfill.com
+  - scottsigler.com
+  - shopkynah.com
+  - sleevechief.de
+  - snydepels.dk
+  - sodastream.fr
+  - spinning.com
+  - sportdepot.rs
+  - stanray.com
+  - stealcontent.com
+  - stevemadden.com.au
+  - taappliance.com
+  - tamparugcenter.com
+  - thecouchpotatofurniture.com
+  - thegoring.com
+  - thestraptailor.com
+  - thewanderclub.com
+  - thornebros.com
+  - tiaracle.com
+  - ticketmundi.com
+  - topline.com.sa
+  - trayvax.com
+  - treadmillfactory.ca
+  - tryeverwellhealth.com
+  - twentysix26.com
+  - upairy.com
+  - vetzpetz.jp
+  - viamaja.se
+  - vitellimoda.com
+  - vpsbenchmarks.com
+  - wavs.com
+  - woodbrass.it
+  - yame.vn
+  - yauras.cl
+  - yukongear.com
+  - zesalovo.com
+  - zone3.com
+
+Changed:
+
+- 106 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`; removed `search_shop_policies_and_faqs`:
+  - 360oder.com
+  - 4ocean.com
+  - 5hourenergy.com
+  - aersf.com
+  - alexanderwang.com
+  - allianceapps.io
+  - animota.net
+  - ansaldo.cl
+  - anthbot.com
+  - arzopa.com
+  - automation-warehouse.com
+  - beachcamera.com
+  - bond-touch.com
+  - bustedtees.com
+  - camilla.com
+  - cascadedesigns.com
+  - choosemuse.com
+  - civilim.com
+  - cklinternational.com
+  - clarks.co.jp
+  - cloudnineclothing.ca
+  - creatinghome.nl
+  - davidwolfe.com
+  - dcshoes.com
+  - deerruntreadmill.com
+  - dharmatrading.com
+  - drinkcirkul.com
+  - electrosalam.ma
+  - espressomaschinendoctor.de
+  - estro.pl
+  - fabheavyparts.com
+  - fabricsight.com
+  - familiar.co.jp
+  - fantagraphics.com
+  - farmaciasdirect.es
+  - footway.com
+  - forever21.com
+  - garagebuddy.com
+  - gatta.pl
+  - gempages.net
+  - goretroid.com
+  - icrush.de
+  - inventta.eu
+  - istyle.ae
+  - jenniferbehr.com
+  - jovs.com
+  - kagedmuscle.com
+  - kellywearstler.com
+  - kent.co.in
+  - kinokuniya.com.sg
+  - kiwibit.com
+  - kleinfeldbridal.com
+  - kontrolfreek.com
+  - lightbulbs.com
+  - limitedrungames.com
+  - lisaeldridge.com
+  - lorenzouomo.com
+  - lovellsports.com
+  - lymphoria.co
+  - magicatwillis.co.nz
+  - maileg.com
+  - mailegusa.com
+  - maqio.com
+  - marienicoleclothing.com
+  - mcricharddesignerbrands.com
+  - mdfskirtingmouldings.co.uk
+  - modazehrada.com
+  - molecularcompany.com
+  - mozaracing.com
+  - mytropicalhomestead.com
+  - neakasa.com
+  - netvue.com
+  - ohuhu.com
+  - onebioshop.com
+  - opositiv.com
+  - ovolin.se
+  - peachmode.com
+  - petiteknit.com
+  - playosmo.com
+  - plenitudedistribuidora.com.br
+  - qskinz.com
+  - reefcoaquariums.com
+  - relapse.com
+  - relojes.com
+  - renpho.com
+  - revibe.co.za
+  - ringconn.com
+  - rockstaroriginal.com
+  - rootandbones.com
+  - rubans.in
+  - sanuk.com
+  - scepterpublishers.org
+  - sidalih.com
+  - stretta.org
+  - supplystop.com
+  - suzyshier.com
+  - tartantoday.com
+  - theskinnyfoodco.com
+  - trees.com
+  - tshirt.st
+  - twinings.co.uk
+  - undrdog.com
+  - velvetcaviar.com
+  - wallblush.com
+  - willies.com
+  - zox.co
+- 56 websites, each added `search_shop_policies_and_faqs`; removed `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`:
+  - anovaculinary.com
+  - arcteryx.jp
+  - bayoptiks.com
+  - biffi.com
+  - bisonfurniture.com
+  - buckle-down.com
+  - carrera-toys.com
+  - circledna.com
+  - cnd.com
+  - culturesforhealth.com
+  - cutsclothing.com
+  - decathlon.com
+  - dissh.com
+  - downpour.com
+  - dripdrop.com
+  - erbolario.com
+  - foco.com
+  - gummymolds.com
+  - hardnheavy.style
+  - haylou.com
+  - hellomerch.com
+  - hulkapps.com
+  - ichiba-japan.com
+  - ideou.com
+  - iheartraves.com
+  - insaraf.com
+  - joby.com
+  - jordancraig.com
+  - kusmitea.com
+  - leatherology.com
+  - libernovo.com
+  - lightburnsoftware.com
+  - maxesport.gg
+  - mobilepixels.us
+  - mybinding.com
+  - nakedcph.com
+  - ordernation.com
+  - overkillshop.com
+  - parts4engines.com
+  - partsvu.com
+  - paulmitchell.com
+  - sandandfoghome.com
+  - shop4tesla.com
+  - shoplc.com
+  - simplemodern.com
+  - skechers.se
+  - sokks-official.com
+  - stayhard.com
+  - tenthousand.cc
+  - thehouseofrare.com
+  - thewillowtree.com
+  - upaupatahiti.com
+  - vuzix.com
+  - willemsefrance.fr
+  - wyze.com
+  - xteink.com
+- 35 websites, each added `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`; removed `search_shop_policies_and_faqs`:
+  - bandwagonsports.com
+  - baseballism.com
+  - betseyjohnson.com
+  - billiards.com
+  - bornprimitive.com
+  - drakewaterfowl.com
+  - fasthouse.com
+  - gormanshop.com.au
+  - gundamplanet.com
+  - huk.com
+  - intimaly.com
+  - lagence.com
+  - lolaandtheboys.com
+  - lucyandyak.com
+  - maiwa.com
+  - nerigestory.com
+  - neweracap.com
+  - peace-collective.com
+  - riadtile.com
+  - rsvlts.com
+  - sanrio.com
+  - skims.com
+  - sokobox.cl
+  - stopboxusa.com
+  - thebodyshop.com
+  - thecubicle.com
+  - thirdlove.com
+  - tilfi.com
+  - tog24.com
+  - toycollectorsindia.com
+  - twentysidedstore.com
+  - ultrafootball.com
+  - varusteleka.com
+  - winstores.com
+  - wwwcollections.in
+- 18 websites, each added `search_shop_policies_and_faqs`; removed `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `lookup_locations`, `search_catalog`, `search_locations`, `update_cart`, `update_checkout`:
+  - bedbathandbeyond.co.nz
+  - bog-ide.dk
+  - conbipel.com
+  - dossier.co
+  - dvf.com
+  - easy-clothes.com
+  - enve.com
+  - gallerydept.com
+  - margauxny.com
+  - naturepedic.com
+  - obsessedgarage.com
+  - pittsburghsprayequip.com
+  - rebike.com
+  - saneshoppe.com
+  - shadyrays.com
+  - simgasm.com
+  - skiuphill.ca
+  - sweetlegs.ca
+- lambdatest.com: added `agent_testing_explain_result`, `agent_testing_find_scenarios`, `agent_testing_get_results`, `agent_testing_overview`, `agent_testing_run_suite`; removed `getSuiteOverview`, `triggerSuiteRun`
+- gorgias.com: added `create_http_integration`; changed `create_widget`, `list_http_integration_logs`
+- kiddom.co: added `get_atlas_standalone_coach_guide`; changed `read_attachment`
+- keenable.ai: added `get_billing`; changed `fetch_page_content`, `search_web_pages`
+- sairam.cl: added `get_category`, `get_store_info`, `list_categories`, `list_products`, `search_policies`, `search_products`; changed `get_product`; removed `cancel_cart`, `create_cart`, `get_cart`, `lookup_catalog`, `search_catalog`, `update_cart`
+- producthunt.com: added `get_comment_thread`, `list_comments`, `search_mcp_servers`; changed `get_launch_preview_view`, `search_products`, `start_launch`, `update_launch`
+- criptonoticias.com: added `get_etiqueta`, `listar_etiquetas`; changed `get_dossier`, `listar_dossiers`
+- independent.co.uk: added `getAccount`, `unsubscribeFromNewsletter`
+- nbcnews.com: added `getRecipe`, `getSlideshow`, `listSelectDeals`
+- alpinloacker.com: added `lookup_locations`, `search_locations`
+- worldmonitor.app: added `query_docs_filesystem_world_monitor`, `search_world_monitor`, `submit_feedback`; removed `analyze_news_headlines`, `analyze_situation`, `classify_event`, `compute_energy_shock`, `describe_tool`, `extract_entities`, `find_webcams`, `get_airspace`, `get_alert_digest`, `get_aviation_status`, `get_bilateral_tariff`, `get_capital_flows`, `get_china_decision_signals`, `get_chokepoint_dependencies`, `get_chokepoint_status`, `get_climate_data`, `get_commodity_geo`, `get_company_intelligence`, `get_conflict_events`, `get_consumer_prices`, `get_country_brief`, `get_country_brief_section`, `get_country_coverage`, `get_country_history`, `get_country_imagery_evidence`, `get_country_macro`, `get_country_risk`, `get_cross_border_arrivals`, `get_cyber_threats`, `get_defense_industrial_base`, `get_demographics_capability`, `get_displacement_data`, `get_economic_data`, `get_energy_intelligence`, `get_five_factor_scorecard`, `get_focal_points`, `get_food_stocks`, `get_forecast_case`, `get_forecast_predictions`, `get_forecast_scorecard`, `get_forecast_theaters`, `get_fred_series`, `get_global_air_activity`, `get_gold_intelligence`, `get_health_signals`, `get_hotspot_escalation`, `get_imd_cyclone_marine`, `get_infrastructure_status`, `get_intel_timeline`, `get_keyword_spikes`, `get_macro_history`, `get_maritime_activity`, `get_market_data`, `get_mcp_allowance`, `get_media_perspective`, `get_military_posture`, `get_military_surge`, `get_mineral_production`, `get_natural_disasters`, `get_news_clusters`, `get_news_intelligence`, `get_no2_activity`, `get_oil_trade_series`, `get_point_satellite_passes`, `get_population_exposure`, `get_positive_events`, `get_prediction_markets`, `get_price_and_debt_indicators`, `get_procurement_opportunities`, `get_radiation_data`, `get_research_signals`, `get_reservoir_levels`, `get_resilience_indicators`, `get_sanctions_data`, `get_signal_convergence`, `get_similar_events`, `get_social_velocity`, `get_sources`, `get_stock_research`, `get_supply_chain_cost_shock`, `get_supply_chain_data`, `get_supply_vulnerabilities`, `get_tariff_averages`, `get_temporal_anomalies`, `get_test_site_seismicity`, `get_us_import_duty`, `get_watched_site_imagery`, `get_webcam_media`, `get_world_brief`, `get_wto_trade_flows`, `list_x_feed`, `open_country_brief`, `open_news_dashboard`, `prepare_travel_risk_assessment`, `report_issue`, `search_flights`, `search_intel_history`, `simulate_infrastructure_cascade`, `start_upgrade`, `verify_claim`
+- nsnlookup.com: added `seller_inventory_remove`, `seller_inventory_search`, `seller_inventory_summary`, `seller_inventory_update`
+- usercentrics.com: added `send_compliance_scan_report`; changed `start_compliance_scan`
+- msg91.com: added `send_feedback_to_msg91`
+- pushpress.com: added `signWaiver`
+- levels.fyi: changed `add-salary-submission`
+- pixellab.ai: changed `animate_character`, `create_image_pixflux`, `create_ui_asset`, `edit_map`
+- kaggle.com: changed `create_benchmark_arena_settings`, `update_benchmark_arena_settings`
+- chainstack.com: changed `create_node_access_rule`, `delete_node`, `delete_node_access_rule`, `delete_project`, `get_node`, `get_project`, `list_node_access_rules`, `set_node_access_rules_status`, `update_node`, `update_node_access_rule`, `update_project`
+- files.fm: changed `filesfm_dvs_add_comment`, `filesfm_dvs_create_document`, `filesfm_dvs_get_comments`, `filesfm_dvs_get_document`, `filesfm_dvs_get_fields`, `filesfm_dvs_get_users`, `filesfm_dvs_list_documents`, `filesfm_dvs_update_document`, `filesfm_dvs_upload_file`
+- railway.app: changed `fork-create`
+- equibles.com: changed `GetFinancialFact`, `GetLatestEconomicIndicators`, `GetTopHolders`, `GetTopInstitutionalBuyersSellers`, `GetValuationMultiples`
+- linkrunner.io: changed `list_event_names`, `search_event_log`
+- siemens.com: changed `siemens_get_web_content`
+- relvato.com: changed `update_check_settings`
+- pixly.gg: changed `updateServer`
+- primitive.dev: removed `addDomain`, `cancelScheduledSend`, `createEndpoint`, `createFilter`, `createFunction`, `createRoute`, `createWakeAuthorization`, `createWakeSchedule`, `deleteContact`, `deleteEndpoint`, `deleteFilter`, `deleteFunction`, `deleteMemory`, `deleteRepeatingSend`, `deleteRoute`, `deleteWakeAuthorization`, `deleteWakeSchedule`, `downloadDomainZoneFile`, `downloadEmailAttachments`, `getContact`, `getContactPolicy`, `getFunction`, `getFunctionTestTrace`, `getInteraction`, `getMemory`, `getRepeatingSend`, `getThread`, `getWakeSchedule`, `listContacts`, `listDomains`, `listEndpoints`, `listFilters`, `listFunctionInvocations`, `listFunctionLogs`, `listFunctions`, `listInteractions`, `listRepeatingSends`, `listRoutes`, `listWakeAuthorizations`, `listWakeDispatches`, `listWakeSchedules`, `listWebhookDeliveries`, `putContact`, `putContactPolicy`, `redeployFunction`, `reorderRoutes`, `replayWebhookDelivery`, `rescheduleSend`, `runWakeSchedule`, `searchMemories`, `setMemory`, `simulateRoute`, `testEndpoint`, `testFunction`, `updateFunction`, `updateRepeatingSend`, `updateRoute`, `updateWakeAuthorization`, `updateWakeSchedule`, `verifyDomain`
+- vrc-booth.com: removed `search_products_by_image`
+
+Removed:
+
+- fontbros.com: `get_foundry`, `get_license_overview`, `get_product`, `list_font_categories`, `list_foundries`, `recommend_fonts`, `search_fonts`
+- kojodan.jp: `search-castle`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.39.0 (2026-11-24)
 
 **Websites**
