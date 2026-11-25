@@ -1,5 +1,5 @@
 {
-  "version": "b7aba4c50d784e92de62764fcf04453886e423c701986b48e19c717816c746b9",
+  "version": "c6388fb1f2bcd0c00693547eb491c42451c8ab87894d5fdb22bd3a62654cbed1",
   "units": {
     "address_validation": {
       "defs": {
@@ -62741,6 +62741,81 @@
         "getSofaConfiguration": "9fafa4fd481f7de3"
       }
     },
+    "providers.equibase": {
+      "defs": {
+        "EquibaseListRaceCardsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "track",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "when",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "EquibaseRaceEntriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "trackCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listRaceCards": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "EquibaseListRaceCardsOptions"
+            },
+            "optional": false
+          }
+        ],
+        "getRaceEntries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EquibaseRaceEntriesArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listRaceCards": "d8acf60c04d36f93",
+        "getRaceEntries": "b21fd1070174f18a"
+      }
+    },
     "providers.equinox_hotels": {
       "defs": {
         "SearchEquinoxRatesArgs": {
@@ -102298,22 +102373,24 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listPuzzles": []
       },
       "digests": {
-        "listSections": "25b0fbb1b3c41894",
-        "getAuthor": "2a25ffc5ff0686be",
-        "listHeadlines": "b69455b76c995b3f",
-        "browseSection": "eb7b59612de77199",
-        "searchArticles": "b64c0f05b639b947",
-        "getArticle": "8bac13bb4dc1f8b1",
-        "listLatestArticles": "f319d3d7109e5e00",
-        "listTopics": "cfc4f103e7e578df",
-        "browseTopic": "db4fbc14c6321c6f",
-        "searchRecipes": "7e6a72aebed154c6",
-        "getRecipe": "b8cebe12d17f3d3e",
-        "listGuides": "dc59e5c0956c9727",
-        "getGuide": "a8c99d9916795852"
+        "listSections": "5e929d7fdaf90559",
+        "getAuthor": "1e05ad331b341ef7",
+        "listHeadlines": "72196ed14e7a800c",
+        "browseSection": "c63060e785f08c78",
+        "searchArticles": "ac515d58b52ff74b",
+        "getArticle": "1dae885afbcb4347",
+        "listLatestArticles": "db0a29138b5cda84",
+        "listTopics": "69ea3ca38f876e72",
+        "browseTopic": "f7da1ccf7a12749a",
+        "searchRecipes": "4d6f8374d54eaa1c",
+        "getRecipe": "d91a6067d5c09558",
+        "listGuides": "0846455f11f5ff5a",
+        "getGuide": "609b87d7e1134054",
+        "listPuzzles": "be5192b641ecbb12"
       }
     },
     "providers.launchpad": {
@@ -162872,6 +162949,31 @@
             "optional": true
           }
         ],
+        "searchPressReleases": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getPressRelease": [
           {
             "name": "url",
@@ -162888,6 +162990,7 @@
         "listCountries": "6d69b9de9b9d3495",
         "getCountry": "59291bbb7038be2b",
         "listPressReleases": "f434d9b76ad65831",
+        "searchPressReleases": "4dc526ac050eaf9a",
         "getPressRelease": "3cd196afe2119dbf"
       }
     },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b7aba4c50d784e92de62764fcf04453886e423c701986b48e19c717816c746b9
-# 99 capabilities, 971 providers, 6080 typed functions, 20 refused.
+# Manifest version: c6388fb1f2bcd0c00693547eb491c42451c8ab87894d5fdb22bd3a62654cbed1
+# 99 capabilities, 972 providers, 6084 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -29866,6 +29866,54 @@ class Prv_eq3_Eq3OptionItem_Out(TypedDict):
     alias: str
     price: float | None
 
+class Prv_equibase_EquibaseListRaceCardsOptions_In(TypedDict):
+    track: NotRequired[str]
+    when: NotRequired[str]
+
+class Prv_equibase_EquibaseRaceCard_Out(TypedDict):
+    trackCode: str
+    trackName: str
+    country: str
+    date: str
+    when: str
+    raceCount: float
+    url: str
+
+class Prv_equibase_EquibaseRaceEntriesArgs_In(TypedDict):
+    trackCode: str
+    date: str
+    country: NotRequired[str]
+
+class Prv_equibase_EquibaseRaceEntries_Out(TypedDict):
+    trackCode: str
+    trackName: str | None
+    country: str
+    date: str
+    url: str
+    races: list[Prv_equibase_EquibaseRace_Out]
+
+class Prv_equibase_EquibaseRace_Out(TypedDict):
+    raceNumber: float
+    postTime: str | None
+    raceType: str | None
+    conditions: str | None
+    purse: str | None
+    wagers: str | None
+    entries: list[Prv_equibase_EquibaseEntry_Out]
+
+class Prv_equibase_EquibaseEntry_Out(TypedDict):
+    programNumber: str
+    postPosition: str | None
+    horse: str
+    horseId: str | None
+    ageSex: str | None
+    medication: str | None
+    claimPrice: str | None
+    jockey: str | None
+    weight: str | None
+    trainer: str | None
+    morningLine: str | None
+
 class Prv_equinox_hotels_EquinoxRoom_Out(TypedDict):
     code: str
     name: str
@@ -47492,6 +47540,15 @@ class Prv_latimes_GuidePlace_Out(TypedDict):
     priceRange: str | None
     description: str | None
     image: str | None
+
+class Prv_latimes_PuzzleList_Out(TypedDict):
+    games: list[Prv_latimes_PuzzleGame_Out]
+
+class Prv_latimes_PuzzleGame_Out(TypedDict):
+    gameId: str
+    title: str
+    url: str
+    description: str | None
 
 class Prv_launchpad_LaunchpadProject_Out(TypedDict):
     name: str
@@ -74610,6 +74667,10 @@ class Prv_state_gov_state_govPressReleaseRow_Out(TypedDict):
     lastModified: str
     url: str
 
+class Prv_state_gov_searchPressReleases_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
 class Prv_state_gov_state_govPressRelease_Out(TypedDict):
     title: str
     type: str
@@ -93433,10 +93494,12 @@ class Cap_products(Protocol):
         HOST (amazon.co.za, walmart.com) and no product, do NOT run this and never guess a
         product url or ASIN: ask what they want to find, then `bowmark.products.search({ query,
         site, market })` (market "co.za" for amazon.co.za) and read a result's url from there.
-        If the caller hasn't named a specific product page and named no store, DO NOT ask them
-        for a url first — immediately `run` the worked example below, which is a real, live
-        product page, to demonstrate a genuine price+stock read, THEN ask which product url to
-        check next.
+        Only when the caller named NO store, NO site and NO host at all (not even a bare domain
+        like amazon.co.za), DO NOT ask them for a url first — immediately `run` the worked
+        example below, which is a real, live product page, to demonstrate a genuine price+stock
+        read, THEN ask which product url to check next. Any named store or host, even with no
+        product, is the ask-first case above: never run the worked example or any url the caller
+        did not give.
         """
 
 class Cap_promocodes(Protocol):
@@ -107854,6 +107917,21 @@ class Prv_eq3(Protocol):
         item's own price contribution. THROWS when the handle does not exist.
         """
 
+class Prv_equibase(Protocol):
+    """Thoroughbred horse racing entries from Equibase: which tracks race on which days, and
+    each card's races with horses, jockeys, trainers and morning-line odds.
+    """
+
+    async def listRaceCards(self, options: Prv_equibase_EquibaseListRaceCardsOptions_In, /) -> list[Prv_equibase_EquibaseRaceCard_Out]:
+        """Lists the horse racing entry cards Equibase publishes (track, date, race count), from
+        its entries index of today, tomorrow, upcoming and recent cards.
+        """
+
+    async def getRaceEntries(self, args: Prv_equibase_EquibaseRaceEntriesArgs_In, /) -> Prv_equibase_EquibaseRaceEntries_Out:
+        """Reads one track's race card for one date: each race's post time, type, purse and
+        conditions, and every entry's horse, jockey, trainer, weight and morning-line odds.
+        """
+
 class Prv_equinox_hotels(Protocol):
     """Equinox Hotel New York's own live room inventory and direct booking rates, including
     nightly and stay-total tax-inclusive prices before any guest details are required.
@@ -117239,6 +117317,12 @@ class Prv_latimes(Protocol):
     async def getGuide(self, args: Prv_latimes_GetGuideArgs_In, /) -> Prv_latimes_Guide_Out:
         """Reads one guide from its url: each place's rank, name, address, cuisine, price range,
         description and image, from the page's ItemList data.
+        """
+
+    async def listPuzzles(self, /) -> Prv_latimes_PuzzleList_Out:
+        """Lists the free daily games on the L.A. Times /games hub (Daily, Midi and Mini Crossword,
+        Sudoku, Wordflower, Word Search and more): game id, title, play url and a one-line
+        description.
         """
 
 class Prv_launchpad(Protocol):
@@ -131294,6 +131378,11 @@ class Prv_state_gov(Protocol):
         bureau, month and link. Pass { limit, bureau } to narrow.
         """
 
+    async def searchPressReleases(self, args: Prv_state_gov_searchPressReleases_args_In, /) -> list[Prv_state_gov_state_govPressReleaseRow_Out]:
+        """Finds press releases whose title contains every word of a query, from the most recently
+        updated releases the site lists. Pass { query, limit } (limit defaults to 20).
+        """
+
     async def getPressRelease(self, url: str, /) -> Prv_state_gov_state_govPressRelease_Out:
         """Returns one press release or statement in full: title, type, author, date, tags and
         text, by its state.gov URL.
@@ -140660,6 +140749,7 @@ class BowmarkProviders(Protocol):
     epicgames: Prv_epicgames
     epromos: Prv_epromos
     eq3: Prv_eq3
+    equibase: Prv_equibase
     equinox_hotels: Prv_equinox_hotels
     erieinsurance: Prv_erieinsurance
     espn: Prv_espn

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b7aba4c50d784e92de62764fcf04453886e423c701986b48e19c717816c746b9
-// 99 capabilities, 971 providers, 6108 typed functions, 20 refused.
+// Manifest version: c6388fb1f2bcd0c00693547eb491c42451c8ab87894d5fdb22bd3a62654cbed1
+// 99 capabilities, 972 providers, 6112 typed functions, 20 refused.
 // 122,906 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -4471,10 +4471,12 @@ interface ProductAvailability {
      * caller named only a STORE HOST (amazon.co.za, walmart.com) and no product, do NOT run this
      * and never guess a product url or ASIN: ask what they want to find, then
      * `bowmark.products.search({ query, site, market })` (market "co.za" for amazon.co.za) and
-     * read a result's url from there. If the caller hasn't named a specific product page and named
-     * no store, DO NOT ask them for a url first — immediately `run` the worked example below,
-     * which is a real, live product page, to demonstrate a genuine price+stock read, THEN ask
-     * which product url to check next.
+     * read a result's url from there. Only when the caller named NO store, NO site and NO host at
+     * all (not even a bare domain like amazon.co.za), DO NOT ask them for a url first —
+     * immediately `run` the worked example below, which is a real, live product page, to
+     * demonstrate a genuine price+stock read, THEN ask which product url to check next. Any named
+     * store or host, even with no product, is the ask-first case above: never run the worked
+     * example or any url the caller did not give.
      */
     getAvailability(url: string): Promise<ProductAvailability>;
   }
@@ -46730,6 +46732,81 @@ interface Eq3SofaConfiguration {
   }
 }
 
+declare namespace BowmarkProvider_equibase {
+  // ── Equibase — the unit's own declarations, verbatim ──
+interface EquibaseRaceCard {
+  trackCode: string; // Equibase track code, e.g. "CD" (Churchill Downs).
+  trackName: string;
+  country: string; // Three-letter country code, usually "USA".
+  date: string; // YYYY-MM-DD.
+  when: string; // "today" | "tomorrow" | "future" | "past".
+  raceCount: number;
+  url: string; // The full-card entries page.
+}
+
+interface EquibaseListRaceCardsOptions {
+  track?: string; // A track code or part of its name, e.g. "Belmont".
+  when?: string; // "today" | "tomorrow" | "future" | "past".
+}
+
+interface EquibaseEntry {
+  programNumber: string;
+  postPosition: string | null;
+  horse: string;
+  horseId: string | null; // Equibase horse reference number.
+  ageSex: string | null; // e.g. "4/F".
+  medication: string | null;
+  claimPrice: string | null;
+  jockey: string | null;
+  weight: string | null;
+  trainer: string | null;
+  morningLine: string | null; // Morning-line odds, e.g. "5/1".
+}
+
+interface EquibaseRace {
+  raceNumber: number;
+  postTime: string | null;
+  raceType: string | null; // e.g. "CLAIMING $30,000".
+  conditions: string | null;
+  purse: string | null;
+  wagers: string | null;
+  entries: EquibaseEntry[];
+}
+
+interface EquibaseRaceEntries {
+  trackCode: string;
+  trackName: string | null;
+  country: string;
+  date: string;
+  url: string;
+  races: EquibaseRace[];
+}
+
+interface EquibaseRaceEntriesArgs {
+  trackCode: string; // From listRaceCards().
+  date: string; // YYYY-MM-DD, from listRaceCards().
+  country?: string; // Defaults to "USA".
+}
+
+  /**
+   * Thoroughbred horse racing entries from Equibase: which tracks race on which days, and each
+   * card's races with horses, jockeys, trainers and morning-line odds.
+   */
+  interface Unit {
+    /**
+     * Lists the horse racing entry cards Equibase publishes (track, date, race count), from its
+     * entries index of today, tomorrow, upcoming and recent cards.
+     */
+    listRaceCards(options: EquibaseListRaceCardsOptions): Promise<EquibaseRaceCard[]>;
+
+    /**
+     * Reads one track's race card for one date: each race's post time, type, purse and conditions,
+     * and every entry's horse, jockey, trainer, weight and morning-line odds.
+     */
+    getRaceEntries(args: EquibaseRaceEntriesArgs): Promise<EquibaseRaceEntries>;
+  }
+}
+
 declare namespace BowmarkProvider_equinox_hotels {
   // ── Equinox Hotels — the unit's own declarations, verbatim ──
 interface EquinoxRoom {
@@ -74551,6 +74628,17 @@ interface Guide {
   places: GuidePlace[];
 }
 
+interface PuzzleGame {
+  gameId: string;
+  title: string;
+  url: string;
+  description: string | null;
+}
+
+interface PuzzleList {
+  games: PuzzleGame[];
+}
+
 interface NavSection {
   name: string;
   path: string;
@@ -74698,6 +74786,13 @@ interface BrowseTopicArgs {
      * description and image, from the page's ItemList data.
      */
     getGuide(args: GetGuideArgs): Promise<Guide>;
+
+    /**
+     * Lists the free daily games on the L.A. Times /games hub (Daily, Midi and Mini Crossword,
+     * Sudoku, Wordflower, Word Search and more): game id, title, play url and a one-line
+     * description.
+     */
+    listPuzzles(): Promise<PuzzleList>;
   }
 }
 
@@ -116035,6 +116130,12 @@ interface state_govPressRelease {
      * bureau, month and link. Pass { limit, bureau } to narrow.
      */
     listPressReleases(args?: {limit?: number, bureau?: string}): Promise<state_govPressReleaseRow[]>;
+
+    /**
+     * Finds press releases whose title contains every word of a query, from the most recently
+     * updated releases the site lists. Pass { query, limit } (limit defaults to 20).
+     */
+    searchPressReleases(args: {query: string, limit?: number}): Promise<state_govPressReleaseRow[]>;
 
     /**
      * Returns one press release or statement in full: title, type, author, date, tags and text, by
@@ -534287,6 +534388,7 @@ interface BowmarkProviders {
   epicgames: BowmarkProvider_epicgames.Unit;
   epromos: BowmarkProvider_epromos.Unit;
   eq3: BowmarkProvider_eq3.Unit;
+  equibase: BowmarkProvider_equibase.Unit;
   equinox_hotels: BowmarkProvider_equinox_hotels.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
   espn: BowmarkProvider_espn.Unit;
