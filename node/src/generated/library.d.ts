@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 581783b5fd015d9ccbf5b67ad31fe6991dfda759cb2fb691b0ea5c6501e7c658
-// 99 capabilities, 970 providers, 6089 typed functions, 20 refused.
+// Manifest version: 24a67fd4a06e9a7c353601a03422ee0c72c1c9090e4f407c513acac8588d14b4
+// 99 capabilities, 971 providers, 6100 typed functions, 20 refused.
 // 122,906 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -11411,7 +11411,9 @@ interface SignedInOrderPage {
      * price, whether it is in stock, the star rating and how many ratings it has, the bullet-point
      * features, the specification table, the images, its category breadcrumb, its Best Sellers
      * Rank, and who it is sold by. Pass the search row itself, `{ asin: row.asin }`, or its
-     * ASIN/URL. The single most-wanted read on the whole site.
+     * ASIN/URL. The URL selects the market: an amazon.co.za URL, or an ASIN with `{ market:
+     * "co.za" }`, answers from amazon.co.za in ZAR. Take the URL or ASIN from searchProducts;
+     * never guess one. The single most-wanted read on the whole site.
      */
     getProduct(asinOrUrl: AmazonProductReference, options?: AmazonMarketOptions): Promise<AmazonProductDetail>;
 
@@ -56606,6 +56608,17 @@ interface GeniusArtistAlbums {
   albums: GeniusAlbumHit[];
 }
 
+interface GeniusChart {
+  chart: "songs" | "albums" | "artists";
+  period: string;
+  genre: string;
+  page: number;
+  nextPage: number | null; // The next page number, or null on the last page.
+  songs: GeniusSongHit[]; // Ranked, best first; filled for the songs chart.
+  albums: GeniusAlbumHit[]; // Ranked, best first; filled for the albums chart.
+  artists: GeniusArtistHit[]; // Ranked, best first; filled for the artists chart.
+}
+
 interface GeniusAlbumTrack {
   number: number;
   discNumber: number;
@@ -56689,6 +56702,12 @@ interface GeniusSongQuestions {
      * list (each track's song id).
      */
     getAlbum(album: string | number): Promise<GeniusAlbum>;
+
+    /**
+     * Reads a Genius chart: the top "songs", "albums" or "artists" for a day, week, month or
+     * all_time, optionally by genre ("all", "rap", "pop", "rb", "rock", "country"), 20 per page.
+     */
+    getCharts(chart?: "songs" | "albums" | "artists", period?: "day" | "week" | "month" | "all_time", genre?: string, page?: number): Promise<GeniusChart>;
 
     /** Reads a Genius artist by id: bio, aliases, followers, IQ and social handles. */
     getArtist(artist: string | number): Promise<GeniusArtist>;
@@ -74381,6 +74400,35 @@ interface Article {
   meteredByBrowser: boolean;
 }
 
+interface SearchRecipesArgs {
+  query: string;
+  page?: number;
+}
+
+interface RecipeSearch {
+  query: string;
+  page: number;
+  recipes: Story[];
+  nextPage: number | null;
+}
+
+interface GetRecipeArgs {
+  url: string;
+}
+
+interface Recipe {
+  url: string;
+  name: string;
+  description: string | null;
+  author: string | null;
+  image: string | null;
+  publishedAt: string | null;
+  yield: string | null;
+  totalTime: string | null;
+  ingredients: string[];
+  steps: string[];
+}
+
 interface NavSection {
   name: string;
   path: string;
@@ -74504,6 +74552,18 @@ interface BrowseTopicArgs {
      * listTopics), paged by nextCursor.
      */
     browseTopic(args: BrowseTopicArgs): Promise<StoryPage>;
+
+    /**
+     * Searches L.A. Times recipes through the search page's Recipes filter: 10 recipes a page,
+     * with title, url, summary and date.
+     */
+    searchRecipes(args: SearchRecipesArgs): Promise<RecipeSearch>;
+
+    /**
+     * Reads one recipe from its url: ingredients, steps, yield, time, author and image, from the
+     * page's Recipe data.
+     */
+    getRecipe(args: GetRecipeArgs): Promise<Recipe>;
   }
 }
 
@@ -77184,6 +77244,90 @@ interface LowesProductDetail {
   url: string;
 }
 
+interface LowesReviewsArgs {
+  productId: string; // the number ending a /pd/ link, e.g. "5014148635"
+}
+
+interface LowesReview {
+  id: string;
+  rating: number | null; // 1-5 stars
+  title: string | null;
+  text: string | null; // null for a stars-only review
+  author: string | null; // the reviewer's nickname, when they gave one
+  submittedAt: string | null; // ISO timestamp
+  verifiedPurchase: boolean;
+  incentivized: boolean;
+  recommended: boolean | null;
+  helpfulVotes: number;
+  notHelpfulVotes: number;
+}
+
+interface LowesReviewsResult {
+  productId: string;
+  totalReviews: number | null; // all reviews, not just this page
+  summary: string | null; // Lowe's AI summary of the reviews
+  reviews: LowesReview[]; // the first page, up to 20, newest first
+}
+
+interface LowesStoreDay {
+  day: string;
+  open: string | null; // 24h HH:MM, store-local
+  close: string | null;
+  closed: boolean; // true when open and close are equal (closed all day)
+}
+
+interface LowesStore {
+  storeId: string; // Lowe's store number; pass to getStore
+  name: string;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  phone: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timeZone: string | null;
+  services: string[]; // e.g. "Garden Center", "Key Copy"
+  hours: LowesStoreDay[]; // the next seven days, from today
+  distanceMiles: number | null; // from the searched place; null on getStore
+  url: string;
+}
+
+interface LowesFindStoresArgs {
+  query: string; // a ZIP, "City, ST" or a store number, e.g. "89104"
+  limit?: number; // 1-20, default 5
+}
+
+interface LowesStoresResult {
+  query: string;
+  stores: LowesStore[];
+}
+
+interface LowesGetStoreArgs {
+  storeId: string; // from findStores, e.g. "1620"
+}
+
+interface LowesStoreDetail {
+  storeId: string; // Lowe's store number; pass to getStore
+  name: string;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  phone: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  timeZone: string | null;
+  services: string[]; // e.g. "Garden Center", "Key Copy"
+  hours: LowesStoreDay[]; // the next seven days, from today
+  distanceMiles: number | null; // from the searched place; null on getStore
+  url: string;
+  description: string | null;
+  proDeskPhone: string | null;
+  openedOn: string | null; // YYYY-MM-DD
+  nearby: LowesStore[]; // neighbouring stores with distance
+}
+
   /**
    * Search Lowe's (lowes.com) product catalog — tools, hardware, appliances, home improvement —
    * and get each listing's price, brand, model, item number, rating and link.
@@ -77203,6 +77347,27 @@ interface LowesProductDetail {
      * so expect 15-40 s.
      */
     getProduct(args: LowesGetProductArgs): Promise<LowesProductDetail>;
+
+    /**
+     * Reads the first page (20) of a Lowe's product's customer reviews by product id: rating,
+     * title, text, author, date, verified-purchase and incentivized flags, helpful votes, plus the
+     * total review count and Lowe's AI summary of them. A real browser load, so expect 15-40 s.
+     */
+    getProductReviews(args: LowesReviewsArgs): Promise<LowesReviewsResult>;
+
+    /**
+     * Finds Lowe's stores near a ZIP, "City, ST" or store number (up to 20, default 5), nearest
+     * first, with address, phone, coordinates, weekly hours, services and distance in miles. A
+     * real browser load, so expect 15-40 s.
+     */
+    findStores(args: LowesFindStoresArgs): Promise<LowesStoresResult>;
+
+    /**
+     * Reads one Lowe's store by store number (from findStores): address, phone, pro desk phone,
+     * coordinates, weekly hours, services, opening date, description and nearby stores. A real
+     * browser load, so expect 15-40 s.
+     */
+    getStore(args: LowesGetStoreArgs): Promise<LowesStoreDetail>;
   }
 }
 
@@ -95389,6 +95554,94 @@ interface PirateshipRate {
      * prices (bad zip, package too small, no service on that route) with the site's own reason.
      */
     getRates(originZip: string, destination: string, weightOz: number, dimensions: PirateshipDimensions, isResidential?: boolean): Promise<PirateshipRate[]>;
+  }
+}
+
+declare namespace BowmarkProvider_pixabay {
+  // ── Pixabay — the unit's own declarations, verbatim ──
+interface pixabayRow {
+  id: string;
+}
+
+interface SearchImagesArgs {
+  query: string;
+  page?: number; // 1-based page of 100 hits
+}
+
+interface ImageHit {
+  id: string;
+  mediaType: string; // photo, illustration, vector or gif
+  title: string;
+  description: string;
+  url: string; // the image's Pixabay page
+  thumbnailUrl: string | null;
+  largeUrl: string | null;
+  width: number | null;
+  height: number | null;
+  uploadedAt: string | null;
+  likes: number | null;
+  comments: number | null;
+  views: number | null;
+  downloads: number | null;
+  tags: string[];
+  isAiGenerated: boolean;
+  creator: { id: string; username: string; profileUrl: string | null } | null;
+}
+
+interface ImageSearchResult {
+  query: string;
+  items: ImageHit[];
+  page: number;
+  pages: number;
+  total: number;
+}
+
+interface GetImageArgs {
+  url: string;
+}
+
+interface ImageDetail {
+  id: string;
+  mediaType: string; // photo, illustration, vector or gif
+  title: string;
+  description: string;
+  url: string;
+  thumbnailUrl: string | null;
+  largeUrl: string | null;
+  width: number | null;
+  height: number | null;
+  uploadedAt: string | null;
+  publishedAt: string | null;
+  isAiGenerated: boolean;
+  isEditorsChoice: boolean;
+  likes: number | null;
+  comments: number | null;
+  views: number | null;
+  downloads: number | null;
+  collections: number | null;
+  tags: string[];
+  sizes: { label: string /* Small, Medium, Large or Original */; dimensions: string; size: string; format: string; fileName: string }[];
+  camera: { name: string | null; lens: string | null; focalLength: string | null; aperture: string | null; exposureTime: string | null; iso: string | null };
+  creator: { id: string; username: string; profileUrl: string | null } | null;
+  relatedImages: { id: string; url: string; thumbnailUrl: string | null }[];
+}
+
+  /**
+   * Pixabay — free stock photos, illustrations, vectors, videos, music and sound effects:
+   * search, read and download.
+   */
+  interface Unit {
+    /**
+     * Searches Pixabay's free photos, illustrations, vectors and GIFs by keyword, returning each
+     * hit with its creator, tags and posting date, plus the page count.
+     */
+    searchImages(args: SearchImagesArgs): Promise<ImageSearchResult>;
+
+    /**
+     * Reads one image page: title, tags, creator, sizes, licence, views, downloads, likes and the
+     * related images.
+     */
+    getImage(args: GetImageArgs): Promise<ImageDetail>;
   }
 }
 
@@ -115577,6 +115830,32 @@ interface state_govCountry {
   url: string;
 }
 
+interface state_govCountryPage {
+  name: string;
+  slug: string;
+  url: string;
+  links: { label: string; url: string }[];
+  highlights: { date: string; title: string; url: string }[];
+}
+
+interface state_govPressReleaseRow {
+  title: string; // From the URL slug, title-cased; getPressRelease has the real title
+  bureau: string;
+  month: string; // YYYY-MM
+  lastModified: string;
+  url: string;
+}
+
+interface state_govPressRelease {
+  title: string;
+  type: string; // e.g. "Press Statement"
+  author: string;
+  date: string;
+  url: string;
+  tags: string[];
+  text: string;
+}
+
   /**
    * U.S. State Department: travel advisories, country pages, press releases, briefings,
    * officials and published reports.
@@ -115596,6 +115875,24 @@ interface state_govCountry {
 
     /** Lists the countries and areas with a State Department country page: name, slug and link. */
     listCountries(): Promise<state_govCountry[]>;
+
+    /**
+     * Returns one country's State Department page: its official links (embassy, bureau, travel
+     * information) and its latest highlights, by country name or slug.
+     */
+    getCountry(country: string): Promise<state_govCountryPage>;
+
+    /**
+     * Lists the most recently updated State Department press releases and statements: title,
+     * bureau, month and link. Pass { limit, bureau } to narrow.
+     */
+    listPressReleases(args?: {limit?: number, bureau?: string}): Promise<state_govPressReleaseRow[]>;
+
+    /**
+     * Returns one press release or statement in full: title, type, author, date, tags and text, by
+     * its state.gov URL.
+     */
+    getPressRelease(url: string): Promise<state_govPressRelease>;
   }
 }
 
@@ -534174,6 +534471,7 @@ interface BowmarkProviders {
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
   pinterest: BowmarkProvider_pinterest.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
+  pixabay: BowmarkProvider_pixabay.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
   planning_inspectorate_ni: BowmarkProvider_planning_inspectorate_ni.Unit;
   platform_claude_com: BowmarkProvider_platform_claude_com.Unit;

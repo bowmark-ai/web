@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 581783b5fd015d9ccbf5b67ad31fe6991dfda759cb2fb691b0ea5c6501e7c658
-# 99 capabilities, 970 providers, 6061 typed functions, 20 refused.
+# Manifest version: 24a67fd4a06e9a7c353601a03422ee0c72c1c9090e4f407c513acac8588d14b4
+# 99 capabilities, 971 providers, 6072 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -36362,6 +36362,42 @@ class Prv_genius_GeniusAlbumTrack_Out(TypedDict):
     title: str
     url: str
 
+class Prv_genius_GeniusChart_Out(TypedDict):
+    chart: Literal["songs"] | Literal["albums"] | Literal["artists"]
+    period: str
+    genre: str
+    page: float
+    nextPage: float | None
+    songs: list[Prv_genius_GeniusSongHit_Out]
+    albums: list[Prv_genius_GeniusAlbumHit_Out]
+    artists: list[Prv_genius_GeniusArtistHit_Out]
+
+class Prv_genius_GeniusSongHit_Out(TypedDict):
+    id: float
+    title: str
+    artist: str
+    fullTitle: str
+    url: str
+    releaseDate: str | None
+    pageviews: float | None
+    imageUrl: str | None
+
+class Prv_genius_GeniusAlbumHit_Out(TypedDict):
+    id: float
+    name: str
+    artist: str
+    fullTitle: str
+    url: str
+    releaseDate: str | None
+    coverUrl: str | None
+
+class Prv_genius_GeniusArtistHit_Out(TypedDict):
+    id: float
+    name: str
+    url: str
+    imageUrl: str | None
+    isVerified: bool
+
 class Prv_genius_GeniusArtist_Out(TypedDict):
     id: float
     name: str
@@ -36382,30 +36418,11 @@ class Prv_genius_GeniusArtistAlbums_Out(TypedDict):
     nextPage: float | None
     albums: list[Prv_genius_GeniusAlbumHit_Out]
 
-class Prv_genius_GeniusAlbumHit_Out(TypedDict):
-    id: float
-    name: str
-    artist: str
-    fullTitle: str
-    url: str
-    releaseDate: str | None
-    coverUrl: str | None
-
 class Prv_genius_GeniusArtistSongs_Out(TypedDict):
     artistId: float
     page: float
     nextPage: float | None
     songs: list[Prv_genius_GeniusSongHit_Out]
-
-class Prv_genius_GeniusSongHit_Out(TypedDict):
-    id: float
-    title: str
-    artist: str
-    fullTitle: str
-    url: str
-    releaseDate: str | None
-    pageviews: float | None
-    imageUrl: str | None
 
 class Prv_genius_GeniusAnnotation_Out(TypedDict):
     id: float
@@ -36489,13 +36506,6 @@ class Prv_genius_GeniusAlbumSearch_Out(TypedDict):
 class Prv_genius_GeniusArtistSearch_Out(TypedDict):
     query: str
     artists: list[Prv_genius_GeniusArtistHit_Out]
-
-class Prv_genius_GeniusArtistHit_Out(TypedDict):
-    id: float
-    name: str
-    url: str
-    imageUrl: str | None
-    isVerified: bool
 
 class Prv_genius_GeniusLyricSearch_Out(TypedDict):
     query: str
@@ -47358,6 +47368,35 @@ class Prv_latimes_BrowseTopicArgs_In(TypedDict):
     topic: str
     cursor: NotRequired[str]
 
+class Prv_latimes_SearchRecipesArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_latimes_RecipeSearch_Out(TypedDict):
+    query: str
+    page: float
+    recipes: list[Prv_latimes_Story_Out]
+    nextPage: float | None
+
+class Prv_latimes_GetRecipeArgs_In(TypedDict):
+    url: str
+
+Prv_latimes_Recipe_Out = TypedDict(
+    "Prv_latimes_Recipe_Out",
+    {
+    "url": str,
+    "name": str,
+    "description": str | None,
+    "author": str | None,
+    "image": str | None,
+    "publishedAt": str | None,
+    "yield": str | None,
+    "totalTime": str | None,
+    "ingredients": list[str],
+    "steps": list[str],
+    },
+)
+
 class Prv_launchpad_LaunchpadProject_Out(TypedDict):
     name: str
     title: str
@@ -48794,6 +48833,81 @@ class Prv_lowes_LowesProductDetail_Out_store_u0_Out(TypedDict):
     name: str | None
     city: str | None
     zip: str | None
+
+class Prv_lowes_LowesReviewsArgs_In(TypedDict):
+    productId: str
+
+class Prv_lowes_LowesReviewsResult_Out(TypedDict):
+    productId: str
+    totalReviews: float | None
+    summary: str | None
+    reviews: list[Prv_lowes_LowesReview_Out]
+
+class Prv_lowes_LowesReview_Out(TypedDict):
+    id: str
+    rating: float | None
+    title: str | None
+    text: str | None
+    author: str | None
+    submittedAt: str | None
+    verifiedPurchase: bool
+    incentivized: bool
+    recommended: bool | None
+    helpfulVotes: float
+    notHelpfulVotes: float
+
+class Prv_lowes_LowesFindStoresArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_lowes_LowesStoresResult_Out(TypedDict):
+    query: str
+    stores: list[Prv_lowes_LowesStore_Out]
+
+class Prv_lowes_LowesStore_Out(TypedDict):
+    storeId: str
+    name: str
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    timeZone: str | None
+    services: list[str]
+    hours: list[Prv_lowes_LowesStoreDay_Out]
+    distanceMiles: float | None
+    url: str
+
+class Prv_lowes_LowesStoreDay_Out(TypedDict):
+    day: str
+    open: str | None
+    close: str | None
+    closed: bool
+
+class Prv_lowes_LowesGetStoreArgs_In(TypedDict):
+    storeId: str
+
+class Prv_lowes_LowesStoreDetail_Out(TypedDict):
+    storeId: str
+    name: str
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    timeZone: str | None
+    services: list[str]
+    hours: list[Prv_lowes_LowesStoreDay_Out]
+    distanceMiles: float | None
+    url: str
+    description: str | None
+    proDeskPhone: str | None
+    openedOn: str | None
+    nearby: list[Prv_lowes_LowesStore_Out]
 
 class Prv_lufthansa_LufthansaFlightStatus_Out(TypedDict):
     airline: str
@@ -60487,6 +60601,94 @@ class Prv_pirateship_PirateshipRate_Out_carrier_Out(TypedDict):
 class Prv_pirateship_PirateshipRate_Out_surcharges_item_Out(TypedDict):
     title: str
     price: float
+
+class Prv_pixabay_SearchImagesArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_pixabay_ImageSearchResult_Out(TypedDict):
+    query: str
+    items: list[Prv_pixabay_ImageHit_Out]
+    page: float
+    pages: float
+    total: float
+
+class Prv_pixabay_ImageHit_Out(TypedDict):
+    id: str
+    mediaType: str
+    title: str
+    description: str
+    url: str
+    thumbnailUrl: str | None
+    largeUrl: str | None
+    width: float | None
+    height: float | None
+    uploadedAt: str | None
+    likes: float | None
+    comments: float | None
+    views: float | None
+    downloads: float | None
+    tags: list[str]
+    isAiGenerated: bool
+    creator: Prv_pixabay_ImageHit_Out_creator_u0_Out | None
+
+class Prv_pixabay_ImageHit_Out_creator_u0_Out(TypedDict):
+    id: str
+    username: str
+    profileUrl: str | None
+
+class Prv_pixabay_GetImageArgs_In(TypedDict):
+    url: str
+
+class Prv_pixabay_ImageDetail_Out(TypedDict):
+    id: str
+    mediaType: str
+    title: str
+    description: str
+    url: str
+    thumbnailUrl: str | None
+    largeUrl: str | None
+    width: float | None
+    height: float | None
+    uploadedAt: str | None
+    publishedAt: str | None
+    isAiGenerated: bool
+    isEditorsChoice: bool
+    likes: float | None
+    comments: float | None
+    views: float | None
+    downloads: float | None
+    collections: float | None
+    tags: list[str]
+    sizes: list[Prv_pixabay_ImageDetail_Out_sizes_item_Out]
+    camera: Prv_pixabay_ImageDetail_Out_camera_Out
+    creator: Prv_pixabay_ImageDetail_Out_creator_u0_Out | None
+    relatedImages: list[Prv_pixabay_ImageDetail_Out_relatedImages_item_Out]
+
+class Prv_pixabay_ImageDetail_Out_sizes_item_Out(TypedDict):
+    label: str
+    dimensions: str
+    size: str
+    format: str
+    fileName: str
+
+class Prv_pixabay_ImageDetail_Out_camera_Out(TypedDict):
+    name: str | None
+    lens: str | None
+    focalLength: str | None
+    aperture: str | None
+    exposureTime: str | None
+    iso: str | None
+
+class Prv_pixabay_ImageDetail_Out_creator_u0_Out(TypedDict):
+    id: str
+    username: str
+    profileUrl: str | None
+
+class Prv_pixabay_ImageDetail_Out_relatedImages_item_Out(TypedDict):
+    id: str
+    url: str
+    thumbnailUrl: str | None
 
 class Prv_pizzahut_getMenu_args_In(TypedDict):
     storeNumber: str
@@ -74244,6 +74446,42 @@ class Prv_state_gov_state_govCountry_Out(TypedDict):
     name: str
     slug: str
     url: str
+
+class Prv_state_gov_state_govCountryPage_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+    links: list[Prv_state_gov_state_govCountryPage_Out_links_item_Out]
+    highlights: list[Prv_state_gov_state_govCountryPage_Out_highlights_item_Out]
+
+class Prv_state_gov_state_govCountryPage_Out_links_item_Out(TypedDict):
+    label: str
+    url: str
+
+class Prv_state_gov_state_govCountryPage_Out_highlights_item_Out(TypedDict):
+    date: str
+    title: str
+    url: str
+
+class Prv_state_gov_listPressReleases_args_In(TypedDict):
+    limit: NotRequired[float]
+    bureau: NotRequired[str]
+
+class Prv_state_gov_state_govPressReleaseRow_Out(TypedDict):
+    title: str
+    bureau: str
+    month: str
+    lastModified: str
+    url: str
+
+class Prv_state_gov_state_govPressRelease_Out(TypedDict):
+    title: str
+    type: str
+    author: str
+    date: str
+    url: str
+    tags: list[str]
+    text: str
 
 class Prv_statefarm_StatefarmAgentQuery_In(TypedDict):
     city: str
@@ -95398,7 +95636,9 @@ class Prv_amazon(Protocol):
         list price, whether it is in stock, the star rating and how many ratings it has, the
         bullet-point features, the specification table, the images, its category breadcrumb, its
         Best Sellers Rank, and who it is sold by. Pass the search row itself, `{ asin: row.asin
-        }`, or its ASIN/URL. The single most-wanted read on the whole site.
+        }`, or its ASIN/URL. The URL selects the market: an amazon.co.za URL, or an ASIN with `{
+        market: "co.za" }`, answers from amazon.co.za in ZAR. Take the URL or ASIN from
+        searchProducts; never guess one. The single most-wanted read on the whole site.
         """
 
     async def listVariations(self, asinOrUrl: str | Prv_amazon_AmazonProductReference_u1_In | Prv_amazon_AmazonProductReference_u2_In | Prv_amazon_AmazonProductReference_u3_In | Prv_amazon_AmazonProductReference_u4_In, options: Prv_amazon_AmazonMarketOptions_In | None = None, /) -> list[Prv_amazon_AmazonVariation_Out]:
@@ -110613,6 +110853,12 @@ class Prv_genius(Protocol):
         track list (each track's song id).
         """
 
+    async def getCharts(self, chart: Literal["songs"] | Literal["albums"] | Literal["artists"] | None = None, period: Literal["day"] | Literal["week"] | Literal["month"] | Literal["all_time"] | None = None, genre: str | None = None, page: float | None = None, /) -> Prv_genius_GeniusChart_Out:
+        """Reads a Genius chart: the top "songs", "albums" or "artists" for a day, week, month or
+        all_time, optionally by genre ("all", "rap", "pop", "rb", "rock", "country"), 20 per
+        page.
+        """
+
     async def getArtist(self, artist: str | float, /) -> Prv_genius_GeniusArtist_Out:
         """Reads a Genius artist by id: bio, aliases, followers, IQ and social handles."""
 
@@ -116823,6 +117069,16 @@ class Prv_latimes(Protocol):
         listTopics), paged by nextCursor.
         """
 
+    async def searchRecipes(self, args: Prv_latimes_SearchRecipesArgs_In, /) -> Prv_latimes_RecipeSearch_Out:
+        """Searches L.A. Times recipes through the search page's Recipes filter: 10 recipes a page,
+        with title, url, summary and date.
+        """
+
+    async def getRecipe(self, args: Prv_latimes_GetRecipeArgs_In, /) -> Prv_latimes_Recipe_Out:
+        """Reads one recipe from its url: ingredients, steps, yield, time, author and image, from
+        the page's Recipe data.
+        """
+
 class Prv_launchpad(Protocol):
     """Launchpad projects, their public source-development branch, and issue-tracker
     availability. For a bare code.launchpad.net request, listLatestProjects returns recently
@@ -118324,6 +118580,25 @@ class Prv_lowes(Protocol):
         brand, model, price and was-price, rating, description, feature bullets, specs, images,
         breadcrumbs and the nearest store's pickup and delivery availability. A real browser
         load, so expect 15-40 s.
+        """
+
+    async def getProductReviews(self, args: Prv_lowes_LowesReviewsArgs_In, /) -> Prv_lowes_LowesReviewsResult_Out:
+        """Reads the first page (20) of a Lowe's product's customer reviews by product id: rating,
+        title, text, author, date, verified-purchase and incentivized flags, helpful votes, plus
+        the total review count and Lowe's AI summary of them. A real browser load, so expect
+        15-40 s.
+        """
+
+    async def findStores(self, args: Prv_lowes_LowesFindStoresArgs_In, /) -> Prv_lowes_LowesStoresResult_Out:
+        """Finds Lowe's stores near a ZIP, "City, ST" or store number (up to 20, default 5),
+        nearest first, with address, phone, coordinates, weekly hours, services and distance in
+        miles. A real browser load, so expect 15-40 s.
+        """
+
+    async def getStore(self, args: Prv_lowes_LowesGetStoreArgs_In, /) -> Prv_lowes_LowesStoreDetail_Out:
+        """Reads one Lowe's store by store number (from findStores): address, phone, pro desk
+        phone, coordinates, weekly hours, services, opening date, description and nearby stores.
+        A real browser load, so expect 15-40 s.
         """
 
 class Prv_lufthansa(Protocol):
@@ -124228,6 +124503,21 @@ class Prv_pirateship(Protocol):
         carriers' pricing. Returns every rate the site priced, cheapest/fastest/best each
         flagged on exactly one row; THROWS when nothing prices (bad zip, package too small, no
         service on that route) with the site's own reason.
+        """
+
+class Prv_pixabay(Protocol):
+    """Pixabay — free stock photos, illustrations, vectors, videos, music and sound effects:
+    search, read and download.
+    """
+
+    async def searchImages(self, args: Prv_pixabay_SearchImagesArgs_In, /) -> Prv_pixabay_ImageSearchResult_Out:
+        """Searches Pixabay's free photos, illustrations, vectors and GIFs by keyword, returning
+        each hit with its creator, tags and posting date, plus the page count.
+        """
+
+    async def getImage(self, args: Prv_pixabay_GetImageArgs_In, /) -> Prv_pixabay_ImageDetail_Out:
+        """Reads one image page: title, tags, creator, sizes, licence, views, downloads, likes and
+        the related images.
         """
 
 class Prv_pizzahut(Protocol):
@@ -130819,6 +131109,21 @@ class Prv_state_gov(Protocol):
 
     async def listCountries(self, /) -> list[Prv_state_gov_state_govCountry_Out]:
         """Lists the countries and areas with a State Department country page: name, slug and link."""
+
+    async def getCountry(self, country: str, /) -> Prv_state_gov_state_govCountryPage_Out:
+        """Returns one country's State Department page: its official links (embassy, bureau, travel
+        information) and its latest highlights, by country name or slug.
+        """
+
+    async def listPressReleases(self, args: Prv_state_gov_listPressReleases_args_In | None = None, /) -> list[Prv_state_gov_state_govPressReleaseRow_Out]:
+        """Lists the most recently updated State Department press releases and statements: title,
+        bureau, month and link. Pass { limit, bureau } to narrow.
+        """
+
+    async def getPressRelease(self, url: str, /) -> Prv_state_gov_state_govPressRelease_Out:
+        """Returns one press release or statement in full: title, type, author, date, tags and
+        text, by its state.gov URL.
+        """
 
 class Prv_statefarm(Protocol):
     """Quotes from the largest US home and auto insurer across every line it publishes — auto,
@@ -140513,6 +140818,7 @@ class BowmarkProviders(Protocol):
     pilotprotocol: Prv_pilotprotocol
     pinterest: Prv_pinterest
     pirateship: Prv_pirateship
+    pixabay: Prv_pixabay
     pizzahut: Prv_pizzahut
     planning_inspectorate_ni: Prv_planning_inspectorate_ni
     platform_claude_com: Prv_platform_claude_com

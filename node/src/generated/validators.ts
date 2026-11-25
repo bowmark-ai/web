@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 581783b5fd015d9ccbf5b67ad31fe6991dfda759cb2fb691b0ea5c6501e7c658
-// 6061 checked, 20 unchecked.
+// Manifest version: 24a67fd4a06e9a7c353601a03422ee0c72c1c9090e4f407c513acac8588d14b4
+// 6072 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "581783b5fd015d9ccbf5b67ad31fe6991dfda759cb2fb691b0ea5c6501e7c658",
+  "version": "24a67fd4a06e9a7c353601a03422ee0c72c1c9090e4f407c513acac8588d14b4",
   "units": {
     "address_validation": {
       "defs": {
@@ -77175,6 +77175,68 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getCharts": [
+          {
+            "name": "chart",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "songs"
+                },
+                {
+                  "k": "literal",
+                  "v": "albums"
+                },
+                {
+                  "k": "literal",
+                  "v": "artists"
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "period",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "day"
+                },
+                {
+                  "k": "literal",
+                  "v": "week"
+                },
+                {
+                  "k": "literal",
+                  "v": "month"
+                },
+                {
+                  "k": "literal",
+                  "v": "all_time"
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "genre",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
         "getArtist": [
           {
             "name": "artist",
@@ -77411,20 +77473,21 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getAlbum": "7a259cefb17d15ae",
-        "getArtist": "f907cbfc70f5804d",
-        "listArtistAlbums": "600e861a40fe826e",
-        "listArtistSongs": "29a179600b63fd9f",
-        "getAnnotation": "761d701749574585",
-        "listSongComments": "b72a150fcf468ac0",
-        "listSongQuestions": "f60931f21cd05ca1",
-        "listSongAnnotations": "77671ee8756772c5",
-        "getLyrics": "f7a8160c5be3f2cd",
-        "getSong": "4b1f20c6471a46f8",
-        "searchAlbums": "e8c6c1d2606ed076",
-        "searchArtists": "22c96c295601a3f4",
-        "searchLyrics": "c5710539ea6fa447",
-        "searchSongs": "c61e356075ff2e3e"
+        "getAlbum": "f8b73cefa1830179",
+        "getCharts": "6504bce822ebf0e6",
+        "getArtist": "8309c1b3eda22f15",
+        "listArtistAlbums": "cc165736200331ae",
+        "listArtistSongs": "485646e2b20b12cf",
+        "getAnnotation": "1f77e4ec7999f292",
+        "listSongComments": "26635e4ffb602beb",
+        "listSongQuestions": "a5a6c5ec82931962",
+        "listSongAnnotations": "e66512a05823c873",
+        "getLyrics": "5cc4f777b863a837",
+        "getSong": "c07826d48cb96b52",
+        "searchAlbums": "fc0153533e3afa8a",
+        "searchArtists": "7710cf069a325782",
+        "searchLyrics": "8c0c0e34b3262bfb",
+        "searchSongs": "b1e51aaee130d2ec"
       }
     },
     "providers.github": {
@@ -101986,6 +102049,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetRecipeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListHeadlinesArgs": {
           "k": "object",
           "props": [
@@ -102011,6 +102086,25 @@ export const VALIDATORS: ValidatorTable = {
           ]
         },
         "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SearchRecipesArgs": {
           "k": "object",
           "props": [
             {
@@ -102102,18 +102196,40 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchRecipes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchRecipesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRecipe": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetRecipeArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "listSections": "495794a70d8fa8e2",
-        "getAuthor": "0199879590431bd1",
-        "listHeadlines": "63a5706486b35a8f",
-        "browseSection": "e69ea3e009a1ee08",
-        "searchArticles": "e815f69131284c20",
-        "getArticle": "69dd8c42706bbfee",
-        "listLatestArticles": "fe851ca1cecd677e",
-        "listTopics": "adbe519c4ba5c40b",
-        "browseTopic": "decf52f61c7f517a"
+        "listSections": "b1ba1819c6964c89",
+        "getAuthor": "4d2d5918246333f6",
+        "listHeadlines": "d7e868ac7f56d0b1",
+        "browseSection": "69c9f00619c52122",
+        "searchArticles": "2c86d5453139cbef",
+        "getArticle": "10f653c2700e48d6",
+        "listLatestArticles": "5e178a4d3140bdda",
+        "listTopics": "d6efc87cf72d56d7",
+        "browseTopic": "916d60bdf2d2f820",
+        "searchRecipes": "6a454964053b4f3f",
+        "getRecipe": "9039e25854f31507"
       }
     },
     "providers.launchpad": {
@@ -105785,6 +105901,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.lowes": {
       "defs": {
+        "LowesFindStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "LowesGetProductArgs": {
           "k": "object",
           "props": [
@@ -105801,6 +105936,30 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "LowesGetStoreArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "storeId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "LowesReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -105844,11 +106003,44 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getProductReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LowesReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LowesFindStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStore": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LowesGetStoreArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "search": "f8d1fda1eefbab4b",
-        "getProduct": "78c681bb664748f4"
+        "search": "a945cdaa5950273b",
+        "getProduct": "bc2d402fccbf22d1",
+        "getProductReviews": "3ea6d6301058daeb",
+        "findStores": "80c465c798614677",
+        "getStore": "6b8d9857491beb6e"
       }
     },
     "providers.lufthansa": {
@@ -132472,6 +132664,67 @@ export const VALIDATORS: ValidatorTable = {
       },
       "digests": {
         "getRates": "ef22e493d2ff947d"
+      }
+    },
+    "providers.pixabay": {
+      "defs": {
+        "GetImageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchImagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchImages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchImagesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getImage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetImageArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchImages": "fffbbbe992b9a736",
+        "getImage": "08bc31f1602a85ae"
       }
     },
     "providers.pizzahut": {
@@ -162480,12 +162733,58 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listCountries": []
+        "listCountries": [],
+        "getCountry": [
+          {
+            "name": "country",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPressReleases": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "bureau",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getPressRelease": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       },
       "digests": {
-        "listTravelAdvisories": "0cb4bfc577dd7fb8",
-        "getTravelAdvisory": "ba4d03303f4d40ad",
-        "listCountries": "c3d85ad6ae75aecb"
+        "listTravelAdvisories": "6b3f8d5fcaacdc3c",
+        "getTravelAdvisory": "b818aeb92ac40a4c",
+        "listCountries": "6d69b9de9b9d3495",
+        "getCountry": "59291bbb7038be2b",
+        "listPressReleases": "f434d9b76ad65831",
+        "getPressRelease": "3cd196afe2119dbf"
       }
     },
     "providers.statefarm": {
