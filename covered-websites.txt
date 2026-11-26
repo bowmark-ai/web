@@ -73460,7 +73460,7 @@ fiddlin-fish-brewing-company.myshopify.com	Fiddlin' Fish Brewing Company	10
 fidelbodyreshaper.com	Fidel Body Reshaper	6
 fidelismedco.com	Fidelis Medical	6
 fidelisultramortem.myshopify.com	Fidelis Ultra Mortem	10
-fidelity.com	Fidelity Investments	7
+fidelity.com	Fidelity Investments	8
 fidelitystore.bargains	Fidelity Store Homepage -	6
 fidenciospiritsbottleshop.myshopify.com	Fidencio Spirits Bottle Shop	10
 fidgets-hub.myshopify.com	Viralss Store	10
@@ -109814,7 +109814,7 @@ pivotal-video-productions.myshopify.com	Pivotal Video Productions	10
 pivotcycles.com	pivotcycles.com	14
 pivotcycles.myshopify.com	Pivot Cycles	10
 pivotcycleseu.myshopify.com	pivotcycleseu	10
-pixabay.com	Pixabay	10
+pixabay.com	Pixabay	11
 pixarbikes.com	pixarbikes.com	14
 pixel-panties.myshopify.com	Maison Pixel	10
 pixel-people.myshopify.com	PIXEL PEOPLE	10
@@ -111678,7 +111678,7 @@ progressif-boutique.myshopify.com	Proskuneo (WinWin Partners)	10
 progression-mbj.myshopify.com	Progression MBJ	10
 progressionwines.myshopify.com	Progression Wines Online Shop	10
 progressive-scientific.com	Progressive Scientific Sdn. Bhd.	6
-progressive.com	Progressive	7
+progressive.com	Progressive	8
 progressiveair.myshopify.com	Progressive Air Services Ltd.	10
 progressivechristianity.org	ProgressiveChristianity	6
 progressivefootwearadaptivesocks.myshopify.com	Progressive Footwear Adaptive Socks	10

@@ -391,6 +391,7 @@
 = 22c0b8cf check_domain#cb43d7f3 find_domains#3cc437b3
 = 22c96166 find_similar_cars#6f2e0583 get_car_detail#07ae151c get_price_stats#0165289c search_articles#6bef2e9f search_cars#7bcbff05 search_cars_by_description#8ea90122
 = 22e4a64a get_brand#ae967984 get_brand_retailers#ec4cef29 get_brands#0308a43b get_retailer#194d3e83 get_retailer_brands#194d3e83 get_retailers#6a20bb13 verify_retailer_authorization#b5c8666b
+= 22efb88c getArticle getFund getQuote getQuoteNews getTradingCommissions screenFunds searchArticles searchSymbols
 = 22f377f3 getPage listPages searchPages
 = 230a2bfb cityPricing listCities
 = 23205c40 get_product#4bdd7972 list_categories#81ff12c7 search_products#96d20bbe
@@ -612,7 +613,6 @@
 = 35b8a661 get_elioplus_overview#284d9314 get_prometheon_company#df8d7b09 get_prometheon_partner_deal#50617c95 get_prometheon_tender#b2fbf210 search_elioplus_directory#d4b35639 search_prometheon_companies#076ec347 search_prometheon_partner_deals#fbfd29cc search_prometheon_tenders#6c1d358a
 = 35ca38bf help#6579a11e
 = 35cfbf85 get_product#0bd88968 list_categories#878bc7f8 search_products#ad1d8235
-= 35e35326 downloadAudio getAudio getImage getUser getVideo listUserMedia searchImages searchMusic searchSoundEffects searchVideos
 = 35efa424 getDealFares
 = 35f15b55 find_nearby_vehicles#4d7d741f find_stops_nearby#3f74544e get_announcements#080d6137 get_fleet_overview#8df4db4c get_journey#ffadddc6 get_line_alerts#cf5a9f9e get_line_status#1607e642 get_line_stops#41d2e96e get_line_vehicle_assignments#76dcd945 get_network#8df4db4c get_network_lines#f9fac5c5 get_stop#7703513d get_stop_departures#cf76db1b get_vehicle#e6dcf28f get_vehicle_history#981dba09 search_lines#24ce87a9 search_networks#fa86d0c6 search_stops#c69942ca search_vehicles#4765d4d8 send_feedback#3990ffd2
 = 35ff4904 expert search
@@ -995,7 +995,6 @@
 = 585f321f ask_docsbot#eb30ef01 get_blog_post#2083313c get_changelog#88753dc6 get_content#68a5d2e4 get_doc#f8ae0717 get_product#8a6a27d7 list_products#1bf38ae1 search#c8bec9c9 search_blog#f65b6a1c search_courses#0f2e5545 search_docs#5c44467e
 = 5865fdcd company_stack#d468d4db find_logos#6058afa1 get_logo_image#271ee003 logo_set#56fcdb74
 = 58695da4 balance_sheet#f8ee5786 cash_flow#5b716494 company_filings#6d1661be company_ipo#5817aab3 congress_trades#4ee0866c data_centers#5e137dc5 dividends#2862a1c0 earnings#6dc5adbf facts#b1d011b3 filing_document#aefafbba filing_documents#40cb7839 filing_facts#6d3ecc72 filing_search#e2d74f96 filing_section#23062406 filing_sections#19a5e469 filing_statements#ce4852f4 filing_table#8d658593 filing_tables#9669f696 filings_feed#7419d1ae fund_changes#e0767702 fund_holdings#7dce8f29 fund_periods#5b2ab135 fund_position_history#e9dc3139 income_statement#fdd77d7c insider_search#f041602f insider_trades#e1442daa institutional_ownership#cc62fdb6 interconnection_queue#1e33cfb6 ipos#2e609b3c metrics#9cbecf76 operating_generators#627fbe23 operating_kpis#eed78dc7 permits#7657310b queue_changes#c1ce32da search_companies#03124813 search_filing_text#bbff1618 search_filings#1550dc6e segments#22621283 stock_splits#14ed1d22 treasury_yields#9ecc6fe3
-= 5883a0ce findAgent getBusinessQuote getHomeownersQuote getMotorcycleQuote getPwcQuote getRentersQuote listHomeownersCompanies
 = 58d0e8d0 get_api_reference#6ed62165 get_capabilities#0c707da8 get_code_examples#93d699fa get_page#4b7559b2 get_quote#009f6973 get_supported_chains#99a82ecf get_transaction_receipt_app#51ff472f get_transfer#92b4c29c get_transfer_app#a05648cb list_transfers#8afb4a06 recrawl_docs#99a82ecf search_across_docs#80c7e8eb submit_execution#e8618d9a submit_execution_app#1e8dafcc swap_with_wallet#cfcb8254
 = 58e75aa3 ask_business#5c396c6f cancel_cart#58b90052 cancel_checkout#bd9db33f complete_checkout#d01ec3ad create_cart#7859511f create_checkout#e049d654 getFoundationQuizTaxonomy get_cart#58b90052 get_checkout#bd9db33f get_order#c54d1d98 get_product#e6f5dc4f lookup_catalog#1b7541e7 matchFoundation search_catalog#00f04bbe update_cart#e19c1555 update_checkout#7c15eb83
 = 58e7fd32 getCapabilityStatement listOrganizationEndpoints
@@ -2337,6 +2336,7 @@
 = d8e28156 check_accounts#12c3fb87 find_customers_for#fd934274 get_company#2c967b0b list_saved_searches#daea6ffc search_moves#18aaa8be search_signals#f2ad5949 search_tenders#eee0ca10
 = d8e8d112 browse_apps#500ceefd compare_apps#1cbde302 connect_my_account#daea6ffc find_my_setup#4fe10e07 get_doc#e6eb8780 how_the_trial_works#daea6ffc platform_status#daea6ffc save_me_money#aa1d3026 search_docs#ffa5c112 second_breakfast#dd6f4478
 = d8f64c76 solidity-account#805e722f solidity-custom#e19fb3d3 solidity-erc1155#cde51d65 solidity-erc20#6f26fdc8 solidity-erc721#d1018772 solidity-governor#042fd030 solidity-rwa#3183fc3f solidity-stablecoin#3183fc3f
+= d9390cdc downloadAudio downloadVideo getAudio getImage getUser getVideo listUserMedia searchImages searchMusic searchSoundEffects searchVideos
 = d93a4d59 assembleApplication getApplicationSchema getJob getJobCategories searchJobs
 = d93d22da divan_get_category_products#1a55000c divan_get_pick_up_points#e807ff19 divan_get_product#8c56e626 divan_get_product_bestsellers#b04023b9 divan_get_product_cross_sell#22705284 divan_get_product_delivery_date#22705284 divan_get_product_delivery_pickup#22705284 divan_get_product_outlets#22705284 divan_get_product_preorder#22705284 divan_get_product_recommendation#f58ef882 divan_get_product_reviews#23b0ad59 divan_get_product_sell_points#22705284 divan_get_promo_by_category#73c1e003 divan_get_promo_products#5eb20f6b divan_get_region_hints#ea91b17a divan_get_sell_point#f91e4bc4 divan_get_similar_products#b606cf88 divan_search_products#b5400215 divan_search_sell_points#8cd31e82
 = d94cfa63 aircraft_info#05aaab89 aircraft_overhead#de76c82d aircraft_track#79fe7e93 airport_board#16989410 flight_history#36fb3a1a flight_on_date#cebae1ba flight_reliability#fa9bf756 flight_status#5a4b4da0 live_aircraft_near#ed5489ef overhead_summary#159f05f1
@@ -2419,6 +2419,7 @@
 = e196639d searchSds
 = e1c876ee search_properties#4587912c
 = e1ce21a4 account_usage#99a82ecf batch_cancel#af6fc64d batch_content#f5e7b745 batch_create#c32eb2a4 batch_delete#af6fc64d batch_list#bf388a26 batch_pause#af6fc64d batch_rerun#93764729 batch_results#55397af2 batch_resume#af6fc64d batch_status#af6fc64d batch_wait#7d29833f browser_batch#14c0fdc7 browser_check#c608263a browser_clear_cookies#5ebdcc20 browser_clear_local_storage#5ebdcc20 browser_click#de31b6de browser_close#5ebdcc20 browser_drag#6060bc05 browser_evaluate#3ab1d0c5 browser_fill#95623971 browser_focus#6f76bf9e browser_generate_pdf#156a7fbb browser_get_accessibility_tree#5ebdcc20 browser_get_attribute#213dd2cb browser_get_cookies#5ebdcc20 browser_get_html#86b0eb9b browser_get_local_storage#447f07f4 browser_get_text#17b6b095 browser_get_title#5ebdcc20 browser_get_url#5ebdcc20 browser_go_back#5ebdcc20 browser_go_forward#5ebdcc20 browser_hover#197f9927 browser_navigate#847eb9da browser_new_tab#0e89603a browser_press_key#e04e4682 browser_query_selector_all#1989c0fc browser_reload#5ebdcc20 browser_screenshot#91eb5406 browser_scroll#87b0946c browser_select_option#1b755ada browser_set_cookies#0f332d70 browser_set_local_storage#af2e5d70 browser_switch_tab#0bc5d52b browser_type#6f20d499 browser_uncheck#0b5c5dce browser_wait#881ef975 browser_wait_for_navigation#99d40227 browser_wait_for_selector#fbe1f1ac crawl_content#2ab25f9f crawl_create#a8aebb98 crawl_download#495d5032 crawl_get#ddd2b591 crawl_list#d8fce5e5 crawl_results#82ea1b61 crawl_stop#69b36be5 crawl_wait#91264067 extract#2cd32a3e prepare_domain#89a0a21d prepared_domain_status#3e85a386 scrape#a81b9538
+= e1fe2998 findAgent getAutoQuote getBusinessQuote getHomeownersQuote getMotorcycleQuote getPwcQuote getRentersQuote listHomeownersCompanies
 = e21135e1 check_domain#e324750f create_mailbox#1822ecc0 create_order#4da554ee deploy_files#20328ac6 enable_contact_form#b5e706f3 get_order_status#98625b0c list_plans#99a82ecf start_project#6c8f3e05 suggest_domains#18252ad4
 = e2313460 validate_config#5bb214ca validate_segment#df294886
 = e23c5fa0 autocomplete#39764d24 find_by_tag#0642fa6d find_for_event#26066d49 get_artist_details#6c473bbe list_categories#a6449078 list_locations#8504169b search#a268728f search_artists#82580521
@@ -2519,7 +2520,6 @@
 = ebd8d27d ask_viktor#e439d814 cancel_run#4541f9e2 create_thread#312ccbc5 get_file_download_url#c20f05d6 get_run#f9276050 get_run_result#6b5ad5bf get_thread#fdb3a4a0 list_messages#3c2eba34 list_runs#1a0b8618 list_threads#5f8d5471 send_message#2a0404f4 wait_for_run#2eb6a644
 = ebdc0e0c buscar_acuerdos_salariales#85db9530 buscar_adjudicaciones#4063a772 buscar_dirigentes#30f92adc buscar_empresas#bc2adaa9 buscar_importadores#e1bf755f buscar_llamados#e1ef572d convertir_montos#86a3bb76 escalas_salariales#42878775 ficha_empresa#5ec65a09 ficha_llamado#dccae49f ficha_persona#667613d2 inflacion_entre_fechas#be98688e migraciones_disponibles#99a82ecf saldo_creditos#99a82ecf serie_economica#a5cf51f8 serie_migratoria#59b3a6b5 series_disponibles#99a82ecf sugerencias#ebde1256
 = ebe585dc get_coin#9f868675 get_event#b382cf61 get_usage#fc4ff621 list_categories#fc4ff621 list_coins#27250a33 list_event_cancellations#16094760 list_events#a5f5806f
-= ebea7544 getArticle getFund getQuote getQuoteNews screenFunds searchArticles searchSymbols
 = ebeecc42 estimate_gas#4e72ef3b eth_call#4003efe4 get_balance#b6379649 get_block#47945baf get_block_number#99a82ecf get_chain_info#99a82ecf get_code#d21d3cc3 get_gas_price#99a82ecf get_logs#4b3dfd79 get_storage_at#5c529b85 get_transaction#eb0ee3eb get_transaction_count#965caf08 get_transaction_receipt#eb0ee3eb send_raw_transaction#f297c2bb
 = ec0ee1f5 describe_dataset#e52c7790 get_events#6253cbb4 list_recordings#7a68e279 read_window#88a98b0d render_overview#947a93cd search_datasets#3a185ad7
 = ec22ad06 auth_request_otp#e64e9fff auth_verify_otp#0ce0b144 catalog_get_product#2510b1bc catalog_list_categories#bd7095be catalog_list_denominations#2da7f49c catalog_list_groups#ab6a462f catalog_list_products#e5cf7bd2 catalog_search_products#7b11143f checkout_create_cart#7c5141d7 checkout_get_quote#e72ef848 checkout_list_payment_methods#a66667aa checkout_place_order#e880d398 checkout_quote#4fb7ba08 checkout_update_cart#1867f375 orders_get#d6b4ed71 orders_list#53943f49 session_info#d9873742
@@ -76185,7 +76185,7 @@ fiddlin-fish-brewing-company.myshopify.com	a9af6443
 fidelbodyreshaper.com	bb34c1bd
 fidelismedco.com	bb34c1bd
 fidelisultramortem.myshopify.com	a9af6443
-fidelity.com	ebea7544
+fidelity.com	22efb88c
 fidelitystore.bargains	bb34c1bd
 fidenciospiritsbottleshop.myshopify.com	a9af6443
 fidgets-hub.myshopify.com	a9af6443
@@ -112539,7 +112539,7 @@ pivotal-video-productions.myshopify.com	a9af6443
 pivotcycles.com	4479a458
 pivotcycles.myshopify.com	a9af6443
 pivotcycleseu.myshopify.com	a9af6443
-pixabay.com	35e35326
+pixabay.com	d9390cdc
 pixarbikes.com	da39a3ee
 pixel-panties.myshopify.com	a9af6443
 pixel-people.myshopify.com	a9af6443
@@ -114403,7 +114403,7 @@ progressif-boutique.myshopify.com	a9af6443
 progression-mbj.myshopify.com	a9af6443
 progressionwines.myshopify.com	a9af6443
 progressive-scientific.com	bb34c1bd
-progressive.com	5883a0ce
+progressive.com	e1fe2998
 progressiveair.myshopify.com	a9af6443
 progressivechristianity.org	bb34c1bd
 progressivefootwearadaptivesocks.myshopify.com	a9af6443
