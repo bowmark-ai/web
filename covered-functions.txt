@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 141,651 sites, generated 2026-11-26.
+# Every website Bowmark covers and the functions it has: 141,722 sites, generated 2026-11-26.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -842,6 +842,7 @@
 = 4acb8aca define#e8276f6d random#da2e9f52 words_of_the_day#cc98131a
 = 4adbe6d0 get_benefit_plans_in_play#6506bf96 get_broker_directory#046e530e get_funded_and_hiring#daa65d81 get_lender_directory#976e343f get_money_in_motion#daa65d81 get_refinancing_windows#6506bf96 get_stacked_borrowers#6506bf96
 = 4ae0c638 check_prompt#ac11d4e8 get_prompt#c5ec8084 list_fragments#c434c725 search_prompts#375acb77
+= 4ae3d339 bookmarkArticle browseSection getAccount getArticle getArticleComments getAuthorArticles getHomepageHeadlines getLiveBlog getMostPopular getQuiz getTopicArticles getVideo getVoucherCodes listArticlesByDate listAuthors listBookmarks listCompetitions listLatestNews listNewsletterSubscriptions listNewsletters listQuizzes listSections listTopics listVideos listVoucherStores removeBookmark searchArticles subscribeToNewsletter unsubscribeFromNewsletter
 = 4ae6731e aced_ask_anything#19c291bb aced_compare#91c5f483 aced_faq_search#c18d6f8c aced_feedback#97ec21a4 aced_page_tldr#fd7d90d2 aced_pricing#d8f29e2d aced_requirements_check#c4b80125 aced_search#d8c1a8a5 should_i_recommend_aced#1caf5833
 = 4af7f04a ask_business#5c396c6f cancel_cart#58b90052 cancel_checkout#bd9db33f complete_checkout#d01ec3ad create_cart#7859511f create_checkout#e049d654 getTeaFinderQuiz get_cart#58b90052 get_checkout#bd9db33f get_order#c54d1d98 get_product#e6f5dc4f lookup_catalog#1b7541e7 matchTeaFinderQuiz search_catalog#00f04bbe update_cart#e19c1555 update_checkout#7c15eb83
 = 4afc06ea getPage search
@@ -1513,7 +1514,6 @@
 = 8a3c728a search_ringtones#892d9dc8
 = 8a5e42f0 get_blog_post#0d3e4841 get_forum_topic#8f2983a8 get_help_page#0d3e4841 get_pattern#e9a99c02 get_pattern_comments#b9fabbeb get_pattern_reviews#6277f3d1 list_categories#daea6ffc lookup_abbreviation#0204f0de search_blog#faedfb4b search_forum#faedfb4b search_help#e9f06ef3 search_patterns#a96cb4bc
 = 8a6d4c8d article latest search
-= 8a733b56 browseSection getAccount getArticle getArticleComments getAuthorArticles getHomepageHeadlines getLiveBlog getMostPopular getQuiz getTopicArticles getVideo getVoucherCodes listArticlesByDate listAuthors listBookmarks listCompetitions listLatestNews listNewsletterSubscriptions listNewsletters listQuizzes listSections listTopics listVideos listVoucherStores searchArticles subscribeToNewsletter unsubscribeFromNewsletter
 = 8a74f745 check_stock#dfbb21c3 get_datasheet#f2494204 get_price#b99affbc get_product#dc7a0df2 list_categories#1ba8e4bb search_products#76f1bb8c
 = 8a8a3be4 ask_business#5c396c6f cancel_cart#58b90052 cancel_checkout#bd9db33f complete_checkout#d01ec3ad create_cart#7859511f create_checkout#e049d654 get_cart#58b90052 get_checkout#bd9db33f get_order#c54d1d98 get_product#e6f5dc4f lookup_catalog#1b7541e7 lookup_locations#bcfc1803 searchAcneExperts search_catalog#00f04bbe search_locations#461c84b1 update_cart#e19c1555 update_checkout#7c15eb83
 = 8a93b962 checkAvailability listExperiences
@@ -2039,7 +2039,6 @@
 = bac279d8 find_nearby_cu_stores#46a06fc7 search_products#508a686f search_promotions#3303b379 search_store_stocks#b52c8e3f
 = bac5e8e8 query_docs_filesystem_1_password_developer#1c279d62 search_1_password_developer#58af85d0 submit_feedback#7fd329e5
 = bac724d8 get_company#57030b19 search_companies#b954d6bb
-= bb00c863 get_product#7dae3ef9 get_products#13c49a95 search_products#61855936
 = bb0a4e89 getApplicationPage getDentalPlan getDentalShopPage getPlanDocuments getQuotePage listDentalPlans
 = bb0ab14a collections#5ff5e299 how_to_install#23dd17ed mod_info#0d3e4841 search_mods#b3ceda3d
 = bb16ffef guides_search#37eaecc4 tours_search#1db250a2
@@ -46482,6 +46481,7 @@ a79b10-0d.myshopify.com	a9af6443
 a7b664-5.myshopify.com	a9af6443
 a7d29f.myshopify.com	a9af6443
 a7e46b-f1.myshopify.com	a9af6443
+a7xworld.com	da39a3ee
 a832b6.myshopify.com	a9af6443
 a832d8.myshopify.com	a9af6443
 a83973-c5.myshopify.com	a9af6443
@@ -47326,6 +47326,7 @@ adexpressinc.myshopify.com	a9af6443
 adexuae.com	bb34c1bd
 adexx.ro	bb34c1bd
 adfinternational.org	ea600ad9
+adfitech.com	da39a3ee
 adfixtrade.co.uk	bb34c1bd
 adg-jewelry.myshopify.com	a9af6443
 adgemisrefrigeration.com.au	bb34c1bd
@@ -48674,6 +48675,7 @@ alion.hu	a9af6443
 alion.io	73044996
 alirameddevices.com	bb34c1bd
 alireview.myshopify.com	61e64875
+alisa.shop	da39a3ee
 alisa.ua	4479a458
 alisajavits.myshopify.com	a9af6443
 aliselloudesigns.com	bb34c1bd
@@ -54851,6 +54853,7 @@ bebemundo.ec	4479a458
 bebesit.cl	4479a458
 bebff3-ed.myshopify.com	a9af6443
 bebilo.com.tr	a9af6443
+bebird.com	da39a3ee
 bebitaliamanila.com	05a9bb9e
 bebrowstudio.myshopify.com	a9af6443
 becandbridge.com	da39a3ee
@@ -54893,6 +54896,7 @@ bed-linnenshop.nl	a9af6443
 bed-n-blankets.myshopify.com	a9af6443
 bed-online.ca	bb34c1bd
 bedandbath.gr	da39a3ee
+bedarcollection.com	da39a3ee
 bedazzled-designs-dfw.myshopify.com	a9af6443
 bedbathandbeyond.ca	4479a458
 bedbathandbeyond.co.nz	8b50d914
@@ -57195,6 +57199,7 @@ blushers.org	a9af6443
 blushingbb-slimes.myshopify.com	a9af6443
 blushlingerie.com	4479a458
 blushvibe.com	4479a458
+blusmart.ro	da39a3ee
 blusrawandnatural.co.uk	bb34c1bd
 bluwyre.com	bb34c1bd
 bluxom.com	bb34c1bd
@@ -57561,6 +57566,7 @@ bon.de	bb34c1bd
 bonafide-provisions.myshopify.com	a9af6443
 bonafideswag.myshopify.com	a9af6443
 bonafinetrading.co.ke	bb34c1bd
+bonage.com	da39a3ee
 bonairbotanicals.myshopify.com	a9af6443
 bonakdar-institute.myshopify.com	a9af6443
 bonamik9.myshopify.com	a9af6443
@@ -57968,6 +57974,7 @@ botokasolar.com	05a9bb9e
 botoxfill.com	bb34c1bd
 botsco.com	bb34c1bd
 botslab.com	4479a458
+bottecchia.com	da39a3ee
 bottega-artisan.myshopify.com	a9af6443
 bottegaverde.com.mt	bb34c1bd
 bottegawhiskey.com	bb34c1bd
@@ -58667,6 +58674,7 @@ bristolparentcarers.org.uk	bb34c1bd
 bristonmaroney.myshopify.com	a9af6443
 brisvegasmachinery.com.au	bb34c1bd
 brita.co.uk	4479a458
+brita.fr	da39a3ee
 britainessentials.com	bb34c1bd
 britainsbeauty.com	bb34c1bd
 britainsbeauty.pk	bb34c1bd
@@ -61236,6 +61244,7 @@ cascadiamushrooms.myshopify.com	a9af6443
 cascadiaseniorliving.com	57d77e1b
 cascalia.com	4479a458
 cascina-alberta-wines.myshopify.com	a9af6443
+casco.com	da39a3ee
 case-face.co.uk	bb34c1bd
 case-mate.com	8b50d914
 case-monkey-1.myshopify.com	a9af6443
@@ -65003,6 +65012,7 @@ coparentingkids-com-au.myshopify.com	a9af6443
 copel-calculations.myshopify.com	a9af6443
 copenhagen-imports.com	bb34c1bd
 copenhagen-primary.myshopify.com	a9af6443
+copenhagenkpop.com	da39a3ee
 coper-inc.myshopify.com	a9af6443
 copgearstore.com	bb34c1bd
 copify.ir	bb34c1bd
@@ -65746,6 +65756,7 @@ crazy4diecasts.in	bb34c1bd
 crazyaarons.com	37007769
 crazyarms.com	4479a458
 crazycannabis.cc	bb34c1bd
+crazyclearance.uk	da39a3ee
 crazycompression.com	4479a458
 crazydetailer.co.za	bb34c1bd
 crazydogtshirts.com	8b50d914
@@ -67360,6 +67371,7 @@ danceonline.co.uk	bb34c1bd
 danceproacademy.com	bb34c1bd
 dancers-den-dancewear.myshopify.com	a9af6443
 dancestuff.myshopify.com	a9af6443
+dancesupplies.com	da39a3ee
 dancewear-center.myshopify.com	a9af6443
 dancing-anchor-spirits.myshopify.com	a9af6443
 dancing-bee-farms-llc.myshopify.com	a9af6443
@@ -69736,6 +69748,7 @@ dlgsoundwaves.myshopify.com	a9af6443
 dlivrdstore.myshopify.com	a9af6443
 dlk.com.br	4479a458
 dlkimportaciones.com	a9af6443
+dlouise.com	da39a3ee
 dls.se	bb34c1bd
 dlsean-llc.myshopify.com	a9af6443
 dlsports-eu.myshopify.com	a9af6443
@@ -70846,6 +70859,7 @@ dualanimalstudios.myshopify.com	a9af6443
 dualav.com	bb34c1bd
 dualit.com	8b50d914
 duallcamera.myshopify.com	a9af6443
+duallywheels.ca	da39a3ee
 dualsided-v2.myshopify.com	61e64875
 dualstreets.myshopify.com	a9af6443
 duanbooks.myshopify.com	a9af6443
@@ -71161,6 +71175,7 @@ e-moq.myshopify.com	a9af6443
 e-motorusa.myshopify.com	a9af6443
 e-motousa.com	bb34c1bd
 e-paintball.com	bb34c1bd
+e-purifier.com	da39a3ee
 e-quran.com	1a10e9b3
 e-reuse.co.uk	bb34c1bd
 e-s-schubert-sculpture.myshopify.com	a9af6443
@@ -74546,6 +74561,7 @@ experiencerides.com	bb34c1bd
 experiences-canada.myshopify.com	a9af6443
 experiencesol.com	bb34c1bd
 experienciascostablanca.com	bb34c1bd
+expertautravail.ca	da39a3ee
 expertbits.co.uk	bb34c1bd
 expertdie.com	bb34c1bd
 expertmarketresearch.com	7bb3a1b1
@@ -74624,6 +74640,7 @@ extreme-blossoms.myshopify.com	a9af6443
 extreme-ownership-muster.myshopify.com	a9af6443
 extreme-simracing.myshopify.com	a9af6443
 extreme-vehicle-protection.myshopify.com	61e64875
+extremecanopy.com	da39a3ee
 extremegadgets.com.bd	bb34c1bd
 extremehodophile.com	bb34c1bd
 extremeleadprogram.com	bb34c1bd
@@ -75290,6 +75307,7 @@ fantuan.ca	9090fd90
 fanvilindia.com	bb34c1bd
 fanxia-design.myshopify.com	a9af6443
 fanyil.com	8b50d914
+fanzartfans.com	da39a3ee
 faorozco.myshopify.com	a9af6443
 faoschwarz.com	4479a458
 faq-king-store.myshopify.com	61e64875
@@ -77960,6 +77978,7 @@ freddy.com	4479a458
 freddyn-beras.myshopify.com	a9af6443
 frederic-remington-art-museum.myshopify.com	a9af6443
 frederica-tack-shop.myshopify.com	a9af6443
+frederica.com	da39a3ee
 fredericks.com	4479a458
 fredericksburg-heritage.myshopify.com	a9af6443
 fredericroofingstl.myshopify.com	a9af6443
@@ -79590,6 +79609,7 @@ generation.com.pk	4479a458
 generational-wealth-team.myshopify.com	a9af6443
 generationcool.myshopify.com	a9af6443
 generationenvironment.myshopify.com	a9af6443
+generationlab.org	da39a3ee
 generations-medical-aesthetics.myshopify.com	a9af6443
 generationscakes.myshopify.com	a9af6443
 generativehut.myshopify.com	a9af6443
@@ -79640,6 +79660,7 @@ genpacdrones.com	bb34c1bd
 genpilot.com	bb34c1bd
 genpouan.myshopify.com	a9af6443
 genprod.com	da39a3ee
+genqrcode.com	da39a3ee
 genrage.com	8b50d914
 gensan.com.au	bb34c1bd
 genshai.myshopify.com	a9af6443
@@ -83449,6 +83470,7 @@ harzschnitzeljagd.myshopify.com	a9af6443
 harzunikat.myshopify.com	a9af6443
 hasanalepposoap.co.nz	bb34c1bd
 hasbro-pulse-eu.myshopify.com	a9af6443
+hasdata.com	da39a3ee
 hasedorganics.myshopify.com	a9af6443
 haseena.co	a9af6443
 hasegawa.jp	4479a458
@@ -86751,6 +86773,7 @@ ideal4students.myshopify.com	a9af6443
 idealbarbersupply.com	bb34c1bd
 idealelectricalmerch.myshopify.com	a9af6443
 idealista.com	3559d7ac
+idealmoda.com	da39a3ee
 idealworld.tv	4479a458
 ideapaint-us.myshopify.com	a9af6443
 idearanker.com	bb34c1bd
@@ -87147,6 +87170,7 @@ imeldas-shoes-accessories.myshopify.com	a9af6443
 imemories.myshopify.com	a9af6443
 imeshh.com	bb34c1bd
 imexrvandautoparts.myshopify.com	a9af6443
+imforza.com	da39a3ee
 img.ly	e427857f
 imgix.com	035b077d
 imgkits.com	9020e68a
@@ -87250,6 +87274,7 @@ improvisedelectronics.com	bb34c1bd
 improvpig.myshopify.com	a9af6443
 imprue-inc.myshopify.com	a9af6443
 impulse-pictures.com	bb34c1bd
+impulsecreations.com	da39a3ee
 impulseenterprises.com	bb34c1bd
 imreadyforsummer.com	bb34c1bd
 imrex.sg	05a9bb9e
@@ -87373,7 +87398,7 @@ independant-ant-store.myshopify.com	a9af6443
 independencetraining.com	bb34c1bd
 independent-australia.myshopify.com	a9af6443
 independent-vermont-clothing.myshopify.com	a9af6443
-independent.co.uk	8a733b56
+independent.co.uk	4ae3d339
 independentpropagandastore.myshopify.com	a9af6443
 independentwomenshop.myshopify.com	a9af6443
 indepthdivejewellery.com	bb34c1bd
@@ -87685,6 +87710,7 @@ inkaarthouse.com	4479a458
 inkalloy.com	37007769
 inkandtimberpens.com	bb34c1bd
 inkandtonerlocker.com	a9af6443
+inkandvolt.com	da39a3ee
 inkartdesigns.com	bb34c1bd
 inkarto.com	da39a3ee
 inkawawa.myshopify.com	a9af6443
@@ -87857,6 +87883,7 @@ inspee.be	4479a458
 inspee.com	4479a458
 inspee.es	da39a3ee
 inspee.it	4479a458
+inspee.nl	da39a3ee
 inspenet.com	bdf2ce97
 inspiraciones.cl	a9af6443
 inspiration-fire.myshopify.com	a9af6443
@@ -88631,6 +88658,7 @@ isurve.ge	4479a458
 isvaracandles.myshopify.com	a9af6443
 iswvch-8n.myshopify.com	a9af6443
 it1gpu-bp.myshopify.com	a9af6443
+itabagshop.com	da39a3ee
 itaca-7482.myshopify.com	a9af6443
 italdeli.co.za	bb34c1bd
 italiacompositi.com	bb34c1bd
@@ -89336,6 +89364,7 @@ jasonscottandthehighheat.myshopify.com	a9af6443
 jasonspirit.myshopify.com	a9af6443
 jasonspopcorn.myshopify.com	a9af6443
 jasonwarburg.com	bb34c1bd
+jaspal.com	da39a3ee
 jaspwilson.co.uk	bb34c1bd
 jaspys.myshopify.com	a9af6443
 jastrading.ae	bb34c1bd
@@ -89788,6 +89817,7 @@ jewelrybysweetpea.com	58339ea0
 jewelrydesigns.com	bb34c1bd
 jewelryexchange.com	bb34c1bd
 jewelrygrande.com	bb34c1bd
+jewelrykeepsakes.com	da39a3ee
 jewelrynetworkinc.com	bb34c1bd
 jewelryrider.com	bb34c1bd
 jewelryshopnew.myshopify.com	a9af6443
@@ -93037,6 +93067,7 @@ kolayoto.com	4479a458
 kolby-cooper-merch.myshopify.com	a9af6443
 kolekin.com	bb34c1bd
 kolektojewelry.myshopify.com	a9af6443
+kolicazabebe.rs	da39a3ee
 koliqi.co.uk	bb34c1bd
 kolkatafish.com	bb34c1bd
 kollagens.com	a9af6443
@@ -93466,6 +93497,7 @@ kuke.my	bb34c1bd
 kukirin-escooter.com	4479a458
 kukoonrugs.com	8b50d914
 kulanikinis.com	4479a458
+kulanikinis.com.au	da39a3ee
 kuleana-coral.myshopify.com	a9af6443
 kuleana-rum-works.myshopify.com	a9af6443
 kulfibeauty.com	4479a458
@@ -94116,6 +94148,7 @@ lamaisontricotee.myshopify.com	a9af6443
 lamakbags.myshopify.com	a9af6443
 lamancheclothing.myshopify.com	a9af6443
 lamano-beauty-relaxation.myshopify.com	a9af6443
+lamansh.in	da39a3ee
 lamaretail.com	4479a458
 lamarhuleyartist.myshopify.com	a9af6443
 lamarianna-pasticceria.myshopify.com	a9af6443
@@ -94950,6 +94983,7 @@ ledhut.co.uk	da39a3ee
 ledialighting.com	bb34c1bd
 ledisa.com	4479a458
 ledkungense.myshopify.com	61e64875
+ledlenser.co.uk	da39a3ee
 ledlightco.com.au	bb34c1bd
 ledlightmirrors.myshopify.com	a9af6443
 ledlightscanada.com	bb34c1bd
@@ -95866,6 +95900,7 @@ lilly-mirren-author.myshopify.com	a9af6443
 lilly-pilly-style.myshopify.com	a9af6443
 lillyandsid.gr	a9af6443
 lillydoo.com	4479a458
+lillylashes.com	da39a3ee
 lillypark.myshopify.com	a9af6443
 lillys-brushes-more.myshopify.com	a9af6443
 lillysstories.pl	bb34c1bd
@@ -97668,6 +97703,7 @@ lunadabaytile.myshopify.com	a9af6443
 lunadigitalshop.com	bb34c1bd
 lunadirect.myshopify.com	a9af6443
 lunafactory.co.jp	da39a3ee
+lunafashionhouse.co.uk	da39a3ee
 lunafurn.com	4479a458
 lunajoyboutique.com	bb34c1bd
 lunalightstudios.com	4479a458
@@ -98756,6 +98792,7 @@ malaysiasafetysupply.myshopify.com	a9af6443
 malaysiaseashells.com	bb34c1bd
 malbon.com	37007769
 malcomterry.com	bb34c1bd
+maldivesindependent.com	da39a3ee
 maldonadoartstore.myshopify.com	a9af6443
 maleboxat.myshopify.com	a9af6443
 maleein.myshopify.com	a9af6443
@@ -98847,6 +98884,7 @@ mambos.co.za	bb34c1bd
 mamda-knitwear.myshopify.com	a9af6443
 mamekura.myshopify.com	a9af6443
 mamelefit.myshopify.com	a9af6443
+mamell.de	da39a3ee
 mamidori-online.myshopify.com	a9af6443
 mamie-et-marmaille-3576.myshopify.com	a9af6443
 mamigo.jp	4479a458
@@ -99630,6 +99668,7 @@ masseyferguson.co.zw	bb34c1bd
 masseyferguson.com.gh	bb34c1bd
 masshole-beer.myshopify.com	a9af6443
 massif.com	bb34c1bd
+massillonlibrary.org	da39a3ee
 massimo-saretta.myshopify.com	a9af6443
 massimosattel.myshopify.com	a9af6443
 massingbird-jewelry.myshopify.com	a9af6443
@@ -100189,6 +100228,7 @@ mdecks-music.myshopify.com	a9af6443
 mdfcreations.com.au	bb34c1bd
 mdfinstruments.com	4479a458
 mdfskirtingmouldings.co.uk	4479a458
+mdintegrations.com	da39a3ee
 mditruck.myshopify.com	a9af6443
 mdj-pianist.myshopify.com	a9af6443
 mdk3kt-ib.myshopify.com	a9af6443
@@ -101713,6 +101753,7 @@ miniaturerhino.myshopify.com	a9af6443
 minibag.com	a9af6443
 minibaseballshop.myshopify.com	a9af6443
 minibearings.com.au	4479a458
+minibricks.com	da39a3ee
 minibrits.uk	da39a3ee
 minicaremates.com.au	bb34c1bd
 miniclub.com.pk	4479a458
@@ -102545,6 +102586,7 @@ moleculeclothing.shop	bb34c1bd
 molekule.com	4479a458
 molemarketer.com	5a7728b5
 molen-ict.myshopify.com	a9af6443
+moleqlar.com	da39a3ee
 moletech.com	bb34c1bd
 molforge.ai	a728bbcd
 molinaleatherworks.com	bb34c1bd
@@ -103213,6 +103255,7 @@ motosoko.com	bb34c1bd
 motosoulsmysuru.com	bb34c1bd
 motospeedltd.com	bb34c1bd
 motosports.lv	4479a458
+motostarz.com	da39a3ee
 motostuka.myshopify.com	a9af6443
 mototech-lux.myshopify.com	a9af6443
 mototorque.in	8b50d914
@@ -103628,6 +103671,7 @@ muddy-moose-merchandise.myshopify.com	a9af6443
 muddyboots-sleepovers.com	bb34c1bd
 muddymats.com	4479a458
 muddymutts-2.myshopify.com	a9af6443
+muddypuddles.com	da39a3ee
 mudgear.myshopify.com	a9af6443
 mudgirl-wearepinkarmy.myshopify.com	a9af6443
 mudhole.com	37007769
@@ -103875,6 +103919,7 @@ musicbase.net	0ec8ad3e
 musicbliss.com.my	37007769
 musicchoice.com	685e74a3
 musiccitycounselor.com	bb34c1bd
+musicetu.com	da39a3ee
 musicfolk.com	bb34c1bd
 musicfordreams.myshopify.com	a9af6443
 musichorizon.com	4479a458
@@ -103957,6 +104002,7 @@ mutimbauch.myshopify.com	a9af6443
 mutiny-fine-goods.myshopify.com	a9af6443
 mutiny-metals.myshopify.com	a9af6443
 mutiny-online.myshopify.com	a9af6443
+mutlufiyatlar.com	da39a3ee
 mutnetze.myshopify.com	61e64875
 muto-sendagaya.myshopify.com	a9af6443
 muttluks-ca.myshopify.com	a9af6443
@@ -103973,6 +104019,7 @@ muya.com	8b50d914
 muymucho.com	4479a458
 muzazaa.com	375abf38
 muze.gov.tr	0a2c24c4
+muzemerch.com	da39a3ee
 muzetokyo.myshopify.com	a9af6443
 muzeumgdynia.pl	05a9bb9e
 muziker.at	21d7ad27
@@ -104568,6 +104615,7 @@ mystery-made.myshopify.com	a9af6443
 mystery-skulls-animated.myshopify.com	a9af6443
 mysteryart-7314.myshopify.com	a9af6443
 mysterydeliveryuk.myshopify.com	a9af6443
+mysterytacklebox.com	da39a3ee
 mysteryvibellc.myshopify.com	a9af6443
 mystic-boxing-commision.myshopify.com	a9af6443
 mystic-forms.myshopify.com	a9af6443
@@ -107439,6 +107487,7 @@ nzyoungevity.co.nz	bb34c1bd
 o-boo-ja-beauty.myshopify.com	a9af6443
 o-cookies.myshopify.com	a9af6443
 o-donoghue-s.myshopify.com	a9af6443
+o-otd.com	da39a3ee
 o-positiv.myshopify.com	a9af6443
 o-v-tasting-room.myshopify.com	a9af6443
 o-yaki.myshopify.com	a9af6443
@@ -110045,6 +110094,7 @@ papataka.myshopify.com	a9af6443
 papawai-press.myshopify.com	a9af6443
 papaya.com.sg	bb34c1bd
 papcollective.com	bb34c1bd
+papeleriadelpaseo.com	da39a3ee
 papelerias-bety.myshopify.com	a9af6443
 paper-airplane-books.myshopify.com	a9af6443
 paper-box-manufacturer.com	bb34c1bd
@@ -111414,6 +111464,7 @@ petivity.com	4479a458
 petkeek.com	bb34c1bd
 petkit.com	4479a458
 petland-2.myshopify.com	a9af6443
+petland.ca	da39a3ee
 petlanta-pet-pros.myshopify.com	a9af6443
 petlibro.com	134ddf07
 petlikes.in	bb34c1bd
@@ -111768,7 +111819,6 @@ physioneedsng.com	bb34c1bd
 physioproductskenya.com	bb34c1bd
 physioproductstanzania.com	bb34c1bd
 physiquefitness.com	bb34c1bd
-phyto.com	bb00c863
 phytologica.myshopify.com	a9af6443
 phzgcr-ex.myshopify.com	a9af6443
 pi-bags.myshopify.com	a9af6443
@@ -111939,6 +111989,7 @@ pilestonejp.myshopify.com	a9af6443
 pilgrim.com.gr	bb34c1bd
 pilgrim.ee	bb34c1bd
 pilgrim.net	4479a458
+pilgrimgifts.co.uk	da39a3ee
 pilgrimhearth.com	bb34c1bd
 pilgrims-of-deliverance.myshopify.com	a9af6443
 pilgrimswayconsignment.myshopify.com	a9af6443
@@ -112813,6 +112864,7 @@ poly.se	bb34c1bd
 polyandbark.com	4479a458
 polycade.com	4479a458
 polycents.com	685e74a3
+polydor.co.uk	da39a3ee
 polylift.myshopify.com	a9af6443
 polymarket.com	3ee6f9cd
 polynesian-pride.com	4479a458
@@ -113405,6 +113457,7 @@ pre-prod-velo-spain.myshopify.com	a9af6443
 preachindex.com	137180a7
 precept.org.uk	bb34c1bd
 preceptpublishers.com	bb34c1bd
+precioreal.com	da39a3ee
 preciosovdiamonte.myshopify.com	61e64875
 precious-posh.myshopify.com	a9af6443
 precious-rockx.myshopify.com	a9af6443
@@ -116098,6 +116151,7 @@ real-wasabi.myshopify.com	a9af6443
 realadvisor.com	da39a3ee
 realamericanwarrior.myshopify.com	a9af6443
 realamericasvoice.myshopify.com	a9af6443
+realavid.com	da39a3ee
 realayurved.myshopify.com	61e64875
 realbeddings.pk	bb34c1bd
 realbrownbeauties.com	bb34c1bd
@@ -116410,6 +116464,7 @@ redifarms.myshopify.com	a9af6443
 redingdesign.myshopify.com	a9af6443
 redirector.myshopify.com	a9af6443
 redis.io	d495b3d6
+rediscovervintage.com	da39a3ee
 redki.com.au	bb34c1bd
 redland-love.myshopify.com	a9af6443
 redline-specialty-pharmacy.myshopify.com	a9af6443
@@ -116984,6 +117039,7 @@ rescue-me-coffee-and-tea.myshopify.com	a9af6443
 rescueageneration.myshopify.com	a9af6443
 rescued-redeemed.myshopify.com	a9af6443
 rescued-restored.myshopify.com	a9af6443
+rescuefrenchbulldogs.org	da39a3ee
 rescuenorthwest.com	bb34c1bd
 rescuetime.com	f3d4f882
 researchchemicalsbuy.com	bb34c1bd
@@ -117128,6 +117184,7 @@ retrosoccerkit.com	4479a458
 retrospec.com	4479a458
 retrospectro.co.uk	bb34c1bd
 retrospekt.com	37007769
+retrotink.com	da39a3ee
 retrovgames.com	4479a458
 retrovibe.co.uk	bb34c1bd
 retrovintageonline.co.uk	bb34c1bd
@@ -118765,6 +118822,7 @@ rtlproducts.com	bb34c1bd
 rtntankerparts.com	bb34c1bd
 rtoxstore.myshopify.com	61e64875
 rtsws.myshopify.com	a9af6443
+rtyne.net	da39a3ee
 rtzn.myshopify.com	a9af6443
 ru6xye-dk.myshopify.com	a9af6443
 ruabodyjewellery.myshopify.com	a9af6443
@@ -120341,6 +120399,7 @@ say-love-for-hair.myshopify.com	a9af6443
 saya.pk	4479a458
 sayabirmingham.com	bb34c1bd
 sayda.co.uk	bb34c1bd
+sayduck.com	da39a3ee
 sayfww-0u.myshopify.com	a9af6443
 sayit.mx	a9af6443
 sayittshirts.com	a9af6443
@@ -125783,6 +125842,7 @@ spearsenterprises.com	bb34c1bd
 spearwerx-llc.myshopify.com	a9af6443
 speazforyou.myshopify.com	61e64875
 spec-and-compare.myshopify.com	61e64875
+speccodex.com	da39a3ee
 special-day.myshopify.com	a9af6443
 special-ed-arts-literacy.myshopify.com	a9af6443
 special-mall.com	e029e283
@@ -127045,6 +127105,7 @@ stilnest.com	da39a3ee
 stilord.de	4479a458
 stilosissima.myshopify.com	a9af6443
 stiltskinyarnandfiber.myshopify.com	a9af6443
+stimara.com	da39a3ee
 stimm.com	8b50d914
 stinas-quilt-and-sewing-supplies.myshopify.com	a9af6443
 stinegoya.com	4479a458
@@ -128018,6 +128079,7 @@ sundayliciousau.myshopify.com	a9af6443
 sundayrebel-studio.myshopify.com	a9af6443
 sundayriley.com	b1550f0a
 sundays-9561.myshopify.com	a9af6443
+sundays-company.ca	da39a3ee
 sundays-company.com	37007769
 sundayscaries.com	da39a3ee
 sundaysociety.myshopify.com	a9af6443
@@ -134907,6 +134969,7 @@ torraslife.com	4479a458
 torrefaccion-mayor.myshopify.com	a9af6443
 torrelamx.myshopify.com	a9af6443
 torrentialthrill.myshopify.com	a9af6443
+torresdelpaine.com	da39a3ee
 torrinwilliams.myshopify.com	a9af6443
 torrxshop.myshopify.com	a9af6443
 torshaplus.com	a9af6443
@@ -135726,6 +135789,7 @@ tripsy.app	da39a3ee
 tripuck.com	70fe30cf
 tripulse.myshopify.com	a9af6443
 tripwire-7402.myshopify.com	a9af6443
+tripzaza.com	da39a3ee
 triquetrahealth.com	8b50d914
 trisha-yearwood.myshopify.com	a9af6443
 trishalyn.com	bb34c1bd
@@ -136241,6 +136305,7 @@ turbobrandsfactory.com	4479a458
 turbobundles.myshopify.com	61e64875
 turbocooker.com	a9af6443
 turbogruen.de	4479a458
+turbokids.ca	da39a3ee
 turbologic.myshopify.com	a9af6443
 turbomarketing.myshopify.com	a9af6443
 turborepo.dev	21ed7c63
@@ -137435,6 +137500,7 @@ urbannutritioncenter.com	bb34c1bd
 urbanofashion.com	4479a458
 urbanopticon.com	bb34c1bd
 urbanpaws.ca	bb34c1bd
+urbanplant.in	da39a3ee
 urbanpro.com	468dcbe5
 urbanrefugee.myshopify.com	a9af6443
 urbanrelicdesign.myshopify.com	a9af6443
@@ -137662,6 +137728,7 @@ utexas.edu	bb34c1bd
 utibeetim.com	bb34c1bd
 utica-blue-sox.myshopify.com	a9af6443
 uticacomets.myshopify.com	a9af6443
+utildistrib.com	da39a3ee
 utilitarioss.com	61e64875
 utility-technologies.myshopify.com	a9af6443
 utilitygift.co.uk	8b50d914
@@ -139444,6 +139511,7 @@ vocalizeu-worldwide.myshopify.com	a9af6443
 vocaltutor.myshopify.com	a9af6443
 vocaracing.com	bb34c1bd
 vocatone-store.myshopify.com	a9af6443
+voceconstroi.com.br	da39a3ee
 voces-digital-courseware.myshopify.com	a9af6443
 voctave.myshopify.com	a9af6443
 vod-boutique.myshopify.com	a9af6443
@@ -139922,6 +139990,7 @@ wallaceandcompany.myshopify.com	a9af6443
 wallacebishop.com.au	37007769
 wallartistic.be	4479a458
 wallartistic.de	da39a3ee
+wallartistic.fr	da39a3ee
 wallartistic.nl	da39a3ee
 wallartkenya.myshopify.com	a9af6443
 wallatees.com	bb34c1bd
@@ -141329,6 +141398,7 @@ wigs-by-vanity.myshopify.com	a9af6443
 wigs-fetching.myshopify.com	61e64875
 wigs.com	b1550f0a
 wigstudio1.com	4479a458
+wigwam.com	da39a3ee
 wigyy.com	4479a458
 wihatools.com	8b50d914
 wii-vape.myshopify.com	a9af6443

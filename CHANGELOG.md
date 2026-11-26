@@ -7,6 +7,224 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.51.0 (2026-11-26)
+
+**Websites**
+
+- +197 websites, +2,348 functions, -2 websites, -17 functions. 141,722 websites and 1,360,532 functions in all.
+
+Added:
+
+- 196 websites, functions not listed yet:
+  - a7xworld.com
+  - adfitech.com
+  - alicedelice.com
+  - alisa.shop
+  - almacenesanfora.com
+  - amazitshop.com
+  - americanfurnishingsdublin.com
+  - apgwholesale.com
+  - arktisquelle.de
+  - artimgroup.ro
+  - barbarabui.com
+  - baybridal.nz
+  - bebird.com
+  - bedarcollection.com
+  - betterbebold.eu
+  - bighornoutdoor.com
+  - bio.vet
+  - blusmart.ro
+  - bonage.com
+  - bottecchia.com
+  - brita.fr
+  - brockgroup.com
+  - bumbletoys.com
+  - cace.org.ar
+  - cafely.com
+  - capietra.com
+  - carlab.net
+  - casco.com
+  - celmade.co
+  - chango.com
+  - chatcrawler.link
+  - copenhagenkpop.com
+  - corexbooks.com
+  - cottoncollective.org
+  - crazyclearance.uk
+  - cura-naturale.fr
+  - dancesupplies.com
+  - daytona73.com
+  - de-limmo.jp
+  - designville.sk
+  - detailersdomain.com
+  - dibruno.com
+  - dlouise.com
+  - duallywheels.ca
+  - e-purifier.com
+  - eviqo.io
+  - expertautravail.ca
+  - extremecanopy.com
+  - fanzartfans.com
+  - feldherr.com
+  - finks.com
+  - fluff.co
+  - fragrancemarket.com
+  - frederica.com
+  - gaborshoes.co.uk
+  - gangafashions.com
+  - gatefurn.com
+  - generationlab.org
+  - genqrcode.com
+  - georgecourey.com
+  - gimgs.net
+  - globalpayrollassociation.com
+  - goldenhomefurniture.com
+  - golfbase.co.uk
+  - graffitibooks.co.za
+  - hairsoflyshop.com
+  - hasdata.com
+  - hellymoon.com
+  - herbsdirect.com
+  - hex.store
+  - hidratespark.com
+  - hodhealthandhome.com.au
+  - hollow-press.net
+  - honeyplaybox.com
+  - houdiniholsters.com
+  - hulashop.co.uk
+  - hyperclutch.com
+  - icarsoft-us.com
+  - idealmoda.com
+  - imforza.com
+  - impulsecreations.com
+  - inkandvolt.com
+  - inspee.nl
+  - isango.com
+  - itabagshop.com
+  - jardinvue.com
+  - jaspal.com
+  - jbspowercentre.com
+  - jewelrykeepsakes.com
+  - kakushin.ca
+  - kamokapearls.com
+  - karokauer.com
+  - kiezstudio.com
+  - kiyobeauty.com
+  - kleinkantoor.nl
+  - knixteen.com
+  - koawach.de
+  - kolicazabebe.rs
+  - kulanikinis.com.au
+  - lamansh.in
+  - lavka-shop.de
+  - ledlenser.co.uk
+  - leonisa.es
+  - lestyleonline.com
+  - lillylashes.com
+  - longstreth.com
+  - lunafashionhouse.co.uk
+  - madebymollyco.com
+  - maldivesindependent.com
+  - mamell.de
+  - massillonlibrary.org
+  - mdintegrations.com
+  - medusa.jewelry
+  - merachfit.eu
+  - minibricks.com
+  - misha-and-puff.com
+  - moleqlar.com
+  - motostarz.com
+  - muddypuddles.com
+  - musicetu.com
+  - mutlufiyatlar.com
+  - muzemerch.com
+  - myplate.food
+  - mysterytacklebox.com
+  - naild.de
+  - navando.nl
+  - nealsyarddairy.co.uk
+  - nefsfinds.com
+  - normjewels.com
+  - nuflos.com
+  - o-otd.com
+  - officialyuri.com
+  - onehundredstars.co.uk
+  - papeleriadelpaseo.com
+  - parent.com
+  - partakefoods.com
+  - pcnetinc.com
+  - pedalmafia.cc
+  - petland.ca
+  - petswarehouse.com
+  - pilgrimgifts.co.uk
+  - plourdefurniturecompany.com
+  - plumbing-deals.com
+  - polydor.co.uk
+  - poppypine.com
+  - poundametre.com
+  - precioreal.com
+  - propertylabs.org
+  - pulze.io
+  - quintanarootri.com
+  - ra-sport.com
+  - realavid.com
+  - realrelaxmassage.ca
+  - rediscovervintage.com
+  - relish.it
+  - rescuefrenchbulldogs.org
+  - retrotink.com
+  - rocoparts.de
+  - rtyne.net
+  - rudraretails.com
+  - runtheedge.com
+  - sayduck.com
+  - seagull1963.com
+  - selurewear.com
+  - shawnryanshow.com
+  - shopliquidrubber.com
+  - slothhikingclub.com
+  - speccodex.com
+  - stimara.com
+  - sundays-company.ca
+  - sweelee.co.id
+  - synergyhair.com.au
+  - tacticalelites.com
+  - taufnaus.de
+  - teeccino.com
+  - torresdelpaine.com
+  - tripzaza.com
+  - tumbleweedthrift.com
+  - turbokids.ca
+  - universalyarn.com
+  - urbanplant.in
+  - urwizards.com
+  - utildistrib.com
+  - vacanza.ro
+  - voceconstroi.com.br
+  - vondiamonds.com
+  - wallartistic.fr
+  - waterrower.com
+  - wewander.com.au
+  - wigwam.com
+  - xcelwetsuits.com
+  - york-miller.com
+  - yummybazaar.com
+  - zak.com
+  - zeni-ambient.com
+  - zupr.nl
+- deltadentalins.com: `findDentist`
+
+Changed:
+
+- independent.co.uk: added `bookmarkArticle`, `removeBookmark`
+
+Removed:
+
+- glam-moda.com: `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`
+- phyto.com: `get_product`, `get_products`, `search_products`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.50.0 (2026-11-26)
 
 **Websites**
