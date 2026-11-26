@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 244a5915de2ca632dd43b2737b9627eba0c8da0d897e28ab3fd6d98fc12d0987
-// 100 capabilities, 988 providers, 6223 typed functions, 20 refused.
+// Manifest version: 19ccbbe3ab0254f1d63600479c4447d91ec7281d0f2f4c7e885410dc9e3c8ff5
+// 100 capabilities, 992 providers, 6236 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -41930,6 +41930,66 @@ interface DellDriver {
   }
 }
 
+declare namespace BowmarkProvider_deltadentalins {
+  // ── Delta Dental (deltadentalins.com) — the unit's own declarations, verbatim ──
+// Delta Dental's (deltadentalins.com) OWN shapes — not a capability contract.
+
+interface deltadentalinsNetwork {
+  networkId: string; // the site's id, e.g. "2PPO"
+  networkName: string; // e.g. "Delta Dental PPO"
+  acceptsNewPatients: boolean;
+}
+
+interface deltadentalinsDentist {
+  providerKey: string; // the site's own id for this dentist at this office
+  name: string;
+  specialty: string; // e.g. "General Dentist"
+  officeName: string | null;
+  phone: string | null;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  latitude: number | null;
+  longitude: number | null;
+  distanceMiles: number | null;
+  networks: deltadentalinsNetwork[]; // every Delta Dental network this office is in
+  acceptsNewPatients: boolean; // on the requested network, or on any network when none was asked for
+  website: string | null;
+}
+
+interface deltadentalinsSearchResult {
+  location: string; // the place the site searched around
+  total: number; // matching dentists across all pages
+  page: number; // 1-based
+  numberOfPages: number;
+  dentists: deltadentalinsDentist[]; // 10 per page, nearest first
+}
+
+interface deltadentalinsFindDentistArgs {
+  zip: string; // a US ZIP, or "City, ST"
+  network?: string; // "PPO", "Premier", "DeltaCare" (or a site id: 2PPO, 2PREMIER, 2DELTACARE, DCSUBIND, DCSUBMED, DCSUBCON); omit for any
+  specialty?: string; // General Dentist, Pediatric Dentist, Orthodontist, Endodontist, Periodontist, Oral Surgeon, Prosthodontist; omit for any
+  radiusMiles?: number; // 1-100
+  page?: number; // 1-based, default 1
+}
+
+  /**
+   * Delta Dental's public Find a Dentist (deltadentalins.com): in-network dentists near a ZIP,
+   * filtered by network (PPO, Premier, DeltaCare USA) and specialty, with address, phone,
+   * distance and accepts-new-patients per network.
+   */
+  interface Unit {
+    /**
+     * Find Delta Dental in-network dentists near a US ZIP (or 'City, ST'), filtered by network
+     * (PPO, Premier, DeltaCare USA) and specialty (general, pediatric, orthodontist, oral
+     * surgeon…). Returns name, specialty, office, address, phone, distance and each network with
+     * its accepts-new-patients flag, 10 per page, nearest first.
+     */
+    findDentist(args: deltadentalinsFindDentistArgs): Promise<deltadentalinsSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_deltadentalma {
   // ── Delta Dental of Massachusetts — the unit's own declarations, verbatim ──
 // Delta Dental of Massachusetts's OWN shapes — not a capability contract.
@@ -42044,6 +42104,65 @@ interface DentalplansPlanDetail {
      * is a plan URL from a `search` result.
      */
     getPlan(url: string): Promise<DentalplansPlanDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_dentaquest {
+  // ── DentaQuest — the unit's own declarations, verbatim ──
+interface dentaquestPlan {
+  code: string; // the site's ProductCode, e.g. "DCPG-COMM-PPO"
+  name: string; // e.g. "Dental Care Plus Group PPO"
+}
+
+interface dentaquestDentist {
+  name: string;
+  npi: string | null;
+  specialties: string[]; // e.g. ["Endodontics", "General Dentistry"]
+  gender: string | null;
+  languages: string[];
+  officeName: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string | null;
+  website: string | null;
+  distanceMiles: number | null;
+  acceptingNewPatients: boolean | null;
+  networks: string[]; // plan networks the dentist is in at this office
+  otherLocations: string[]; // other offices, one line each
+}
+
+interface dentaquestFindDentistArgs {
+  zip: string; // 5-digit US ZIP
+  plan?: string; // a plan code or name fragment, e.g. "TX-CHIP-DQ" or "Marketplace Family High"; default the commercial Dental Care Plus Group PPO, which answers every state
+  specialty?: string; // endodontist, general, oral surgeon, orthodontist, pediatric, periodontist or prosthodontist
+  distanceMiles?: number; // default 25
+  acceptingNewPatients?: boolean;
+  limit?: number; // default 10, max 50
+  page?: number; // 1-based, default 1
+}
+
+interface dentaquestFindDentistResult {
+  zip: string;
+  plan: dentaquestPlan;
+  totalResults: number;
+  page: number;
+  dentists: dentaquestDentist[];
+  warnings: string[]; // e.g. the default plan that was searched
+}
+
+  /**
+   * Searches DentaQuest's public Find a Dentist directory for in-network dentists near a US ZIP,
+   * by plan network and specialty — the same live data the site's search renders.
+   */
+  interface Unit {
+    /**
+     * Finds DentaQuest in-network dentists near a ZIP for a plan (default: the commercial Dental
+     * Care Plus Group PPO) and optional specialty. Returns name, address, phone, distance,
+     * specialties, plan networks and new-patient status.
+     */
+    findDentist(args: dentaquestFindDentistArgs): Promise<dentaquestFindDentistResult>;
   }
 }
 
@@ -53961,6 +54080,34 @@ interface FidelityArticleSearch {
   articles: FidelityArticle[];
 }
 
+interface FidelityArticleDetail {
+  url: string;
+  title: string;
+  teaser: string | null;
+  author: string | null;
+  publishedDate: string | null; // As printed, e.g. June 10, 2026.
+  readTime: string | null; // As printed, e.g. 8 min.
+  keyTakeaways: string[];
+  body: string; // Plain text; section headings are lines starting with ##.
+}
+
+interface FidelityNewsItem {
+  id: string;
+  title: string;
+  description: string | null;
+  url: string;
+  provider: string | null; // The wire, e.g. Reuters or PR Newswire.
+  publishedTime: string | null; // ISO 8601 UTC.
+  topics: string[];
+}
+
+interface FidelityNewsSearch {
+  query: string;
+  page: number;
+  totalResults: number; // Matches across all pages, not this page's count.
+  items: FidelityNewsItem[];
+}
+
   /**
    * Fidelity Investments: public stock quotes, mutual fund research, CD rates and Learning
    * Center articles; account reads need the caller's own sign-in.
@@ -53983,6 +54130,19 @@ interface FidelityArticleSearch {
      * description, URL, reading time, topics and products. The door for getArticle.
      */
     searchArticles(query: string): Promise<FidelityArticleSearch>;
+
+    /**
+     * Reads one Fidelity Learning Center or Viewpoints article by the URL searchArticles returns:
+     * headline, teaser, author, date, reading time, key takeaways and the full body text.
+     */
+    getArticle(url: string): Promise<FidelityArticleDetail>;
+
+    /**
+     * Searches Fidelity's market news (Reuters, PR Newswire and others) by keyword, 25 per page.
+     * It is a keyword search, not a per-ticker feed: pass a company name like "Apple iPhone",
+     * since a bare ticker also matches unrelated text.
+     */
+    getQuoteNews(query: string): Promise<FidelityNewsSearch>;
 
     /**
      * Finds tickers by company or fund name (Fidelity's own autosuggest): symbol, name, CUSIP,
@@ -70984,6 +71144,17 @@ interface GetAccountResult {
   raw: Record<string, unknown>;
 }
 
+interface BookmarkArgs {
+  url: string;
+}
+
+interface BookmarkResult {
+  articleId: string;
+  status: number;
+  ok: boolean;
+  message: string | null;
+}
+
 interface ListBookmarksResult {
   raw: Record<string, unknown>;
 }
@@ -71102,6 +71273,12 @@ interface ListBookmarksResult {
      * (js-globals) for the logged-in account.
      */
     getAccount(opts?: ConnectionOption): Promise<GetAccountResult>;
+
+    /** Bookmarks an article for the signed-in caller through the site's own share-bar call. */
+    bookmarkArticle(args: BookmarkArgs, opts?: ConnectionOption): Promise<BookmarkResult>;
+
+    /** Removes an article from the signed-in caller's bookmarks. */
+    removeBookmark(args: BookmarkArgs, opts?: ConnectionOption): Promise<BookmarkResult>;
 
     /** Lists the signed-in caller's bookmarked articles, from the site's Bookmarks page. */
     listBookmarks(opts?: ConnectionOption): Promise<ListBookmarksResult>;
@@ -77679,6 +77856,44 @@ interface Video {
   authors: string | null;
 }
 
+interface PodcastItem {
+  id: string;
+  title: string;
+}
+
+interface PodcastList {
+  podcasts: PodcastItem[];
+}
+
+interface GetPodcastArgs {
+  show: string;
+  limit?: number;
+  offset?: number;
+}
+
+interface PodcastEpisode {
+  id: string;
+  title: string;
+  number: number | null;
+  publishedAt: string | null;
+  durationSeconds: number | null;
+  description: string | null;
+  audioUrl: string | null;
+  image: string | null;
+}
+
+interface Podcast {
+  id: string;
+  title: string;
+  description: string | null;
+  authors: string[];
+  image: string | null;
+  feedUrl: string | null;
+  totalEpisodes: number | null;
+  episodes: PodcastEpisode[];
+  nextOffset: number | null;
+}
+
 interface GuideList {
   guides: GuideLink[];
 }
@@ -77906,6 +78121,19 @@ interface BrowseTopicArgs {
      * and authors.
      */
     getVideo(args: GetVideoArgs): Promise<Video>;
+
+    /**
+     * Lists the L.A. Times podcasts on the /podcasts hub that have an embedded player: show id and
+     * title; pass the id to getPodcast.
+     */
+    listPodcasts(): Promise<PodcastList>;
+
+    /**
+     * Reads one L.A. Times podcast by show id: title, description, author, artwork, RSS feed and
+     * its episodes (title, publish time, duration, MP3 url, description), newest first, paged by
+     * limit and offset.
+     */
+    getPodcast(args: GetPodcastArgs): Promise<Podcast>;
 
     /**
      * Lists the free daily games on the L.A. Times /games hub (Daily, Midi and Mini Crossword,
@@ -99780,6 +100008,16 @@ interface AudioDetail {
   relatedTracks: { id: string; title: string; url: string; audioUrl: string | null }[];
 }
 
+interface AudioDownload {
+  id: string;
+  title: string;
+  downloadUrl: string; // direct CDN file link; fetch it with no sign-in
+  filename: string | null;
+  format: string | null;
+  fileSize: string | null;
+  attributionHtml: string | null;
+}
+
 interface ListUserMediaArgs {
   url: string;
   page?: number;
@@ -99873,6 +100111,12 @@ interface UserProfile {
      * stream and download URLs, licence attribution, counts and related tracks.
      */
     getAudio(args: GetAudioArgs): Promise<AudioDetail>;
+
+    /**
+     * Gets the direct download link for one music track or sound effect (a plain CDN file, no
+     * sign-in), with its file name, format and size.
+     */
+    downloadAudio(args: GetAudioArgs): Promise<AudioDownload>;
 
     /**
      * Lists one page (60 items) of a creator's uploads across media types, with paging counts.
@@ -119892,6 +120136,124 @@ interface SquireBrand {
   }
 }
 
+declare namespace BowmarkProvider_ssa {
+  // ── Social Security office locator — field offices and hearing offices by ZIP — the unit's own declarations, verbatim ──
+interface SsaOfficeHours {
+  day: string;
+  open: string | null; // null = closed that day
+  close: string | null;
+}
+
+interface SsaHearingOffice {
+  siteCode: string; // OHO site code
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string | null;
+  fax: string | null;
+  hours: string | null;
+  mailingAddress: string | null; // where to mail hearing documents
+  servesFieldOffices: string | null; // the field offices this hearing office covers, as SSA lists them
+  officeType: string; // HO hearing office, SO satellite, NHC national hearing center…
+  region: string | null;
+}
+
+interface SsaFieldOffice {
+  officeCode: string; // pass to getFieldOffice
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string | null; // the office's public business line
+  nationalPhone: string; // SSA's national line, which ssa.gov shows for most offices
+  fax: string | null;
+  tty: string | null;
+  timeZone: string | null;
+  hours: SsaOfficeHours[];
+  hearingOfficeCode: string | null; // siteCode of the hearing office this field office reports to
+  url: string; // the office's page on ssa.gov
+}
+
+interface SsaNearbyFieldOffice {
+  officeCode: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  distanceMiles: number | null; // straight-line from the ZIP's centre
+  assignedToZip: boolean; // true for the office SSA assigns this ZIP to
+  url: string;
+}
+
+interface SsaOfficesArgs {
+  zip: string;
+  limit?: number; // nearby field offices to list, 0-50, default 5
+}
+
+interface SsaOfficesResult {
+  zip: string;
+  searchedLocation: string | null;
+  fieldOffice: SsaFieldOffice; // the field office SSA assigns this ZIP to
+  hearingOffice: SsaHearingOffice | null; // the OHO hearing office that handles disability appeals for it
+  nearbyFieldOffices: SsaNearbyFieldOffice[];
+}
+
+interface SsaGetFieldOfficeArgs {
+  officeCode: string;
+}
+
+interface SsaFieldOfficeDetail {
+  officeCode: string; // pass to getFieldOffice
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string | null; // the office's public business line
+  nationalPhone: string; // SSA's national line, which ssa.gov shows for most offices
+  fax: string | null;
+  tty: string | null;
+  timeZone: string | null;
+  hours: SsaOfficeHours[];
+  hearingOfficeCode: string | null; // siteCode of the hearing office this field office reports to
+  url: string; // the office's page on ssa.gov
+  hearingOffice: SsaHearingOffice | null;
+}
+
+interface SsaListHearingOfficesArgs {
+  state?: string; // 2-letter state code
+}
+
+  /**
+   * Which Social Security field office and disability hearing office (OHO) serve a ZIP code —
+   * address, phone, fax, TTY and opening hours, from ssa.gov's own office locator. No login.
+   */
+  interface Unit {
+    /**
+     * Get one Social Security field office by its 3-character office code — address, phone, fax,
+     * TTY, weekly opening hours and the hearing office it reports to.
+     */
+    getFieldOffice(args: SsaGetFieldOfficeArgs): Promise<SsaFieldOfficeDetail>;
+
+    /**
+     * List SSA's Office of Hearings Operations (OHO) disability hearing offices, optionally for
+     * one state — address, phone, fax, hours, mailing address and the field offices each serves.
+     */
+    listHearingOffices(args?: SsaListHearingOfficesArgs): Promise<SsaHearingOffice[]>;
+
+    /**
+     * Find the Social Security offices for a ZIP code: the field office assigned to it (address,
+     * phone, hours), the disability hearing office that handles its claims, and the nearest other
+     * field offices.
+     */
+    offices(args: SsaOfficesArgs): Promise<SsaOfficesResult>;
+  }
+}
+
 declare namespace BowmarkProvider_stackoverflow {
   // ── Stack Overflow — the unit's own declarations, verbatim ──
 interface StackOverflowQuestionHit {
@@ -129811,6 +130173,61 @@ interface TradingviewSearchScriptsResult {
      * details, plus pagination information and counts by script type.
      */
     searchScripts(args: TradingviewSearchScriptsArgs): Promise<TradingviewSearchScriptsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_travelers {
+  // ── Travelers Insurance — the unit's own declarations, verbatim ──
+interface TravelersAgentQuery {
+  location: string; // A US ZIP code or "City, ST" — what a person types into Travelers' locator.
+  lineOfBusiness?: "personal" | "business"; // Personal lines (home, auto, renters…) or business lines. Default "personal".
+  product?: string; // Keep only agencies offering this product, matched against Travelers' own list: "Car Insurance", "Home Insurance", "Renters Insurance", "Condo Insurance", "Landlord Insurance", "Umbrella Insurance", "Boat and Yacht Insurance". "auto", "car", "homeowners" also work.
+  radiusMiles?: number; // Search radius, 1-100 miles. Default 25.
+  limit?: number; // How many agencies to return, nearest first. Default 10, max 200.
+}
+
+interface TravelersAgentSearch {
+  agents: TravelersAgent[]; // Nearest first.
+  resolvedPlace: string | null; // The place Travelers understood `location` as.
+  lineOfBusiness: "personal" | "business";
+  radiusMiles: number;
+  totalInRadius: number; // Travelers' own count of agencies inside the radius, before any product filter.
+  sourceUrl: string;
+  warnings: string[]; // Non-empty only when the in-radius set was too large to read whole.
+}
+
+interface TravelersAgent {
+  id: string;
+  name: string; // The independent agency's name.
+  street: string | null;
+  street2: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  phone: string | null; // E.164, e.g. "+12126617171".
+  fax: string | null;
+  website: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  distanceMiles: number | null; // Miles from the resolved search place, Travelers' own figure.
+  productsOffered: string[]; // The Travelers products this agency writes.
+  writesBoatAndYacht: boolean;
+  pageUrl: string | null; // The agency's page on agent.travelers.com.
+}
+
+  /**
+   * Travelers Insurance — home, auto, renters and business insurance sold through independent
+   * agents; find a Travelers agent near a ZIP.
+   */
+  interface Unit {
+    /**
+     * Finds Travelers Insurance independent agents near a US ZIP or city — agency name, address,
+     * phone, website, distance and the Travelers products each writes (home, car, renters, condo,
+     * landlord, umbrella, boat) — nearest first. Travelers sells personal home and auto mostly
+     * through independent agents, so this is how a person gets a Travelers quote where no online
+     * quote is offered. Filter with `product` and `lineOfBusiness`.
+     */
+    findAgent(query: TravelersAgentQuery): Promise<TravelersAgentSearch>;
   }
 }
 
@@ -539041,8 +539458,10 @@ interface BowmarkProviders {
   defillama: BowmarkProvider_defillama.Unit;
   delaware_corps: BowmarkProvider_delaware_corps.Unit;
   dell: BowmarkProvider_dell.Unit;
+  deltadentalins: BowmarkProvider_deltadentalins.Unit;
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
   dentalplans: BowmarkProvider_dentalplans.Unit;
+  dentaquest: BowmarkProvider_dentaquest.Unit;
   deutschepost: BowmarkProvider_deutschepost.Unit;
   developer_x_com: BowmarkProvider_developer_x_com.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
@@ -539559,6 +539978,7 @@ interface BowmarkProviders {
   square_appointments: BowmarkProvider_square_appointments.Unit;
   square_online: BowmarkProvider_square_online.Unit;
   squire: BowmarkProvider_squire.Unit;
+  ssa: BowmarkProvider_ssa.Unit;
   stackoverflow: BowmarkProvider_stackoverflow.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   start_gg: BowmarkProvider_start_gg.Unit;
@@ -539627,6 +540047,7 @@ interface BowmarkProviders {
   totalplastics: BowmarkProvider_totalplastics.Unit;
   toyota: BowmarkProvider_toyota.Unit;
   tradingview: BowmarkProvider_tradingview.Unit;
+  travelers: BowmarkProvider_travelers.Unit;
   travelinsured: BowmarkProvider_travelinsured.Unit;
   travelodge: BowmarkProvider_travelodge.Unit;
   trawickinternational: BowmarkProvider_trawickinternational.Unit;

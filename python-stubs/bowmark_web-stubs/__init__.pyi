@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 244a5915de2ca632dd43b2737b9627eba0c8da0d897e28ab3fd6d98fc12d0987
-# 100 capabilities, 988 providers, 6195 typed functions, 20 refused.
+# Manifest version: 19ccbbe3ab0254f1d63600479c4447d91ec7281d0f2f4c7e885410dc9e3c8ff5
+# 100 capabilities, 992 providers, 6208 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -26518,6 +26518,42 @@ class Prv_dell_DellDriverFile_Out(TypedDict):
     sha1: str | None
     sha256: str | None
 
+class Prv_deltadentalins_deltadentalinsFindDentistArgs_In(TypedDict):
+    zip: str
+    network: NotRequired[str]
+    specialty: NotRequired[str]
+    radiusMiles: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_deltadentalins_deltadentalinsSearchResult_Out(TypedDict):
+    location: str
+    total: float
+    page: float
+    numberOfPages: float
+    dentists: list[Prv_deltadentalins_deltadentalinsDentist_Out]
+
+class Prv_deltadentalins_deltadentalinsDentist_Out(TypedDict):
+    providerKey: str
+    name: str
+    specialty: str
+    officeName: str | None
+    phone: str | None
+    address: str
+    city: str
+    state: str
+    zip: str
+    latitude: float | None
+    longitude: float | None
+    distanceMiles: float | None
+    networks: list[Prv_deltadentalins_deltadentalinsNetwork_Out]
+    acceptsNewPatients: bool
+    website: str | None
+
+class Prv_deltadentalins_deltadentalinsNetwork_Out(TypedDict):
+    networkId: str
+    networkName: str
+    acceptsNewPatients: bool
+
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
     zip: str
     radiusMiles: NotRequired[float]
@@ -26576,6 +26612,45 @@ class Prv_dentalplans_DentalplansProcedureSaving_Out(TypedDict):
     priceWithoutPlan: float
     priceWithPlan: float
     savingsPercent: float
+
+class Prv_dentaquest_dentaquestFindDentistArgs_In(TypedDict):
+    zip: str
+    plan: NotRequired[str]
+    specialty: NotRequired[str]
+    distanceMiles: NotRequired[float]
+    acceptingNewPatients: NotRequired[bool]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_dentaquest_dentaquestFindDentistResult_Out(TypedDict):
+    zip: str
+    plan: Prv_dentaquest_dentaquestPlan_Out
+    totalResults: float
+    page: float
+    dentists: list[Prv_dentaquest_dentaquestDentist_Out]
+    warnings: list[str]
+
+class Prv_dentaquest_dentaquestPlan_Out(TypedDict):
+    code: str
+    name: str
+
+class Prv_dentaquest_dentaquestDentist_Out(TypedDict):
+    name: str
+    npi: str | None
+    specialties: list[str]
+    gender: str | None
+    languages: list[str]
+    officeName: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str | None
+    website: str | None
+    distanceMiles: float | None
+    acceptingNewPatients: bool | None
+    networks: list[str]
+    otherLocations: list[str]
 
 class Prv_deutschepost_getDialogpostRates_options_In(TypedDict):
     format: NotRequired[str]
@@ -35172,6 +35247,31 @@ class Prv_fidelity_FidelityArticle_Out(TypedDict):
     products: list[str]
     imageUrl: str | None
     sourceId: str
+
+class Prv_fidelity_FidelityArticleDetail_Out(TypedDict):
+    url: str
+    title: str
+    teaser: str | None
+    author: str | None
+    publishedDate: str | None
+    readTime: str | None
+    keyTakeaways: list[str]
+    body: str
+
+class Prv_fidelity_FidelityNewsSearch_Out(TypedDict):
+    query: str
+    page: float
+    totalResults: float
+    items: list[Prv_fidelity_FidelityNewsItem_Out]
+
+class Prv_fidelity_FidelityNewsItem_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    url: str
+    provider: str | None
+    publishedTime: str | None
+    topics: list[str]
 
 class Prv_fidelity_FidelitySymbolSearch_Out(TypedDict):
     query: str
@@ -45764,6 +45864,15 @@ class Prv_independent_UnsubscribeFromNewsletterResult_Out(TypedDict):
 class Prv_independent_GetAccountResult_Out(TypedDict):
     raw: Mapping[str, Any]
 
+class Prv_independent_BookmarkArgs_In(TypedDict):
+    url: str
+
+class Prv_independent_BookmarkResult_Out(TypedDict):
+    articleId: str
+    status: float
+    ok: bool
+    message: str | None
+
 class Prv_independent_ListBookmarksResult_Out(TypedDict):
     raw: Mapping[str, Any]
 
@@ -50106,6 +50215,39 @@ class Prv_latimes_Video_Out(TypedDict):
     hlsUrl: str | None
     thumbnail: str | None
     authors: str | None
+
+class Prv_latimes_PodcastList_Out(TypedDict):
+    podcasts: list[Prv_latimes_PodcastItem_Out]
+
+class Prv_latimes_PodcastItem_Out(TypedDict):
+    id: str
+    title: str
+
+class Prv_latimes_GetPodcastArgs_In(TypedDict):
+    show: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_latimes_Podcast_Out(TypedDict):
+    id: str
+    title: str
+    description: str | None
+    authors: list[str]
+    image: str | None
+    feedUrl: str | None
+    totalEpisodes: float | None
+    episodes: list[Prv_latimes_PodcastEpisode_Out]
+    nextOffset: float | None
+
+class Prv_latimes_PodcastEpisode_Out(TypedDict):
+    id: str
+    title: str
+    number: float | None
+    publishedAt: str | None
+    durationSeconds: float | None
+    description: str | None
+    audioUrl: str | None
+    image: str | None
 
 class Prv_latimes_PuzzleList_Out(TypedDict):
     games: list[Prv_latimes_PuzzleGame_Out]
@@ -64165,6 +64307,15 @@ class Prv_pixabay_AudioDetail_Out_relatedTracks_item_Out(TypedDict):
     url: str
     audioUrl: str | None
 
+class Prv_pixabay_AudioDownload_Out(TypedDict):
+    id: str
+    title: str
+    downloadUrl: str
+    filename: str | None
+    format: str | None
+    fileSize: str | None
+    attributionHtml: str | None
+
 class Prv_pixabay_ListUserMediaArgs_In(TypedDict):
     url: str
     page: NotRequired[float]
@@ -77877,6 +78028,87 @@ class Prv_squire_SquireReservation_Out_services_item_Out(TypedDict):
     priceCents: float | None
     durationMins: float | None
 
+class Prv_ssa_SsaGetFieldOfficeArgs_In(TypedDict):
+    officeCode: str
+
+class Prv_ssa_SsaFieldOfficeDetail_Out(TypedDict):
+    officeCode: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str | None
+    nationalPhone: str
+    fax: str | None
+    tty: str | None
+    timeZone: str | None
+    hours: list[Prv_ssa_SsaOfficeHours_Out]
+    hearingOfficeCode: str | None
+    url: str
+    hearingOffice: Prv_ssa_SsaHearingOffice_Out | None
+
+class Prv_ssa_SsaOfficeHours_Out(TypedDict):
+    day: str
+    open: str | None
+    close: str | None
+
+class Prv_ssa_SsaHearingOffice_Out(TypedDict):
+    siteCode: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str | None
+    fax: str | None
+    hours: str | None
+    mailingAddress: str | None
+    servesFieldOffices: str | None
+    officeType: str
+    region: str | None
+
+class Prv_ssa_SsaListHearingOfficesArgs_In(TypedDict):
+    state: NotRequired[str]
+
+class Prv_ssa_SsaOfficesArgs_In(TypedDict):
+    zip: str
+    limit: NotRequired[float]
+
+class Prv_ssa_SsaOfficesResult_Out(TypedDict):
+    zip: str
+    searchedLocation: str | None
+    fieldOffice: Prv_ssa_SsaFieldOffice_Out
+    hearingOffice: Prv_ssa_SsaHearingOffice_Out | None
+    nearbyFieldOffices: list[Prv_ssa_SsaNearbyFieldOffice_Out]
+
+class Prv_ssa_SsaFieldOffice_Out(TypedDict):
+    officeCode: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str | None
+    nationalPhone: str
+    fax: str | None
+    tty: str | None
+    timeZone: str | None
+    hours: list[Prv_ssa_SsaOfficeHours_Out]
+    hearingOfficeCode: str | None
+    url: str
+
+class Prv_ssa_SsaNearbyFieldOffice_Out(TypedDict):
+    officeCode: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    distanceMiles: float | None
+    assignedToZip: bool
+    url: str
+
 class Prv_stackoverflow_StackOverflowSearchArgs_In(TypedDict):
     query: str
     tagged: NotRequired[str]
@@ -84352,6 +84584,40 @@ class Prv_tradingview_TradingviewSearchScriptsResult_Out_results_item_Out_author
     id: float
     username: str
     is_broker: bool
+
+class Prv_travelers_TravelersAgentQuery_In(TypedDict):
+    location: str
+    lineOfBusiness: NotRequired[Literal["personal"] | Literal["business"]]
+    product: NotRequired[str]
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_travelers_TravelersAgentSearch_Out(TypedDict):
+    agents: list[Prv_travelers_TravelersAgent_Out]
+    resolvedPlace: str | None
+    lineOfBusiness: Literal["personal"] | Literal["business"]
+    radiusMiles: float
+    totalInRadius: float
+    sourceUrl: str
+    warnings: list[str]
+
+class Prv_travelers_TravelersAgent_Out(TypedDict):
+    id: str
+    name: str
+    street: str | None
+    street2: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    phone: str | None
+    fax: str | None
+    website: str | None
+    latitude: float | None
+    longitude: float | None
+    distanceMiles: float | None
+    productsOffered: list[str]
+    writesBoatAndYacht: bool
+    pageUrl: str | None
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -110037,6 +110303,19 @@ class Prv_dell(Protocol):
         one operating system — each row carries the download URL and checksums.
         """
 
+class Prv_deltadentalins(Protocol):
+    """Delta Dental's public Find a Dentist (deltadentalins.com): in-network dentists near a
+    ZIP, filtered by network (PPO, Premier, DeltaCare USA) and specialty, with address,
+    phone, distance and accepts-new-patients per network.
+    """
+
+    async def findDentist(self, args: Prv_deltadentalins_deltadentalinsFindDentistArgs_In, /) -> Prv_deltadentalins_deltadentalinsSearchResult_Out:
+        """Find Delta Dental in-network dentists near a US ZIP (or 'City, ST'), filtered by network
+        (PPO, Premier, DeltaCare USA) and specialty (general, pediatric, orthodontist, oral
+        surgeon…). Returns name, specialty, office, address, phone, distance and each network
+        with its accepts-new-patients flag, 10 per page, nearest first.
+        """
+
 class Prv_deltadentalma(Protocol):
     """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
     dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
@@ -110075,6 +110354,17 @@ class Prv_dentalplans(Protocol):
         """Reads one plan's own detail page — its marketing description and the site's own 'Common
         Procedures' sample savings table (real per-procedure price with vs. without the plan).
         `url` is a plan URL from a `search` result.
+        """
+
+class Prv_dentaquest(Protocol):
+    """Searches DentaQuest's public Find a Dentist directory for in-network dentists near a US
+    ZIP, by plan network and specialty — the same live data the site's search renders.
+    """
+
+    async def findDentist(self, args: Prv_dentaquest_dentaquestFindDentistArgs_In, /) -> Prv_dentaquest_dentaquestFindDentistResult_Out:
+        """Finds DentaQuest in-network dentists near a ZIP for a plan (default: the commercial
+        Dental Care Plus Group PPO) and optional specialty. Returns name, address, phone,
+        distance, specialties, plan networks and new-patient status.
         """
 
 class Prv_deutschepost(Protocol):
@@ -113835,6 +114125,18 @@ class Prv_fidelity(Protocol):
     async def searchArticles(self, query: str, /) -> Prv_fidelity_FidelityArticleSearch_Out:
         """Searches Fidelity's Learning Center and Viewpoints articles for a topic, 12 per page:
         title, description, URL, reading time, topics and products. The door for getArticle.
+        """
+
+    async def getArticle(self, url: str, /) -> Prv_fidelity_FidelityArticleDetail_Out:
+        """Reads one Fidelity Learning Center or Viewpoints article by the URL searchArticles
+        returns: headline, teaser, author, date, reading time, key takeaways and the full body
+        text.
+        """
+
+    async def getQuoteNews(self, query: str, /) -> Prv_fidelity_FidelityNewsSearch_Out:
+        """Searches Fidelity's market news (Reuters, PR Newswire and others) by keyword, 25 per
+        page. It is a keyword search, not a per-ticker feed: pass a company name like "Apple
+        iPhone", since a bare ticker also matches unrelated text.
         """
 
     async def searchSymbols(self, query: str, /) -> Prv_fidelity_FidelitySymbolSearch_Out:
@@ -119712,6 +120014,12 @@ class Prv_independent(Protocol):
         (js-globals) for the logged-in account.
         """
 
+    async def bookmarkArticle(self, args: Prv_independent_BookmarkArgs_In, opts: ConnectionOption | None = None, /) -> Prv_independent_BookmarkResult_Out:
+        """Bookmarks an article for the signed-in caller through the site's own share-bar call."""
+
+    async def removeBookmark(self, args: Prv_independent_BookmarkArgs_In, opts: ConnectionOption | None = None, /) -> Prv_independent_BookmarkResult_Out:
+        """Removes an article from the signed-in caller's bookmarks."""
+
     async def listBookmarks(self, opts: ConnectionOption | None = None, /) -> Prv_independent_ListBookmarksResult_Out:
         """Lists the signed-in caller's bookmarked articles, from the site's Bookmarks page."""
 
@@ -121857,6 +122165,17 @@ class Prv_latimes(Protocol):
     async def getVideo(self, args: Prv_latimes_GetVideoArgs_In, /) -> Prv_latimes_Video_Out:
         """Reads one video from its url: title, publish time, duration, the HLS stream url,
         thumbnail and authors.
+        """
+
+    async def listPodcasts(self, /) -> Prv_latimes_PodcastList_Out:
+        """Lists the L.A. Times podcasts on the /podcasts hub that have an embedded player: show id
+        and title; pass the id to getPodcast.
+        """
+
+    async def getPodcast(self, args: Prv_latimes_GetPodcastArgs_In, /) -> Prv_latimes_Podcast_Out:
+        """Reads one L.A. Times podcast by show id: title, description, author, artwork, RSS feed
+        and its episodes (title, publish time, duration, MP3 url, description), newest first,
+        paged by limit and offset.
         """
 
     async def listPuzzles(self, /) -> Prv_latimes_PuzzleList_Out:
@@ -129422,6 +129741,11 @@ class Prv_pixabay(Protocol):
         stream and download URLs, licence attribution, counts and related tracks.
         """
 
+    async def downloadAudio(self, args: Prv_pixabay_GetAudioArgs_In, /) -> Prv_pixabay_AudioDownload_Out:
+        """Gets the direct download link for one music track or sound effect (a plain CDN file, no
+        sign-in), with its file name, format and size.
+        """
+
     async def listUserMedia(self, args: Prv_pixabay_ListUserMediaArgs_In, /) -> Prv_pixabay_UserMediaPage_Out:
         """Lists one page (60 items) of a creator's uploads across media types, with paging counts.
         Pass `page` to walk on.
@@ -135960,6 +136284,29 @@ class Prv_squire(Protocol):
         unknown code is a caller-fixable error.
         """
 
+class Prv_ssa(Protocol):
+    """Which Social Security field office and disability hearing office (OHO) serve a ZIP code
+    — address, phone, fax, TTY and opening hours, from ssa.gov's own office locator. No
+    login.
+    """
+
+    async def getFieldOffice(self, args: Prv_ssa_SsaGetFieldOfficeArgs_In, /) -> Prv_ssa_SsaFieldOfficeDetail_Out:
+        """Get one Social Security field office by its 3-character office code — address, phone,
+        fax, TTY, weekly opening hours and the hearing office it reports to.
+        """
+
+    async def listHearingOffices(self, args: Prv_ssa_SsaListHearingOfficesArgs_In | None = None, /) -> list[Prv_ssa_SsaHearingOffice_Out]:
+        """List SSA's Office of Hearings Operations (OHO) disability hearing offices, optionally
+        for one state — address, phone, fax, hours, mailing address and the field offices each
+        serves.
+        """
+
+    async def offices(self, args: Prv_ssa_SsaOfficesArgs_In, /) -> Prv_ssa_SsaOfficesResult_Out:
+        """Find the Social Security offices for a ZIP code: the field office assigned to it
+        (address, phone, hours), the disability hearing office that handles its claims, and the
+        nearest other field offices.
+        """
+
 class Prv_stackoverflow(Protocol):
     """Stack Overflow programming questions and answers — search questions, then read one
     question with its accepted and top-voted answers — through the official Stack Exchange
@@ -139171,6 +139518,19 @@ class Prv_tradingview(Protocol):
     async def searchScripts(self, args: Prv_tradingview_TradingviewSearchScriptsArgs_In, /) -> Prv_tradingview_TradingviewSearchScriptsResult_Out:
         """Returns matching published scripts with identifying, display, author, and engagement
         details, plus pagination information and counts by script type.
+        """
+
+class Prv_travelers(Protocol):
+    """Travelers Insurance — home, auto, renters and business insurance sold through
+    independent agents; find a Travelers agent near a ZIP.
+    """
+
+    async def findAgent(self, query: Prv_travelers_TravelersAgentQuery_In, /) -> Prv_travelers_TravelersAgentSearch_Out:
+        """Finds Travelers Insurance independent agents near a US ZIP or city — agency name,
+        address, phone, website, distance and the Travelers products each writes (home, car,
+        renters, condo, landlord, umbrella, boat) — nearest first. Travelers sells personal home
+        and auto mostly through independent agents, so this is how a person gets a Travelers
+        quote where no online quote is offered. Filter with `product` and `lineOfBusiness`.
         """
 
 class Prv_travelinsured(Protocol):
@@ -145540,8 +145900,10 @@ class BowmarkProviders(Protocol):
     defillama: Prv_defillama
     delaware_corps: Prv_delaware_corps
     dell: Prv_dell
+    deltadentalins: Prv_deltadentalins
     deltadentalma: Prv_deltadentalma
     dentalplans: Prv_dentalplans
+    dentaquest: Prv_dentaquest
     deutschepost: Prv_deutschepost
     developer_x_com: Prv_developer_x_com
     developersopenai: Prv_developersopenai
@@ -146058,6 +146420,7 @@ class BowmarkProviders(Protocol):
     square_appointments: Prv_square_appointments
     square_online: Prv_square_online
     squire: Prv_squire
+    ssa: Prv_ssa
     stackoverflow: Prv_stackoverflow
     starlighthomes: Prv_starlighthomes
     start_gg: Prv_start_gg
@@ -146126,6 +146489,7 @@ class BowmarkProviders(Protocol):
     totalplastics: Prv_totalplastics
     toyota: Prv_toyota
     tradingview: Prv_tradingview
+    travelers: Prv_travelers
     travelinsured: Prv_travelinsured
     travelodge: Prv_travelodge
     trawickinternational: Prv_trawickinternational

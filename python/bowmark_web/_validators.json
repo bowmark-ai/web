@@ -1,5 +1,5 @@
 {
-  "version": "244a5915de2ca632dd43b2737b9627eba0c8da0d897e28ab3fd6d98fc12d0987",
+  "version": "19ccbbe3ab0254f1d63600479c4447d91ec7281d0f2f4c7e885410dc9e3c8ff5",
   "units": {
     "address_validation": {
       "defs": {
@@ -55716,6 +55716,65 @@
         "getProductDrivers": "7029cc1e109a51bb"
       }
     },
+    "providers.deltadentalins": {
+      "defs": {
+        "deltadentalinsFindDentistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "network",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "specialty",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findDentist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "deltadentalinsFindDentistArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "findDentist": "368eb1772766028a"
+      }
+    },
     "providers.deltadentalma": {
       "defs": {
         "deltadentalmaSearchFilters": {
@@ -55826,6 +55885,79 @@
       "digests": {
         "search": "90e0cbf07f0297a4",
         "getPlan": "94607775ca7288fd"
+      }
+    },
+    "providers.dentaquest": {
+      "defs": {
+        "dentaquestFindDentistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "plan",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "specialty",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "distanceMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "acceptingNewPatients",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findDentist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "dentaquestFindDentistArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "findDentist": "361d5ce5ad2ed3d4"
       }
     },
     "providers.deutschepost": {
@@ -75110,6 +75242,24 @@
             "optional": false
           }
         ],
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getQuoteNews": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "searchSymbols": [
           {
             "name": "query",
@@ -75130,11 +75280,13 @@
         ]
       },
       "digests": {
-        "screenFunds": "35c0cbefdcf6d8bc",
-        "getFund": "1ef6ab404e0defdb",
-        "searchArticles": "c891393eb215efbc",
-        "searchSymbols": "a7735b4fac1fbae4",
-        "getQuote": "0c9f78b581c61ac8"
+        "screenFunds": "de7eb89268a58daa",
+        "getFund": "a19d106906629a1a",
+        "searchArticles": "9759c1ee406c2de7",
+        "getArticle": "e3a4f8e4147898dc",
+        "getQuoteNews": "aa0100c6da2abd2d",
+        "searchSymbols": "9ac000d3e01bfb32",
+        "getQuote": "dac9d3da02d89954"
       }
     },
     "providers.fieldstonehomes": {
@@ -97938,6 +98090,18 @@
     },
     "providers.independent": {
       "defs": {
+        "BookmarkArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "BrowseSectionArgs": {
           "k": "object",
           "props": [
@@ -98604,6 +98768,58 @@
             "optional": true
           }
         ],
+        "bookmarkArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookmarkArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeBookmark": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookmarkArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listBookmarks": [
           {
             "name": "opts",
@@ -98694,33 +98910,35 @@
         ]
       },
       "digests": {
-        "listSections": "569de4fefd280eb1",
-        "browseSection": "959a7785355fa159",
-        "getHomepageHeadlines": "a95f5e3b3148302c",
-        "listLatestNews": "ddec3d504ee99db7",
-        "getArticle": "d419695d70772fa2",
-        "getMostPopular": "7486a5d0b0934dd8",
-        "listArticlesByDate": "e70932d8b5075c66",
-        "getLiveBlog": "59ce8630f0bd5aee",
-        "getArticleComments": "21a90becd253df9b",
-        "getVideo": "03ea54c83bb57e17",
-        "listVideos": "3334423ddc5a5d3a",
-        "listQuizzes": "225432ec9d75a0ee",
-        "searchArticles": "304447320ca11b07",
-        "getQuiz": "9e0a16113968e55b",
-        "listNewsletters": "0e986835bcd8cd6b",
-        "subscribeToNewsletter": "820c0b82937ad92b",
-        "listNewsletterSubscriptions": "60514628b21e5843",
-        "unsubscribeFromNewsletter": "ebd762ee04ef4c45",
-        "getAccount": "3aeddd06b8eb3e1d",
-        "listBookmarks": "41936e217ca13de5",
-        "listCompetitions": "864573cf9d9726ca",
-        "listVoucherStores": "aaebb9ea99d06048",
-        "getVoucherCodes": "ee84a5bd37c42be4",
-        "listTopics": "33562eedf103fb1f",
-        "getTopicArticles": "9df0d92635319dce",
-        "listAuthors": "bdafc9372471cd7d",
-        "getAuthorArticles": "c8a7bb6c2d8f7e07"
+        "listSections": "a6e7017632bebb42",
+        "browseSection": "4178778e1eaa39fb",
+        "getHomepageHeadlines": "d165a68af2ec69e7",
+        "listLatestNews": "e69071c6b9e75c22",
+        "getArticle": "3423493d385c4e21",
+        "getMostPopular": "76c7d949fda4921e",
+        "listArticlesByDate": "0924a8bb981d212a",
+        "getLiveBlog": "ae5e72ef69cb508e",
+        "getArticleComments": "a51849634e456449",
+        "getVideo": "01354e492dcd90f3",
+        "listVideos": "6071bc75e633b621",
+        "listQuizzes": "cdffd93d7857ff45",
+        "searchArticles": "eeb09bfe21213c06",
+        "getQuiz": "e3653c917641c3e0",
+        "listNewsletters": "ef19ce36d608fd96",
+        "subscribeToNewsletter": "460ef40249300b83",
+        "listNewsletterSubscriptions": "8d9aa6d9028f4c9b",
+        "unsubscribeFromNewsletter": "7146f18e0a27fe19",
+        "getAccount": "d1ae1c6c81dcc257",
+        "bookmarkArticle": "f8b8af1cbd40bf91",
+        "removeBookmark": "f8b8af1cbd40bf91",
+        "listBookmarks": "c3aa492c2e9ec48e",
+        "listCompetitions": "e9e2ece864c2406e",
+        "listVoucherStores": "3730eb0941810e41",
+        "getVoucherCodes": "6c64f6986aa056c9",
+        "listTopics": "fc6a39f1c85714c6",
+        "getTopicArticles": "d85f2f4c753c778e",
+        "listAuthors": "0d7ec25b0630598c",
+        "getAuthorArticles": "732b69815a70ea6b"
       }
     },
     "providers.inspirecommunities": {
@@ -110209,6 +110427,32 @@
             }
           ]
         },
+        "GetPodcastArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "show",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetRecipeArgs": {
           "k": "object",
           "props": [
@@ -110411,6 +110655,17 @@
             "optional": false
           }
         ],
+        "listPodcasts": [],
+        "getPodcast": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPodcastArgs"
+            },
+            "optional": false
+          }
+        ],
         "listPuzzles": [],
         "getCrossword": [
           {
@@ -110424,23 +110679,25 @@
         ]
       },
       "digests": {
-        "listSections": "c9532b6fc891d464",
-        "getAuthor": "d2538a68e404e730",
-        "listHeadlines": "85a3c60f9170488a",
-        "browseSection": "0c0caf2972ee1ff2",
-        "searchArticles": "0a8e6a2a6f23226e",
-        "getArticle": "cb7521fd1db48541",
-        "listLatestArticles": "14113658b348922e",
-        "listTopics": "fef9822102339981",
-        "browseTopic": "63c06ca86ad98775",
-        "searchRecipes": "6e8a712b895f04ba",
-        "getRecipe": "a1ec45632883f7c9",
-        "listGuides": "b315fadbf889b6c4",
-        "getGuide": "183f217fdf42ca52",
-        "listVideos": "d3c9b50475f9997e",
-        "getVideo": "c2ce876247b728a3",
-        "listPuzzles": "b7fc7f31394fe939",
-        "getCrossword": "167480007601a176"
+        "listSections": "e5db1b1872038394",
+        "getAuthor": "c613938063c5d398",
+        "listHeadlines": "972392bc12b69a16",
+        "browseSection": "2ec09d610290c482",
+        "searchArticles": "f2e3a930b91ba0e5",
+        "getArticle": "ee186408f96090e9",
+        "listLatestArticles": "1c3a6417d8ed583d",
+        "listTopics": "db68f75758031867",
+        "browseTopic": "62d49764f2a16886",
+        "searchRecipes": "11f9fb18f9bdd5a4",
+        "getRecipe": "36d806405b60e796",
+        "listGuides": "8ba162e4d5f3d9ca",
+        "getGuide": "4f92a645e2470023",
+        "listVideos": "f2370d77923f3883",
+        "getVideo": "64d9ef79661525a7",
+        "listPodcasts": "b9a13888f84ab352",
+        "getPodcast": "7ebe8732b63a089f",
+        "listPuzzles": "902c3774b71ba7a7",
+        "getCrossword": "bd2d548934473d3c"
       }
     },
     "providers.launchpad": {
@@ -143682,6 +143939,16 @@
             "optional": false
           }
         ],
+        "downloadAudio": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAudioArgs"
+            },
+            "optional": false
+          }
+        ],
         "listUserMedia": [
           {
             "name": "args",
@@ -143722,17 +143989,18 @@
         ]
       },
       "digests": {
-        "searchImages": "5ce1cc9d05ea091d",
-        "getImage": "307e8c95028afa4e",
-        "searchVideos": "38e796851b7d647e",
-        "getVideo": "2c548cb04058ffa7",
-        "searchMusic": "5ece8762f61f3d96",
-        "searchSoundEffects": "5ece8762f61f3d96",
-        "getAudio": "cd94c3c6bff59f2d",
-        "listUserMedia": "a24e54b21f48a659",
-        "getUser": "5de8cc54aa913f18",
-        "signup": "249dd734cceed117",
-        "confirmSignup": "d999377408d74606"
+        "searchImages": "3250f8b21ebc1cbe",
+        "getImage": "037aa5d5406bb3e7",
+        "searchVideos": "2b9ca3b3cad788b0",
+        "getVideo": "15de277794e74c77",
+        "searchMusic": "b59000a72f25c079",
+        "searchSoundEffects": "b59000a72f25c079",
+        "getAudio": "b67abc4629275642",
+        "downloadAudio": "c2576dd49fdc5c3f",
+        "listUserMedia": "76b59f06a10b7b89",
+        "getUser": "fe98691591831be2",
+        "signup": "0ee9781d6b59772e",
+        "confirmSignup": "ed8ddbb22a99b468"
       }
     },
     "providers.pizzahut": {
@@ -173586,6 +173854,90 @@
         "lookupReservation": "b8cc445b309ac129"
       }
     },
+    "providers.ssa": {
+      "defs": {
+        "SsaGetFieldOfficeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "officeCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SsaListHearingOfficesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SsaOfficesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getFieldOffice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SsaGetFieldOfficeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listHearingOffices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SsaListHearingOfficesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "offices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SsaOfficesArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "getFieldOffice": "41160daa51c44d0e",
+        "listHearingOffices": "8330fbf42a0521e6",
+        "offices": "ba3dd58dee976e06"
+      }
+    },
     "providers.stackoverflow": {
       "defs": {
         "StackOverflowSearchArgs": {
@@ -187424,6 +187776,75 @@
         "listRelatedBonds": "96840d9010fdc5d8",
         "searchHelpArticles": "9303390d83a54637",
         "searchScripts": "dc90ad641e5a860d"
+      }
+    },
+    "providers.travelers": {
+      "defs": {
+        "TravelersAgentQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lineOfBusiness",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "personal"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "business"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findAgent": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "TravelersAgentQuery"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "findAgent": "b2a8f8d75fb587d4"
       }
     },
     "providers.travelinsured": {
