@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 141,647 sites, generated 2026-11-26.
+# Every website Bowmark covers and the functions it has: 141,651 sites, generated 2026-11-26.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -51602,6 +51602,7 @@ artigianatopasella.myshopify.com	a9af6443
 artigiani-del-bijoux.myshopify.com	a9af6443
 artika.com	da39a3ee
 artilleryworldwide.com	bb34c1bd
+artimgroup.ro	da39a3ee
 artinsights.com	bb34c1bd
 artioprints.com	bb34c1bd
 artisan-21.myshopify.com	a9af6443
@@ -89285,6 +89286,7 @@ jaraguar.com	bb34c1bd
 jarana-b2c.myshopify.com	a9af6443
 jarbarlar.com.sg	bb34c1bd
 jardin-dla-terre-du-rang.myshopify.com	a9af6443
+jardinvue.com	da39a3ee
 jared-benjamin-music.myshopify.com	a9af6443
 jared-horman.myshopify.com	a9af6443
 jared-lee-merch.myshopify.com	a9af6443
@@ -104470,6 +104472,7 @@ myphoenixvitality.com	bb34c1bd
 mypifi.com	4479a458
 mypizzaheaven.com	bb34c1bd
 myplantdecor.myshopify.com	a9af6443
+myplate.food	da39a3ee
 myplayroom.com.au	8b50d914
 myplusone.com	4479a458
 mypods24.de	a9af6443
@@ -114178,6 +114181,7 @@ propellerads.com	bb42b54c
 proper-direct.myshopify.com	a9af6443
 propermusic.com	4479a458
 propertoys.co.uk	bb34c1bd
+propertylabs.org	da39a3ee
 prophetclimate.co.uk	bb34c1bd
 prophiphop.myshopify.com	a9af6443
 propmaster.myshopify.com	a9af6443
