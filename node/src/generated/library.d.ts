@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a6cfb8bc65d5841ae79fcb05a30dc7896932f4301539e673bf5e70da2d6f736c
-// 100 capabilities, 983 providers, 6209 typed functions, 20 refused.
+// Manifest version: 636b30bc2dc535cafafdb5da8b44011bb9853dd0f14fa9eba7b292dc2ab16529
+// 100 capabilities, 986 providers, 6221 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -3251,7 +3251,7 @@ interface AtCompanyArgs {
   company?: string; // or just its name, e.g. "Stripe"; at least one of url / company
   query?: string; // keep jobs whose title or department has every word, e.g. "product manager"
   location?: string; // keep jobs whose location text contains this, e.g. "New York"
-  maxJobs?: number; // Workday / SmartRecruiters page cap; default 500
+  maxJobs?: number; // Workday / SmartRecruiters / Phenom / Taleo page cap; default 500
 }
 
 interface CompanyJob {
@@ -3269,7 +3269,7 @@ interface CompanyJob {
   salaryCurrency: string | null;
   salaryPeriod: string | null;
   id: string | null;
-  source: string; // which ATS: "greenhouse" | "lever" | "ashby" | "workable" | "smartrecruiters" | "recruitee" | "workday" | "teamtailor" | "bamboohr" | "rippling" | "personio" | "breezyhq"
+  source: string; // which ATS: "greenhouse" | "lever" | "ashby" | "workable" | "smartrecruiters" | "recruitee" | "workday" | "teamtailor" | "bamboohr" | "rippling" | "personio" | "breezyhq" | "phenom" | "taleo"
 }
 
 interface CompanyJobsResult {
@@ -3296,7 +3296,8 @@ interface CallOptions {
    * Open jobs two ways: for a role in a city off Indeed's own regional results page (US, Canada,
    * Netherlands), or EVERY open job at one company, live off its own applicant-tracking system —
    * Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Workday, Teamtailor,
-   * BambooHR, Rippling, Personio or Breezy HR, detected from the company's site or name.
+   * BambooHR, Rippling, Personio, Breezy HR, a Phenom careers site or a Taleo career section,
+   * detected from the company's site or name.
    */
   interface Unit {
     /**
@@ -4638,6 +4639,8 @@ interface CardOption {
   earnedAs: SpendCategory | "merchant";
   phrase: string; // the issuer's wording for the rate that applied
   pointValueCents: number;
+  valueSource: "issuer" | "estimate" | "caller"; // issuer = a redemption value the issuer publishes; estimate = a cited third-party valuation for a program with none (hotel and airline points); caller = pointValues
+  estimateSource: string | null; // for an estimate: the valuation's name, date and URL
   value: number; // dollars earned on this purchase
   source: "live" | "reference";
   sourceFunction: string | null;
@@ -4679,6 +4682,8 @@ interface PointValuation {
   basis: string; // the redemption this value corresponds to
   sourceUrl: string | null;
   setBy: "default" | "caller";
+  valueSource: "issuer" | "estimate" | "caller";
+  estimateSource: string | null;
 }
 
 interface BestWayToPayResult {
@@ -4707,10 +4712,11 @@ interface CallOptions {
 
   /**
    * The best way to pay at a merchant: every cashback portal's rate (Rakuten, TopCashback,
-   * BeFrugal, Capital One Shopping, CashbackMonitor's comparison), each of your credit cards'
-   * earn rate in the merchant's category, signed-in card-linked offers (Amex Offers, Chase
-   * Offers) when asked, each valued in dollars, plus the best stack. Also ranks every known card
-   * for a spending category.
+   * BeFrugal, Capital One Shopping, CashbackMonitor's comparison), each card's earn rate read
+   * live from its issuer (Amex, Chase, Citi, Bank of America, Discover, Wells Fargo, U.S. Bank,
+   * Barclays), signed-in card-linked offers (Amex Offers, Chase Offers, Citi Merchant Offers,
+   * BankAmeriDeals) when asked, each valued in dollars, plus the best stack. Also ranks every
+   * known card for a spending category.
    */
   interface Unit {
     /**
@@ -4724,11 +4730,12 @@ interface CallOptions {
      * issuer's best card-linked offer. Card rates are read live from the issuer's own provider
      * when one exists (`source: "live"`), else from Bowmark's reference table (`source:
      * "reference"`, named in `warnings`). Points are valued at each program's issuer-published
-     * redemption value, listed in `pointValues` with its source; pass `pointValues: { "Chase
-     * Ultimate Rewards": 1.5 }` to use your own. Signed-in offers are read only with
-     * `includeOffers: true`, which pauses the run for the cardholder's sign-in; `offerSources`
-     * says per issuer whether offers exist, were read, or are not built yet. `options.timeoutMs`
-     * sets the per-source budget (default 30000).
+     * redemption value; a program with none (hotel and airline points) gets a conservative cited
+     * estimate, marked `valueSource: "estimate"` with its `estimateSource`. Every value is listed
+     * in `pointValues` with its source; pass `pointValues: { "Chase Ultimate Rewards": 1.5 }` to
+     * use your own. Signed-in offers are read only with `includeOffers: true`, which pauses the
+     * run for the cardholder's sign-in; `offerSources` says per issuer whether offers exist, were
+     * read, or are not built yet. `options.timeoutMs` sets the per-source budget (default 30000).
      */
     bestWayToPay(args: BestWayToPayArgs, options?: CallOptions): Promise<BestWayToPayResult>;
 
@@ -12170,10 +12177,10 @@ interface GetMeasureDataArgs {
     getMeasureData(args: GetMeasureDataArgs): Promise<AmericasHealthRankingsMeasureData>;
 
     /**
-     * Reads anything this site offers in one call: pick a `thing` (core_measures, core_measure,
-     * core_measureCategories, core_quintilesByMetricAndEdition, core_reports, core_report, ...),
-     * give its `where` inputs, and list the `fields` you want back as dot paths like
-     * "state.stateName"; omit `fields` for every plain field.
+     * Reads anything this site offers in one call: pick a `thing` (core_measure, core_measures,
+     * core_measuresByTagID, core_measureCategories, core_measureMetricData, core_tag, ...), give
+     * its `where` inputs, and list the `fields` you want back as dot paths like "state.stateName";
+     * omit `fields` for every plain field.
      */
     read(input: AmericasHealthRankingsReadInput): Promise<AmericasHealthRankingsReadAnswer>;
   }
@@ -16237,10 +16244,10 @@ interface ArticleProduct {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (bloomreachProductSearch,
-     * product, getUrlDiscount, searchProductsWithFilter, getNavigation, contentfulById, ...), give
-     * its `where` inputs, and list the `fields` you want back as dot paths like "state.stateName";
-     * omit `fields` for every plain field.
+     * Reads anything this site offers in one call: pick a `thing` (product, searchProducts,
+     * collectionPage, bloomreachProductSearch, getLocationByPostalCode, searchProductSuggestion,
+     * ...), give its `where` inputs, and list the `fields` you want back as dot paths like
+     * "state.stateName"; omit `fields` for every plain field.
      */
     read(input: ArticleComSiteReadInput): Promise<ArticleComSiteReadAnswer>;
 
@@ -28659,6 +28666,193 @@ interface CapitalbrandsRecommendation {
      * recommended blender(s) — name, price and buy link — with no personal information required.
      */
     getBlenderRecommendation(arg: {answers: string[]}): Promise<CapitalbrandsRecommendation>;
+  }
+}
+
+declare namespace BowmarkProvider_capitalone {
+  // ── Capital One — the unit's own declarations, verbatim ──
+interface CapitalOneEarnRate {
+  rate: number; // 2 for "2X miles", 1.5 for "1.5% cash back"
+  unit: "milesPerDollar" | "cashBackPercent";
+  category: string; // what it applies to, in the site's words: "every purchase", "grocery stores, on dining & entertainment"
+  base: boolean; // true for the "every purchase" / "all other purchases" rate
+}
+
+interface CapitalOneCard {
+  id: string; // Capital One's brand code, e.g. "VENTUREX" — getCreditCard takes it
+  name: string;
+  url: string | null; // the card's own page
+  rewardsType: string | null; // "Travel" | "Cash" | "All Rewards" as the site groups it
+  cardType: string | null; // "Popular" | "Student" | "Secured" | "Business"
+  network: string | null; // "Visa" | "MasterCard"
+  creditLevel: string | null; // "Excellent" | "Good" | "Fair" | "Rebuilding" | "Good-Excellent"
+  annualFee: number | null; // dollars per year; for an intro-$0 card, the fee after the intro year
+  annualFeeText: string | null; // the fee bullet verbatim
+  earnRates: CapitalOneEarnRate[];
+  welcomeOffer: string | null; // the new-cardmember offer verbatim, e.g. "Earn 75,000 bonus miles"
+  highlights: string[]; // every bullet on the card's tile, verbatim
+  imageUrl: string | null;
+  applyUrl: string | null;
+  partner: boolean; // true when the card's page is off capitalone.com (Discover cards)
+}
+
+interface CapitalOneCardDetail {
+  id: string; // Capital One's brand code, e.g. "VENTUREX" — getCreditCard takes it
+  name: string;
+  url: string | null; // the card's own page
+  rewardsType: string | null; // "Travel" | "Cash" | "All Rewards" as the site groups it
+  cardType: string | null; // "Popular" | "Student" | "Secured" | "Business"
+  network: string | null; // "Visa" | "MasterCard"
+  creditLevel: string | null; // "Excellent" | "Good" | "Fair" | "Rebuilding" | "Good-Excellent"
+  annualFee: number | null; // dollars per year; for an intro-$0 card, the fee after the intro year
+  annualFeeText: string | null; // the fee bullet verbatim
+  earnRates: CapitalOneEarnRate[];
+  welcomeOffer: string | null; // the new-cardmember offer verbatim, e.g. "Earn 75,000 bonus miles"
+  highlights: string[]; // every bullet on the card's tile, verbatim
+  imageUrl: string | null;
+  applyUrl: string | null;
+  partner: boolean; // true when the card's page is off capitalone.com (Discover cards)
+  purchaseApr: string | null; // e.g. "19.74% - 28.74% variable APR"
+  introApr: string | null; // e.g. "0% intro APR for 12 months on purchases and balance transfers"
+}
+
+interface CapitalOneListCreditCardsArgs {
+  rewardsType?: string; // "Travel" | "Cash" | "All Rewards"
+  cardType?: string; // "Popular" | "Student" | "Secured" | "Business"
+}
+
+interface CapitalOneAccount {
+  id: string; // Capital One's accountReferenceId — pass it to listTransactions verbatim
+  businessLine: string | null; // "CREDIT_CARDS" for a card
+  productName: string | null;
+  lastFour: string | null;
+  currentBalance: number | null; // dollars
+  statementBalance: number | null; // dollars; field name unverified, see fieldsUnverified
+  paymentDueDate: string | null; // field name unverified
+  minimumPaymentDue: number | null; // dollars; field name unverified
+  availableCredit: number | null; // dollars; field name unverified
+  creditLimit: number | null; // dollars; field name unverified
+}
+
+interface CapitalOneAccounts {
+  accounts: CapitalOneAccount[];
+  fieldsUnverified: string[]; // fields read under names no source confirmed: null there may mean named differently
+}
+
+interface CapitalOneListTransactionsArgs {
+  account: string; // an account `id` (or its `lastFour`) from listAccounts
+  from?: string; // YYYY-MM-DD; default 90 days before `to`
+  to?: string; // YYYY-MM-DD; default today
+}
+
+interface CapitalOneTransaction {
+  transactionDate: string | null;
+  postedDate: string | null;
+  cardLastFour: string | null;
+  description: string;
+  category: string | null; // Capital One's own category, e.g. "Dining"
+  amount: number; // dollars, signed: a charge is negative, a payment or credit positive
+  type: "debit" | "credit";
+}
+
+interface CapitalOneTransactions {
+  account: string;
+  from: string;
+  to: string;
+  transactions: CapitalOneTransaction[];
+}
+
+interface CapitalOneOffer {
+  offerId: string | null; // pass to activateOffer
+  merchant: string;
+  merchantDomain: string;
+  reward: string; // in the site's words: "Up to 5% back", "Earn 2,500 miles"
+  rewardType: "percent" | "dollar-upto" | "dollar-flat" | "miles-rate" | "miles-upto" | "miles-flat" | "other";
+  rewardValue: number | null; // the first number in `reward`
+  availability: string; // "Online" | "In-store" as the site says
+  kind: string;
+  imageUrl: string | null;
+  shopUrl: string | null; // opening it starts the offer (a tracked shopping trip)
+}
+
+interface CapitalOneOffers {
+  account: string; // the card (arid) whose feed this is
+  accounts: string[]; // every card id the sign-in can show; pass one as `account`
+  offers: CapitalOneOffer[];
+  truncated: boolean;
+  activationRequired: false;
+}
+
+interface CapitalOneListOffersArgs {
+  account?: string;
+  limit?: number; // 1-2000, default 500
+}
+
+interface CapitalOneActivateOfferArgs {
+  offerId: string;
+  account?: string;
+}
+
+interface CapitalOneOfferActivation {
+  offerId: string;
+  merchant: string;
+  reward: string;
+  activationRequired: false;
+  shopUrl: string | null;
+  how: string;
+}
+
+  /**
+   * Capital One, the card issuer: every public credit card (fees, earn rates by category,
+   * welcome offers) and, signed in through the caller's own browser, their accounts,
+   * transactions and Capital One Offers.
+   */
+  interface Unit {
+    /**
+     * Every Capital One credit card on its compare page (consumer, student, secured, business and
+     * partner cards), in the site's order: brand-code id, name, annual fee, earn rates BY
+     * CATEGORY, welcome offer, credit level, rewards type, card type, network, card art, card page
+     * and apply link. Filter with { rewardsType: "Travel" | "Cash" } or { cardType: "Business" }.
+     */
+    listCreditCards(args?: CapitalOneListCreditCardsArgs): Promise<{ cards: CapitalOneCard[] }>;
+
+    /**
+     * One Capital One card by its listCreditCards `id` ("VENTUREX"), page slug or URL: everything
+     * listCreditCards returns plus the card page's full earn-rate table (e.g. Venture X's 10X and
+     * 5X Capital One Travel rates), purchase APR and intro APR.
+     */
+    getCreditCard(id: string | {id: string}): Promise<CapitalOneCardDetail>;
+
+    /**
+     * SIGNED IN — the caller's own Capital One accounts: account id, product name, last four,
+     * current balance; statement balance, due date, minimum payment, available credit and credit
+     * limit when the site sends them under the names read (see `fieldsUnverified`). Read through
+     * the caller's own browser via Bowmark Buddy.
+     */
+    listAccounts(opts?: ConnectionOption): Promise<CapitalOneAccounts>;
+
+    /**
+     * SIGNED IN — one credit card account's posted transactions from Capital One's own CSV export,
+     * newest first: dates, card last four, description, Capital One's category, signed amount. {
+     * account: id or lastFour from listAccounts, from?: "YYYY-MM-DD" (default 90 days back), to?:
+     * "YYYY-MM-DD" }. Pending charges are not in the export.
+     */
+    listTransactions(args: CapitalOneListTransactionsArgs, opts?: ConnectionOption): Promise<CapitalOneTransactions>;
+
+    /**
+     * SIGNED IN — the caller's Capital One Offers (capitaloneoffers.com): merchant, merchant
+     * domain, reward in the site's words ("Up to 5% back", "Earn 2,500 miles"), reward type and
+     * value, online/in-store, offer id and the link that starts it. Offers need no activation. {
+     * account?: a card id from `accounts`, limit?: 1-2000 }.
+     */
+    listOffers(args?: CapitalOneListOffersArgs, opts?: ConnectionOption): Promise<CapitalOneOffers>;
+
+    /**
+     * SIGNED IN — Capital One Offers has no activate step, so this finds the offer by `offerId` in
+     * the caller's feed and returns its shop link with `activationRequired: false`: opening the
+     * link and paying with the card is what applies the offer.
+     */
+    activateOffer(args: CapitalOneActivateOfferArgs, opts?: ConnectionOption): Promise<CapitalOneOfferActivation>;
   }
 }
 
@@ -53044,21 +53238,11 @@ interface FareharborBookingResult {
 
 declare namespace BowmarkProvider_farmaciasdirect {
   // ── Farmaciasdirect — the unit's own declarations, verbatim ──
-type FarmaciasdirectSiteReadInput = { thing: "collection"; where?: FarmaciasdirectSiteCollectionWhere; fields?: string[] } | { thing: "collections"; where?: FarmaciasdirectSiteCollectionsWhere; fields?: string[] } | { thing: "locations"; where?: FarmaciasdirectSiteLocationsWhere; fields?: string[] } | { thing: "product"; where?: FarmaciasdirectSiteProductWhere; fields?: string[] } | { thing: "productTags"; where: FarmaciasdirectSiteProductTagsWhere; fields?: string[] } | { thing: "products"; where?: FarmaciasdirectSiteProductsWhere; fields?: string[] } | { thing: "search"; where: FarmaciasdirectSiteSearchWhere; fields?: string[] } | { thing: "sitemap"; where: FarmaciasdirectSiteSitemapWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): article, articles, blog, blogs, localization, menu, metaobject, metaobjects, node, nodes, page, pages, predictiveSearch, productRecommendations, productTypes, publicApiVersions, shop, urlRedirects.
+type FarmaciasdirectSiteReadInput = { thing: "collection"; where?: FarmaciasdirectSiteCollectionWhere; fields?: string[] } | { thing: "locations"; where?: FarmaciasdirectSiteLocationsWhere; fields?: string[] } | { thing: "product"; where?: FarmaciasdirectSiteProductWhere; fields?: string[] } | { thing: "products"; where?: FarmaciasdirectSiteProductsWhere; fields?: string[] } | { thing: "search"; where: FarmaciasdirectSiteSearchWhere; fields?: string[] } | { thing: "sitemap"; where: FarmaciasdirectSiteSitemapWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): article, articles, blog, blogs, collections, localization, menu, metaobject, metaobjects, node, nodes, page, pages, predictiveSearch, productRecommendations, productTags, productTypes, publicApiVersions, shop, urlRedirects.
 
 interface FarmaciasdirectSiteCollectionWhere { // The `where` inputs of the `collection` thing.
   id?: string; // The ID of the `Collection`.
   handle?: string; // The handle of the `Collection`.
-}
-
-interface FarmaciasdirectSiteCollectionsWhere { // The `where` inputs of the `collections` thing.
-  first?: number; // Returns up to the first `n` elements from the list.
-  after?: string; // Returns the elements that come after the specified cursor.
-  last?: number; // Returns up to the last `n` elements from the list.
-  before?: string; // Returns the elements that come before the specified cursor.
-  reverse?: boolean; // Reverse the order of the underlying list. Default: false.
-  sortKey?: "TITLE" | "UPDATED_AT" | "ID" | "CREATED_AT" | "RELEVANCE"; // Sort the underlying list by the given key. Default: ID.
-  query?: string; // Apply one or multiple filters to the query. | name | description | acceptable_values | default_value | example_use | | ---- | ---- | ---- | ---- | ---- | | collection_type | | title | | updated_at ...
 }
 
 interface FarmaciasdirectSiteLocationsWhere { // The `where` inputs of the `locations` thing.
@@ -53074,10 +53258,6 @@ interface FarmaciasdirectSiteLocationsWhere { // The `where` inputs of the `loca
 interface FarmaciasdirectSiteProductWhere { // The `where` inputs of the `product` thing.
   id?: string; // The ID of the `Product`.
   handle?: string; // The handle of the `Product`.
-}
-
-interface FarmaciasdirectSiteProductTagsWhere { // The `where` inputs of the `productTags` thing.
-  first: number; // Returns up to the first `n` elements from the list.
 }
 
 interface FarmaciasdirectSiteProductsWhere { // The `where` inputs of the `products` thing.
@@ -53110,29 +53290,20 @@ interface FarmaciasdirectSiteSitemapWhere { // The `where` inputs of the `sitema
 
 interface FarmaciasdirectSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
   collection: FarmaciasdirectSiteCollection | null; // Retrieves a single `Collection` by its ID or handle. Use the `products` field to access items in the collection.
-  collections: FarmaciasdirectSiteCollectionConnection | null; // Returns a paginated list of the shop's collections. Each `Collection` object includes a nested connection to its products.
   locations: FarmaciasdirectSiteLocationConnection | null; // Returns shop locations that support in-store pickup. Use the `near` argument with `GeoCoordinateInput` to sort results by proximity to the customer's location. When sorting by distance, set `sortKe...
   product: FarmaciasdirectSiteProduct | null; // Retrieves a single `Product` by its ID or handle. Use this query to build product detail pages, access variant and pricing information, or fetch product media and metafields. See some examples of q...
-  productTags: FarmaciasdirectSiteStringConnection | null; // Returns a paginated list of all tags that have been added to products in the shop. Useful for building tag-based product filtering or navigation in a storefront.
   products: FarmaciasdirectSiteProductConnection | null; // Returns a paginated list of the shop's products. For full-text storefront search, use the `search` query instead.
   search: FarmaciasdirectSiteSearchResultItemConnection | null; // Returns paginated search results for `Product`, `Page`, and `Article` resources based on a query string. Results are sorted by relevance by default. The response includes the total result count and...
   sitemap: FarmaciasdirectSiteSitemap | null; // Returns sitemap data for a specific resource type, enabling headless storefronts to generate XML sitemaps for search engine optimization. The query provides a page count and paginated access to res...
 }
 
-type FarmaciasdirectSiteReadAnswer = FarmaciasdirectSiteCollection | FarmaciasdirectSiteCollectionConnection | FarmaciasdirectSiteLocationConnection | FarmaciasdirectSiteProduct | FarmaciasdirectSiteStringConnection | FarmaciasdirectSiteProductConnection | FarmaciasdirectSiteSearchResultItemConnection | FarmaciasdirectSiteSitemap | null; // The answer for the `thing` you picked: its type is that thing's entry in FarmaciasdirectSiteReadAnswers.
+type FarmaciasdirectSiteReadAnswer = FarmaciasdirectSiteCollection | FarmaciasdirectSiteLocationConnection | FarmaciasdirectSiteProduct | FarmaciasdirectSiteProductConnection | FarmaciasdirectSiteSearchResultItemConnection | FarmaciasdirectSiteSitemap | null; // The answer for the `thing` you picked: its type is that thing's entry in FarmaciasdirectSiteReadAnswers.
 
 interface FarmaciasdirectSiteCollection { // A group of products organized by a merchant to make their store easier to browse. Collections can help customers discover related products by category, season, promotion, or other criteria. Query a... Shows 4 of its 11 fields; ask for any other by name in `fields`.
   description?: string | null; // Stripped description of the collection, single line with HTML tags removed.
   handle?: string | null; // A human-friendly unique string for the collection automatically generated from its title. Limit of 255 characters.
   id?: string | null; // A globally-unique ID.
   title?: string | null; // The collection’s name. Limit of 255 characters.
-}
-
-interface FarmaciasdirectSiteCollectionConnection { // An auto-generated type for paginating through multiple Collections.
-  edges?: Record<string, unknown>[] | null; // A list of edges.
-  nodes?: Record<string, unknown>[] | null; // A list of the nodes contained in CollectionEdge.
-  pageInfo?: Record<string, unknown> | null; // Information to aid in pagination.
-  totalCount?: string | number | null; // The total count of Collections.
 }
 
 interface FarmaciasdirectSiteGeoCoordinateInput { // The input fields used to specify a geographical location.
@@ -53151,12 +53322,6 @@ interface FarmaciasdirectSiteProduct { // Represents an item listed in a shop's 
   handle?: string | null; // A unique, human-readable string of the product's title. A handle can contain letters, hyphens (`-`), and numbers, but no spaces. The handle is used in the online store URL for the product.
   id?: string | null; // A globally-unique ID.
   priceRange?: Record<string, unknown> | null; // The minimum and maximum prices of a product, expressed in decimal numbers. For example, if the product is priced between 10.00 and 50.00, then the price range is 10.00 - 50.00.
-}
-
-interface FarmaciasdirectSiteStringConnection { // An auto-generated type for paginating through multiple Strings.
-  edges?: Record<string, unknown>[] | null; // A list of edges.
-  nodes?: string[] | null; // A list of the nodes contained in StringEdge.
-  pageInfo?: Record<string, unknown> | null; // Information to aid in pagination.
 }
 
 interface FarmaciasdirectSiteProductConnection { // An auto-generated type for paginating through multiple Products.
@@ -53322,9 +53487,9 @@ interface FarmaciasdirectPromotions {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (article, articles, blog, blogs,
-     * collection, collections, ...), give its `where` inputs, and list the `fields` you want back
-     * as dot paths like "state.stateName"; omit `fields` for every plain field.
+     * Reads anything this site offers in one call: pick a `thing` (search, product, sitemap,
+     * products, locations, collection, ...), give its `where` inputs, and list the `fields` you
+     * want back as dot paths like "state.stateName"; omit `fields` for every plain field.
      */
     read(input: FarmaciasdirectSiteReadInput): Promise<FarmaciasdirectSiteReadAnswer>;
 
@@ -53732,6 +53897,25 @@ interface ScreenFundsArgs {
   limit?: number; // 1-500, default 25.
 }
 
+interface FidelityArticle {
+  title: string;
+  description: string | null;
+  url: string;
+  contentType: string | null; // Fidelity's label, e.g. Article or Video.
+  duration: string | null; // Reading or viewing time, as printed, e.g. 8 min.
+  topics: string[];
+  products: string[];
+  imageUrl: string | null;
+  sourceId: string; // Fidelity's content id, tcm:<publication>-<component>.
+}
+
+interface FidelityArticleSearch {
+  query: string;
+  page: number;
+  totalResults: number; // Matches across all pages, not this page's count.
+  articles: FidelityArticle[];
+}
+
   /**
    * Fidelity Investments: public stock quotes, mutual fund research, CD rates and Learning
    * Center articles; account reads need the caller's own sign-in.
@@ -53748,6 +53932,12 @@ interface ScreenFundsArgs {
      * minimum, average annual returns, Morningstar rating, objective and top holdings.
      */
     getFund(fund: string): Promise<FidelityFund>;
+
+    /**
+     * Searches Fidelity's Learning Center and Viewpoints articles for a topic, 12 per page: title,
+     * description, URL, reading time, topics and products. The door for getArticle.
+     */
+    searchArticles(query: string): Promise<FidelityArticleSearch>;
 
     /**
      * Finds tickers by company or fund name (Fidelity's own autosuggest): symbol, name, CUSIP,
@@ -61792,7 +61982,7 @@ interface GoloadupServiceAvailability {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (excludedDates, itemTypes,
+     * Reads anything this site offers in one call: pick a `thing` (itemTypes, excludedDates,
      * pricingDetails, serviceAvailability), give its `where` inputs, and list the `fields` you
      * want back as dot paths like "state.stateName"; omit `fields` for every plain field.
      */
@@ -62182,7 +62372,7 @@ interface GoodreadsShelfBook {
   interface Unit {
     /**
      * Reads anything this site offers in one call: pick a `thing` (getBook, getBookByLegacyId,
-     * getPageBanner, getNativeAd, getGiveaways, getSiteHeaderBanner), give its `where` inputs, and
+     * getNativeAd, getGiveaways, getPageBanner, getSiteHeaderBanner), give its `where` inputs, and
      * list the `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
      * plain field.
      */
@@ -73132,11 +73322,7 @@ declare namespace BowmarkProvider_interiordefine {
   // ── Interior Define — the unit's own declarations, verbatim ──
 // Interior Define's OWN shapes — not a capability contract.
 
-type InteriordefineSiteReadInput = { thing: "affirmAslowasPrice"; where: InteriordefineSiteAffirmAslowasPriceWhere; fields?: string[] } | { thing: "availableStores"; where?: InteriordefineSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: InteriordefineSiteCategoriesWhere; fields?: string[] } | { thing: "categoryList"; where?: InteriordefineSiteCategoryListWhere; fields?: string[] } | { thing: "pickupLocations"; where?: InteriordefineSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: InteriordefineSiteProductsWhere; fields?: string[] } | { thing: "searchRedirect"; where: InteriordefineSiteSearchRedirectWhere; fields?: string[] } | { thing: "storeLocationByUrl"; where?: InteriordefineSiteStoreLocationByUrlWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): affirmBanner, careersList, cmsBlocks, cmsPage, compareList, countries, country, currency, customAttributeMetadata, customVariable, dependencyState, friendBuyConfig, getDefaultSortByValue, getFeeOptions, getGoogleTagManagerData, getHostedProUrl, getListFeeItems, getModuleConfiguration, getPriceRulePromoBannerData, getSheerIdPrograms, getShippingCountries, getShippingRegions, heroBanner, mulberryConfig, productReviewRatingsMetadata, recaptchaUiConfig, storeConfig, storeLocationsList, swatchFamilyData, urlResolver.
-
-interface InteriordefineSiteAffirmAslowasPriceWhere { // The `where` inputs of the `affirmAslowasPrice` thing.
-  sku: string; // Current product ID
-}
+type InteriordefineSiteReadInput = { thing: "availableStores"; where?: InteriordefineSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: InteriordefineSiteCategoriesWhere; fields?: string[] } | { thing: "categoryList"; where?: InteriordefineSiteCategoryListWhere; fields?: string[] } | { thing: "pickupLocations"; where?: InteriordefineSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: InteriordefineSiteProductsWhere; fields?: string[] } | { thing: "searchRedirect"; where: InteriordefineSiteSearchRedirectWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): affirmAslowasPrice, affirmBanner, careersList, cmsBlocks, cmsPage, compareList, countries, country, currency, customAttributeMetadata, customVariable, dependencyState, friendBuyConfig, getDefaultSortByValue, getFeeOptions, getGoogleTagManagerData, getHostedProUrl, getListFeeItems, getModuleConfiguration, getPriceRulePromoBannerData, getSheerIdPrograms, getShippingCountries, getShippingRegions, heroBanner, mulberryConfig, productReviewRatingsMetadata, recaptchaUiConfig, storeConfig, storeLocationByUrl, storeLocationsList, swatchFamilyData, urlResolver.
 
 interface InteriordefineSiteAvailableStoresWhere { // The `where` inputs of the `availableStores` thing.
   useCurrentGroup?: boolean; // Filter store views by current store group
@@ -73173,27 +73359,16 @@ interface InteriordefineSiteSearchRedirectWhere { // The `where` inputs of the `
   term: string; // Term (text).
 }
 
-interface InteriordefineSiteStoreLocationByUrlWhere { // The `where` inputs of the `storeLocationByUrl` thing.
-  url_name?: string; // Url Name of the Store Location
-}
-
 interface InteriordefineSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
-  affirmAslowasPrice: InteriordefineSiteAffirmAslowasPriceConfigData | null; // Affirm As Low As Block Config Data
   availableStores: InteriordefineSiteStoreConfig[] | null; // Get a list of available store views and their config information.
   categories: InteriordefineSiteCategoryResult | null; // Reads categories records from this site.
   categoryList: InteriordefineSiteCategoryTree[] | null; // Returns an array of categories based on the specified filters.
   pickupLocations: InteriordefineSitePickupLocations | null; // The pickup locations query searches for locations that match the search request requirements.
   products: InteriordefineSiteProducts | null; // The products query searches for products that match the criteria specified in the search and filter attributes.
   searchRedirect: InteriordefineSiteRedirectOutput | null; // Search for redirect by term
-  storeLocationByUrl: InteriordefineSiteStoreLocationView | null; // The Store Location By Url Name query returns information about Store Locations
 }
 
-type InteriordefineSiteReadAnswer = InteriordefineSiteAffirmAslowasPriceConfigData | InteriordefineSiteStoreConfig[] | InteriordefineSiteCategoryResult | InteriordefineSiteCategoryTree[] | InteriordefineSitePickupLocations | InteriordefineSiteProducts | InteriordefineSiteRedirectOutput | InteriordefineSiteStoreLocationView | null; // The answer for the `thing` you picked: its type is that thing's entry in InteriordefineSiteReadAnswers.
-
-interface InteriordefineSiteAffirmAslowasPriceConfigData { // Affirm aslowas price config data record.
-  affirm_aslowas_learn_more?: boolean | null; // Affirm Is Visible Learn More Link?
-  affirm_aslowas_mfp_value?: string | null; // Multiple Financing Program
-}
+type InteriordefineSiteReadAnswer = InteriordefineSiteStoreConfig[] | InteriordefineSiteCategoryResult | InteriordefineSiteCategoryTree[] | InteriordefineSitePickupLocations | InteriordefineSiteProducts | InteriordefineSiteRedirectOutput | null; // The answer for the `thing` you picked: its type is that thing's entry in InteriordefineSiteReadAnswers.
 
 interface InteriordefineSiteStoreConfig { // The type contains information about a store config. Shows 4 of its 116 fields; ask for any other by name in `fields`.
   absolute_footer?: string | null; // Footer Miscellaneous HTML
@@ -73276,13 +73451,6 @@ interface InteriordefineSiteRedirectOutput { // Redirect output record.
   redirectUrl?: string | null; // Redirect url of redirect output (text).
 }
 
-interface InteriordefineSiteStoreLocationView { // Store Location defines all Store Location information. Shows 4 of its 22 fields; ask for any other by name in `fields`.
-  additional_content?: string | null; // Store Location additional_content
-  description?: string | null; // Store Location description
-  name?: string | null; // Store Location name
-  type?: string | null; // Store Location type
-}
-
 interface InteriorDefineProductSummary {
   sku: string; // the key getConfigurator/priceConfiguration take
   name: string;
@@ -73363,8 +73531,8 @@ interface InteriorDefineCheckoutHandoff {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (affirmAslowasPrice,
-     * affirmBanner, availableStores, careersList, categories, categoryList, ...), give its `where`
+     * Reads anything this site offers in one call: pick a `thing` (products, categories,
+     * categoryList, searchRedirect, availableStores, pickupLocations, ...), give its `where`
      * inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
      * `fields` for every plain field.
      */
@@ -74377,7 +74545,7 @@ interface GiftCardLink {
 
 declare namespace BowmarkProvider_joybird {
   // ── Joybird — the unit's own declarations, verbatim ──
-type JoybirdSiteReadInput = { thing: "getProduct"; where?: JoybirdSiteGetProductWhere; fields?: string[] } | { thing: "getProductVisOptions"; where?: JoybirdSiteGetProductVisOptionsWhere; fields?: string[] } | { thing: "getCategory"; where?: JoybirdSiteGetCategoryWhere; fields?: string[] } | { thing: "getCollection"; where?: JoybirdSiteGetCollectionWhere; fields?: string[] } | { thing: "getCategoryTopSalesProducts"; where?: JoybirdSiteGetCategoryTopSalesProductsWhere; fields?: string[] } | { thing: "getLocationFromCoords"; where: JoybirdSiteGetLocationFromCoordsWhere; fields?: string[] } | { thing: "getLocationFromZip"; where: JoybirdSiteGetLocationFromZipWhere; fields?: string[] } | { thing: "getRecommendedProducts"; where?: JoybirdSiteGetRecommendedProductsWhere; fields?: string[] } | { thing: "getCustomListProductData"; where?: JoybirdSiteGetCustomListProductDataWhere; fields?: string[] } | { thing: "getCustomProductListDataV2"; where?: JoybirdSiteGetCustomProductListDataV2Where; fields?: string[] } | { thing: "getRetailStoreProductsData"; where: JoybirdSiteGetRetailStoreProductsDataWhere; fields?: string[] } | { thing: "getClosestStoreFromZipcode"; where?: JoybirdSiteGetClosestStoreFromZipcodeWhere; fields?: string[] } | { thing: "getCategoryPage"; where: JoybirdSiteGetCategoryPageWhere; fields?: string[] } | { thing: "getProductsStaticData"; where: JoybirdSiteGetProductsStaticDataWhere; fields?: string[] } | { thing: "getProductsByIDs"; where?: JoybirdSiteGetProductsByIDsWhere; fields?: string[] } | { thing: "getUpSellProduct"; where?: JoybirdSiteGetUpSellProductWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): getAllActiveOptionsValues, getCollections, getNavigationMenus, getTreeCount, getActivePromotionBanner, getNewestArrivals, getFabrics, getFabricGalleryData, getFabricReviews, getProjectResetConfig, getSitemapLinks, getFabricsByIds, getClearanceData, getModularSofaCollectionsStatic, getAllProductTreeCounts, getJoybirdInstagramImages, getOptionValueById, getProtectionPlanTypes, getItemToItemRecommendation, getMultiItemToItemRecommendation, getWarehouseIdFromZip, getResolvedWarehouseId, validateZipCode, getVideoMetadata, validatePrintCampaign, getClosestStoresFromZipcode, getDSQuizBynderImages, getInStoreDesignServiceQuiz, getInStoreDesignServiceQuizPart2, getContentfulEntries, getBlogHomePage, getCategoryPageMetadata, getRetailStores, getStoresForCategoryProducts, getPDPKeySellingPoints, getPromotionContent, getIsModularBundleOrPreconfigProduct, getModularSofaBundle, validateZipWithState.
+type JoybirdSiteReadInput = { thing: "getProduct"; where?: JoybirdSiteGetProductWhere; fields?: string[] } | { thing: "getProductVisOptions"; where?: JoybirdSiteGetProductVisOptionsWhere; fields?: string[] } | { thing: "getCategory"; where?: JoybirdSiteGetCategoryWhere; fields?: string[] } | { thing: "getCollection"; where?: JoybirdSiteGetCollectionWhere; fields?: string[] } | { thing: "getLocationFromCoords"; where: JoybirdSiteGetLocationFromCoordsWhere; fields?: string[] } | { thing: "getLocationFromZip"; where: JoybirdSiteGetLocationFromZipWhere; fields?: string[] } | { thing: "getRecommendedProducts"; where?: JoybirdSiteGetRecommendedProductsWhere; fields?: string[] } | { thing: "getCustomListProductData"; where?: JoybirdSiteGetCustomListProductDataWhere; fields?: string[] } | { thing: "getCategoryPage"; where: JoybirdSiteGetCategoryPageWhere; fields?: string[] } | { thing: "getProductsStaticData"; where: JoybirdSiteGetProductsStaticDataWhere; fields?: string[] } | { thing: "getProductsByIDs"; where?: JoybirdSiteGetProductsByIDsWhere; fields?: string[] } | { thing: "getUpSellProduct"; where?: JoybirdSiteGetUpSellProductWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): getAllActiveOptionsValues, getCollections, getCategoryTopSalesProducts, getNavigationMenus, getTreeCount, getActivePromotionBanner, getNewestArrivals, getFabrics, getFabricGalleryData, getFabricReviews, getProjectResetConfig, getSitemapLinks, getFabricsByIds, getClearanceData, getModularSofaCollectionsStatic, getAllProductTreeCounts, getJoybirdInstagramImages, getOptionValueById, getProtectionPlanTypes, getItemToItemRecommendation, getMultiItemToItemRecommendation, getWarehouseIdFromZip, getResolvedWarehouseId, validateZipCode, getVideoMetadata, getCustomProductListDataV2, getRetailStoreProductsData, validatePrintCampaign, getClosestStoreFromZipcode, getClosestStoresFromZipcode, getDSQuizBynderImages, getInStoreDesignServiceQuiz, getInStoreDesignServiceQuizPart2, getContentfulEntries, getBlogHomePage, getCategoryPageMetadata, getRetailStores, getStoresForCategoryProducts, getPDPKeySellingPoints, getPromotionContent, getIsModularBundleOrPreconfigProduct, getModularSofaBundle, validateZipWithState.
 
 interface JoybirdSiteGetProductWhere { // The `where` inputs of the `getProduct` thing.
   slug?: string; // Slug (text).
@@ -74403,10 +74571,6 @@ interface JoybirdSiteGetCollectionWhere { // The `where` inputs of the `getColle
   forProduct?: number; // For product (number).
 }
 
-interface JoybirdSiteGetCategoryTopSalesProductsWhere { // The `where` inputs of the `getCategoryTopSalesProducts` thing.
-  id?: number; // Id (number).
-}
-
 interface JoybirdSiteGetLocationFromCoordsWhere { // The `where` inputs of the `getLocationFromCoords` thing.
   latitude: number; // Latitude (number).
   longitude: number; // Longitude (number).
@@ -74425,23 +74589,6 @@ interface JoybirdSiteGetRecommendedProductsWhere { // The `where` inputs of the 
 interface JoybirdSiteGetCustomListProductDataWhere { // The `where` inputs of the `getCustomListProductData` thing.
   slug?: string; // Slug (text).
   type?: string; // Type (text).
-}
-
-interface JoybirdSiteGetCustomProductListDataV2Where { // The `where` inputs of the `getCustomProductListDataV2` thing.
-  limit?: number; // Maximum number of results to return.
-  slug?: string; // Slug (text).
-  productList?: JoybirdSiteProductListInput[]; // Product list (list of record).
-  filterByStock?: boolean; // Filter by stock (true/false flag).
-  sortByPopularity?: boolean; // Sort by popularity (true/false flag).
-  refreshCache?: boolean; // Refresh cache (true/false flag).
-}
-
-interface JoybirdSiteGetRetailStoreProductsDataWhere { // The `where` inputs of the `getRetailStoreProductsData` thing.
-  storeId: number; // Store id (number).
-}
-
-interface JoybirdSiteGetClosestStoreFromZipcodeWhere { // The `where` inputs of the `getClosestStoreFromZipcode` thing.
-  zipcode?: string; // Zipcode (text).
 }
 
 interface JoybirdSiteGetCategoryPageWhere { // The `where` inputs of the `getCategoryPage` thing.
@@ -74477,21 +74624,17 @@ interface JoybirdSiteReadAnswers { // What each `thing` answers. Only the `field
   getProductVisOptions: JoybirdSiteProduct | null; // Reads product vis options records from this site.
   getCategory: JoybirdSiteCategory | null; // Reads category records from this site.
   getCollection: JoybirdSiteCollection | null; // Reads collection records from this site.
-  getCategoryTopSalesProducts: JoybirdSiteCategoryTopSalesProductsType[] | null; // Reads category top sales products records from this site.
   getLocationFromCoords: JoybirdSiteLocationResp | null; // Reads location from coords records from this site.
   getLocationFromZip: JoybirdSiteLocationResp | null; // Reads location from zip records from this site.
   getRecommendedProducts: JoybirdSiteRecommendedForYouProductType[] | null; // Reads recommended products records from this site.
   getCustomListProductData: unknown | null; // Reads custom list product data records from this site.
-  getCustomProductListDataV2: JoybirdSiteCustomProductListing | null; // Reads custom product list data v2 records from this site.
-  getRetailStoreProductsData: JoybirdSiteCustomProductListing | null; // Reads retail store products data records from this site.
-  getClosestStoreFromZipcode: string | null; // Reads closest store from zipcode records from this site.
   getCategoryPage: JoybirdSiteProductListingPage | null; // Reads category page records from this site.
   getProductsStaticData: JoybirdSiteProductListingPage | null; // Reads products static data records from this site.
   getProductsByIDs: JoybirdSiteProduct[] | null; // Reads products by ids records from this site.
   getUpSellProduct: JoybirdSiteUpSellProductResponse | null; // Reads up sell product records from this site.
 }
 
-type JoybirdSiteReadAnswer = JoybirdSiteProduct | JoybirdSiteCategory | JoybirdSiteCollection | JoybirdSiteCategoryTopSalesProductsType[] | JoybirdSiteLocationResp | JoybirdSiteRecommendedForYouProductType[] | unknown | JoybirdSiteCustomProductListing | string | JoybirdSiteProductListingPage | JoybirdSiteProduct[] | JoybirdSiteUpSellProductResponse | null; // The answer for the `thing` you picked: its type is that thing's entry in JoybirdSiteReadAnswers.
+type JoybirdSiteReadAnswer = JoybirdSiteProduct | JoybirdSiteCategory | JoybirdSiteCollection | JoybirdSiteLocationResp | JoybirdSiteRecommendedForYouProductType[] | unknown | JoybirdSiteProductListingPage | JoybirdSiteProduct[] | JoybirdSiteUpSellProductResponse | null; // The answer for the `thing` you picked: its type is that thing's entry in JoybirdSiteReadAnswers.
 
 interface JoybirdSiteProduct { // Product record. Shows 6 of its 43 fields; ask for any other by name in `fields`.
   id?: number | null; // Id of product (number).
@@ -74520,12 +74663,6 @@ interface JoybirdSiteCollection { // Collection record. Shows 6 of its 8 fields;
   category_description?: string | null; // Category description of collection (text).
 }
 
-interface JoybirdSiteCategoryTopSalesProductsType { // Category top sales products type record.
-  product_id?: number | null; // Product id of category top sales products type (number).
-  category_id?: number | null; // Category id of category top sales products type (number).
-  position?: number | null; // Position of category top sales products type (number).
-}
-
 interface JoybirdSiteLocationResp { // Location resp record. Shows 6 of its 7 fields; ask for any other by name in `fields`.
   zip?: string | null; // Zip of location resp (text).
   address?: string | null; // Address of location resp (text).
@@ -74538,17 +74675,6 @@ interface JoybirdSiteLocationResp { // Location resp record. Shows 6 of its 7 fi
 interface JoybirdSiteRecommendedForYouProductType { // Recommended for you product type record.
   sku?: string | null; // Sku of recommended for you product type (text).
   score?: number | null; // Score of recommended for you product type (number).
-}
-
-interface JoybirdSiteProductListInput { // Product list input record.
-  id?: number; // Id of product list input (number).
-  category?: string; // Category of product list input (text).
-}
-
-interface JoybirdSiteCustomProductListing { // Custom product listing record.
-  products?: Record<string, unknown>[] | null; // List of products of custom product listing (record).
-  totalProductCount?: number | null; // Total product count of custom product listing (number).
-  upholsteryOptions?: Record<string, unknown>[] | null; // List of upholstery options of custom product listing (record).
 }
 
 interface JoybirdSiteProductListingPage { // Product listing page record. Shows 6 of its 10 fields; ask for any other by name in `fields`.
@@ -74637,10 +74763,10 @@ interface JoybirdPriceResult {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (getProduct,
-     * getProductVisOptions, getAllActiveOptionsValues, getCollections, getCategory, getCollection,
-     * ...), give its `where` inputs, and list the `fields` you want back as dot paths like
-     * "state.stateName"; omit `fields` for every plain field.
+     * Reads anything this site offers in one call: pick a `thing` (getProduct, getCategory,
+     * getCollection, getCategoryPage, getProductsByIDs, getUpSellProduct, ...), give its `where`
+     * inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
+     * `fields` for every plain field.
      */
     read(input: JoybirdSiteReadInput): Promise<JoybirdSiteReadAnswer>;
 
@@ -75234,7 +75360,7 @@ interface KalshiGetMarketsResult {
 
 declare namespace BowmarkProvider_katzsdelicatessen {
   // ── Katz's Delicatessen — the unit's own declarations, verbatim ──
-type KatzsdelicatessenSiteReadInput = { thing: "availableStores"; where?: KatzsdelicatessenSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: KatzsdelicatessenSiteCategoriesWhere; fields?: string[] } | { thing: "mpGTMCode"; where?: KatzsdelicatessenSiteMpGTMCodeWhere; fields?: string[] } | { thing: "mpGTMHead"; where?: KatzsdelicatessenSiteMpGTMHeadWhere; fields?: string[] } | { thing: "pickupLocations"; where?: KatzsdelicatessenSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: KatzsdelicatessenSiteProductsWhere; fields?: string[] } | { thing: "route"; where: KatzsdelicatessenSiteRouteWhere; fields?: string[] } | { thing: "slideItems"; where?: KatzsdelicatessenSiteSlideItemsWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): attributesForm, attributesList, cmsBlocks, cmsPage, compareList, countries, country, currency, customAttributeMetadataV2, getHostedProUrl, getVaultConfig, mpGTMCodeHome, productReviewRatingsMetadata, recaptchaFormConfig, recaptchaV3Config, storeConfig.
+type KatzsdelicatessenSiteReadInput = { thing: "availableStores"; where?: KatzsdelicatessenSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: KatzsdelicatessenSiteCategoriesWhere; fields?: string[] } | { thing: "pickupLocations"; where?: KatzsdelicatessenSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: KatzsdelicatessenSiteProductsWhere; fields?: string[] } | { thing: "route"; where: KatzsdelicatessenSiteRouteWhere; fields?: string[] } | { thing: "slideItems"; where?: KatzsdelicatessenSiteSlideItemsWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): attributesForm, attributesList, cmsBlocks, cmsPage, compareList, countries, country, currency, customAttributeMetadataV2, getHostedProUrl, getVaultConfig, mpGTMCode, mpGTMCodeHome, mpGTMHead, productReviewRatingsMetadata, recaptchaFormConfig, recaptchaV3Config, storeConfig.
 
 interface KatzsdelicatessenSiteAvailableStoresWhere { // The `where` inputs of the `availableStores` thing.
   useCurrentGroup?: boolean; // Filter store views by the current store group.
@@ -75244,14 +75370,6 @@ interface KatzsdelicatessenSiteCategoriesWhere { // The `where` inputs of the `c
   filters?: KatzsdelicatessenSiteCategoryFilterInput; // Identifies which Category filter inputs to search for and return.
   pageSize?: number; // Specifies the maximum number of results to return at once. The default value is 20.
   currentPage?: number; // Specifies which page of results to return. The default value is 1.
-}
-
-interface KatzsdelicatessenSiteMpGTMCodeWhere { // The `where` inputs of the `mpGTMCode` thing.
-  filters?: KatzsdelicatessenSiteMpGTMCodeFilters; // Filters (record).
-}
-
-interface KatzsdelicatessenSiteMpGTMHeadWhere { // The `where` inputs of the `mpGTMHead` thing.
-  filters?: KatzsdelicatessenSiteMpGTMHeadFilters; // Filters (record).
 }
 
 interface KatzsdelicatessenSitePickupLocationsWhere { // The `where` inputs of the `pickupLocations` thing.
@@ -75282,15 +75400,13 @@ interface KatzsdelicatessenSiteSlideItemsWhere { // The `where` inputs of the `s
 interface KatzsdelicatessenSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
   availableStores: KatzsdelicatessenSiteStoreConfig[] | null; // Get a list of available store views and their config information.
   categories: KatzsdelicatessenSiteCategoryResult | null; // Return a list of categories that match the specified filter.
-  mpGTMCode: KatzsdelicatessenSiteGTMCodeOutput | null; // Get the code matching with the filter.
-  mpGTMHead: KatzsdelicatessenSiteGTMHeadOutput | null; // Get the head matching with the filter.
   pickupLocations: KatzsdelicatessenSitePickupLocations | null; // The pickup locations query searches for locations that match the search request requirements.
   products: KatzsdelicatessenSiteProducts | null; // Search for products that match the criteria specified in the `search` and `filter` attributes.
   route: KatzsdelicatessenSiteRoutableInterface | null; // Return the full details for a specified product, category, or CMS page.
   slideItems: KatzsdelicatessenSiteSlideItems | null; // The query returns information about slide items by Slide Key
 }
 
-type KatzsdelicatessenSiteReadAnswer = KatzsdelicatessenSiteStoreConfig[] | KatzsdelicatessenSiteCategoryResult | KatzsdelicatessenSiteGTMCodeOutput | KatzsdelicatessenSiteGTMHeadOutput | KatzsdelicatessenSitePickupLocations | KatzsdelicatessenSiteProducts | KatzsdelicatessenSiteRoutableInterface | KatzsdelicatessenSiteSlideItems | null; // The answer for the `thing` you picked: its type is that thing's entry in KatzsdelicatessenSiteReadAnswers.
+type KatzsdelicatessenSiteReadAnswer = KatzsdelicatessenSiteStoreConfig[] | KatzsdelicatessenSiteCategoryResult | KatzsdelicatessenSitePickupLocations | KatzsdelicatessenSiteProducts | KatzsdelicatessenSiteRoutableInterface | KatzsdelicatessenSiteSlideItems | null; // The answer for the `thing` you picked: its type is that thing's entry in KatzsdelicatessenSiteReadAnswers.
 
 interface KatzsdelicatessenSiteStoreConfig { // Contains information about a store's configuration. Shows 4 of its 203 fields; ask for any other by name in `fields`.
   absolute_footer?: string | null; // Contains scripts that must be included in the HTML before the closing `<body>` tag.
@@ -75310,25 +75426,6 @@ interface KatzsdelicatessenSiteCategoryResult { // Contains a collection of `Cat
   items?: Record<string, unknown>[] | null; // A list of categories that match the filter criteria.
   page_info?: Record<string, unknown> | null; // An object that includes the `page_info` and `currentPage` values specified in the query.
   total_count?: number | null; // The total number of categories that match the criteria.
-}
-
-interface KatzsdelicatessenSiteMpGTMCodeFilters { // Mp gtmcode filters record. Shows 4 of its 6 inputs; any other is accepted by name.
-  action: string; // The name of the page you want to get the code from(home, catalogsearch, category, product, checkoutindex, checkoutcart, mponestepcheckout, checkoutsuccess, multishippingcheckoutsuccess, mpthankyoup...
-  currentPage?: number; // Specify which page to display the results to return. The default value is 1.
-  id: string; // The ID of the order, category, or product that you want to get the code from.
-  type: string; // The type of the code you want to get(GTM, GA or FbPixel).
-}
-
-interface KatzsdelicatessenSiteGTMCodeOutput { // Gtmcode output record.
-  code?: string | null; // Code
-}
-
-interface KatzsdelicatessenSiteMpGTMHeadFilters { // Mp gtmhead filters record.
-  type: string; // The type of the code you want to get(GTM, GA or FbPixel).
-}
-
-interface KatzsdelicatessenSiteGTMHeadOutput { // Gtmhead output record.
-  head?: string | null; // Head
 }
 
 interface KatzsdelicatessenSiteAreaInput { // AreaInput defines the parameters which will be used for filter by specified location.
@@ -75423,10 +75520,10 @@ interface katzsdelicatessenProductDetail extends katzsdelicatessenProduct {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (attributesForm, attributesList,
-     * availableStores, categories, cmsBlocks, cmsPage, ...), give its `where` inputs, and list the
-     * `fields` you want back as dot paths like "state.stateName"; omit `fields` for every plain
-     * field.
+     * Reads anything this site offers in one call: pick a `thing` (products, categories,
+     * slideItems, availableStores, pickupLocations, route, ...), give its `where` inputs, and list
+     * the `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
+     * plain field.
      */
     read(input: KatzsdelicatessenSiteReadInput): Promise<KatzsdelicatessenSiteReadAnswer>;
 
@@ -77172,10 +77269,10 @@ interface LabcorpTestDetail extends LabcorpTestSummary {
   /** Lab test pricing, PSC location lookup and appointment availability from Labcorp. */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (attributesForm, attributesList,
-     * availableStores, categories, cmsBlocks, cmsPage, ...), give its `where` inputs, and list the
-     * `fields` you want back as dot paths like "state.stateName"; omit `fields` for every plain
-     * field.
+     * Reads anything this site offers in one call: pick a `thing` (products, categories,
+     * availableStores, pickupLocations, route, dynamicBlocks, ...), give its `where` inputs, and
+     * list the `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
+     * plain field.
      */
     read(input: LabcorpSiteReadInput): Promise<LabcorpSiteReadAnswer>;
 
@@ -77472,6 +77569,31 @@ interface GuideLink {
   url: string;
 }
 
+interface VideoItem {
+  title: string;
+  url: string;
+  authors: string | null;
+  duration: string | null;
+}
+
+interface VideoList {
+  videos: VideoItem[];
+}
+
+interface GetVideoArgs {
+  url: string;
+}
+
+interface Video {
+  url: string;
+  title: string;
+  publishedAt: string | null;
+  durationSeconds: number | null;
+  hlsUrl: string | null;
+  thumbnail: string | null;
+  authors: string | null;
+}
+
 interface GuideList {
   guides: GuideLink[];
 }
@@ -77687,6 +77809,18 @@ interface BrowseTopicArgs {
      * description and image, from the page's ItemList data.
      */
     getGuide(args: GetGuideArgs): Promise<Guide>;
+
+    /**
+     * Lists the videos on the L.A. Times /video hub: title, url, authors and running time; pass a
+     * url to getVideo.
+     */
+    listVideos(): Promise<VideoList>;
+
+    /**
+     * Reads one video from its url: title, publish time, duration, the HLS stream url, thumbnail
+     * and authors.
+     */
+    getVideo(args: GetVideoArgs): Promise<Video>;
 
     /**
      * Lists the free daily games on the L.A. Times /games hub (Daily, Midi and Mini Crossword,
@@ -81446,9 +81580,10 @@ interface MagicMadhouseProduct {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (channel, node, inventory,
-     * shopperPreferences, store, geography, ...), give its `where` inputs, and list the `fields`
-     * you want back as dot paths like "state.stateName"; omit `fields` for every plain field.
+     * Reads anything this site offers in one call: pick a `thing` (product, category, products,
+     * categoryTree, searchProducts, newestProducts, ...), give its `where` inputs, and list the
+     * `fields` you want back as dot paths like "state.stateName"; omit `fields` for every plain
+     * field.
      */
     read(input: MagicmadhouseSiteReadInput): Promise<MagicmadhouseSiteReadAnswer>;
 
@@ -87048,9 +87183,10 @@ interface MlbProspect {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (fields, types, commonFields,
-     * search, queryInfo, mediaPlayback, ...), give its `where` inputs, and list the `fields` you
-     * want back as dot paths like "state.stateName"; omit `fields` for every plain field.
+     * Reads anything this site offers in one call: pick a `thing` (teams, search, people,
+     * playerStory, playerStories, suggestedSearches, ...), give its `where` inputs, and list the
+     * `fields` you want back as dot paths like "state.stateName"; omit `fields` for every plain
+     * field.
      */
     read(input: MlbReadInput): Promise<MlbReadAnswer>;
 
@@ -89246,7 +89382,7 @@ declare namespace BowmarkProvider_nationalbusinessfurniture {
   // ── National Business Furniture — the unit's own declarations, verbatim ──
 // National Business Furniture's OWN shapes — not a capability contract.
 
-type NationalbusinessfurnitureSiteReadInput = { thing: "availableStores"; where?: NationalbusinessfurnitureSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: NationalbusinessfurnitureSiteCategoriesWhere; fields?: string[] } | { thing: "looknbuy"; where?: NationalbusinessfurnitureSiteLooknbuyWhere; fields?: string[] } | { thing: "pickupLocations"; where?: NationalbusinessfurnitureSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: NationalbusinessfurnitureSiteProductsWhere; fields?: string[] } | { thing: "route"; where: NationalbusinessfurnitureSiteRouteWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): attributesForm, attributesList, cmsBlocks, cmsPage, company, compareList, countries, country, currency, customAttributeMetadataV2, dynamicBlocks, getAmCookieBar, getAmCookieGroups, getAmCookieInformationBar, getAmCookieSettingsBar, getBylooknbuyId, getHostedProUrl, getVaultConfig, nbfIdentityByPrimaryUuid, negotiableQuote, negotiableQuoteTemplate, negotiableQuoteTemplates, negotiableQuotes, productReviewRatingsMetadata, recaptchaFormConfig, recaptchaV3Config, storeConfig.
+type NationalbusinessfurnitureSiteReadInput = { thing: "availableStores"; where?: NationalbusinessfurnitureSiteAvailableStoresWhere; fields?: string[] } | { thing: "categories"; where?: NationalbusinessfurnitureSiteCategoriesWhere; fields?: string[] } | { thing: "pickupLocations"; where?: NationalbusinessfurnitureSitePickupLocationsWhere; fields?: string[] } | { thing: "products"; where?: NationalbusinessfurnitureSiteProductsWhere; fields?: string[] }; // One read: pick a `thing`, give its `where` inputs, list the `fields` you want back. Also reads, the same way (left out here to fit): attributesForm, attributesList, cmsBlocks, cmsPage, company, compareList, countries, country, currency, customAttributeMetadataV2, dynamicBlocks, getAmCookieBar, getAmCookieGroups, getAmCookieInformationBar, getAmCookieSettingsBar, getBylooknbuyId, getHostedProUrl, getVaultConfig, looknbuy, nbfIdentityByPrimaryUuid, negotiableQuote, negotiableQuoteTemplate, negotiableQuoteTemplates, negotiableQuotes, productReviewRatingsMetadata, recaptchaFormConfig, recaptchaV3Config, route, storeConfig.
 
 interface NationalbusinessfurnitureSiteAvailableStoresWhere { // The `where` inputs of the `availableStores` thing.
   useCurrentGroup?: boolean; // Filter store views by the current store group.
@@ -89256,12 +89392,6 @@ interface NationalbusinessfurnitureSiteCategoriesWhere { // The `where` inputs o
   filters?: NationalbusinessfurnitureSiteCategoryFilterInput; // Identifies which Category filter inputs to search for and return.
   pageSize?: number; // Specifies the maximum number of results to return at once. The default value is 20.
   currentPage?: number; // Specifies which page of results to return. The default value is 1.
-}
-
-interface NationalbusinessfurnitureSiteLooknbuyWhere { // The `where` inputs of the `looknbuy` thing.
-  filter?: NationalbusinessfurnitureSiteLooknbuyFilterInput; // Identifies which looknbuy fields to search for and return.
-  pageSize?: number; // How many items should show on the page. Default: 5.
-  currentPage?: number; // Allows to ussing paging it start with 1. Default: 1.
 }
 
 interface NationalbusinessfurnitureSitePickupLocationsWhere { // The `where` inputs of the `pickupLocations` thing.
@@ -89281,20 +89411,14 @@ interface NationalbusinessfurnitureSiteProductsWhere { // The `where` inputs of 
   sort?: NationalbusinessfurnitureSiteProductAttributeSortInput; // Specifies which attributes to sort on, and whether to return the results in ascending or descending order.
 }
 
-interface NationalbusinessfurnitureSiteRouteWhere { // The `where` inputs of the `route` thing.
-  url: string; // A `url_key` appended by the `url_suffix, if one exists.
-}
-
 interface NationalbusinessfurnitureSiteReadAnswers { // What each `thing` answers. Only the `fields` you asked for are filled.
   availableStores: NationalbusinessfurnitureSiteStoreConfig[] | null; // Get a list of available store views and their config information.
   categories: NationalbusinessfurnitureSiteCategoryResult | null; // Return a list of categories that match the specified filter.
-  looknbuy: NationalbusinessfurnitureSiteLooknbuyOutput | null; // The Impelemention to resolve Looknbuy
   pickupLocations: NationalbusinessfurnitureSitePickupLocations | null; // The pickup locations query searches for locations that match the search request requirements.
   products: NationalbusinessfurnitureSiteProducts | null; // Search for products that match the criteria specified in the `search` and `filter` attributes.
-  route: NationalbusinessfurnitureSiteRoutableInterface | null; // Return the full details for a specified product, category, or CMS page.
 }
 
-type NationalbusinessfurnitureSiteReadAnswer = NationalbusinessfurnitureSiteStoreConfig[] | NationalbusinessfurnitureSiteCategoryResult | NationalbusinessfurnitureSiteLooknbuyOutput | NationalbusinessfurnitureSitePickupLocations | NationalbusinessfurnitureSiteProducts | NationalbusinessfurnitureSiteRoutableInterface | null; // The answer for the `thing` you picked: its type is that thing's entry in NationalbusinessfurnitureSiteReadAnswers.
+type NationalbusinessfurnitureSiteReadAnswer = NationalbusinessfurnitureSiteStoreConfig[] | NationalbusinessfurnitureSiteCategoryResult | NationalbusinessfurnitureSitePickupLocations | NationalbusinessfurnitureSiteProducts | null; // The answer for the `thing` you picked: its type is that thing's entry in NationalbusinessfurnitureSiteReadAnswers.
 
 interface NationalbusinessfurnitureSiteStoreConfig { // Contains information about a store's configuration. Shows 4 of its 229 fields; ask for any other by name in `fields`.
   absolute_footer?: string | null; // Contains scripts that must be included in the HTML before the closing `<body>` tag.
@@ -89314,18 +89438,6 @@ interface NationalbusinessfurnitureSiteCategoryResult { // Contains a collection
   items?: Record<string, unknown>[] | null; // A list of categories that match the filter criteria.
   page_info?: Record<string, unknown> | null; // An object that includes the `page_info` and `currentPage` values specified in the query.
   total_count?: number | null; // The total number of categories that match the criteria.
-}
-
-interface NationalbusinessfurnitureSiteLooknbuyFilterInput { // looknbuyFilterInput specifies the fields to search
-  look_id?: Record<string, unknown>; // look_id
-  look_name?: Record<string, unknown>; // look_name
-  or?: Record<string, unknown>; // The keyword required to perform a logical OR comparison
-  url_key?: Record<string, unknown>; // url_key
-}
-
-interface NationalbusinessfurnitureSiteLooknbuyOutput { // Looknbuy output record.
-  items?: Record<string, unknown>[] | null; // items
-  total_count?: number | null; // total_count
 }
 
 interface NationalbusinessfurnitureSiteAreaInput { // AreaInput defines the parameters which will be used for filter by specified location.
@@ -89376,12 +89488,6 @@ interface NationalbusinessfurnitureSiteProducts { // Contains the results of a `
   items?: Record<string, unknown>[] | null; // An array of products that match the specified search criteria.
   page_info?: Record<string, unknown> | null; // An object that includes the page_info and currentPage values specified in the query.
   total_count?: number | null; // The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.
-}
-
-interface NationalbusinessfurnitureSiteRoutableInterface { // Routable entities serve as the model for a rendered page.
-  redirect_code?: number | null; // Contains 0 when there is no redirect error. A value of 301 indicates the URL of the requested resource has been changed permanently, while a value of 302 indicates a temporary redirect.
-  relative_url?: string | null; // The internal relative URL. If the specified URL is a redirect, the query returns the redirected URL, not the original.
-  type?: "CMS_PAGE" | "PRODUCT" | "CATEGORY" | null; // One of PRODUCT, CATEGORY, or CMS_PAGE.
 }
 
 interface NbfProductSummary {
@@ -89460,10 +89566,10 @@ interface NbfCheckoutHandoff {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (attributesForm, attributesList,
-     * availableStores, categories, cmsBlocks, cmsPage, ...), give its `where` inputs, and list the
-     * `fields` you want back as dot paths like "state.stateName"; omit `fields` for every plain
-     * field.
+     * Reads anything this site offers in one call: pick a `thing` (products, categories,
+     * availableStores, pickupLocations, route, looknbuy, ...), give its `where` inputs, and list
+     * the `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
+     * plain field.
      */
     read(input: NationalbusinessfurnitureSiteReadInput): Promise<NationalbusinessfurnitureSiteReadAnswer>;
 
@@ -98146,6 +98252,49 @@ interface PexelsSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_phenom {
+  // ── Phenom career sites — the unit's own declarations, verbatim ──
+interface PhenomJob {
+  id: string; // Phenom's jobId (often the company's requisition number)
+  title: string;
+  location: string | null; // the board's own text, e.g. "Temple, Texas, United States"
+  department: string | null; // the job category, e.g. "Nursing"
+  employmentType: string | null; // "Full Time", "Part time", "PRN"
+  shift: string | null; // Phenom's jobShift when set, e.g. "Day Job"
+  postedDate: string | null; // ISO
+  url: string; // the Phenom job page
+  applyUrl: string | null; // where Apply goes; may be another ATS (Taleo, Workday)
+}
+
+interface PhenomBoard {
+  boardUrl: string; // e.g. "https://jobs.bswhealth.com/us/en"
+  companyName: string | null;
+  total: number; // Phenom's own match count for the query
+  jobs: PhenomJob[];
+  warnings: string[];
+}
+
+interface PhenomListOptions {
+  query?: string; // Phenom's fuzzy keyword search
+  maxJobs?: number; // default 500, at most 2000
+}
+
+  /**
+   * Open jobs on a company's Phenom-powered careers site (Baylor Scott & White, Children's
+   * Healthcare of Atlanta and others) — title, location, category, shift, posted date and apply
+   * link, live off the site's own search endpoint.
+   */
+  interface Unit {
+    /**
+     * Open jobs on one Phenom careers site, live, paged 100 at a time until `maxJobs` (default
+     * 500). `company` is the careers-site URL ("https://jobs.bswhealth.com/us/en"); `query` is
+     * Phenom's own keyword search, which is fuzzy (it also matches skills), so filter titles
+     * after. Throws, caller-fixable, when the host is not a Phenom careers site.
+     */
+    listJobs(company: string, options: PhenomListOptions): Promise<PhenomBoard>;
+  }
+}
+
 declare namespace BowmarkProvider_pike13 {
   // ── Pike13 — the unit's own declarations, verbatim ──
 interface Pike13FindBusinessArgs {
@@ -99546,6 +99695,29 @@ interface AudioDetail {
   relatedTracks: { id: string; title: string; url: string; audioUrl: string | null }[];
 }
 
+interface ListUserMediaArgs {
+  url: string;
+  page?: number;
+}
+
+interface UserMediaPage {
+  page: number;
+  pages: number;
+  total: number;
+  items: UserMediaItem[];
+}
+
+interface UserMediaItem {
+  id: string;
+  mediaType: string;
+  title: string;
+  url: string;
+  thumbnailUrl: string | null;
+  uploadedAt: string | null;
+  likes: number | null;
+  duration: number | null;
+}
+
 interface GetUserArgs {
   url: string;
 }
@@ -99616,6 +99788,12 @@ interface UserProfile {
      * stream and download URLs, licence attribution, counts and related tracks.
      */
     getAudio(args: GetAudioArgs): Promise<AudioDetail>;
+
+    /**
+     * Lists one page (60 items) of a creator's uploads across media types, with paging counts.
+     * Pass `page` to walk on.
+     */
+    listUserMedia(args: ListUserMediaArgs): Promise<UserMediaPage>;
 
     /**
      * Reads one creator's profile: display name, location, join date, follower and following
@@ -123724,6 +123902,45 @@ interface TagtransShipmentRateEmail {
   }
 }
 
+declare namespace BowmarkProvider_taleo {
+  // ── Taleo career sections — the unit's own declarations, verbatim ──
+interface TaleoJob {
+  id: string; // the requisition number, e.g. "990606"
+  title: string;
+  location: string | null; // the board's own text, e.g. "Texas-Dallas-4855 Harry Hines Blvd"
+  department: string | null; // the job-field column, e.g. "Nursing"
+  postedDate: string | null; // ISO date when the board shows a posted-date column, else null
+  url: string; // the posting page
+}
+
+interface TaleoBoard {
+  boardUrl: string; // e.g. "https://utsw.taleo.net/careersection/2/jobsearch.ftl"
+  total: number; // Taleo's own match count for the query
+  jobs: TaleoJob[];
+  warnings: string[];
+}
+
+interface TaleoListOptions {
+  query?: string; // Taleo's fuzzy keyword search
+  maxJobs?: number; // default 500, at most 2000
+}
+
+  /**
+   * Open jobs on a company's Oracle Taleo career section (UT Southwestern, Texas Health
+   * Resources and others) — title, location, job field, posted date and posting link, live off
+   * the section's own search endpoint.
+   */
+  interface Unit {
+    /**
+     * Open jobs on one Taleo career section, live, paged 25 at a time until `maxJobs` (default
+     * 500). `company` is the section URL ("https://utsw.taleo.net/careersection/2/jobsearch.ftl");
+     * `query` is Taleo's own keyword search, which is fuzzy, so filter titles after. Throws,
+     * caller-fixable, when the URL is not a Taleo career section.
+     */
+    listJobs(company: string, options: TaleoListOptions): Promise<TaleoBoard>;
+  }
+}
+
 declare namespace BowmarkProvider_talkmezzo {
   // ── Mezzo — the unit's own declarations, verbatim ──
 interface TalkmezzoContactReveal {
@@ -128594,10 +128811,10 @@ interface ReservationAvailabilityArgs {
    */
   interface Unit {
     /**
-     * Reads anything this site offers in one call: pick a `thing` (restaurantV2,
-     * restaurantV2ByShortUrl, nearbyRestaurantSearch, restaurants, diningOptions,
-     * paginatedMenuItems, ...), give its `where` inputs, and list the `fields` you want back as
-     * dot paths like "state.stateName"; omit `fields` for every plain field.
+     * Reads anything this site offers in one call: pick a `thing` (restaurants, restaurantV2,
+     * popularItems, menuItemDetails, paginatedMenuItems, restaurantV2ByShortUrl, ...), give its
+     * `where` inputs, and list the `fields` you want back as dot paths like "state.stateName";
+     * omit `fields` for every plain field.
      */
     read(input: ToastSiteReadInput): Promise<ToastSiteReadAnswer>;
 
@@ -538626,6 +538843,7 @@ interface BowmarkProviders {
   cancer: BowmarkProvider_cancer.Unit;
   canva: BowmarkProvider_canva.Unit;
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
+  capitalone: BowmarkProvider_capitalone.Unit;
   capitaloneshopping: BowmarkProvider_capitaloneshopping.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   carepatrol: BowmarkProvider_carepatrol.Unit;
@@ -539108,6 +539326,7 @@ interface BowmarkProviders {
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   personio: BowmarkProvider_personio.Unit;
   pexels: BowmarkProvider_pexels.Unit;
+  phenom: BowmarkProvider_phenom.Unit;
   pike13: BowmarkProvider_pike13.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
   pinterest: BowmarkProvider_pinterest.Unit;
@@ -539279,6 +539498,7 @@ interface BowmarkProviders {
   szukajwarchiwach_gov_pl: BowmarkProvider_szukajwarchiwach_gov_pl.Unit;
   tableau_public: BowmarkProvider_tableau_public.Unit;
   tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
+  taleo: BowmarkProvider_taleo.Unit;
   talkmezzo: BowmarkProvider_talkmezzo.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   tapfiliate: BowmarkProvider_tapfiliate.Unit;

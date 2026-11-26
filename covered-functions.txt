@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 141,334 sites, generated 2026-11-26.
+# Every website Bowmark covers and the functions it has: 141,335 sites, generated 2026-11-26.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -50781,6 +50781,7 @@ appliednutrition.uk	4479a458
 appliedvedicastrology.com	bb34c1bd
 appliedvisionbaseball.myshopify.com	a9af6443
 appliques-with-glitz.myshopify.com	a9af6443
+apploi.com	47779b34
 applyall.com	cce273ea
 applystead.com	0dfe6f52
 appodia.myshopify.com	a9af6443

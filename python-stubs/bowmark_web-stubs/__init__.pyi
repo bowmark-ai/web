@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a6cfb8bc65d5841ae79fcb05a30dc7896932f4301539e673bf5e70da2d6f736c
-# 100 capabilities, 983 providers, 6181 typed functions, 20 refused.
+# Manifest version: 636b30bc2dc535cafafdb5da8b44011bb9853dd0f14fa9eba7b292dc2ab16529
+# 100 capabilities, 986 providers, 6193 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2740,6 +2740,8 @@ class Cap_purchase_rewards_CardOption_Out(TypedDict):
     earnedAs: Literal["dining"] | Literal["grocery"] | Literal["online_grocery"] | Literal["wholesale_club"] | Literal["gas"] | Literal["travel"] | Literal["airfare"] | Literal["hotels"] | Literal["car_rental"] | Literal["transit"] | Literal["streaming"] | Literal["drugstore"] | Literal["online_retail"] | Literal["home_improvement"] | Literal["entertainment"] | Literal["phone_internet"] | Literal["other"] | Literal["merchant"]
     phrase: str
     pointValueCents: float
+    valueSource: Literal["issuer"] | Literal["estimate"] | Literal["caller"]
+    estimateSource: str | None
     value: float
     source: Literal["live"] | Literal["reference"]
     sourceFunction: str | None
@@ -2777,6 +2779,8 @@ class Cap_purchase_rewards_PointValuation_Out(TypedDict):
     basis: str
     sourceUrl: str | None
     setBy: Literal["default"] | Literal["caller"]
+    valueSource: Literal["issuer"] | Literal["estimate"] | Literal["caller"]
+    estimateSource: str | None
 
 class Cap_purchase_rewards_CompareCardsArgs_In(TypedDict):
     category: str
@@ -18144,6 +18148,137 @@ class Prv_capitalbrands_CapitalbrandsRecommendedProduct_Out(TypedDict):
     name: str
     price: str | None
     url: str
+
+class Prv_capitalone_CapitalOneListCreditCardsArgs_In(TypedDict):
+    rewardsType: NotRequired[str]
+    cardType: NotRequired[str]
+
+class Prv_capitalone_listCreditCards_return_Out(TypedDict):
+    cards: list[Prv_capitalone_CapitalOneCard_Out]
+
+class Prv_capitalone_CapitalOneCard_Out(TypedDict):
+    id: str
+    name: str
+    url: str | None
+    rewardsType: str | None
+    cardType: str | None
+    network: str | None
+    creditLevel: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    earnRates: list[Prv_capitalone_CapitalOneEarnRate_Out]
+    welcomeOffer: str | None
+    highlights: list[str]
+    imageUrl: str | None
+    applyUrl: str | None
+    partner: bool
+
+class Prv_capitalone_CapitalOneEarnRate_Out(TypedDict):
+    rate: float
+    unit: Literal["milesPerDollar"] | Literal["cashBackPercent"]
+    category: str
+    base: bool
+
+class Prv_capitalone_getCreditCard_id_u1_In(TypedDict):
+    id: str
+
+class Prv_capitalone_CapitalOneCardDetail_Out(TypedDict):
+    id: str
+    name: str
+    url: str | None
+    rewardsType: str | None
+    cardType: str | None
+    network: str | None
+    creditLevel: str | None
+    annualFee: float | None
+    annualFeeText: str | None
+    earnRates: list[Prv_capitalone_CapitalOneEarnRate_Out]
+    welcomeOffer: str | None
+    highlights: list[str]
+    imageUrl: str | None
+    applyUrl: str | None
+    partner: bool
+    purchaseApr: str | None
+    introApr: str | None
+
+class Prv_capitalone_CapitalOneAccounts_Out(TypedDict):
+    accounts: list[Prv_capitalone_CapitalOneAccount_Out]
+    fieldsUnverified: list[str]
+
+class Prv_capitalone_CapitalOneAccount_Out(TypedDict):
+    id: str
+    businessLine: str | None
+    productName: str | None
+    lastFour: str | None
+    currentBalance: float | None
+    statementBalance: float | None
+    paymentDueDate: str | None
+    minimumPaymentDue: float | None
+    availableCredit: float | None
+    creditLimit: float | None
+
+Prv_capitalone_CapitalOneListTransactionsArgs_In = TypedDict(
+    "Prv_capitalone_CapitalOneListTransactionsArgs_In",
+    {
+    "account": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    },
+)
+
+Prv_capitalone_CapitalOneTransactions_Out = TypedDict(
+    "Prv_capitalone_CapitalOneTransactions_Out",
+    {
+    "account": str,
+    "from": str,
+    "to": str,
+    "transactions": list[Prv_capitalone_CapitalOneTransaction_Out],
+    },
+)
+
+class Prv_capitalone_CapitalOneTransaction_Out(TypedDict):
+    transactionDate: str | None
+    postedDate: str | None
+    cardLastFour: str | None
+    description: str
+    category: str | None
+    amount: float
+    type: Literal["debit"] | Literal["credit"]
+
+class Prv_capitalone_CapitalOneListOffersArgs_In(TypedDict):
+    account: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_capitalone_CapitalOneOffers_Out(TypedDict):
+    account: str
+    accounts: list[str]
+    offers: list[Prv_capitalone_CapitalOneOffer_Out]
+    truncated: bool
+    activationRequired: Literal[False]
+
+class Prv_capitalone_CapitalOneOffer_Out(TypedDict):
+    offerId: str | None
+    merchant: str
+    merchantDomain: str
+    reward: str
+    rewardType: Literal["percent"] | Literal["dollar-upto"] | Literal["dollar-flat"] | Literal["miles-rate"] | Literal["miles-upto"] | Literal["miles-flat"] | Literal["other"]
+    rewardValue: float | None
+    availability: str
+    kind: str
+    imageUrl: str | None
+    shopUrl: str | None
+
+class Prv_capitalone_CapitalOneActivateOfferArgs_In(TypedDict):
+    offerId: str
+    account: NotRequired[str]
+
+class Prv_capitalone_CapitalOneOfferActivation_Out(TypedDict):
+    offerId: str
+    merchant: str
+    reward: str
+    activationRequired: Literal[False]
+    shopUrl: str | None
+    how: str
 
 class Prv_capitaloneshopping_SearchStoresArgs_In(TypedDict):
     query: str
@@ -34556,20 +34691,6 @@ class Prv_farmaciasdirect_FarmaciasdirectSiteCollectionWhere_In(TypedDict):
     handle: NotRequired[str]
 
 class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u1_In(TypedDict):
-    thing: Literal["collections"]
-    where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteCollectionsWhere_In]
-    fields: NotRequired[Sequence[str]]
-
-class Prv_farmaciasdirect_FarmaciasdirectSiteCollectionsWhere_In(TypedDict):
-    first: NotRequired[float]
-    after: NotRequired[str]
-    last: NotRequired[float]
-    before: NotRequired[str]
-    reverse: NotRequired[bool]
-    sortKey: NotRequired[Literal["TITLE"] | Literal["UPDATED_AT"] | Literal["ID"] | Literal["CREATED_AT"] | Literal["RELEVANCE"]]
-    query: NotRequired[str]
-
-class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u2_In(TypedDict):
     thing: Literal["locations"]
     where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteLocationsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -34587,7 +34708,7 @@ class Prv_farmaciasdirect_FarmaciasdirectSiteGeoCoordinateInput_In(TypedDict):
     latitude: float
     longitude: float
 
-class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u3_In(TypedDict):
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u2_In(TypedDict):
     thing: Literal["product"]
     where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteProductWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -34596,15 +34717,7 @@ class Prv_farmaciasdirect_FarmaciasdirectSiteProductWhere_In(TypedDict):
     id: NotRequired[str]
     handle: NotRequired[str]
 
-class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u4_In(TypedDict):
-    thing: Literal["productTags"]
-    where: Prv_farmaciasdirect_FarmaciasdirectSiteProductTagsWhere_In
-    fields: NotRequired[Sequence[str]]
-
-class Prv_farmaciasdirect_FarmaciasdirectSiteProductTagsWhere_In(TypedDict):
-    first: float
-
-class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u5_In(TypedDict):
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u3_In(TypedDict):
     thing: Literal["products"]
     where: NotRequired[Prv_farmaciasdirect_FarmaciasdirectSiteProductsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -34618,7 +34731,7 @@ class Prv_farmaciasdirect_FarmaciasdirectSiteProductsWhere_In(TypedDict):
     sortKey: NotRequired[Literal["TITLE"] | Literal["PRODUCT_TYPE"] | Literal["VENDOR"] | Literal["UPDATED_AT"] | Literal["CREATED_AT"] | Literal["BEST_SELLING"] | Literal["PRICE"] | Literal["ID"] | Literal["RELEVANCE"]]
     query: NotRequired[str]
 
-class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u6_In(TypedDict):
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u4_In(TypedDict):
     thing: Literal["search"]
     where: Prv_farmaciasdirect_FarmaciasdirectSiteSearchWhere_In
     fields: NotRequired[Sequence[str]]
@@ -34642,7 +34755,7 @@ class Prv_farmaciasdirect_FarmaciasdirectSiteProductFilter_In(TypedDict):
     productVendor: NotRequired[str]
     price: NotRequired[Mapping[str, Any]]
 
-class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u7_In(TypedDict):
+class Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u5_In(TypedDict):
     thing: Literal["sitemap"]
     where: Prv_farmaciasdirect_FarmaciasdirectSiteSitemapWhere_In
     fields: NotRequired[Sequence[str]]
@@ -34656,12 +34769,6 @@ class Prv_farmaciasdirect_FarmaciasdirectSiteCollection_Out(TypedDict):
     id: NotRequired[str | None]
     title: NotRequired[str | None]
 
-class Prv_farmaciasdirect_FarmaciasdirectSiteCollectionConnection_Out(TypedDict):
-    edges: NotRequired[list[Mapping[str, Any]] | None]
-    nodes: NotRequired[list[Mapping[str, Any]] | None]
-    pageInfo: NotRequired[Mapping[str, Any] | None]
-    totalCount: NotRequired[str | float | None]
-
 class Prv_farmaciasdirect_FarmaciasdirectSiteLocationConnection_Out(TypedDict):
     edges: NotRequired[list[Mapping[str, Any]] | None]
     nodes: NotRequired[list[Mapping[str, Any]] | None]
@@ -34672,11 +34779,6 @@ class Prv_farmaciasdirect_FarmaciasdirectSiteProduct_Out(TypedDict):
     handle: NotRequired[str | None]
     id: NotRequired[str | None]
     priceRange: NotRequired[Mapping[str, Any] | None]
-
-class Prv_farmaciasdirect_FarmaciasdirectSiteStringConnection_Out(TypedDict):
-    edges: NotRequired[list[Mapping[str, Any]] | None]
-    nodes: NotRequired[list[str] | None]
-    pageInfo: NotRequired[Mapping[str, Any] | None]
 
 class Prv_farmaciasdirect_FarmaciasdirectSiteProductConnection_Out(TypedDict):
     edges: NotRequired[list[Mapping[str, Any]] | None]
@@ -35023,6 +35125,23 @@ class Prv_fidelity_FidelityFund_Out_averageAnnualReturns_Out(TypedDict):
 class Prv_fidelity_FidelityFund_Out_topHoldings_item_Out(TypedDict):
     name: str
     percent: float | None
+
+class Prv_fidelity_FidelityArticleSearch_Out(TypedDict):
+    query: str
+    page: float
+    totalResults: float
+    articles: list[Prv_fidelity_FidelityArticle_Out]
+
+class Prv_fidelity_FidelityArticle_Out(TypedDict):
+    title: str
+    description: str | None
+    url: str
+    contentType: str | None
+    duration: str | None
+    topics: list[str]
+    products: list[str]
+    imageUrl: str | None
+    sourceId: str
 
 class Prv_fidelity_FidelitySymbolSearch_Out(TypedDict):
     query: str
@@ -47101,14 +47220,6 @@ class Prv_intactinsurance_Solution_Out_contacts_item_Out(TypedDict):
     role: str | None
 
 class Prv_interiordefine_InteriordefineSiteReadInput_u0_In(TypedDict):
-    thing: Literal["affirmAslowasPrice"]
-    where: Prv_interiordefine_InteriordefineSiteAffirmAslowasPriceWhere_In
-    fields: NotRequired[Sequence[str]]
-
-class Prv_interiordefine_InteriordefineSiteAffirmAslowasPriceWhere_In(TypedDict):
-    sku: str
-
-class Prv_interiordefine_InteriordefineSiteReadInput_u1_In(TypedDict):
     thing: Literal["availableStores"]
     where: NotRequired[Prv_interiordefine_InteriordefineSiteAvailableStoresWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -47116,7 +47227,7 @@ class Prv_interiordefine_InteriordefineSiteReadInput_u1_In(TypedDict):
 class Prv_interiordefine_InteriordefineSiteAvailableStoresWhere_In(TypedDict):
     useCurrentGroup: NotRequired[bool]
 
-class Prv_interiordefine_InteriordefineSiteReadInput_u2_In(TypedDict):
+class Prv_interiordefine_InteriordefineSiteReadInput_u1_In(TypedDict):
     thing: Literal["categories"]
     where: NotRequired[Prv_interiordefine_InteriordefineSiteCategoriesWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -47132,7 +47243,7 @@ class Prv_interiordefine_InteriordefineSiteCategoryFilterInput_In(TypedDict):
     name: NotRequired[Mapping[str, Any]]
     url_key: NotRequired[Mapping[str, Any]]
 
-class Prv_interiordefine_InteriordefineSiteReadInput_u3_In(TypedDict):
+class Prv_interiordefine_InteriordefineSiteReadInput_u2_In(TypedDict):
     thing: Literal["categoryList"]
     where: NotRequired[Prv_interiordefine_InteriordefineSiteCategoryListWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -47140,7 +47251,7 @@ class Prv_interiordefine_InteriordefineSiteReadInput_u3_In(TypedDict):
 class Prv_interiordefine_InteriordefineSiteCategoryListWhere_In(TypedDict):
     filters: NotRequired[Prv_interiordefine_InteriordefineSiteCategoryFilterInput_In]
 
-class Prv_interiordefine_InteriordefineSiteReadInput_u4_In(TypedDict):
+class Prv_interiordefine_InteriordefineSiteReadInput_u3_In(TypedDict):
     thing: Literal["pickupLocations"]
     where: NotRequired[Prv_interiordefine_InteriordefineSitePickupLocationsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -47172,7 +47283,7 @@ class Prv_interiordefine_InteriordefineSitePickupLocationSortInput_In(TypedDict)
 class Prv_interiordefine_InteriordefineSiteProductInfoInput_In(TypedDict):
     sku: str
 
-class Prv_interiordefine_InteriordefineSiteReadInput_u5_In(TypedDict):
+class Prv_interiordefine_InteriordefineSiteReadInput_u4_In(TypedDict):
     thing: Literal["products"]
     where: NotRequired[Prv_interiordefine_InteriordefineSiteProductsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -47196,25 +47307,13 @@ class Prv_interiordefine_InteriordefineSiteProductAttributeSortInput_In(TypedDic
     price: NotRequired[Literal["ASC"] | Literal["DESC"]]
     relevance: NotRequired[Literal["ASC"] | Literal["DESC"]]
 
-class Prv_interiordefine_InteriordefineSiteReadInput_u6_In(TypedDict):
+class Prv_interiordefine_InteriordefineSiteReadInput_u5_In(TypedDict):
     thing: Literal["searchRedirect"]
     where: Prv_interiordefine_InteriordefineSiteSearchRedirectWhere_In
     fields: NotRequired[Sequence[str]]
 
 class Prv_interiordefine_InteriordefineSiteSearchRedirectWhere_In(TypedDict):
     term: str
-
-class Prv_interiordefine_InteriordefineSiteReadInput_u7_In(TypedDict):
-    thing: Literal["storeLocationByUrl"]
-    where: NotRequired[Prv_interiordefine_InteriordefineSiteStoreLocationByUrlWhere_In]
-    fields: NotRequired[Sequence[str]]
-
-class Prv_interiordefine_InteriordefineSiteStoreLocationByUrlWhere_In(TypedDict):
-    url_name: NotRequired[str]
-
-class Prv_interiordefine_InteriordefineSiteAffirmAslowasPriceConfigData_Out(TypedDict):
-    affirm_aslowas_learn_more: NotRequired[bool | None]
-    affirm_aslowas_mfp_value: NotRequired[str | None]
 
 class Prv_interiordefine_InteriordefineSiteStoreConfig_Out(TypedDict):
     absolute_footer: NotRequired[str | None]
@@ -47246,12 +47345,6 @@ class Prv_interiordefine_InteriordefineSiteProducts_Out(TypedDict):
 
 class Prv_interiordefine_InteriordefineSiteRedirectOutput_Out(TypedDict):
     redirectUrl: NotRequired[str | None]
-
-class Prv_interiordefine_InteriordefineSiteStoreLocationView_Out(TypedDict):
-    additional_content: NotRequired[str | None]
-    description: NotRequired[str | None]
-    name: NotRequired[str | None]
-    type: NotRequired[str | None]
 
 class Prv_interiordefine_InteriorDefineProductSummary_Out(TypedDict):
     sku: str
@@ -47922,14 +48015,6 @@ class Prv_joybird_JoybirdSiteGetCollectionWhere_In(TypedDict):
     forProduct: NotRequired[float]
 
 class Prv_joybird_JoybirdSiteReadInput_u4_In(TypedDict):
-    thing: Literal["getCategoryTopSalesProducts"]
-    where: NotRequired[Prv_joybird_JoybirdSiteGetCategoryTopSalesProductsWhere_In]
-    fields: NotRequired[Sequence[str]]
-
-class Prv_joybird_JoybirdSiteGetCategoryTopSalesProductsWhere_In(TypedDict):
-    id: NotRequired[float]
-
-class Prv_joybird_JoybirdSiteReadInput_u5_In(TypedDict):
     thing: Literal["getLocationFromCoords"]
     where: Prv_joybird_JoybirdSiteGetLocationFromCoordsWhere_In
     fields: NotRequired[Sequence[str]]
@@ -47938,7 +48023,7 @@ class Prv_joybird_JoybirdSiteGetLocationFromCoordsWhere_In(TypedDict):
     latitude: float
     longitude: float
 
-class Prv_joybird_JoybirdSiteReadInput_u6_In(TypedDict):
+class Prv_joybird_JoybirdSiteReadInput_u5_In(TypedDict):
     thing: Literal["getLocationFromZip"]
     where: Prv_joybird_JoybirdSiteGetLocationFromZipWhere_In
     fields: NotRequired[Sequence[str]]
@@ -47946,7 +48031,7 @@ class Prv_joybird_JoybirdSiteReadInput_u6_In(TypedDict):
 class Prv_joybird_JoybirdSiteGetLocationFromZipWhere_In(TypedDict):
     zipcode: str
 
-class Prv_joybird_JoybirdSiteReadInput_u7_In(TypedDict):
+class Prv_joybird_JoybirdSiteReadInput_u6_In(TypedDict):
     thing: Literal["getRecommendedProducts"]
     where: NotRequired[Prv_joybird_JoybirdSiteGetRecommendedProductsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -47956,7 +48041,7 @@ class Prv_joybird_JoybirdSiteGetRecommendedProductsWhere_In(TypedDict):
     limit: NotRequired[float]
     refreshCache: NotRequired[bool]
 
-class Prv_joybird_JoybirdSiteReadInput_u8_In(TypedDict):
+class Prv_joybird_JoybirdSiteReadInput_u7_In(TypedDict):
     thing: Literal["getCustomListProductData"]
     where: NotRequired[Prv_joybird_JoybirdSiteGetCustomListProductDataWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -47965,40 +48050,7 @@ class Prv_joybird_JoybirdSiteGetCustomListProductDataWhere_In(TypedDict):
     slug: NotRequired[str]
     type: NotRequired[str]
 
-class Prv_joybird_JoybirdSiteReadInput_u9_In(TypedDict):
-    thing: Literal["getCustomProductListDataV2"]
-    where: NotRequired[Prv_joybird_JoybirdSiteGetCustomProductListDataV2Where_In]
-    fields: NotRequired[Sequence[str]]
-
-class Prv_joybird_JoybirdSiteGetCustomProductListDataV2Where_In(TypedDict):
-    limit: NotRequired[float]
-    slug: NotRequired[str]
-    productList: NotRequired[Sequence[Prv_joybird_JoybirdSiteProductListInput_In]]
-    filterByStock: NotRequired[bool]
-    sortByPopularity: NotRequired[bool]
-    refreshCache: NotRequired[bool]
-
-class Prv_joybird_JoybirdSiteProductListInput_In(TypedDict):
-    id: NotRequired[float]
-    category: NotRequired[str]
-
-class Prv_joybird_JoybirdSiteReadInput_u10_In(TypedDict):
-    thing: Literal["getRetailStoreProductsData"]
-    where: Prv_joybird_JoybirdSiteGetRetailStoreProductsDataWhere_In
-    fields: NotRequired[Sequence[str]]
-
-class Prv_joybird_JoybirdSiteGetRetailStoreProductsDataWhere_In(TypedDict):
-    storeId: float
-
-class Prv_joybird_JoybirdSiteReadInput_u11_In(TypedDict):
-    thing: Literal["getClosestStoreFromZipcode"]
-    where: NotRequired[Prv_joybird_JoybirdSiteGetClosestStoreFromZipcodeWhere_In]
-    fields: NotRequired[Sequence[str]]
-
-class Prv_joybird_JoybirdSiteGetClosestStoreFromZipcodeWhere_In(TypedDict):
-    zipcode: NotRequired[str]
-
-class Prv_joybird_JoybirdSiteReadInput_u12_In(TypedDict):
+class Prv_joybird_JoybirdSiteReadInput_u8_In(TypedDict):
     thing: Literal["getCategoryPage"]
     where: Prv_joybird_JoybirdSiteGetCategoryPageWhere_In
     fields: NotRequired[Sequence[str]]
@@ -48011,7 +48063,7 @@ class Prv_joybird_JoybirdSiteGetCategoryPageWhere_In(TypedDict):
     regionId: NotRequired[str]
     refreshCache: NotRequired[bool]
 
-class Prv_joybird_JoybirdSiteReadInput_u13_In(TypedDict):
+class Prv_joybird_JoybirdSiteReadInput_u9_In(TypedDict):
     thing: Literal["getProductsStaticData"]
     where: Prv_joybird_JoybirdSiteGetProductsStaticDataWhere_In
     fields: NotRequired[Sequence[str]]
@@ -48025,7 +48077,7 @@ class Prv_joybird_JoybirdSiteGetProductsStaticDataWhere_In(TypedDict):
     regionId: NotRequired[str]
     showSearchProductsOnly: NotRequired[bool]
 
-class Prv_joybird_JoybirdSiteReadInput_u14_In(TypedDict):
+class Prv_joybird_JoybirdSiteReadInput_u10_In(TypedDict):
     thing: Literal["getProductsByIDs"]
     where: NotRequired[Prv_joybird_JoybirdSiteGetProductsByIDsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -48033,7 +48085,7 @@ class Prv_joybird_JoybirdSiteReadInput_u14_In(TypedDict):
 class Prv_joybird_JoybirdSiteGetProductsByIDsWhere_In(TypedDict):
     ids: NotRequired[Sequence[float]]
 
-class Prv_joybird_JoybirdSiteReadInput_u15_In(TypedDict):
+class Prv_joybird_JoybirdSiteReadInput_u11_In(TypedDict):
     thing: Literal["getUpSellProduct"]
     where: NotRequired[Prv_joybird_JoybirdSiteGetUpSellProductWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -48372,31 +48424,6 @@ class Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoryFilterInput_In(TypedDic
     url_key: NotRequired[Mapping[str, Any]]
 
 class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u2_In(TypedDict):
-    thing: Literal["mpGTMCode"]
-    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMCodeWhere_In]
-    fields: NotRequired[Sequence[str]]
-
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMCodeWhere_In(TypedDict):
-    filters: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMCodeFilters_In]
-
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMCodeFilters_In(TypedDict):
-    action: str
-    currentPage: NotRequired[float]
-    id: str
-    type: str
-
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u3_In(TypedDict):
-    thing: Literal["mpGTMHead"]
-    where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMHeadWhere_In]
-    fields: NotRequired[Sequence[str]]
-
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMHeadWhere_In(TypedDict):
-    filters: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMHeadFilters_In]
-
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteMpGTMHeadFilters_In(TypedDict):
-    type: str
-
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u4_In(TypedDict):
     thing: Literal["pickupLocations"]
     where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocationsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -48428,7 +48455,7 @@ class Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocationSortInput_In(Type
 class Prv_katzsdelicatessen_KatzsdelicatessenSiteProductInfoInput_In(TypedDict):
     sku: str
 
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u5_In(TypedDict):
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u3_In(TypedDict):
     thing: Literal["products"]
     where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteProductsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -48452,7 +48479,7 @@ class Prv_katzsdelicatessen_KatzsdelicatessenSiteProductAttributeSortInput_In(Ty
     position: NotRequired[Literal["ASC"] | Literal["DESC"]]
     price: NotRequired[Literal["ASC"] | Literal["DESC"]]
 
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u6_In(TypedDict):
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u4_In(TypedDict):
     thing: Literal["route"]
     where: Prv_katzsdelicatessen_KatzsdelicatessenSiteRouteWhere_In
     fields: NotRequired[Sequence[str]]
@@ -48460,7 +48487,7 @@ class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u6_In(TypedDict):
 class Prv_katzsdelicatessen_KatzsdelicatessenSiteRouteWhere_In(TypedDict):
     url: str
 
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u7_In(TypedDict):
+class Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u5_In(TypedDict):
     thing: Literal["slideItems"]
     where: NotRequired[Prv_katzsdelicatessen_KatzsdelicatessenSiteSlideItemsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -48478,12 +48505,6 @@ class Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoryResult_Out(TypedDict):
     items: NotRequired[list[Mapping[str, Any]] | None]
     page_info: NotRequired[Mapping[str, Any] | None]
     total_count: NotRequired[float | None]
-
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteGTMCodeOutput_Out(TypedDict):
-    code: NotRequired[str | None]
-
-class Prv_katzsdelicatessen_KatzsdelicatessenSiteGTMHeadOutput_Out(TypedDict):
-    head: NotRequired[str | None]
 
 class Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocations_Out(TypedDict):
     items: NotRequired[list[Mapping[str, Any]] | None]
@@ -50015,6 +50036,27 @@ class Prv_latimes_GuidePlace_Out(TypedDict):
     priceRange: str | None
     description: str | None
     image: str | None
+
+class Prv_latimes_VideoList_Out(TypedDict):
+    videos: list[Prv_latimes_VideoItem_Out]
+
+class Prv_latimes_VideoItem_Out(TypedDict):
+    title: str
+    url: str
+    authors: str | None
+    duration: str | None
+
+class Prv_latimes_GetVideoArgs_In(TypedDict):
+    url: str
+
+class Prv_latimes_Video_Out(TypedDict):
+    url: str
+    title: str
+    publishedAt: str | None
+    durationSeconds: float | None
+    hlsUrl: str | None
+    thumbnail: str | None
+    authors: str | None
 
 class Prv_latimes_PuzzleList_Out(TypedDict):
     games: list[Prv_latimes_PuzzleGame_Out]
@@ -57217,26 +57259,6 @@ class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoryFilterI
     url_key: NotRequired[Mapping[str, Any]]
 
 class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u2_In(TypedDict):
-    thing: Literal["looknbuy"]
-    where: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyWhere_In]
-    fields: NotRequired[Sequence[str]]
-
-class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyWhere_In(TypedDict):
-    filter: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyFilterInput_In]
-    pageSize: NotRequired[float]
-    currentPage: NotRequired[float]
-
-Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyFilterInput_In = TypedDict(
-    "Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyFilterInput_In",
-    {
-    "look_id": NotRequired[Mapping[str, Any]],
-    "look_name": NotRequired[Mapping[str, Any]],
-    "or": NotRequired[Mapping[str, Any]],
-    "url_key": NotRequired[Mapping[str, Any]],
-    },
-)
-
-class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u3_In(TypedDict):
     thing: Literal["pickupLocations"]
     where: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocationsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -57268,7 +57290,7 @@ class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocationS
 class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductInfoInput_In(TypedDict):
     sku: str
 
-class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u4_In(TypedDict):
+class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u3_In(TypedDict):
     thing: Literal["products"]
     where: NotRequired[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductsWhere_In]
     fields: NotRequired[Sequence[str]]
@@ -57292,14 +57314,6 @@ class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProductAttribut
     position: NotRequired[Literal["ASC"] | Literal["DESC"]]
     price: NotRequired[Literal["ASC"] | Literal["DESC"]]
 
-class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u5_In(TypedDict):
-    thing: Literal["route"]
-    where: Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteRouteWhere_In
-    fields: NotRequired[Sequence[str]]
-
-class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteRouteWhere_In(TypedDict):
-    url: str
-
 class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteStoreConfig_Out(TypedDict):
     absolute_footer: NotRequired[str | None]
     allow_gift_receipt: NotRequired[str | None]
@@ -57309,10 +57323,6 @@ class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteStoreConfig_Out
 class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoryResult_Out(TypedDict):
     items: NotRequired[list[Mapping[str, Any]] | None]
     page_info: NotRequired[Mapping[str, Any] | None]
-    total_count: NotRequired[float | None]
-
-class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyOutput_Out(TypedDict):
-    items: NotRequired[list[Mapping[str, Any]] | None]
     total_count: NotRequired[float | None]
 
 class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocations_Out(TypedDict):
@@ -57325,11 +57335,6 @@ class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProducts_Out(Ty
     items: NotRequired[list[Mapping[str, Any]] | None]
     page_info: NotRequired[Mapping[str, Any] | None]
     total_count: NotRequired[float | None]
-
-class Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteRoutableInterface_Out(TypedDict):
-    redirect_code: NotRequired[float | None]
-    relative_url: NotRequired[str | None]
-    type: NotRequired[Literal["CMS_PAGE"] | Literal["PRODUCT"] | Literal["CATEGORY"] | None]
 
 class Prv_nationalbusinessfurniture_NbfProductSummary_Out(TypedDict):
     sku: str
@@ -62920,6 +62925,28 @@ class Prv_pexels_PexelsPhoto_Out(TypedDict):
     thumbnailUrl: str
     pageUrl: str
 
+class Prv_phenom_PhenomListOptions_In(TypedDict):
+    query: NotRequired[str]
+    maxJobs: NotRequired[float]
+
+class Prv_phenom_PhenomBoard_Out(TypedDict):
+    boardUrl: str
+    companyName: str | None
+    total: float
+    jobs: list[Prv_phenom_PhenomJob_Out]
+    warnings: list[str]
+
+class Prv_phenom_PhenomJob_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    department: str | None
+    employmentType: str | None
+    shift: str | None
+    postedDate: str | None
+    url: str
+    applyUrl: str | None
+
 class Prv_pike13_Pike13FindBusinessArgs_In(TypedDict):
     name: str
     town: NotRequired[str]
@@ -64088,6 +64115,26 @@ class Prv_pixabay_AudioDetail_Out_relatedTracks_item_Out(TypedDict):
     title: str
     url: str
     audioUrl: str | None
+
+class Prv_pixabay_ListUserMediaArgs_In(TypedDict):
+    url: str
+    page: NotRequired[float]
+
+class Prv_pixabay_UserMediaPage_Out(TypedDict):
+    page: float
+    pages: float
+    total: float
+    items: list[Prv_pixabay_UserMediaItem_Out]
+
+class Prv_pixabay_UserMediaItem_Out(TypedDict):
+    id: str
+    mediaType: str
+    title: str
+    url: str
+    thumbnailUrl: str | None
+    uploadedAt: str | None
+    likes: float | None
+    duration: float | None
 
 class Prv_pixabay_GetUserArgs_In(TypedDict):
     url: str
@@ -80429,6 +80476,24 @@ class Prv_tagtrans_net_TagtransShipmentRateEmail_Out(TypedDict):
     recipient: str
     subject: str
     body: str
+
+class Prv_taleo_TaleoListOptions_In(TypedDict):
+    query: NotRequired[str]
+    maxJobs: NotRequired[float]
+
+class Prv_taleo_TaleoBoard_Out(TypedDict):
+    boardUrl: str
+    total: float
+    jobs: list[Prv_taleo_TaleoJob_Out]
+    warnings: list[str]
+
+class Prv_taleo_TaleoJob_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    department: str | None
+    postedDate: str | None
+    url: str
 
 class Prv_talkmezzo_revealContact_args_In(TypedDict):
     speakerId: str
@@ -96956,8 +97021,8 @@ class Cap_job_search(Protocol):
     """Open jobs two ways: for a role in a city off Indeed's own regional results page (US,
     Canada, Netherlands), or EVERY open job at one company, live off its own
     applicant-tracking system — Greenhouse, Lever, Ashby, Workable, SmartRecruiters,
-    Recruitee, Workday, Teamtailor, BambooHR, Rippling, Personio or Breezy HR, detected from
-    the company's site or name.
+    Recruitee, Workday, Teamtailor, BambooHR, Rippling, Personio, Breezy HR, a Phenom
+    careers site or a Taleo career section, detected from the company's site or name.
     """
 
     async def search(self, args: Cap_job_search_JobSearchArgs_In, /) -> Cap_job_search_job_searchResult_Out:
@@ -97429,10 +97494,11 @@ class Cap_prospect_screening(Protocol):
 
 class Cap_purchase_rewards(Protocol):
     """The best way to pay at a merchant: every cashback portal's rate (Rakuten, TopCashback,
-    BeFrugal, Capital One Shopping, CashbackMonitor's comparison), each of your credit
-    cards' earn rate in the merchant's category, signed-in card-linked offers (Amex Offers,
-    Chase Offers) when asked, each valued in dollars, plus the best stack. Also ranks every
-    known card for a spending category.
+    BeFrugal, Capital One Shopping, CashbackMonitor's comparison), each card's earn rate
+    read live from its issuer (Amex, Chase, Citi, Bank of America, Discover, Wells Fargo,
+    U.S. Bank, Barclays), signed-in card-linked offers (Amex Offers, Chase Offers, Citi
+    Merchant Offers, BankAmeriDeals) when asked, each valued in dollars, plus the best
+    stack. Also ranks every known card for a spending category.
     """
 
     async def bestWayToPay(self, args: Cap_purchase_rewards_BestWayToPayArgs_In, options: Cap_purchase_rewards_CallOptions_In | None = None, /) -> Cap_purchase_rewards_BestWayToPayResult_Out:
@@ -97446,11 +97512,13 @@ class Cap_purchase_rewards(Protocol):
         issuer's best card-linked offer. Card rates are read live from the issuer's own provider
         when one exists (`source: "live"`), else from Bowmark's reference table (`source:
         "reference"`, named in `warnings`). Points are valued at each program's issuer-published
-        redemption value, listed in `pointValues` with its source; pass `pointValues: { "Chase
-        Ultimate Rewards": 1.5 }` to use your own. Signed-in offers are read only with
-        `includeOffers: true`, which pauses the run for the cardholder's sign-in; `offerSources`
-        says per issuer whether offers exist, were read, or are not built yet.
-        `options.timeoutMs` sets the per-source budget (default 30000).
+        redemption value; a program with none (hotel and airline points) gets a conservative
+        cited estimate, marked `valueSource: "estimate"` with its `estimateSource`. Every value
+        is listed in `pointValues` with its source; pass `pointValues: { "Chase Ultimate
+        Rewards": 1.5 }` to use your own. Signed-in offers are read only with `includeOffers:
+        true`, which pauses the run for the cardholder's sign-in; `offerSources` says per issuer
+        whether offers exist, were read, or are not built yet. `options.timeoutMs` sets the
+        per-source budget (default 30000).
         """
 
     async def compareCards(self, args: Cap_purchase_rewards_CompareCardsArgs_In, options: Cap_purchase_rewards_CallOptions_In | None = None, /) -> Cap_purchase_rewards_CompareCardsResult_Out:
@@ -100011,9 +100079,9 @@ class Prv_americashealthrankings(Protocol):
         """
 
     async def read(self, input: Prv_americashealthrankings_AmericasHealthRankingsReadInput_u0_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u1_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u2_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u3_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u4_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u5_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u6_In | Prv_americashealthrankings_AmericasHealthRankingsReadInput_u7_In, /) -> list[Prv_americashealthrankings_AmericasHealthRankingsCoreMetric_Out] | Prv_americashealthrankings_AmericasHealthRankingsCoreMetric_Out | list[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricCategory_Out] | list[Prv_americashealthrankings_AmericasHealthRankingsCoreMetricDatum_Out] | list[Prv_americashealthrankings_AmericasHealthRankingsCoreTag_Out] | Prv_americashealthrankings_AmericasHealthRankingsCoreTag_Out | Prv_americashealthrankings_AmericasHealthRankingsCoreGeo_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (core_measures,
-        core_measure, core_measureCategories, core_quintilesByMetricAndEdition, core_reports,
-        core_report, ...), give its `where` inputs, and list the `fields` you want back as dot
+        """Reads anything this site offers in one call: pick a `thing` (core_measure,
+        core_measures, core_measuresByTagID, core_measureCategories, core_measureMetricData,
+        core_tag, ...), give its `where` inputs, and list the `fields` you want back as dot
         paths like "state.stateName"; omit `fields` for every plain field.
         """
 
@@ -101279,10 +101347,10 @@ class Prv_article_com(Protocol):
     """
 
     async def read(self, input: Prv_article_com_ArticleComSiteReadInput_u0_In | Prv_article_com_ArticleComSiteReadInput_u1_In | Prv_article_com_ArticleComSiteReadInput_u2_In | Prv_article_com_ArticleComSiteReadInput_u3_In | Prv_article_com_ArticleComSiteReadInput_u4_In | Prv_article_com_ArticleComSiteReadInput_u5_In | Prv_article_com_ArticleComSiteReadInput_u6_In | Prv_article_com_ArticleComSiteReadInput_u7_In | Prv_article_com_ArticleComSiteReadInput_u8_In | Prv_article_com_ArticleComSiteReadInput_u9_In | Prv_article_com_ArticleComSiteReadInput_u10_In | Prv_article_com_ArticleComSiteReadInput_u11_In, /) -> Prv_article_com_ArticleComSiteBloomreachSearchResult_Out | Prv_article_com_ArticleComSiteProduct_Out | Prv_article_com_ArticleComSiteProductSearchResult_Out | Prv_article_com_ArticleComSiteGetLocationResponse_Out | list[Prv_article_com_ArticleComSiteProductSuggestion_Out] | Prv_article_com_ArticleComSiteGetCuratedPagesResponse_Out | list[Prv_article_com_ArticleComSiteHelpCenterSuggestion_Out] | Prv_article_com_ArticleComSiteCollectionPage_Out | Prv_article_com_ArticleComSiteSiteMapResponse_Out | Prv_article_com_ArticleComSiteGetQuizResponse_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (bloomreachProductSearch,
-        product, getUrlDiscount, searchProductsWithFilter, getNavigation, contentfulById, ...),
-        give its `where` inputs, and list the `fields` you want back as dot paths like
-        "state.stateName"; omit `fields` for every plain field.
+        """Reads anything this site offers in one call: pick a `thing` (product, searchProducts,
+        collectionPage, bloomreachProductSearch, getLocationByPostalCode,
+        searchProductSuggestion, ...), give its `where` inputs, and list the `fields` you want
+        back as dot paths like "state.stateName"; omit `fields` for every plain field.
         """
 
     async def searchProducts(self, args: Prv_article_com_ArticleSearchArgs_In, /) -> Prv_article_com_ArticleSearchResult_Out:
@@ -105381,6 +105449,53 @@ class Prv_capitalbrands(Protocol):
         """Runs the site's own quiz-scoring logic for a real set of quiz answers and returns the
         actual recommended blender(s) — name, price and buy link — with no personal information
         required.
+        """
+
+class Prv_capitalone(Protocol):
+    """Capital One, the card issuer: every public credit card (fees, earn rates by category,
+    welcome offers) and, signed in through the caller's own browser, their accounts,
+    transactions and Capital One Offers.
+    """
+
+    async def listCreditCards(self, args: Prv_capitalone_CapitalOneListCreditCardsArgs_In | None = None, /) -> Prv_capitalone_listCreditCards_return_Out:
+        """Every Capital One credit card on its compare page (consumer, student, secured, business
+        and partner cards), in the site's order: brand-code id, name, annual fee, earn rates BY
+        CATEGORY, welcome offer, credit level, rewards type, card type, network, card art, card
+        page and apply link. Filter with { rewardsType: "Travel" | "Cash" } or { cardType:
+        "Business" }.
+        """
+
+    async def getCreditCard(self, id: str | Prv_capitalone_getCreditCard_id_u1_In, /) -> Prv_capitalone_CapitalOneCardDetail_Out:
+        """One Capital One card by its listCreditCards `id` ("VENTUREX"), page slug or URL:
+        everything listCreditCards returns plus the card page's full earn-rate table (e.g.
+        Venture X's 10X and 5X Capital One Travel rates), purchase APR and intro APR.
+        """
+
+    async def listAccounts(self, opts: ConnectionOption | None = None, /) -> Prv_capitalone_CapitalOneAccounts_Out:
+        """SIGNED IN — the caller's own Capital One accounts: account id, product name, last four,
+        current balance; statement balance, due date, minimum payment, available credit and
+        credit limit when the site sends them under the names read (see `fieldsUnverified`).
+        Read through the caller's own browser via Bowmark Buddy.
+        """
+
+    async def listTransactions(self, args: Prv_capitalone_CapitalOneListTransactionsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_capitalone_CapitalOneTransactions_Out:
+        """SIGNED IN — one credit card account's posted transactions from Capital One's own CSV
+        export, newest first: dates, card last four, description, Capital One's category, signed
+        amount. { account: id or lastFour from listAccounts, from?: "YYYY-MM-DD" (default 90
+        days back), to?: "YYYY-MM-DD" }. Pending charges are not in the export.
+        """
+
+    async def listOffers(self, args: Prv_capitalone_CapitalOneListOffersArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_capitalone_CapitalOneOffers_Out:
+        """SIGNED IN — the caller's Capital One Offers (capitaloneoffers.com): merchant, merchant
+        domain, reward in the site's words ("Up to 5% back", "Earn 2,500 miles"), reward type
+        and value, online/in-store, offer id and the link that starts it. Offers need no
+        activation. { account?: a card id from `accounts`, limit?: 1-2000 }.
+        """
+
+    async def activateOffer(self, args: Prv_capitalone_CapitalOneActivateOfferArgs_In, opts: ConnectionOption | None = None, /) -> Prv_capitalone_CapitalOneOfferActivation_Out:
+        """SIGNED IN — Capital One Offers has no activate step, so this finds the offer by
+        `offerId` in the caller's feed and returns its shop link with `activationRequired:
+        false`: opening the link and paying with the card is what applies the offer.
         """
 
 class Prv_capitaloneshopping(Protocol):
@@ -113500,10 +113615,10 @@ class Prv_farmaciasdirect(Protocol):
     EUR price, discount and stock, and list its current promotions (promociones).
     """
 
-    async def read(self, input: Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u0_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u1_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u2_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u3_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u4_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u5_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u6_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u7_In, /) -> Prv_farmaciasdirect_FarmaciasdirectSiteCollection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteCollectionConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteLocationConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteProduct_Out | Prv_farmaciasdirect_FarmaciasdirectSiteStringConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteProductConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteSearchResultItemConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteSitemap_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (article, articles, blog,
-        blogs, collection, collections, ...), give its `where` inputs, and list the `fields` you
-        want back as dot paths like "state.stateName"; omit `fields` for every plain field.
+    async def read(self, input: Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u0_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u1_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u2_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u3_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u4_In | Prv_farmaciasdirect_FarmaciasdirectSiteReadInput_u5_In, /) -> Prv_farmaciasdirect_FarmaciasdirectSiteCollection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteLocationConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteProduct_Out | Prv_farmaciasdirect_FarmaciasdirectSiteProductConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteSearchResultItemConnection_Out | Prv_farmaciasdirect_FarmaciasdirectSiteSitemap_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (search, product, sitemap,
+        products, locations, collection, ...), give its `where` inputs, and list the `fields`
+        you want back as dot paths like "state.stateName"; omit `fields` for every plain field.
         """
 
     async def cartCreate(self, input: Prv_farmaciasdirect_FarmaciasdirectSiteCartCreateAction_In | None = None, /) -> Prv_farmaciasdirect_FarmaciasdirectSiteCartCreatePayload_Out | None:
@@ -113653,6 +113768,11 @@ class Prv_fidelity(Protocol):
     async def getFund(self, fund: str, /) -> Prv_fidelity_FidelityFund_Out:
         """Reads a mutual fund's Fidelity research summary by ticker or CUSIP: NAV, expense ratios,
         minimum, average annual returns, Morningstar rating, objective and top holdings.
+        """
+
+    async def searchArticles(self, query: str, /) -> Prv_fidelity_FidelityArticleSearch_Out:
+        """Searches Fidelity's Learning Center and Viewpoints articles for a topic, 12 per page:
+        title, description, URL, reading time, topics and products. The door for getArticle.
         """
 
     async def searchSymbols(self, query: str, /) -> Prv_fidelity_FidelitySymbolSearch_Out:
@@ -116321,7 +116441,7 @@ class Prv_goloadup(Protocol):
     """
 
     async def read(self, input: Prv_goloadup_GoloadupSiteReadInput_u0_In | Prv_goloadup_GoloadupSiteReadInput_u1_In | Prv_goloadup_GoloadupSiteReadInput_u2_In | Prv_goloadup_GoloadupSiteReadInput_u3_In, /) -> Prv_goloadup_GoloadupSiteExcludedDates_Out | Prv_goloadup_GoloadupSiteItemTypesData_Out | Prv_goloadup_GoloadupSitePricingDetails_Out | Prv_goloadup_GoloadupSiteServiceAvailability_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (excludedDates, itemTypes,
+        """Reads anything this site offers in one call: pick a `thing` (itemTypes, excludedDates,
         pricingDetails, serviceAvailability), give its `where` inputs, and list the `fields` you
         want back as dot paths like "state.stateName"; omit `fields` for every plain field.
         """
@@ -116379,7 +116499,7 @@ class Prv_goodreads(Protocol):
 
     async def read(self, input: Prv_goodreads_GoodreadsSiteReadInput_u0_In | Prv_goodreads_GoodreadsSiteReadInput_u1_In | Prv_goodreads_GoodreadsSiteReadInput_u2_In | Prv_goodreads_GoodreadsSiteReadInput_u3_In | Prv_goodreads_GoodreadsSiteReadInput_u4_In | Prv_goodreads_GoodreadsSiteReadInput_u5_In, /) -> Prv_goodreads_GoodreadsSiteBook_Out | Prv_goodreads_GoodreadsSitePageBanner_Out | Prv_goodreads_GoodreadsSiteNativeAd_Out | Prv_goodreads_GoodreadsSiteGiveawaysConnection_Out | Prv_goodreads_GoodreadsSiteSiteHeaderBanner_Out | None:
         """Reads anything this site offers in one call: pick a `thing` (getBook, getBookByLegacyId,
-        getPageBanner, getNativeAd, getGiveaways, getSiteHeaderBanner), give its `where` inputs,
+        getNativeAd, getGiveaways, getPageBanner, getSiteHeaderBanner), give its `where` inputs,
         and list the `fields` you want back as dot paths like "state.stateName"; omit `fields`
         for every plain field.
         """
@@ -120385,11 +120505,11 @@ class Prv_interiordefine(Protocol):
     rather than a researched estimate.
     """
 
-    async def read(self, input: Prv_interiordefine_InteriordefineSiteReadInput_u0_In | Prv_interiordefine_InteriordefineSiteReadInput_u1_In | Prv_interiordefine_InteriordefineSiteReadInput_u2_In | Prv_interiordefine_InteriordefineSiteReadInput_u3_In | Prv_interiordefine_InteriordefineSiteReadInput_u4_In | Prv_interiordefine_InteriordefineSiteReadInput_u5_In | Prv_interiordefine_InteriordefineSiteReadInput_u6_In | Prv_interiordefine_InteriordefineSiteReadInput_u7_In, /) -> Prv_interiordefine_InteriordefineSiteAffirmAslowasPriceConfigData_Out | list[Prv_interiordefine_InteriordefineSiteStoreConfig_Out] | Prv_interiordefine_InteriordefineSiteCategoryResult_Out | list[Prv_interiordefine_InteriordefineSiteCategoryTree_Out] | Prv_interiordefine_InteriordefineSitePickupLocations_Out | Prv_interiordefine_InteriordefineSiteProducts_Out | Prv_interiordefine_InteriordefineSiteRedirectOutput_Out | Prv_interiordefine_InteriordefineSiteStoreLocationView_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (affirmAslowasPrice,
-        affirmBanner, availableStores, careersList, categories, categoryList, ...), give its
-        `where` inputs, and list the `fields` you want back as dot paths like "state.stateName";
-        omit `fields` for every plain field.
+    async def read(self, input: Prv_interiordefine_InteriordefineSiteReadInput_u0_In | Prv_interiordefine_InteriordefineSiteReadInput_u1_In | Prv_interiordefine_InteriordefineSiteReadInput_u2_In | Prv_interiordefine_InteriordefineSiteReadInput_u3_In | Prv_interiordefine_InteriordefineSiteReadInput_u4_In | Prv_interiordefine_InteriordefineSiteReadInput_u5_In, /) -> list[Prv_interiordefine_InteriordefineSiteStoreConfig_Out] | Prv_interiordefine_InteriordefineSiteCategoryResult_Out | list[Prv_interiordefine_InteriordefineSiteCategoryTree_Out] | Prv_interiordefine_InteriordefineSitePickupLocations_Out | Prv_interiordefine_InteriordefineSiteProducts_Out | Prv_interiordefine_InteriordefineSiteRedirectOutput_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (products, categories,
+        categoryList, searchRedirect, availableStores, pickupLocations, ...), give its `where`
+        inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
+        `fields` for every plain field.
         """
 
     async def searchProducts(self, query: str, /) -> list[Prv_interiordefine_InteriorDefineProductSummary_Out]:
@@ -120723,11 +120843,11 @@ class Prv_joybird(Protocol):
     fabric and wood stain, and the live configured price Joybird's own page shows.
     """
 
-    async def read(self, input: Prv_joybird_JoybirdSiteReadInput_u0_In | Prv_joybird_JoybirdSiteReadInput_u1_In | Prv_joybird_JoybirdSiteReadInput_u2_In | Prv_joybird_JoybirdSiteReadInput_u3_In | Prv_joybird_JoybirdSiteReadInput_u4_In | Prv_joybird_JoybirdSiteReadInput_u5_In | Prv_joybird_JoybirdSiteReadInput_u6_In | Prv_joybird_JoybirdSiteReadInput_u7_In | Prv_joybird_JoybirdSiteReadInput_u8_In | Prv_joybird_JoybirdSiteReadInput_u9_In | Prv_joybird_JoybirdSiteReadInput_u10_In | Prv_joybird_JoybirdSiteReadInput_u11_In | Prv_joybird_JoybirdSiteReadInput_u12_In | Prv_joybird_JoybirdSiteReadInput_u13_In | Prv_joybird_JoybirdSiteReadInput_u14_In | Prv_joybird_JoybirdSiteReadInput_u15_In, /) -> Any:
-        """Reads anything this site offers in one call: pick a `thing` (getProduct,
-        getProductVisOptions, getAllActiveOptionsValues, getCollections, getCategory,
-        getCollection, ...), give its `where` inputs, and list the `fields` you want back as dot
-        paths like "state.stateName"; omit `fields` for every plain field.
+    async def read(self, input: Prv_joybird_JoybirdSiteReadInput_u0_In | Prv_joybird_JoybirdSiteReadInput_u1_In | Prv_joybird_JoybirdSiteReadInput_u2_In | Prv_joybird_JoybirdSiteReadInput_u3_In | Prv_joybird_JoybirdSiteReadInput_u4_In | Prv_joybird_JoybirdSiteReadInput_u5_In | Prv_joybird_JoybirdSiteReadInput_u6_In | Prv_joybird_JoybirdSiteReadInput_u7_In | Prv_joybird_JoybirdSiteReadInput_u8_In | Prv_joybird_JoybirdSiteReadInput_u9_In | Prv_joybird_JoybirdSiteReadInput_u10_In | Prv_joybird_JoybirdSiteReadInput_u11_In, /) -> Any:
+        """Reads anything this site offers in one call: pick a `thing` (getProduct, getCategory,
+        getCollection, getCategoryPage, getProductsByIDs, getUpSellProduct, ...), give its
+        `where` inputs, and list the `fields` you want back as dot paths like "state.stateName";
+        omit `fields` for every plain field.
         """
 
     async def listConfigurators(self, /) -> list[Prv_joybird_JoybirdConfigurator_Out]:
@@ -121006,11 +121126,11 @@ class Prv_katzsdelicatessen(Protocol):
     pastrami, corned beef, packages and merch, with live price and stock.
     """
 
-    async def read(self, input: Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u0_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u1_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u2_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u3_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u4_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u5_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u6_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u7_In, /) -> list[Prv_katzsdelicatessen_KatzsdelicatessenSiteStoreConfig_Out] | Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoryResult_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteGTMCodeOutput_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteGTMHeadOutput_Out | Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocations_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteProducts_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteRoutableInterface_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteSlideItems_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (attributesForm,
-        attributesList, availableStores, categories, cmsBlocks, cmsPage, ...), give its `where`
-        inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
-        `fields` for every plain field.
+    async def read(self, input: Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u0_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u1_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u2_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u3_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u4_In | Prv_katzsdelicatessen_KatzsdelicatessenSiteReadInput_u5_In, /) -> list[Prv_katzsdelicatessen_KatzsdelicatessenSiteStoreConfig_Out] | Prv_katzsdelicatessen_KatzsdelicatessenSiteCategoryResult_Out | Prv_katzsdelicatessen_KatzsdelicatessenSitePickupLocations_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteProducts_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteRoutableInterface_Out | Prv_katzsdelicatessen_KatzsdelicatessenSiteSlideItems_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (products, categories,
+        slideItems, availableStores, pickupLocations, route, ...), give its `where` inputs, and
+        list the `fields` you want back as dot paths like "state.stateName"; omit `fields` for
+        every plain field.
         """
 
     async def searchProducts(self, query: str, /) -> list[Prv_katzsdelicatessen_katzsdelicatessenProduct_Out]:
@@ -121511,10 +121631,10 @@ class Prv_labcorp(Protocol):
     """Lab test pricing, PSC location lookup and appointment availability from Labcorp."""
 
     async def read(self, input: Prv_labcorp_LabcorpSiteReadInput_u0_In | Prv_labcorp_LabcorpSiteReadInput_u1_In | Prv_labcorp_LabcorpSiteReadInput_u2_In | Prv_labcorp_LabcorpSiteReadInput_u3_In | Prv_labcorp_LabcorpSiteReadInput_u4_In | Prv_labcorp_LabcorpSiteReadInput_u5_In, /) -> list[Prv_labcorp_LabcorpSiteStoreConfig_Out] | Prv_labcorp_LabcorpSiteCategoryResult_Out | Prv_labcorp_LabcorpSiteDynamicBlocks_Out | Prv_labcorp_LabcorpSitePickupLocations_Out | Prv_labcorp_LabcorpSiteProducts_Out | Prv_labcorp_LabcorpSiteRoutableInterface_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (attributesForm,
-        attributesList, availableStores, categories, cmsBlocks, cmsPage, ...), give its `where`
-        inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
-        `fields` for every plain field.
+        """Reads anything this site offers in one call: pick a `thing` (products, categories,
+        availableStores, pickupLocations, route, dynamicBlocks, ...), give its `where` inputs,
+        and list the `fields` you want back as dot paths like "state.stateName"; omit `fields`
+        for every plain field.
         """
 
     async def search(self, query: str, /) -> list[Prv_labcorp_LabcorpTestSummary_Out]:
@@ -121652,6 +121772,16 @@ class Prv_latimes(Protocol):
     async def getGuide(self, args: Prv_latimes_GetGuideArgs_In, /) -> Prv_latimes_Guide_Out:
         """Reads one guide from its url: each place's rank, name, address, cuisine, price range,
         description and image, from the page's ItemList data.
+        """
+
+    async def listVideos(self, /) -> Prv_latimes_VideoList_Out:
+        """Lists the videos on the L.A. Times /video hub: title, url, authors and running time;
+        pass a url to getVideo.
+        """
+
+    async def getVideo(self, args: Prv_latimes_GetVideoArgs_In, /) -> Prv_latimes_Video_Out:
+        """Reads one video from its url: title, publish time, duration, the HLS stream url,
+        thumbnail and authors.
         """
 
     async def listPuzzles(self, /) -> Prv_latimes_PuzzleList_Out:
@@ -123440,10 +123570,10 @@ class Prv_magicmadhouse(Protocol):
     """
 
     async def read(self, input: Prv_magicmadhouse_MagicmadhouseSiteReadInput_u0_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u1_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u2_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u3_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u4_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u5_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u6_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u7_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u8_In | Prv_magicmadhouse_MagicmadhouseSiteReadInput_u9_In, /) -> Prv_magicmadhouse_MagicmadhouseSiteNode_Out | Prv_magicmadhouse_MagicmadhouseSiteStore_Out | Prv_magicmadhouse_MagicmadhouseSiteSearchProducts_Out | list[Prv_magicmadhouse_MagicmadhouseSiteCategoryTreeItem_Out] | Prv_magicmadhouse_MagicmadhouseSiteCategory_Out | Prv_magicmadhouse_MagicmadhouseSiteProductConnection_Out | Prv_magicmadhouse_MagicmadhouseSiteProduct_Out | Prv_magicmadhouse_MagicmadhouseSiteWebPage_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (channel, node, inventory,
-        shopperPreferences, store, geography, ...), give its `where` inputs, and list the
-        `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
-        plain field.
+        """Reads anything this site offers in one call: pick a `thing` (product, category,
+        products, categoryTree, searchProducts, newestProducts, ...), give its `where` inputs,
+        and list the `fields` you want back as dot paths like "state.stateName"; omit `fields`
+        for every plain field.
         """
 
     async def searchProducts(self, query: str, /) -> list[Prv_magicmadhouse_MagicMadhouseProduct_Out]:
@@ -124914,8 +125044,8 @@ class Prv_mlb(Protocol):
     """
 
     async def read(self, input: Prv_mlb_MlbReadInput_u0_In | Prv_mlb_MlbReadInput_u1_In | Prv_mlb_MlbReadInput_u2_In | Prv_mlb_MlbReadInput_u3_In | Prv_mlb_MlbReadInput_u4_In | Prv_mlb_MlbReadInput_u5_In | Prv_mlb_MlbReadInput_u6_In | Prv_mlb_MlbReadInput_u7_In | Prv_mlb_MlbReadInput_u8_In | Prv_mlb_MlbReadInput_u9_In | Prv_mlb_MlbReadInput_u10_In | Prv_mlb_MlbReadInput_u11_In, /) -> list[Prv_mlb_MlbSearchFieldMetadata_Out] | Prv_mlb_MlbPagedClipDetails_Out | list[Prv_mlb_MlbInfoResponse_Out] | list[Prv_mlb_MlbPlayerInfo_Out] | list[Prv_mlb_MlbTeamInfo_Out] | Prv_mlb_MlbPagedReelResponse_Out | list[Prv_mlb_MlbGame_Out] | list[str] | Prv_mlb_MlbStory_Out | list[Prv_mlb_MlbStory_Out] | Prv_mlb_MlbSectionResponse_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (fields, types,
-        commonFields, search, queryInfo, mediaPlayback, ...), give its `where` inputs, and list
+        """Reads anything this site offers in one call: pick a `thing` (teams, search, people,
+        playerStory, playerStories, suggestedSearches, ...), give its `where` inputs, and list
         the `fields` you want back as dot paths like "state.stateName"; omit `fields` for every
         plain field.
         """
@@ -125809,11 +125939,11 @@ class Prv_nationalbusinessfurniture(Protocol):
     estimate.
     """
 
-    async def read(self, input: Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u0_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u1_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u2_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u3_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u4_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u5_In, /) -> list[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteStoreConfig_Out] | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoryResult_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteLooknbuyOutput_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocations_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProducts_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteRoutableInterface_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (attributesForm,
-        attributesList, availableStores, categories, cmsBlocks, cmsPage, ...), give its `where`
-        inputs, and list the `fields` you want back as dot paths like "state.stateName"; omit
-        `fields` for every plain field.
+    async def read(self, input: Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u0_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u1_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u2_In | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteReadInput_u3_In, /) -> list[Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteStoreConfig_Out] | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteCategoryResult_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSitePickupLocations_Out | Prv_nationalbusinessfurniture_NationalbusinessfurnitureSiteProducts_Out | None:
+        """Reads anything this site offers in one call: pick a `thing` (products, categories,
+        availableStores, pickupLocations, route, looknbuy, ...), give its `where` inputs, and
+        list the `fields` you want back as dot paths like "state.stateName"; omit `fields` for
+        every plain field.
         """
 
     async def searchProducts(self, query: str, /) -> list[Prv_nationalbusinessfurniture_NbfProductSummary_Out]:
@@ -128585,6 +128715,19 @@ class Prv_pexels(Protocol):
         source-page URLs.
         """
 
+class Prv_phenom(Protocol):
+    """Open jobs on a company's Phenom-powered careers site (Baylor Scott & White, Children's
+    Healthcare of Atlanta and others) — title, location, category, shift, posted date and
+    apply link, live off the site's own search endpoint.
+    """
+
+    async def listJobs(self, company: str, options: Prv_phenom_PhenomListOptions_In, /) -> Prv_phenom_PhenomBoard_Out:
+        """Open jobs on one Phenom careers site, live, paged 100 at a time until `maxJobs` (default
+        500). `company` is the careers-site URL ("https://jobs.bswhealth.com/us/en"); `query` is
+        Phenom's own keyword search, which is fuzzy (it also matches skills), so filter titles
+        after. Throws, caller-fixable, when the host is not a Phenom careers site.
+        """
+
 class Prv_pike13(Protocol):
     """Pike13 studios (music schools, gyms, swim schools, yoga): find a studio, read its class
     schedule, appointment slots and plans, and book or cancel as the signed-in client.
@@ -129202,6 +129345,11 @@ class Prv_pixabay(Protocol):
     async def getAudio(self, args: Prv_pixabay_GetAudioArgs_In, /) -> Prv_pixabay_AudioDetail_Out:
         """Reads one music track or sound-effect page: title, creator, length, genres, moods, tags,
         stream and download URLs, licence attribution, counts and related tracks.
+        """
+
+    async def listUserMedia(self, args: Prv_pixabay_ListUserMediaArgs_In, /) -> Prv_pixabay_UserMediaPage_Out:
+        """Lists one page (60 items) of a creator's uploads across media types, with paging counts.
+        Pass `page` to walk on.
         """
 
     async def getUser(self, args: Prv_pixabay_GetUserArgs_In, /) -> Prv_pixabay_UserProfile_Out:
@@ -136962,6 +137110,20 @@ class Prv_tagtrans_net(Protocol):
         does not send the email.
         """
 
+class Prv_taleo(Protocol):
+    """Open jobs on a company's Oracle Taleo career section (UT Southwestern, Texas Health
+    Resources and others) — title, location, job field, posted date and posting link, live
+    off the section's own search endpoint.
+    """
+
+    async def listJobs(self, company: str, options: Prv_taleo_TaleoListOptions_In, /) -> Prv_taleo_TaleoBoard_Out:
+        """Open jobs on one Taleo career section, live, paged 25 at a time until `maxJobs` (default
+        500). `company` is the section URL
+        ("https://utsw.taleo.net/careersection/2/jobsearch.ftl"); `query` is Taleo's own keyword
+        search, which is fuzzy, so filter titles after. Throws, caller-fixable, when the URL is
+        not a Taleo career section.
+        """
+
 class Prv_talkmezzo(Protocol):
     """Mezzo (talkmezzo.com), the keynote-speaker index: search speakers, read a speaker's
     profile and speaking history, search conferences, list speaking topics.
@@ -138553,10 +138715,10 @@ class Prv_toast(Protocol):
     """
 
     async def read(self, input: Prv_toast_ToastSiteReadInput_u0_In | Prv_toast_ToastSiteReadInput_u1_In | Prv_toast_ToastSiteReadInput_u2_In | Prv_toast_ToastSiteReadInput_u3_In | Prv_toast_ToastSiteReadInput_u4_In | Prv_toast_ToastSiteReadInput_u5_In | Prv_toast_ToastSiteReadInput_u6_In | Prv_toast_ToastSiteReadInput_u7_In | Prv_toast_ToastSiteReadInput_u8_In, /) -> Prv_toast_ToastSiteRestaurant_Out | Prv_toast_ToastSiteRestaurantSearchResponse_Out | list[Prv_toast_ToastSiteRestaurant_Out] | list[Prv_toast_ToastSiteDiningOption_Out] | Prv_toast_ToastSitePaginatedMenus_Out | Prv_toast_ToastSiteMenuItem_Out | Prv_toast_ToastSiteMenuSearchResponse_Out | Prv_toast_ToastSitePopularItemsResponse_Out | None:
-        """Reads anything this site offers in one call: pick a `thing` (restaurantV2,
-        restaurantV2ByShortUrl, nearbyRestaurantSearch, restaurants, diningOptions,
-        paginatedMenuItems, ...), give its `where` inputs, and list the `fields` you want back
-        as dot paths like "state.stateName"; omit `fields` for every plain field.
+        """Reads anything this site offers in one call: pick a `thing` (restaurants, restaurantV2,
+        popularItems, menuItemDetails, paginatedMenuItems, restaurantV2ByShortUrl, ...), give
+        its `where` inputs, and list the `fields` you want back as dot paths like
+        "state.stateName"; omit `fields` for every plain field.
         """
 
     async def getRestaurant(self, ref: str, /) -> Prv_toast_ToastRestaurant_Out:
@@ -145190,6 +145352,7 @@ class BowmarkProviders(Protocol):
     cancer: Prv_cancer
     canva: Prv_canva
     capitalbrands: Prv_capitalbrands
+    capitalone: Prv_capitalone
     capitaloneshopping: Prv_capitaloneshopping
     caraway: Prv_caraway
     carepatrol: Prv_carepatrol
@@ -145672,6 +145835,7 @@ class BowmarkProviders(Protocol):
     perennialsandsutherland: Prv_perennialsandsutherland
     personio: Prv_personio
     pexels: Prv_pexels
+    phenom: Prv_phenom
     pike13: Prv_pike13
     pilotprotocol: Prv_pilotprotocol
     pinterest: Prv_pinterest
@@ -145843,6 +146007,7 @@ class BowmarkProviders(Protocol):
     szukajwarchiwach_gov_pl: Prv_szukajwarchiwach_gov_pl
     tableau_public: Prv_tableau_public
     tagtrans_net: Prv_tagtrans_net
+    taleo: Prv_taleo
     talkmezzo: Prv_talkmezzo
     tamarackidaho: Prv_tamarackidaho
     tapfiliate: Prv_tapfiliate

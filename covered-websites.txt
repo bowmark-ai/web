@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 141,334 sites, generated 2026-11-26.
+# Every website Bowmark covers: 141,335 sites, generated 2026-11-26.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -48058,6 +48058,7 @@ appliednutrition.uk	appliednutrition.uk	14
 appliedvedicastrology.com	Applied Vedic Astrology	6
 appliedvisionbaseball.myshopify.com	Applied Vision Baseball	10
 appliques-with-glitz.myshopify.com	Appliques with Glitz	10
+apploi.com	Apploi job search	1
 applyall.com	applyall.com	20
 applystead.com	applystead.com	50
 appodia.myshopify.com	Appodia	10

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a6cfb8bc65d5841ae79fcb05a30dc7896932f4301539e673bf5e70da2d6f736c
-// 6181 checked, 20 unchecked.
+// Manifest version: 636b30bc2dc535cafafdb5da8b44011bb9853dd0f14fa9eba7b292dc2ab16529
+// 6193 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a6cfb8bc65d5841ae79fcb05a30dc7896932f4301539e673bf5e70da2d6f736c",
+  "version": "636b30bc2dc535cafafdb5da8b44011bb9853dd0f14fa9eba7b292dc2ab16529",
   "units": {
     "address_validation": {
       "defs": {
@@ -3929,8 +3929,8 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "45764a58aecf7f34",
-        "atCompany": "17d00147df8f1365"
+        "search": "f2b0a86907ab8dde",
+        "atCompany": "765bfa1ae36b093d"
       }
     },
     "kenya_fuel_prices": {
@@ -5676,8 +5676,8 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "bestWayToPay": "130017674fc568ff",
-        "compareCards": "9f252e5eec9ee329"
+        "bestWayToPay": "dc8cceb1c19a0d18",
+        "compareCards": "66370e0aeb76a08d"
       }
     },
     "read": {
@@ -37317,6 +37317,235 @@ export const VALIDATORS: ValidatorTable = {
       "digests": {
         "listQuizQuestions": "32008691f43243eb",
         "getBlenderRecommendation": "e26ec89776c6a953"
+      }
+    },
+    "providers.capitalone": {
+      "defs": {
+        "CapitalOneActivateOfferArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "offerId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "account",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CapitalOneListCreditCardsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "rewardsType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "cardType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CapitalOneListOffersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "account",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CapitalOneListTransactionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "account",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listCreditCards": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CapitalOneListCreditCardsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getCreditCard": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "id",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listAccounts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listTransactions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CapitalOneListTransactionsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listOffers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CapitalOneListOffersArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "activateOffer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CapitalOneActivateOfferArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      },
+      "digests": {
+        "listCreditCards": "c57e14b6d7130e4b",
+        "getCreditCard": "d68cbc9c8f509892",
+        "listAccounts": "117ecb009999c955",
+        "listTransactions": "1311243a1d907f55",
+        "listOffers": "f3007d25085462ce",
+        "activateOffer": "1568164130f571e3"
       }
     },
     "providers.capitaloneshopping": {
@@ -73716,82 +73945,6 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
-        "FarmaciasdirectSiteCollectionsWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "first",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "after",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "last",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "before",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "reverse",
-              "schema": {
-                "k": "boolean"
-              },
-              "optional": true
-            },
-            {
-              "name": "sortKey",
-              "schema": {
-                "k": "union",
-                "of": [
-                  {
-                    "k": "literal",
-                    "v": "TITLE"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "UPDATED_AT"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "ID"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "CREATED_AT"
-                  },
-                  {
-                    "k": "literal",
-                    "v": "RELEVANCE"
-                  }
-                ]
-              },
-              "optional": true
-            },
-            {
-              "name": "query",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
         "FarmaciasdirectSiteGeoCoordinateInput": {
           "k": "object",
           "props": [
@@ -73921,18 +74074,6 @@ export const VALIDATORS: ValidatorTable = {
                 }
               },
               "optional": true
-            }
-          ]
-        },
-        "FarmaciasdirectSiteProductTagsWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "first",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
             }
           ]
         },
@@ -74088,37 +74229,6 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "thing",
                   "schema": {
                     "k": "literal",
-                    "v": "collections"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "FarmaciasdirectSiteCollectionsWhere"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
                     "v": "locations"
                   },
                   "optional": false
@@ -74161,37 +74271,6 @@ export const VALIDATORS: ValidatorTable = {
                     "name": "FarmaciasdirectSiteProductWhere"
                   },
                   "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
-                    "v": "productTags"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "FarmaciasdirectSiteProductTagsWhere"
-                  },
-                  "optional": false
                 },
                 {
                   "name": "fields",
@@ -74575,14 +74654,14 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "read": "a771ed7c33fcc5d2",
-        "cartCreate": "9564309e73fcfda3",
-        "cartLinesAdd": "72ba6166b3310601",
-        "cartLinesRemove": "1d59d867a982d24c",
-        "cartLinesUpdate": "61a9ec1d86c6903a",
-        "getProduct": "5566d4506564c5b9",
-        "listPromotions": "e7775c7b6838db2a",
-        "search": "27b74178a6da34c2"
+        "read": "0163eeb11f4e371e",
+        "cartCreate": "645f9cfbe62cc231",
+        "cartLinesAdd": "5810973f6b315a3c",
+        "cartLinesRemove": "e4f2b78236bd707b",
+        "cartLinesUpdate": "143bf518d5aec1b7",
+        "getProduct": "581852ece9a974e9",
+        "listPromotions": "a6a9369e90741eb0",
+        "search": "6d8db37bf40c930b"
       }
     },
     "providers.faros": {
@@ -74975,6 +75054,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "searchArticles": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "searchSymbols": [
           {
             "name": "query",
@@ -74995,10 +75083,11 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "screenFunds": "25f437ef9ec9d949",
-        "getFund": "4e252c4807af0419",
-        "searchSymbols": "379939a8913c6e43",
-        "getQuote": "6478c12d0611cb13"
+        "screenFunds": "35c0cbefdcf6d8bc",
+        "getFund": "1ef6ab404e0defdb",
+        "searchArticles": "c891393eb215efbc",
+        "searchSymbols": "a7735b4fac1fbae4",
+        "getQuote": "0c9f78b581c61ac8"
       }
     },
     "providers.fieldstonehomes": {
@@ -102054,18 +102143,6 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.interiordefine": {
       "defs": {
-        "InteriordefineSiteAffirmAslowasPriceWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "sku",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
         "InteriordefineSiteAreaInput": {
           "k": "object",
           "props": [
@@ -102536,37 +102613,6 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "thing",
                   "schema": {
                     "k": "literal",
-                    "v": "affirmAslowasPrice"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "InteriordefineSiteAffirmAslowasPriceWhere"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
                     "v": "availableStores"
                   },
                   "optional": false
@@ -102745,37 +102791,6 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
-                    "v": "storeLocationByUrl"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "InteriordefineSiteStoreLocationByUrlWhere"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
             }
           ]
         },
@@ -102788,18 +102803,6 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
-            }
-          ]
-        },
-        "InteriordefineSiteStoreLocationByUrlWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "url_name",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
             }
           ]
         }
@@ -102873,11 +102876,11 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "read": "fb4ff3590c4947b4",
-        "searchProducts": "fc359609adc89c4f",
-        "getConfigurator": "08e50f4d96e0d31d",
-        "priceConfiguration": "839b0b6c03f26244",
-        "addToCart": "c3356effdfad52d1"
+        "read": "65ccdadd0d457172",
+        "searchProducts": "c8cd045c5e71a526",
+        "getConfigurator": "9d15353bd607607e",
+        "priceConfiguration": "1c21ca39675e0fb2",
+        "addToCart": "0131567c02e8a0bc"
       }
     },
     "providers.intro_co": {
@@ -104021,18 +104024,6 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
-        "JoybirdSiteGetCategoryTopSalesProductsWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "id",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
         "JoybirdSiteGetCategoryWhere": {
           "k": "object",
           "props": [
@@ -104059,18 +104050,6 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "sortBy",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "JoybirdSiteGetClosestStoreFromZipcodeWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "zipcode",
               "schema": {
                 "k": "string"
               },
@@ -104118,57 +104097,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "type",
               "schema": {
                 "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "JoybirdSiteGetCustomProductListDataV2Where": {
-          "k": "object",
-          "props": [
-            {
-              "name": "limit",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "slug",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "productList",
-              "schema": {
-                "k": "array",
-                "of": {
-                  "k": "ref",
-                  "name": "JoybirdSiteProductListInput"
-                }
-              },
-              "optional": true
-            },
-            {
-              "name": "filterByStock",
-              "schema": {
-                "k": "boolean"
-              },
-              "optional": true
-            },
-            {
-              "name": "sortByPopularity",
-              "schema": {
-                "k": "boolean"
-              },
-              "optional": true
-            },
-            {
-              "name": "refreshCache",
-              "schema": {
-                "k": "boolean"
               },
               "optional": true
             }
@@ -104348,18 +104276,6 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
-        "JoybirdSiteGetRetailStoreProductsDataWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "storeId",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            }
-          ]
-        },
         "JoybirdSiteGetUpSellProductWhere": {
           "k": "object",
           "props": [
@@ -104372,25 +104288,6 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "slug",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "JoybirdSiteProductListInput": {
-          "k": "object",
-          "props": [
-            {
-              "name": "id",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "category",
               "schema": {
                 "k": "string"
               },
@@ -104532,37 +104429,6 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "thing",
                   "schema": {
                     "k": "literal",
-                    "v": "getCategoryTopSalesProducts"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "JoybirdSiteGetCategoryTopSalesProductsWhere"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
                     "v": "getLocationFromCoords"
                   },
                   "optional": false
@@ -104665,99 +104531,6 @@ export const VALIDATORS: ValidatorTable = {
                   "schema": {
                     "k": "ref",
                     "name": "JoybirdSiteGetCustomListProductDataWhere"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
-                    "v": "getCustomProductListDataV2"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "JoybirdSiteGetCustomProductListDataV2Where"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
-                    "v": "getRetailStoreProductsData"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "JoybirdSiteGetRetailStoreProductsDataWhere"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
-                    "v": "getClosestStoreFromZipcode"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "JoybirdSiteGetClosestStoreFromZipcodeWhere"
                   },
                   "optional": true
                 },
@@ -104942,10 +104715,10 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "read": "3f64cd287241c478",
-        "listConfigurators": "5a06c9c1adb38901",
-        "getConfigurator": "5358238b7becfd28",
-        "priceConfigurator": "2821a31648ec26fe"
+        "read": "3faf3356ca59a2bf",
+        "listConfigurators": "28ac51445e304f87",
+        "getConfigurator": "835300554f9420cf",
+        "priceConfigurator": "e5a13bc67b2763db"
       }
     },
     "providers.joycefactorydirect": {
@@ -105852,77 +105625,6 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
-        "KatzsdelicatessenSiteMpGTMCodeFilters": {
-          "k": "object",
-          "props": [
-            {
-              "name": "action",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "currentPage",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "id",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "type",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
-        "KatzsdelicatessenSiteMpGTMCodeWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "filters",
-              "schema": {
-                "k": "ref",
-                "name": "KatzsdelicatessenSiteMpGTMCodeFilters"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "KatzsdelicatessenSiteMpGTMHeadFilters": {
-          "k": "object",
-          "props": [
-            {
-              "name": "type",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
-        "KatzsdelicatessenSiteMpGTMHeadWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "filters",
-              "schema": {
-                "k": "ref",
-                "name": "KatzsdelicatessenSiteMpGTMHeadFilters"
-              },
-              "optional": true
-            }
-          ]
-        },
         "KatzsdelicatessenSitePickupLocationFilterInput": {
           "k": "object",
           "props": [
@@ -106339,68 +106041,6 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "thing",
                   "schema": {
                     "k": "literal",
-                    "v": "mpGTMCode"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "KatzsdelicatessenSiteMpGTMCodeWhere"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
-                    "v": "mpGTMHead"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "KatzsdelicatessenSiteMpGTMHeadWhere"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
                     "v": "pickupLocations"
                   },
                   "optional": false
@@ -106576,9 +106216,9 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "read": "6a6c3cb57934fcee",
-        "searchProducts": "de3605683a4b73c5",
-        "getProduct": "1d58bbe55def3a4f"
+        "read": "af468fcc1c99d3c0",
+        "searchProducts": "739c37158aa1e818",
+        "getProduct": "aa23e0d9d81d97b0"
       }
     },
     "providers.kayak": {
@@ -110489,6 +110129,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListHeadlinesArgs": {
           "k": "object",
           "props": [
@@ -110656,6 +110308,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listVideos": [],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ],
         "listPuzzles": [],
         "getCrossword": [
           {
@@ -110669,21 +110332,23 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listSections": "29061f3672d3709e",
-        "getAuthor": "0453738fd5be46be",
-        "listHeadlines": "c1b26f541ecfcba1",
-        "browseSection": "68772612f849f1b8",
-        "searchArticles": "60264dedcf9b4b8a",
-        "getArticle": "57f458a998a53e43",
-        "listLatestArticles": "b83bd7d2a51db488",
-        "listTopics": "d816fcbabf6b342e",
-        "browseTopic": "dc14199d28d0c3eb",
-        "searchRecipes": "2f4c6b9ccb86a88a",
-        "getRecipe": "d81d329b00c51281",
-        "listGuides": "b4fe0c097bcd677c",
-        "getGuide": "aaf53747a1f7b08d",
-        "listPuzzles": "19716cece226874c",
-        "getCrossword": "cd880479a885cc05"
+        "listSections": "c9532b6fc891d464",
+        "getAuthor": "d2538a68e404e730",
+        "listHeadlines": "85a3c60f9170488a",
+        "browseSection": "0c0caf2972ee1ff2",
+        "searchArticles": "0a8e6a2a6f23226e",
+        "getArticle": "cb7521fd1db48541",
+        "listLatestArticles": "14113658b348922e",
+        "listTopics": "fef9822102339981",
+        "browseTopic": "63c06ca86ad98775",
+        "searchRecipes": "6e8a712b895f04ba",
+        "getRecipe": "a1ec45632883f7c9",
+        "listGuides": "b315fadbf889b6c4",
+        "getGuide": "183f217fdf42ca52",
+        "listVideos": "d3c9b50475f9997e",
+        "getVideo": "c2ce876247b728a3",
+        "listPuzzles": "b7fc7f31394fe939",
+        "getCrossword": "167480007601a176"
       }
     },
     "providers.launchpad": {
@@ -128621,78 +128286,6 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
-        "NationalbusinessfurnitureSiteLooknbuyFilterInput": {
-          "k": "object",
-          "props": [
-            {
-              "name": "look_id",
-              "schema": {
-                "k": "record",
-                "value": {
-                  "k": "any"
-                }
-              },
-              "optional": true
-            },
-            {
-              "name": "look_name",
-              "schema": {
-                "k": "record",
-                "value": {
-                  "k": "any"
-                }
-              },
-              "optional": true
-            },
-            {
-              "name": "or",
-              "schema": {
-                "k": "record",
-                "value": {
-                  "k": "any"
-                }
-              },
-              "optional": true
-            },
-            {
-              "name": "url_key",
-              "schema": {
-                "k": "record",
-                "value": {
-                  "k": "any"
-                }
-              },
-              "optional": true
-            }
-          ]
-        },
-        "NationalbusinessfurnitureSiteLooknbuyWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "filter",
-              "schema": {
-                "k": "ref",
-                "name": "NationalbusinessfurnitureSiteLooknbuyFilterInput"
-              },
-              "optional": true
-            },
-            {
-              "name": "pageSize",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "currentPage",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
         "NationalbusinessfurnitureSitePickupLocationFilterInput": {
           "k": "object",
           "props": [
@@ -129109,37 +128702,6 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "thing",
                   "schema": {
                     "k": "literal",
-                    "v": "looknbuy"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "NationalbusinessfurnitureSiteLooknbuyWhere"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
                     "v": "pickupLocations"
                   },
                   "optional": false
@@ -129194,49 +128756,6 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
-            },
-            {
-              "k": "object",
-              "props": [
-                {
-                  "name": "thing",
-                  "schema": {
-                    "k": "literal",
-                    "v": "route"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "where",
-                  "schema": {
-                    "k": "ref",
-                    "name": "NationalbusinessfurnitureSiteRouteWhere"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "fields",
-                  "schema": {
-                    "k": "array",
-                    "of": {
-                      "k": "string"
-                    }
-                  },
-                  "optional": true
-                }
-              ]
-            }
-          ]
-        },
-        "NationalbusinessfurnitureSiteRouteWhere": {
-          "k": "object",
-          "props": [
-            {
-              "name": "url",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
             }
           ]
         }
@@ -129310,11 +128829,11 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "read": "55a6014c2a0c87f6",
-        "searchProducts": "e443b4b692a0881e",
-        "getProduct": "dad0dbc5ff8f67eb",
-        "priceConfiguration": "980c1849eab9dd8b",
-        "addToCart": "a7b765a710f7c54a"
+        "read": "c41f7a2c73f41578",
+        "searchProducts": "99cb0492d8148757",
+        "getProduct": "7469ad64dc7a795a",
+        "priceConfiguration": "cda70c71d2e1bfa7",
+        "addToCart": "1376287b1807289f"
       }
     },
     "providers.nbcnews": {
@@ -141425,6 +140944,51 @@ export const VALIDATORS: ValidatorTable = {
         "search": "c45cc8ab9e9d1e73"
       }
     },
+    "providers.phenom": {
+      "defs": {
+        "PhenomListOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxJobs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "PhenomListOptions"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listJobs": "7280d69dd1fa6d9e"
+      }
+    },
     "providers.pike13": {
       "defs": {
         "Pike13BookClassOptions": {
@@ -143878,6 +143442,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListUserMediaArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchAudioArgs": {
           "k": "object",
           "props": [
@@ -144007,6 +143590,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listUserMedia": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListUserMediaArgs"
+            },
+            "optional": false
+          }
+        ],
         "getUser": [
           {
             "name": "args",
@@ -144037,16 +143630,17 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchImages": "7795bbbc743ce368",
-        "getImage": "ed01aecac3ed8e15",
-        "searchVideos": "3db0a688a2cfcff4",
-        "getVideo": "d12bcd69a540db88",
-        "searchMusic": "f8d69b9229e6386c",
-        "searchSoundEffects": "f8d69b9229e6386c",
-        "getAudio": "6991a933aeffca1a",
-        "getUser": "ccd98ef017b7c12b",
-        "signup": "8c0db62b37227c4d",
-        "confirmSignup": "e8016d0435439661"
+        "searchImages": "5ce1cc9d05ea091d",
+        "getImage": "307e8c95028afa4e",
+        "searchVideos": "38e796851b7d647e",
+        "getVideo": "2c548cb04058ffa7",
+        "searchMusic": "5ece8762f61f3d96",
+        "searchSoundEffects": "5ece8762f61f3d96",
+        "getAudio": "cd94c3c6bff59f2d",
+        "listUserMedia": "a24e54b21f48a659",
+        "getUser": "5de8cc54aa913f18",
+        "signup": "249dd734cceed117",
+        "confirmSignup": "d999377408d74606"
       }
     },
     "providers.pizzahut": {
@@ -179833,6 +179427,51 @@ export const VALIDATORS: ValidatorTable = {
       "digests": {
         "getShipmentRateForm": "9f2eb6bac69bf700",
         "createShipmentRateEmail": "7b75f3813c800aba"
+      }
+    },
+    "providers.taleo": {
+      "defs": {
+        "TaleoListOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxJobs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "TaleoListOptions"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listJobs": "586a88045b59dc2e"
       }
     },
     "providers.talkmezzo": {
