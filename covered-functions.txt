@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 142,161 sites, generated 2026-11-26.
+# Every website Bowmark covers and the functions it has: 142,193 sites, generated 2026-11-26.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -1919,7 +1919,6 @@
 = aea059f2 execute_music_edit#5b36406e generate_music#5b36406e get_commercial_license_info#6579a11e get_credit_balance#6579a11e get_music_generation#15d4db95 import_music_audio#450c46d0 list_my_music#1c90e559 list_voice_models#6579a11e open_ai_song_cover#b3ba3c2d open_music_extension#b3ba3c2d open_replace_section#b3ba3c2d open_voice_change#b3ba3c2d prepare_music_edit#2dfc5167 prepare_music_generation#c83d4de0
 = aec25863 getSparePartsDocuments searchPlaygroundSpareParts searchProduct
 = aeed82f6 gv_alert_hit_ai_analysis#8cd3fd53 gv_alert_hit_record_detail#8cf886f2 gv_alert_hit_record_detail_items#41c600f9 gv_alert_hit_record_list#2ed7b195 gv_alert_hit_record_statistics#6579a11e gv_alert_rule_config#6579a11e gv_alert_rule_detail#fb28c292 gv_alert_rule_list#e2521d7c gv_competitor_entity_cards#098beb8c gv_competitor_entity_chart#0151ca9f gv_competitor_entity_compare_analysis#0151ca9f gv_competitor_entity_config#6579a11e gv_competitor_entity_detail#90758ce7 gv_competitor_entity_list#3495a0bd gv_homepage_alerts#96a2f10d gv_homepage_brand_keyword_config#6579a11e gv_homepage_chart#004cb812 gv_homepage_config#6579a11e gv_homepage_data_refresh#6579a11e gv_homepage_overview#004cb812 gv_homepage_rank_notifies#96a2f10d gv_monitor_task_account_page#fcf8a64b gv_monitor_task_ai_interpretation#e34f2981 gv_monitor_task_config#6579a11e gv_monitor_task_content_page#2ac5cbbd gv_monitor_task_detail#6ffec219 gv_monitor_task_focus_topic#6ffec219 gv_monitor_task_overview#e34f2981 gv_monitor_task_overview_config#6ffec219 gv_monitor_task_page#5b3d4a9e gv_monitor_task_path_analysis#e34f2981 gv_monitor_task_quota#6579a11e gv_monitor_task_search_index_config#6ffec219 gv_monitor_task_search_index_overview#3b452b32 gv_monitor_task_search_index_ranking#6ffec219 gv_monitor_task_user_voice_comment_page#ce62d563 gv_monitor_task_user_voice_summary#6ffec219 gv_monitor_task_user_voice_view#6ffec219 pk_account_ad_dealer_page#1d299e2c pk_account_ad_page#d932d8ae pk_account_auth_invalid_count#7702066d pk_account_auth_time_check#b6c33c83 pk_account_dealer_auth_invalid_count#7702066d pk_account_dealer_page#5e72b131 pk_account_diag_period#6579a11e pk_account_diag_rank#1c2e14fb pk_account_diag_recommend#1c2e14fb pk_account_diag_summary#70343d62 pk_account_live_page#9636f22b pk_account_media_dealer_page#ab036700 pk_account_media_page#1de8bcff pk_account_media_summary#e48ddb91 pk_account_tags#94e8287a pk_ad_all_rank_statistics#41052b52 pk_ad_car_analysis#36ecbec6 pk_ad_index_analysis#7ff93cab pk_ad_overview#a0d281fb pk_ad_rank_all#7cb5c518 pk_ad_rank_changan#49dd5b8f pk_ad_rank_dept#5fc3bb2e pk_ad_rank_list#e26b5232 pk_ad_rank_province#2f607262 pk_ad_rank_top#7cb5c518 pk_base_ad_finish_time#cfd5066f pk_base_auth_info#6579a11e pk_base_buttons#6579a11e pk_base_changan_networks#8070421d pk_base_changan_products#8070421d pk_base_changan_staff#d54787fa pk_base_clue_serial_names#6579a11e pk_base_clue_series#6579a11e pk_base_dealer_buttons#6579a11e pk_base_dealer_changan_networks#8070421d pk_base_dealer_changan_products#8070421d pk_base_dealer_clue_serial_names#6579a11e pk_base_dealer_clue_series#6579a11e pk_base_dealer_function_info#6579a11e pk_base_dealer_live_schedule_notice#6579a11e pk_base_dealer_market_refresh_time#6579a11e pk_base_dealer_options_set#6e9fbd16 pk_base_dealer_platforms#6579a11e pk_base_dealer_provinces#6579a11e pk_base_dealer_refresh_time#a355ca6d pk_base_dealer_review_fields#7dff6aef pk_base_dealer_selling_points#6579a11e pk_base_dealer_user_brands#6579a11e pk_base_feature_switches#6579a11e pk_base_function_info#6579a11e pk_base_manufacturer_changan_staff#a30da95e pk_base_market_refresh_time#6579a11e pk_base_menu_tree#6579a11e pk_base_options_set#07f0481d pk_base_options_summary#89236f66 pk_base_platforms#6579a11e pk_base_provinces#6579a11e pk_base_rank_fields#87490fe1 pk_base_refresh_time#6bc20062 pk_base_review_fields#7dff6aef pk_base_selling_points#6579a11e pk_base_theme#6579a11e pk_base_user_brands#6579a11e pk_clue_dealer_page#20827cc8 pk_clue_douyin_pool#5e7726a8 pk_clue_market_page#1051b0bd pk_clue_push_page#8486b93c pk_clue_rank_account#07f0e48a pk_clue_rank_account_export#07f0e48a pk_clue_rank_dealer#634fa182 pk_clue_rank_dealer_account_export#07f0e48a pk_clue_rank_dealer_export#634fa182 pk_clue_rank_type#e3014b03 pk_clue_rank_type_export#e3014b03 pk_creative_cut_config#6579a11e pk_creative_material_dealer_music_page#e1b0e36d pk_creative_material_dealer_picture_page#f6ed8e36 pk_creative_material_dealer_serials#e9dfe6bc pk_creative_material_dealer_video_page#6d70a326 pk_creative_material_dealer_word_page#1b9a9ce9 pk_creative_material_music_page#e1b0e36d pk_creative_material_picture_page#f6ed8e36 pk_creative_material_serials#e9dfe6bc pk_creative_material_video_page#6d70a326 pk_creative_material_word_page#1b9a9ce9 pk_creative_popup#288bee31 pk_creative_statistics#5a4424e4 pk_creative_tagging_tasks#e3d81798 pk_galois_button_click#5f377f52 pk_galois_button_rank#d4d516b0 pk_galois_card_query#22323cf7 pk_galois_org_summary#26d54ac8 pk_galois_page_list#0da6ad55 pk_galois_page_pv#f61b6ce4 pk_galois_page_rank#81b4b290 pk_galois_traffic_trend#35d4ffc2 pk_galois_traffic_trend_page#7f06fc09 pk_galois_user_dealer_rank#3ce5a183 pk_galois_user_summary#37c7f237 pk_galois_uv_summary#abbfb757 pk_notice_list#dc92a499 pk_notice_user_list#e1d32c25 pk_order_dealer_page#16f72951 pk_order_page#16f72951 pk_order_store_page#9343f88d pk_rank_account_area#fdd40d46 pk_rank_account_city#bf0035d7 pk_rank_account_list#cf2c8fdc pk_rank_account_province#bf0035d7 pk_rank_account_summary#9b40774f pk_rank_dealer_list#418996ff pk_rank_dealer_list_compact#0d91967b pk_rank_dealer_summary#b9281fce pk_rank_live_account#f862d021 pk_rank_live_area#022f97e0 pk_rank_live_calendar#5738fc38 pk_rank_live_changan#5738fc38 pk_rank_live_changan_deleted#5738fc38 pk_rank_live_city#936c7ab7 pk_rank_live_district#936c7ab7 pk_rank_live_list#5738fc38 pk_rank_live_province#936c7ab7 pk_rank_live_summary#5738fc38 pk_rank_live_summary_changan#5738fc38 pk_rank_pmsg_area#475d78eb pk_rank_pmsg_list#3c3555fe pk_rank_video_account#d8bece29 pk_rank_video_area#fa6e7e4c pk_rank_video_changan#4775fdfa pk_rank_video_changan_deleted#4775fdfa pk_rank_video_city#838f1df5 pk_rank_video_district#838f1df5 pk_rank_video_list#4775fdfa pk_rank_video_province#838f1df5 pk_rank_video_summary#4775fdfa pk_rank_video_summary_changan#4775fdfa pk_task_completion_aggregate#fcbb76c6 pk_task_dealer_detail#2a9c21ec pk_task_dealer_list#964ba4d0 pk_task_dept_progress#3cccf34f pk_task_detail#4a941e1f pk_task_interactive_dealer_detail#4fb946c9 pk_task_interactive_dealer_page#5c4a0706 pk_task_interactive_dealer_process#f45228ba pk_task_interactive_dealer_summary#a7904a12 pk_task_interactive_detail#0b0c1de2 pk_task_interactive_page#5c4a0706 pk_task_interactive_rank#f2724fda pk_task_interactive_summary#0b0c1de2 pk_task_list#265e7350 pk_task_live_invalid_page#932c083a pk_task_live_member_progress#9d2be5f0 pk_task_live_progress_desc#251e5352 pk_task_live_progress_summary#4c3a3690 pk_task_video_invalid_page#32fbc814 pk_task_video_member_progress#9d2be5f0 pk_task_video_progress_desc#251e5352 pk_task_video_progress_summary#4c3a3690 pk_user_areas#6579a11e pk_user_dealers#6579a11e pk_user_districts#6579a11e pk_user_zones#6579a11e
-= af134025 getFieldOffice listHearingOffices offices
 = af275302 enrich_by_email#c5bb0e4e enrich_by_linkedin#03b28935 validate_email#64b098fc
 = af2d3272 get_driving_route#bd4d4002
 = af32c904 analyze_tickets#70ff5cd6 generate_machine_report#89d8542d generate_ticket_list_report#36510f16 generate_ticket_report#11ebcc1c get_asset_details#88ac38fd get_machine_details#89d8542d get_machines_outdated_agent#fbec2b03 get_my_ticket_details#869c27b1 get_my_tickets#f3774089 get_recent_machines#be18062e get_recent_tickets#4e7eaedf get_ticket_details#1490d376 search_assets#a3732d64 search_machines#fe1dafb8 search_tickets#872c4696
@@ -2106,6 +2105,7 @@
 = c0b28fe5 about_btwzoeken#a6449078 fetch#b0798c20 get_annual_accounts#8970876e get_company#8970876e get_officers#8970876e get_public_funding#8970876e list_activities#67cbf566 search#75da64a6 search_companies#55e44b7a
 = c0ba53da findProfiles getAvailability getBookingForm getEventTypes
 = c0bafecb get-blog-post#33db4215 get-changelog#56f1590b get-deploy-provider#a8db9927 get-documentation-page#e8adecc2 get-getting-started-guide#da73f29e get-module#5af3cf08 get-nuxter#185d03f8 list-blog-posts#a6449078 list-deploy-providers#a6449078 list-documentation-pages#5c41b03d list-modules#88690c4c list-nuxters#bf54c110 search-documentation#0f7f1087
+= c0eeadae aljStats getFieldOffice listHearingOffices offices
 = c0f2d75f addFavorite addToCart checkSizeAvailability checkStoreAvailability findStores getCart getLaunch getMemberProfile getOrder getProduct getProductReviews getSizeChart listCategories listCategoryProducts listFavorites listOrders lookupGuestOrder removeFavorite removeFromCart searchProducts upcomingLaunches updateMemberProfile
 = c0f3cb8f create_order#0a9beb6d get_order#4adeb674 get_payment_status#4adeb674 get_product#68a65b3a list_filters#6c8a8df8 list_np_cities#dd8b4d61 list_np_departments#59798ef0 list_orders#21c5bb7b list_payment_methods#188ce636 list_pickup_points#11bed867 logout#818226dc pay_order#d2955f0e quote_order#bf6446eb request_login_code#201f95c5 search_products#eba092dd send_payment_link_sms#4adeb674 verify_login_code#3836bc1f
 = c0fcf571 get_account_usage#daea6ffc get_category_details#0ec0e344 get_technology_details#d6e0a90c list_categories#daea6ffc lookup_website_technologies#d1b53c08
@@ -52593,6 +52593,7 @@ auramonaco.de	bb34c1bd
 auraplusplus.com	ac1857ba
 aurarollons.myshopify.com	a9af6443
 auratenewyork.com	4479a458
+aureadress.com.br	da39a3ee
 auregistre.fr	68bffda0
 aurelia-wardrobe.myshopify.com	a9af6443
 aurelie-declercq-veterinaire.myshopify.com	a9af6443
@@ -52962,6 +52963,7 @@ avenuehealthcare.com	3559d7ac
 avenues-3.myshopify.com	a9af6443
 avenuethelabel.myshopify.com	a9af6443
 avera.mx	4479a458
+average-rent.com	da39a3ee
 averagejoefirearms.com	bb34c1bd
 averagesucks.myshopify.com	a9af6443
 averdo.com	8b50d914
@@ -64322,6 +64324,7 @@ cole-hamels.myshopify.com	a9af6443
 cole-stevens-naturals-llc.myshopify.com	a9af6443
 cole-tac.com	bb34c1bd
 cole.shop	a9af6443
+coleandharrison.com	da39a3ee
 colebuxton.com	37007769
 coleclark.myshopify.com	a9af6443
 colecolrs.myshopify.com	a9af6443
@@ -68725,6 +68728,7 @@ dermaqual.com	bb34c1bd
 dermarolleronlinestore.co.za	bb34c1bd
 dermasalt.myshopify.com	a9af6443
 dermassageshop.myshopify.com	a9af6443
+dermatics.in	da39a3ee
 dermatologists.co.za	bb34c1bd
 dermatology-and-skin-care-of-maryland.myshopify.com	a9af6443
 dermatomedica-23.myshopify.com	a9af6443
@@ -74581,6 +74585,7 @@ exa.ai	fbc0f7e4
 exagym.com.au	bb34c1bd
 exam-banks.com	bb34c1bd
 exambase.org	bb34c1bd
+examcart.in	da39a3ee
 examkill.com	bb34c1bd
 example-furniture-store.myshopify.com	a9af6443
 example.myshopify.com	a9af6443
@@ -78404,6 +78409,7 @@ friendship-centre-2.myshopify.com	a9af6443
 friendship-for-life.myshopify.com	a9af6443
 friendshipart.net	bb34c1bd
 friendshipforce.myshopify.com	a9af6443
+friendshome.pk	da39a3ee
 friendsmission.com	05a9bb9e
 friendsofcanadianmedia.myshopify.com	a9af6443
 friendsofoas.myshopify.com	a9af6443
@@ -78841,6 +78847,7 @@ furryfreshness.myshopify.com	a9af6443
 furshutnow.shop	4479a458
 further-seems-forever.myshopify.com	a9af6443
 furthestplace.myshopify.com	a9af6443
+furugiya800.com	da39a3ee
 fusako-koike-paris.myshopify.com	a9af6443
 fusalp.com	4479a458
 fuse-brussels.myshopify.com	a9af6443
@@ -81251,6 +81258,7 @@ golf-puppets-in-a-bag.myshopify.com	a9af6443
 golf-sidekick.myshopify.com	a9af6443
 golf-und-naturpark.myshopify.com	a9af6443
 golf.com	5cd84a18
+golfapparelshop.com	da39a3ee
 golfballs4you.co.uk	bb34c1bd
 golfbase.co.uk	da39a3ee
 golfbpm.myshopify.com	a9af6443
@@ -82370,6 +82378,7 @@ gropyus.com	685e74a3
 grosche.ca	da39a3ee
 grosh.com	05a9bb9e
 gross-mccleaf.myshopify.com	a9af6443
+grossiste-maquillage-yes-love.com	da39a3ee
 grossmann-audio.de	bb34c1bd
 grossostore.eu	bb34c1bd
 grosvenor-flooring.com	bb34c1bd
@@ -82474,6 +82483,7 @@ grupodecme.com	4479a458
 gruporojemac.com.br	4479a458
 grupotraining.org.uk	bb34c1bd
 gruuvshop.myshopify.com	a9af6443
+gruv.ca	da39a3ee
 gruv.com	4479a458
 gryc-tuck-shop.myshopify.com	a9af6443
 gryffonridge.com	bb34c1bd
@@ -82791,6 +82801,7 @@ gwgonline.myshopify.com	a9af6443
 gwmsmerch.myshopify.com	a9af6443
 gworks-govtech.myshopify.com	a9af6443
 gwynlewis4x4.co.uk	bb34c1bd
+gyaanstore.com	da39a3ee
 gyanarthibooks.com	bb34c1bd
 gyaneduversity.com	bb34c1bd
 gyawun.com	bb34c1bd
@@ -83660,6 +83671,7 @@ hasanalepposoap.co.nz	bb34c1bd
 hasbro-pulse-eu.myshopify.com	a9af6443
 hasdata.com	da39a3ee
 hasedorganics.myshopify.com	a9af6443
+haseebarts.pk	da39a3ee
 haseena.co	a9af6443
 hasegawa.jp	4479a458
 hasegawaseika.myshopify.com	a9af6443
@@ -85227,6 +85239,7 @@ ho-ho-ho-christmas-tree-lot.myshopify.com	a9af6443
 hoamemberservices.com	bb34c1bd
 hoamesim.com	f803eded
 hoang-tuan-origami-shop.myshopify.com	a9af6443
+hoanghaimobile.jp	da39a3ee
 hoanghamobile.com	023f6c62
 hoanzone.myshopify.com	a9af6443
 hoardinghomesolutions.com.au	bb34c1bd
@@ -91319,6 +91332,7 @@ kaelindesign.com	bb34c1bd
 kaeltebringer.de	4479a458
 kaen-shop-store.myshopify.com	a9af6443
 kaercp2.myshopify.com	a9af6443
+kaeruleon.jp	da39a3ee
 kaesbach-meisterbetrieb.myshopify.com	a9af6443
 kaesler.com.au	bb34c1bd
 kaffebox.no	bb34c1bd
@@ -91452,6 +91466,7 @@ kaloommatextiles.com	bb34c1bd
 kalori.jp	db72cf7f
 kalorik.ca	a9af6443
 kalorik.myshopify.com	a9af6443
+kalpraag.com	da39a3ee
 kalshi.com	ebcec5d5
 kalteq.com	bb34c1bd
 kaltoons.myshopify.com	a9af6443
@@ -91923,6 +91938,7 @@ kayturestylings.myshopify.com	a9af6443
 kaz-technologies.myshopify.com	a9af6443
 kazamidorihonpo.myshopify.com	a9af6443
 kazbros.com	a9af6443
+kazeliving.com	da39a3ee
 kazkreatez.myshopify.com	a9af6443
 kazokunokai.myshopify.com	a9af6443
 kazootoysatlanta.com	bb34c1bd
@@ -92751,6 +92767,7 @@ kingmin.org	bb34c1bd
 kingofausome.com	a9af6443
 kingofchristmas.com	4479a458
 kingofcotton.com	da39a3ee
+kingoflenses.com.br	da39a3ee
 kingofthehill.shop	bb34c1bd
 kingoutdoorsonline.com	bb34c1bd
 kingpalm.com	4479a458
@@ -93106,11 +93123,13 @@ kmboutiques.com	bb34c1bd
 kmdtheedit.myshopify.com	a9af6443
 kmikeym.myshopify.com	a9af6443
 kmjukf-7d.myshopify.com	a9af6443
+kmmotos.com	da39a3ee
 kmn5fy-3k.myshopify.com	a9af6443
 kmndzart.myshopify.com	a9af6443
 kmpdrivetrain.com	bb34c1bd
 kmshooting.com	bb34c1bd
 kmzerotours.com	bb34c1bd
+kn926.net	da39a3ee
 kn9pcx-0r.myshopify.com	a9af6443
 knackcare.com	bb34c1bd
 knappconnectors.com	bb34c1bd
@@ -96052,6 +96071,7 @@ lightly.com.au	bb34c1bd
 lightmantechnology.myshopify.com	a9af6443
 lightmodehelmets.myshopify.com	a9af6443
 lightmoves.com.au	bb34c1bd
+lightmybricks.com	da39a3ee
 lightningboltchiropractic.com	bb34c1bd
 lightningknight.myshopify.com	a9af6443
 lightningrentals.com.au	bb34c1bd
@@ -98497,6 +98517,7 @@ madebymija.myshopify.com	a9af6443
 madebymitchell.co.uk	da39a3ee
 madebymollyco.com	da39a3ee
 madebymutant.com	4479a458
+madebyripples.com	da39a3ee
 madebysana.myshopify.com	a9af6443
 madebysociety.ro	4479a458
 madecentro.com	4479a458
@@ -98575,6 +98596,7 @@ madoorablecreations.myshopify.com	a9af6443
 madoriss-jewelry.myshopify.com	a9af6443
 madpixel.myshopify.com	a9af6443
 madpoppin.myshopify.com	a9af6443
+madrabbit.com	da39a3ee
 madram11-productions.myshopify.com	a9af6443
 madrassarees.com	4479a458
 madrid-bronze.myshopify.com	a9af6443
@@ -98822,6 +98844,7 @@ mailerlite.com	0af6175c
 mailinator.com	30092f8f
 mailledepique.myshopify.com	a9af6443
 mailslurp.com	da39a3ee
+mailtester.com	da39a3ee
 mailtester.ninja	a1d9b4dc
 mailtrail.org.uk	bb34c1bd
 maimonides-livres.myshopify.com	a9af6443
@@ -100607,6 +100630,7 @@ mediacast.ua	cce9fb4c
 mediadvicepharmacy.com	bb34c1bd
 mediagear.ee	bb34c1bd
 mediahoek.nl	a9af6443
+mediamarkt.lu	da39a3ee
 mediashop.tv	4479a458
 mediaspace.mu	bb34c1bd
 mediastrone.com	bb34c1bd
@@ -104560,6 +104584,7 @@ mydealsfortwayne.com	bb34c1bd
 mydearnikes.myshopify.com	a9af6443
 mydesignation.com	37007769
 mydesignrepublic.myshopify.com	a9af6443
+mydesigns.io	da39a3ee
 mydiamond.ph	a9af6443
 mydietitian.myshopify.com	a9af6443
 mydigimenu.com	685e74a3
@@ -107244,6 +107269,7 @@ notahdineh.myshopify.com	a9af6443
 notanotherbunchofflowers.com	bb34c1bd
 notarochiropracticoffices.com	bb34c1bd
 notary.net	bb34c1bd
+notarylive.com	da39a3ee
 notationcentral.com	bb34c1bd
 notbranded.com	37007769
 notbranded.de	8b50d914
@@ -111352,6 +111378,7 @@ pelly.se	bb34c1bd
 pelmareng.com	bb34c1bd
 pelnyc.myshopify.com	a9af6443
 pelotonia.myshopify.com	a9af6443
+pelsbarn.de	da39a3ee
 pelsbarn.org	4479a458
 pelsbarn.se	a9af6443
 peltjazz-publishing.myshopify.com	a9af6443
@@ -118568,6 +118595,7 @@ rohct-wellness.myshopify.com	a9af6443
 rohitsahu.net	bb34c1bd
 rohloff.co.za	bb34c1bd
 rohrverbinder-shop.myshopify.com	a9af6443
+rohwrestling.com	da39a3ee
 roidcare.com	bb34c1bd
 roidchemstore.com	bb34c1bd
 roideu.com	bb34c1bd
@@ -120068,6 +120096,7 @@ saltandstraw.com	4479a458
 saltbox-brewing-company.myshopify.com	a9af6443
 saltbox-lane.myshopify.com	a9af6443
 saltchamber.myshopify.com	a9af6443
+saltedau.com	da39a3ee
 saltgone.myshopify.com	a9af6443
 salthay.com	a9af6443
 saltiregames.myshopify.com	a9af6443
@@ -123326,6 +123355,7 @@ shopspot.pk	bb34c1bd
 shopsprees.com	bb34c1bd
 shopsta.co	da39a3ee
 shopsta.es	4479a458
+shopsta.no	da39a3ee
 shopstaceyhawkins.myshopify.com	a9af6443
 shopstorm.myshopify.com	a9af6443
 shopstyleandvibes.myshopify.com	a9af6443
@@ -126778,7 +126808,7 @@ ss-moto.myshopify.com	a9af6443
 ss-remos.myshopify.com	a9af6443
 ss-try-on.myshopify.com	61e64875
 ss.ge	f56c4299
-ssa.gov	af134025
+ssa.gov	c0eeadae
 ssaw-magazine.myshopify.com	a9af6443
 ssbalustrade.com	bb34c1bd
 ssbfactory.com	bb34c1bd
@@ -128400,6 +128430,7 @@ sun-sun33.myshopify.com	a9af6443
 sun-sure-estates.com	bb34c1bd
 sun-valley-community-school.myshopify.com	a9af6443
 sun.io	1487434a
+sun.store	da39a3ee
 suna-cottons.myshopify.com	a9af6443
 sunaho.myshopify.com	a9af6443
 sunandmooncouture.myshopify.com	a9af6443
@@ -132862,6 +132893,7 @@ thegreatbazar.best	a9af6443
 thegreatbritishbookshop.co.uk	4479a458
 thegreatergoodphx.myshopify.com	a9af6443
 thegreatescapeguns.com	bb34c1bd
+thegreatfroglondon.com	da39a3ee
 thegreenace.org	bb34c1bd
 thegreenbakery.com.au	bb34c1bd
 thegreencityla.com	bb34c1bd
