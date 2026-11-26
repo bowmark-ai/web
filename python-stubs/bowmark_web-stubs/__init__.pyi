@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5fcd95e25046b6bb20eea763196447f0f1f651c53eb38561148d5f8dfda55620
-# 102 capabilities, 995 providers, 6239 typed functions, 20 refused.
+# Manifest version: 305491b9521b6344d804715bde48735808fe8f26d7f9734bad6216790d9bff20
+# 102 capabilities, 997 providers, 6251 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -35498,6 +35498,22 @@ class Prv_fidelity_FidelityCalculatorList_Out_calculators_item_Out(TypedDict):
     topics: list[str]
     products: list[str]
 
+class Prv_fidelity_FindBranchArgs_In(TypedDict):
+    state: NotRequired[str]
+    city: NotRequired[str]
+    zip: NotRequired[str]
+
+class Prv_fidelity_FidelityBranchList_Out(TypedDict):
+    url: str
+    count: float
+    branches: list[Prv_fidelity_FidelityBranchList_Out_branches_item_Out]
+
+class Prv_fidelity_FidelityBranchList_Out_branches_item_Out(TypedDict):
+    city: str
+    state: str
+    zip: str
+    url: str
+
 class Prv_fidelity_FidelityTradingCommissions_Out(TypedDict):
     url: str
     commissions: list[Prv_fidelity_FidelityTradingCommissions_Out_commissions_item_Out]
@@ -43950,6 +43966,23 @@ class Prv_hilton_HiltonHotelDetails_Out_address_Out(TypedDict):
     region: str | None
     postalCode: str | None
     countryCode: str
+
+class Prv_hilton_HiltonHotelReviews_Out(TypedDict):
+    slug: str
+    source: Literal["TripAdvisor"]
+    rating: float | None
+    reviewCount: float | None
+    reviews: list[Prv_hilton_HiltonReview_Out]
+
+class Prv_hilton_HiltonReview_Out(TypedDict):
+    id: float
+    title: str | None
+    text: str | None
+    rating: float | None
+    publishedDate: str | None
+    travelDate: str | None
+    author: str | None
+    url: str | None
 
 class Prv_hilton_HiltonHonorsPrograms_Out(TypedDict):
     tiers: list[Prv_hilton_HiltonHonorsTier_Out]
@@ -62272,6 +62305,19 @@ class Prv_pallet2ship_Pallet2ShipQuote_Out(TypedDict):
     earliestCollection: str | None
     transit: str | None
     estimatedDelivery: str | None
+
+class Prv_paramountplus_searchTitlesArgs_In(TypedDict):
+    query: str
+
+class Prv_paramountplus_searchTitlesResult_Out(TypedDict):
+    titles: list[Prv_paramountplus_suggestedTitle_Out]
+
+class Prv_paramountplus_suggestedTitle_Out(TypedDict):
+    title: str
+    kind: Literal["show"] | Literal["movie"]
+    showId: NotRequired[float]
+    movieId: NotRequired[float]
+    contentId: NotRequired[str]
 
 class Prv_partiful_GetEventArgs_In(TypedDict):
     url: str
@@ -82452,6 +82498,63 @@ class Prv_theatlantic_browseTopic_return_Out_topic_Out(TypedDict):
     name: str
     slug: str
 
+class Prv_theatlantic_browseCategory_category_u1_In(TypedDict):
+    category: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_theatlantic_getRelatedArticles_article_u1_In(TypedDict):
+    id: str
+    limit: NotRequired[float]
+
+class Prv_theatlantic_getRelatedArticles_return_Out(TypedDict):
+    heading: str | None
+    results: list[Prv_theatlantic_AtlanticArticleRow_Out]
+
+class Prv_theatlantic_listMagazineIssues_args_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+    page: NotRequired[float]
+    decade: NotRequired[float]
+
+class Prv_theatlantic_listMagazineIssues_return_Out(TypedDict):
+    results: list[Prv_theatlantic_AtlanticMagazineIssue_Out]
+    returned: float
+    nextCursor: str | None
+
+class Prv_theatlantic_AtlanticMagazineIssue_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    coverDate: str | None
+    datePublished: str | None
+    dek: str | None
+
+class Prv_theatlantic_getMagazineIssue_issue_u1_In(TypedDict):
+    slug: str
+
+class Prv_theatlantic_AtlanticMagazineIssueDetail_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    coverDate: str | None
+    datePublished: str | None
+    dek: str | None
+    sections: list[Prv_theatlantic_AtlanticMagazineIssueDetail_Out_sections_item_Out]
+
+class Prv_theatlantic_AtlanticMagazineIssueDetail_Out_sections_item_Out(TypedDict):
+    title: str
+    items: list[Prv_theatlantic_AtlanticTocItem_Out]
+
+class Prv_theatlantic_AtlanticTocItem_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    dek: str | None
+    rubric: str | None
+    authors: list[Prv_theatlantic_AtlanticAuthor_Out]
+
 class Prv_thefork_TheforkSearchArgs_In(TypedDict):
     query: str
     near: NotRequired[str]
@@ -82776,6 +82879,65 @@ class Prv_theguardian_com_GuardianComment_Out(TypedDict):
     author: str
     published: str
     recommends: float
+
+class Prv_thehartford_HartfordBusinessTypes_Out(TypedDict):
+    query: str
+    types: list[str]
+
+class Prv_thehartford_HartfordQuoteArgs_In(TypedDict):
+    contact: Prv_thehartford_HartfordContact_In
+    business: Prv_thehartford_HartfordBusiness_In
+    address: Prv_thehartford_HartfordQuoteArgs_In_address_In
+    ownOrRent: Literal["own"] | Literal["rent"]
+    locationType: NotRequired[Literal["commercialBuilding"] | Literal["commercialCondominium"] | Literal["personalResidence"]]
+    coverages: Sequence[Literal["generalLiability"] | Literal["property"] | Literal["professionalLiability"] | Literal["workersCompensation"] | Literal["commercialAuto"]]
+    answers: NotRequired[Mapping[str, str]]
+
+class Prv_thehartford_HartfordContact_In(TypedDict):
+    firstName: str
+    lastName: str
+    email: str
+    phone: str
+
+class Prv_thehartford_HartfordBusiness_In(TypedDict):
+    name: str
+    structure: Literal["llc"] | Literal["corporation"] | Literal["sCorporation"] | Literal["professionalCorporation"] | Literal["soleProprietor"] | Literal["partnership"] | Literal["llp"] | Literal["jointVenture"] | Literal["association"]
+    type: str
+    description: str
+    annualSales: float
+    squareFeet: float
+    officers: NotRequired[float]
+    employees: NotRequired[float]
+    website: NotRequired[str]
+    insuredNow: NotRequired[bool]
+
+class Prv_thehartford_HartfordQuoteArgs_In_address_In(TypedDict):
+    street: str
+    zip: str
+    suite: NotRequired[str]
+
+class Prv_thehartford_HartfordQuote_Out(TypedDict):
+    premium: float
+    period: Literal["annual"] | Literal["monthly"]
+    products: list[Prv_thehartford_HartfordQuote_Out_products_item_Out]
+    limits: list[Prv_thehartford_HartfordQuote_Out_limits_item_Out]
+    quoteNumber: str | None
+    businessType: str
+    assumed: list[Prv_thehartford_HartfordQuote_Out_assumed_item_Out]
+    quoteUrl: str
+
+class Prv_thehartford_HartfordQuote_Out_products_item_Out(TypedDict):
+    name: str
+    premium: float
+    period: Literal["annual"] | Literal["monthly"]
+
+class Prv_thehartford_HartfordQuote_Out_limits_item_Out(TypedDict):
+    name: str
+    amount: float
+
+class Prv_thehartford_HartfordQuote_Out_assumed_item_Out(TypedDict):
+    question: str
+    answer: str
 
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -91655,6 +91817,33 @@ class Prv_whatsapp_WhatsappGroupEventRow_Out(TypedDict):
 class Prv_whatsapp_WhatsappCancelledEvent_Out(TypedDict):
     group: str
     title: str
+
+class Prv_whatsapp_editGroupEvent_edit_In(TypedDict):
+    name: NotRequired[str]
+    date: NotRequired[str]
+    time: NotRequired[str]
+    location: NotRequired[str]
+    description: NotRequired[str]
+
+class Prv_whatsapp_WhatsappEditedEvent_Out(TypedDict):
+    group: str
+    title: str
+    changed: list[str]
+
+class Prv_whatsapp_editContact_edit_In(TypedDict):
+    name: NotRequired[str]
+    phone: NotRequired[str]
+
+class Prv_whatsapp_WhatsappEditedContact_Out(TypedDict):
+    contact: str
+    changed: list[str]
+
+class Prv_whatsapp_updateCommunity_update_In(TypedDict):
+    description: str
+
+class Prv_whatsapp_WhatsappCommunityChange_Out(TypedDict):
+    community: str
+    changed: list[str]
 
 class Prv_whatsapp_sendMedia_file_In(TypedDict):
     name: str
@@ -114899,6 +115088,11 @@ class Prv_fidelity(Protocol):
         description, type, topics and products.
         """
 
+    async def findBranch(self, filters: Prv_fidelity_FindBranchArgs_In, /) -> Prv_fidelity_FidelityBranchList_Out:
+        """Finds Fidelity investor centers (about 217 branches) by state, city or ZIP prefix: city,
+        state, ZIP and page link.
+        """
+
     async def getTradingCommissions(self, /) -> Prv_fidelity_FidelityTradingCommissions_Out:
         """Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds),
         margin rates by debit balance with the current base rate, and the account fee schedule.
@@ -119808,6 +120002,11 @@ class Prv_hilton(Protocol):
         """Reads one Hilton-family property from its public pages (no browser): name, address,
         coordinates, phone, fax, description, image and the Hotel Info amenity labels, for a
         hilton.com property slug. Policies (check-in/out, pets) are not returned.
+        """
+
+    async def getHotelReviews(self, args: Prv_hilton_HiltonHotelDetailsArgs_In, /) -> Prv_hilton_HiltonHotelReviews_Out:
+        """Reads a Hilton-family property's TripAdvisor guest score, total review count and the
+        latest reviews its page embeds (no browser), for a hilton.com property slug.
         """
 
     async def getHonorsPrograms(self, /) -> Prv_hilton_HiltonHonorsPrograms_Out:
@@ -129373,6 +129572,17 @@ class Prv_pallet2ship(Protocol):
         postcode the site does not recognise.
         """
 
+class Prv_paramountplus(Protocol):
+    """Paramount+ streaming: search the US catalogue, read shows, episodes and movies, and
+    manage the caller's own watchlist and profiles.
+    """
+
+    async def searchTitles(self, args: Prv_paramountplus_searchTitlesArgs_In, /) -> Prv_paramountplus_searchTitlesResult_Out:
+        """Searches the Paramount+ US catalogue for shows and movies by words, returning each hit's
+        showId (shows) or contentId and movieId (movies). Takes `query`. Returns the site's own
+        ranked suggestions, a short list, not a full results page.
+        """
+
 class Prv_partiful(Protocol):
     """Partiful events — read one public event's date, time and timezone, venue name and full
     street address (which the page shows only inside its map), hosts, guest counts, whether
@@ -138896,6 +139106,26 @@ class Prv_theatlantic(Protocol):
         story's tags (getArticle).
         """
 
+    async def browseCategory(self, category: str | Prv_theatlantic_browseCategory_category_u1_In, /) -> Prv_theatlantic_AtlanticArticlePage_Out:
+        """Lists the stories in one category or series, such as fiction or features; take a
+        category slug from listSections. Paged.
+        """
+
+    async def getRelatedArticles(self, article: str | Prv_theatlantic_getRelatedArticles_article_u1_In, /) -> Prv_theatlantic_getRelatedArticles_return_Out:
+        """Lists the stories The Atlantic recommends alongside one story. Takes an article id or
+        URL.
+        """
+
+    async def listMagazineIssues(self, args: Prv_theatlantic_listMagazineIssues_args_In, /) -> Prv_theatlantic_listMagazineIssues_return_Out:
+        """Lists the print magazine's issues, newest first, optionally by decade (such as 1990),
+        the door for getMagazineIssue.
+        """
+
+    async def getMagazineIssue(self, issue: str | Prv_theatlantic_getMagazineIssue_issue_u1_In, /) -> Prv_theatlantic_AtlanticMagazineIssueDetail_Out:
+        """Reads one magazine issue and its table of contents by section. Takes an issue slug like
+        202612 from listMagazineIssues; omit it for the latest issue.
+        """
+
 class Prv_thefork(Protocol):
     """TheFork — Europe's restaurant reservation site (Spain, France, Italy, Portugal…): find a
     restaurant by name, e.g. a tapas bar in Barcelona, and get its booking page.
@@ -139051,6 +139281,27 @@ class Prv_theguardian_com(Protocol):
         """Reader comments on one Guardian article — author, body, publish time and recommend
         count, newest first. Takes a theguardian.com URL or the `id` getArticle returns. Throws
         if the article was never open for comments.
+        """
+
+class Prv_thehartford(Protocol):
+    """Real small-business insurance quotes (BOP, general liability, professional liability,
+    workers' comp) from The Hartford's public online quote flow.
+    """
+
+    async def findBusinessTypes(self, query: str, /) -> Prv_thehartford_HartfordBusinessTypes_Out:
+        """Lists The Hartford's small-business classes (business types) matching a word, from its
+        quote wizard's own search, so getSmallBusinessQuote can take one verbatim.
+        """
+
+    async def getSmallBusinessQuote(self, args: Prv_thehartford_HartfordQuoteArgs_In, /) -> Prv_thehartford_HartfordQuote_Out:
+        """Needs the business owner's OWN name, email and phone (ask; never invent — submitting
+        them is consent to marketing calls from The Hartford and Tivly) and the business's
+        street address. Returns a real small-business insurance premium from The Hartford's own
+        online quote flow: general liability, property (with GL, a BOP), professional liability,
+        workers' comp or commercial auto, with the premium per line, the coverage limits, and
+        `assumed` (every Yes/No question defaulted to No). Takes the business type exactly as
+        findBusinessTypes lists it; class questions with no 'none' option must be passed in
+        `answers`. Reads a price and stops; nothing is bought or bound.
         """
 
 class Prv_therabody(Protocol):
@@ -143573,6 +143824,23 @@ class Prv_whatsapp(Protocol):
         Needs the caller signed in.
         """
 
+    async def editGroupEvent(self, group: str, title: str, edit: Prv_whatsapp_editGroupEvent_edit_In, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappEditedEvent_Out:
+        """Edits an event the caller created in a group, the group picked by its exact displayed
+        name and the event by its title: name, date, time, location or description (Edit event,
+        then Save). Only the event's creator can. Throws, changing nothing, if the group has no
+        event with that title. Needs the caller signed in.
+        """
+
+    async def editContact(self, contactName: str, edit: Prv_whatsapp_editContact_edit_In, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappEditedContact_Out:
+        """Edits a contact the caller has saved, picked by its exact displayed name: its name or
+        phone number. Needs the caller signed in.
+        """
+
+    async def updateCommunity(self, community: str, update: Prv_whatsapp_updateCommunity_update_In, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappCommunityChange_Out:
+        """Changes a community's description as its admin, the community picked by its exact
+        displayed name in the Communities tab. Needs the caller signed in.
+        """
+
     async def sendMedia(self, chatName: str, file: Prv_whatsapp_sendMedia_file_In, caption: str | None = None, viewOnce: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappSentMedia_Out:
         """Sends a file as the caller to a chat opened by its exact displayed name: an image or
         video with an optional caption, or a document. The file is passed as base64 with its
@@ -143789,10 +144057,11 @@ class Prv_whatsapp(Protocol):
         Needs the caller signed in.
         """
 
-    async def updateChat(self, chatName: str, update: Prv_whatsapp_updateChat_update_In, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatUpdate_Out:
+    async def updateChat(self, chatName: str, update: Prv_whatsapp_updateChat_update_In, community: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatUpdate_Out:
         """Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive, pin
         or unpin, mute (8 hours, 1 week or always) or unmute, mark read or unread. The chat is
-        opened by its exact displayed name. Needs the caller signed in.
+        opened by its exact displayed name; pass community, the community's exact name, for a
+        group that sits inside one. Needs the caller signed in.
         """
 
     async def createGroup(self, name: str, participants: Sequence[str], opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupChange_Out:
@@ -147198,6 +147467,7 @@ class BowmarkProviders(Protocol):
     pacificlifestylehomes: Prv_pacificlifestylehomes
     packlane: Prv_packlane
     pallet2ship: Prv_pallet2ship
+    paramountplus: Prv_paramountplus
     partiful: Prv_partiful
     partsgeek: Prv_partsgeek
     patreon: Prv_patreon
@@ -147401,6 +147671,7 @@ class BowmarkProviders(Protocol):
     theatlantic: Prv_theatlantic
     thefork: Prv_thefork
     theguardian_com: Prv_theguardian_com
+    thehartford: Prv_thehartford
     therabody: Prv_therabody
     therowhouse: Prv_therowhouse
     thestowcompany: Prv_thestowcompany

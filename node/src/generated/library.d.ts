@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5fcd95e25046b6bb20eea763196447f0f1f651c53eb38561148d5f8dfda55620
-// 102 capabilities, 995 providers, 6267 typed functions, 20 refused.
+// Manifest version: 305491b9521b6344d804715bde48735808fe8f26d7f9734bad6216790d9bff20
+// 102 capabilities, 997 providers, 6279 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -54325,6 +54325,18 @@ interface FidelityCalculatorList {
   calculators: { name: string; url: string | null; description: string; contentType: string; topics: string[]; products: string[] }[];
 }
 
+interface FindBranchArgs {
+  state?: string;
+  city?: string;
+  zip?: string;
+}
+
+interface FidelityBranchList {
+  url: string;
+  count: number;
+  branches: { city: string; state: string; zip: string; url: string }[];
+}
+
 interface FidelityTradingCommissions {
   url: string;
   commissions: { category: string; item: string; fee: string }[];
@@ -54393,6 +54405,12 @@ interface FidelityTradingCommissions {
      * description, type, topics and products.
      */
     listCalculators(): Promise<FidelityCalculatorList>;
+
+    /**
+     * Finds Fidelity investor centers (about 217 branches) by state, city or ZIP prefix: city,
+     * state, ZIP and page link.
+     */
+    findBranch(filters: FindBranchArgs): Promise<FidelityBranchList>;
 
     /**
      * Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds), margin
@@ -68292,6 +68310,25 @@ interface HiltonHotelDetailsArgs {
   hotelSlug: string; // The property's hilton.com URL slug, the segment after /en/hotels/, e.g. "amswawa-waldorf-astoria-amsterdam".
 }
 
+interface HiltonHotelReviews {
+  slug: string;
+  source: "TripAdvisor";
+  rating: number | null; // Overall score out of 5.
+  reviewCount: number | null; // All reviews on TripAdvisor, not just those returned.
+  reviews: HiltonReview[]; // The latest few the page embeds (about 5), newest first.
+}
+
+interface HiltonReview {
+  id: number;
+  title: string | null;
+  text: string | null;
+  rating: number | null; // Stars out of 5.
+  publishedDate: string | null; // ISO timestamp.
+  travelDate: string | null; // YYYY-MM the guest stayed.
+  author: string | null;
+  url: string | null; // The review on TripAdvisor.
+}
+
   /** Hilton-family hotel search, award availability, reservation lookup and property details. */
   interface Unit {
     /**
@@ -68319,6 +68356,12 @@ interface HiltonHotelDetailsArgs {
      * hilton.com property slug. Policies (check-in/out, pets) are not returned.
      */
     getHotelDetails(args: HiltonHotelDetailsArgs): Promise<HiltonHotelDetails>;
+
+    /**
+     * Reads a Hilton-family property's TripAdvisor guest score, total review count and the latest
+     * reviews its page embeds (no browser), for a hilton.com property slug.
+     */
+    getHotelReviews(args: HiltonHotelDetailsArgs): Promise<HiltonHotelReviews>;
 
     /**
      * Reads the published Hilton Honors tiers (Member, Silver, Gold, Diamond, Diamond Reserve)
@@ -97212,6 +97255,42 @@ interface Pallet2ShipQuoteResult {
      * not recognise.
      */
     getQuote(collectionPostcode: string, deliveryPostcode: string, pallets: Pallet2ShipPallet | Pallet2ShipPallet[]): Promise<Pallet2ShipQuoteResult>;
+  }
+}
+
+declare namespace BowmarkProvider_paramountplus {
+  // ── Paramount+ — the unit's own declarations, verbatim ──
+interface paramountplusRow {
+  id: string;
+}
+
+interface searchTitlesArgs {
+  query: string;
+}
+
+interface suggestedTitle {
+  title: string;
+  kind: "show" | "movie"; // show or movie
+  showId?: number;
+  movieId?: number;
+  contentId?: string;
+}
+
+interface searchTitlesResult {
+  titles: suggestedTitle[];
+}
+
+  /**
+   * Paramount+ streaming: search the US catalogue, read shows, episodes and movies, and manage
+   * the caller's own watchlist and profiles.
+   */
+  interface Unit {
+    /**
+     * Searches the Paramount+ US catalogue for shows and movies by words, returning each hit's
+     * showId (shows) or contentId and movieId (movies). Takes `query`. Returns the site's own
+     * ranked suggestions, a short list, not a full results page.
+     */
+    searchTitles(args: searchTitlesArgs): Promise<searchTitlesResult>;
   }
 }
 
@@ -126519,6 +126598,34 @@ interface AtlanticAuthorProfile {
   articles: AtlanticArticlePage;
 }
 
+interface AtlanticMagazineIssue {
+  slug: string;
+  name: string;
+  url: string;
+  coverDate: string | null;
+  datePublished: string | null;
+  dek: string | null;
+}
+
+interface AtlanticTocItem {
+  id: string;
+  url: string;
+  title: string;
+  dek: string | null;
+  rubric: string | null;
+  authors: AtlanticAuthor[];
+}
+
+interface AtlanticMagazineIssueDetail {
+  slug: string;
+  name: string;
+  url: string;
+  coverDate: string | null;
+  datePublished: string | null;
+  dek: string | null;
+  sections: { title: string; items: AtlanticTocItem[] }[];
+}
+
   /**
    * The Atlantic magazine: read stories in full, browse sections, writers, magazine issues,
    * newsletters, podcasts and the daily games; saved stories, followed topics, gift links,
@@ -126570,6 +126677,27 @@ interface AtlanticAuthorProfile {
      * story's tags (getArticle).
      */
     browseTopic(topic: string | {slug: string, limit?: number, cursor?: string, page?: number}): Promise<{ results: AtlanticArticleRow[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[]; nextCursor: string | null; topic: { name: string; slug: string } }>;
+
+    /**
+     * Lists the stories in one category or series, such as fiction or features; take a category
+     * slug from listSections. Paged.
+     */
+    browseCategory(category: string | {category: string, limit?: number, cursor?: string, page?: number}): Promise<AtlanticArticlePage>;
+
+    /** Lists the stories The Atlantic recommends alongside one story. Takes an article id or URL. */
+    getRelatedArticles(article: string | {id: string, limit?: number}): Promise<{ heading: string | null; results: AtlanticArticleRow[] }>;
+
+    /**
+     * Lists the print magazine's issues, newest first, optionally by decade (such as 1990), the
+     * door for getMagazineIssue.
+     */
+    listMagazineIssues(args: {limit?: number, cursor?: string, page?: number, decade?: number}): Promise<{ results: AtlanticMagazineIssue[]; returned: number; nextCursor: string | null }>;
+
+    /**
+     * Reads one magazine issue and its table of contents by section. Takes an issue slug like
+     * 202612 from listMagazineIssues; omit it for the latest issue.
+     */
+    getMagazineIssue(issue: string | {slug: string}): Promise<AtlanticMagazineIssueDetail>;
   }
 }
 
@@ -127108,6 +127236,80 @@ interface GuardianListPodcastEpisodesResult {
      * article was never open for comments.
      */
     getArticleComments(args: GuardianGetArticleCommentsArgs): Promise<GuardianArticleCommentsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_thehartford {
+  // ── The Hartford — the unit's own declarations, verbatim ──
+interface HartfordContact {
+  firstName: string; // the CALLER's own first name; ask, never invent
+  lastName: string;
+  email: string; // the caller's own email
+  phone: string; // the caller's own 10-digit US phone
+}
+
+interface HartfordBusiness {
+  name: string; // registered business name
+  structure: "llc" | "corporation" | "sCorporation" | "professionalCorporation" | "soleProprietor" | "partnership" | "llp" | "jointVenture" | "association"; // legal entity type
+  type: string; // a business type exactly as findBusinessTypes lists it
+  description: string; // what the business does, up to 255 chars
+  annualSales: number; // USD per year
+  squareFeet: number; // area the business occupies
+  officers?: number; // owners/officers, default 1
+  employees?: number; // employees besides the owners, default 0
+  website?: string;
+  insuredNow?: boolean; // already has business insurance, default false
+}
+
+interface HartfordQuoteArgs {
+  contact: HartfordContact;
+  business: HartfordBusiness;
+  // the business location
+  address: { street: string /* street address; a ZIP alone is refused by the site */; zip: string /* 5-digit ZIP */; suite?: string };
+  ownOrRent: "own" | "rent";
+  locationType?: "commercialBuilding" | "commercialCondominium" | "personalResidence"; // default commercialBuilding
+  coverages: ("generalLiability" | "property" | "professionalLiability" | "workersCompensation" | "commercialAuto")[]; // at least one; generalLiability + property is a BOP
+  answers?: Record<string, string>; // answers to class-specific questions, keyed by part of the question text; unanswered Yes/No questions default to No and are listed in `assumed`
+}
+
+interface HartfordQuote {
+  premium: number; // total premium, USD
+  period: "annual" | "monthly";
+  products: { name: string; premium: number; period: "annual" | "monthly" }[]; // premium per coverage line
+  limits: { name: string; amount: number }[]; // coverage limits, USD
+  quoteNumber: string | null;
+  businessType: string; // the class The Hartford rated
+  assumed: { question: string; answer: string }[]; // every question answered with a default because the caller did not
+  quoteUrl: string;
+}
+
+interface HartfordBusinessTypes {
+  query: string;
+  types: string[]; // pass one verbatim as business.type
+}
+
+  /**
+   * Real small-business insurance quotes (BOP, general liability, professional liability,
+   * workers' comp) from The Hartford's public online quote flow.
+   */
+  interface Unit {
+    /**
+     * Lists The Hartford's small-business classes (business types) matching a word, from its quote
+     * wizard's own search, so getSmallBusinessQuote can take one verbatim.
+     */
+    findBusinessTypes(query: string): Promise<HartfordBusinessTypes>;
+
+    /**
+     * Needs the business owner's OWN name, email and phone (ask; never invent — submitting them is
+     * consent to marketing calls from The Hartford and Tivly) and the business's street address.
+     * Returns a real small-business insurance premium from The Hartford's own online quote flow:
+     * general liability, property (with GL, a BOP), professional liability, workers' comp or
+     * commercial auto, with the premium per line, the coverage limits, and `assumed` (every Yes/No
+     * question defaulted to No). Takes the business type exactly as findBusinessTypes lists it;
+     * class questions with no 'none' option must be passed in `answers`. Reads a price and stops;
+     * nothing is bought or bound.
+     */
+    getSmallBusinessQuote(args: HartfordQuoteArgs): Promise<HartfordQuote>;
   }
 }
 
@@ -140560,6 +140762,22 @@ interface WhatsappCancelledEvent {
   title: string;
 }
 
+interface WhatsappEditedEvent {
+  group: string;
+  title: string;
+  changed: string[];
+}
+
+interface WhatsappEditedContact {
+  contact: string;
+  changed: string[];
+}
+
+interface WhatsappCommunityChange {
+  community: string;
+  changed: string[];
+}
+
   /**
    * WhatsApp, Meta's messaging app: preview public Channels, group invite links and business
    * catalogs, search the Help Center; signed in through WhatsApp Web, read and search the
@@ -140768,6 +140986,26 @@ interface WhatsappCancelledEvent {
      * signed in.
      */
     cancelGroupEvent(group: string, title: string, opts?: ConnectionOption): Promise<WhatsappCancelledEvent>;
+
+    /**
+     * Edits an event the caller created in a group, the group picked by its exact displayed name
+     * and the event by its title: name, date, time, location or description (Edit event, then
+     * Save). Only the event's creator can. Throws, changing nothing, if the group has no event
+     * with that title. Needs the caller signed in.
+     */
+    editGroupEvent(group: string, title: string, edit: {name?: string, date?: string, time?: string, location?: string, description?: string}, opts?: ConnectionOption): Promise<WhatsappEditedEvent>;
+
+    /**
+     * Edits a contact the caller has saved, picked by its exact displayed name: its name or phone
+     * number. Needs the caller signed in.
+     */
+    editContact(contactName: string, edit: {name?: string, phone?: string}, opts?: ConnectionOption): Promise<WhatsappEditedContact>;
+
+    /**
+     * Changes a community's description as its admin, the community picked by its exact displayed
+     * name in the Communities tab. Needs the caller signed in.
+     */
+    updateCommunity(community: string, update: {description: string}, opts?: ConnectionOption): Promise<WhatsappCommunityChange>;
 
     /**
      * Sends a file as the caller to a chat opened by its exact displayed name: an image or video
@@ -141020,9 +141258,10 @@ interface WhatsappCancelledEvent {
     /**
      * Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive, pin or
      * unpin, mute (8 hours, 1 week or always) or unmute, mark read or unread. The chat is opened
-     * by its exact displayed name. Needs the caller signed in.
+     * by its exact displayed name; pass community, the community's exact name, for a group that
+     * sits inside one. Needs the caller signed in.
      */
-    updateChat(chatName: string, update: {archived?: boolean, pinned?: boolean, muted?: "8h" | "1w" | "always" | false, read?: boolean}, opts?: ConnectionOption): Promise<WhatsappChatUpdate>;
+    updateChat(chatName: string, update: {archived?: boolean, pinned?: boolean, muted?: "8h" | "1w" | "always" | false, read?: boolean}, community: string, opts?: ConnectionOption): Promise<WhatsappChatUpdate>;
 
     /**
      * Creates a WhatsApp group as the caller from a name and the exact displayed names of the
@@ -540591,6 +540830,7 @@ interface BowmarkProviders {
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
   packlane: BowmarkProvider_packlane.Unit;
   pallet2ship: BowmarkProvider_pallet2ship.Unit;
+  paramountplus: BowmarkProvider_paramountplus.Unit;
   partiful: BowmarkProvider_partiful.Unit;
   partsgeek: BowmarkProvider_partsgeek.Unit;
   patreon: BowmarkProvider_patreon.Unit;
@@ -540794,6 +541034,7 @@ interface BowmarkProviders {
   theatlantic: BowmarkProvider_theatlantic.Unit;
   thefork: BowmarkProvider_thefork.Unit;
   theguardian_com: BowmarkProvider_theguardian_com.Unit;
+  thehartford: BowmarkProvider_thehartford.Unit;
   therabody: BowmarkProvider_therabody.Unit;
   therowhouse: BowmarkProvider_therowhouse.Unit;
   thestowcompany: BowmarkProvider_thestowcompany.Unit;

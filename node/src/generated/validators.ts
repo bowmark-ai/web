@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5fcd95e25046b6bb20eea763196447f0f1f651c53eb38561148d5f8dfda55620
-// 6239 checked, 20 unchecked.
+// Manifest version: 305491b9521b6344d804715bde48735808fe8f26d7f9734bad6216790d9bff20
+// 6251 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5fcd95e25046b6bb20eea763196447f0f1f651c53eb38561148d5f8dfda55620",
+  "version": "305491b9521b6344d804715bde48735808fe8f26d7f9734bad6216790d9bff20",
   "units": {
     "address_validation": {
       "defs": {
@@ -75378,6 +75378,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.fidelity": {
       "defs": {
+        "FindBranchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ScreenFundsArgs": {
           "k": "object",
           "props": [
@@ -75486,19 +75512,30 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listFidelityFunds": [],
         "listCalculators": [],
+        "findBranch": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "FindBranchArgs"
+            },
+            "optional": false
+          }
+        ],
         "getTradingCommissions": []
       },
       "digests": {
-        "screenFunds": "55c51b8da05ebb4c",
-        "getFund": "6b4027d6042f5f69",
-        "searchArticles": "45b9b18880fbe265",
-        "getArticle": "90e9a839a9b31e9d",
-        "getQuoteNews": "aa9fddb2d6b4827e",
-        "searchSymbols": "18ef0fb742feae9c",
-        "getQuote": "9129c8da332c973e",
-        "listFidelityFunds": "97ba0e0194076284",
-        "listCalculators": "d899f7c26613665a",
-        "getTradingCommissions": "40df9f9083c472fc"
+        "screenFunds": "9db8f1bd09fc3d77",
+        "getFund": "757597ef92d9c016",
+        "searchArticles": "5b19d51a941943fd",
+        "getArticle": "ed5d2ca97cf94714",
+        "getQuoteNews": "cca88698d38db23d",
+        "searchSymbols": "9d69fcb38dba1938",
+        "getQuote": "b6dcc3fe9092367c",
+        "listFidelityFunds": "91454601704dedc9",
+        "listCalculators": "7920b8c904060557",
+        "findBranch": "5242f904567777c1",
+        "getTradingCommissions": "0915729aae39318a"
       }
     },
     "providers.fieldstonehomes": {
@@ -94251,6 +94288,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getHotelReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HiltonHotelDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
         "getHonorsPrograms": [],
         "signup": [
           {
@@ -94272,12 +94319,13 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "f17c870db5ceb765",
-        "getDeals": "08faeba8042e916f",
-        "getHotelDetails": "8ef25ab71528d124",
-        "getHonorsPrograms": "606790bf763e10a3",
-        "signup": "62fd54947e5efce2",
-        "confirmSignup": "f0e7c25e6c0e78a8"
+        "search": "73b737701e5133ef",
+        "getDeals": "2e462a2b3ea8a10b",
+        "getHotelDetails": "f5b29572c2e0365a",
+        "getHotelReviews": "4770de5e4043e802",
+        "getHonorsPrograms": "f486f1d2d7aaf2bc",
+        "signup": "f83e26b162c27306",
+        "confirmSignup": "757ba27777ef2442"
       }
     },
     "providers.hipcamp": {
@@ -139201,6 +139249,37 @@ export const VALIDATORS: ValidatorTable = {
         "getQuote": "7fed959bfd1b084b"
       }
     },
+    "providers.paramountplus": {
+      "defs": {
+        "searchTitlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchTitles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "searchTitlesArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchTitles": "23f3ad9dcfe3bdc2"
+      }
+    },
     "providers.partiful": {
       "defs": {
         "DiscoverEventsArgs": {
@@ -183063,18 +183142,167 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "browseCategory": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "category",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getRelatedArticles": [
+          {
+            "name": "article",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "id",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listMagazineIssues": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "decade",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getMagazineIssue": [
+          {
+            "name": "issue",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "slug",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "searchArticles": "576fdcf6a9537022",
-        "getArticle": "281294dc6d399849",
-        "listLatestArticles": "2109f0d030d7ca96",
-        "listSections": "dc0b2a2a3d32e467",
-        "browseSection": "06d0fe7f136ac3d7",
-        "searchAuthors": "d847805ef6a948b9",
-        "getAuthor": "7d78e8d2ee4d55ec",
-        "listMostPopular": "2109f0d030d7ca96",
-        "browseTopic": "62350f23f5eb2d62"
+        "searchArticles": "2121e3526d49c939",
+        "getArticle": "a5593cd6bf63a3b2",
+        "listLatestArticles": "4bdbaa3a67a328ba",
+        "listSections": "5b0b0ac955f56441",
+        "browseSection": "fe52201e29b74c5b",
+        "searchAuthors": "e1d06bc3c3b60080",
+        "getAuthor": "b32ff8f923016cf8",
+        "listMostPopular": "4bdbaa3a67a328ba",
+        "browseTopic": "79b0fa6bd52a24c4",
+        "browseCategory": "0ea812d6c9b2276f",
+        "getRelatedArticles": "fad0386d94464fa2",
+        "listMagazineIssues": "e46c43670ca8350c",
+        "getMagazineIssue": "df47c5ce1d2811d5"
       }
     },
     "providers.thefork": {
@@ -183603,6 +183831,312 @@ export const VALIDATORS: ValidatorTable = {
         "getCrossword": "ef0c26bf0a08e3d2",
         "listPodcastEpisodes": "e8bb570b2f63c8ac",
         "getArticleComments": "f02e65cb191bdf26"
+      }
+    },
+    "providers.thehartford": {
+      "defs": {
+        "HartfordBusiness": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "structure",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "llc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "corporation"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sCorporation"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "professionalCorporation"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "soleProprietor"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "partnership"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "llp"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "jointVenture"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "association"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "annualSales",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "squareFeet",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "officers",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "employees",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "website",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "insuredNow",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "HartfordContact": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "HartfordQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "contact",
+              "schema": {
+                "k": "ref",
+                "name": "HartfordContact"
+              },
+              "optional": false
+            },
+            {
+              "name": "business",
+              "schema": {
+                "k": "ref",
+                "name": "HartfordBusiness"
+              },
+              "optional": false
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "street",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "zip",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "suite",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "ownOrRent",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "own"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rent"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "locationType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "commercialBuilding"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "commercialCondominium"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "personalResidence"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "coverages",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "union",
+                  "of": [
+                    {
+                      "k": "literal",
+                      "v": "generalLiability"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "property"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "professionalLiability"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "workersCompensation"
+                    },
+                    {
+                      "k": "literal",
+                      "v": "commercialAuto"
+                    }
+                  ]
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "answers",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findBusinessTypes": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getSmallBusinessQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HartfordQuoteArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "findBusinessTypes": "d3f4f2c76e23ec9f",
+        "getSmallBusinessQuote": "664dab726fe166e2"
       }
     },
     "providers.therabody": {
@@ -202705,6 +203239,171 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "editGroupEvent": [
+          {
+            "name": "group",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "title",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "edit",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "date",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "time",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "editContact": [
+          {
+            "name": "contactName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "edit",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "phone",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateCommunity": [
+          {
+            "name": "community",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "update",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "sendMedia": [
           {
             "name": "chatName",
@@ -204093,6 +204792,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           },
           {
+            "name": "community",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
             "name": "opts",
             "schema": {
               "k": "object",
@@ -204652,88 +205358,91 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getMyProfile": "8025fd3238dd236e",
-        "listChats": "2659c8412b461d8b",
-        "findContact": "626f61fb171af25e",
-        "searchMessages": "0c08f1c802b3eecd",
-        "listContacts": "761b1ed5e60b5e18",
-        "checkNumber": "8e631542355554ba",
-        "getChatMessages": "978bba18d7082fa0",
-        "downloadMedia": "036811afdfcacc77",
-        "previewGroupInvite": "42062ca3db61ee76",
-        "createClickToChatLink": "28a95b621b3305a3",
-        "previewBusinessCatalog": "f68e27e99d7773c5",
-        "getChannel": "ee8f193dcef5f362",
-        "listBlogPosts": "338e676d2901e413",
-        "getBlogPost": "644ecaa64b6cb65c",
-        "searchHelpCenter": "9e26d887f42989b6",
-        "getHelpArticle": "dd241ffa5398c76e",
-        "getGroupInfo": "60c38d2cf03356b7",
-        "searchChannels": "a2d87cf0a448f9ca",
-        "listFollowedChannels": "e3b8cc55aba2f081",
-        "getCommunity": "abd6f35c1e8ac5a5",
-        "getChannelUpdates": "99ccc40a2e145dcc",
-        "sendMessage": "10416c7a7975dd96",
-        "sendMessageToNumber": "56355e449d1f22b4",
-        "sendMessageToUsername": "69625e05e41b8ae8",
-        "createGroupEvent": "6f4db8e77c5e664e",
-        "respondToGroupEvent": "fa5fd6e053a29b37",
-        "listGroupEvents": "cb024880e69b407d",
-        "cancelGroupEvent": "13fb77c4254dfe4d",
-        "sendMedia": "1b792f9d57fd9c0f",
-        "reactToMessage": "8e1289105d36d1a3",
-        "replyToMessage": "2c996fcd1a140f11",
-        "pinMessage": "2662dacc8fade6e1",
-        "setDisappearingMessages": "a434d235f624932c",
-        "editMessage": "16e4e04dcea1019e",
-        "sendPoll": "49b45d81166cb0f5",
-        "votePoll": "8514769c80266d41",
-        "sendContact": "82bf33d5ebff18ed",
-        "postToChannel": "1bf5100d7d6b8b3d",
-        "approveGroupJoinRequests": "160e949b41521b06",
-        "sendGif": "482859189e824b4d",
-        "editChannelUpdate": "0216b5126e50fa95",
-        "createBroadcastList": "06df24e4028551e4",
-        "starMessage": "90d3901becc312c9",
-        "listStarredMessages": "00718c59558d7d70",
-        "deleteChat": "c1ecb8a00bfb40ac",
-        "lockChat": "f22ba3e054e8267a",
-        "createCommunity": "014434f219231cca",
-        "saveContact": "a33306895b1d591b",
-        "deleteContact": "dfacbb6627d90e48",
-        "setGroupAdmin": "f164bd203e60d9be",
-        "getMessageInfo": "21eacd07ffba3052",
-        "sendVoiceMessage": "98da0282d0068e9d",
-        "startCall": "353a1ca7d9b612b7",
-        "clearChat": "ceeed439b05257b0",
-        "leaveCommunity": "f4307a1d1ebaf52a",
-        "listLinkedDevices": "86ff1bd50a1265bc",
-        "unlinkDevice": "df9d4a0d2eff51d2",
-        "reactToChannelUpdate": "374bea8f4063f3d5",
-        "exportChat": "bd18dd03272a1466",
-        "postStatusMedia": "3e06021a5bc1ad3b",
-        "addGroupToCommunity": "43521e17cde41791",
-        "listCalls": "22f8aceb6b15437d",
-        "sendLocation": "26d938bb0466a883",
-        "createChannel": "c4a9aa91c937a74d",
-        "forwardMessage": "f8892ce087bb1e70",
-        "updateChat": "9987175b095e41c5",
-        "createGroup": "0a68397f646c32f5",
-        "updateGroup": "d2c497877bf77914",
-        "addGroupParticipants": "c7b2520c05972d55",
-        "removeGroupParticipants": "c7b2520c05972d55",
-        "joinGroupByInvite": "469db53cf4e3b8ab",
-        "leaveGroup": "5c027e542ec9cd57",
-        "followChannel": "fa0ac5ed690f7782",
-        "unfollowChannel": "fa0ac5ed690f7782",
-        "postStatus": "6f8e8192a979893b",
-        "updateProfile": "80a14e7fb0a79de5",
-        "blockContact": "4f06f84517c104ae",
-        "updatePrivacySettings": "4e5e5bfe165ff089",
-        "deleteMessage": "506789b7d1bfaece",
-        "listCatalogProducts": "da61134b497dfc4f",
-        "listStatusUpdates": "8a0f8f5977c19424",
-        "getGroupInviteLink": "59aa319e311b1237"
+        "getMyProfile": "d429de862b55f198",
+        "listChats": "749d855048420649",
+        "findContact": "d66c5ae6781c2baf",
+        "searchMessages": "34a4949c93a6a79f",
+        "listContacts": "aa31a21f8b1a49ea",
+        "checkNumber": "0bfe5165d9a2cd58",
+        "getChatMessages": "f2987d9221d32ece",
+        "downloadMedia": "1de103afac31113e",
+        "previewGroupInvite": "f77a5856df419a82",
+        "createClickToChatLink": "f2bbf2142d0264ce",
+        "previewBusinessCatalog": "0455410d52444f87",
+        "getChannel": "6816ba091d7d4bd0",
+        "listBlogPosts": "f3412451e3e5fa4c",
+        "getBlogPost": "642eaf36de819035",
+        "searchHelpCenter": "7e454c9517aebec3",
+        "getHelpArticle": "d0e0236a5ea102be",
+        "getGroupInfo": "cde977b9483ba845",
+        "searchChannels": "36a63981608d63d5",
+        "listFollowedChannels": "a25566ea53635fe2",
+        "getCommunity": "07c26dd3c3be15d4",
+        "getChannelUpdates": "f99d790d31f7dcec",
+        "sendMessage": "c9094e53d5e4f60b",
+        "sendMessageToNumber": "d653c5304d1024bd",
+        "sendMessageToUsername": "f59dc20f2a783bf8",
+        "createGroupEvent": "c8e01236d8de1950",
+        "respondToGroupEvent": "e96f99d60ba62cb3",
+        "listGroupEvents": "313815b090d85d7b",
+        "cancelGroupEvent": "89303471763f826c",
+        "editGroupEvent": "bf897b30f3b6c1b2",
+        "editContact": "1610647a3b6b1581",
+        "updateCommunity": "d172f5dbc68437e2",
+        "sendMedia": "ab2322d97ff9f745",
+        "reactToMessage": "1c223be8a3a90f87",
+        "replyToMessage": "b66d07e9ba1991e8",
+        "pinMessage": "7e304b5b4003904a",
+        "setDisappearingMessages": "403720fb2474cbd2",
+        "editMessage": "2f48f8b963712a89",
+        "sendPoll": "de6eb0b1152b2225",
+        "votePoll": "7ae4571aa4b1ca40",
+        "sendContact": "542cda9b8d47d343",
+        "postToChannel": "f9aba8d8d4382a92",
+        "approveGroupJoinRequests": "4058c1ac742293d4",
+        "sendGif": "7a6e3dbb3ca8d590",
+        "editChannelUpdate": "ada76f2cb4ec09b7",
+        "createBroadcastList": "480625cc56f14473",
+        "starMessage": "4736fa021be5cbb9",
+        "listStarredMessages": "681bbca581b0fa26",
+        "deleteChat": "c331130e11fb1263",
+        "lockChat": "7f7c214d57bd4386",
+        "createCommunity": "668c94fc80d81603",
+        "saveContact": "b70154637d0b7988",
+        "deleteContact": "394899682c1d59c1",
+        "setGroupAdmin": "70d5d26ec75323b9",
+        "getMessageInfo": "89f4cab53cfffa0c",
+        "sendVoiceMessage": "49e450cda3be1116",
+        "startCall": "28f7712a81713313",
+        "clearChat": "af7fb3c425e0781e",
+        "leaveCommunity": "9f8a77b39049c04b",
+        "listLinkedDevices": "231cc2170b01c9ab",
+        "unlinkDevice": "bb9851744412e91a",
+        "reactToChannelUpdate": "d71b1fa2a88b4a04",
+        "exportChat": "c85518a4237b8ed0",
+        "postStatusMedia": "ab8c6929d3664725",
+        "addGroupToCommunity": "9a23ddaeb684e5e6",
+        "listCalls": "8766c68fcd63ecf8",
+        "sendLocation": "f15b8c944317f756",
+        "createChannel": "b0789195500d5e24",
+        "forwardMessage": "6772f1216dc59fa6",
+        "updateChat": "823f595f1f4a6838",
+        "createGroup": "95f9f42f84946851",
+        "updateGroup": "65998ecb41dcbc01",
+        "addGroupParticipants": "be223587e0488200",
+        "removeGroupParticipants": "be223587e0488200",
+        "joinGroupByInvite": "c444aae40062ae84",
+        "leaveGroup": "a9f798b9426d63c0",
+        "followChannel": "2f05419f6c70a590",
+        "unfollowChannel": "2f05419f6c70a590",
+        "postStatus": "ecf75fa668f21f55",
+        "updateProfile": "e5b18f5c96b64836",
+        "blockContact": "03182389e0a02489",
+        "updatePrivacySettings": "b14296b38a5a04c8",
+        "deleteMessage": "8de8a0adbc008ed6",
+        "listCatalogProducts": "3408f5e8e732edc0",
+        "listStatusUpdates": "311097f909df5bbb",
+        "getGroupInviteLink": "448b2182607d21d2"
       }
     },
     "providers.wholefoodsmarket": {
