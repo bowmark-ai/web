@@ -7,6 +7,18 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.53.0 (2026-11-26)
+
+**Websites**
+
+- +0 websites, +1 function. 142,161 websites and 1,360,561 functions in all.
+
+Changed:
+
+- ssa.gov: added `aljStats`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.52.0 (2026-11-26)
 
 **Websites**
