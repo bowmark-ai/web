@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d068bdd92142f23682be9b7d671fc1b748d002854fbe417901cbc365a9e0512d
-// 6216 checked, 20 unchecked.
+// Manifest version: 6eb1be316a3f1d9d666c38cccefdf147f574bc12246ca3b6c7fb238df3106fea
+// 6221 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d068bdd92142f23682be9b7d671fc1b748d002854fbe417901cbc365a9e0512d",
+  "version": "6eb1be316a3f1d9d666c38cccefdf147f574bc12246ca3b6c7fb238df3106fea",
   "units": {
     "address_validation": {
       "defs": {
@@ -75315,16 +75315,18 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getTradingCommissions": []
       },
       "digests": {
-        "screenFunds": "de7eb89268a58daa",
-        "getFund": "a19d106906629a1a",
-        "searchArticles": "9759c1ee406c2de7",
-        "getArticle": "e3a4f8e4147898dc",
-        "getQuoteNews": "aa0100c6da2abd2d",
-        "searchSymbols": "9ac000d3e01bfb32",
-        "getQuote": "dac9d3da02d89954"
+        "screenFunds": "aa13607514a1757f",
+        "getFund": "e648d8b91b8c0d9e",
+        "searchArticles": "4aff0c716dc1b8ce",
+        "getArticle": "ef4f986c8722b181",
+        "getQuoteNews": "a8d8355a376900db",
+        "searchSymbols": "7b6401c7593e0942",
+        "getQuote": "90c729c819a3244f",
+        "getTradingCommissions": "0d425df91de58d7f"
       }
     },
     "providers.fieldstonehomes": {
@@ -144061,6 +144063,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "downloadVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ],
         "downloadAudio": [
           {
             "name": "args",
@@ -144111,18 +144123,19 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchImages": "3250f8b21ebc1cbe",
-        "getImage": "037aa5d5406bb3e7",
-        "searchVideos": "2b9ca3b3cad788b0",
-        "getVideo": "15de277794e74c77",
-        "searchMusic": "b59000a72f25c079",
-        "searchSoundEffects": "b59000a72f25c079",
-        "getAudio": "b67abc4629275642",
-        "downloadAudio": "c2576dd49fdc5c3f",
-        "listUserMedia": "76b59f06a10b7b89",
-        "getUser": "fe98691591831be2",
-        "signup": "0ee9781d6b59772e",
-        "confirmSignup": "ed8ddbb22a99b468"
+        "searchImages": "513eaaaed9ef99c7",
+        "getImage": "985e38dcf771882b",
+        "searchVideos": "c2e06e024075b844",
+        "getVideo": "b0e50a7d6534f42c",
+        "searchMusic": "d4578473e80f8ae5",
+        "searchSoundEffects": "d4578473e80f8ae5",
+        "getAudio": "4845666d9916fec3",
+        "downloadVideo": "55b5ad3de09af1e4",
+        "downloadAudio": "9bafe44c7c7f61f4",
+        "listUserMedia": "bd26b9210b2d08b2",
+        "getUser": "ba3d1878f7d1187d",
+        "signup": "de617929a56c368e",
+        "confirmSignup": "ca5204ac378c9d5a"
       }
     },
     "providers.pizzahut": {
@@ -145587,6 +145600,281 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": true
+            }
+          ]
+        },
+        "ProgressiveAutoQuoteQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "identity",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "firstName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "lastName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "dob",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "email",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "street",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "city",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "state",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "zip",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "vehicle",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "year",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "number"
+                        },
+                        {
+                          "k": "string"
+                        }
+                      ]
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "make",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "model",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "bodyStyle",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "ownership",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "literal",
+                          "v": "own"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "finance"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "lease"
+                        }
+                      ]
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "use",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "literal",
+                          "v": "commute"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "pleasure"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "business"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "rideshare"
+                        }
+                      ]
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "driver",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "gender",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "literal",
+                          "v": "M"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "F"
+                        }
+                      ]
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "maritalStatus",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "literal",
+                          "v": "single"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "married"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "divorced"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "separated"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "widowed"
+                        }
+                      ]
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "residence",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "literal",
+                          "v": "own-home"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "own-condo"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "rent"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "live-with-parents"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "other"
+                        }
+                      ]
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "accidentsOrClaims",
+                    "schema": {
+                      "k": "boolean"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "ticketsOrViolations",
+                    "schema": {
+                      "k": "boolean"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "currentlyInsured",
+                    "schema": {
+                      "k": "boolean"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": false
             }
           ]
         },
@@ -147074,6 +147362,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getAutoQuote": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "ProgressiveAutoQuoteQuery"
+            },
+            "optional": false
+          }
+        ],
         "getMotorcycleQuote": [
           {
             "name": "query",
@@ -147113,13 +147411,14 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findAgent": "060ccfef7f935191",
-        "getBusinessQuote": "6e34ea6369af8f6d",
-        "getHomeownersQuote": "76aa5669ac428d2b",
-        "getRentersQuote": "7ab52c1e00adea0b",
-        "getMotorcycleQuote": "a3504de8665167df",
-        "getPwcQuote": "60f71431c1bb0e78",
-        "listHomeownersCompanies": "d5836f1d08dfe42f"
+        "findAgent": "d7db0c6ba1f0dae8",
+        "getBusinessQuote": "1f09e6957ab953fb",
+        "getHomeownersQuote": "9de9363cbbdfd28c",
+        "getRentersQuote": "1819f6fa5f864e58",
+        "getAutoQuote": "31a02c6c578a3e05",
+        "getMotorcycleQuote": "929f5906806b45c3",
+        "getPwcQuote": "b6c87a7d02aa3a7f",
+        "listHomeownersCompanies": "5b85016be90dd844"
       }
     },
     "providers.prolook": {
@@ -154441,10 +154740,30 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "search": "526cf3f3a098e892"
+        "search": "526cf3f3a098e892",
+        "signup": "e0fe1a246e9b0470",
+        "confirmSignup": "bb2c3ab6a94cbfb8"
       }
     },
     "providers.rei": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d068bdd92142f23682be9b7d671fc1b748d002854fbe417901cbc365a9e0512d
-# 100 capabilities, 994 providers, 6216 typed functions, 20 refused.
+# Manifest version: 6eb1be316a3f1d9d666c38cccefdf147f574bc12246ca3b6c7fb238df3106fea
+# 100 capabilities, 994 providers, 6221 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -35334,6 +35334,30 @@ class Prv_fidelity_FidelityQuote_Out(TypedDict):
     lastTradeTime: str | None
     url: str
 
+class Prv_fidelity_FidelityTradingCommissions_Out(TypedDict):
+    url: str
+    commissions: list[Prv_fidelity_FidelityTradingCommissions_Out_commissions_item_Out]
+    baseMarginRate: str | None
+    baseMarginRateNote: str | None
+    marginRates: list[Prv_fidelity_FidelityTradingCommissions_Out_marginRates_item_Out]
+    fees: list[Prv_fidelity_FidelityTradingCommissions_Out_fees_item_Out]
+
+class Prv_fidelity_FidelityTradingCommissions_Out_commissions_item_Out(TypedDict):
+    category: str
+    item: str
+    fee: str
+
+class Prv_fidelity_FidelityTradingCommissions_Out_marginRates_item_Out(TypedDict):
+    debitBalance: str
+    marginRate: str
+    effectiveRate: str
+
+class Prv_fidelity_FidelityTradingCommissions_Out_fees_item_Out(TypedDict):
+    group: str
+    description: str
+    fee: str
+    frequency: str
+
 class Prv_fieldstonehomes_FieldstonehomesSearchArgs_In(TypedDict):
     city: NotRequired[str]
     homeType: NotRequired[str]
@@ -64390,6 +64414,19 @@ class Prv_pixabay_AudioDetail_Out_relatedTracks_item_Out(TypedDict):
     url: str
     audioUrl: str | None
 
+class Prv_pixabay_VideoDownload_Out(TypedDict):
+    id: str
+    title: str
+    files: list[Prv_pixabay_VideoDownload_Out_files_item_Out]
+
+class Prv_pixabay_VideoDownload_Out_files_item_Out(TypedDict):
+    label: str
+    dimensions: str
+    size: str
+    format: str
+    fileName: str
+    downloadUrl: str
+
 class Prv_pixabay_AudioDownload_Out(TypedDict):
     id: str
     title: str
@@ -65467,6 +65504,84 @@ class Prv_progressive_ProgressiveRentersAssumption_Out(TypedDict):
     value: str
     source: Literal["argument"] | Literal["site-default"]
 
+class Prv_progressive_ProgressiveAutoQuoteQuery_In(TypedDict):
+    identity: Prv_progressive_ProgressiveAutoQuoteQuery_In_identity_In
+    address: Prv_progressive_ProgressiveAutoQuoteQuery_In_address_In
+    vehicle: Prv_progressive_ProgressiveAutoQuoteQuery_In_vehicle_In
+    driver: Prv_progressive_ProgressiveAutoQuoteQuery_In_driver_In
+
+class Prv_progressive_ProgressiveAutoQuoteQuery_In_identity_In(TypedDict):
+    firstName: str
+    lastName: str
+    dob: str
+    email: str
+
+class Prv_progressive_ProgressiveAutoQuoteQuery_In_address_In(TypedDict):
+    street: str
+    city: str
+    state: NotRequired[str]
+    zip: str
+
+class Prv_progressive_ProgressiveAutoQuoteQuery_In_vehicle_In(TypedDict):
+    year: float | str
+    make: str
+    model: str
+    bodyStyle: NotRequired[str]
+    ownership: NotRequired[Literal["own"] | Literal["finance"] | Literal["lease"]]
+    use: NotRequired[Literal["commute"] | Literal["pleasure"] | Literal["business"] | Literal["rideshare"]]
+
+class Prv_progressive_ProgressiveAutoQuoteQuery_In_driver_In(TypedDict):
+    gender: Literal["M"] | Literal["F"]
+    maritalStatus: Literal["single"] | Literal["married"] | Literal["divorced"] | Literal["separated"] | Literal["widowed"]
+    residence: NotRequired[Literal["own-home"] | Literal["own-condo"] | Literal["rent"] | Literal["live-with-parents"] | Literal["other"]]
+    accidentsOrClaims: NotRequired[bool]
+    ticketsOrViolations: NotRequired[bool]
+    currentlyInsured: NotRequired[bool]
+
+class Prv_progressive_ProgressiveAutoQuote_Out(TypedDict):
+    quoteNumber: str
+    state: str
+    zip: str
+    offeringId: str | None
+    vehicle: Prv_progressive_ProgressiveAutoQuote_Out_vehicle_Out
+    packages: list[Prv_progressive_ProgressiveRatePackage_Out]
+    assumed: list[Prv_progressive_ProgressiveAutoAssumption_Out]
+    pages: list[str]
+
+class Prv_progressive_ProgressiveAutoQuote_Out_vehicle_Out(TypedDict):
+    year: str
+    make: str
+    model: str
+    bodyStyle: str
+    makeSymbol: str | None
+    modelSymbol: str | None
+
+class Prv_progressive_ProgressiveRatePackage_Out(TypedDict):
+    code: str
+    name: str
+    paidInFull: float | None
+    billPlans: list[Prv_progressive_ProgressiveBillPlan_Out]
+    coverages: list[Prv_progressive_ProgressiveCoverageLine_Out]
+
+class Prv_progressive_ProgressiveBillPlan_Out(TypedDict):
+    schedule: str
+    planType: str | None
+    total: float
+    downPayment: float | None
+    monthlyRate: float | None
+    futurePayments: float | None
+
+class Prv_progressive_ProgressiveCoverageLine_Out(TypedDict):
+    code: str
+    description: str | None
+    premium: float
+
+class Prv_progressive_ProgressiveAutoAssumption_Out(TypedDict):
+    page: str
+    property: str
+    answer: str
+    why: Literal["default-no"] | Literal["first-option"] | Literal["policy-start-date"]
+
 class Prv_progressive_ProgressiveMotorcycleQuoteQuery_In(TypedDict):
     identity: Prv_progressive_ProgressiveMotorcycleQuoteQuery_In_identity_In
     address: Prv_progressive_ProgressiveMotorcycleQuoteQuery_In_address_In
@@ -65527,26 +65642,6 @@ class Prv_progressive_ProgressiveMotorcycleQuote_Out_vehicle_Out(TypedDict):
     typeCode: str
     engineSizeCc: float | None
     makeSymbol: str | None
-
-class Prv_progressive_ProgressiveRatePackage_Out(TypedDict):
-    code: str
-    name: str
-    paidInFull: float | None
-    billPlans: list[Prv_progressive_ProgressiveBillPlan_Out]
-    coverages: list[Prv_progressive_ProgressiveCoverageLine_Out]
-
-class Prv_progressive_ProgressiveBillPlan_Out(TypedDict):
-    schedule: str
-    planType: str | None
-    total: float
-    downPayment: float | None
-    monthlyRate: float | None
-    futurePayments: float | None
-
-class Prv_progressive_ProgressiveCoverageLine_Out(TypedDict):
-    code: str
-    description: str | None
-    premium: float
 
 class Prv_progressive_ProgressivePwcQuoteQuery_In(TypedDict):
     identity: Prv_progressive_ProgressivePwcQuoteQuery_In_identity_In
@@ -68652,6 +68747,46 @@ class Prv_redfin_RedfinHome_Out(TypedDict):
     longitude: float | None
     remarks: str | None
     url: str
+
+class Prv_redfin_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_redfin_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_redfin_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_redfin_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_redfin_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_redfin_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_redfin_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_redfin_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
 
 class Prv_rei_ReiSearchArgs_In(TypedDict):
     query: NotRequired[str]
@@ -114347,6 +114482,11 @@ class Prv_fidelity(Protocol):
         range, volume, market cap, P/E, EPS, dividend and sector.
         """
 
+    async def getTradingCommissions(self, /) -> Prv_fidelity_FidelityTradingCommissions_Out:
+        """Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds),
+        margin rates by debit balance with the current base rate, and the account fee schedule.
+        """
+
 class Prv_fieldstonehomes(Protocol):
     """Live Fieldstone Homes quick-move-in inventory plus a validated appointment handoff;
     prefer it when current availability, incentives or booking details matter.
@@ -129969,6 +130109,11 @@ class Prv_pixabay(Protocol):
         stream and download URLs, licence attribution, counts and related tracks.
         """
 
+    async def downloadVideo(self, args: Prv_pixabay_GetVideoArgs_In, /) -> Prv_pixabay_VideoDownload_Out:
+        """Gets the direct download links for one video in every size the CDN serves (tiny, small,
+        medium, large MP4; no sign-in), with label, dimensions and file size.
+        """
+
     async def downloadAudio(self, args: Prv_pixabay_GetAudioArgs_In, /) -> Prv_pixabay_AudioDownload_Out:
         """Gets the direct download link for one music track or sound effect (a plain CDN file, no
         sign-in), with its file name, format and size.
@@ -130807,6 +130952,30 @@ class Prv_progressive(Protocol):
         page carries no rated bill plan; an unrated quote is a refusal to price, never an empty
         result. Reads a price and stops four pages before payment: nothing is bound, bought,
         paid or signed.
+        """
+
+    async def getAutoQuote(self, query: Prv_progressive_ProgressiveAutoQuoteQuery_In, /) -> Prv_progressive_ProgressiveAutoQuote_Out:
+        """Needs the caller's OWN name, date of birth and email, and the garaging address, car and
+        driver facts: ask the user for any you do not have, and never make them up — a quote is
+        for a real person. Returns real personal auto premiums from Progressive's own online
+        quote flow for one car and one driver — every rate package Progressive offers (Basic,
+        Choice, Recommended…), cheapest first, each with its six-month paid-in-full total, every
+        instalment plan it publishes, and the premium per coverage code (BIPD, UMUIM, MEDPAY…).
+        Takes four NESTED arguments, all in one object: `identity` (the CALLER's own firstName,
+        lastName, dob as YYYY-MM-DD and a real email address — ask the caller for them, never
+        make them up; Progressive refuses example.com), `address` (the garaging street, city,
+        state and zip), `vehicle` (year, make and model, matched against Progressive's own book)
+        and `driver` (gender M or F, maritalStatus, and the optional rating facts). Returns the
+        car AS PROGRESSIVE RESOLVED IT, the quote number and rating offering id, the pages
+        walked, and `assumed`: every other question the wizard asked, answered with a stated
+        default (No for yes/no, otherwise Progressive's first option — e.g. years licensed,
+        employment, prior insurance, state-minimum prior limits), so a premium is never quoted
+        without its assumptions. Progressive's own number only: the competitor comparison it
+        advertises is a separate opt-in lead hand-off and is NOT returned. THROWS when the car
+        is not in Progressive's book, when Progressive refuses an answer (naming the field),
+        when it routes the application to a kickout (it declines to quote online), and when the
+        rate page carries no packages. Reads a price and stops; nothing is bound, bought, paid
+        or signed.
         """
 
     async def getMotorcycleQuote(self, query: Prv_progressive_ProgressiveMotorcycleQuoteQuery_In, /) -> Prv_progressive_ProgressiveMotorcycleQuote_Out:
@@ -132253,6 +132422,18 @@ class Prv_redfin(Protocol):
         (6 city, 1 neighborhood, 5 county). Filters (minPrice, maxPrice, minBeds, propertyType)
         run on the up-to-350 rows Redfin returns; limit defaults to 50. A ZIP or free-text place
         is refused — Redfin blocks its place lookup — so find the city URL first.
+        """
+
+    async def signup(self, args: Any, /) -> Prv_redfin_signup_return_u0_Out | Prv_redfin_signup_return_u1_Out | Prv_redfin_signup_return_u2_Out | Prv_redfin_signup_return_u3_Out:
+        """Makes a NEW Redfin account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_redfin_confirmSignup_return_u0_Out | Prv_redfin_confirmSignup_return_u1_Out | Prv_redfin_confirmSignup_return_u2_Out | Prv_redfin_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
         """
 
 class Prv_rei(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d068bdd92142f23682be9b7d671fc1b748d002854fbe417901cbc365a9e0512d
-// 100 capabilities, 994 providers, 6244 typed functions, 20 refused.
+// Manifest version: 6eb1be316a3f1d9d666c38cccefdf147f574bc12246ca3b6c7fb238df3106fea
+// 100 capabilities, 994 providers, 6249 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -54121,6 +54121,15 @@ interface FidelityNewsSearch {
   items: FidelityNewsItem[];
 }
 
+interface FidelityTradingCommissions {
+  url: string;
+  commissions: { category: string; item: string; fee: string }[];
+  baseMarginRate: string | null;
+  baseMarginRateNote: string | null;
+  marginRates: { debitBalance: string; marginRate: string; effectiveRate: string }[];
+  fees: { group: string; description: string; fee: string; frequency: string }[];
+}
+
   /**
    * Fidelity Investments: public stock quotes, mutual fund research, CD rates and Learning
    * Center articles; account reads need the caller's own sign-in.
@@ -54168,6 +54177,12 @@ interface FidelityNewsSearch {
      * volume, market cap, P/E, EPS, dividend and sector.
      */
     getQuote(symbol: string): Promise<FidelityQuote>;
+
+    /**
+     * Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds), margin
+     * rates by debit balance with the current base rate, and the account fee schedule.
+     */
+    getTradingCommissions(): Promise<FidelityTradingCommissions>;
   }
 }
 
@@ -100131,6 +100146,12 @@ interface AudioDetail {
   relatedTracks: { id: string; title: string; url: string; audioUrl: string | null }[];
 }
 
+interface VideoDownload {
+  id: string;
+  title: string;
+  files: { label: string; dimensions: string; size: string; format: string; fileName: string; downloadUrl: string /* direct CDN file link; fetch it with no sign-in */ }[];
+}
+
 interface AudioDownload {
   id: string;
   title: string;
@@ -100234,6 +100255,12 @@ interface UserProfile {
      * stream and download URLs, licence attribution, counts and related tracks.
      */
     getAudio(args: GetAudioArgs): Promise<AudioDetail>;
+
+    /**
+     * Gets the direct download links for one video in every size the CDN serves (tiny, small,
+     * medium, large MP4; no sign-in), with label, dimensions and file size.
+     */
+    downloadVideo(args: GetVideoArgs): Promise<VideoDownload>;
 
     /**
      * Gets the direct download link for one music track or sound effect (a plain CDN file, no
@@ -102006,6 +102033,32 @@ interface ProgressiveMotorcycleQuote {
   packages: ProgressiveRatePackage[]; // cheapest first; tab order is not a ranking
 }
 
+interface ProgressiveAutoQuoteQuery {
+  // The CALLER's own details; Progressive gates page 1 on name, date of birth and email.
+  identity: { firstName: string; lastName: string; dob: string /* YYYY-MM-DD */; email: string };
+  address: { street: string; city: string; state?: string; zip: string }; // garaging address; the street line is a rating input
+  vehicle: { year: number | string; make: string /* matched against Progressive's own book */; model: string /* "Camry" finds "CAMRY" */; bodyStyle?: string /* default: the first style listed */; ownership?: "own" | "finance" | "lease" /* default "own" */; use?: "commute" | "pleasure" | "business" | "rideshare" /* default "pleasure" */ };
+  driver: { gender: "M" | "F"; maritalStatus: "single" | "married" | "divorced" | "separated" | "widowed"; residence?: "own-home" | "own-condo" | "rent" | "live-with-parents" | "other"; accidentsOrClaims?: boolean /* default false */; ticketsOrViolations?: boolean /* default false */; currentlyInsured?: boolean /* default false */ };
+}
+
+interface ProgressiveAutoAssumption {
+  page: string;
+  property: string;
+  answer: string; // Progressive's own label for the answer given
+  why: "default-no" | "first-option" | "policy-start-date";
+}
+
+interface ProgressiveAutoQuote {
+  quoteNumber: string;
+  state: string;
+  zip: string;
+  offeringId: string | null; // the rating version, e.g. DI_AU_OH_20261023
+  vehicle: { year: string; make: string; model: string; bodyStyle: string; makeSymbol: string | null; modelSymbol: string | null }; // the car as PROGRESSIVE resolved it
+  packages: ProgressiveRatePackage[]; // cheapest first; six-month term
+  assumed: ProgressiveAutoAssumption[]; // every question answered on the caller's behalf
+  pages: string[]; // the wizard pages walked, in order
+}
+
 // ── the personal-watercraft quote ─────────────────────────────────────────────
 // The same marine wizard Progressive quotes BOATS through, reached by one product
 // code, and it asks no craft-type question at all — a jet ski is distinguished from
@@ -102336,6 +102389,30 @@ interface ProgressiveHomeCarrier {
      * paid or signed.
      */
     getRentersQuote(query: ProgressiveRentersQuoteQuery): Promise<ProgressiveRentersQuote>;
+
+    /**
+     * Needs the caller's OWN name, date of birth and email, and the garaging address, car and
+     * driver facts: ask the user for any you do not have, and never make them up — a quote is for
+     * a real person. Returns real personal auto premiums from Progressive's own online quote flow
+     * for one car and one driver — every rate package Progressive offers (Basic, Choice,
+     * Recommended…), cheapest first, each with its six-month paid-in-full total, every instalment
+     * plan it publishes, and the premium per coverage code (BIPD, UMUIM, MEDPAY…). Takes four
+     * NESTED arguments, all in one object: `identity` (the CALLER's own firstName, lastName, dob
+     * as YYYY-MM-DD and a real email address — ask the caller for them, never make them up;
+     * Progressive refuses example.com), `address` (the garaging street, city, state and zip),
+     * `vehicle` (year, make and model, matched against Progressive's own book) and `driver`
+     * (gender M or F, maritalStatus, and the optional rating facts). Returns the car AS
+     * PROGRESSIVE RESOLVED IT, the quote number and rating offering id, the pages walked, and
+     * `assumed`: every other question the wizard asked, answered with a stated default (No for
+     * yes/no, otherwise Progressive's first option — e.g. years licensed, employment, prior
+     * insurance, state-minimum prior limits), so a premium is never quoted without its
+     * assumptions. Progressive's own number only: the competitor comparison it advertises is a
+     * separate opt-in lead hand-off and is NOT returned. THROWS when the car is not in
+     * Progressive's book, when Progressive refuses an answer (naming the field), when it routes
+     * the application to a kickout (it declines to quote online), and when the rate page carries
+     * no packages. Reads a price and stops; nothing is bound, bought, paid or signed.
+     */
+    getAutoQuote(query: ProgressiveAutoQuoteQuery): Promise<ProgressiveAutoQuote>;
 
     /**
      * Returns real motorcycle premiums from Progressive, the largest US motorcycle insurer — every
@@ -106606,6 +106683,20 @@ interface RedfinSearch {
      * Redfin blocks its place lookup — so find the city URL first.
      */
     search(query: string | {url?: string, regionId?: number, regionType?: number, minPrice?: number, maxPrice?: number, minBeds?: number, propertyType?: string, limit?: number}): Promise<RedfinSearch>;
+
+    /**
+     * Makes a NEW Redfin account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
