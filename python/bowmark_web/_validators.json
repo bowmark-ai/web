@@ -1,5 +1,5 @@
 {
-  "version": "636b30bc2dc535cafafdb5da8b44011bb9853dd0f14fa9eba7b292dc2ab16529",
+  "version": "244a5915de2ca632dd43b2737b9627eba0c8da0d897e28ab3fd6d98fc12d0987",
   "units": {
     "address_validation": {
       "defs": {
@@ -3917,8 +3917,8 @@
         ]
       },
       "digests": {
-        "search": "f2b0a86907ab8dde",
-        "atCompany": "765bfa1ae36b093d"
+        "search": "ae85ac06d897aae9",
+        "atCompany": "acfcc169be85f898"
       }
     },
     "kenya_fuel_prices": {
@@ -19860,6 +19860,65 @@
         "addToBag": "ac9d7469c086194f",
         "getBag": "8c511df8f4385880",
         "removeFromBag": "376c6c68ac1a2ab8"
+      }
+    },
+    "providers.apploi": {
+      "defs": {
+        "ApploiSearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "employer",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxJobs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchJobs": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ApploiSearchOptions"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchJobs": "ba68dbad20e6f466"
       }
     },
     "providers.aquaphoenixsci": {
@@ -94712,6 +94771,51 @@
         "getSystem": "1d8be377cad1d0ef",
         "getBenchmark": "ad0f1e4f7298e424",
         "recommendGamingPc": "2375fbddcc7152a0"
+      }
+    },
+    "providers.icims": {
+      "defs": {
+        "IcimsListOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxJobs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listJobs": [
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "IcimsListOptions"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listJobs": "1366fc67ff487c8c"
       }
     },
     "providers.idealista": {

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 636b30bc2dc535cafafdb5da8b44011bb9853dd0f14fa9eba7b292dc2ab16529
-// 100 capabilities, 986 providers, 6221 typed functions, 20 refused.
+// Manifest version: 244a5915de2ca632dd43b2737b9627eba0c8da0d897e28ab3fd6d98fc12d0987
+// 100 capabilities, 988 providers, 6223 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -3251,7 +3251,7 @@ interface AtCompanyArgs {
   company?: string; // or just its name, e.g. "Stripe"; at least one of url / company
   query?: string; // keep jobs whose title or department has every word, e.g. "product manager"
   location?: string; // keep jobs whose location text contains this, e.g. "New York"
-  maxJobs?: number; // Workday / SmartRecruiters / Phenom / Taleo page cap; default 500
+  maxJobs?: number; // Workday / SmartRecruiters / Phenom / Taleo / iCIMS page cap; default 500
 }
 
 interface CompanyJob {
@@ -3269,7 +3269,9 @@ interface CompanyJob {
   salaryCurrency: string | null;
   salaryPeriod: string | null;
   id: string | null;
-  source: string; // which ATS: "greenhouse" | "lever" | "ashby" | "workable" | "smartrecruiters" | "recruitee" | "workday" | "teamtailor" | "bamboohr" | "rippling" | "personio" | "breezyhq" | "phenom" | "taleo"
+  shift: string[]; // shifts the title or department names: "day" | "night" | "evening" | "rotating" | "weekend" | "prn" | "part-time"; [] when none
+  requiresAccountToApply: boolean | null; // true for Workday and Taleo apply links; null when the posting does not say, never false
+  source: string; // which ATS: "greenhouse" | "lever" | "ashby" | "workable" | "smartrecruiters" | "recruitee" | "workday" | "teamtailor" | "bamboohr" | "rippling" | "personio" | "breezyhq" | "phenom" | "taleo" | "icims"
 }
 
 interface CompanyJobsResult {
@@ -3296,8 +3298,8 @@ interface CallOptions {
    * Open jobs two ways: for a role in a city off Indeed's own regional results page (US, Canada,
    * Netherlands), or EVERY open job at one company, live off its own applicant-tracking system —
    * Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Workday, Teamtailor,
-   * BambooHR, Rippling, Personio, Breezy HR, a Phenom careers site or a Taleo career section,
-   * detected from the company's site or name.
+   * BambooHR, Rippling, Personio, Breezy HR, a Phenom careers site, a Taleo career section or an
+   * iCIMS career portal, detected from the company's site or name.
    */
   interface Unit {
     /**
@@ -15175,6 +15177,49 @@ interface AppleRemoveFromBagResult {
      * output and the CSRF token from the bag page's meta tag. Returns success confirmation.
      */
     removeFromBag(request: AppleRemoveFromBagRequest): Promise<AppleRemoveFromBagResult>;
+  }
+}
+
+declare namespace BowmarkProvider_apploi {
+  // ── Apploi job search — the unit's own declarations, verbatim ──
+interface ApploiJob {
+  id: string; // Apploi's job id
+  title: string;
+  employer: string | null; // the posting facility, e.g. "Harborview Decatur"
+  location: string | null; // "Calhoun, Georgia"
+  address: string | null;
+  jobType: string | null; // "Full Time", "Part Time", "Per Diem"
+  postedDate: string | null; // YYYY-MM-DD
+  pay: { min: number; max: number; unit: string | null } | null; // only when the posting states one; never inferred
+  url: string; // the Apploi apply page
+}
+
+interface ApploiResults {
+  total: number; // jobs returned after the employer filter
+  jobs: ApploiJob[];
+  warnings: string[];
+}
+
+interface ApploiSearchOptions {
+  query?: string; // keyword, e.g. "nurse"
+  state?: string; // full name ("Georgia"); a two-letter code is expanded
+  city?: string;
+  employer?: string; // keep only postings whose employer name contains this
+  maxJobs?: number; // default 100, at most 1000
+}
+
+  /**
+   * Open jobs across Apploi, where most US nursing homes and senior-care operators post — by
+   * keyword, state, city and employer, with pay when stated and the apply link, live off
+   * Apploi's own search endpoint.
+   */
+  interface Unit {
+    /**
+     * Open jobs across Apploi (most US nursing homes and senior-care operators), live, 50 per page
+     * until `maxJobs`. Filter by `state` (GA or Georgia), `city` and a keyword; `employer` keeps
+     * one operator's facilities. Pay only when the posting states it.
+     */
+    searchJobs(options: ApploiSearchOptions): Promise<ApploiResults>;
   }
 }
 
@@ -68792,6 +68837,46 @@ interface IbuypowerRecommendArgs {
      * on a healthy call.
      */
     recommendGamingPc(args: IbuypowerRecommendArgs): Promise<{ recommendations: IbuypowerRecommendation[]; warnings: string[] }>;
+  }
+}
+
+declare namespace BowmarkProvider_icims {
+  // ── iCIMS career portals — the unit's own declarations, verbatim ──
+interface IcimsJob {
+  id: string; // iCIMS job number from the posting link, e.g. "210288"
+  title: string;
+  location: string | null; // the card's own text, e.g. "Atlanta, GA, 30322"
+  department: string | null; // the card's job category / department / division, e.g. "Nursing"
+  employmentType: string | null; // the card's "Job Type", e.g. "Regular Full-Time"
+  shift: string | null; // the card's "Shift" field when shown, e.g. "Day"
+  url: string; // the posting page
+}
+
+interface IcimsBoard {
+  boardUrl: string; // e.g. "https://careers-northside.icims.com/jobs/search"
+  total: number; // jobs matching the query, counted off the last results page
+  jobs: IcimsJob[];
+  warnings: string[];
+}
+
+interface IcimsListOptions {
+  query?: string; // iCIMS's keyword search; every word must match
+  maxJobs?: number; // default 500, at most 2000
+}
+
+  /**
+   * Open jobs on a company's iCIMS career portal (Emory Healthcare, Northside Hospital and
+   * others) — title, location, department, job type, shift and posting link, live off the
+   * portal's own server-rendered search.
+   */
+  interface Unit {
+    /**
+     * Open jobs on one iCIMS career portal, live, read a results page at a time until `maxJobs`
+     * (default 500). `company` is the portal URL
+     * ("https://careers-northside.icims.com/jobs/search"); `query` is iCIMS's keyword search
+     * (every word must match). Throws, caller-fixable, when the URL is not an iCIMS portal.
+     */
+    listJobs(company: string, options: IcimsListOptions): Promise<IcimsBoard>;
   }
 }
 
@@ -538732,6 +538817,7 @@ interface BowmarkProviders {
   app_store: BowmarkProvider_app_store.Unit;
   appfolio: BowmarkProvider_appfolio.Unit;
   apple: BowmarkProvider_apple.Unit;
+  apploi: BowmarkProvider_apploi.Unit;
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
   arajet: BowmarkProvider_arajet.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
@@ -539128,6 +539214,7 @@ interface BowmarkProviders {
   hunter: BowmarkProvider_hunter.Unit;
   iberia: BowmarkProvider_iberia.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
+  icims: BowmarkProvider_icims.Unit;
   idealista: BowmarkProvider_idealista.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
   ihg: BowmarkProvider_ihg.Unit;

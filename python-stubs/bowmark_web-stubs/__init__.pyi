@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 636b30bc2dc535cafafdb5da8b44011bb9853dd0f14fa9eba7b292dc2ab16529
-# 100 capabilities, 986 providers, 6193 typed functions, 20 refused.
+# Manifest version: 244a5915de2ca632dd43b2737b9627eba0c8da0d897e28ab3fd6d98fc12d0987
+# 100 capabilities, 988 providers, 6195 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2018,6 +2018,8 @@ class Cap_job_search_CompanyJob_Out(TypedDict):
     salaryCurrency: str | None
     salaryPeriod: str | None
     id: str | None
+    shift: list[str]
+    requiresAccountToApply: bool | None
     source: str
 
 class Cap_job_search_CompanyJobsResult_Out_alsoFound_item_Out(TypedDict):
@@ -9232,6 +9234,34 @@ class Prv_apple_AppleRemoveFromBagRequest_In(TypedDict):
 class Prv_apple_AppleRemoveFromBagResult_Out(TypedDict):
     success: bool
     message: NotRequired[str]
+
+class Prv_apploi_ApploiSearchOptions_In(TypedDict):
+    query: NotRequired[str]
+    state: NotRequired[str]
+    city: NotRequired[str]
+    employer: NotRequired[str]
+    maxJobs: NotRequired[float]
+
+class Prv_apploi_ApploiResults_Out(TypedDict):
+    total: float
+    jobs: list[Prv_apploi_ApploiJob_Out]
+    warnings: list[str]
+
+class Prv_apploi_ApploiJob_Out(TypedDict):
+    id: str
+    title: str
+    employer: str | None
+    location: str | None
+    address: str | None
+    jobType: str | None
+    postedDate: str | None
+    pay: Prv_apploi_ApploiJob_Out_pay_u0_Out | None
+    url: str
+
+class Prv_apploi_ApploiJob_Out_pay_u0_Out(TypedDict):
+    min: float
+    max: float
+    unit: str | None
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -44126,6 +44156,25 @@ class Prv_ibuypower_IbuypowerRecommendation_Out(TypedDict):
     timeSpyOverall: float | None
     scorePerDollar: float | None
     inStock: bool
+
+class Prv_icims_IcimsListOptions_In(TypedDict):
+    query: NotRequired[str]
+    maxJobs: NotRequired[float]
+
+class Prv_icims_IcimsBoard_Out(TypedDict):
+    boardUrl: str
+    total: float
+    jobs: list[Prv_icims_IcimsJob_Out]
+    warnings: list[str]
+
+class Prv_icims_IcimsJob_Out(TypedDict):
+    id: str
+    title: str
+    location: str | None
+    department: str | None
+    employmentType: str | None
+    shift: str | None
+    url: str
 
 class Prv_idealista_IdealistaSearchOptions_In(TypedDict):
     operation: NotRequired[Literal["rent"] | Literal["sale"]]
@@ -97022,7 +97071,8 @@ class Cap_job_search(Protocol):
     Canada, Netherlands), or EVERY open job at one company, live off its own
     applicant-tracking system — Greenhouse, Lever, Ashby, Workable, SmartRecruiters,
     Recruitee, Workday, Teamtailor, BambooHR, Rippling, Personio, Breezy HR, a Phenom
-    careers site or a Taleo career section, detected from the company's site or name.
+    careers site, a Taleo career section or an iCIMS career portal, detected from the
+    company's site or name.
     """
 
     async def search(self, args: Cap_job_search_JobSearchArgs_In, /) -> Cap_job_search_job_searchResult_Out:
@@ -101067,6 +101117,18 @@ class Prv_apple(Protocol):
         """Remove an item from the shopping bag by its UUID. Takes the item's UUID from getBag's
         raw output and the CSRF token from the bag page's meta tag. Returns success
         confirmation.
+        """
+
+class Prv_apploi(Protocol):
+    """Open jobs across Apploi, where most US nursing homes and senior-care operators post — by
+    keyword, state, city and employer, with pay when stated and the apply link, live off
+    Apploi's own search endpoint.
+    """
+
+    async def searchJobs(self, options: Prv_apploi_ApploiSearchOptions_In, /) -> Prv_apploi_ApploiResults_Out:
+        """Open jobs across Apploi (most US nursing homes and senior-care operators), live, 50 per
+        page until `maxJobs`. Filter by `state` (GA or Georgia), `city` and a keyword;
+        `employer` keeps one operator's facilities. Pay only when the posting states it.
         """
 
 class Prv_aquaphoenixsci(Protocol):
@@ -119024,6 +119086,19 @@ class Prv_ibuypower(Protocol):
         performance, and every recommendation is already ranked on it. THROWS when nothing in
         stock or buildable fits the budget. `warnings` names any configurator that stopped
         resolving mid-call; it is empty on a healthy call.
+        """
+
+class Prv_icims(Protocol):
+    """Open jobs on a company's iCIMS career portal (Emory Healthcare, Northside Hospital and
+    others) — title, location, department, job type, shift and posting link, live off the
+    portal's own server-rendered search.
+    """
+
+    async def listJobs(self, company: str, options: Prv_icims_IcimsListOptions_In, /) -> Prv_icims_IcimsBoard_Out:
+        """Open jobs on one iCIMS career portal, live, read a results page at a time until
+        `maxJobs` (default 500). `company` is the portal URL
+        ("https://careers-northside.icims.com/jobs/search"); `query` is iCIMS's keyword search
+        (every word must match). Throws, caller-fixable, when the URL is not an iCIMS portal.
         """
 
 class Prv_idealista(Protocol):
@@ -145241,6 +145316,7 @@ class BowmarkProviders(Protocol):
     app_store: Prv_app_store
     appfolio: Prv_appfolio
     apple: Prv_apple
+    apploi: Prv_apploi
     aquaphoenixsci: Prv_aquaphoenixsci
     arajet: Prv_arajet
     archipelago: Prv_archipelago
@@ -145637,6 +145713,7 @@ class BowmarkProviders(Protocol):
     hunter: Prv_hunter
     iberia: Prv_iberia
     ibuypower: Prv_ibuypower
+    icims: Prv_icims
     idealista: Prv_idealista
     identitygroup: Prv_identitygroup
     ihg: Prv_ihg
