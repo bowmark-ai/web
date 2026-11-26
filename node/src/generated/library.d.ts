@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 19ccbbe3ab0254f1d63600479c4447d91ec7281d0f2f4c7e885410dc9e3c8ff5
-// 100 capabilities, 992 providers, 6236 typed functions, 20 refused.
+// Manifest version: d068bdd92142f23682be9b7d671fc1b748d002854fbe417901cbc365a9e0512d
+// 100 capabilities, 994 providers, 6244 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -38518,6 +38518,12 @@ interface CostcoGiftCard {
   url: string;
 }
 
+interface CostcoProductLink {
+  itemNumber: string;
+  url: string;
+  slug: string;
+}
+
   /**
    * Costco's own search-bar autocomplete suggestions, and its discounted gift cards with brand,
    * face value and price.
@@ -38531,6 +38537,13 @@ interface CostcoGiftCard {
      * header for what changed and why.
      */
     search(query: string): Promise<CostcoSearchSuggestion[]>;
+
+    /**
+     * Finds Costco products whose name matches the words given, returning each match's item number
+     * and page URL so getProduct can read its price. Matches on the product URL slug only; no
+     * price, stock or brand rides with a match. Optional `limit` defaults to 20.
+     */
+    findProducts(query: string, options?: {limit?: number}): Promise<{ results: CostcoProductLink[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
 
     /**
      * Costco's discounted gift cards and eGift cards (restaurants, movies, games, travel) — each
@@ -77865,6 +77878,41 @@ interface PodcastList {
   podcasts: PodcastItem[];
 }
 
+interface Newsletter {
+  id: string;
+  name: string;
+  category: string | null;
+  description: string | null;
+  frequency: string | null;
+  image: string | null;
+}
+
+interface NewsletterList {
+  newsletters: Newsletter[];
+}
+
+interface NewsroomPerson {
+  name: string;
+  url: string | null;
+}
+
+interface NewsroomContact {
+  group: string | null;
+  role: string | null;
+  people: NewsroomPerson[];
+}
+
+interface NewsroomDepartment {
+  department: string;
+  contacts: NewsroomContact[];
+}
+
+interface NewsroomDirectory {
+  emailFormat: string | null;
+  mailingAddress: string | null;
+  departments: NewsroomDepartment[];
+}
+
 interface GetPodcastArgs {
   show: string;
   limit?: number;
@@ -78134,6 +78182,18 @@ interface BrowseTopicArgs {
      * limit and offset.
      */
     getPodcast(args: GetPodcastArgs): Promise<Podcast>;
+
+    /**
+     * Lists the L.A. Times email newsletters from the membership service (Essential California,
+     * This Evening's Big Stories, Food Bowl…): id, name, category, description and send frequency.
+     */
+    listNewsletters(): Promise<NewsletterList>;
+
+    /**
+     * Reads the L.A. Times newsroom directory: the Firstname.Lastname@latimes.com address format,
+     * the mailing address, and each department's editors by role with a link to their page.
+     */
+    listNewsroomContacts(): Promise<NewsroomDirectory>;
 
     /**
      * Lists the free daily games on the L.A. Times /games hub (Daily, Midi and Mini Crossword,
@@ -85498,6 +85558,69 @@ interface MerriamWebsterWordArgs {
      * synonyms and antonyms.
      */
     thesaurus(args: MerriamWebsterWordArgs): Promise<MerriamWebsterThesaurus>;
+  }
+}
+
+declare namespace BowmarkProvider_metlife {
+  // ── MetLife — the unit's own declarations, verbatim ──
+interface MetlifeFindDentistsArgs {
+  zip: string;
+  network?: "PDP Plus" | "PDP" | "Federal Dental (FEDVIP)"; // default PDP Plus
+  radiusMiles?: number; // 5, 10, 25 (default), 50, 75 or 100
+  name?: string; // dentist or practice name filter
+  limit?: number; // 1-50, default 10
+  offset?: number; // for paging
+}
+
+interface MetlifeDentist {
+  providerId: string; // MetLife's own provider__facility id
+  name: string;
+  practiceName: string | null;
+  specialties: string[]; // e.g. General and Family Dentistry
+  degrees: string[]; // DDS, DMD…
+  acceptsNewPatients: boolean | null;
+  gender: string | null;
+  languages: string[]; // self-reported by the office
+  networks: string[]; // MetLife networks this dentist is in
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  distanceMiles: number | null; // from the ZIP's centre
+  npi: string | null; // National Provider Identifier
+  licenseNumber: string | null;
+  officeHours: string[]; // one line per day, e.g. Monday 08:00 AM-05:00 PM
+}
+
+interface MetlifeDentistSearch {
+  zip: string;
+  network: string;
+  radiusMiles: number;
+  total: number; // dentists matching, before limit/offset
+  directoryUpdated: string | null; // YYYY-MM-DD the directory was refreshed
+  dentists: MetlifeDentist[];
+}
+
+  /**
+   * MetLife (metlife.com) — findDentists() searches MetLife's public Find a Dentist directory
+   * for in-network dentists near a US ZIP (PDP Plus, PDP or Federal Dental FEDVIP network):
+   * name, practice, specialty, address, phone, distance, NPI, accepting new patients. Read only.
+   * Patient eligibility and claim status sit behind MetLife's dental-office portal sign-in and
+   * are not offered.
+   */
+  interface Unit {
+    /**
+     * Find in-network MetLife dental providers near a US ZIP (`{ zip: "60601", network: "PDP Plus"
+     * }`), from MetLife's public Find a Dentist directory. Returns the total count and each
+     * dentist's name, practice, specialties, degrees, address, phone, email, website, distance in
+     * miles, NPI, license number, office hours, languages and whether they accept new patients.
+     * Optional `network` ("PDP Plus" default, "PDP", "Federal Dental (FEDVIP)"), `radiusMiles`,
+     * practice `name`, `limit`, `offset`. Does not check a patient's eligibility or a claim.
+     */
+    findDentists(args: MetlifeFindDentistsArgs): Promise<MetlifeDentistSearch>;
   }
 }
 
@@ -120137,7 +120260,7 @@ interface SquireBrand {
 }
 
 declare namespace BowmarkProvider_ssa {
-  // ── Social Security office locator — field offices and hearing offices by ZIP — the unit's own declarations, verbatim ──
+  // ── Social Security offices and disability hearing data — field offices by ZIP, ALJ approval rates — the unit's own declarations, verbatim ──
 interface SsaOfficeHours {
   day: string;
   open: string | null; // null = closed that day
@@ -120228,9 +120351,59 @@ interface SsaListHearingOfficesArgs {
   state?: string; // 2-letter state code
 }
 
+interface SsaAljJudgeStat {
+  judge: string;
+  office: string;
+  region: string | null;
+  dispositions: number; // every completed hearing request, decided or not
+  decisions: number; // awards + denials
+  awards: number; // fully + partially favorable
+  denials: number;
+  dismissals: number; // dispositions − decisions: dismissed or withdrawn without a decision
+  approvalRate: number | null; // awards ÷ decisions (SSA's allowance rate); null with no decisions
+  denialRate: number | null; // denials ÷ decisions
+  dismissalRate: number | null; // dismissals ÷ all dispositions
+  fullyFavorable: number;
+  partiallyFavorable: number;
+  dispositionsAcrossAllOffices: number; // the judge's total over every office they sat in
+}
+
+interface SsaAljOfficeStat {
+  office: string;
+  region: string | null;
+  judgeCount: number;
+  dispositions: number; // every completed hearing request, decided or not
+  decisions: number; // awards + denials
+  awards: number; // fully + partially favorable
+  denials: number;
+  dismissals: number; // dispositions − decisions: dismissed or withdrawn without a decision
+  approvalRate: number | null; // awards ÷ decisions (SSA's allowance rate); null with no decisions
+  denialRate: number | null; // denials ÷ decisions
+  dismissalRate: number | null; // dismissals ÷ all dispositions
+  avgProcessingDays: number | null; // SSA's average days until final disposition, all cases completed in the office
+  processingRank: number | null; // 1 = fastest of the ranked hearing offices
+}
+
+interface SsaAljStatsArgs {
+  hearingOffice?: string; // hearing office by city, partial match
+  judge?: string; // judge name, partial match
+  limit?: number; // judges to return, 1-500, default 50 (most dispositions first)
+}
+
+interface SsaAljStatsResult {
+  reportingPeriodEnd: string; // end of SSA's fiscal-year-to-date reporting period, MM/DD/YYYY
+  offices: SsaAljOfficeStat[]; // one per matching hearing office, summed over the matching judges
+  judges: SsaAljJudgeStat[];
+  // all hearing offices together, for comparison
+  national: { judgeOfficeRows: number; dispositions: number /* every completed hearing request, decided or not */; decisions: number /* awards + denials */; awards: number /* fully + partially favorable */; denials: number; dismissals: number /* dispositions − decisions: dismissed or withdrawn without a decision */; approvalRate: number | null /* awards ÷ decisions (SSA's allowance rate); null with no decisions */; denialRate: number | null /* denials ÷ decisions */; dismissalRate: number | null /* dismissals ÷ all dispositions */ };
+  warnings: string[];
+}
+
   /**
    * Which Social Security field office and disability hearing office (OHO) serve a ZIP code —
-   * address, phone, fax, TTY and opening hours, from ssa.gov's own office locator. No login.
+   * address, phone, fax, TTY and opening hours, from ssa.gov's own office locator — and how
+   * often each hearing office or administrative law judge (ALJ) approves, denies or dismisses
+   * disability claims, from SSA's published ALJ disposition data. No login.
    */
   interface Unit {
     /**
@@ -120251,6 +120424,14 @@ interface SsaListHearingOfficesArgs {
      * field offices.
      */
     offices(args: SsaOfficesArgs): Promise<SsaOfficesResult>;
+
+    /**
+     * How often a Social Security hearing office or administrative law judge (ALJ) approves
+     * disability claims — from SSA's published ALJ disposition data: approval, denial and
+     * dismissal counts and rates per judge and per office, plus the office's average processing
+     * time in days. Takes a hearing office or judge name. No login.
+     */
+    aljStats(args: SsaAljStatsArgs): Promise<SsaAljStatsResult>;
   }
 }
 
@@ -125829,6 +126010,75 @@ interface AiCollectionComparison {
 
     /** Searches AI Collection's public directory by query, optionally scoped to a category. */
     searchTools(query: string | {query: string, category?: string, limit?: number}, limit?: number): Promise<AiCollectionTool[]>;
+  }
+}
+
+declare namespace BowmarkProvider_theatlantic {
+  // ── The Atlantic — the unit's own declarations, verbatim ──
+interface AtlanticAuthor {
+  name: string;
+  slug: string; // author page slug
+}
+
+interface AtlanticArticleRow {
+  id: string; // bare article number; feed it to getArticle
+  url: string;
+  title: string;
+  dek: string | null;
+  datePublished: string | null;
+  authors: AtlanticAuthor[];
+}
+
+interface AtlanticArticle {
+  id: string; // bare article number; feed it to getArticle
+  url: string;
+  title: string;
+  dek: string | null;
+  datePublished: string | null;
+  authors: AtlanticAuthor[];
+  dateModified: string | null;
+  metered: boolean; // the site's own page cuts the story; this text does not
+  html: string;
+  text: string;
+  wordCount: number;
+  tags: { name: string; slug: string }[];
+  channels: { name: string; slug: string }[];
+}
+
+interface AtlanticArticlePage {
+  results: AtlanticArticleRow[];
+  total: number | null;
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+  nextCursor: string | null;
+}
+
+  /**
+   * The Atlantic magazine: read stories in full, browse sections, writers, magazine issues,
+   * newsletters, podcasts and the daily games; saved stories, followed topics, gift links,
+   * comments and the subscription need the caller's own sign-in.
+   */
+  interface Unit {
+    /**
+     * Searches The Atlantic's stories by free text. Returns story rows with the site's total hit
+     * count and a nextCursor for the next page; feed a row's id to getArticle.
+     */
+    searchArticles(query: string | {query: string, limit?: number, cursor?: string, page?: number}): Promise<AtlanticArticlePage>;
+
+    /**
+     * Reads one Atlantic story in full (html, plain text, word count, tags, sections), archive
+     * pieces included, even where the page itself meters it. Takes an article id or URL; THROWS
+     * theatlanticInputError for an id the site does not have.
+     */
+    getArticle(id: string): Promise<AtlanticArticle>;
+
+    /**
+     * The newest stories across The Atlantic, newest first. Returns story rows plus a nextCursor
+     * for the next page.
+     */
+    listLatestArticles(args: {limit?: number, cursor?: string, page?: number}): Promise<AtlanticArticlePage>;
   }
 }
 
@@ -539743,6 +539993,7 @@ interface BowmarkProviders {
   mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
   merriam_webster: BowmarkProvider_merriam_webster.Unit;
+  metlife: BowmarkProvider_metlife.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
   microsoft_365: BowmarkProvider_microsoft_365.Unit;
   microsoft_onedrive: BowmarkProvider_microsoft_onedrive.Unit;
@@ -540019,6 +540270,7 @@ interface BowmarkProviders {
   teneohg: BowmarkProvider_teneohg.Unit;
   texas_lottery: BowmarkProvider_texas_lottery.Unit;
   thataicollection_com: BowmarkProvider_thataicollection_com.Unit;
+  theatlantic: BowmarkProvider_theatlantic.Unit;
   thefork: BowmarkProvider_thefork.Unit;
   theguardian_com: BowmarkProvider_theguardian_com.Unit;
   therabody: BowmarkProvider_therabody.Unit;

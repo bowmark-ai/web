@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 19ccbbe3ab0254f1d63600479c4447d91ec7281d0f2f4c7e885410dc9e3c8ff5
-# 100 capabilities, 992 providers, 6208 typed functions, 20 refused.
+# Manifest version: d068bdd92142f23682be9b7d671fc1b748d002854fbe417901cbc365a9e0512d
+# 100 capabilities, 994 providers, 6216 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24467,6 +24467,22 @@ class Prv_cosign_CosignJob_Out(TypedDict):
 
 class Prv_costco_CostcoSearchSuggestion_Out(TypedDict):
     term: str
+
+class Prv_costco_findProducts_options_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_costco_findProducts_return_Out(TypedDict):
+    results: list[Prv_costco_CostcoProductLink_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_costco_CostcoProductLink_Out(TypedDict):
+    itemNumber: str
+    url: str
+    slug: str
 
 class Prv_costco_listGiftCards_options_In(TypedDict):
     query: NotRequired[str]
@@ -50249,6 +50265,35 @@ class Prv_latimes_PodcastEpisode_Out(TypedDict):
     audioUrl: str | None
     image: str | None
 
+class Prv_latimes_NewsletterList_Out(TypedDict):
+    newsletters: list[Prv_latimes_Newsletter_Out]
+
+class Prv_latimes_Newsletter_Out(TypedDict):
+    id: str
+    name: str
+    category: str | None
+    description: str | None
+    frequency: str | None
+    image: str | None
+
+class Prv_latimes_NewsroomDirectory_Out(TypedDict):
+    emailFormat: str | None
+    mailingAddress: str | None
+    departments: list[Prv_latimes_NewsroomDepartment_Out]
+
+class Prv_latimes_NewsroomDepartment_Out(TypedDict):
+    department: str
+    contacts: list[Prv_latimes_NewsroomContact_Out]
+
+class Prv_latimes_NewsroomContact_Out(TypedDict):
+    group: str | None
+    role: str | None
+    people: list[Prv_latimes_NewsroomPerson_Out]
+
+class Prv_latimes_NewsroomPerson_Out(TypedDict):
+    name: str
+    url: str | None
+
 class Prv_latimes_PuzzleList_Out(TypedDict):
     games: list[Prv_latimes_PuzzleGame_Out]
 
@@ -54703,6 +54748,44 @@ class Prv_merriam_webster_MerriamWebsterSense_Out(TypedDict):
     meaning: str | None
     synonyms: list[str]
     antonyms: list[str]
+
+class Prv_metlife_MetlifeFindDentistsArgs_In(TypedDict):
+    zip: str
+    network: NotRequired[Literal["PDP Plus"] | Literal["PDP"] | Literal["Federal Dental (FEDVIP)"]]
+    radiusMiles: NotRequired[float]
+    name: NotRequired[str]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_metlife_MetlifeDentistSearch_Out(TypedDict):
+    zip: str
+    network: str
+    radiusMiles: float
+    total: float
+    directoryUpdated: str | None
+    dentists: list[Prv_metlife_MetlifeDentist_Out]
+
+class Prv_metlife_MetlifeDentist_Out(TypedDict):
+    providerId: str
+    name: str
+    practiceName: str | None
+    specialties: list[str]
+    degrees: list[str]
+    acceptsNewPatients: bool | None
+    gender: str | None
+    languages: list[str]
+    networks: list[str]
+    address: str
+    city: str
+    state: str
+    postalCode: str
+    phone: str | None
+    email: str | None
+    website: str | None
+    distanceMiles: float | None
+    npi: str | None
+    licenseNumber: str | None
+    officeHours: list[str]
 
 class Prv_microcenter_StoreOffer_Out(TypedDict):
     title: str
@@ -78109,6 +78192,60 @@ class Prv_ssa_SsaNearbyFieldOffice_Out(TypedDict):
     assignedToZip: bool
     url: str
 
+class Prv_ssa_SsaAljStatsArgs_In(TypedDict):
+    hearingOffice: NotRequired[str]
+    judge: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_ssa_SsaAljStatsResult_Out(TypedDict):
+    reportingPeriodEnd: str
+    offices: list[Prv_ssa_SsaAljOfficeStat_Out]
+    judges: list[Prv_ssa_SsaAljJudgeStat_Out]
+    national: Prv_ssa_SsaAljStatsResult_Out_national_Out
+    warnings: list[str]
+
+class Prv_ssa_SsaAljOfficeStat_Out(TypedDict):
+    office: str
+    region: str | None
+    judgeCount: float
+    dispositions: float
+    decisions: float
+    awards: float
+    denials: float
+    dismissals: float
+    approvalRate: float | None
+    denialRate: float | None
+    dismissalRate: float | None
+    avgProcessingDays: float | None
+    processingRank: float | None
+
+class Prv_ssa_SsaAljJudgeStat_Out(TypedDict):
+    judge: str
+    office: str
+    region: str | None
+    dispositions: float
+    decisions: float
+    awards: float
+    denials: float
+    dismissals: float
+    approvalRate: float | None
+    denialRate: float | None
+    dismissalRate: float | None
+    fullyFavorable: float
+    partiallyFavorable: float
+    dispositionsAcrossAllOffices: float
+
+class Prv_ssa_SsaAljStatsResult_Out_national_Out(TypedDict):
+    judgeOfficeRows: float
+    dispositions: float
+    decisions: float
+    awards: float
+    denials: float
+    dismissals: float
+    approvalRate: float | None
+    denialRate: float | None
+    dismissalRate: float | None
+
 class Prv_stackoverflow_StackOverflowSearchArgs_In(TypedDict):
     query: str
     tagged: NotRequired[str]
@@ -81786,6 +81923,61 @@ class Prv_thataicollection_com_searchTools_query_u1_In(TypedDict):
     query: str
     category: NotRequired[str]
     limit: NotRequired[float]
+
+class Prv_theatlantic_searchArticles_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_theatlantic_AtlanticArticlePage_Out(TypedDict):
+    results: list[Prv_theatlantic_AtlanticArticleRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+    nextCursor: str | None
+
+class Prv_theatlantic_AtlanticArticleRow_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    dek: str | None
+    datePublished: str | None
+    authors: list[Prv_theatlantic_AtlanticAuthor_Out]
+
+class Prv_theatlantic_AtlanticAuthor_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_theatlantic_AtlanticArticle_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    dek: str | None
+    datePublished: str | None
+    authors: list[Prv_theatlantic_AtlanticAuthor_Out]
+    dateModified: str | None
+    metered: bool
+    html: str
+    text: str
+    wordCount: float
+    tags: list[Prv_theatlantic_AtlanticArticle_Out_tags_item_Out]
+    channels: list[Prv_theatlantic_AtlanticArticle_Out_channels_item_Out]
+
+class Prv_theatlantic_AtlanticArticle_Out_tags_item_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_theatlantic_AtlanticArticle_Out_channels_item_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_theatlantic_listLatestArticles_args_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+    page: NotRequired[float]
 
 class Prv_thefork_TheforkSearchArgs_In(TypedDict):
     query: str
@@ -109145,6 +109337,12 @@ class Prv_costco(Protocol):
         suggestion. See the module header for what changed and why.
         """
 
+    async def findProducts(self, query: str, options: Prv_costco_findProducts_options_In | None = None, /) -> Prv_costco_findProducts_return_Out:
+        """Finds Costco products whose name matches the words given, returning each match's item
+        number and page URL so getProduct can read its price. Matches on the product URL slug
+        only; no price, stock or brand rides with a match. Optional `limit` defaults to 20.
+        """
+
     async def listGiftCards(self, options: Prv_costco_listGiftCards_options_In | None = None, /) -> list[Prv_costco_CostcoGiftCard_Out]:
         """Costco's discounted gift cards and eGift cards (restaurants, movies, games, travel) —
         each card's brand, face value, the member price, and the savings. Optional `query`
@@ -122178,6 +122376,18 @@ class Prv_latimes(Protocol):
         paged by limit and offset.
         """
 
+    async def listNewsletters(self, /) -> Prv_latimes_NewsletterList_Out:
+        """Lists the L.A. Times email newsletters from the membership service (Essential
+        California, This Evening's Big Stories, Food Bowl…): id, name, category, description and
+        send frequency.
+        """
+
+    async def listNewsroomContacts(self, /) -> Prv_latimes_NewsroomDirectory_Out:
+        """Reads the L.A. Times newsroom directory: the Firstname.Lastname@latimes.com address
+        format, the mailing address, and each department's editors by role with a link to their
+        page.
+        """
+
     async def listPuzzles(self, /) -> Prv_latimes_PuzzleList_Out:
         """Lists the free daily games on the L.A. Times /games hub (Daily, Midi and Mini Crossword,
         Sudoku, Wordflower, Word Search and more): game id, title, play url and a one-line
@@ -125038,6 +125248,24 @@ class Prv_merriam_webster(Protocol):
     async def thesaurus(self, args: Prv_merriam_webster_MerriamWebsterWordArgs_In, /) -> Prv_merriam_webster_MerriamWebsterThesaurus_Out:
         """Looks a word up in the Merriam-Webster thesaurus and returns each sense's meaning with
         its synonyms and antonyms.
+        """
+
+class Prv_metlife(Protocol):
+    """MetLife (metlife.com) — findDentists() searches MetLife's public Find a Dentist
+    directory for in-network dentists near a US ZIP (PDP Plus, PDP or Federal Dental FEDVIP
+    network): name, practice, specialty, address, phone, distance, NPI, accepting new
+    patients. Read only. Patient eligibility and claim status sit behind MetLife's
+    dental-office portal sign-in and are not offered.
+    """
+
+    async def findDentists(self, args: Prv_metlife_MetlifeFindDentistsArgs_In, /) -> Prv_metlife_MetlifeDentistSearch_Out:
+        """Find in-network MetLife dental providers near a US ZIP (`{ zip: "60601", network: "PDP
+        Plus" }`), from MetLife's public Find a Dentist directory. Returns the total count and
+        each dentist's name, practice, specialties, degrees, address, phone, email, website,
+        distance in miles, NPI, license number, office hours, languages and whether they accept
+        new patients. Optional `network` ("PDP Plus" default, "PDP", "Federal Dental (FEDVIP)"),
+        `radiusMiles`, practice `name`, `limit`, `offset`. Does not check a patient's
+        eligibility or a claim.
         """
 
 class Prv_microcenter(Protocol):
@@ -136286,8 +136514,9 @@ class Prv_squire(Protocol):
 
 class Prv_ssa(Protocol):
     """Which Social Security field office and disability hearing office (OHO) serve a ZIP code
-    — address, phone, fax, TTY and opening hours, from ssa.gov's own office locator. No
-    login.
+    — address, phone, fax, TTY and opening hours, from ssa.gov's own office locator — and
+    how often each hearing office or administrative law judge (ALJ) approves, denies or
+    dismisses disability claims, from SSA's published ALJ disposition data. No login.
     """
 
     async def getFieldOffice(self, args: Prv_ssa_SsaGetFieldOfficeArgs_In, /) -> Prv_ssa_SsaFieldOfficeDetail_Out:
@@ -136305,6 +136534,13 @@ class Prv_ssa(Protocol):
         """Find the Social Security offices for a ZIP code: the field office assigned to it
         (address, phone, hours), the disability hearing office that handles its claims, and the
         nearest other field offices.
+        """
+
+    async def aljStats(self, args: Prv_ssa_SsaAljStatsArgs_In, /) -> Prv_ssa_SsaAljStatsResult_Out:
+        """How often a Social Security hearing office or administrative law judge (ALJ) approves
+        disability claims — from SSA's published ALJ disposition data: approval, denial and
+        dismissal counts and rates per judge and per office, plus the office's average
+        processing time in days. Takes a hearing office or judge name. No login.
         """
 
 class Prv_stackoverflow(Protocol):
@@ -137971,6 +138207,28 @@ class Prv_thataicollection_com(Protocol):
 
     async def searchTools(self, query: str | Prv_thataicollection_com_searchTools_query_u1_In, limit: float | None = None, /) -> list[Prv_thataicollection_com_AiCollectionTool_Out]:
         """Searches AI Collection's public directory by query, optionally scoped to a category."""
+
+class Prv_theatlantic(Protocol):
+    """The Atlantic magazine: read stories in full, browse sections, writers, magazine issues,
+    newsletters, podcasts and the daily games; saved stories, followed topics, gift links,
+    comments and the subscription need the caller's own sign-in.
+    """
+
+    async def searchArticles(self, query: str | Prv_theatlantic_searchArticles_query_u1_In, /) -> Prv_theatlantic_AtlanticArticlePage_Out:
+        """Searches The Atlantic's stories by free text. Returns story rows with the site's total
+        hit count and a nextCursor for the next page; feed a row's id to getArticle.
+        """
+
+    async def getArticle(self, id: str, /) -> Prv_theatlantic_AtlanticArticle_Out:
+        """Reads one Atlantic story in full (html, plain text, word count, tags, sections), archive
+        pieces included, even where the page itself meters it. Takes an article id or URL;
+        THROWS theatlanticInputError for an id the site does not have.
+        """
+
+    async def listLatestArticles(self, args: Prv_theatlantic_listLatestArticles_args_In, /) -> Prv_theatlantic_AtlanticArticlePage_Out:
+        """The newest stories across The Atlantic, newest first. Returns story rows plus a
+        nextCursor for the next page.
+        """
 
 class Prv_thefork(Protocol):
     """TheFork — Europe's restaurant reservation site (Spain, France, Italy, Portugal…): find a
@@ -146185,6 +146443,7 @@ class BowmarkProviders(Protocol):
     mercari: Prv_mercari
     mergify: Prv_mergify
     merriam_webster: Prv_merriam_webster
+    metlife: Prv_metlife
     microcenter: Prv_microcenter
     microsoft_365: Prv_microsoft_365
     microsoft_onedrive: Prv_microsoft_onedrive
@@ -146461,6 +146720,7 @@ class BowmarkProviders(Protocol):
     teneohg: Prv_teneohg
     texas_lottery: Prv_texas_lottery
     thataicollection_com: Prv_thataicollection_com
+    theatlantic: Prv_theatlantic
     thefork: Prv_thefork
     theguardian_com: Prv_theguardian_com
     therabody: Prv_therabody

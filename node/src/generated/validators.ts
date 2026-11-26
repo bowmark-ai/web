@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 19ccbbe3ab0254f1d63600479c4447d91ec7281d0f2f4c7e885410dc9e3c8ff5
-// 6208 checked, 20 unchecked.
+// Manifest version: d068bdd92142f23682be9b7d671fc1b748d002854fbe417901cbc365a9e0512d
+// 6216 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "19ccbbe3ab0254f1d63600479c4447d91ec7281d0f2f4c7e885410dc9e3c8ff5",
+  "version": "d068bdd92142f23682be9b7d671fc1b748d002854fbe417901cbc365a9e0512d",
   "units": {
     "address_validation": {
       "defs": {
@@ -50907,6 +50907,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "findProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listGiftCards": [
           {
             "name": "options",
@@ -50952,10 +50977,11 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "bd449556c5b5adbe",
-        "listGiftCards": "8667b22083403c66",
-        "signup": "1c32fb4258a73e15",
-        "confirmSignup": "e769e2ef6f5c7899"
+        "search": "843bb533ff727d90",
+        "findProducts": "bf2570134f5a1798",
+        "listGiftCards": "71a7f96561479325",
+        "signup": "23d27c584c53b3d7",
+        "confirmSignup": "c4c70e6dc0227f07"
       }
     },
     "providers.countycourt_vic_gov_au": {
@@ -110678,6 +110704,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listNewsletters": [],
+        "listNewsroomContacts": [],
         "listPuzzles": [],
         "getCrossword": [
           {
@@ -110691,25 +110719,27 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listSections": "e5db1b1872038394",
-        "getAuthor": "c613938063c5d398",
-        "listHeadlines": "972392bc12b69a16",
-        "browseSection": "2ec09d610290c482",
-        "searchArticles": "f2e3a930b91ba0e5",
-        "getArticle": "ee186408f96090e9",
-        "listLatestArticles": "1c3a6417d8ed583d",
-        "listTopics": "db68f75758031867",
-        "browseTopic": "62d49764f2a16886",
-        "searchRecipes": "11f9fb18f9bdd5a4",
-        "getRecipe": "36d806405b60e796",
-        "listGuides": "8ba162e4d5f3d9ca",
-        "getGuide": "4f92a645e2470023",
-        "listVideos": "f2370d77923f3883",
-        "getVideo": "64d9ef79661525a7",
-        "listPodcasts": "b9a13888f84ab352",
-        "getPodcast": "7ebe8732b63a089f",
-        "listPuzzles": "902c3774b71ba7a7",
-        "getCrossword": "bd2d548934473d3c"
+        "listSections": "8a0af3f6cf36b857",
+        "getAuthor": "d7068b388d21afd5",
+        "listHeadlines": "6ef4d108b3a8fce9",
+        "browseSection": "b11fa7ae934a1568",
+        "searchArticles": "bfa199e4e2467631",
+        "getArticle": "db2fdebad53cd431",
+        "listLatestArticles": "58de5da4fe38d891",
+        "listTopics": "758f527efc4542b6",
+        "browseTopic": "3f261fcf418213ce",
+        "searchRecipes": "472a5b624c930fca",
+        "getRecipe": "2e23bc7dd043f2c5",
+        "listGuides": "0e532548b5a321ff",
+        "getGuide": "4aa7597ed14a3f5e",
+        "listVideos": "32af898dc32dd6dc",
+        "getVideo": "e4515ab80762c3eb",
+        "listPodcasts": "9326bc36e96fc7a8",
+        "getPodcast": "1c4076027dd33232",
+        "listNewsletters": "eb3df49fc934e87e",
+        "listNewsroomContacts": "0bda7de3005b71f4",
+        "listPuzzles": "9b59383c78c57002",
+        "getCrossword": "c6683515469ada4b"
       }
     },
     "providers.launchpad": {
@@ -121289,6 +121319,86 @@ export const VALIDATORS: ValidatorTable = {
       "digests": {
         "define": "f12244e0dc17216a",
         "thesaurus": "6398aec77e5c036d"
+      }
+    },
+    "providers.metlife": {
+      "defs": {
+        "MetlifeFindDentistsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "network",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "PDP Plus"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "PDP"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Federal Dental (FEDVIP)"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findDentists": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MetlifeFindDentistsArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "findDentists": "6018f1cf59c9198c"
       }
     },
     "providers.microcenter": {
@@ -173868,6 +173978,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.ssa": {
       "defs": {
+        "SsaAljStatsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hearingOffice",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "judge",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SsaGetFieldOfficeArgs": {
           "k": "object",
           "props": [
@@ -173942,12 +174078,23 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "aljStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SsaAljStatsArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "getFieldOffice": "41160daa51c44d0e",
-        "listHearingOffices": "8330fbf42a0521e6",
-        "offices": "ba3dd58dee976e06"
+        "getFieldOffice": "7afbc85f092cce32",
+        "listHearingOffices": "7fad2e26d010f0c9",
+        "offices": "c8710daed775e724",
+        "aljStats": "32bd24f2de0b89ae"
       }
     },
     "providers.stackoverflow": {
@@ -181909,6 +182056,104 @@ export const VALIDATORS: ValidatorTable = {
         "getTopPicks": "0804d5e52c57ec94",
         "listCategories": "c677386372e0b0c3",
         "searchTools": "950442d9be64f9d1"
+      }
+    },
+    "providers.theatlantic": {
+      "defs": {},
+      "functions": {
+        "searchArticles": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLatestArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchArticles": "7b4a1183a521b838",
+        "getArticle": "de1b814784c7e43b",
+        "listLatestArticles": "693fbb33d37a83ad"
       }
     },
     "providers.thefork": {

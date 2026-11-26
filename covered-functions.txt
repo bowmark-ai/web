@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 142,193 sites, generated 2026-11-26.
+# Every website Bowmark covers and the functions it has: 142,211 sites, generated 2026-11-26.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -1624,7 +1624,6 @@
 = 9399f4ab get_eesel_ai_developer_resources#daea6ffc get_eesel_ai_openapi_url#daea6ffc get_eesel_ai_product_overview#daea6ffc
 = 93b92c5e get_product_availability#a7028f6d get_product_detail#9675fe64 get_support_guide#fc44d690 get_tours_activities_by_category#4ab8a322 search_tours_activities_by_destination#6508796e show_tours_activities#fddc0f47
 = 93f622b3 add_to_quote#fb1d0d4a checkout_quote#f99a0e62 get_product#9f92cfa5 remove_from_quote#9c44f56f search_products#6776af33 show_products#6000292a submit_quote#8183062e update_quote_item#2ffb69e5 view_quote#f99a0e62
-= 9427f85f list_categories#a6449078 search_coupons#54e3ef8e
 = 943709e4 get_trends#5a5e50e9 get_tweet_quotes#787e186c get_tweet_replies#6de399e1 get_tweet_retweeters#8a1bc50e get_tweets_by_ids#a4ed20a8 get_user_about#59f82d64 get_user_followers#4e2ff9d5 get_user_followings#877409ec get_user_info#720fe425 get_user_last_tweets#5b98f5c5 get_user_mentions#81c61ab0 search_tweets#2453d4bd
 = 944e0b0d assessFallRisk getRiskAssessmentQuestions
 = 9453ab3e read_page#e842e3f3 search_pages#a453b59c site_info#daea6ffc
@@ -1849,6 +1848,7 @@
 = a8616d82 compare_places#96c664ca fetch#e8d033af get_place#fd701082 get_ranking#5f47edb6 lookup_postcode#8e1e8c01 search#5b5f4dd2 search_places#3023a2ca
 = a89913c6 genshin_bulk_builds_export#03690cf0 genshin_character_build#465a1c97 genshin_character_tierlist#99a82ecf genshin_team_builder#465a1c97 hsr_character_build#0bc7e7e8 priority_data_snapshot#99a82ecf search_site#fcc4f666 tof_character_info#637454e3 wuthering_waves_character_build#42777fdf zenless_character_build#adaa6829
 = a89d59a3 getRentalDetail getRentalQuote searchRentals
+= a8c2390b search_telegram_directory#7fa68658
 = a8c2fb8d list_docs#99a82ecf read_doc#e4c793f0 search_docs#0a3028af
 = a8c77929 check_public_availability#f8f50309 fetch#f5a0fd20 get_product_details#f8f50309 render_products#2c063f30 search#419279eb search_products#b348362e
 = a8cb1b66 get_api_method#deabf2bc get_api_overview#daea6ffc list_api_sections#386431d5 search_api_methods#0ea509ef
@@ -52791,6 +52791,7 @@ autocubo.pt	4479a458
 autocurrencyswitcher.myshopify.com	a9af6443
 autodromo.myshopify.com	a9af6443
 autoecusolutions.com	bb34c1bd
+autoelegant.ro	da39a3ee
 autoeqt.ro	357f4ac8
 autoequip.com.au	bb34c1bd
 autoextras.com.au	bb34c1bd
@@ -54969,6 +54970,7 @@ bedplanet.myshopify.com	a9af6443
 bedre-inneklima.no	4479a458
 bedrockcandle.myshopify.com	a9af6443
 bedrockcollectibles.ca	bb34c1bd
+bedrocknews.com	da39a3ee
 bedrop.de	4479a458
 beds2go-ek.co.uk	bb34c1bd
 bedsaustralia.com.au	bb34c1bd
@@ -58794,6 +58796,7 @@ broadhead-wi.myshopify.com	a9af6443
 broadheadbeer.myshopify.com	a9af6443
 broadlanddigital.co.uk	bb34c1bd
 broadlawn-farm.myshopify.com	a9af6443
+broadout.com	da39a3ee
 broadporchcoffee.myshopify.com	a9af6443
 broadviewmagazine.myshopify.com	a9af6443
 broadviewpress.com	bb34c1bd
@@ -59422,6 +59425,7 @@ burbageironcraft.co.uk	bb34c1bd
 burbancreation.myshopify.com	a9af6443
 burbankcards.com	37007769
 burchtreebladeworks.myshopify.com	a9af6443
+burdensbathrooms.com.au	da39a3ee
 burdickchocolate.com	da39a3ee
 burdockgrovefarm.ca	05a9bb9e
 bureauengros.com	da39a3ee
@@ -65542,7 +65546,6 @@ coupledoor.com	bb34c1bd
 coupledwithgrace.myshopify.com	a9af6443
 couplehealthcare.com	bb34c1bd
 couponfollow.com	0deeb212
-coupons.de	9427f85f
 courage-avenue.myshopify.com	a9af6443
 courageart.org	bb34c1bd
 couragetolead.myshopify.com	a9af6443
@@ -69738,6 +69741,7 @@ divineamor.com	bb34c1bd
 divinebalanceyoga.myshopify.com	a9af6443
 divinebeautyformula.myshopify.com	a9af6443
 divinecarehealthclinic.com.au	bb34c1bd
+divinechocolate.com	da39a3ee
 divineconsignboutique.myshopify.com	a9af6443
 divineeyemed.com	bb34c1bd
 divineglobalarts.com	bb34c1bd
@@ -77381,6 +77385,7 @@ flyshirts.com	bb34c1bd
 flyslaps.com	bb34c1bd
 flysportsuk.com	4479a458
 flytrapking.myshopify.com	a9af6443
+flywoo.net	da39a3ee
 fm-womens-fashion.myshopify.com	a9af6443
 fm11jq-zc.myshopify.com	a9af6443
 fmagazine.myshopify.com	a9af6443
@@ -81483,6 +81488,7 @@ googoocosmetics.myshopify.com	a9af6443
 googoodolls.shop	bb34c1bd
 googoohair.com	8b50d914
 gooleys.com.au	bb34c1bd
+gooloo.com	da39a3ee
 goona-snack.myshopify.com	a9af6443
 goonantoys.com	a9af6443
 goorin.com	37007769
@@ -82593,6 +82599,7 @@ guesswatches.com	4479a458
 guesswhere.myshopify.com	a9af6443
 guestinresidence.com	37007769
 guf.com.au	da39a3ee
+gufettostore.com	da39a3ee
 gugeinstitute.myshopify.com	a9af6443
 gugglu.com	bb34c1bd
 gugliermettoshop.myshopify.com	a9af6443
@@ -96082,6 +96089,7 @@ lightropolis.com	bb34c1bd
 lights.com	4479a458
 lights4fun.co.uk	4479a458
 lights4fun.de	4479a458
+lightsandlamps.com	da39a3ee
 lightscanada.ca	da39a3ee
 lightshoe.com	bb34c1bd
 lightsite.ai	da39a3ee
@@ -104817,6 +104825,7 @@ mypetframecom.myshopify.com	a9af6443
 mypfc3store.myshopify.com	a9af6443
 myphoenixvitality.com	bb34c1bd
 mypifi.com	4479a458
+mypivots.com	da39a3ee
 mypizzaheaven.com	bb34c1bd
 myplantdecor.myshopify.com	a9af6443
 myplate.food	da39a3ee
@@ -113123,6 +113132,7 @@ pokejeux.ca	37007769
 pokemonplug.com	da39a3ee
 pokeninjapan.store	4479a458
 pokercardsstud.com	bb34c1bd
+pokerrrrapp.com	da39a3ee
 pokharamobilestore.com	bb34c1bd
 pokiesforsale.com	bb34c1bd
 pokipair.com	da39a3ee
@@ -121986,6 +121996,7 @@ sewsimple.de	4479a458
 sewtopia.com	bb34c1bd
 sewwhatvirginhair.myshopify.com	a9af6443
 sewyarncute.myshopify.com	a9af6443
+sewyeahquilting.com	da39a3ee
 sexdollpartner.com	4479a458
 sexologysupervisors.org	bb34c1bd
 sexplicit.co.za	bb34c1bd
@@ -126701,6 +126712,7 @@ sprypt.com	9a78da1e
 sps-industry.com	164ca0a5
 sps-industry.net	164ca0a5
 sps-parts.co.uk	bb34c1bd
+spsi.com	da39a3ee
 spsionline.myshopify.com	a9af6443
 spssales.us	bb34c1bd
 sptcapparel.myshopify.com	a9af6443
@@ -127597,6 +127609,7 @@ stoeterijgalloper.nl	bb34c1bd
 stoettner.myshopify.com	a9af6443
 stofa-homestyle.myshopify.com	a9af6443
 stoffausfrankfurt.myshopify.com	a9af6443
+stofferhome.com	da39a3ee
 stoic-media.com	685e74a3
 stoic-simple.myshopify.com	a9af6443
 stoicculture.myshopify.com	a9af6443
@@ -130540,6 +130553,7 @@ telebrand.pk	bb34c1bd
 telecom4good.org	bb34c1bd
 telecominfraproject.com	685e74a3
 telefonika.com	da39a3ee
+telegram-groups.com	a8c2390b
 telegrama-cultural.myshopify.com	a9af6443
 telegramme.myshopify.com	a9af6443
 telegramvpn.org	da39a3ee
@@ -133169,6 +133183,7 @@ thelittleorganicco.com.au	bb34c1bd
 thelittleplantwagon.myshopify.com	a9af6443
 thelittlewaxcompany.myshopify.com	a9af6443
 thelittlewolfknits.myshopify.com	a9af6443
+thelittlewoodenpeg.com	da39a3ee
 theliturgicalhome.myshopify.com	a9af6443
 theloadedteashop.com	4479a458
 thelobbynetwork.com	c1aeb0dd
@@ -133678,6 +133693,7 @@ thesak.com	4479a458
 thesalting.myshopify.com	a9af6443
 thesaltpressshop.myshopify.com	a9af6443
 thesaltyheifer.myshopify.com	a9af6443
+thesansasyonel.com	da39a3ee
 thesapphirerow.com	4479a458
 thesarkycow.myshopify.com	61e64875
 thesassystitch.myshopify.com	a9af6443
@@ -144246,6 +144262,7 @@ z-v.fr	bb34c1bd
 z0v80p-mm.myshopify.com	a9af6443
 z0xerp-0d.myshopify.com	a9af6443
 z1yrh0-bc.myshopify.com	a9af6443
+z2comics.com	da39a3ee
 z3lla.myshopify.com	a9af6443
 z4es7p-t1.myshopify.com	a9af6443
 z4n2uj-kj.myshopify.com	a9af6443
@@ -144903,6 +144920,7 @@ zyn.ca	37007769
 zynclabs-bundles.myshopify.com	61e64875
 zynith.app	bb34c1bd
 zypcoatings.com	bb34c1bd
+zyphertradingvideogames.com	da39a3ee
 zyrahsorange.myshopify.com	a9af6443
 zyrexayurveda.com	bb34c1bd
 zyros.com	fde950fe
