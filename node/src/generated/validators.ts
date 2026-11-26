@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6eb1be316a3f1d9d666c38cccefdf147f574bc12246ca3b6c7fb238df3106fea
-// 6221 checked, 20 unchecked.
+// Manifest version: 601ac34351eb01cd99b519bdcb5aab930346c5ac5f0b2b150ef28e112270303a
+// 6230 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6eb1be316a3f1d9d666c38cccefdf147f574bc12246ca3b6c7fb238df3106fea",
+  "version": "601ac34351eb01cd99b519bdcb5aab930346c5ac5f0b2b150ef28e112270303a",
   "units": {
     "address_validation": {
       "defs": {
@@ -50932,6 +50932,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getProduct": [
+          {
+            "name": "itemNumberOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [],
         "listGiftCards": [
           {
             "name": "options",
@@ -50977,11 +50987,13 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "843bb533ff727d90",
-        "findProducts": "bf2570134f5a1798",
-        "listGiftCards": "71a7f96561479325",
-        "signup": "23d27c584c53b3d7",
-        "confirmSignup": "c4c70e6dc0227f07"
+        "search": "8e7e66cd8d03383d",
+        "findProducts": "429143d86a01b7f6",
+        "getProduct": "f65ac1fdf0be690b",
+        "listCategories": "e1cfa891103b84cd",
+        "listGiftCards": "7ed115ae52259237",
+        "signup": "ab0d71da14c5f1fa",
+        "confirmSignup": "9e02203db264b092"
       }
     },
     "providers.countycourt_vic_gov_au": {
@@ -75316,17 +75328,19 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listFidelityFunds": [],
         "getTradingCommissions": []
       },
       "digests": {
-        "screenFunds": "aa13607514a1757f",
-        "getFund": "e648d8b91b8c0d9e",
-        "searchArticles": "4aff0c716dc1b8ce",
-        "getArticle": "ef4f986c8722b181",
-        "getQuoteNews": "a8d8355a376900db",
-        "searchSymbols": "7b6401c7593e0942",
-        "getQuote": "90c729c819a3244f",
-        "getTradingCommissions": "0d425df91de58d7f"
+        "screenFunds": "080a06de10af1e82",
+        "getFund": "0f568a2109abeb5f",
+        "searchArticles": "b7a414c19e47dfea",
+        "getArticle": "5c65ba13067ac754",
+        "getQuoteNews": "e776725024715a99",
+        "searchSymbols": "eb2996e62bbdc5e2",
+        "getQuote": "86e83d9896a40949",
+        "listFidelityFunds": "a1fbadf90ef35985",
+        "getTradingCommissions": "ee0d0c7fb51a0c5a"
       }
     },
     "providers.fieldstonehomes": {
@@ -94056,6 +94070,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getDeals": [],
         "getHonorsPrograms": [],
         "signup": [
           {
@@ -94077,10 +94092,11 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "69cfa8bcc6447d3d",
-        "getHonorsPrograms": "55ce124cc655cda2",
-        "signup": "c0db6695649cb2de",
-        "confirmSignup": "d93ba1df2ce833a4"
+        "search": "66224559c683785c",
+        "getDeals": "b1f3c2371b674144",
+        "getHonorsPrograms": "e489d8b4b385a2df",
+        "signup": "bff7f10e8b25f24f",
+        "confirmSignup": "6aa0bbd45f947d61"
       }
     },
     "providers.hipcamp": {
@@ -145875,6 +145891,53 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": false
+            },
+            {
+              "name": "spouse",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "firstName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "lastName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "dob",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "gender",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "literal",
+                          "v": "M"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "F"
+                        }
+                      ]
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         },
@@ -147411,14 +147474,14 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findAgent": "d7db0c6ba1f0dae8",
-        "getBusinessQuote": "1f09e6957ab953fb",
-        "getHomeownersQuote": "9de9363cbbdfd28c",
-        "getRentersQuote": "1819f6fa5f864e58",
-        "getAutoQuote": "31a02c6c578a3e05",
-        "getMotorcycleQuote": "929f5906806b45c3",
-        "getPwcQuote": "b6c87a7d02aa3a7f",
-        "listHomeownersCompanies": "5b85016be90dd844"
+        "findAgent": "55fbc36edf405780",
+        "getBusinessQuote": "4a764fbde3782183",
+        "getHomeownersQuote": "4741d1e21d9cbdfa",
+        "getRentersQuote": "bd9a6bdf1751b0d7",
+        "getAutoQuote": "cf957d2ccf7de250",
+        "getMotorcycleQuote": "23cae562c06e0985",
+        "getPwcQuote": "6e589412efe4b33d",
+        "listHomeownersCompanies": "95804b6a892d213c"
       }
     },
     "providers.prolook": {
@@ -177053,6 +177116,20 @@ export const VALIDATORS: ValidatorTable = {
                         ]
                       },
                       "optional": true
+                    },
+                    {
+                      "name": "quantity",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "maxListings",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
                     }
                   ]
                 },
@@ -177314,6 +177391,31 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listVenueEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "venueId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "findEventsToSell": [
           {
             "name": "args",
@@ -177493,19 +177595,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "7e3f3bbfd37a50d1",
-        "getEventListings": "6d6571b4ea516b43",
-        "getEvent": "1f38c705b10110f8",
-        "listCategories": "f05ced010e0f3516",
-        "findPerformers": "a6060b2da02493fe",
-        "findVenues": "4a7f9ee52352ef25",
-        "exploreEvents": "fb1a81392e83eba8",
-        "listPerformerEvents": "4233d02b8c16436a",
-        "findEventsToSell": "73c6cf0259424f70",
-        "getCheckoutHandoff": "72d54e8c64be08b1",
-        "createListing": "b7826619a3568131",
-        "listMyOrders": "3ff161a743f65af4",
-        "listFavorites": "0e8ac1f49b0dd9ed"
+        "search": "b632db86a3db23ef",
+        "getEventListings": "0f3d1e24c7129083",
+        "getEvent": "7f57a0d50ec45196",
+        "listCategories": "c6cf748b07f9c160",
+        "findPerformers": "422ed4a4f349444d",
+        "findVenues": "9208b5397eb24c48",
+        "exploreEvents": "ed57f20372140c9e",
+        "listPerformerEvents": "b8c9a664044dcd32",
+        "listVenueEvents": "95333ddfadf26e1f",
+        "findEventsToSell": "d1b369e8a0ccc79c",
+        "getCheckoutHandoff": "a2a83b3f7d95a6da",
+        "createListing": "c38632fa62be1b23",
+        "listMyOrders": "9af97c036d4884ad",
+        "listFavorites": "87e1c7a297ccef3d"
       }
     },
     "providers.studentaccommodationbath": {
@@ -182467,12 +182570,144 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listSections": [],
+        "browseSection": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "section",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchAuthors": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getAuthor": [
+          {
+            "name": "author",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "slug",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "searchArticles": "7b4a1183a521b838",
-        "getArticle": "de1b814784c7e43b",
-        "listLatestArticles": "693fbb33d37a83ad"
+        "searchArticles": "576fdcf6a9537022",
+        "getArticle": "281294dc6d399849",
+        "listLatestArticles": "2109f0d030d7ca96",
+        "listSections": "dc0b2a2a3d32e467",
+        "browseSection": "06d0fe7f136ac3d7",
+        "searchAuthors": "d847805ef6a948b9",
+        "getAuthor": "7d78e8d2ee4d55ec"
       }
     },
     "providers.thefork": {

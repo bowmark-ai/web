@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6eb1be316a3f1d9d666c38cccefdf147f574bc12246ca3b6c7fb238df3106fea
-// 100 capabilities, 994 providers, 6249 typed functions, 20 refused.
+// Manifest version: 601ac34351eb01cd99b519bdcb5aab930346c5ac5f0b2b150ef28e112270303a
+// 100 capabilities, 994 providers, 6258 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -38524,6 +38524,28 @@ interface CostcoProductLink {
   slug: string;
 }
 
+interface CostcoProduct {
+  itemNumber: string;
+  sku: string | null;
+  name: string;
+  brand: string | null;
+  price: number | null;
+  currency: string | null;
+  availability: string | null;
+  inStock: boolean | null;
+  description: string | null;
+  image: string | null;
+  ratingValue: number | null;
+  ratingCount: number | null;
+  url: string;
+}
+
+interface CostcoCategory {
+  name: string;
+  slug: string;
+  url: string;
+}
+
   /**
    * Costco's own search-bar autocomplete suggestions, and its discounted gift cards with brand,
    * face value and price.
@@ -38544,6 +38566,18 @@ interface CostcoProductLink {
      * price, stock or brand rides with a match. Optional `limit` defaults to 20.
      */
     findProducts(query: string, options?: {limit?: number}): Promise<{ results: CostcoProductLink[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * One Costco product page, by item number or product URL: name, brand, price, currency, stock
+     * status and image, read from the page's own schema.org Product markup.
+     */
+    getProduct(itemNumberOrUrl: string): Promise<CostcoProduct>;
+
+    /**
+     * Costco's top-level shopping categories (appliances, electronics, gift cards and so on), each
+     * with its page URL.
+     */
+    listCategories(): Promise<CostcoCategory[]>;
 
     /**
      * Costco's discounted gift cards and eGift cards (restaurants, movies, games, travel) — each
@@ -54121,6 +54155,17 @@ interface FidelityNewsSearch {
   items: FidelityNewsItem[];
 }
 
+interface FidelityFundList {
+  url: string;
+  count: number;
+  funds: FidelityFundListing[];
+}
+
+interface FidelityFundListing {
+  name: string;
+  symbol: string;
+}
+
 interface FidelityTradingCommissions {
   url: string;
   commissions: { category: string; item: string; fee: string }[];
@@ -54177,6 +54222,12 @@ interface FidelityTradingCommissions {
      * volume, market cap, P/E, EPS, dividend and sector.
      */
     getQuote(symbol: string): Promise<FidelityQuote>;
+
+    /**
+     * Lists Fidelity's own mutual funds (name and ticker, one row per fund) from the Fidelity
+     * Funds overview page. Use screenFunds to filter them.
+     */
+    listFidelityFunds(): Promise<FidelityFundList>;
 
     /**
      * Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds), margin
@@ -68039,6 +68090,14 @@ interface HiltonHonorsPrograms {
   benefits: HiltonHonorsBenefit[];
 }
 
+interface HiltonDeal {
+  id: string;
+  headline: string;
+  description: string;
+  tags: string[]; // The site's own chips, e.g. Discount, Earn Points.
+  url: string | null; // The offer's own page, null when the card has no link.
+}
+
   /** Hilton-family hotel search, award availability, reservation lookup and property details. */
   interface Unit {
     /**
@@ -68053,6 +68112,12 @@ interface HiltonHonorsPrograms {
      * yet. See manifest.json's `reach.why`.
      */
     search(args: HiltonSearchArgs): Promise<hiltonRoomOffer[]>;
+
+    /**
+     * Reads Hilton's currently published offers from its Offers page: headline, description, tags
+     * and the link to book or read the terms.
+     */
+    getDeals(): Promise<HiltonDeal[]>;
 
     /**
      * Reads the published Hilton Honors tiers (Member, Silver, Gold, Diamond, Diamond Reserve)
@@ -102039,6 +102104,8 @@ interface ProgressiveAutoQuoteQuery {
   address: { street: string; city: string; state?: string; zip: string }; // garaging address; the street line is a rating input
   vehicle: { year: number | string; make: string /* matched against Progressive's own book */; model: string /* "Camry" finds "CAMRY" */; bodyStyle?: string /* default: the first style listed */; ownership?: "own" | "finance" | "lease" /* default "own" */; use?: "commute" | "pleasure" | "business" | "rideshare" /* default "pleasure" */ };
   driver: { gender: "M" | "F"; maritalStatus: "single" | "married" | "divorced" | "separated" | "widowed"; residence?: "own-home" | "own-condo" | "rent" | "live-with-parents" | "other"; accidentsOrClaims?: boolean /* default false */; ticketsOrViolations?: boolean /* default false */; currentlyInsured?: boolean /* default false */ };
+  // REQUIRED when driver.maritalStatus is "married" — Progressive quotes the spouse as a second driver; ask the caller, never invent one
+  spouse?: { firstName: string; lastName: string; dob: string /* YYYY-MM-DD */; gender: "M" | "F" };
 }
 
 interface ProgressiveAutoAssumption {
@@ -112670,8 +112737,8 @@ declare namespace BowmarkProvider_sentry {
 
   /**
    * Error monitoring and performance tracing. The product itself sits entirely behind an
-   * organization login — this pass only lands the sign-up adapter; `search` stays a stub until
-   * the signed-in surface is surveyed.
+   * organization login — every function reads or writes the caller's own organization through
+   * the signed-in session.
    */
   interface Unit {
     /**
@@ -122360,7 +122427,7 @@ interface stubhubEventPage {
   startDate: string | null; // venue-local, no zone
   venue: stubhubEventVenue;
   currency: string | null; // e.g. "USD"
-  listings: stubhubListing[]; // the ~10 the page shows first, page order — not the full inventory
+  listings: stubhubListing[]; // cheapest first; up to `maxListings` (default 60) of the grid, paged through its Show more button
   tiers: stubhubTier[]; // set instead of listings on a general-admission page (festival, pass)
   lowestPrice: number | null; // of those listings, or of the tiers' "From" prices
   highestPrice: number | null;
@@ -122464,6 +122531,14 @@ interface stubhubListPerformerEventsResult {
   warnings: string[];
 }
 
+interface stubhubListVenueEventsResult {
+  venueId: string;
+  venueName: string | null;
+  events: stubhubPerformerEvent[];
+  total: number | null; // events the page says this venue has
+  warnings: string[];
+}
+
 interface stubhubSellMatch {
   id: string; // pass to the seller flow's own /SellTickets/FindEvent/<id>
   title: string;
@@ -122533,17 +122608,18 @@ interface stubhubFavoritesResult {
     search(args: {query: string, site?: "stubhub" | "viagogo"} | string): Promise<stubhubSearchResult>;
 
     /**
-     * Returns the resale ticket listings one event page shows first (about ten): section, row,
-     * seats, all-in price per ticket and how many tickets each sells together, plus the lowest and
-     * highest of those prices and the currency. A general-admission page (a festival or pass)
-     * sells by tier instead, so it returns `tiers` (name, "From" price, sold out) and an empty
-     * `listings`. Takes a search() event `id` or a stubhub.com / viagogo.com event URL; `site`
-     * picks which site's prices. Opens a browser to clear the site's bot wall, so expect 25-85s —
-     * call events one after another rather than batching many into one run. The ~10 rows are a
-     * fixed snapshot: there is no pagination, and sort or URL parameters do not change which
-     * listings come back.
+     * Returns an event's resale ticket listings, cheapest first: section, row, seats, all-in price
+     * per ticket and how many tickets each sells together, plus the lowest and highest of those
+     * prices and the currency. Pages through the grid's own Show more button (20 per click):
+     * `maxListings` (default 60, max 400) bounds how many come back, and `quantity` keeps only
+     * listings that sell at least that many together, searching up to 400 loaded. A `warnings`
+     * entry says when it stopped before the inventory ran out. A general-admission page (a
+     * festival or pass) sells by tier instead, so it returns `tiers` and an empty `listings`.
+     * Takes a search() event `id` or a stubhub.com / viagogo.com event URL; `site` picks which
+     * site's prices. Opens a browser to clear the site's bot wall, so expect 25-120s — call events
+     * one after another.
      */
-    getEventListings(args: {eventId: string, site?: "stubhub" | "viagogo"} | {url: string} | string): Promise<stubhubEventPage>;
+    getEventListings(args: {eventId: string, site?: "stubhub" | "viagogo", quantity?: number, maxListings?: number} | {url: string} | string): Promise<stubhubEventPage>;
 
     /**
      * Returns one event's details — name, venue with street address, local start time, currency —
@@ -122593,6 +122669,14 @@ interface stubhubFavoritesResult {
      * and a warning marks a short list. Opens a browser, so expect 10-25s.
      */
     listPerformerEvents(args: {performerId: string, limit?: number}): Promise<stubhubListPerformerEventsResult>;
+
+    /**
+     * The events at one venue: each event's id, date and time, lowest price and whether tickets
+     * are on sale, soonest first. Takes the `id` findVenues returns. StubHub's page embeds only
+     * its soonest events, so `total` says how many exist and a warning marks a short list. Opens a
+     * browser, so expect 10-25s.
+     */
+    listVenueEvents(args: {venueId: string, limit?: number}): Promise<stubhubListVenueEventsResult>;
 
     /**
      * The seller side of the marketplace: searches StubHub's own event-finder for a performer,
@@ -126146,6 +126230,34 @@ interface AtlanticArticlePage {
   nextCursor: string | null;
 }
 
+interface AtlanticSection {
+  kind: "channel" | "category" | "project";
+  id: string;
+  slug: string; // feed to browseSection
+  name: string;
+}
+
+interface AtlanticAuthorRow {
+  slug: string; // feed to getAuthor
+  name: string;
+  url: string;
+}
+
+interface AtlanticAuthorSearch {
+  results: AtlanticAuthorRow[];
+  total: number | null;
+  returned: number;
+}
+
+interface AtlanticAuthorProfile {
+  slug: string; // feed to getAuthor
+  name: string;
+  url: string;
+  bio: string | null;
+  social: { platform: string; url: string }[];
+  articles: AtlanticArticlePage;
+}
+
   /**
    * The Atlantic magazine: read stories in full, browse sections, writers, magazine issues,
    * newsletters, podcasts and the daily games; saved stories, followed topics, gift links,
@@ -126170,6 +126282,24 @@ interface AtlanticArticlePage {
      * for the next page.
      */
     listLatestArticles(args: {limit?: number, cursor?: string, page?: number}): Promise<AtlanticArticlePage>;
+
+    /**
+     * Lists the site's sections (Politics, Ideas, Culture, Technology, Science, Health, Books and
+     * the rest) with each section's slug, the door for browseSection.
+     */
+    listSections(): Promise<{ sections: AtlanticSection[] }>;
+
+    /** Lists the newest stories in one section, such as politics or ideas, with paging. */
+    browseSection(section: string | {section: string, limit?: number, cursor?: string, page?: number}): Promise<AtlanticArticlePage>;
+
+    /** Finds writers by name, the door for getAuthor. */
+    searchAuthors(query: string | {query: string, limit?: number}): Promise<AtlanticAuthorSearch>;
+
+    /**
+     * Reads one writer's page: name, biography, headshot, social links, linked newsletter and
+     * their stories with paging.
+     */
+    getAuthor(author: string | {slug: string, limit?: number, cursor?: string, page?: number}): Promise<AtlanticAuthorProfile>;
   }
 }
 
@@ -130562,11 +130692,12 @@ interface TravelersAgent {
    */
   interface Unit {
     /**
-     * Finds Travelers Insurance independent agents near a US ZIP or city — agency name, address,
-     * phone, website, distance and the Travelers products each writes (home, car, renters, condo,
-     * landlord, umbrella, boat) — nearest first. Travelers sells personal home and auto mostly
-     * through independent agents, so this is how a person gets a Travelers quote where no online
-     * quote is offered. Filter with `product` and `lineOfBusiness`.
+     * Finds Travelers Insurance independent agents near a US ZIP or city the caller must name
+     * (never guess one; ask the user) — agency name, address, phone, website, distance and the
+     * Travelers products each writes (home, car, renters, condo, landlord, umbrella, boat) —
+     * nearest first. Travelers sells personal home and auto mostly through independent agents, so
+     * this is how a person gets a Travelers quote where no online quote is offered. Filter with
+     * `product` and `lineOfBusiness`.
      */
     findAgent(query: TravelersAgentQuery): Promise<TravelersAgentSearch>;
   }

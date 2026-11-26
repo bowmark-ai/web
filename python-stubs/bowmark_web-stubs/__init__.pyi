@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6eb1be316a3f1d9d666c38cccefdf147f574bc12246ca3b6c7fb238df3106fea
-# 100 capabilities, 994 providers, 6221 typed functions, 20 refused.
+# Manifest version: 601ac34351eb01cd99b519bdcb5aab930346c5ac5f0b2b150ef28e112270303a
+# 100 capabilities, 994 providers, 6230 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24484,6 +24484,26 @@ class Prv_costco_CostcoProductLink_Out(TypedDict):
     url: str
     slug: str
 
+class Prv_costco_CostcoProduct_Out(TypedDict):
+    itemNumber: str
+    sku: str | None
+    name: str
+    brand: str | None
+    price: float | None
+    currency: str | None
+    availability: str | None
+    inStock: bool | None
+    description: str | None
+    image: str | None
+    ratingValue: float | None
+    ratingCount: float | None
+    url: str
+
+class Prv_costco_CostcoCategory_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+
 class Prv_costco_listGiftCards_options_In(TypedDict):
     query: NotRequired[str]
     limit: NotRequired[float]
@@ -35334,6 +35354,15 @@ class Prv_fidelity_FidelityQuote_Out(TypedDict):
     lastTradeTime: str | None
     url: str
 
+class Prv_fidelity_FidelityFundList_Out(TypedDict):
+    url: str
+    count: float
+    funds: list[Prv_fidelity_FidelityFundListing_Out]
+
+class Prv_fidelity_FidelityFundListing_Out(TypedDict):
+    name: str
+    symbol: str
+
 class Prv_fidelity_FidelityTradingCommissions_Out(TypedDict):
     url: str
     commissions: list[Prv_fidelity_FidelityTradingCommissions_Out_commissions_item_Out]
@@ -43748,6 +43777,13 @@ class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     currencyCode: str
     nightlyRate: str
     totalRate: str
+
+class Prv_hilton_HiltonDeal_Out(TypedDict):
+    id: str
+    headline: str
+    description: str
+    tags: list[str]
+    url: str | None
 
 class Prv_hilton_HiltonHonorsPrograms_Out(TypedDict):
     tiers: list[Prv_hilton_HiltonHonorsTier_Out]
@@ -65509,6 +65545,7 @@ class Prv_progressive_ProgressiveAutoQuoteQuery_In(TypedDict):
     address: Prv_progressive_ProgressiveAutoQuoteQuery_In_address_In
     vehicle: Prv_progressive_ProgressiveAutoQuoteQuery_In_vehicle_In
     driver: Prv_progressive_ProgressiveAutoQuoteQuery_In_driver_In
+    spouse: NotRequired[Prv_progressive_ProgressiveAutoQuoteQuery_In_spouse_In]
 
 class Prv_progressive_ProgressiveAutoQuoteQuery_In_identity_In(TypedDict):
     firstName: str
@@ -65537,6 +65574,12 @@ class Prv_progressive_ProgressiveAutoQuoteQuery_In_driver_In(TypedDict):
     accidentsOrClaims: NotRequired[bool]
     ticketsOrViolations: NotRequired[bool]
     currentlyInsured: NotRequired[bool]
+
+class Prv_progressive_ProgressiveAutoQuoteQuery_In_spouse_In(TypedDict):
+    firstName: str
+    lastName: str
+    dob: str
+    gender: Literal["M"] | Literal["F"]
 
 class Prv_progressive_ProgressiveAutoQuote_Out(TypedDict):
     quoteNumber: str
@@ -79507,6 +79550,8 @@ class Prv_stubhub_stubhubPerformerHit_Out(TypedDict):
 class Prv_stubhub_getEventListings_args_u0_In(TypedDict):
     eventId: str
     site: NotRequired[Literal["stubhub"] | Literal["viagogo"]]
+    quantity: NotRequired[float]
+    maxListings: NotRequired[float]
 
 class Prv_stubhub_getEventListings_args_u1_In(TypedDict):
     url: str
@@ -79666,6 +79711,17 @@ class Prv_stubhub_stubhubPerformerEvent_Out(TypedDict):
     lowPrice: float | None
     currency: str | None
     onSale: bool
+
+class Prv_stubhub_listVenueEvents_args_In(TypedDict):
+    venueId: str
+    limit: NotRequired[float]
+
+class Prv_stubhub_stubhubListVenueEventsResult_Out(TypedDict):
+    venueId: str
+    venueName: str | None
+    events: list[Prv_stubhub_stubhubPerformerEvent_Out]
+    total: float | None
+    warnings: list[str]
 
 class Prv_stubhub_findEventsToSell_args_u0_In(TypedDict):
     query: str
@@ -82113,6 +82169,53 @@ class Prv_theatlantic_listLatestArticles_args_In(TypedDict):
     limit: NotRequired[float]
     cursor: NotRequired[str]
     page: NotRequired[float]
+
+class Prv_theatlantic_listSections_return_Out(TypedDict):
+    sections: list[Prv_theatlantic_AtlanticSection_Out]
+
+class Prv_theatlantic_AtlanticSection_Out(TypedDict):
+    kind: Literal["channel"] | Literal["category"] | Literal["project"]
+    id: str
+    slug: str
+    name: str
+
+class Prv_theatlantic_browseSection_section_u1_In(TypedDict):
+    section: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_theatlantic_searchAuthors_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_theatlantic_AtlanticAuthorSearch_Out(TypedDict):
+    results: list[Prv_theatlantic_AtlanticAuthorRow_Out]
+    total: float | None
+    returned: float
+
+class Prv_theatlantic_AtlanticAuthorRow_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+
+class Prv_theatlantic_getAuthor_author_u1_In(TypedDict):
+    slug: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_theatlantic_AtlanticAuthorProfile_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    bio: str | None
+    social: list[Prv_theatlantic_AtlanticAuthorProfile_Out_social_item_Out]
+    articles: Prv_theatlantic_AtlanticArticlePage_Out
+
+class Prv_theatlantic_AtlanticAuthorProfile_Out_social_item_Out(TypedDict):
+    platform: str
+    url: str
 
 class Prv_thefork_TheforkSearchArgs_In(TypedDict):
     query: str
@@ -109478,6 +109581,16 @@ class Prv_costco(Protocol):
         only; no price, stock or brand rides with a match. Optional `limit` defaults to 20.
         """
 
+    async def getProduct(self, itemNumberOrUrl: str, /) -> Prv_costco_CostcoProduct_Out:
+        """One Costco product page, by item number or product URL: name, brand, price, currency,
+        stock status and image, read from the page's own schema.org Product markup.
+        """
+
+    async def listCategories(self, /) -> list[Prv_costco_CostcoCategory_Out]:
+        """Costco's top-level shopping categories (appliances, electronics, gift cards and so on),
+        each with its page URL.
+        """
+
     async def listGiftCards(self, options: Prv_costco_listGiftCards_options_In | None = None, /) -> list[Prv_costco_CostcoGiftCard_Out]:
         """Costco's discounted gift cards and eGift cards (restaurants, movies, games, travel) —
         each card's brand, face value, the member price, and the savings. Optional `query`
@@ -114482,6 +114595,11 @@ class Prv_fidelity(Protocol):
         range, volume, market cap, P/E, EPS, dividend and sector.
         """
 
+    async def listFidelityFunds(self, /) -> Prv_fidelity_FidelityFundList_Out:
+        """Lists Fidelity's own mutual funds (name and ticker, one row per fund) from the Fidelity
+        Funds overview page. Use screenFunds to filter them.
+        """
+
     async def getTradingCommissions(self, /) -> Prv_fidelity_FidelityTradingCommissions_Out:
         """Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds),
         margin rates by debit balance with the current base rate, and the account fee schedule.
@@ -119372,6 +119490,11 @@ class Prv_hilton(Protocol):
         error rather than a wrong or empty result. Hampton by Hilton and Embassy Suites have not
         been measured: if one runs the second app, the call throws that error, which names the
         app and says it is not supported yet. See manifest.json's `reach.why`.
+        """
+
+    async def getDeals(self, /) -> list[Prv_hilton_HiltonDeal_Out]:
+        """Reads Hilton's currently published offers from its Offers page: headline, description,
+        tags and the link to book or read the terms.
         """
 
     async def getHonorsPrograms(self, /) -> Prv_hilton_HiltonHonorsPrograms_Out:
@@ -134358,8 +134481,8 @@ class Prv_semihandmade(Protocol):
 
 class Prv_sentry(Protocol):
     """Error monitoring and performance tracing. The product itself sits entirely behind an
-    organization login — this pass only lands the sign-up adapter; `search` stays a stub
-    until the signed-in surface is surveyed.
+    organization login — every function reads or writes the caller's own organization
+    through the signed-in session.
     """
 
     async def signup(self, args: Any, /) -> Prv_sentry_signup_return_u0_Out | Prv_sentry_signup_return_u1_Out | Prv_sentry_signup_return_u2_Out | Prv_sentry_signup_return_u3_Out:
@@ -137265,15 +137388,16 @@ class Prv_stubhub(Protocol):
         """
 
     async def getEventListings(self, args: Prv_stubhub_getEventListings_args_u0_In | Prv_stubhub_getEventListings_args_u1_In | str, /) -> Prv_stubhub_stubhubEventPage_Out:
-        """Returns the resale ticket listings one event page shows first (about ten): section, row,
-        seats, all-in price per ticket and how many tickets each sells together, plus the lowest
-        and highest of those prices and the currency. A general-admission page (a festival or
-        pass) sells by tier instead, so it returns `tiers` (name, "From" price, sold out) and an
-        empty `listings`. Takes a search() event `id` or a stubhub.com / viagogo.com event URL;
-        `site` picks which site's prices. Opens a browser to clear the site's bot wall, so
-        expect 25-85s — call events one after another rather than batching many into one run.
-        The ~10 rows are a fixed snapshot: there is no pagination, and sort or URL parameters do
-        not change which listings come back.
+        """Returns an event's resale ticket listings, cheapest first: section, row, seats, all-in
+        price per ticket and how many tickets each sells together, plus the lowest and highest
+        of those prices and the currency. Pages through the grid's own Show more button (20 per
+        click): `maxListings` (default 60, max 400) bounds how many come back, and `quantity`
+        keeps only listings that sell at least that many together, searching up to 400 loaded. A
+        `warnings` entry says when it stopped before the inventory ran out. A general-admission
+        page (a festival or pass) sells by tier instead, so it returns `tiers` and an empty
+        `listings`. Takes a search() event `id` or a stubhub.com / viagogo.com event URL; `site`
+        picks which site's prices. Opens a browser to clear the site's bot wall, so expect
+        25-120s — call events one after another.
         """
 
     async def getEvent(self, args: Prv_stubhub_getEvent_args_u0_In | Prv_stubhub_getEvent_args_u1_In | str, /) -> Prv_stubhub_stubhubEventDetail_Out:
@@ -137317,6 +137441,13 @@ class Prv_stubhub(Protocol):
         city, lowest price and whether tickets are on sale, soonest first. Takes the `id`
         findPerformers returns. StubHub's page embeds only its soonest ~10 events, so `total`
         says how many exist and a warning marks a short list. Opens a browser, so expect 10-25s.
+        """
+
+    async def listVenueEvents(self, args: Prv_stubhub_listVenueEvents_args_In, /) -> Prv_stubhub_stubhubListVenueEventsResult_Out:
+        """The events at one venue: each event's id, date and time, lowest price and whether
+        tickets are on sale, soonest first. Takes the `id` findVenues returns. StubHub's page
+        embeds only its soonest events, so `total` says how many exist and a warning marks a
+        short list. Opens a browser, so expect 10-25s.
         """
 
     async def findEventsToSell(self, args: Prv_stubhub_findEventsToSell_args_u0_In | str, /) -> Prv_stubhub_stubhubFindEventsToSellResult_Out:
@@ -138409,6 +138540,22 @@ class Prv_theatlantic(Protocol):
     async def listLatestArticles(self, args: Prv_theatlantic_listLatestArticles_args_In, /) -> Prv_theatlantic_AtlanticArticlePage_Out:
         """The newest stories across The Atlantic, newest first. Returns story rows plus a
         nextCursor for the next page.
+        """
+
+    async def listSections(self, /) -> Prv_theatlantic_listSections_return_Out:
+        """Lists the site's sections (Politics, Ideas, Culture, Technology, Science, Health, Books
+        and the rest) with each section's slug, the door for browseSection.
+        """
+
+    async def browseSection(self, section: str | Prv_theatlantic_browseSection_section_u1_In, /) -> Prv_theatlantic_AtlanticArticlePage_Out:
+        """Lists the newest stories in one section, such as politics or ideas, with paging."""
+
+    async def searchAuthors(self, query: str | Prv_theatlantic_searchAuthors_query_u1_In, /) -> Prv_theatlantic_AtlanticAuthorSearch_Out:
+        """Finds writers by name, the door for getAuthor."""
+
+    async def getAuthor(self, author: str | Prv_theatlantic_getAuthor_author_u1_In, /) -> Prv_theatlantic_AtlanticAuthorProfile_Out:
+        """Reads one writer's page: name, biography, headshot, social links, linked newsletter and
+        their stories with paging.
         """
 
 class Prv_thefork(Protocol):
@@ -139965,11 +140112,12 @@ class Prv_travelers(Protocol):
     """
 
     async def findAgent(self, query: Prv_travelers_TravelersAgentQuery_In, /) -> Prv_travelers_TravelersAgentSearch_Out:
-        """Finds Travelers Insurance independent agents near a US ZIP or city — agency name,
-        address, phone, website, distance and the Travelers products each writes (home, car,
-        renters, condo, landlord, umbrella, boat) — nearest first. Travelers sells personal home
-        and auto mostly through independent agents, so this is how a person gets a Travelers
-        quote where no online quote is offered. Filter with `product` and `lineOfBusiness`.
+        """Finds Travelers Insurance independent agents near a US ZIP or city the caller must name
+        (never guess one; ask the user) — agency name, address, phone, website, distance and the
+        Travelers products each writes (home, car, renters, condo, landlord, umbrella, boat) —
+        nearest first. Travelers sells personal home and auto mostly through independent agents,
+        so this is how a person gets a Travelers quote where no online quote is offered. Filter
+        with `product` and `lineOfBusiness`.
         """
 
 class Prv_travelinsured(Protocol):
