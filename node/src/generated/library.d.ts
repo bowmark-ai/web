@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 601ac34351eb01cd99b519bdcb5aab930346c5ac5f0b2b150ef28e112270303a
-// 100 capabilities, 994 providers, 6258 typed functions, 20 refused.
+// Manifest version: 5fcd95e25046b6bb20eea763196447f0f1f651c53eb38561148d5f8dfda55620
+// 102 capabilities, 995 providers, 6267 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -4413,6 +4413,73 @@ interface PersonalizationCheck {
   }
 }
 
+declare namespace BowmarkCapability_product_map {
+  // ── Map a company's product: every feature area, with a summary and a screenshot — the unit's own declarations, verbatim ──
+interface ProductMapOptions {
+  url: string;
+  maxFeatures?: number; // most feature areas to return, 1-30; default 12
+  screenshots?: boolean; // screenshot each feature page; default true. false answers in a few seconds
+  timeoutMs?: number; // the whole call's budget, 10000-110000; default 75000, never past the run's deadline
+}
+
+interface FeatureScreenshot {
+  url: string; // signed link to the JPEG in your Bowmark files; expires at expiresAt, bowmark.files.url(fileId) mints a new one
+  fileId: string;
+  width: number;
+  height: number;
+  bytes: number;
+  expiresAt: string;
+}
+
+interface FeatureSection {
+  heading: string;
+  text: string | null; // the paragraph under the heading, when there is one
+}
+
+interface ProductFeature {
+  name: string; // the site's own menu label, else the page title
+  url: string;
+  summary: string | null; // meta description, else the first paragraph
+  headings: string[]; // h2/h3 sub-features, with headings every page repeats (FAQ, newsletter) removed
+  sections: FeatureSection[]; // the same headings with the paragraph under each
+  h1: string | null;
+  screenshot: FeatureScreenshot | null; // null when screenshots were off, out of time or failed; warnings say which
+  signal: "feature-path" | "product-menu" | "solutions-menu" | "navigation"; // how the page was recognised as a feature area
+  status: number; // HTTP status of the page; 0 when it was never reached
+}
+
+interface ProductMap {
+  site: string; // host without www.
+  url: string; // the homepage read, after redirects
+  features: ProductFeature[];
+  found: number; // feature areas found before maxFeatures cut the list
+  method: "feature-path" | "product-menu" | "solutions-menu" | "navigation" | null; // the strongest signal used; navigation means the site has no recognisable feature pages
+  sources: { sitemap: boolean /* a returned feature is listed in the site's sitemap */; nav: boolean /* a returned feature is linked from the homepage */ };
+  warnings: string[];
+}
+
+  /**
+   * Given a company's site, finds every feature area of its product (its /features/ pages, else
+   * the links in its Product/Platform menu, else its navigation) and returns each one's name,
+   * summary, sub-feature headings and a screenshot link. No model call: the same site gives the
+   * same list.
+   */
+  interface Unit {
+    /**
+     * Maps a product's feature areas from its own site. Reads the homepage and the sitemap, picks
+     * the feature pages (/features/x, /product/x, /platform/x, /solutions/x; else the links under
+     * a menu labelled Product, Features or Platform; else the top-level navigation, said in
+     * `warnings`), dedupes locale copies and keeps /integrations as one entry. Each feature
+     * carries `name` (the site's own menu label), `summary` (meta description, else the first
+     * paragraph), `headings` (its h2/h3 sub-features, site-wide boilerplate removed) and
+     * `screenshot` (a 1280x800 JPEG saved to the caller's Bowmark files: a link, never base64).
+     * Default 12 features, up to 30; ~20-40 s for 12 with screenshots, so call it alone in a run.
+     * `screenshots: false` makes it a few seconds.
+     */
+    map(options: ProductMapOptions | string): Promise<ProductMap>;
+  }
+}
+
 declare namespace BowmarkCapability_products {
   // ── Check a product page's price and stock availability — the unit's own declarations, verbatim ──
 interface ProductSearchResult {
@@ -5294,6 +5361,92 @@ interface retirement_ira_comparisonResult {
      * assumptions, including the result if each traditional-IRA tax saving is invested.
      */
     compare(args: CompareIraArgs): Promise<retirement_ira_comparisonResult>;
+  }
+}
+
+declare namespace BowmarkCapability_reviews {
+  // ── Public customer reviews of one company (G2, Trustpilot, Reddit) — the unit's own declarations, verbatim ──
+type ReviewSource = "g2" | "trustpilot" | "reddit";
+
+type RedditMatch = "domain" | "subreddit" | "name" | "name+context" | "domain-search";
+
+interface CompanyReview {
+  source: ReviewSource;
+  id: string;
+  url: string;
+  title: string;
+  text: string;
+  rating: number | null;
+  publishedAt: string | null;
+  author: string | null;
+  authorRole?: string | null;
+  companySize?: string | null;
+  industry?: string | null;
+  subreddit?: string;
+  score?: number | null;
+  numComments?: number | null;
+  matchedBy?: RedditMatch;
+}
+
+interface G2Summary {
+  name: string;
+  slug: string;
+  url: string;
+  rating: number | null;
+  reviewCount: number | null;
+  matchedBy: "exact-name" | "core-name";
+  candidates: { name: string; url: string; reviewCount: number | null }[];
+}
+
+interface TrustpilotSummary {
+  name: string;
+  domain: string;
+  url: string;
+  trustScore: number | null;
+  stars: number | null;
+  reviewCount: number | null;
+  reviewsLast12Months: number | null;
+  ratingDistribution: { one: number; two: number; three: number; four: number; five: number } | null;
+  isClaimed: boolean | null;
+}
+
+interface RedditSummary {
+  url: string;
+  queries: string[];
+  threadsSeen: number;
+  threadsMatched: number;
+}
+
+interface CompanyReviews {
+  company: { name: string; domain: string };
+  sources: { g2: G2Summary | null; trustpilot: TrustpilotSummary | null; reddit: RedditSummary | null };
+  reviews: CompanyReview[];
+  warnings: string[];
+}
+
+interface ForCompanyArgs {
+  name: string;
+  domain: string;
+  sources?: ReviewSource[];
+  limit?: number;
+  g2Url?: string;
+}
+
+  /**
+   * Everything customers say about one company in public, in one call: G2 reviews, Trustpilot
+   * reviews with the TrustScore, and Reddit threads that mention it, normalized to one row shape
+   * and left unscored.
+   */
+  interface Unit {
+    /**
+     * One company's public customer feedback from G2, Trustpilot and Reddit, in parallel, as one
+     * list of raw rows (`{ name: "Linear", domain: "linear.app" }`). G2 is matched by NAME and
+     * left null with a warning naming the candidates when it is ambiguous (pass `g2Url` to pin
+     * it); Trustpilot is read by `domain`; Reddit threads are kept only with evidence they are
+     * about this company, given on each row as `matchedBy`. No scoring and no model: the caller
+     * scores. A source that fails is null plus a line in `warnings`, never an empty list.
+     */
+    forCompany(args: ForCompanyArgs, options: {timeoutMs?: number}): Promise<CompanyReviews>;
   }
 }
 
@@ -54166,6 +54319,12 @@ interface FidelityFundListing {
   symbol: string;
 }
 
+interface FidelityCalculatorList {
+  url: string;
+  count: number;
+  calculators: { name: string; url: string | null; description: string; contentType: string; topics: string[]; products: string[] }[];
+}
+
 interface FidelityTradingCommissions {
   url: string;
   commissions: { category: string; item: string; fee: string }[];
@@ -54228,6 +54387,12 @@ interface FidelityTradingCommissions {
      * Funds overview page. Use screenFunds to filter them.
      */
     listFidelityFunds(): Promise<FidelityFundList>;
+
+    /**
+     * Lists Fidelity's public calculators, planners and research tools (about 40): name, link,
+     * description, type, topics and products.
+     */
+    listCalculators(): Promise<FidelityCalculatorList>;
 
     /**
      * Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds), margin
@@ -58362,8 +58527,12 @@ interface G2SearchResult {
   id: string;
   name: string;
   url: string;
-  rating: number | null;
+  rating: number | null; // out of 5; null when the card shows no rating
   reviewCount: number | null;
+  matchesQuery: boolean; // the row's name is the product the query names (match exact or contains)
+  match: "exact" | "contains" | "partial" | "none"; // how the row's name relates to the query; rows are sorted by it
+  source: "ai_card" | "ai_alternative" | "results"; // where on G2's page the row appears
+  vendor: { name: string; url: string } | null; // the seller G2 names on the card; null when it names none
 }
 
 interface G2Product {
@@ -58403,11 +58572,18 @@ interface G2Review {
   interface Unit {
     /**
      * Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a product
-     * name ("slack"), a software category ("project management software"), or a caller's own
-     * phrasing verbatim; G2 ranks whatever you pass and this returns those listings in that order,
-     * each carrying the star rating (out of 5) and review count G2's search page publishes, plus
-     * the `url` `getProduct` takes. Call it directly with the caller's words rather than asking
-     * them to narrow it — G2's own ranking does that.
+     * name ("slack", "Jane App") or a software category ("project management software"). Returns
+     * every listing G2's page shows (its AI picks and alternatives, then its result list), each
+     * with the star rating (out of 5) and review count G2 publishes, the `url` `getProduct` and
+     * `listReviews` take, `source` (`ai_card` / `ai_alternative` / `results`), `vendor` (the
+     * seller G2 names on the card, or null), and `match` / `matchesQuery`: whether the row's NAME
+     * is the product the query names. G2's own order is fuzzy ("Jane App" puts Appy Pie first), so
+     * rows are re-ranked: a reviewed exact name match first ("Jane" for "Jane App"; case,
+     * punctuation and app/software/inc ignored), then names carrying every distinctive query word
+     * (`contains`: "HubSpot Sales Hub"), then partial and unrelated rows, G2's order kept within
+     * each and nothing dropped. Take the first row with `matchesQuery: true`; if none has it, G2
+     * does not list that product under that name. A category query names no product, so expect
+     * `matchesQuery: false` throughout.
      */
     search(args: {query: string}): Promise<G2SearchResult[]>;
 
@@ -68098,6 +68274,24 @@ interface HiltonDeal {
   url: string | null; // The offer's own page, null when the card has no link.
 }
 
+interface HiltonHotelDetails {
+  slug: string;
+  name: string;
+  url: string;
+  description: string | null;
+  phone: string | null;
+  fax: string | null;
+  imageUrl: string | null;
+  address: { street: string; city: string; region: string | null; postalCode: string | null; countryCode: string /* ISO 3166-1 alpha-2, e.g. NL. */ };
+  latitude: number | null;
+  longitude: number | null;
+  amenities: string[]; // The property's Hotel Info icon labels, e.g. Free WiFi.
+}
+
+interface HiltonHotelDetailsArgs {
+  hotelSlug: string; // The property's hilton.com URL slug, the segment after /en/hotels/, e.g. "amswawa-waldorf-astoria-amsterdam".
+}
+
   /** Hilton-family hotel search, award availability, reservation lookup and property details. */
   interface Unit {
     /**
@@ -68118,6 +68312,13 @@ interface HiltonDeal {
      * and the link to book or read the terms.
      */
     getDeals(): Promise<HiltonDeal[]>;
+
+    /**
+     * Reads one Hilton-family property from its public pages (no browser): name, address,
+     * coordinates, phone, fax, description, image and the Hotel Info amenity labels, for a
+     * hilton.com property slug. Policies (check-in/out, pets) are not returned.
+     */
+    getHotelDetails(args: HiltonHotelDetailsArgs): Promise<HiltonHotelDetails>;
 
     /**
      * Reads the published Hilton Honors tiers (Member, Silver, Gold, Diamond, Diamond Reserve)
@@ -102863,6 +103064,66 @@ interface ContainerRecipeDetails {
   }
 }
 
+declare namespace BowmarkProvider_proxibid {
+  // ── Proxibid — the unit's own declarations, verbatim ──
+interface ProxibidLotCard {
+  lotId: string; // pass to getLot
+  title: string;
+  price: string | null; // as the card shows it, e.g. "$900.00 Current Bid"
+  priceAmount: number | null; // USD read off price; null when no bid yet
+  status: string | null; // time left as the card words it, e.g. "7 days 2 hours until bidding ends"
+  imageUrl: string | null;
+  url: string;
+}
+
+interface ProxibidSearchResult {
+  query: string;
+  sort: "relevance" | "endingSoon" | "priceHigh" | "priceLow";
+  page: number;
+  pageSize: number;
+  totalResults: number | null; // the site's own result count
+  lots: ProxibidLotCard[];
+}
+
+interface ProxibidLot {
+  lotId: string;
+  title: string;
+  lotNumber: string | null; // the lot number inside its auction
+  timeRemaining: string | null;
+  bidStatus: string | null; // e.g. "No bids placed", "Current Bid"
+  currentBid: number | null;
+  currency: string | null;
+  seller: string | null; // the auction house
+  location: string | null;
+  auctionId: string | null;
+  auctionTitle: string | null;
+  auctionUrl: string | null;
+  auctionDate: string | null;
+  description: string | null;
+  url: string;
+}
+
+  /**
+   * Search Proxibid's online auctions (farm equipment, trucks, industrial, collectibles,
+   * firearms…) for lots by keyword, then read a lot's current bid, time left, seller and
+   * location.
+   */
+  interface Unit {
+    /**
+     * Searches Proxibid's online auction lots by keyword. sort is relevance (the default),
+     * endingSoon, priceHigh or priceLow. page is 1-based and defaults to 1. pageSize is 25 (the
+     * default), 50 or 100.
+     */
+    searchLots(args: {query: string, sort?: "relevance" | "endingSoon" | "priceHigh" | "priceLow", page?: number, pageSize?: 25 | 50 | 100}): Promise<ProxibidSearchResult>;
+
+    /**
+     * Reads one Proxibid lot (current bid, time remaining, seller, location, auction) by its
+     * lotId, the lots[].lotId that searchLots returns, or by its lot url.
+     */
+    getLot(args: {lotId?: string, url?: string}): Promise<ProxibidLot>;
+  }
+}
+
 declare namespace BowmarkProvider_proxmox {
   // ── Proxmox — the unit's own declarations, verbatim ──
 type ProxmoxProductSlug = "proxmox-virtual-environment" | "proxmox-backup-server" | "proxmox-mail-gateway" | "proxmox-datacenter-manager";
@@ -126300,6 +126561,15 @@ interface AtlanticAuthorProfile {
      * their stories with paging.
      */
     getAuthor(author: string | {slug: string, limit?: number, cursor?: string, page?: number}): Promise<AtlanticAuthorProfile>;
+
+    /** The stories readers are opening most right now across The Atlantic, with paging. */
+    listMostPopular(args: {limit?: number, cursor?: string, page?: number}): Promise<AtlanticArticlePage>;
+
+    /**
+     * Lists the newest stories under one topic tag, such as donald-trump; slugs come from a
+     * story's tags (getArticle).
+     */
+    browseTopic(topic: string | {slug: string, limit?: number, cursor?: string, page?: number}): Promise<{ results: AtlanticArticleRow[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[]; nextCursor: string | null; topic: { name: string; slug: string } }>;
   }
 }
 
@@ -130692,9 +130962,11 @@ interface TravelersAgent {
    */
   interface Unit {
     /**
-     * Finds Travelers Insurance independent agents near a US ZIP or city the caller must name
-     * (never guess one; ask the user) — agency name, address, phone, website, distance and the
-     * Travelers products each writes (home, car, renters, condo, landlord, umbrella, boat) —
+     * Get a Travelers homeowners or personal auto quote: Travelers' online quote needs the
+     * caller's own identity and a credit-pull consent, so the quote is reached through a Travelers
+     * agent. Finds Travelers Insurance independent agents near a US ZIP or city the caller must
+     * name (never guess one; ask the user) — agency name, address, phone, website, distance and
+     * the Travelers products each writes (home, car, renters, condo, landlord, umbrella, boat) —
      * nearest first. Travelers sells personal home and auto mostly through independent agents, so
      * this is how a person gets a Travelers quote where no online quote is offered. Filter with
      * `product` and `lineOfBusiness`.
@@ -133790,15 +134062,41 @@ interface uhc_directoryProviderSearch {
   warnings: string[];
 }
 
+interface uhc_directoryCommercialProvider {
+  name: string | null;
+  specialty: string | null;
+  address: string | null;
+  phone: string | null;
+  npi: string | null;
+  distanceMiles: number | null;
+  networkStatus: string | null;
+  acceptingNewPatients: boolean | null;
+}
+
+interface uhc_directoryCommercialSearch {
+  providers: uhc_directoryCommercialProvider[];
+  total: number | null;
+  matchedSpecialties: string[];
+  warnings: string[];
+}
+
   /**
-   * Doctors and other practitioners in UnitedHealthcare's network near a US ZIP code, from
-   * UnitedHealthcare's public CMS provider directory: name, specialty, office address, phone and
-   * NPI
+   * Doctors and other practitioners in UnitedHealthcare's network near a US ZIP code: name,
+   * specialty, office address, phone and NPI. findCommercialProviders covers employer &
+   * individual plans (Choice / Choice Plus) by specialty; findProviders covers the Medicare
+   * Advantage network
    */
   interface Unit {
     /**
-     * In-network practitioners at offices in one ZIP code, optionally filtered by specialty words
-     * ("family medicine", "dentist"); limit defaults to 20, max 100
+     * In-network UnitedHealthcare specialists and doctors near a US ZIP for employer & individual
+     * plans (Choice / Choice Plus network), filtered by specialty ("cardiology", "family
+     * medicine"), nearest first, with name, NPI, address, phone and distance
+     */
+    findCommercialProviders(query: string | {zip: string, specialty?: string, limit?: number, radiusMiles?: number, page?: number, network?: "choice" | "choice_hmo"}): Promise<uhc_directoryCommercialSearch>;
+
+    /**
+     * UnitedHealthcare Medicare Advantage in-network practitioners at offices in one ZIP code (CMS
+     * Plan-Net directory), optionally filtered by specialty words; limit defaults to 20, max 100
      */
     findProviders(query: string | {zip: string, specialty?: string, limit?: number}): Promise<uhc_directoryProviderSearch>;
   }
@@ -540335,6 +540633,7 @@ interface BowmarkProviders {
   prose: BowmarkProvider_prose.Unit;
   proton_mail: BowmarkProvider_proton_mail.Unit;
   provenwinners: BowmarkProvider_provenwinners.Unit;
+  proxibid: BowmarkProvider_proxibid.Unit;
   proxmox: BowmarkProvider_proxmox.Unit;
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
   prusa3d: BowmarkProvider_prusa3d.Unit;
@@ -662887,6 +663186,7 @@ interface BowmarkLibrary {
   phone_price: BowmarkCapability_phone_price.Unit;
   phone_trade_in: BowmarkCapability_phone_trade_in.Unit;
   pricing: BowmarkCapability_pricing.Unit;
+  product_map: BowmarkCapability_product_map.Unit;
   products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;
   prospect_screening: BowmarkCapability_prospect_screening.Unit;
@@ -662896,6 +663196,7 @@ interface BowmarkLibrary {
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
   retail: BowmarkCapability_retail.Unit;
   retirement_ira_comparison: BowmarkCapability_retirement_ira_comparison.Unit;
+  reviews: BowmarkCapability_reviews.Unit;
   school_shopping_basket: BowmarkCapability_school_shopping_basket.Unit;
   screenshot: BowmarkCapability_screenshot.Unit;
   script_execution: BowmarkCapability_script_execution.Unit;

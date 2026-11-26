@@ -1,5 +1,5 @@
 {
-  "version": "601ac34351eb01cd99b519bdcb5aab930346c5ac5f0b2b150ef28e112270303a",
+  "version": "5fcd95e25046b6bb20eea763196447f0f1f651c53eb38561148d5f8dfda55620",
   "units": {
     "address_validation": {
       "defs": {
@@ -5315,6 +5315,66 @@
         "checkPersonalization": "96d48696fbf90e66"
       }
     },
+    "product_map": {
+      "defs": {
+        "ProductMapOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "maxFeatures",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "screenshots",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "map": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "ProductMapOptions"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "map": "25564a7c48d4d87f"
+      }
+    },
     "products": {
       "defs": {},
       "functions": {
@@ -6235,6 +6295,102 @@
       },
       "digests": {
         "compare": "34c67d46c2c347f8"
+      }
+    },
+    "reviews": {
+      "defs": {
+        "ForCompanyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "domain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sources",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "ReviewSource"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "g2Url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ReviewSource": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "g2"
+            },
+            {
+              "k": "literal",
+              "v": "trustpilot"
+            },
+            {
+              "k": "literal",
+              "v": "reddit"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "forCompany": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ForCompanyArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "timeoutMs",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "forCompany": "f95d975a80b5bffb"
       }
     },
     "school_shopping_basket": {
@@ -75317,18 +75473,20 @@
           }
         ],
         "listFidelityFunds": [],
+        "listCalculators": [],
         "getTradingCommissions": []
       },
       "digests": {
-        "screenFunds": "080a06de10af1e82",
-        "getFund": "0f568a2109abeb5f",
-        "searchArticles": "b7a414c19e47dfea",
-        "getArticle": "5c65ba13067ac754",
-        "getQuoteNews": "e776725024715a99",
-        "searchSymbols": "eb2996e62bbdc5e2",
-        "getQuote": "86e83d9896a40949",
-        "listFidelityFunds": "a1fbadf90ef35985",
-        "getTradingCommissions": "ee0d0c7fb51a0c5a"
+        "screenFunds": "55c51b8da05ebb4c",
+        "getFund": "6b4027d6042f5f69",
+        "searchArticles": "45b9b18880fbe265",
+        "getArticle": "90e9a839a9b31e9d",
+        "getQuoteNews": "aa9fddb2d6b4827e",
+        "searchSymbols": "18ef0fb742feae9c",
+        "getQuote": "9129c8da332c973e",
+        "listFidelityFunds": "97ba0e0194076284",
+        "listCalculators": "d899f7c26613665a",
+        "getTradingCommissions": "40df9f9083c472fc"
       }
     },
     "providers.fieldstonehomes": {
@@ -80652,9 +80810,9 @@
         ]
       },
       "digests": {
-        "search": "a1747b94cb06aaca",
-        "getProduct": "ca686e2047f0df3e",
-        "listReviews": "f51b1bfec31b878a"
+        "search": "eee678aa875f13c3",
+        "getProduct": "f0a5f75c9093b9a1",
+        "listReviews": "1c6fa96d6d7f6916"
       }
     },
     "providers.gap": {
@@ -94013,6 +94171,18 @@
     },
     "providers.hilton": {
       "defs": {
+        "HiltonHotelDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hotelSlug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "HiltonSearchArgs": {
           "k": "object",
           "props": [
@@ -94059,6 +94229,16 @@
           }
         ],
         "getDeals": [],
+        "getHotelDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HiltonHotelDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
         "getHonorsPrograms": [],
         "signup": [
           {
@@ -94080,11 +94260,12 @@
         ]
       },
       "digests": {
-        "search": "66224559c683785c",
-        "getDeals": "b1f3c2371b674144",
-        "getHonorsPrograms": "e489d8b4b385a2df",
-        "signup": "bff7f10e8b25f24f",
-        "confirmSignup": "6aa0bbd45f947d61"
+        "search": "f17c870db5ceb765",
+        "getDeals": "08faeba8042e916f",
+        "getHotelDetails": "8ef25ab71528d124",
+        "getHonorsPrograms": "606790bf763e10a3",
+        "signup": "62fd54947e5efce2",
+        "confirmSignup": "f0e7c25e6c0e78a8"
       }
     },
     "providers.hipcamp": {
@@ -148640,6 +148821,111 @@
         "getRecipeDetails": "de065a070609ae1d"
       }
     },
+    "providers.proxibid": {
+      "defs": {},
+      "functions": {
+        "searchLots": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "sort",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "relevance"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "endingSoon"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "priceHigh"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "priceLow"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pageSize",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": 25
+                      },
+                      {
+                        "k": "literal",
+                        "v": 50
+                      },
+                      {
+                        "k": "literal",
+                        "v": 100
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getLot": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lotId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchLots": "9ed8e8608ee30c2a",
+        "getLot": "0d16c7390dad7889"
+      }
+    },
     "providers.proxmox": {
       "defs": {},
       "functions": {
@@ -182686,6 +182972,85 @@
             },
             "optional": false
           }
+        ],
+        "listMostPopular": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "cursor",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "browseTopic": [
+          {
+            "name": "topic",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "slug",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
@@ -182695,7 +183060,9 @@
         "listSections": "dc0b2a2a3d32e467",
         "browseSection": "06d0fe7f136ac3d7",
         "searchAuthors": "d847805ef6a948b9",
-        "getAuthor": "7d78e8d2ee4d55ec"
+        "getAuthor": "7d78e8d2ee4d55ec",
+        "listMostPopular": "2109f0d030d7ca96",
+        "browseTopic": "62350f23f5eb2d62"
       }
     },
     "providers.thefork": {
@@ -193947,6 +194314,77 @@
     "providers.uhc_directory": {
       "defs": {},
       "functions": {
+        "findCommercialProviders": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "zip",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "specialty",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "radiusMiles",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "network",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "choice"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "choice_hmo"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "findProviders": [
           {
             "name": "query",
@@ -193989,7 +194427,8 @@
         ]
       },
       "digests": {
-        "findProviders": "f6db81c03a739a67"
+        "findCommercialProviders": "e527d81363d0fd28",
+        "findProviders": "d63904ca88997e29"
       }
     },
     "providers.uhc_smallbusiness": {

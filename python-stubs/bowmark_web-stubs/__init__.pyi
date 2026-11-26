@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 601ac34351eb01cd99b519bdcb5aab930346c5ac5f0b2b150ef28e112270303a
-# 100 capabilities, 994 providers, 6230 typed functions, 20 refused.
+# Manifest version: 5fcd95e25046b6bb20eea763196447f0f1f651c53eb38561148d5f8dfda55620
+# 102 capabilities, 995 providers, 6239 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2608,6 +2608,48 @@ class Cap_pricing_PersonaRead_Out_price_u0_Out(TypedDict):
     amount: float
     currency: str
 
+class Cap_product_map_ProductMapOptions_In(TypedDict):
+    url: str
+    maxFeatures: NotRequired[float]
+    screenshots: NotRequired[bool]
+    timeoutMs: NotRequired[float]
+
+class Cap_product_map_ProductMap_Out(TypedDict):
+    site: str
+    url: str
+    features: list[Cap_product_map_ProductFeature_Out]
+    found: float
+    method: Literal["feature-path"] | Literal["product-menu"] | Literal["solutions-menu"] | Literal["navigation"] | None
+    sources: Cap_product_map_ProductMap_Out_sources_Out
+    warnings: list[str]
+
+class Cap_product_map_ProductFeature_Out(TypedDict):
+    name: str
+    url: str
+    summary: str | None
+    headings: list[str]
+    sections: list[Cap_product_map_FeatureSection_Out]
+    h1: str | None
+    screenshot: Cap_product_map_FeatureScreenshot_Out | None
+    signal: Literal["feature-path"] | Literal["product-menu"] | Literal["solutions-menu"] | Literal["navigation"]
+    status: float
+
+class Cap_product_map_FeatureSection_Out(TypedDict):
+    heading: str
+    text: str | None
+
+class Cap_product_map_FeatureScreenshot_Out(TypedDict):
+    url: str
+    fileId: str
+    width: float
+    height: float
+    bytes: float
+    expiresAt: str
+
+class Cap_product_map_ProductMap_Out_sources_Out(TypedDict):
+    sitemap: bool
+    nav: bool
+
 class Cap_products_search_args_In(TypedDict):
     query: str
     site: NotRequired[Literal["walmart"] | Literal["target"] | Literal["bestbuy"] | Literal["amazon"]]
@@ -3091,6 +3133,86 @@ class Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out_traditio
 class Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out_roth_Out(TypedDict):
     accountBalance: float
     afterTaxValue: float
+
+class Cap_reviews_ForCompanyArgs_In(TypedDict):
+    name: str
+    domain: str
+    sources: NotRequired[Sequence[Literal["g2"] | Literal["trustpilot"] | Literal["reddit"]]]
+    limit: NotRequired[float]
+    g2Url: NotRequired[str]
+
+class Cap_reviews_forCompany_options_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_reviews_CompanyReviews_Out(TypedDict):
+    company: Cap_reviews_CompanyReviews_Out_company_Out
+    sources: Cap_reviews_CompanyReviews_Out_sources_Out
+    reviews: list[Cap_reviews_CompanyReview_Out]
+    warnings: list[str]
+
+class Cap_reviews_CompanyReviews_Out_company_Out(TypedDict):
+    name: str
+    domain: str
+
+class Cap_reviews_CompanyReviews_Out_sources_Out(TypedDict):
+    g2: Cap_reviews_G2Summary_Out | None
+    trustpilot: Cap_reviews_TrustpilotSummary_Out | None
+    reddit: Cap_reviews_RedditSummary_Out | None
+
+class Cap_reviews_G2Summary_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+    rating: float | None
+    reviewCount: float | None
+    matchedBy: Literal["exact-name"] | Literal["core-name"]
+    candidates: list[Cap_reviews_G2Summary_Out_candidates_item_Out]
+
+class Cap_reviews_G2Summary_Out_candidates_item_Out(TypedDict):
+    name: str
+    url: str
+    reviewCount: float | None
+
+class Cap_reviews_TrustpilotSummary_Out(TypedDict):
+    name: str
+    domain: str
+    url: str
+    trustScore: float | None
+    stars: float | None
+    reviewCount: float | None
+    reviewsLast12Months: float | None
+    ratingDistribution: Cap_reviews_TrustpilotSummary_Out_ratingDistribution_u0_Out | None
+    isClaimed: bool | None
+
+class Cap_reviews_TrustpilotSummary_Out_ratingDistribution_u0_Out(TypedDict):
+    one: float
+    two: float
+    three: float
+    four: float
+    five: float
+
+class Cap_reviews_RedditSummary_Out(TypedDict):
+    url: str
+    queries: list[str]
+    threadsSeen: float
+    threadsMatched: float
+
+class Cap_reviews_CompanyReview_Out(TypedDict):
+    source: Literal["g2"] | Literal["trustpilot"] | Literal["reddit"]
+    id: str
+    url: str
+    title: str
+    text: str
+    rating: float | None
+    publishedAt: str | None
+    author: str | None
+    authorRole: NotRequired[str | None]
+    companySize: NotRequired[str | None]
+    industry: NotRequired[str | None]
+    subreddit: NotRequired[str]
+    score: NotRequired[float | None]
+    numComments: NotRequired[float | None]
+    matchedBy: NotRequired[Literal["domain"] | Literal["subreddit"] | Literal["name"] | Literal["name+context"] | Literal["domain-search"]]
 
 class Cap_school_shopping_basket_priceList_args_In(TypedDict):
     items: Sequence[str]
@@ -35363,6 +35485,19 @@ class Prv_fidelity_FidelityFundListing_Out(TypedDict):
     name: str
     symbol: str
 
+class Prv_fidelity_FidelityCalculatorList_Out(TypedDict):
+    url: str
+    count: float
+    calculators: list[Prv_fidelity_FidelityCalculatorList_Out_calculators_item_Out]
+
+class Prv_fidelity_FidelityCalculatorList_Out_calculators_item_Out(TypedDict):
+    name: str
+    url: str | None
+    description: str
+    contentType: str
+    topics: list[str]
+    products: list[str]
+
 class Prv_fidelity_FidelityTradingCommissions_Out(TypedDict):
     url: str
     commissions: list[Prv_fidelity_FidelityTradingCommissions_Out_commissions_item_Out]
@@ -37889,6 +38024,14 @@ class Prv_g2_G2SearchResult_Out(TypedDict):
     url: str
     rating: float | None
     reviewCount: float | None
+    matchesQuery: bool
+    match: Literal["exact"] | Literal["contains"] | Literal["partial"] | Literal["none"]
+    source: Literal["ai_card"] | Literal["ai_alternative"] | Literal["results"]
+    vendor: Prv_g2_G2SearchResult_Out_vendor_u0_Out | None
+
+class Prv_g2_G2SearchResult_Out_vendor_u0_Out(TypedDict):
+    name: str
+    url: str
 
 class Prv_g2_getProduct_args_u0_In(TypedDict):
     url: str
@@ -43784,6 +43927,29 @@ class Prv_hilton_HiltonDeal_Out(TypedDict):
     description: str
     tags: list[str]
     url: str | None
+
+class Prv_hilton_HiltonHotelDetailsArgs_In(TypedDict):
+    hotelSlug: str
+
+class Prv_hilton_HiltonHotelDetails_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    description: str | None
+    phone: str | None
+    fax: str | None
+    imageUrl: str | None
+    address: Prv_hilton_HiltonHotelDetails_Out_address_Out
+    latitude: float | None
+    longitude: float | None
+    amenities: list[str]
+
+class Prv_hilton_HiltonHotelDetails_Out_address_Out(TypedDict):
+    street: str
+    city: str
+    region: str | None
+    postalCode: str | None
+    countryCode: str
 
 class Prv_hilton_HiltonHonorsPrograms_Out(TypedDict):
     tiers: list[Prv_hilton_HiltonHonorsTier_Out]
@@ -65984,6 +66150,50 @@ class Prv_provenwinners_ContainerRecipeDetails_Out_plants_item_Out(TypedDict):
     name: str
     url: str
 
+class Prv_proxibid_searchLots_args_In(TypedDict):
+    query: str
+    sort: NotRequired[Literal["relevance"] | Literal["endingSoon"] | Literal["priceHigh"] | Literal["priceLow"]]
+    page: NotRequired[float]
+    pageSize: NotRequired[Literal[25] | Literal[50] | Literal[100]]
+
+class Prv_proxibid_ProxibidSearchResult_Out(TypedDict):
+    query: str
+    sort: Literal["relevance"] | Literal["endingSoon"] | Literal["priceHigh"] | Literal["priceLow"]
+    page: float
+    pageSize: float
+    totalResults: float | None
+    lots: list[Prv_proxibid_ProxibidLotCard_Out]
+
+class Prv_proxibid_ProxibidLotCard_Out(TypedDict):
+    lotId: str
+    title: str
+    price: str | None
+    priceAmount: float | None
+    status: str | None
+    imageUrl: str | None
+    url: str
+
+class Prv_proxibid_getLot_args_In(TypedDict):
+    lotId: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_proxibid_ProxibidLot_Out(TypedDict):
+    lotId: str
+    title: str
+    lotNumber: str | None
+    timeRemaining: str | None
+    bidStatus: str | None
+    currentBid: float | None
+    currency: str | None
+    seller: str | None
+    location: str | None
+    auctionId: str | None
+    auctionTitle: str | None
+    auctionUrl: str | None
+    auctionDate: str | None
+    description: str | None
+    url: str
+
 class Prv_proxmox_ProxmoxIsoDownload_Out(TypedDict):
     product: Literal["proxmox-virtual-environment"] | Literal["proxmox-backup-server"] | Literal["proxmox-mail-gateway"] | Literal["proxmox-datacenter-manager"]
     productName: str
@@ -82217,6 +82427,31 @@ class Prv_theatlantic_AtlanticAuthorProfile_Out_social_item_Out(TypedDict):
     platform: str
     url: str
 
+class Prv_theatlantic_listMostPopular_args_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_theatlantic_browseTopic_topic_u1_In(TypedDict):
+    slug: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_theatlantic_browseTopic_return_Out(TypedDict):
+    results: list[Prv_theatlantic_AtlanticArticleRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+    nextCursor: str | None
+    topic: Prv_theatlantic_browseTopic_return_Out_topic_Out
+
+class Prv_theatlantic_browseTopic_return_Out_topic_Out(TypedDict):
+    name: str
+    slug: str
+
 class Prv_thefork_TheforkSearchArgs_In(TypedDict):
     query: str
     near: NotRequired[str]
@@ -87125,6 +87360,30 @@ class Prv_uhaul_UhaulRateOption_Out(TypedDict):
     extraDayRate: float | None
     extraMileRate: float | None
     rentalPeriodHours: float | None
+
+class Prv_uhc_directory_findCommercialProviders_query_u1_In(TypedDict):
+    zip: str
+    specialty: NotRequired[str]
+    limit: NotRequired[float]
+    radiusMiles: NotRequired[float]
+    page: NotRequired[float]
+    network: NotRequired[Literal["choice"] | Literal["choice_hmo"]]
+
+class Prv_uhc_directory_uhc_directoryCommercialSearch_Out(TypedDict):
+    providers: list[Prv_uhc_directory_uhc_directoryCommercialProvider_Out]
+    total: float | None
+    matchedSpecialties: list[str]
+    warnings: list[str]
+
+class Prv_uhc_directory_uhc_directoryCommercialProvider_Out(TypedDict):
+    name: str | None
+    specialty: str | None
+    address: str | None
+    phone: str | None
+    npi: str | None
+    distanceMiles: float | None
+    networkStatus: str | None
+    acceptingNewPatients: bool | None
 
 class Prv_uhc_directory_findProviders_query_u1_In(TypedDict):
     zip: str
@@ -98157,6 +98416,25 @@ class Cap_pricing(Protocol):
         genuine comparison before you ask which page to check next.
         """
 
+class Cap_product_map(Protocol):
+    """Given a company's site, finds every feature area of its product (its /features/ pages,
+    else the links in its Product/Platform menu, else its navigation) and returns each one's
+    name, summary, sub-feature headings and a screenshot link. No model call: the same site
+    gives the same list.
+    """
+
+    async def map(self, options: Cap_product_map_ProductMapOptions_In | str, /) -> Cap_product_map_ProductMap_Out:
+        """Maps a product's feature areas from its own site. Reads the homepage and the sitemap,
+        picks the feature pages (/features/x, /product/x, /platform/x, /solutions/x; else the
+        links under a menu labelled Product, Features or Platform; else the top-level
+        navigation, said in `warnings`), dedupes locale copies and keeps /integrations as one
+        entry. Each feature carries `name` (the site's own menu label), `summary` (meta
+        description, else the first paragraph), `headings` (its h2/h3 sub-features, site-wide
+        boilerplate removed) and `screenshot` (a 1280x800 JPEG saved to the caller's Bowmark
+        files: a link, never base64). Default 12 features, up to 30; ~20-40 s for 12 with
+        screenshots, so call it alone in a run. `screenshots: false` makes it a few seconds.
+        """
+
 class Cap_products(Protocol):
     """Given a product page's url, returns its current price and stock status — reading the
     page's own schema.org markup rather than guessing from the DOM.
@@ -98462,6 +98740,22 @@ class Cap_retirement_ira_comparison(Protocol):
     async def compare(self, args: Cap_retirement_ira_comparison_CompareIraArgs_In, /) -> Cap_retirement_ira_comparison_retirement_ira_comparisonResult_Out:
         """Projects traditional and Roth IRA after-tax values under stated return and tax-rate
         assumptions, including the result if each traditional-IRA tax saving is invested.
+        """
+
+class Cap_reviews(Protocol):
+    """Everything customers say about one company in public, in one call: G2 reviews,
+    Trustpilot reviews with the TrustScore, and Reddit threads that mention it, normalized
+    to one row shape and left unscored.
+    """
+
+    async def forCompany(self, args: Cap_reviews_ForCompanyArgs_In, options: Cap_reviews_forCompany_options_In, /) -> Cap_reviews_CompanyReviews_Out:
+        """One company's public customer feedback from G2, Trustpilot and Reddit, in parallel, as
+        one list of raw rows (`{ name: "Linear", domain: "linear.app" }`). G2 is matched by NAME
+        and left null with a warning naming the candidates when it is ambiguous (pass `g2Url` to
+        pin it); Trustpilot is read by `domain`; Reddit threads are kept only with evidence they
+        are about this company, given on each row as `matchedBy`. No scoring and no model: the
+        caller scores. A source that fails is null plus a line in `warnings`, never an empty
+        list.
         """
 
 class Cap_school_shopping_basket(Protocol):
@@ -114600,6 +114894,11 @@ class Prv_fidelity(Protocol):
         Funds overview page. Use screenFunds to filter them.
         """
 
+    async def listCalculators(self, /) -> Prv_fidelity_FidelityCalculatorList_Out:
+        """Lists Fidelity's public calculators, planners and research tools (about 40): name, link,
+        description, type, topics and products.
+        """
+
     async def getTradingCommissions(self, /) -> Prv_fidelity_FidelityTradingCommissions_Out:
         """Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds),
         margin rates by debit balance with the current base rate, and the account fee schedule.
@@ -116041,11 +116340,19 @@ class Prv_g2(Protocol):
 
     async def search(self, args: Prv_g2_search_args_In, /) -> list[Prv_g2_G2SearchResult_Out]:
         """Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a
-        product name ("slack"), a software category ("project management software"), or a
-        caller's own phrasing verbatim; G2 ranks whatever you pass and this returns those
-        listings in that order, each carrying the star rating (out of 5) and review count G2's
-        search page publishes, plus the `url` `getProduct` takes. Call it directly with the
-        caller's words rather than asking them to narrow it — G2's own ranking does that.
+        product name ("slack", "Jane App") or a software category ("project management
+        software"). Returns every listing G2's page shows (its AI picks and alternatives, then
+        its result list), each with the star rating (out of 5) and review count G2 publishes,
+        the `url` `getProduct` and `listReviews` take, `source` (`ai_card` / `ai_alternative` /
+        `results`), `vendor` (the seller G2 names on the card, or null), and `match` /
+        `matchesQuery`: whether the row's NAME is the product the query names. G2's own order is
+        fuzzy ("Jane App" puts Appy Pie first), so rows are re-ranked: a reviewed exact name
+        match first ("Jane" for "Jane App"; case, punctuation and app/software/inc ignored),
+        then names carrying every distinctive query word (`contains`: "HubSpot Sales Hub"), then
+        partial and unrelated rows, G2's order kept within each and nothing dropped. Take the
+        first row with `matchesQuery: true`; if none has it, G2 does not list that product under
+        that name. A category query names no product, so expect `matchesQuery: false`
+        throughout.
         """
 
     async def getProduct(self, args: Prv_g2_getProduct_args_u0_In | str, /) -> Prv_g2_G2Product_Out:
@@ -119495,6 +119802,12 @@ class Prv_hilton(Protocol):
     async def getDeals(self, /) -> list[Prv_hilton_HiltonDeal_Out]:
         """Reads Hilton's currently published offers from its Offers page: headline, description,
         tags and the link to book or read the terms.
+        """
+
+    async def getHotelDetails(self, args: Prv_hilton_HiltonHotelDetailsArgs_In, /) -> Prv_hilton_HiltonHotelDetails_Out:
+        """Reads one Hilton-family property from its public pages (no browser): name, address,
+        coordinates, phone, fax, description, image and the Hotel Info amenity labels, for a
+        hilton.com property slug. Policies (check-in/out, pets) are not returned.
         """
 
     async def getHonorsPrograms(self, /) -> Prv_hilton_HiltonHonorsPrograms_Out:
@@ -131260,6 +131573,23 @@ class Prv_provenwinners(Protocol):
         link.
         """
 
+class Prv_proxibid(Protocol):
+    """Search Proxibid's online auctions (farm equipment, trucks, industrial, collectibles,
+    firearms…) for lots by keyword, then read a lot's current bid, time left, seller and
+    location.
+    """
+
+    async def searchLots(self, args: Prv_proxibid_searchLots_args_In, /) -> Prv_proxibid_ProxibidSearchResult_Out:
+        """Searches Proxibid's online auction lots by keyword. sort is relevance (the default),
+        endingSoon, priceHigh or priceLow. page is 1-based and defaults to 1. pageSize is 25
+        (the default), 50 or 100.
+        """
+
+    async def getLot(self, args: Prv_proxibid_getLot_args_In, /) -> Prv_proxibid_ProxibidLot_Out:
+        """Reads one Proxibid lot (current bid, time remaining, seller, location, auction) by its
+        lotId, the lots[].lotId that searchLots returns, or by its lot url.
+        """
+
 class Prv_proxmox(Protocol):
     """Open-source virtualization/backup/mail-security vendor. getIsoDownloads is live — the
     current ISO installer(s) for any or all of Proxmox VE, Proxmox Backup Server, Proxmox
@@ -138558,6 +138888,14 @@ class Prv_theatlantic(Protocol):
         their stories with paging.
         """
 
+    async def listMostPopular(self, args: Prv_theatlantic_listMostPopular_args_In, /) -> Prv_theatlantic_AtlanticArticlePage_Out:
+        """The stories readers are opening most right now across The Atlantic, with paging."""
+
+    async def browseTopic(self, topic: str | Prv_theatlantic_browseTopic_topic_u1_In, /) -> Prv_theatlantic_browseTopic_return_Out:
+        """Lists the newest stories under one topic tag, such as donald-trump; slugs come from a
+        story's tags (getArticle).
+        """
+
 class Prv_thefork(Protocol):
     """TheFork — Europe's restaurant reservation site (Spain, France, Italy, Portugal…): find a
     restaurant by name, e.g. a tapas bar in Barcelona, and get its booking page.
@@ -140112,12 +140450,14 @@ class Prv_travelers(Protocol):
     """
 
     async def findAgent(self, query: Prv_travelers_TravelersAgentQuery_In, /) -> Prv_travelers_TravelersAgentSearch_Out:
-        """Finds Travelers Insurance independent agents near a US ZIP or city the caller must name
-        (never guess one; ask the user) — agency name, address, phone, website, distance and the
-        Travelers products each writes (home, car, renters, condo, landlord, umbrella, boat) —
-        nearest first. Travelers sells personal home and auto mostly through independent agents,
-        so this is how a person gets a Travelers quote where no online quote is offered. Filter
-        with `product` and `lineOfBusiness`.
+        """Get a Travelers homeowners or personal auto quote: Travelers' online quote needs the
+        caller's own identity and a credit-pull consent, so the quote is reached through a
+        Travelers agent. Finds Travelers Insurance independent agents near a US ZIP or city the
+        caller must name (never guess one; ask the user) — agency name, address, phone, website,
+        distance and the Travelers products each writes (home, car, renters, condo, landlord,
+        umbrella, boat) — nearest first. Travelers sells personal home and auto mostly through
+        independent agents, so this is how a person gets a Travelers quote where no online quote
+        is offered. Filter with `product` and `lineOfBusiness`.
         """
 
 class Prv_travelinsured(Protocol):
@@ -141060,14 +141400,22 @@ class Prv_uhaul(Protocol):
         """
 
 class Prv_uhc_directory(Protocol):
-    """Doctors and other practitioners in UnitedHealthcare's network near a US ZIP code, from
-    UnitedHealthcare's public CMS provider directory: name, specialty, office address, phone
-    and NPI
+    """Doctors and other practitioners in UnitedHealthcare's network near a US ZIP code: name,
+    specialty, office address, phone and NPI. findCommercialProviders covers employer &
+    individual plans (Choice / Choice Plus) by specialty; findProviders covers the Medicare
+    Advantage network
     """
 
+    async def findCommercialProviders(self, query: str | Prv_uhc_directory_findCommercialProviders_query_u1_In, /) -> Prv_uhc_directory_uhc_directoryCommercialSearch_Out:
+        """In-network UnitedHealthcare specialists and doctors near a US ZIP for employer &
+        individual plans (Choice / Choice Plus network), filtered by specialty ("cardiology",
+        "family medicine"), nearest first, with name, NPI, address, phone and distance
+        """
+
     async def findProviders(self, query: str | Prv_uhc_directory_findProviders_query_u1_In, /) -> Prv_uhc_directory_uhc_directoryProviderSearch_Out:
-        """In-network practitioners at offices in one ZIP code, optionally filtered by specialty
-        words ("family medicine", "dentist"); limit defaults to 20, max 100
+        """UnitedHealthcare Medicare Advantage in-network practitioners at offices in one ZIP code
+        (CMS Plan-Net directory), optionally filtered by specialty words; limit defaults to 20,
+        max 100
         """
 
 class Prv_uhc_smallbusiness(Protocol):
@@ -146892,6 +147240,7 @@ class BowmarkProviders(Protocol):
     prose: Prv_prose
     proton_mail: Prv_proton_mail
     provenwinners: Prv_provenwinners
+    proxibid: Prv_proxibid
     proxmox: Prv_proxmox
     proxy_cheap: Prv_proxy_cheap
     prusa3d: Prv_prusa3d
@@ -147267,6 +147616,7 @@ class Bowmark(Protocol):
     phone_price: Cap_phone_price
     phone_trade_in: Cap_phone_trade_in
     pricing: Cap_pricing
+    product_map: Cap_product_map
     products: Cap_products
     promocodes: Cap_promocodes
     prospect_screening: Cap_prospect_screening
@@ -147276,6 +147626,7 @@ class Bowmark(Protocol):
     restaurant_booking: Cap_restaurant_booking
     retail: Cap_retail
     retirement_ira_comparison: Cap_retirement_ira_comparison
+    reviews: Cap_reviews
     school_shopping_basket: Cap_school_shopping_basket
     screenshot: Cap_screenshot
     script_execution: Cap_script_execution
