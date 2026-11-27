@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 144,903 sites, generated 2026-11-27.
+# Every website Bowmark covers: 144,919 sites, generated 2026-11-27.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -57298,7 +57298,7 @@ burgerbaeclothing.com	burgerbaeclothing.com	14
 burgerism.myshopify.com	Burgerism Store	10
 burgertuning.com	burgertuning.com	14
 burgess-inc.com	burgess-inc.com	10
-burgschneider.com	burgschneider.com	16
+burgschneider.com	burgschneider.com	1
 burgstaedter-beef.de	burgstaedter-beef.de	14
 burgundschild.com	burgundschild.com	14
 burjclothing.com.br	burjclothing.com.br	8
@@ -62018,7 +62018,7 @@ clubllondon.com	clubllondon.com	16
 clubllondon.de	clubllondon.de	14
 clubllondon.fr	clubllondon.fr	14
 clubllondon.us	clubllondon.us	14
-clubmagichour.com	clubmagichour.com	1
+clubmagichour.com	clubmagichour.com	16
 clubmalt.com	CLUB MALT	6
 clubmonaco.com	Club Monaco	10
 clubpets.com.sg	Clubpets Marketplace Online Pets' Marketplace	6
@@ -62183,7 +62183,7 @@ coat-of-arms-nyc.myshopify.com	Coat of Arms	10
 coatedsilver.myshopify.com	coatedsilver	10
 coating-supplies.com.au	Coating Supplies	6
 coatings2coverings.myshopify.com	Coatings2Coverings	10
-coatpaints.com	coatpaints.com	14
+coatpaints.com	coatpaints.com	1
 cobaflooring.com	COBA Flooring	6
 cobagin.myshopify.com	cobagin	10
 cobahom.com	CobaHom	6
@@ -89030,6 +89030,7 @@ jennifer-ashley-allyson-james-ashley-gardner.myshopify.com	Jennifer Ashley / Ash
 jennifer-brereton.myshopify.com	Jennifer Brereton	10
 jennifer-creel-jewelry.myshopify.com	Jennifer Creel Jewelry	10
 jennifer-hoffman-5582.myshopify.com	Jennifer Hoffman	10
+jenniferbeauty.com.ar	jenniferbeauty.com.ar	8
 jenniferbehr.com	jenniferbehr.com	1
 jenniferbene.com	Jennifer Bene	6
 jennifereivaz.myshopify.com	JenniferEivaz	10
@@ -89203,6 +89204,7 @@ jewellery-showroom.myshopify.com	The Jewellery Showroom	10
 jewellery-studio.myshopify.com	Jewellery Studio	10
 jewellerycave.co.uk	Jewellery Cave London	6
 jewellerydpi.com	Wholesale Jewellery Supplier	6
+jewellerykhazana.com	jewellerykhazana.com	14
 jewellerystore.pk	J.S Jewellery Store PK	6
 jewelmiano.us	jewelmiano	6
 jewelove.in	jewelove.in	14
@@ -89236,6 +89238,7 @@ jewelsbysjstore.myshopify.com	Jewels by SJ	10
 jewelsmars.com	jewelsmars.com	14
 jewelsmith.net	Jewelsmith	6
 jewelv-3.myshopify.com	JEWELv	10
+jewelztrend.pk	jewelztrend.pk	14
 jewish-currents.myshopify.com	Jewish Currents	10
 jewishtravelagency.com	Jewish Travel Agency	6
 jewlery-store-niche.myshopify.com	jewlery-store-niche	8
@@ -89269,6 +89272,7 @@ jgvkya-zq.myshopify.com	Bare Esthetics	10
 jgxbkj-k2.myshopify.com	Delgadillo Collective	10
 jh0byg-ms.myshopify.com	My Store	10
 jh26zj-ge.myshopify.com	BryanskyTech	10
+jhajistore.com	jhajistore.com	14
 jhank4142.com	jhank4142.com	10
 jharvestandfrost-se.myshopify.com	J.Harvest & Frost: Corporate Shirtmaker	10
 jhbuilders.com	J&H Builder's Warehouse	6
@@ -89281,6 +89285,7 @@ jhhepolo.myshopify.com	Jackson Hole Horse Emporium	10
 jhj-graphics.myshopify.com	JK FASHIONZANDDESIGNZ	10
 jhjinternational.myshopify.com	JHJ Design - The Art of Wearing Socks	10
 jhju0f-0a.myshopify.com	TRAKA SHOP	10
+jhnsport.se	jhnsport.se	14
 jhoibroom.myshopify.com	JhoiBroom	10
 jhomedesignreno.com	Jiangs Home Renovation Inc.	6
 jhpusa.com	jhpusa.com	1
@@ -89313,6 +89318,7 @@ jigsoar.co.uk	Jigsoar Ltd	6
 jijivishaonline.com	JIJIVISHA	6
 jiks.gr	JiK Shin Pads	6
 jilamara.com	Jilamara Arts and Crafts Association	6
+jild.pk	jild.pk	14
 jilevansstudio.myshopify.com	Jil Evans Studio Store	10
 jill-june.myshopify.com	Jill + June	10
 jillandangenz.myshopify.com	jillandangenz	10
@@ -89368,6 +89374,7 @@ jingjinpressfilter.com	Professional filter press manufacturer in China	6
 jinicosmeticos.com.br	jinicosmeticos.com.br	8
 jinnahmedicalbooks.com	Gangaram Jinnah Medical Book Shop	6
 jinnys.ie	Jinny's Bakery & Tearoom, Drumshanbo, Co. Leitrim	6
+jinpeng.com.pk	jinpeng.com.pk	14
 jinshasan.in	Jinshasan	6
 jinshenghardware.net	修改步骤: 设置->常规-站点标题	6
 jinwang.com.sg	JW Lights m Bathroom	6
@@ -91286,6 +91293,7 @@ keepuu.myshopify.com	DIY Crystal Gate	10
 keepyourcadence.com	keepyourcadence.com	14
 keepyourdaydream.myshopify.com	Keep Your Daydream	10
 keers-technologies.com	Keers Technologies	6
+keerthifashionstore.com	keerthifashionstore.com	1
 keetuppublishing.myshopify.com	Keetup Publishing House	10
 kef.com	kef.com	14
 kefircn.com	Kefir-China High Quality Filter Manufacturer	6
@@ -91332,6 +91340,7 @@ kellerheartt.com	kellerheartt.com	14
 kellersfarmstores.myshopify.com	Keller's Farm Stores	10
 kelley-fine-art-photography.myshopify.com	Kelley Fine Art Photography	10
 kelley-school-of-business-executive-education.myshopify.com	Kelley School of Business Executive Education Programs	10
+kelleyryan.com	kelleyryan.com	10
 kelleyskookies.myshopify.com	Kelleys Kookies	10
 kellieloder.myshopify.com	Kellie Loder Merch Shop	10
 kellman-md.myshopify.com	Raphael Kellman M.D.	10
@@ -91365,6 +91374,7 @@ kelty.com	kelty.com	14
 keltysolutions.myshopify.com	Kelty Business Solutions	10
 kelvintimber.co.uk	Kelvin Timber	6
 kelyoz.com	kelyoz.com	14
+kemeistore.pk	kemeistore.pk	14
 kemeticscience.myshopify.com	Kemetic Science Institute	10
 kemicalkonnect.com	Kemical Konnect	6
 kemimoto.com	kemimoto.com	14
@@ -91419,6 +91429,7 @@ kennysmithallstarweekend.myshopify.com	Kenny Smith	10
 kennytunison.myshopify.com	Kenny Tunison	10
 kennzeichen.express	Kennzeichen.Express	10
 kenovakreations-222.myshopify.com	Kenova Kreations	10
+kenpogen.com	kenpogen.com	1
 kenraprofessional.com	kenraprofessional.com	14
 kens-nursery.com	Kens-Nursery	6
 kens-print-and-graphics.myshopify.com	KENS PRINT AND GRAPHICS	10
@@ -91427,6 +91438,7 @@ kenscustomtees.myshopify.com	kenscustomtees	10
 kensington-brewing.myshopify.com	Kensington Brewing Company	10
 kensingtonparker.com	Kensington Parker	6
 kensoon.com	KenSoon Asiatic Art Pte Ltd	6
+kenstar.in	kenstar.in	14
 kent.co.in	kent.co.in	14
 kent.co.nz	Kent Wood	6
 kentainers.co.ke	Kentainers Limited	6
@@ -91445,6 +91457,7 @@ kentuckybourbonfestival.myshopify.com	Kentucky Bourbon Festival	10
 kentuckycannabiscompany.com	Kentucky Cannabis Company	6
 kentuckyuniforms.com	Kentucky Uniforms	6
 kentvalleyicecentre.net	Kent Valley Ice Centre	6
+kenwoodpakistan.pk	kenwoodpakistan.pk	14
 kenyaelectricalshop.co.ke	Kenya Electrical Store	6
 kenyawrightbooksmerch.myshopify.com	KW Books	10
 kenzerco.com	Kenzer & Company	6
@@ -91459,6 +91472,7 @@ kept-jewelry.myshopify.com	KEPT Jewelry	10
 ker-au-online-shop.myshopify.com	KER Targeted Nutrition Australia	10
 keracolor-hair.myshopify.com	Keracolor Hair	10
 keralaspicesonline.com	Kerala Spices	6
+keralathutamizhachi.com	keralathutamizhachi.com	5
 keramiekanciennefleur.myshopify.com	Keramiekboetiek Ancienne Fleur	10
 keramiker-elisabeth-k-palm.myshopify.com	Keramiker Elisabeth K Palm	10
 kerbl.pet	Kerbl Pet	6
@@ -91554,6 +91568,7 @@ keychron.com	Keychron	24
 keychron.de	keychron.de	14
 keycussion.myshopify.com	Keycussion	10
 keyfit-tools.myshopify.com	Keyfit Tools	10
+keyflight.io	keyflight.io	2
 keyirobot.com	keyirobot.com	14
 keymedia.com	keymedia.com	10
 keymetaphrase.com	Key Metaphrase	6
@@ -91599,6 +91614,7 @@ kg84z0-tg.myshopify.com	Chronically Bold	10
 kggec0-t7.myshopify.com	Valley Church Middle School Ministry	10
 kgsuperstore.com.au	kgsuperstore.com.au	14
 kgt-gmbh.de	KGT Gewächshäuser	6
+khabinja.com	khabinja.com	8
 khadas.com	khadas.com	10
 khadims.com	khadims.com	14
 khadipure.com	Khadi Pure	6
@@ -94945,7 +94961,7 @@ letstalkshit.myshopify.com	Progenabiome	10
 letstikitiki.myshopify.com	Tiki Tiki	10
 lettashopping.myshopify.com	November	10
 letterboards-uk.myshopify.com	Letter boards UK	10
-letterboxd.com	Letterboxd	8
+letterboxd.com	Letterboxd	9
 lettered-glass.myshopify.com	Story Wild Studios	10
 letterfest.com	letterfest.com	1
 letterhend.com	Letterhend Studio	6
@@ -96724,7 +96740,7 @@ louiscopeland.com	louiscopeland.com	14
 louise-jackson-home-interiors.myshopify.com	JACKSON HOME	10
 louise-rawlings-art.myshopify.com	Louise Rawlings Art	10
 louisecarmen.com	louisecarmen.com	16
-louisecarter-official.com	louisecarter-official.com	14
+louisecarter-official.com	louisecarter-official.com	1
 louisehighet.co.nz	Louise Highet	6
 louisemisha.com	louisemisha.com	14
 louisesdaughter.myshopify.com	Louise's Daughter	10
@@ -119457,7 +119473,7 @@ safety-harbor-resort-and-spa.myshopify.com	Safety Harbor Resort and Spa	10
 safety-services-company-ssc.myshopify.com	Safety Services Company (SSC)	10
 safety-tread.co.uk	Safety Tread	6
 safety-workwear.co.uk	Safety Workwear UK	6
-safety1st.com	safety1st.com	14
+safety1st.com	safety1st.com	1
 safety1stnz.com	Safety1st	6
 safetyaccess.co.uk	Safety & Access	6
 safetycare.sg	SafetyCare	6
@@ -122028,7 +122044,7 @@ sheffield-makers-shop.myshopify.com	Sheffield Makers Winter Gardens	10
 sheffieldbooks.co.uk	Sheffield Books Ecclesall Directory	6
 sheffieldcleaningsupplies.co.uk	Sheffield Cleaning Supplies	6
 sheffieldmetals.com	Sheffield Metals	6
-shefit.com	shefit.com	1
+shefit.com	shefit.com	14
 shegrowsveg.com	She Grows Veg	6
 shehds.com	shehds.com	14
 sheherherhers.myshopify.com	She Her Her Hers Online Shop	10
@@ -122849,7 +122865,7 @@ shopkennediscloset.myshopify.com	Kennedi's Closet	10
 shopkin.eu	Product delivery from UK	6
 shopkissonline.com	shopkissonline.com	14
 shopkla.myshopify.com	K|LA Boutique	10
-shopko.com	shopko.com	14
+shopko.com	shopko.com	1
 shopkristastucchio.myshopify.com	Krista Stucchio Collection	10
 shopkury.com	shopkury.com	1
 shopkwdesigns.myshopify.com	KW Designs	10
@@ -123897,7 +123913,7 @@ sirius-com-sa.myshopify.com	SIRIUS	10
 sirius-disclosure.myshopify.com	Dr. Steven Greer - Official Store	10
 siriuswish.myshopify.com	siriuswish	8
 sirpennycandysapothecary.myshopify.com	Sir Pennycandys Apothecary of Methuen Massachusetts	10
-sirplus.de	sirplus.de	1
+sirplus.de	sirplus.de	14
 sirri.com	sirri.com	14
 sirthelabel.com	sirthelabel.com	16
 siryessirglobal.com	Sir Yes Sir Global - Fine Military Insignia Jewellery	6
@@ -135193,7 +135209,7 @@ topwines.com.br	topwines.com.br	8
 toradex.com	toradex.com	2
 toraya-group.co.jp	toraya-group.co.jp	14
 torayata99.com	Torayata 99	6
-torazencollective.com	torazencollective.com	1
+torazencollective.com	torazencollective.com	14
 torbagi.myshopify.com	TorbAgi	10
 torch-by-haley-marie.myshopify.com	TORCH Warriorwear	10
 torchtrust.org.uk	Torch Trust eShop	6

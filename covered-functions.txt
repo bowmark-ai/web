@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 144,903 sites, generated 2026-11-27.
+# Every website Bowmark covers and the functions it has: 144,919 sites, generated 2026-11-27.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -420,7 +420,6 @@
 = 257de091 findTickets#68489522
 = 259113d0 browse_catalogue#42331d14 fetch#e2e6e768 get_product_details#38e927a8 search#f13eec19 search_products#d1c9d297
 = 25abf345 getSearchRules
-= 25d9ad1e film getList getOwnAccount memberDiary memberFilms searchFilms searchLists searchMembers
 = 25dad222 getPlan search
 = 25f2dff8 All_Available_Data_Versions#5966bae8 All_Tables_Metadata#036a05e3 Download_Catalog_File#da577c87 Get_Footprint_Image#6f37c081 Get_IVOA_TAP_Service_URL#036a05e3 Get_Query_Result#f118878e Get_Query_Result_Count#37d34624 Get_Spectrum_CSV#ea2f11ab Get_Spectrum_FITS#ea2f11ab Get_Spectrum_Image#ea2f11ab Get_Spectrum_Info#ea2f11ab Get_Unique_ID#587b8113 IVOA_ConeSearch_Protocol#27fed855 IVOA_SSAP_Protocol#9f438d70 IVOA_TAP_Protocol_Proxy#036a05e3 IVOA_TAP_Protocol_Proxy_2#036a05e3 IVOA_TAP_Protocol_Proxy_3#036a05e3 IVOA_TAP_Protocol_Proxy_4#036a05e3 IVOA_TAP_Protocol_Proxy_5#036a05e3 Query_Table#077e2883 SQL_Query#a9fec6e4
 = 25fee296 getPricingPrograms getPropertyDetails listPricingPrograms
@@ -1290,6 +1289,7 @@
 = 75848b55 get_model_info#6c04b2e2 get_model_variants#9d26bffc get_moto_credit_payment#63e90422 get_moto_model_info#6c04b2e2 get_moto_model_variants#d903ab45 get_popular_makes#99a82ecf get_popular_models#99a82ecf get_popular_models_by_make#3f5e91f1 get_popular_moto_makes#99a82ecf get_popular_moto_models#99a82ecf get_popular_moto_models_by_make#3f5e91f1 get_used_car_brands#e7872e57 get_used_car_details#98e5c5dc get_used_car_filter_options#e7872e57 get_used_car_models#e7872e57 health_check#99a82ecf search_models#07a8ee00 search_moto_models#aa768bf4 search_moto_variants#3e2c4915 search_used_cars#49139082 search_variants#343dfe61
 = 759eb337 fetch#c6a58a32 get_alternatives#d3a2dc12 get_launch_stats#99a82ecf get_product#b728bdb8 get_recent_launches#6af07b26 get_reviews#7ca1fd13 get_trending#a15e55fc list_categories#99a82ecf list_deals#6284c4e3 list_products_for_sale#484ccf15 search#17eb4a37 search_products#8c907985
 = 75b1b379 getBuildYourOwnConfig search
+= 75d3d2cb film getFilmReviews getList getOwnAccount memberDiary memberFilms searchFilms searchLists searchMembers
 = 75fa9ed7 Get_a_list_of_planets#073ade69 airportDistance#0ab457b6 airportSuggest#356e4a7c binLookup#f2fbc6c4 calculateCaloriesBurned#d9081d6c calculateIncomeTax#ffab1fe4 calculateMortgage#b10dc094 calculatePaycheckWithholding#248bf78b calculateSalesTax#42eebe11 checkDisposableEmail#352ba971 checkLotteryTicket#6cd2842b classifyNaics#ab3fedb0 closestAirport#e040a996 convertAirportCode#9c1830bd convertCurrency#e42a3843 detectFaces#6d3d4604 detectObjects#43f3b6a8 encodeText#d99f5c08 extractTextFromImage#e5e60ae1 filterProfanity#9453947e generateBarcode#dff190d1 generateLoremIpsum#f4a81a3f generatePassword#5a4a9135 generateQRCode#61569f4f getAdvice#5966bae8 getAirQuality#2be13d29 getAircraft#2f026868 getAirlines#7908895c getAirports#63d09acf getAirportsList#2cd97543 getAllCatNames#5966bae8 getAllCountries#5966bae8 getAllCountryFlags#5966bae8 getAllDogs#5966bae8 getAllExercises#b03c1541 getAnalytics#2f74b018 getAnimals#5e3c1955 getBabyNames#fb6b2946 getBalanceSheet#8f2295a6 getBalanceSheetAvailability#db14f187 getBankHolidays#b43a2982 getBankInfo#ef201b34 getBitcoinData#5966bae8 getBitcoinHistoricalData#643a286c getBitcoinTreasury#3418db3e getBsbInfo#92e04c48 getBucketListItem#5966bae8 getCanadaRoutingNumberInfo#95790b8b getCarFacets#ecce56eb getCarGenerations#860c2c96 getCarMakes#f7a5bd3e getCarModels#0e5a0c65 getCars#2c689ce9 getCashFlow#8f2295a6 getCashFlowAvailability#db14f187 getCats#9ee374a8 getCelebrity#9b62ae1b getChuckNorrisJoke#051a528e getCityData#a8d0a4d2 getCommodityContract#fcac7e96 getCommodityContractList#5966bae8 getCommodityForwardCurve#5f8488fa getCommoditySnapshot#b79f99d0 getCommoditySpotPrice#b4c72e89 getCounter#afe03ae4 getCountryData#4e4a2989 getCountryFlag#824fd415 getCounty#d21898cd getCovidData#3aef9e55 getCryptoPrice#f2874ff3 getCryptoPriceHistorical#1d8aad49 getCryptoSymbols#5966bae8 getCryptoTreasury#deaaa498 getCurrencyVolatility#8c462276 getCurrencyVolatilityForecast#52f1e51a getCurrencyVolatilityHistorical#08124469 getCurrentCommodityPrice#d6e2ca3d getCurrentGoldPrice#1ce37565 getCurrentInflation#a05d9b69 getCurrentInterestRates#c73f1d21 getCurrentMetalsPrice#04d37cee getCurrentOilPrice#1b47f3e0 getDNSRecords#fbf682e2 getDadJoke#cad2c562 getDayInHistory#e7d45901 getDefinition#92caf459 getDogs#c02c0876 getDomainInfo#fbf682e2 getETFInfo#605200e6 getEVCharger#930e6f50 getEarnings#d9a82cae getEarningsCalendar#5a567da2 getEarningsCalendarList#5966bae8 getEarningsCallParticipants#8a3ff5d9 getEarningsCallSpeaker#7c7d25fd getEarningsTranscript#73eeb195 getElectricVehicleData#12ec1e1a getElectricVehicleMakes#58fce5bd getElectricVehicleModels#3c2eae68 getEmojis#ec4da961 getEuriborRates#5966bae8 getExchangeRate#8deb4a7a getExecutiveCompensation#3f183912 getExercises#05dc8a43 getFactOfTheDay#5966bae8 getFacts#f2e1b8f5 getGDPData#4a302aa7 getGeocoding#a818d927 getGoldSpotPrice#1ce37565 getHelicopterData#58480699 getHistoricalCommodityPrice#67f490c5 getHistoricalEvents#b40cb821 getHistoricalExchangeRate#ec89b2db getHistoricalGoldPrice#dc092a8c getHistoricalInflation#89f29a87 getHistoricalInterestRates#2b1cd2d7 getHistoricalLiborRates#744f9e59 getHistoricalOilPrice#022955f6 getHobby#30a73f67 getHolidays#070547a2 getHoroscope#d8db66e7 getHospitals#a42f0e8b getIBAN#b359c6ae getIPInfo#e240f78a getIncomeStatement#8f2295a6 getIncomeStatementAvailability#db14f187 getIncomeTax#219f8fbc getInsiderDetails#4296cc7f getInsiderTransactions#7a34c249 getInsidersList#71022505 getInstitutionalHoldings#7dc65bd2 getInstitutionalInvestors#719f5821 getInstitutionalMovers#1b968edf getInstitutionalOwnership#9bb72b32 getIpoCalendar#c818990f getJoke#110cc6d8 getJokeOfTheDay#5966bae8 getLogos#66529535 getLotteryDraw#8ee30721 getLotteryHistoricalDraws#7b087310 getMXRecords#7a1ce585 getMarketCap#ef7fca62 getMortgageRate#58e45841 getMotorCarrier#61d5b79c getMotorCarrierInsurance#cd77c392 getMotorCarrierLinks#cd77c392 getMotorCarrierSafety#cd77c392 getMotorcycleMakes#5966bae8 getMotorcycleModels#11c0663e getMutualFund#896ad21a getNaics#6ec8b6a5 getNaicsRisk#ceda9cd7 getNaicsSizeStandard#2004b38e getNutrition#3e66c99d getNutritionBarcode#46db0426 getNutritionItem#232fec63 getOilSpotPrice#d356f90b getPinCode#5701bad5 getPopulationData#31921fcf getPostalCode#84221428 getPropertyTax#bf214490 getPublicHolidays#6eee0c00 getQuoteAuthors#7902b8f2 getQuoteOfTheDay#5966bae8 getQuotes#e4ae7485 getRandomImage#42658870 getRandomQuotes#0021aaf6 getRandomUsers#8f42dfff getRandomWord#6161108d getRecipes#71f6b74f getReverseGeocoding#b2cbfd85 getRhyme#92caf459 getRiddles#946e37b0 getSalesTax#14ae746a getSalesTaxFiling#8c066ba8 getSalesTaxHolidays#72d052cc getSalesTaxNexus#a59e609d getSalesTaxRateChanges#582a5758 getUpcomingEarnings#b845d2f2 isBankHoliday#22530a8d isHoliday#4078a05a isPublicHoliday#4646ab9f listActivities#5966bae8 listETFs#1241ce7a listEarningsCallTranscripts#c286b025 listLotteryGames#53d60b4a listLotteryJackpots#aeb1c93f phoneLookup#400950eb screenSanctions#07e3b1a0 searchBanks#b25c53ac searchBsb#d0671d04 searchCanadaRoutingNumbers#356f3cd9 searchCocktails#a650c886 searchETFs#57c454bc searchEarningsTranscripts#d37d9295 searchHistoricalFigures#729233ed searchMotorCarriers#10b3328e searchMotorcycles#04c93d9b searchNaics#c87d467d searchSEC#45757635
 = 75fbe290 appointment_cancel#c404c4dd appointment_confirm#c404c4dd appointment_create#69e122c2 appointment_detail#ba426756 appointment_list#cb0b0603 appointment_update#a48c3826 get_customer_group#248c65ce get_key_storage#edf6820a list_customer_groups#99a82ecf report_activity#bc5a4e0b report_appointments#2f541802 report_at_risk_customers#8c6aed5f report_at_risk_customers_list#bee34379 report_checkins#d93c44e5 report_customers#b33c09f1 report_daily_summary#ca52debc report_orders#708685fd report_staff_performance#bc5a4e0b report_top_services#941c4aa6 send_promotion#0cef3d48 send_sms#2fc1a662 service_list#99a82ecf settings_category_create#d9f3ecf4 settings_category_delete#4e394b6f settings_category_detail#c5b4d76e settings_category_list#27023f65 settings_category_sort#2529fb32 settings_category_update#bab12bf6 settings_service_create#a82a481a settings_service_delete#1bc42b2d settings_service_detail#840c3a8e settings_service_list#9bb0e71c settings_service_set_addons#627b2c55 settings_service_sort#cac06e4f settings_service_update#2282839e settings_staff_create#59646713 settings_staff_delete#a3f93cde settings_staff_detail#b42e501a settings_staff_list#cb77c6a1 settings_staff_set_services#c76d7ca3 settings_staff_set_work_hours#2bbc506e settings_staff_sort#8316d30a settings_staff_update#5d88c39c staff_detail#bb7dda74 staff_list#99a82ecf update_key_storage#71ce4776
 = 760062d6 search_instabase#803cda31
@@ -91741,6 +91741,7 @@ jennifer-ashley-allyson-james-ashley-gardner.myshopify.com	a9af6443
 jennifer-brereton.myshopify.com	a9af6443
 jennifer-creel-jewelry.myshopify.com	a9af6443
 jennifer-hoffman-5582.myshopify.com	a9af6443
+jenniferbeauty.com.ar	da39a3ee
 jenniferbehr.com	4479a458
 jenniferbene.com	bb34c1bd
 jennifereivaz.myshopify.com	a9af6443
@@ -91914,6 +91915,7 @@ jewellery-showroom.myshopify.com	a9af6443
 jewellery-studio.myshopify.com	a9af6443
 jewellerycave.co.uk	bb34c1bd
 jewellerydpi.com	bb34c1bd
+jewellerykhazana.com	da39a3ee
 jewellerystore.pk	bb34c1bd
 jewelmiano.us	bb34c1bd
 jewelove.in	4479a458
@@ -91947,6 +91949,7 @@ jewelsbysjstore.myshopify.com	a9af6443
 jewelsmars.com	4479a458
 jewelsmith.net	bb34c1bd
 jewelv-3.myshopify.com	a9af6443
+jewelztrend.pk	da39a3ee
 jewish-currents.myshopify.com	a9af6443
 jewishtravelagency.com	bb34c1bd
 jewlery-store-niche.myshopify.com	61e64875
@@ -91980,6 +91983,7 @@ jgvkya-zq.myshopify.com	a9af6443
 jgxbkj-k2.myshopify.com	a9af6443
 jh0byg-ms.myshopify.com	a9af6443
 jh26zj-ge.myshopify.com	a9af6443
+jhajistore.com	da39a3ee
 jhank4142.com	a9af6443
 jharvestandfrost-se.myshopify.com	a9af6443
 jhbuilders.com	bb34c1bd
@@ -91992,6 +91996,7 @@ jhhepolo.myshopify.com	a9af6443
 jhj-graphics.myshopify.com	a9af6443
 jhjinternational.myshopify.com	a9af6443
 jhju0f-0a.myshopify.com	a9af6443
+jhnsport.se	da39a3ee
 jhoibroom.myshopify.com	a9af6443
 jhomedesignreno.com	bb34c1bd
 jhpusa.com	37007769
@@ -92024,6 +92029,7 @@ jigsoar.co.uk	bb34c1bd
 jijivishaonline.com	bb34c1bd
 jiks.gr	bb34c1bd
 jilamara.com	bb34c1bd
+jild.pk	da39a3ee
 jilevansstudio.myshopify.com	a9af6443
 jill-june.myshopify.com	a9af6443
 jillandangenz.myshopify.com	a9af6443
@@ -92079,6 +92085,7 @@ jingjinpressfilter.com	bb34c1bd
 jinicosmeticos.com.br	da39a3ee
 jinnahmedicalbooks.com	bb34c1bd
 jinnys.ie	bb34c1bd
+jinpeng.com.pk	da39a3ee
 jinshasan.in	bb34c1bd
 jinshenghardware.net	bb34c1bd
 jinwang.com.sg	bb34c1bd
@@ -93997,6 +94004,7 @@ keepuu.myshopify.com	a9af6443
 keepyourcadence.com	4479a458
 keepyourdaydream.myshopify.com	a9af6443
 keers-technologies.com	bb34c1bd
+keerthifashionstore.com	da39a3ee
 keetuppublishing.myshopify.com	a9af6443
 kef.com	4479a458
 kefircn.com	bb34c1bd
@@ -94043,6 +94051,7 @@ kellerheartt.com	4479a458
 kellersfarmstores.myshopify.com	a9af6443
 kelley-fine-art-photography.myshopify.com	a9af6443
 kelley-school-of-business-executive-education.myshopify.com	a9af6443
+kelleyryan.com	da39a3ee
 kelleyskookies.myshopify.com	a9af6443
 kellieloder.myshopify.com	a9af6443
 kellman-md.myshopify.com	a9af6443
@@ -94076,6 +94085,7 @@ kelty.com	4479a458
 keltysolutions.myshopify.com	a9af6443
 kelvintimber.co.uk	bb34c1bd
 kelyoz.com	4479a458
+kemeistore.pk	da39a3ee
 kemeticscience.myshopify.com	a9af6443
 kemicalkonnect.com	bb34c1bd
 kemimoto.com	4479a458
@@ -94130,6 +94140,7 @@ kennysmithallstarweekend.myshopify.com	a9af6443
 kennytunison.myshopify.com	a9af6443
 kennzeichen.express	a9af6443
 kenovakreations-222.myshopify.com	a9af6443
+kenpogen.com	da39a3ee
 kenraprofessional.com	4479a458
 kens-nursery.com	bb34c1bd
 kens-print-and-graphics.myshopify.com	a9af6443
@@ -94138,6 +94149,7 @@ kenscustomtees.myshopify.com	a9af6443
 kensington-brewing.myshopify.com	a9af6443
 kensingtonparker.com	bb34c1bd
 kensoon.com	bb34c1bd
+kenstar.in	da39a3ee
 kent.co.in	4479a458
 kent.co.nz	bb34c1bd
 kentainers.co.ke	bb34c1bd
@@ -94156,6 +94168,7 @@ kentuckybourbonfestival.myshopify.com	a9af6443
 kentuckycannabiscompany.com	bb34c1bd
 kentuckyuniforms.com	bb34c1bd
 kentvalleyicecentre.net	bb34c1bd
+kenwoodpakistan.pk	da39a3ee
 kenyaelectricalshop.co.ke	bb34c1bd
 kenyawrightbooksmerch.myshopify.com	a9af6443
 kenzerco.com	bb34c1bd
@@ -94170,6 +94183,7 @@ kept-jewelry.myshopify.com	a9af6443
 ker-au-online-shop.myshopify.com	a9af6443
 keracolor-hair.myshopify.com	a9af6443
 keralaspicesonline.com	bb34c1bd
+keralathutamizhachi.com	da39a3ee
 keramiekanciennefleur.myshopify.com	a9af6443
 keramiker-elisabeth-k-palm.myshopify.com	a9af6443
 kerbl.pet	bb34c1bd
@@ -94265,6 +94279,7 @@ keychron.com	b1550f0a
 keychron.de	da39a3ee
 keycussion.myshopify.com	a9af6443
 keyfit-tools.myshopify.com	a9af6443
+keyflight.io	da39a3ee
 keyirobot.com	4479a458
 keymedia.com	685e74a3
 keymetaphrase.com	bb34c1bd
@@ -94310,6 +94325,7 @@ kg84z0-tg.myshopify.com	a9af6443
 kggec0-t7.myshopify.com	a9af6443
 kgsuperstore.com.au	4479a458
 kgt-gmbh.de	bb34c1bd
+khabinja.com	da39a3ee
 khadas.com	685e74a3
 khadims.com	4479a458
 khadipure.com	bb34c1bd
@@ -97656,7 +97672,7 @@ letstalkshit.myshopify.com	a9af6443
 letstikitiki.myshopify.com	a9af6443
 lettashopping.myshopify.com	a9af6443
 letterboards-uk.myshopify.com	a9af6443
-letterboxd.com	25d9ad1e
+letterboxd.com	75d3d2cb
 lettered-glass.myshopify.com	a9af6443
 letterfest.com	4479a458
 letterhend.com	bb34c1bd
