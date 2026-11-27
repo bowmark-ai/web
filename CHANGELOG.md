@@ -7,6 +7,280 @@ Entries are generated from the list of covered websites and their functions, so 
 file describes the callable surface and nothing else. Each release names every website
 it added, changed or removed.
 
+## 1.55.0 (2026-11-27)
+
+**Websites**
+
+- +246 websites, +3,235 functions, -5 websites, -55 functions. 145,098 websites and 1,402,912 functions in all.
+
+Added:
+
+- 245 websites, functions not listed yet:
+  - 4feetshoes.com
+  - apteekkiplus.fi
+  - autoclint.com
+  - candledelirium.com
+  - casanovaparis.fr
+  - cestnormal.com
+  - creative-cables.fr
+  - dadiemattoncini.it
+  - dalydress.com
+  - disabatinoshop.com
+  - eyejack.in
+  - eyemuse.my
+  - ezyrefurb.com
+  - fabakids.pk
+  - fabriclandonline.com
+  - fabricroot.com
+  - fabricstoreonline.co.in
+  - fabrictales.in
+  - fabrictaleseg.com
+  - facilpersianas.com.br
+  - facis1932.com
+  - factorybox.in
+  - faebeauty.in
+  - fahaliyas.com
+  - fail.co.in
+  - fairweatherclothing.com
+  - fao.com
+  - gardpro.it
+  - gebotools.it
+  - gelattto.it
+  - gelblastersindia.in
+  - gemhomeaccesories.com
+  - generik.fr
+  - genesispc.in
+  - genovahome.shop
+  - gentleman.co.il
+  - georgerichardsbigandtall.ca
+  - geoterraviajes.cl
+  - get-baked.co.uk
+  - getcleevo.com
+  - getjolt.fr
+  - getmymettle.com
+  - getnoula.com
+  - getnovora.com
+  - getriggr.com
+  - getthattrend.com
+  - gfcfans.com
+  - ghoulishproductions.com.mx
+  - glowia.com.ar
+  - healthfirst.com.ph
+  - hiffin.in
+  - hifibyhibafazi.com
+  - hudsonandwells.com
+  - huntingworld.com
+  - hurley.com.br
+  - husainfragrance.co.za
+  - hushpuppies.co.id
+  - hushpuppies.pe
+  - hypd.shop
+  - hypeclothingstore.com
+  - ibarber.ro
+  - ice-cube.co.il
+  - iceconcept.ro
+  - icedout.cz
+  - icedstuff.pl
+  - iclusters.in
+  - idcult.com
+  - idiamantidelmareshop.it
+  - idrix.com.ec
+  - ilp.edu.pe
+  - imballaggi360.com
+  - impconcursos.com.br
+  - imperia.pk
+  - imperiodasessencias.com.br
+  - importacioneschina.com
+  - importacionescmf.cl
+  - impressioncart.com
+  - impulsecoffees.com
+  - imroziaserene.com
+  - imtiazautos.pk
+  - imtiazbikerzstudio.pk
+  - imwholesale.pk
+  - inaboxstore.com
+  - inaessentials.com
+  - inaessentials.gr
+  - inaessentials.ro
+  - inaessentials.sk
+  - inart.co.in
+  - incalpaca.com
+  - independanceclub.com
+  - indianhandloomsandtextile.com
+  - indiansnackhouse.com
+  - indiansoccermart.in
+  - indianweddingoutfit.com
+  - indiclub.shop
+  - indies.fr
+  - indoguna.co.id
+  - indonesiashop.com.ar
+  - indranilife.in
+  - indygood.com
+  - infinitelove-bcn.com
+  - inflowsofa.com.br
+  - inkbolt.in
+  - inkhub.in
+  - inklingnco.com
+  - inkocean.in
+  - inkup.co.in
+  - insectfreeindia.com
+  - insidescoop.com.my
+  - insta360india.com
+  - instantnails.ro
+  - intaglaptops.com
+  - intersurplus.com
+  - interwood.pk
+  - intifashions.com
+  - intimatefashions.pk
+  - intimax.ro
+  - inujoy.jp
+  - inventaa.in
+  - invictachile.com
+  - invictawatch.eu
+  - invogue.shop
+  - iseviu.eu
+  - ishop.gt
+  - itvbarbastro.com
+  - ivalinmabia.com
+  - ivarclothing.com
+  - ivatherm.ro
+  - jenniferbeauty.com.ar
+  - jewellerykhazana.com
+  - jewelztrend.pk
+  - jhajistore.com
+  - jhnsport.se
+  - jild.pk
+  - jinpeng.com.pk
+  - jomasport.ar
+  - josefseibel.co.uk
+  - journal-boutique.com
+  - jovees.com
+  - jovy.co.jp
+  - joyascenter.com.ar
+  - joyascitlali.com
+  - joymolcouture.in
+  - joyperfumes.cl
+  - jsbhealthcare.co.in
+  - jskindia.shop
+  - jsphandlooms.com
+  - juanitas.ar
+  - juanitashoes.com.ar
+  - juegosdigitalesgamerlab.com
+  - juegosdigitalesps4ps5.com
+  - juliaymateo.com
+  - julien.com.ar
+  - julke.pk
+  - juneberry.co.in
+  - juneberrycollections.in
+  - junior-tex.com
+  - juniorcrime.com
+  - juniorrepublic.shop
+  - jusotw.org
+  - justandbest.com
+  - justapprove.com.br
+  - justcozy.ca
+  - justgolfstuff.ca
+  - justicialistas.com.ar
+  - justitem.com
+  - jutay.co
+  - juvia.com.ar
+  - jvlclassicware.com
+  - jwpei.fr
+  - jwpei.it
+  - jyno.store
+  - jyotisarees.com
+  - k-linen.com
+  - k-swiss.com.mx
+  - k9kicks.com
+  - kaamastra.com
+  - kabritaarabia.me
+  - kaguyasujp.com
+  - kaikofidgets.com
+  - kaira.in
+  - kaironmusic.com.ar
+  - kakelgiganten.se
+  - kalawatches.com
+  - kalea.com.hn
+  - kalyanastrogems.com
+  - kalyaniinnerwear.com
+  - kalyanijewelery.com
+  - kamaliakhaddaragency.com
+  - kamalsolar.pk
+  - kappastore.com.ar
+  - kapramehal.com
+  - kaprang.com.pk
+  - karachibrandedcollection.com
+  - karajjaipur.com
+  - karaku.co.kr
+  - karamishcompany.com
+  - karban.in
+  - karchershop.com.mx
+  - karenkein.com.mx
+  - kargham.com
+  - karlia.fr
+  - karo.ie
+  - karolsarquivos.com
+  - kasuga-mental.jp
+  - keerthifashionstore.com
+  - kelleyryan.com
+  - kemeistore.pk
+  - kencove.com
+  - kenpogen.com
+  - kenstar.in
+  - kenwoodpakistan.pk
+  - keralathutamizhachi.com
+  - keyflight.io
+  - khabinja.com
+  - kingofthekongo.com.ar
+  - kingtexremeras.com
+  - klecollection.com.br
+  - kleveland.com.ar
+  - knittinghappiness.com
+  - knock-out.ro
+  - knottenwol.nl
+  - koalacloth.co.nz
+  - kobholabs.com
+  - madammuse.co
+  - megacatstudios.com
+  - mimikoko.es
+  - otakume.com
+  - paulkenzie.com
+  - perocili.co.za
+  - phongcachxanh.vn
+  - planetcarcare.com
+  - planetjunior.pk
+  - profumeriegriffe.com
+  - puppapupo.com
+  - rainandrainbow.com
+  - rainbowloom.com
+  - robinsonsappliances.com.ph
+  - rubyrose.com.co
+  - signaturemenswear.com
+  - soxai.co.jp
+  - thecardhubaustralia.com.au
+  - thegolfwarehouse.com.au
+  - thehoneypot.co
+  - wellpeople.com
+- meowdb.com: `getPage`, `listGamePages`, `listGames`
+
+Changed:
+
+- slickdeals.net: added `brands_search`, `deal_search`, `get_brand`, `get_confidence`, `get_merchant`, `get_merchant_product_variant`, `get_offer`, `get_price_history`, `get_product`, `get_product_variant`, `get_related_threads`, `get_sd_history`, `get_thread`, `get_thread_comments`, `merchant_product_variants_search`, `merchants_search`, `offers_search`, `product_variants_search`, `products_search`
+- letterboxd.com: added `getFilmReviews`, `getList`, `getReview`, `listMemberLists`, `listMemberReviews`, `searchLists`
+- costco.com: added `getGasPrices`
+- huffpost.com: added `listNewsletters`
+- whatsapp.com: added `replyToStatus`
+
+Removed:
+
+- glam-moda.com: `ask_business`, `cancel_cart`, `cancel_checkout`, `complete_checkout`, `create_cart`, `create_checkout`, `get_cart`, `get_checkout`, `get_order`, `get_product`, `lookup_catalog`, `search_catalog`, `update_cart`, `update_checkout`
+- wildbrain.com: `BrowseWixRESTDocsMenu`, `CallWixSiteAPI`, `ExecuteWixAPI`, `GenerateVisitorToken`, `GetBusinessDetails`, `ReadFullDocsArticle`, `ReadFullDocsMethodSchema`, `SearchInSite`, `SearchSiteApiDocs`, `WixREADME`
+- rooming.co.kr: `cancel-unpaid-order`, `create-checkout-url`, `search-customer-order-detail`, `search-customer-orders`, `search-products`, `search-products-detail`
+- harvestportal.org: `datastore_search`, `datastore_search_sql`, `get_dataset`, `get_resource`, `list_organizations`, `list_resources`, `search_datasets`, `whoami`
+- roundhouseai.io: `get_account`, `get_agent`, `get_capability`, `get_graph`, `get_leaderboard`, `get_merchant`, `list_agent_feedback`, `list_agents`, `list_capabilities`, `list_entity_settlements`, `list_facilitators`, `list_flows`, `list_services`, `list_transactions`, `list_wallets`, `recommend_capability_offers`, `run_sql`
+
+Every website and its functions: [covered-functions.txt](covered-functions.txt) · [covered-websites.txt](covered-websites.txt)
+
 ## 1.54.0 (2026-11-27)
 
 **Websites**
