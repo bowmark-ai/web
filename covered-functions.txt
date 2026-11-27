@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 145,098 sites, generated 2026-11-27.
+# Every website Bowmark covers and the functions it has: 145,100 sites, generated 2026-11-27.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -1306,7 +1306,6 @@
 = 773dccce add_to_collection#84be8d26 annotate_paper#86c730a9 ask_library#232ccb36 check_drift#e8deb1bc check_watches#f38ed9e4 co_author_graph#326e7161 create_collection#2a95e5a3 create_watch#01325f80 delete_watch#c9db6822 embed_text#99ef1874 fetch_fulltext#a6ad0efa find_author#69934182 find_gaps#47a7f4b4 get_citations#f8ffba3d get_field_orientation#41eec1ff get_foundational_lineage#325b0ecf get_paper#4c2f5717 like_paper#2e415555 list_collections#99a82ecf list_library#06584d27 list_watches#99a82ecf preview_watch#d4b5cc2b remove_from_collection#3f06a0d5 save_paper#49b28861 search_papers#d7083255 unsave_paper#1926a042 update_watch#20cf74c5
 = 7751a2e6 get_project#a24eabce search_projects#e5f94dd8
 = 7765f8df getScheduleVisitOptions searchHomes
-= 77749286 film getFilmReviews getList getOwnAccount getReview listMemberLists listMemberReviews memberDiary memberFilms searchFilms searchLists searchMembers
 = 77aede51 calculate_route#9832aa76 get_accommodation_details#1d792540 get_place_details#ff0586b2 search_accommodations#1283a9ca search_businesses#8d536e19 search_events#49704e59 search_places#9a31db8a search_restaurants#6e42b5c9 search_universal#fc20b7ce
 = 77b608be getMealPlan
 = 77cac537 findLocationByZip listLocations
@@ -1787,6 +1786,7 @@
 = a3d12940 scanStoreUpsells#94d4a97b testPageSpeed#61112214
 = a3d5992c get_application_status#e59f9fea get_credit_card_offer#6579a11e start_registration#5c3b3081 submit_credit_card_application#cc8827f4 validate_credit_card_application#e5bdd90c
 = a417f1fe ask-question-about-clickhouse#fb8f0001 search-clickhouse-docs#94ca42fd
+= a42b4a6b film getFilmReviews getList getOwnAccount getPerson getReview getWatchlist listFollowers listFollowing listMemberLists listMemberReviews memberDiary memberFilms searchFilms searchLists searchMembers
 = a474aea8 check_ai_rules#cd2703be check_job#695851d6 compare_ai_models#fb020a03 explore_connections#36f6dffe get_latest_news#13794a8f get_story#72653194 get_timeline#c1206dc4 get_tracker#fa949687 get_trends#daea6ffc search_news#fd96d3d8
 = a477ef69 get_article#0d3e4841 get_latest_articles#ea445663 search_articles#69f5f379
 = a478a781 get_categories#daea6ffc get_changes#1cd72d58 get_coverage_checklist#79f60505 get_game_prediction#43181fd7 get_page#5761ede6 list_authors#60a84a43 list_games#f968d70f list_news#e45aaf46 list_pages#496f482b search#fcc59190
@@ -1971,7 +1971,6 @@
 = b5e0405f search_products#e557a3a6
 = b5e820ff getListingDetails search
 = b5ff0983 autocomplete_places#94c112d2 find_places_nearby#1154f40e get_place#ca6e3abe search_authors#c280ec83 search_cemeteries#c280ec83 search_collections#c280ec83 search_documents#c280ec83 search_memorials#c280ec83 search_page_text#67027cb5 search_places#8f8baebe search_records#acb52a95 search_repositories#c280ec83 search_sources#c280ec83
-= b638d4c3 addChannelAdmin addGroupParticipants addGroupToCommunity approveGroupJoinRequests blockContact cancelGroupEvent checkNumber clearChat createBroadcastList createChannel createClickToChatLink createCommunity createGroup createGroupEvent deleteChat deleteContact deleteMessage downloadMedia editChannelUpdate editContact editGroupEvent editMessage exportChat findContact followChannel forwardMessage getBlogPost getChannel getChannelUpdates getChatMessages getCommunity getGroupInfo getGroupInviteLink getHelpArticle getMessageInfo getMyProfile joinGroupByInvite leaveCommunity leaveGroup listBlogPosts listCalls listCatalogProducts listChats listContacts listFollowedChannels listGroupEvents listLinkedDevices listStarredMessages listStatusUpdates listStatusViewers lockChat pinMessage postStatus postStatusMedia postToChannel previewBusinessCatalog previewGroupInvite reactToChannelUpdate reactToMessage removeGroupParticipants replyToMessage replyToStatus respondToGroupEvent saveContact searchChannels searchHelpCenter searchMessages sendContact sendGif sendLocation sendMedia sendMessage sendMessageToNumber sendMessageToUsername sendPoll sendVoiceMessage setDisappearingMessages setGroupAdmin starMessage startCall unfollowChannel unlinkDevice updateChat updateCommunity updateGroup updatePrivacySettings updateProfile votePoll
 = b655890a get_doc#cccb4138 search_docs#bb92bd00
 = b679a13f analyze_loop_strategy#a35fa7f4 associate_perps_wallet#e0ec6fe4 build_add_liquidity_v2#84f18f41 build_add_liquidity_v3#da393eb2 build_approve#706fe403 build_claim_rewards#5286ba16 build_kat_begin_withdrawal#5879d06c build_kat_cancel_withdrawal#704c6b42 build_kat_convert_to_vault#134374c2 build_kat_deposit_vault#e79829c3 build_kat_merge#49efd943 build_kat_reset_votes#6deafc37 build_kat_split#49a00ae0 build_kat_stake#cd3e53c4 build_kat_vote#40eeb000 build_kat_withdraw#6403a23e build_morpho_authorize#f8403ccf build_morpho_borrow#458a61b0 build_morpho_loop#caa9a409 build_morpho_supply#e8944c68 build_morpho_vault_deposit#fe94cf4b build_morpho_vault_withdraw#05856519 build_morpho_withdraw#d5ee7448 build_perps_deposit#df096226 build_perps_withdraw#31526115 build_swap#502d88f0 build_transfer#c87f1729 build_unwrap_eth#f85fee22 build_wrap_eth#dd2826d6 cancel_perps_order#5766bb92 create_perps_order#3dfe2c86 get_balances#7f05db53 get_contract_reference#99a82ecf get_gas_price#8afe995e get_kat_gauges#b9bdd8b0 get_kat_locks#0ac5de07 get_merkl_opportunities#35b94204 get_merkl_user_rewards#dd8d057f get_morpho_markets#99081606 get_morpho_position#04157991 get_morpho_vault_detail#9cbfd948 get_perps_candles#a13da861 get_perps_exchange#0027000f get_perps_fills#148b036c get_perps_funding_rates#650c7bec get_perps_gas_fees#0027000f get_perps_liquidations#504dc9cb get_perps_markets#5393768f get_perps_orderbook#afbf109d get_perps_orders#e07970eb get_perps_positions#ba095590 get_perps_tickers#46cf9123 get_perps_trades#7b91ce75 get_perps_wallets#1fa6e488 get_pools#e1d1acd8 get_swap_quote#7bde26b4 get_token_prices#a3c76aae list_morpho_markets#bb702146 list_morpho_vaults#8afe995e tx_lookup#0beb8a7a
 = b69410c1 findStores
@@ -2545,6 +2544,7 @@
 = ef79b916 analyze_price#31d75491 compare_products#651a1bf9 find_category#6bb4cc5c get_brand_products#1e3b7450 get_category_products#c549af94 get_deals#ca941aa7 get_price_history#35740164 get_product#38a4084f get_product_offers#f902ddf9 get_promo_codes#4cc00d4a get_similar_products#94930167 get_store#ded83899 get_store_deals#965f244d search_products#470befa0
 = ef9c1c69 casrai_ask#ca41db2e casrai_get_dictionary_term#35f5c264 casrai_get_nikolai_element#8fc1a90c casrai_lookup_credit_role#341ddc10 casrai_search_dictionary#f11ad212 casrai_search_nikolai#abbff6a4
 = efbd8995 add_flow_step#fe90370d create_flow#faa9cdc7 create_segment#d68dbbb3 discounts_search#42809e0b draft_campaign#674129e5 duplicate_flow#34a3b0a7 get_campaign#fd23a714 get_campaign_statistics#e679aabe get_contact#266beea6 get_flow#46903cbd get_flow_blueprints#2273f972 get_flows#2e6ec3fd get_links#2e6ec3fd get_segment#43890812 get_segments#86a2fa75 get_settings#2e6ec3fd preview_segment#df68ab29 products_search#64d69451 search_campaigns#401f3c3d search_contacts#2c1154e1 search_forms#99009adb search_media#08e03503 send_feedback#5e0b2680 update_draft_campaign#fe90370d update_draft_campaign_blocks#039b6834 update_flow#845555ab update_flow_step#fe90370d update_segment#bfee1c88 update_settings#4506625b upload_media#500cc80c whoami#05278900
+= efdece15 addChannelAdmin addGroupParticipants addGroupToCommunity approveGroupJoinRequests askMetaAI blockContact cancelGroupEvent checkNumber clearChat createBroadcastList createChannel createClickToChatLink createCommunity createGroup createGroupEvent deleteChat deleteContact deleteMessage downloadMedia editChannelUpdate editContact editGroupEvent editMessage exportChat findContact followChannel forwardMessage getBlogPost getChannel getChannelUpdates getChatMessages getCommunity getGroupInfo getGroupInviteLink getHelpArticle getMessageInfo getMyProfile joinGroupByInvite leaveCommunity leaveGroup listBlogPosts listCalls listCatalogProducts listChats listContacts listFollowedChannels listGroupEvents listLinkedDevices listStarredMessages listStatusUpdates listStatusViewers lockChat pinMessage postStatus postStatusMedia postToChannel previewBusinessCatalog previewGroupInvite reactToChannelUpdate reactToMessage removeCommunityMember removeGroupFromCommunity removeGroupParticipants replyToMessage replyToStatus respondToGroupEvent saveContact searchChannels searchHelpCenter searchMessages sendContact sendGif sendLocation sendMedia sendMessage sendMessageToNumber sendMessageToUsername sendPoll sendVoiceMessage setChannelAlerts setDisappearingMessages setGroupAdmin starMessage startCall unfollowChannel unlinkDevice updateChat updateCommunity updateGroup updatePrivacySettings updateProfile votePoll
 = f0022408 searchWebsite#e4decf9b
 = f039f727 listJobs
 = f054d0ed match_selective_feeder#caa8d1bd search_pickcrest#29ff3eb7
@@ -94719,6 +94719,7 @@ kilimanjaroheroes.com	bb34c1bd
 kilimanjarorentalgears.com	bb34c1bd
 kilky-paris.myshopify.com	a9af6443
 kill-the-lights.myshopify.com	a9af6443
+kill.com.ar	da39a3ee
 killcrew.co	4479a458
 killer-fit-gear.myshopify.com	a9af6443
 killer-kirsche.myshopify.com	a9af6443
@@ -95843,6 +95844,7 @@ ktozvonil.net	39e6e9d8
 ktseminary.myshopify.com	a9af6443
 kttape.com	8b50d914
 kttape.ee	bb34c1bd
+ktvc4-auto.co	da39a3ee
 ktvmoto.com	da39a3ee
 ktworx-1434.myshopify.com	a9af6443
 ku-professional-services-and-learning.myshopify.com	a9af6443
@@ -97839,7 +97841,7 @@ letstalkshit.myshopify.com	a9af6443
 letstikitiki.myshopify.com	a9af6443
 lettashopping.myshopify.com	a9af6443
 letterboards-uk.myshopify.com	a9af6443
-letterboxd.com	77749286
+letterboxd.com	a42b4a6b
 lettered-glass.myshopify.com	a9af6443
 letterfest.com	4479a458
 letterhend.com	bb34c1bd
@@ -144391,7 +144393,7 @@ whatsapp-marketing-chats.myshopify.com	61e64875
 whatsapp-phone-orders-buttons.myshopify.com	61e64875
 whatsapp-quote-and-hide-prices.myshopify.com	61e64875
 whatsapp-share-manager-sample-shop.myshopify.com	a9af6443
-whatsapp.com	b638d4c3
+whatsapp.com	efdece15
 whatsappbuttonpro.myshopify.com	61e64875
 whatsappbycc.myshopify.com	61e64875
 whatshare.myshopify.com	a9af6443
