@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1791545e471f3ef8dfced590ef389d34c101cdd2c4aad1b809a31403b9866e08
-// 102 capabilities, 999 providers, 6301 typed functions, 20 refused.
+// Manifest version: 7b2984c8f999edda30f2677b6393a53b2d58c401a1b218418ad8482feb5c2287
+// 102 capabilities, 1000 providers, 6315 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -38899,6 +38899,23 @@ interface CostcoCategory {
   url: string;
 }
 
+interface CostcoWarehouse {
+  id: string;
+  name: string;
+  type: string | null;
+  distance: number | null;
+  distanceUnit: string | null;
+  line1: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  phone: string | null;
+  timeZone: string | null;
+  services: string[];
+}
+
   /**
    * Costco's own search-bar autocomplete suggestions, and its discounted gift cards with brand,
    * face value and price.
@@ -38938,6 +38955,13 @@ interface CostcoCategory {
      * brand or kind ("restaurant", "fandango"); `limit` defaults to 20.
      */
     listGiftCards(options?: {query?: string, limit?: number}): Promise<CostcoGiftCard[]>;
+
+    /**
+     * Costco warehouses nearest a latitude and longitude (decimal degrees): name, address, phone,
+     * time zone, and the services on site such as a gas station or business centre. Optional
+     * `limit` defaults to 10. ZIP codes and city names are not supported yet.
+     */
+    findWarehouses(location: {latitude: number, longitude: number, limit?: number}): Promise<CostcoWarehouse[]>;
 
     /**
      * Makes a NEW Costco account with the person's own email and password, in a session. Pauses
@@ -56121,6 +56145,87 @@ interface EnergyConsumptionResult {
   }
 }
 
+declare namespace BowmarkProvider_fmb_org_uk {
+  // ── FMB — Federation of Master Builders (Find a Builder) — the unit's own declarations, verbatim ──
+interface FmbBuilderHit {
+  position: number; // 1-based rank across all pages, in FMB's own order
+  builderId: string; // pass to getBuilder
+  name: string;
+  profileUrl: string;
+  phone: string | null;
+  rating: number | null;
+  testimonials: number | null;
+  greatAvailability: boolean;
+  trustmark: boolean;
+  awardWinner: boolean;
+  operatesIn: string | null;
+  teaser: string | null;
+  logoUrl: string | null;
+}
+
+interface FmbSearchResult {
+  total: number; // FMB's own count of matching builders
+  page: number;
+  pages: number;
+  hasMore: boolean;
+  nextPage: number | null;
+  search: { location: string | null; trade: string | null; name: string | null; filters: string[] };
+  builders: FmbBuilderHit[];
+}
+
+interface FmbBuilder {
+  status: "listed" | "not_found";
+  builderId: string;
+  name: string | null;
+  profileUrl: string;
+  organisationId: string | null;
+  basedIn: string | null;
+  phone: string | null;
+  website: string | null;
+  socials: Record<string, string>; // network -> url, e.g. facebook
+  logoUrl: string | null;
+  featuredImageUrl: string | null;
+  description: string | null;
+  greatAvailability: boolean;
+  trustmark: boolean;
+  trades: { group: string; trades: string[] }[];
+}
+
+interface FmbTrade {
+  name: string;
+  slug: string;
+}
+
+interface FmbPlace {
+  place: string;
+}
+
+  /**
+   * Find a vetted UK builder on the Federation of Master Builders' directory by trade, town or
+   * postcode, or by name, and read a builder's profile.
+   */
+  interface Unit {
+    /**
+     * Finds FMB member builders by UK location (town or postcode), trade or builder name, 20 a
+     * page, with FMB's own total and filters for availability, TrustMark, 4 stars+ and award
+     * winners.
+     */
+    searchBuilders(args: {location?: string /* UK town as searchPlaces suggests, or a full postcode */, trade?: string /* a trade name or slug from listTrades */, name?: string /* part of a builder name; FMB searches the whole UK */, greatAvailability?: boolean, trustmarkOnly?: boolean, fourStarsPlus?: boolean, awardWinnersOnly?: boolean, page?: number /* from 1; 20 builders a page */}): Promise<FmbSearchResult>;
+
+    /**
+     * Reads one FMB builder's profile: phone, website, socials, description, trades, where it is
+     * based, availability and TrustMark.
+     */
+    getBuilder(args: {builder: string}): Promise<FmbBuilder>;
+
+    /** Lists every trade FMB's Find a Builder searches by (about 210), with name and slug. */
+    listTrades(): Promise<FmbTrade[]>;
+
+    /** Suggests the UK postcodes and places FMB's search accepts for a typed start, up to 10. */
+    searchPlaces(args: {text: string}): Promise<FmbPlace[]>;
+  }
+}
+
 declare namespace BowmarkProvider_folsom_1015 {
   // ── 1015 Folsom — the unit's own declarations, verbatim ──
 interface GetEventArgs {
@@ -69289,13 +69394,62 @@ interface GetArticleArgs {
   url: string;
 }
 
+interface HuffpostTopicPage {
+  name: string | null;
+  stories: HuffpostStory[];
+  total: number; // Stories on this page; HuffPost reports no overall total.
+  page: number;
+}
+
+interface HuffpostAuthorPage {
+  name: string | null;
+  slug: string;
+  stories: HuffpostStory[];
+  total: number; // Stories on this page; HuffPost reports no overall total.
+  page: number;
+}
+
+interface HuffpostHoroscope {
+  sign: string;
+  dateRange: string | null;
+  element: string | null;
+  planet: string | null;
+  blurb: string | null;
+  daily: { date: string; text: string }[];
+  weekly: { date: string; text: string } | null;
+  monthly: { title: string; text: string } | null;
+}
+
+interface BrowseTopicArgs {
+  topic: string;
+  page?: number;
+}
+
+interface GetAuthorArgs {
+  slug: string;
+  page?: number;
+}
+
+interface GetHoroscopeArgs {
+  sign: string;
+}
+
   /** HuffPost news stories: the home page, sections, topics, writers, horoscopes and search. */
   interface Unit {
     /** Lists the newest stories in one HuffPost section, with paging. */
     browseSection(args: BrowseSectionArgs): Promise<HuffpostStoryList>;
 
+    /** Lists the newest stories under one HuffPost topic, with paging. */
+    browseTopic(args: BrowseTopicArgs): Promise<HuffpostTopicPage>;
+
     /** Reads one HuffPost story: headline, dek, authors, times, section and body text. */
     getArticle(args: GetArticleArgs): Promise<HuffpostArticle>;
+
+    /** Reads one HuffPost writer's page: name and their latest stories, with paging. */
+    getAuthor(args: GetAuthorArgs): Promise<HuffpostAuthorPage>;
+
+    /** Reads one zodiac sign's daily, weekly and monthly horoscope. */
+    getHoroscope(args: GetHoroscopeArgs): Promise<HuffpostHoroscope>;
 
     /** Lists the stories on HuffPost's home page in page order. */
     listHeadlines(): Promise<HuffpostStoryList>;
@@ -97659,6 +97813,46 @@ interface getShowResult {
   episodes: showEpisode[];
 }
 
+interface getEpisodesArgs {
+  slug: string;
+  season?: number;
+}
+
+interface listedEpisode {
+  contentId: string;
+  seasonNumber: number | null;
+  episodeNumber: number | null;
+  title: string;
+  description: string;
+  airdate: string | null;
+  duration: string | null;
+  subscriptionLevel: string | null; // the site's own access label, e.g. PAID
+}
+
+interface getEpisodesResult {
+  showSlug: string;
+  total: number;
+  episodes: listedEpisode[];
+  warnings: string[];
+}
+
+interface getMovieArgs {
+  contentId: string;
+}
+
+interface getMovieResult {
+  title: string;
+  description: string;
+  url: string;
+  datePublished: string | null;
+  contentRating: string | null; // e.g. PG
+  genre: string | null;
+  image: string | null;
+  price: number | null; // subscription price the page's Offer states
+  priceCurrency: string | null;
+  availableUntil: string | null; // end of the licence window, ISO 8601
+}
+
   /**
    * Paramount+ streaming: search the US catalogue, read shows, episodes and movies, and manage
    * the caller's own watchlist and profiles.
@@ -97669,6 +97863,21 @@ interface getShowResult {
      * lists for its first season.
      */
     getShow(args: getShowArgs): Promise<getShowResult>;
+
+    /**
+     * Reads one Paramount+ movie page by its content id from searchTitles: title, description,
+     * release date, rating, genre, image and the subscription price and licence end the page
+     * states.
+     */
+    getMovie(args: getMovieArgs): Promise<getMovieResult>;
+
+    /**
+     * Lists every episode of one Paramount+ show by its url slug, across all seasons, with season
+     * and episode numbers, titles, descriptions and content ids. Takes `slug` and an optional
+     * `season` number to keep one season. Returns `total` (the site's own count) and warnings when
+     * the list came back partial.
+     */
+    getEpisodes(args: getEpisodesArgs): Promise<getEpisodesResult>;
 
     /**
      * Searches the Paramount+ US catalogue for shows and movies by words, returning each hit's
@@ -141057,6 +141266,27 @@ interface WhatsappChannelEdit {
   text: string;
 }
 
+interface WhatsappChannelAdminInvite {
+  channel: string;
+  contact: string;
+  invited: boolean;
+}
+
+interface WhatsappStatusViewer {
+  name: string;
+  time: string | null;
+  liked: boolean;
+}
+
+interface WhatsappStatusViewersPage {
+  results: WhatsappStatusViewer[]; // every viewer row the panel rendered, in the site's own order
+  total: number | null; // the count the viewers button showed, or null when it showed none
+  page: number; // always 1: the panel is read once, with no page argument
+  pageCount: number | null;
+  returned: number; // results.length
+  warnings: string[]; // says when the panel shows fewer rows than its count, or reports no count
+}
+
 interface WhatsappBroadcastList {
   name: string;
   recipients: string[];
@@ -141603,6 +141833,21 @@ interface WhatsappCommunityChange {
      * time label; a retried run never sends twice. Needs the caller signed in.
      */
     sendGif(chatName: string, query: string, opts?: ConnectionOption): Promise<WhatsappSentGif>;
+
+    /**
+     * Invites another account to be an admin of a Channel the caller owns, the Channel picked by
+     * its exact displayed name and the person by the exact displayed name of a saved contact (from
+     * listContacts). Only the Channel owner can. Needs the caller signed in.
+     */
+    addChannelAdmin(channelName: string, contactName: string, opts?: ConnectionOption): Promise<WhatsappChannelAdminInvite>;
+
+    /**
+     * Lists who has viewed and liked a Status the caller posted, with the time each viewed it,
+     * from the Status tab's My status row. Only the caller's own statuses. Returns the rows the
+     * viewers panel shows with its own count as total; warnings say when it shows fewer rows than
+     * that count. Needs the caller signed in.
+     */
+    listStatusViewers(opts?: ConnectionOption): Promise<WhatsappStatusViewersPage>;
 
     /**
      * Edits the text of one update the caller posted to a Channel they run, the Channel picked by
@@ -142949,6 +143194,28 @@ interface ListLocationsResult {
   locations: WixLocation[];
 }
 
+interface ListMyBookingsArgs {
+  site: string;
+  limit?: number; // Max bookings returned (default 50, max 100).
+}
+
+interface ListMyBookingsResult {
+  bookings: WixBooking[];
+}
+
+interface GetMyProfileArgs {
+  site: string;
+}
+
+interface WixMemberProfile {
+  id: string | null;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  nickname: string | null;
+  phone: string | null;
+}
+
   /**
    * Wix Bookings on any Wix business's website: read its services, staff, locations and open
    * times, book or cancel as a guest, and manage the caller's own bookings from the site's
@@ -143006,6 +143273,18 @@ interface ListLocationsResult {
      * bookAppointment.
      */
     cancelBooking(args: CancelBookingArgs): Promise<WixBooking>;
+
+    /**
+     * Lists the signed-in caller's bookings at one Wix business, from its Members Area. Needs the
+     * caller signed in on that business's own site.
+     */
+    listMyBookings(args: ListMyBookingsArgs, opts?: ConnectionOption): Promise<ListMyBookingsResult>;
+
+    /**
+     * The signed-in caller's member profile (name, email, phone) at one Wix business. Needs the
+     * caller signed in on that business's own site.
+     */
+    getMyProfile(args: GetMyProfileArgs, opts?: ConnectionOption): Promise<WixMemberProfile>;
 
     /**
      * Moves a guest booking to another open time with no sign-in, given the booking's id, its
@@ -541064,6 +541343,7 @@ interface BowmarkProviders {
   flightradar24: BowmarkProvider_flightradar24.Unit;
   floathelm: BowmarkProvider_floathelm.Unit;
   fluencecorp: BowmarkProvider_fluencecorp.Unit;
+  fmb_org_uk: BowmarkProvider_fmb_org_uk.Unit;
   folsom_1015: BowmarkProvider_folsom_1015.Unit;
   fomo: BowmarkProvider_fomo.Unit;
   forbes: BowmarkProvider_forbes.Unit;

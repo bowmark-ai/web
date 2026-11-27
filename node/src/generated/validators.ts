@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1791545e471f3ef8dfced590ef389d34c101cdd2c4aad1b809a31403b9866e08
-// 6273 checked, 20 unchecked.
+// Manifest version: 7b2984c8f999edda30f2677b6393a53b2d58c401a1b218418ad8482feb5c2287
+// 6287 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1791545e471f3ef8dfced590ef389d34c101cdd2c4aad1b809a31403b9866e08",
+  "version": "7b2984c8f999edda30f2677b6393a53b2d58c401a1b218418ad8482feb5c2287",
   "units": {
     "address_validation": {
       "defs": {
@@ -51443,6 +51443,38 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "findWarehouses": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "latitude",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "longitude",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -51463,13 +51495,14 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "8e7e66cd8d03383d",
-        "findProducts": "429143d86a01b7f6",
-        "getProduct": "f65ac1fdf0be690b",
-        "listCategories": "e1cfa891103b84cd",
-        "listGiftCards": "7ed115ae52259237",
-        "signup": "ab0d71da14c5f1fa",
-        "confirmSignup": "9e02203db264b092"
+        "search": "66be21886b059f5e",
+        "findProducts": "1ba197845c141741",
+        "getProduct": "5ac1d97a7e8408b0",
+        "listCategories": "104c1054517ce1ef",
+        "listGiftCards": "428786bba5c37f7f",
+        "findWarehouses": "2e525adef7e61ab5",
+        "signup": "e2aca9fae206aae2",
+        "confirmSignup": "d781f7f6da42f3e6"
       }
     },
     "providers.countycourt_vic_gov_au": {
@@ -77491,6 +77524,121 @@ export const VALIDATORS: ValidatorTable = {
         "calculateEnergyConsumption": "b7fe5ae3e365a494"
       }
     },
+    "providers.fmb_org_uk": {
+      "defs": {},
+      "functions": {
+        "searchBuilders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "trade",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "greatAvailability",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "trustmarkOnly",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "fourStarsPlus",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "awardWinnersOnly",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getBuilder": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "builder",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listTrades": [],
+        "searchPlaces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchBuilders": "b425dbe5b5213fa6",
+        "getBuilder": "d1c90d96f8a5c2ed",
+        "listTrades": "b2c49459d957f734",
+        "searchPlaces": "382a6ec1a2adca84"
+      }
+    },
     "providers.folsom_1015": {
       "defs": {
         "GetEventArgs": {
@@ -95343,11 +95491,61 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "BrowseTopicArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "topic",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetArticleArgs": {
           "k": "object",
           "props": [
             {
               "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetHoroscopeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sign",
               "schema": {
                 "k": "string"
               },
@@ -95367,6 +95565,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "browseTopic": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseTopicArgs"
+            },
+            "optional": false
+          }
+        ],
         "getArticle": [
           {
             "name": "args",
@@ -95377,14 +95585,37 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAuthorArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHoroscope": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHoroscopeArgs"
+            },
+            "optional": false
+          }
+        ],
         "listHeadlines": [],
         "listSections": []
       },
       "digests": {
-        "browseSection": "66dc5948d6d414a8",
-        "getArticle": "f577fb750ddac7f7",
-        "listHeadlines": "4c334b7336ab17f6",
-        "listSections": "42b521325e749621"
+        "browseSection": "d869d30caaf62adc",
+        "browseTopic": "0ee14d48b7b6f925",
+        "getArticle": "c3dfdb61d7f7aad5",
+        "getAuthor": "7d0a25fc53448467",
+        "getHoroscope": "93117503179a35c3",
+        "listHeadlines": "34c223865ef4c1a0",
+        "listSections": "3c26510b413cfcea"
       }
     },
     "providers.huggingface": {
@@ -139773,6 +140004,37 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.paramountplus": {
       "defs": {
+        "getEpisodesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "getMovieArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "contentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "getShowArgs": {
           "k": "object",
           "props": [
@@ -139809,6 +140071,26 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getMovie": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "getMovieArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getEpisodes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "getEpisodesArgs"
+            },
+            "optional": false
+          }
+        ],
         "searchTitles": [
           {
             "name": "args",
@@ -139821,8 +140103,10 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getShow": "b74dcaf160110684",
-        "searchTitles": "f19828ed68ba9059"
+        "getShow": "040fab97f058ca40",
+        "getMovie": "6f3d13c32dbd6370",
+        "getEpisodes": "b788d2ef0cfbc6c5",
+        "searchTitles": "c2f75ec4d1c8f87e"
       }
     },
     "providers.partiful": {
@@ -204680,6 +204964,56 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "addChannelAdmin": [
+          {
+            "name": "channelName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "contactName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listStatusViewers": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "editChannelUpdate": [
           {
             "name": "channelName",
@@ -206102,91 +206436,93 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getMyProfile": "d429de862b55f198",
-        "listChats": "749d855048420649",
-        "findContact": "d66c5ae6781c2baf",
-        "searchMessages": "34a4949c93a6a79f",
-        "listContacts": "aa31a21f8b1a49ea",
-        "checkNumber": "0bfe5165d9a2cd58",
-        "getChatMessages": "f2987d9221d32ece",
-        "downloadMedia": "1de103afac31113e",
-        "previewGroupInvite": "f77a5856df419a82",
-        "createClickToChatLink": "f2bbf2142d0264ce",
-        "previewBusinessCatalog": "0455410d52444f87",
-        "getChannel": "6816ba091d7d4bd0",
-        "listBlogPosts": "f3412451e3e5fa4c",
-        "getBlogPost": "642eaf36de819035",
-        "searchHelpCenter": "7e454c9517aebec3",
-        "getHelpArticle": "d0e0236a5ea102be",
-        "getGroupInfo": "cde977b9483ba845",
-        "searchChannels": "36a63981608d63d5",
-        "listFollowedChannels": "a25566ea53635fe2",
-        "getCommunity": "07c26dd3c3be15d4",
-        "getChannelUpdates": "f99d790d31f7dcec",
-        "sendMessage": "c9094e53d5e4f60b",
-        "sendMessageToNumber": "d653c5304d1024bd",
-        "sendMessageToUsername": "f59dc20f2a783bf8",
-        "createGroupEvent": "c8e01236d8de1950",
-        "respondToGroupEvent": "e96f99d60ba62cb3",
-        "listGroupEvents": "313815b090d85d7b",
-        "cancelGroupEvent": "89303471763f826c",
-        "editGroupEvent": "bf897b30f3b6c1b2",
-        "editContact": "1610647a3b6b1581",
-        "updateCommunity": "d172f5dbc68437e2",
-        "sendMedia": "ab2322d97ff9f745",
-        "reactToMessage": "1c223be8a3a90f87",
-        "replyToMessage": "b66d07e9ba1991e8",
-        "pinMessage": "7e304b5b4003904a",
-        "setDisappearingMessages": "403720fb2474cbd2",
-        "editMessage": "2f48f8b963712a89",
-        "sendPoll": "de6eb0b1152b2225",
-        "votePoll": "7ae4571aa4b1ca40",
-        "sendContact": "542cda9b8d47d343",
-        "postToChannel": "f9aba8d8d4382a92",
-        "approveGroupJoinRequests": "4058c1ac742293d4",
-        "sendGif": "7a6e3dbb3ca8d590",
-        "editChannelUpdate": "ada76f2cb4ec09b7",
-        "createBroadcastList": "480625cc56f14473",
-        "starMessage": "4736fa021be5cbb9",
-        "listStarredMessages": "681bbca581b0fa26",
-        "deleteChat": "c331130e11fb1263",
-        "lockChat": "7f7c214d57bd4386",
-        "createCommunity": "668c94fc80d81603",
-        "saveContact": "b70154637d0b7988",
-        "deleteContact": "394899682c1d59c1",
-        "setGroupAdmin": "70d5d26ec75323b9",
-        "getMessageInfo": "89f4cab53cfffa0c",
-        "sendVoiceMessage": "49e450cda3be1116",
-        "startCall": "28f7712a81713313",
-        "clearChat": "af7fb3c425e0781e",
-        "leaveCommunity": "9f8a77b39049c04b",
-        "listLinkedDevices": "231cc2170b01c9ab",
-        "unlinkDevice": "bb9851744412e91a",
-        "reactToChannelUpdate": "d71b1fa2a88b4a04",
-        "exportChat": "c85518a4237b8ed0",
-        "postStatusMedia": "ab8c6929d3664725",
-        "addGroupToCommunity": "9a23ddaeb684e5e6",
-        "listCalls": "8766c68fcd63ecf8",
-        "sendLocation": "f15b8c944317f756",
-        "createChannel": "b0789195500d5e24",
-        "forwardMessage": "6772f1216dc59fa6",
-        "updateChat": "fa7a67654655a43a",
-        "createGroup": "95f9f42f84946851",
-        "updateGroup": "65998ecb41dcbc01",
-        "addGroupParticipants": "be223587e0488200",
-        "removeGroupParticipants": "be223587e0488200",
-        "joinGroupByInvite": "c444aae40062ae84",
-        "leaveGroup": "a9f798b9426d63c0",
-        "followChannel": "2f05419f6c70a590",
-        "unfollowChannel": "2f05419f6c70a590",
-        "postStatus": "ecf75fa668f21f55",
-        "updateProfile": "e5b18f5c96b64836",
-        "blockContact": "03182389e0a02489",
-        "updatePrivacySettings": "b14296b38a5a04c8",
-        "deleteMessage": "8de8a0adbc008ed6",
-        "listCatalogProducts": "3408f5e8e732edc0",
-        "listStatusUpdates": "311097f909df5bbb",
-        "getGroupInviteLink": "448b2182607d21d2"
+        "getMyProfile": "903b8d7ff65c0871",
+        "listChats": "6d4a81fdc62adf57",
+        "findContact": "7f9169292ae6fbd2",
+        "searchMessages": "ddfeabf62447b920",
+        "listContacts": "a0987f3cd7df9760",
+        "checkNumber": "5e2920600db0a956",
+        "getChatMessages": "cfa48b2433b79ed5",
+        "downloadMedia": "6d7ae5b5ecbff3ae",
+        "previewGroupInvite": "34eccbdb54f9a89f",
+        "createClickToChatLink": "86a7a097fe0925df",
+        "previewBusinessCatalog": "f4f9f70655fe32c1",
+        "getChannel": "1b3b17f2cb12db93",
+        "listBlogPosts": "5d6fb1cd571fe55e",
+        "getBlogPost": "23d2f5bcc8a39b7f",
+        "searchHelpCenter": "440533c70246efaa",
+        "getHelpArticle": "0691eb40e65c5324",
+        "getGroupInfo": "1b41f4bd63721175",
+        "searchChannels": "f5f1e684e805aa6b",
+        "listFollowedChannels": "1bfb917cae8604f4",
+        "getCommunity": "478130ba627dd865",
+        "getChannelUpdates": "fde238819d6dcc0e",
+        "sendMessage": "10f104f44ac630c0",
+        "sendMessageToNumber": "342d6ce91ec0f57e",
+        "sendMessageToUsername": "6b347566f2c6670f",
+        "createGroupEvent": "e3b0ac7e1ef7fd51",
+        "respondToGroupEvent": "d8e2cf4a0cdf6620",
+        "listGroupEvents": "28c3320e01c307f2",
+        "cancelGroupEvent": "f5179897fb8a8dd8",
+        "editGroupEvent": "7b259acf12fddc69",
+        "editContact": "b086e00600a408b9",
+        "updateCommunity": "affe9c4407dd852b",
+        "sendMedia": "12465c0975326e49",
+        "reactToMessage": "5b295dc8d9b48f01",
+        "replyToMessage": "0bf5b0843ba26bc4",
+        "pinMessage": "7ae7a3c5a29afb30",
+        "setDisappearingMessages": "57db85a247021b4b",
+        "editMessage": "a34f3031d559f71a",
+        "sendPoll": "e99bc7d7db17fcee",
+        "votePoll": "3866837c5b8c582a",
+        "sendContact": "33b87afb24367a94",
+        "postToChannel": "301b62b873aeed4c",
+        "approveGroupJoinRequests": "d33c02237e79438a",
+        "sendGif": "fdb044ce6873039e",
+        "addChannelAdmin": "cac29faf58fdd32f",
+        "listStatusViewers": "c1694fada3f7e917",
+        "editChannelUpdate": "4084a5662d6c33e5",
+        "createBroadcastList": "f748b4dbc25bfb92",
+        "starMessage": "5ae93850e2ff5d0a",
+        "listStarredMessages": "e32e17d35fbe973d",
+        "deleteChat": "0e3204553dc9552d",
+        "lockChat": "3fbd7a55b718049d",
+        "createCommunity": "6b35604ec7668e7d",
+        "saveContact": "f39d726c525031c9",
+        "deleteContact": "7450c5c44b7289f3",
+        "setGroupAdmin": "7bb2a8b4944ccec8",
+        "getMessageInfo": "ae73ac4acd44bcdd",
+        "sendVoiceMessage": "dc4a6bce0f88e57f",
+        "startCall": "1916e765c9bb0a58",
+        "clearChat": "3d18ea0eda71ddab",
+        "leaveCommunity": "8b12be40e0a422c1",
+        "listLinkedDevices": "075891ed6e7d6136",
+        "unlinkDevice": "d1fe7e5bf7ce8710",
+        "reactToChannelUpdate": "fae4d9896992f9f7",
+        "exportChat": "4212cd02e8e427ac",
+        "postStatusMedia": "a8ca8a1efad93e03",
+        "addGroupToCommunity": "a357868b48ead248",
+        "listCalls": "5d1e19982534dcbf",
+        "sendLocation": "349d1d40f3948e83",
+        "createChannel": "87c91939893b3e0d",
+        "forwardMessage": "252422bfd56befa7",
+        "updateChat": "c519222c84225e0a",
+        "createGroup": "7e95a61c419a3aac",
+        "updateGroup": "4cec9f3cacd904bb",
+        "addGroupParticipants": "7b86b7b0b4e0c200",
+        "removeGroupParticipants": "7b86b7b0b4e0c200",
+        "joinGroupByInvite": "a83f85d6da456aae",
+        "leaveGroup": "b3651338a0065e48",
+        "followChannel": "d6702aa43a408d54",
+        "unfollowChannel": "d6702aa43a408d54",
+        "postStatus": "872e3a40f324a807",
+        "updateProfile": "e9ac112c5f97836e",
+        "blockContact": "8cc2af80116a0e18",
+        "updatePrivacySettings": "b73447028dd5513e",
+        "deleteMessage": "6c221c3ada0e79ee",
+        "listCatalogProducts": "927803151caa7b07",
+        "listStatusUpdates": "3423a76704c7afbc",
+        "getGroupInviteLink": "6e674f9d984f640b"
       }
     },
     "providers.wholefoodsmarket": {
@@ -207872,6 +208208,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetMyProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetOpenTimesArgs": {
           "k": "object",
           "props": [
@@ -207928,6 +208276,25 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListMyBookingsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -208172,6 +208539,58 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listMyBookings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListMyBookingsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMyProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMyProfileArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "rescheduleBooking": [
           {
             "name": "args",
@@ -208184,17 +208603,19 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findSite": "4c449d7a5312ffe2",
-        "listServices": "84f0bf2b65dd96f3",
-        "searchServices": "fdccd82efa5f88ab",
-        "getService": "e22eb855631f7311",
-        "listCategories": "da11a45dfbbff66e",
-        "listStaff": "35d65171d2519a23",
-        "getOpenTimes": "7f3734d28e0c6a23",
-        "listLocations": "a6e61d55b63d4062",
-        "bookAppointment": "13f94993bf5a4b1f",
-        "cancelBooking": "dacece745544d307",
-        "rescheduleBooking": "8bd665ffac4c3974"
+        "findSite": "2361003c30a5f6c4",
+        "listServices": "3582c45675e687f1",
+        "searchServices": "929d9e7aeb0fc302",
+        "getService": "511b524a49874c8e",
+        "listCategories": "574457b3cabe3c26",
+        "listStaff": "db3676dd84ab4294",
+        "getOpenTimes": "86f3b477fe81168f",
+        "listLocations": "8dfef58299441c63",
+        "bookAppointment": "19e744b35a6e2248",
+        "cancelBooking": "afe3495589a2177f",
+        "listMyBookings": "c8e8ed6fab6fe3e9",
+        "getMyProfile": "f0effbe162185b07",
+        "rescheduleBooking": "8c5e2d279bca18ae"
       }
     },
     "providers.wodify": {

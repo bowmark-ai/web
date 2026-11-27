@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1791545e471f3ef8dfced590ef389d34c101cdd2c4aad1b809a31403b9866e08
-# 102 capabilities, 999 providers, 6273 typed functions, 20 refused.
+# Manifest version: 7b2984c8f999edda30f2677b6393a53b2d58c401a1b218418ad8482feb5c2287
+# 102 capabilities, 1000 providers, 6287 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24785,6 +24785,27 @@ class Prv_costco_CostcoGiftCard_Out(TypedDict):
     image: str | None
     url: str
 
+class Prv_costco_findWarehouses_location_In(TypedDict):
+    latitude: float
+    longitude: float
+    limit: NotRequired[float]
+
+class Prv_costco_CostcoWarehouse_Out(TypedDict):
+    id: str
+    name: str
+    type: str | None
+    distance: float | None
+    distanceUnit: str | None
+    line1: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    latitude: float | None
+    longitude: float | None
+    phone: str | None
+    timeZone: str | None
+    services: list[str]
+
 class Prv_costco_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
     channel: Literal["email"] | Literal["sms"]
@@ -36711,6 +36732,80 @@ class Prv_fluencecorp_EnergyConsumptionResult_Out(TypedDict):
     effluentFlow: float
     level: Literal[0] | Literal[1] | Literal[2] | Literal[3]
 
+class Prv_fmb_org_uk_searchBuilders_args_In(TypedDict):
+    location: NotRequired[str]
+    trade: NotRequired[str]
+    name: NotRequired[str]
+    greatAvailability: NotRequired[bool]
+    trustmarkOnly: NotRequired[bool]
+    fourStarsPlus: NotRequired[bool]
+    awardWinnersOnly: NotRequired[bool]
+    page: NotRequired[float]
+
+class Prv_fmb_org_uk_FmbSearchResult_Out(TypedDict):
+    total: float
+    page: float
+    pages: float
+    hasMore: bool
+    nextPage: float | None
+    search: Prv_fmb_org_uk_FmbSearchResult_Out_search_Out
+    builders: list[Prv_fmb_org_uk_FmbBuilderHit_Out]
+
+class Prv_fmb_org_uk_FmbSearchResult_Out_search_Out(TypedDict):
+    location: str | None
+    trade: str | None
+    name: str | None
+    filters: list[str]
+
+class Prv_fmb_org_uk_FmbBuilderHit_Out(TypedDict):
+    position: float
+    builderId: str
+    name: str
+    profileUrl: str
+    phone: str | None
+    rating: float | None
+    testimonials: float | None
+    greatAvailability: bool
+    trustmark: bool
+    awardWinner: bool
+    operatesIn: str | None
+    teaser: str | None
+    logoUrl: str | None
+
+class Prv_fmb_org_uk_getBuilder_args_In(TypedDict):
+    builder: str
+
+class Prv_fmb_org_uk_FmbBuilder_Out(TypedDict):
+    status: Literal["listed"] | Literal["not_found"]
+    builderId: str
+    name: str | None
+    profileUrl: str
+    organisationId: str | None
+    basedIn: str | None
+    phone: str | None
+    website: str | None
+    socials: Mapping[str, str]
+    logoUrl: str | None
+    featuredImageUrl: str | None
+    description: str | None
+    greatAvailability: bool
+    trustmark: bool
+    trades: list[Prv_fmb_org_uk_FmbBuilder_Out_trades_item_Out]
+
+class Prv_fmb_org_uk_FmbBuilder_Out_trades_item_Out(TypedDict):
+    group: str
+    trades: list[str]
+
+class Prv_fmb_org_uk_FmbTrade_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_fmb_org_uk_searchPlaces_args_In(TypedDict):
+    text: str
+
+class Prv_fmb_org_uk_FmbPlace_Out(TypedDict):
+    place: str
+
 class Prv_folsom_1015_GetEventArgs_In(TypedDict):
     slug: NotRequired[str]
     url: NotRequired[str]
@@ -44578,6 +44673,16 @@ class Prv_huffpost_HuffpostStory_Out_authors_item_Out(TypedDict):
     name: str
     slug: str
 
+class Prv_huffpost_BrowseTopicArgs_In(TypedDict):
+    topic: str
+    page: NotRequired[float]
+
+class Prv_huffpost_HuffpostTopicPage_Out(TypedDict):
+    name: str | None
+    stories: list[Prv_huffpost_HuffpostStory_Out]
+    total: float
+    page: float
+
 class Prv_huffpost_GetArticleArgs_In(TypedDict):
     url: str
 
@@ -44592,6 +44697,42 @@ class Prv_huffpost_HuffpostArticle_Out(TypedDict):
     authors: list[str]
     keywords: list[str]
     body: str
+
+class Prv_huffpost_GetAuthorArgs_In(TypedDict):
+    slug: str
+    page: NotRequired[float]
+
+class Prv_huffpost_HuffpostAuthorPage_Out(TypedDict):
+    name: str | None
+    slug: str
+    stories: list[Prv_huffpost_HuffpostStory_Out]
+    total: float
+    page: float
+
+class Prv_huffpost_GetHoroscopeArgs_In(TypedDict):
+    sign: str
+
+class Prv_huffpost_HuffpostHoroscope_Out(TypedDict):
+    sign: str
+    dateRange: str | None
+    element: str | None
+    planet: str | None
+    blurb: str | None
+    daily: list[Prv_huffpost_HuffpostHoroscope_Out_daily_item_Out]
+    weekly: Prv_huffpost_HuffpostHoroscope_Out_weekly_u0_Out | None
+    monthly: Prv_huffpost_HuffpostHoroscope_Out_monthly_u0_Out | None
+
+class Prv_huffpost_HuffpostHoroscope_Out_daily_item_Out(TypedDict):
+    date: str
+    text: str
+
+class Prv_huffpost_HuffpostHoroscope_Out_weekly_u0_Out(TypedDict):
+    date: str
+    text: str
+
+class Prv_huffpost_HuffpostHoroscope_Out_monthly_u0_Out(TypedDict):
+    title: str
+    text: str
 
 class Prv_huffpost_listSections_return_Out(TypedDict):
     sections: list[Prv_huffpost_HuffpostSection_Out]
@@ -62575,6 +62716,41 @@ class Prv_paramountplus_showEpisode_Out(TypedDict):
     title: str
     description: str
     url: str
+
+class Prv_paramountplus_getMovieArgs_In(TypedDict):
+    contentId: str
+
+class Prv_paramountplus_getMovieResult_Out(TypedDict):
+    title: str
+    description: str
+    url: str
+    datePublished: str | None
+    contentRating: str | None
+    genre: str | None
+    image: str | None
+    price: float | None
+    priceCurrency: str | None
+    availableUntil: str | None
+
+class Prv_paramountplus_getEpisodesArgs_In(TypedDict):
+    slug: str
+    season: NotRequired[float]
+
+class Prv_paramountplus_getEpisodesResult_Out(TypedDict):
+    showSlug: str
+    total: float
+    episodes: list[Prv_paramountplus_listedEpisode_Out]
+    warnings: list[str]
+
+class Prv_paramountplus_listedEpisode_Out(TypedDict):
+    contentId: str
+    seasonNumber: float | None
+    episodeNumber: float | None
+    title: str
+    description: str
+    airdate: str | None
+    duration: str | None
+    subscriptionLevel: str | None
 
 class Prv_paramountplus_searchTitlesArgs_In(TypedDict):
     query: str
@@ -92325,6 +92501,24 @@ class Prv_whatsapp_WhatsappSentGif_Out(TypedDict):
     id: str | None
     time: str | None
 
+class Prv_whatsapp_WhatsappChannelAdminInvite_Out(TypedDict):
+    channel: str
+    contact: str
+    invited: bool
+
+class Prv_whatsapp_WhatsappStatusViewersPage_Out(TypedDict):
+    results: list[Prv_whatsapp_WhatsappStatusViewer_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_whatsapp_WhatsappStatusViewer_Out(TypedDict):
+    name: str
+    time: str | None
+    liked: bool
+
 class Prv_whatsapp_WhatsappChannelEdit_Out(TypedDict):
     channel: str
     updateId: str
@@ -93452,6 +93646,24 @@ class Prv_wix_bookings_CancelBookingArgs_In(TypedDict):
     bookingId: str
     revision: str
     notifyParticipants: NotRequired[bool]
+
+class Prv_wix_bookings_ListMyBookingsArgs_In(TypedDict):
+    site: str
+    limit: NotRequired[float]
+
+class Prv_wix_bookings_ListMyBookingsResult_Out(TypedDict):
+    bookings: list[Prv_wix_bookings_WixBooking_Out]
+
+class Prv_wix_bookings_GetMyProfileArgs_In(TypedDict):
+    site: str
+
+class Prv_wix_bookings_WixMemberProfile_Out(TypedDict):
+    id: str | None
+    email: str | None
+    firstName: str | None
+    lastName: str | None
+    nickname: str | None
+    phone: str | None
 
 class Prv_wix_bookings_RescheduleBookingArgs_In(TypedDict):
     site: str
@@ -110533,6 +110745,12 @@ class Prv_costco(Protocol):
         filters by brand or kind ("restaurant", "fandango"); `limit` defaults to 20.
         """
 
+    async def findWarehouses(self, location: Prv_costco_findWarehouses_location_In, /) -> list[Prv_costco_CostcoWarehouse_Out]:
+        """Costco warehouses nearest a latitude and longitude (decimal degrees): name, address,
+        phone, time zone, and the services on site such as a gas station or business centre.
+        Optional `limit` defaults to 10. ZIP codes and city names are not supported yet.
+        """
+
     async def signup(self, args: Any, /) -> Prv_costco_signup_return_u0_Out | Prv_costco_signup_return_u1_Out | Prv_costco_signup_return_u2_Out | Prv_costco_signup_return_u3_Out:
         """Makes a NEW Costco account with the person's own email and password, in a session.
         Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
@@ -116011,6 +116229,28 @@ class Prv_fluencecorp(Protocol):
         environmental conditions and a power-consumer list.
         """
 
+class Prv_fmb_org_uk(Protocol):
+    """Find a vetted UK builder on the Federation of Master Builders' directory by trade, town
+    or postcode, or by name, and read a builder's profile.
+    """
+
+    async def searchBuilders(self, args: Prv_fmb_org_uk_searchBuilders_args_In, /) -> Prv_fmb_org_uk_FmbSearchResult_Out:
+        """Finds FMB member builders by UK location (town or postcode), trade or builder name, 20 a
+        page, with FMB's own total and filters for availability, TrustMark, 4 stars+ and award
+        winners.
+        """
+
+    async def getBuilder(self, args: Prv_fmb_org_uk_getBuilder_args_In, /) -> Prv_fmb_org_uk_FmbBuilder_Out:
+        """Reads one FMB builder's profile: phone, website, socials, description, trades, where it
+        is based, availability and TrustMark.
+        """
+
+    async def listTrades(self, /) -> list[Prv_fmb_org_uk_FmbTrade_Out]:
+        """Lists every trade FMB's Find a Builder searches by (about 210), with name and slug."""
+
+    async def searchPlaces(self, args: Prv_fmb_org_uk_searchPlaces_args_In, /) -> list[Prv_fmb_org_uk_FmbPlace_Out]:
+        """Suggests the UK postcodes and places FMB's search accepts for a typed start, up to 10."""
+
 class Prv_folsom_1015(Protocol):
     """1015 Folsom (1015.com), the San Francisco dance-music nightclub: list the upcoming show
     calendar with dates, genres and the official ticket link, and read one event's show
@@ -120698,8 +120938,17 @@ class Prv_huffpost(Protocol):
     async def browseSection(self, args: Prv_huffpost_BrowseSectionArgs_In, /) -> Prv_huffpost_HuffpostStoryList_Out:
         """Lists the newest stories in one HuffPost section, with paging."""
 
+    async def browseTopic(self, args: Prv_huffpost_BrowseTopicArgs_In, /) -> Prv_huffpost_HuffpostTopicPage_Out:
+        """Lists the newest stories under one HuffPost topic, with paging."""
+
     async def getArticle(self, args: Prv_huffpost_GetArticleArgs_In, /) -> Prv_huffpost_HuffpostArticle_Out:
         """Reads one HuffPost story: headline, dek, authors, times, section and body text."""
+
+    async def getAuthor(self, args: Prv_huffpost_GetAuthorArgs_In, /) -> Prv_huffpost_HuffpostAuthorPage_Out:
+        """Reads one HuffPost writer's page: name and their latest stories, with paging."""
+
+    async def getHoroscope(self, args: Prv_huffpost_GetHoroscopeArgs_In, /) -> Prv_huffpost_HuffpostHoroscope_Out:
+        """Reads one zodiac sign's daily, weekly and monthly horoscope."""
 
     async def listHeadlines(self, /) -> Prv_huffpost_HuffpostStoryList_Out:
         """Lists the stories on HuffPost's home page in page order."""
@@ -130082,6 +130331,19 @@ class Prv_paramountplus(Protocol):
     async def getShow(self, args: Prv_paramountplus_getShowArgs_In, /) -> Prv_paramountplus_getShowResult_Out:
         """Reads one Paramount+ show page by its url slug: title, description and the episodes the
         page lists for its first season.
+        """
+
+    async def getMovie(self, args: Prv_paramountplus_getMovieArgs_In, /) -> Prv_paramountplus_getMovieResult_Out:
+        """Reads one Paramount+ movie page by its content id from searchTitles: title, description,
+        release date, rating, genre, image and the subscription price and licence end the page
+        states.
+        """
+
+    async def getEpisodes(self, args: Prv_paramountplus_getEpisodesArgs_In, /) -> Prv_paramountplus_getEpisodesResult_Out:
+        """Lists every episode of one Paramount+ show by its url slug, across all seasons, with
+        season and episode numbers, titles, descriptions and content ids. Takes `slug` and an
+        optional `season` number to keep one season. Returns `total` (the site's own count) and
+        warnings when the list came back partial.
         """
 
     async def searchTitles(self, args: Prv_paramountplus_searchTitlesArgs_In, /) -> Prv_paramountplus_searchTitlesResult_Out:
@@ -144467,6 +144729,19 @@ class Prv_whatsapp(Protocol):
         id and time label; a retried run never sends twice. Needs the caller signed in.
         """
 
+    async def addChannelAdmin(self, channelName: str, contactName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelAdminInvite_Out:
+        """Invites another account to be an admin of a Channel the caller owns, the Channel picked
+        by its exact displayed name and the person by the exact displayed name of a saved
+        contact (from listContacts). Only the Channel owner can. Needs the caller signed in.
+        """
+
+    async def listStatusViewers(self, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappStatusViewersPage_Out:
+        """Lists who has viewed and liked a Status the caller posted, with the time each viewed it,
+        from the Status tab's My status row. Only the caller's own statuses. Returns the rows
+        the viewers panel shows with its own count as total; warnings say when it shows fewer
+        rows than that count. Needs the caller signed in.
+        """
+
     async def editChannelUpdate(self, channelName: str, updateId: str, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelEdit_Out:
         """Edits the text of one update the caller posted to a Channel they run, the Channel picked
         by its exact displayed name and the update by the id getChannelUpdates returns. A public
@@ -145124,6 +145399,16 @@ class Prv_wix_bookings(Protocol):
     async def cancelBooking(self, args: Prv_wix_bookings_CancelBookingArgs_In, /) -> Prv_wix_bookings_WixBooking_Out:
         """Cancels a guest booking with no sign-in, given the booking's id and current revision
         from bookAppointment.
+        """
+
+    async def listMyBookings(self, args: Prv_wix_bookings_ListMyBookingsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wix_bookings_ListMyBookingsResult_Out:
+        """Lists the signed-in caller's bookings at one Wix business, from its Members Area. Needs
+        the caller signed in on that business's own site.
+        """
+
+    async def getMyProfile(self, args: Prv_wix_bookings_GetMyProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wix_bookings_WixMemberProfile_Out:
+        """The signed-in caller's member profile (name, email, phone) at one Wix business. Needs
+        the caller signed in on that business's own site.
         """
 
     async def rescheduleBooking(self, args: Prv_wix_bookings_RescheduleBookingArgs_In, /) -> Prv_wix_bookings_WixBooking_Out:
@@ -147740,6 +148025,7 @@ class BowmarkProviders(Protocol):
     flightradar24: Prv_flightradar24
     floathelm: Prv_floathelm
     fluencecorp: Prv_fluencecorp
+    fmb_org_uk: Prv_fmb_org_uk
     folsom_1015: Prv_folsom_1015
     fomo: Prv_fomo
     forbes: Prv_forbes
