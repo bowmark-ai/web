@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7b2984c8f999edda30f2677b6393a53b2d58c401a1b218418ad8482feb5c2287
-# 102 capabilities, 1000 providers, 6287 typed functions, 20 refused.
+# Manifest version: 4f543028108b69f338afcd41271920a9a1d32f86cd3d0a9f792fcb538eaca2b8
+# 102 capabilities, 1003 providers, 6306 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5780,6 +5780,34 @@ class Prv_agentskill_AgentskillSkill_Out(TypedDict):
     score: float | None
     securityScore: float | None
     repositoryUrl: str | None
+    url: str
+
+class Prv_agentsocketbox_agentsocketboxGuide_Out(TypedDict):
+    name: str
+    url: str
+    title: str
+    text: str
+
+class Prv_agentsocketbox_agentsocketboxService_Out(TypedDict):
+    name: str
+    tagline: str | None
+    description: str | None
+    status: str | None
+    registrationOpen: bool | None
+    inviteSignup: bool | None
+    signInMethod: str | None
+    joinExistingBox: bool | None
+    createNewBox: bool | None
+    mcpUrl: str | None
+    oauthScopes: list[str]
+    httpBaseUrl: str | None
+    capabilities: list[str]
+    unsupportedCapabilities: list[str]
+    agentHandleTools: list[str]
+    guides: list[Prv_agentsocketbox_agentsocketboxGuideLink_Out]
+
+class Prv_agentsocketbox_agentsocketboxGuideLink_Out(TypedDict):
+    name: str
     url: str
 
 class Prv_agentstatus_AgentStatusSearchServersArgs_In(TypedDict):
@@ -20516,6 +20544,7 @@ class Prv_checkatrade_CheckatradeSearchResult_Out(TypedDict):
     totalPages: float
     nextPage: float | None
     traders: list[Prv_checkatrade_CheckatradeTrader_Out]
+    warnings: list[str]
 
 class Prv_checkatrade_CheckatradeTrader_Out(TypedDict):
     position: float
@@ -24805,6 +24834,24 @@ class Prv_costco_CostcoWarehouse_Out(TypedDict):
     phone: str | None
     timeZone: str | None
     services: list[str]
+
+class Prv_costco_CostcoGasPrices_Out(TypedDict):
+    warehouseId: str
+    regular: float | None
+    premium: float | None
+    other: Mapping[str, float]
+    warnings: list[str]
+
+class Prv_costco_CostcoMembershipPlans_Out(TypedDict):
+    tiers: list[Prv_costco_CostcoMembershipTier_Out]
+    warnings: list[str]
+
+class Prv_costco_CostcoMembershipTier_Out(TypedDict):
+    tier: Literal["Gold Star"] | Literal["Business"] | Literal["Executive"]
+    annualFee: float | None
+    cashBackRate: float | None
+    cashBackCap: float | None
+    upgradeFee: float | None
 
 class Prv_costco_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -36689,6 +36736,16 @@ class Prv_floathelm_FloathelmAccountCreated_Out(TypedDict):
     created: Literal[True]
     email: str
 
+class Prv_floathelm_FloathelmMyProfile_Out(TypedDict):
+    firstName: str | None
+    lastName: str | None
+    email: str | None
+    phoneNumber: str | None
+    textMessagingEnabled: bool
+    address: str | None
+    zipCode: str | None
+    birthday: str | None
+
 class Prv_fluencecorp_EnergyConsumptionInput_In(TypedDict):
     influentFlow: float
     sludgeFlow: NotRequired[float]
@@ -44683,6 +44740,16 @@ class Prv_huffpost_HuffpostTopicPage_Out(TypedDict):
     total: float
     page: float
 
+class Prv_huffpost_SearchArticlesArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_huffpost_HuffpostSearchResult_Out(TypedDict):
+    stories: list[Prv_huffpost_HuffpostStory_Out]
+    total: float
+    page: float
+    totalMatches: float | None
+
 class Prv_huffpost_GetArticleArgs_In(TypedDict):
     url: str
 
@@ -44733,6 +44800,16 @@ class Prv_huffpost_HuffpostHoroscope_Out_weekly_u0_Out(TypedDict):
 class Prv_huffpost_HuffpostHoroscope_Out_monthly_u0_Out(TypedDict):
     title: str
     text: str
+
+class Prv_huffpost_HuffpostNewsletterList_Out(TypedDict):
+    newsletters: list[Prv_huffpost_HuffpostNewsletter_Out]
+    total: float
+
+class Prv_huffpost_HuffpostNewsletter_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    list: str
 
 class Prv_huffpost_listSections_return_Out(TypedDict):
     sections: list[Prv_huffpost_HuffpostSection_Out]
@@ -51124,6 +51201,63 @@ class Prv_letterboxd_LetterboxdMemberFilm_Out(TypedDict):
     year: float | None
     url: str
 
+class Prv_letterboxd_searchFilms_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_searchMembers_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_LetterboxdMemberHit_Out(TypedDict):
+    username: str
+    displayName: str
+    profileUrl: str
+    avatarUrl: str | None
+    badge: str | None
+
+class Prv_letterboxd_searchLists_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_searchLists_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdListHit_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_letterboxd_LetterboxdListHit_Out(TypedDict):
+    owner: str
+    slug: str
+    title: str
+    url: str
+    ownerDisplayName: str | None
+    filmCount: float | None
+    likeCount: float | None
+
+class Prv_letterboxd_getList_args_In(TypedDict):
+    owner: NotRequired[str]
+    slug: NotRequired[str]
+    url: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_letterboxd_LetterboxdList_Out(TypedDict):
+    owner: str
+    slug: str
+    title: str
+    url: str
+    filmCount: float | None
+    films: list[Prv_letterboxd_LetterboxdList_Out_films_item_Out]
+
+class Prv_letterboxd_LetterboxdList_Out_films_item_Out(TypedDict):
+    position: float
+    slug: str
+    title: str
+    year: float | None
+    url: str
+
 class Prv_letterboxd_memberDiary_args_In(TypedDict):
     member: str
     limit: NotRequired[float]
@@ -55312,6 +55446,26 @@ class Prv_mensjournal_MensJournalArticle_Out(TypedDict):
     categories: list[str]
     imageUrl: str | None
     text: str
+
+class Prv_meowdb_meowdbGame_Out(TypedDict):
+    slug: str
+    name: str
+    status: Literal["prelaunch"] | Literal["playable"] | Literal["archive"]
+    description: str | None
+    url: str
+
+class Prv_meowdb_meowdbGamePage_Out(TypedDict):
+    url: str
+    section: str | None
+    lastModified: str | None
+
+class Prv_meowdb_meowdbPage_Out(TypedDict):
+    url: str
+    title: str | None
+    description: str | None
+    headings: list[str]
+    text: str
+    truncated: bool
 
 class Prv_mercari_search_query_u1_In(TypedDict):
     query: str
@@ -66921,6 +67075,37 @@ class Prv_publix_PublixSuggestionsResponse_Out(TypedDict):
     keyword: str
     suggestions: list[str]
 
+class Prv_pubmed_pubmedSearchOptions_In(TypedDict):
+    sort: NotRequired[Literal["relevance"] | Literal["date"]]
+    limit: NotRequired[float]
+    start: NotRequired[float]
+
+class Prv_pubmed_pubmedSearchResults_Out(TypedDict):
+    query: str
+    totalResults: float
+    articles: list[Prv_pubmed_pubmedArticle_Out]
+
+class Prv_pubmed_pubmedArticle_Out(TypedDict):
+    pmid: str
+    title: str
+    authors: list[str]
+    journal: str | None
+    date: str | None
+    doi: str | None
+    url: str
+
+class Prv_pubmed_pubmedArticleDetail_Out(TypedDict):
+    pmid: str
+    title: str
+    authors: list[str]
+    journal: str | None
+    date: str | None
+    doi: str | None
+    url: str
+    abstract: str | None
+    publicationTypes: list[str]
+    meshTerms: list[str]
+
 class Prv_pullandbear_listCategories_args_In(TypedDict):
     gender: NotRequired[Literal["men"] | Literal["women"]]
 
@@ -76573,6 +76758,13 @@ class Prv_soulcycle_getMyCredits_return_Out(TypedDict):
 
 class Prv_soulcycle_SoulcycleCredits_Out(TypedDict):
     usableCredits: float
+
+class Prv_soulcycle_getSoulJourney_return_Out(TypedDict):
+    months: list[Prv_soulcycle_SoulcycleSoulJourneyMonth_Out]
+
+class Prv_soulcycle_SoulcycleSoulJourneyMonth_Out(TypedDict):
+    label: str
+    classes: float
 
 class Prv_soulcycle_GetBikeMapArgs_In(TypedDict):
     classId: float
@@ -93654,6 +93846,16 @@ class Prv_wix_bookings_ListMyBookingsArgs_In(TypedDict):
 class Prv_wix_bookings_ListMyBookingsResult_Out(TypedDict):
     bookings: list[Prv_wix_bookings_WixBooking_Out]
 
+class Prv_wix_bookings_RescheduleBookingArgs_In(TypedDict):
+    site: str
+    bookingId: str
+    revision: str
+    serviceId: str
+    startDate: str
+    endDate: str
+    timeZone: NotRequired[str]
+    resourceId: NotRequired[str]
+
 class Prv_wix_bookings_GetMyProfileArgs_In(TypedDict):
     site: str
 
@@ -93664,16 +93866,6 @@ class Prv_wix_bookings_WixMemberProfile_Out(TypedDict):
     lastName: str | None
     nickname: str | None
     phone: str | None
-
-class Prv_wix_bookings_RescheduleBookingArgs_In(TypedDict):
-    site: str
-    bookingId: str
-    revision: str
-    serviceId: str
-    startDate: str
-    endDate: str
-    timeZone: NotRequired[str]
-    resourceId: NotRequired[str]
 
 class Prv_wodify_findGym_args_In(TypedDict):
     url: str
@@ -101101,6 +101293,25 @@ class Prv_agentskill(Protocol):
     async def listSkills(self, args: Prv_agentskill_ListSkillsArgs_In | None = None, /) -> Prv_agentskill_AgentskillPage_Out:
         """Lists agentskill.sh skills, filtered by owner, tool, platform, job category, role or
         type, sorted by top score, trending, newest or installs.
+        """
+
+class Prv_agentsocketbox(Protocol):
+    """Agent Box (agentsocketbox.com), the invite-only private address and inbox for personal
+    AI assistants: what it is, whether registration is open, how an assistant connects (its
+    hosted MCP url and OAuth scopes), and its own setup guides.
+    """
+
+    async def getGuide(self, name: str, /) -> Prv_agentsocketbox_agentsocketboxGuide_Out:
+        """Reads one of Agent Box's own assistant guides as plain text, by name ("setup", "oauth",
+        "capabilities", "storage-check", "stream") or its /assistant-*.txt path.
+        getService().guides lists them.
+        """
+
+    async def getService(self, /) -> Prv_agentsocketbox_agentsocketboxService_Out:
+        """What Agent Box (agentsocketbox.com) is and how an assistant connects to it, read from
+        the site's own discovery descriptors: registration state (invite-only pilot), sign-in
+        method, hosted MCP url and OAuth scopes, supported and unsupported protocol
+        capabilities, and the setup guides.
         """
 
 class Prv_agentstatus(Protocol):
@@ -110751,6 +110962,18 @@ class Prv_costco(Protocol):
         Optional `limit` defaults to 10. ZIP codes and city names are not supported yet.
         """
 
+    async def getGasPrices(self, warehouseId: str, /) -> Prv_costco_CostcoGasPrices_Out:
+        """Costco gasoline prices at one warehouse, by warehouse id (from findWarehouses): regular
+        and premium in dollars per gallon, plus any other grade the warehouse lists. Read only.
+        """
+
+    async def getMembershipPlans(self, /) -> Prv_costco_CostcoMembershipPlans_Out:
+        """Costco membership tiers (Gold Star, Business, Executive): the Executive annual fee,
+        cash-back reward rate and yearly cap, and the upgrade fee. The Gold Star and Business
+        fees are not stated on the page, so they come back null with a warning. Read only;
+        nothing is bought.
+        """
+
     async def signup(self, args: Any, /) -> Prv_costco_signup_return_u0_Out | Prv_costco_signup_return_u1_Out | Prv_costco_signup_return_u2_Out | Prv_costco_signup_return_u3_Out:
         """Makes a NEW Costco account with the person's own email and password, in a session.
         Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
@@ -116217,6 +116440,11 @@ class Prv_floathelm(Protocol):
         reCAPTCHA v2, no browser.
         """
 
+    async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_floathelm_FloathelmMyProfile_Out:
+        """Reads the signed-in caller's own FloatHelm profile (name, email, phone, texting,
+        address, zip, birthday). Needs the caller's FloatHelm sign-in.
+        """
+
 class Prv_fluencecorp(Protocol):
     """Computes Normalized Energy Consumption (NEC, kWh/kg) for a wastewater-treatment plant
     design per ISO 21939 — the exact calculation Fluence's own Energy Consumption Calculator
@@ -120941,6 +121169,9 @@ class Prv_huffpost(Protocol):
     async def browseTopic(self, args: Prv_huffpost_BrowseTopicArgs_In, /) -> Prv_huffpost_HuffpostTopicPage_Out:
         """Lists the newest stories under one HuffPost topic, with paging."""
 
+    async def searchArticles(self, args: Prv_huffpost_SearchArticlesArgs_In, /) -> Prv_huffpost_HuffpostSearchResult_Out:
+        """Searches HuffPost's stories for a phrase and lists the matches, with paging."""
+
     async def getArticle(self, args: Prv_huffpost_GetArticleArgs_In, /) -> Prv_huffpost_HuffpostArticle_Out:
         """Reads one HuffPost story: headline, dek, authors, times, section and body text."""
 
@@ -120952,6 +121183,9 @@ class Prv_huffpost(Protocol):
 
     async def listHeadlines(self, /) -> Prv_huffpost_HuffpostStoryList_Out:
         """Lists the stories on HuffPost's home page in page order."""
+
+    async def listNewsletters(self, /) -> Prv_huffpost_HuffpostNewsletterList_Out:
+        """Lists the newsletters HuffPost offers, with each one's name and description."""
 
     async def listSections(self, /) -> Prv_huffpost_listSections_return_Out:
         """Lists HuffPost's sections with the path each lives at, for browseSection."""
@@ -124017,6 +124251,36 @@ class Prv_letterboxd(Protocol):
         which is what `film` takes to go deeper on any one of them.
         """
 
+    async def searchFilms(self, args: Prv_letterboxd_searchFilms_args_In, /) -> list[Prv_letterboxd_LetterboxdMemberFilm_Out]:
+        """Finds films by title words — { query: "parasite" }, with `limit` capping rows (default
+        20, max 100). Returns slug, title, year and URL per hit, best match first; the slug is
+        what `film` takes. Runs in a browser because letterboxd challenges plain clients on
+        search.
+        """
+
+    async def searchMembers(self, args: Prv_letterboxd_searchMembers_args_In, /) -> list[Prv_letterboxd_LetterboxdMemberHit_Out]:
+        """Finds letterboxd members by name or username — { query: "david" }, with `limit` capping
+        rows (default 20, max 100). Returns username, displayName, profileUrl, avatarUrl and
+        badge (patron / pro / null) per member; the username is what `memberFilms` and
+        `memberDiary` take. Runs in a browser because letterboxd challenges plain clients on
+        search.
+        """
+
+    async def searchLists(self, args: Prv_letterboxd_searchLists_args_In, /) -> Prv_letterboxd_searchLists_return_Out:
+        """Finds public lists by title words — { query: "david lynch" }, with `limit` capping rows
+        (default 20, max 100). Returns owner, slug, title, url, ownerDisplayName, filmCount and
+        likeCount per list; `owner` and `slug` are what `getList` takes. Runs in a browser
+        because letterboxd challenges plain clients on search.
+        """
+
+    async def getList(self, args: Prv_letterboxd_getList_args_In, /) -> Prv_letterboxd_LetterboxdList_Out:
+        """Reads one list — { owner: "csking", slug: "david-lynch" } or { url }, with `limit`
+        capping films (default and max 100, the first page). Returns the title, the list's film
+        count and each film in list order with position, slug, title, year and URL; the slug is
+        what `film` takes. Runs in a browser because letterboxd challenges plain clients on list
+        pages.
+        """
+
     async def memberDiary(self, args: Prv_letterboxd_memberDiary_args_In, /) -> list[Prv_letterboxd_LetterboxdDiaryEntry_Out]:
         """Reads a member's activity feed: every film they logged, with their own star rating, the
         date they watched it, whether it was a rewatch, whether they liked it, and the full text
@@ -126728,6 +126992,29 @@ class Prv_mensjournal(Protocol):
     async def latestArticles(self, args: Prv_mensjournal_LatestArticlesArgs_In | None = None, /) -> Prv_mensjournal_LatestArticles_Out:
         """Men's Journal's newest ~50 articles with full text, optionally filtered by keyword or
         category. Covers recent articles only, not the archive.
+        """
+
+class Prv_meowdb(Protocol):
+    """Lists the video-game databases on meowdb.com (MapleStory Classic, GTA 6, Dave the Diver,
+    …), every page of one game's database, and reads any page's text.
+    """
+
+    async def listGames(self, /) -> list[Prv_meowdb_meowdbGame_Out]:
+        """Lists every game database meowdb.com (NiaMeowDB) hosts — slug, name, status (prelaunch /
+        playable / archive), one-line description and url — parsed from its /db game finder. The
+        slug feeds listGamePages.
+        """
+
+    async def listGamePages(self, game: str, /) -> list[Prv_meowdb_meowdbGamePage_Out]:
+        """Lists the pages of one game's database on meowdb.com (e.g. game "dave-the-diver": fish,
+        dishes, codes, …) from the site's own /db/sitemap.xml, each with its url and section.
+        Pass a game slug from listGames; the url feeds getPage.
+        """
+
+    async def getPage(self, url: str, /) -> Prv_meowdb_meowdbPage_Out:
+        """Reads one meowdb.com page by url or path (e.g. "/db/dave-the-diver/fish") and returns
+        its title, meta description, headings and body text (capped at 20,000 characters).
+        THROWS if the page does not exist or names another host.
         """
 
 class Prv_mercari(Protocol):
@@ -132668,6 +132955,23 @@ class Prv_publix(Protocol):
         store number. Suggestions only — no prices or product rows.
         """
 
+class Prv_pubmed(Protocol):
+    """PubMed biomedical literature — search articles by keyword, author or MeSH term, and read
+    one article's abstract, authors, journal and DOI.
+    """
+
+    async def search(self, query: str, opts: Prv_pubmed_pubmedSearchOptions_In | None = None, /) -> Prv_pubmed_pubmedSearchResults_Out:
+        """Searches PubMed. A plain phrase ("crispr sickle cell") or PubMed syntax (`smith
+        j[Author] AND 2024[dp]`, `"asthma"[MeSH Terms]`). `sort: "date"` lists the newest first.
+        Each article's `pmid` goes to getArticle for the abstract.
+        """
+
+    async def getArticle(self, pmid: str, /) -> Prv_pubmed_pubmedArticleDetail_Out:
+        """Reads one PubMed article by PMID (or a pubmed.ncbi.nlm.nih.gov url) — title, abstract,
+        authors, journal, date, DOI, publication types and MeSH terms. Throws when no article
+        has that PMID.
+        """
+
 class Prv_pullandbear(Protocol):
     """Pull&Bear (pullandbear.com) fast-fashion store, US catalog. Lists a men's/women's
     category (jackets, jeans, t-shirts…) with per-colour price, sale compare-at price and
@@ -137145,6 +137449,12 @@ class Prv_soulcycle(Protocol):
     async def getMyCredits(self, opts: ConnectionOption | None = None, /) -> Prv_soulcycle_getMyCredits_return_Out:
         """Returns the signed-in rider's usable class credits — what bookBike spends. Needs the
         caller signed in. Example: `bowmark.providers.soulcycle.getMyCredits()`.
+        """
+
+    async def getSoulJourney(self, opts: ConnectionOption | None = None, /) -> Prv_soulcycle_getSoulJourney_return_Out:
+        """Returns the signed-in rider's Soul Journey: classes taken per month, as the chart on
+        their account page shows them. Needs the caller signed in. Example:
+        `bowmark.providers.soulcycle.getSoulJourney()`.
         """
 
     async def getBikeMap(self, args: Prv_soulcycle_GetBikeMapArgs_In, opts: ConnectionOption | None = None, /) -> Prv_soulcycle_getBikeMap_return_Out:
@@ -145406,6 +145716,16 @@ class Prv_wix_bookings(Protocol):
         the caller signed in on that business's own site.
         """
 
+    async def cancelMyBooking(self, args: Prv_wix_bookings_CancelBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wix_bookings_WixBooking_Out:
+        """Cancels one of the signed-in caller's bookings at a Wix business, given the booking's id
+        and revision. Needs the caller signed in on that business's own site.
+        """
+
+    async def rescheduleMyBooking(self, args: Prv_wix_bookings_RescheduleBookingArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wix_bookings_WixBooking_Out:
+        """Moves one of the signed-in caller's bookings to another open time at a Wix business.
+        Needs the caller signed in on that business's own site.
+        """
+
     async def getMyProfile(self, args: Prv_wix_bookings_GetMyProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_wix_bookings_WixMemberProfile_Out:
         """The signed-in caller's member profile (name, email, phone) at one Wix business. Needs
         the caller signed in on that business's own site.
@@ -147674,6 +147994,7 @@ class BowmarkProviders(Protocol):
     agakhanhospitals: Prv_agakhanhospitals
     agenticskills: Prv_agenticskills
     agentskill: Prv_agentskill
+    agentsocketbox: Prv_agentsocketbox
     agentstatus: Prv_agentstatus
     agentweb: Prv_agentweb
     agoda: Prv_agoda
@@ -148224,6 +148545,7 @@ class BowmarkProviders(Protocol):
     meetup: Prv_meetup
     menards: Prv_menards
     mensjournal: Prv_mensjournal
+    meowdb: Prv_meowdb
     mercari: Prv_mercari
     mergify: Prv_mergify
     merriam_webster: Prv_merriam_webster
@@ -148353,6 +148675,7 @@ class BowmarkProviders(Protocol):
     proxy_cheap: Prv_proxy_cheap
     prusa3d: Prv_prusa3d
     publix: Prv_publix
+    pubmed: Prv_pubmed
     pullandbear: Prv_pullandbear
     puls_com: Prv_puls_com
     pulsemcp_com: Prv_pulsemcp_com

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7b2984c8f999edda30f2677b6393a53b2d58c401a1b218418ad8482feb5c2287
-// 102 capabilities, 1000 providers, 6315 typed functions, 20 refused.
+// Manifest version: 4f543028108b69f338afcd41271920a9a1d32f86cd3d0a9f792fcb538eaca2b8
+// 102 capabilities, 1003 providers, 6334 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -9887,6 +9887,62 @@ interface AgentskillPage {
      * sorted by top score, trending, newest or installs.
      */
     listSkills(args?: ListSkillsArgs): Promise<AgentskillPage>;
+  }
+}
+
+declare namespace BowmarkProvider_agentsocketbox {
+  // ── Agent Box — the unit's own declarations, verbatim ──
+interface agentsocketboxGuideLink {
+  name: string;
+  url: string;
+}
+
+interface agentsocketboxService {
+  name: string;
+  tagline: string | null;
+  description: string | null; // the site's own llms.txt summary
+  status: string | null;
+  registrationOpen: boolean | null;
+  inviteSignup: boolean | null;
+  signInMethod: string | null;
+  joinExistingBox: boolean | null;
+  createNewBox: boolean | null;
+  mcpUrl: string | null;
+  oauthScopes: string[];
+  httpBaseUrl: string | null;
+  capabilities: string[];
+  unsupportedCapabilities: string[];
+  agentHandleTools: string[];
+  guides: agentsocketboxGuideLink[];
+}
+
+interface agentsocketboxGuide {
+  name: string;
+  url: string;
+  title: string; // the guide's first line
+  text: string;
+}
+
+  /**
+   * Agent Box (agentsocketbox.com), the invite-only private address and inbox for personal AI
+   * assistants: what it is, whether registration is open, how an assistant connects (its hosted
+   * MCP url and OAuth scopes), and its own setup guides.
+   */
+  interface Unit {
+    /**
+     * Reads one of Agent Box's own assistant guides as plain text, by name ("setup", "oauth",
+     * "capabilities", "storage-check", "stream") or its /assistant-*.txt path. getService().guides
+     * lists them.
+     */
+    getGuide(name: string): Promise<agentsocketboxGuide>;
+
+    /**
+     * What Agent Box (agentsocketbox.com) is and how an assistant connects to it, read from the
+     * site's own discovery descriptors: registration state (invite-only pilot), sign-in method,
+     * hosted MCP url and OAuth scopes, supported and unsupported protocol capabilities, and the
+     * setup guides.
+     */
+    getService(): Promise<agentsocketboxService>;
   }
 }
 
@@ -32342,6 +32398,7 @@ interface CheckatradeSearchResult {
   totalPages: number;
   nextPage: number | null;
   traders: CheckatradeTrader[];
+  warnings: string[];
 }
 
 interface CheckatradeCategory {
@@ -38916,6 +38973,27 @@ interface CostcoWarehouse {
   services: string[];
 }
 
+interface CostcoMembershipTier {
+  tier: "Gold Star" | "Business" | "Executive";
+  annualFee: number | null;
+  cashBackRate: number | null;
+  cashBackCap: number | null;
+  upgradeFee: number | null;
+}
+
+interface CostcoMembershipPlans {
+  tiers: CostcoMembershipTier[];
+  warnings: string[];
+}
+
+interface CostcoGasPrices {
+  warehouseId: string;
+  regular: number | null;
+  premium: number | null;
+  other: Record<string, number>;
+  warnings: string[];
+}
+
   /**
    * Costco's own search-bar autocomplete suggestions, and its discounted gift cards with brand,
    * face value and price.
@@ -38962,6 +39040,20 @@ interface CostcoWarehouse {
      * `limit` defaults to 10. ZIP codes and city names are not supported yet.
      */
     findWarehouses(location: {latitude: number, longitude: number, limit?: number}): Promise<CostcoWarehouse[]>;
+
+    /**
+     * Costco gasoline prices at one warehouse, by warehouse id (from findWarehouses): regular and
+     * premium in dollars per gallon, plus any other grade the warehouse lists. Read only.
+     */
+    getGasPrices(warehouseId: string): Promise<CostcoGasPrices>;
+
+    /**
+     * Costco membership tiers (Gold Star, Business, Executive): the Executive annual fee,
+     * cash-back reward rate and yearly cap, and the upgrade fee. The Gold Star and Business fees
+     * are not stated on the page, so they come back null with a warning. Read only; nothing is
+     * bought.
+     */
+    getMembershipPlans(): Promise<CostcoMembershipPlans>;
 
     /**
      * Makes a NEW Costco account with the person's own email and password, in a session. Pauses
@@ -56024,6 +56116,17 @@ interface FloathelmAccountCreated {
   email: string;
 }
 
+interface FloathelmMyProfile {
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  phoneNumber: string | null;
+  textMessagingEnabled: boolean; // False when the account has texting disabled.
+  address: string | null;
+  zipCode: string | null;
+  birthday: string | null; // As the site shows it, null when none is set.
+}
+
   /** Booking engine for float tanks, cryotherapy, and sauna services. */
   interface Unit {
     /**
@@ -56077,6 +56180,12 @@ interface FloathelmAccountCreated {
      * reCAPTCHA v2, no browser.
      */
     createAccount(account: FloathelmNewAccount): Promise<FloathelmAccountCreated>;
+
+    /**
+     * Reads the signed-in caller's own FloatHelm profile (name, email, phone, texting, address,
+     * zip, birthday). Needs the caller's FloatHelm sign-in.
+     */
+    getMyProfile(opts?: ConnectionOption): Promise<FloathelmMyProfile>;
   }
 }
 
@@ -69434,6 +69543,30 @@ interface GetHoroscopeArgs {
   sign: string;
 }
 
+interface SearchArticlesArgs {
+  query: string;
+  page?: number;
+}
+
+interface HuffpostNewsletter {
+  id: string;
+  name: string;
+  description: string | null;
+  list: string; // The list key HuffPost's signup form posts.
+}
+
+interface HuffpostNewsletterList {
+  newsletters: HuffpostNewsletter[];
+  total: number;
+}
+
+interface HuffpostSearchResult {
+  stories: HuffpostStory[];
+  total: number; // Stories on this page (12 per page).
+  page: number;
+  totalMatches: number | null; // HuffPost's count of all matches.
+}
+
   /** HuffPost news stories: the home page, sections, topics, writers, horoscopes and search. */
   interface Unit {
     /** Lists the newest stories in one HuffPost section, with paging. */
@@ -69441,6 +69574,9 @@ interface GetHoroscopeArgs {
 
     /** Lists the newest stories under one HuffPost topic, with paging. */
     browseTopic(args: BrowseTopicArgs): Promise<HuffpostTopicPage>;
+
+    /** Searches HuffPost's stories for a phrase and lists the matches, with paging. */
+    searchArticles(args: SearchArticlesArgs): Promise<HuffpostSearchResult>;
 
     /** Reads one HuffPost story: headline, dek, authors, times, section and body text. */
     getArticle(args: GetArticleArgs): Promise<HuffpostArticle>;
@@ -69453,6 +69589,9 @@ interface GetHoroscopeArgs {
 
     /** Lists the stories on HuffPost's home page in page order. */
     listHeadlines(): Promise<HuffpostStoryList>;
+
+    /** Lists the newsletters HuffPost offers, with each one's name and description. */
+    listNewsletters(): Promise<HuffpostNewsletterList>;
 
     /** Lists HuffPost's sections with the path each lives at, for browseSection. */
     listSections(): Promise<{ sections: HuffpostSection[] }>;
@@ -79274,6 +79413,33 @@ interface LetterboxdDiaryEntry {
   reviewText: string | null;
 }
 
+interface LetterboxdMemberHit {
+  username: string;
+  displayName: string;
+  profileUrl: string;
+  avatarUrl: string | null;
+  badge: string | null;
+}
+
+interface LetterboxdListHit {
+  owner: string;
+  slug: string;
+  title: string;
+  url: string;
+  ownerDisplayName: string | null;
+  filmCount: number | null;
+  likeCount: number | null;
+}
+
+interface LetterboxdList {
+  owner: string;
+  slug: string;
+  title: string;
+  url: string;
+  filmCount: number | null;
+  films: { position: number; slug: string; title: string; year: number | null; url: string }[];
+}
+
 interface LetterboxdAccount {
   username: string;
   role: string;
@@ -79304,6 +79470,37 @@ interface LetterboxdAccount {
      * what `film` takes to go deeper on any one of them.
      */
     memberFilms(args: {member: string, limit?: number}): Promise<LetterboxdMemberFilm[]>;
+
+    /**
+     * Finds films by title words — { query: "parasite" }, with `limit` capping rows (default 20,
+     * max 100). Returns slug, title, year and URL per hit, best match first; the slug is what
+     * `film` takes. Runs in a browser because letterboxd challenges plain clients on search.
+     */
+    searchFilms(args: {query: string, limit?: number}): Promise<LetterboxdMemberFilm[]>;
+
+    /**
+     * Finds letterboxd members by name or username — { query: "david" }, with `limit` capping rows
+     * (default 20, max 100). Returns username, displayName, profileUrl, avatarUrl and badge
+     * (patron / pro / null) per member; the username is what `memberFilms` and `memberDiary` take.
+     * Runs in a browser because letterboxd challenges plain clients on search.
+     */
+    searchMembers(args: {query: string, limit?: number}): Promise<LetterboxdMemberHit[]>;
+
+    /**
+     * Finds public lists by title words — { query: "david lynch" }, with `limit` capping rows
+     * (default 20, max 100). Returns owner, slug, title, url, ownerDisplayName, filmCount and
+     * likeCount per list; `owner` and `slug` are what `getList` takes. Runs in a browser because
+     * letterboxd challenges plain clients on search.
+     */
+    searchLists(args: {query: string, limit?: number}): Promise<{ results: LetterboxdListHit[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Reads one list — { owner: "csking", slug: "david-lynch" } or { url }, with `limit` capping
+     * films (default and max 100, the first page). Returns the title, the list's film count and
+     * each film in list order with position, slug, title, year and URL; the slug is what `film`
+     * takes. Runs in a browser because letterboxd challenges plain clients on list pages.
+     */
+    getList(args: {owner?: string, slug?: string, url?: string, limit?: number}): Promise<LetterboxdList>;
 
     /**
      * Reads a member's activity feed: every film they logged, with their own star rating, the date
@@ -86250,6 +86447,59 @@ interface LatestArticles {
      * category. Covers recent articles only, not the archive.
      */
     latestArticles(args?: LatestArticlesArgs): Promise<LatestArticles>;
+  }
+}
+
+declare namespace BowmarkProvider_meowdb {
+  // ── NiaMeowDB — the unit's own declarations, verbatim ──
+interface meowdbGame {
+  slug: string; // pass to listGamePages
+  name: string;
+  status: "prelaunch" | "playable" | "archive";
+  description: string | null;
+  url: string;
+}
+
+interface meowdbGamePage {
+  url: string; // pass to getPage
+  section: string | null; // null for the game's home page
+  lastModified: string | null;
+}
+
+interface meowdbPage {
+  url: string;
+  title: string | null;
+  description: string | null;
+  headings: string[];
+  text: string; // the page's visible text, capped at 20,000 characters
+  truncated: boolean;
+}
+
+  /**
+   * Lists the video-game databases on meowdb.com (MapleStory Classic, GTA 6, Dave the Diver, …),
+   * every page of one game's database, and reads any page's text.
+   */
+  interface Unit {
+    /**
+     * Lists every game database meowdb.com (NiaMeowDB) hosts — slug, name, status (prelaunch /
+     * playable / archive), one-line description and url — parsed from its /db game finder. The
+     * slug feeds listGamePages.
+     */
+    listGames(): Promise<meowdbGame[]>;
+
+    /**
+     * Lists the pages of one game's database on meowdb.com (e.g. game "dave-the-diver": fish,
+     * dishes, codes, …) from the site's own /db/sitemap.xml, each with its url and section. Pass a
+     * game slug from listGames; the url feeds getPage.
+     */
+    listGamePages(game: string): Promise<meowdbGamePage[]>;
+
+    /**
+     * Reads one meowdb.com page by url or path (e.g. "/db/dave-the-diver/fish") and returns its
+     * title, meta description, headings and body text (capped at 20,000 characters). THROWS if the
+     * page does not exist or names another host.
+     */
+    getPage(url: string): Promise<meowdbPage>;
   }
 }
 
@@ -104143,6 +104393,64 @@ interface PublixNavigationResponse {
   }
 }
 
+declare namespace BowmarkProvider_pubmed {
+  // ── PubMed — the unit's own declarations, verbatim ──
+interface pubmedArticle {
+  pmid: string; // "31978945" — pass to getArticle
+  title: string;
+  authors: string[]; // e.g. "Zhu N"
+  journal: string | null;
+  date: string | null; // as PubMed prints it, e.g. "2026 Nov 26"
+  doi: string | null;
+  url: string; // https://pubmed.ncbi.nlm.nih.gov/<pmid>/
+}
+
+interface pubmedArticleDetail {
+  pmid: string; // "31978945" — pass to getArticle
+  title: string;
+  authors: string[]; // e.g. "Zhu N"
+  journal: string | null;
+  date: string | null; // as PubMed prints it, e.g. "2026 Nov 26"
+  doi: string | null;
+  url: string; // https://pubmed.ncbi.nlm.nih.gov/<pmid>/
+  abstract: string | null; // null when PubMed holds none; sections are labelled
+  publicationTypes: string[];
+  meshTerms: string[];
+}
+
+interface pubmedSearchOptions {
+  sort?: "relevance" | "date"; // default "relevance"; "date" = newest first
+  limit?: number; // 1-100, default 10
+  start?: number; // offset for paging, default 0
+}
+
+interface pubmedSearchResults {
+  query: string;
+  totalResults: number; // the full match count, not just articles.length
+  articles: pubmedArticle[];
+}
+
+  /**
+   * PubMed biomedical literature — search articles by keyword, author or MeSH term, and read one
+   * article's abstract, authors, journal and DOI.
+   */
+  interface Unit {
+    /**
+     * Searches PubMed. A plain phrase ("crispr sickle cell") or PubMed syntax (`smith j[Author]
+     * AND 2024[dp]`, `"asthma"[MeSH Terms]`). `sort: "date"` lists the newest first. Each
+     * article's `pmid` goes to getArticle for the abstract.
+     */
+    search(query: string, opts?: pubmedSearchOptions): Promise<pubmedSearchResults>;
+
+    /**
+     * Reads one PubMed article by PMID (or a pubmed.ncbi.nlm.nih.gov url) — title, abstract,
+     * authors, journal, date, DOI, publication types and MeSH terms. Throws when no article has
+     * that PMID.
+     */
+    getArticle(pmid: string): Promise<pubmedArticleDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_pullandbear {
   // ── Pull&Bear — the unit's own declarations, verbatim ──
 interface PullAndBearCategory {
@@ -118088,6 +118396,11 @@ interface SoulcycleCredits {
   usableCredits: number; // what bookBike spends
 }
 
+interface SoulcycleSoulJourneyMonth {
+  label: string; // the month label the chart shows
+  classes: number; // classes the rider took that month
+}
+
 interface GetBikeMapArgs {
   classId: number; // from getStudioSchedule() or getStudio()
 }
@@ -118265,6 +118578,13 @@ interface SoulcycleInstructor extends SoulcycleInstructorSummary {
      * signed in. Example: `bowmark.providers.soulcycle.getMyCredits()`.
      */
     getMyCredits(opts?: ConnectionOption): Promise<{ credits: SoulcycleCredits }>;
+
+    /**
+     * Returns the signed-in rider's Soul Journey: classes taken per month, as the chart on their
+     * account page shows them. Needs the caller signed in. Example:
+     * `bowmark.providers.soulcycle.getSoulJourney()`.
+     */
+    getSoulJourney(opts?: ConnectionOption): Promise<{ months: SoulcycleSoulJourneyMonth[] }>;
 
     /**
      * Returns a class's full room map: every bike (seat) id and whether it is taken — the seat id
@@ -143279,6 +143599,18 @@ interface WixMemberProfile {
      * caller signed in on that business's own site.
      */
     listMyBookings(args: ListMyBookingsArgs, opts?: ConnectionOption): Promise<ListMyBookingsResult>;
+
+    /**
+     * Cancels one of the signed-in caller's bookings at a Wix business, given the booking's id and
+     * revision. Needs the caller signed in on that business's own site.
+     */
+    cancelMyBooking(args: CancelBookingArgs, opts?: ConnectionOption): Promise<WixBooking>;
+
+    /**
+     * Moves one of the signed-in caller's bookings to another open time at a Wix business. Needs
+     * the caller signed in on that business's own site.
+     */
+    rescheduleMyBooking(args: RescheduleBookingArgs, opts?: ConnectionOption): Promise<WixBooking>;
 
     /**
      * The signed-in caller's member profile (name, email, phone) at one Wix business. Needs the
@@ -540992,6 +541324,7 @@ interface BowmarkProviders {
   agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
   agenticskills: BowmarkProvider_agenticskills.Unit;
   agentskill: BowmarkProvider_agentskill.Unit;
+  agentsocketbox: BowmarkProvider_agentsocketbox.Unit;
   agentstatus: BowmarkProvider_agentstatus.Unit;
   agentweb: BowmarkProvider_agentweb.Unit;
   agoda: BowmarkProvider_agoda.Unit;
@@ -541542,6 +541875,7 @@ interface BowmarkProviders {
   meetup: BowmarkProvider_meetup.Unit;
   menards: BowmarkProvider_menards.Unit;
   mensjournal: BowmarkProvider_mensjournal.Unit;
+  meowdb: BowmarkProvider_meowdb.Unit;
   mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
   merriam_webster: BowmarkProvider_merriam_webster.Unit;
@@ -541671,6 +542005,7 @@ interface BowmarkProviders {
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
   prusa3d: BowmarkProvider_prusa3d.Unit;
   publix: BowmarkProvider_publix.Unit;
+  pubmed: BowmarkProvider_pubmed.Unit;
   pullandbear: BowmarkProvider_pullandbear.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
   pulsemcp_com: BowmarkProvider_pulsemcp_com.Unit;
