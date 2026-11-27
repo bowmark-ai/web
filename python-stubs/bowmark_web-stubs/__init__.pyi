@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9a1440289d0109ff01002389e9a28da6afe456081d9d17f4286e6555f250e629
-# 102 capabilities, 997 providers, 6257 typed functions, 20 refused.
+# Manifest version: 9e68362955e12317542956794b5dc53705d8533431f8fdd41376e53f49c50278
+# 102 capabilities, 997 providers, 6258 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -43981,6 +43981,48 @@ class Prv_hilton_HiltonHotelDetails_Out_address_Out(TypedDict):
     region: str | None
     postalCode: str | None
     countryCode: str
+
+class Prv_hilton_HiltonFindHotelsArgs_In(TypedDict):
+    country: str
+    state: NotRequired[str]
+    city: NotRequired[str]
+
+class Prv_hilton_HiltonHotelSearch_Out(TypedDict):
+    matchedPlace: Prv_hilton_HiltonHotelSearch_Out_matchedPlace_Out
+    hotels: list[Prv_hilton_HiltonHotelSummary_Out]
+    returned: float
+
+class Prv_hilton_HiltonHotelSearch_Out_matchedPlace_Out(TypedDict):
+    city: str | None
+    state: str | None
+    country: str | None
+
+class Prv_hilton_HiltonHotelSummary_Out(TypedDict):
+    hotelSlug: str
+    ctyhocn: str
+    name: str
+    brandCode: str | None
+    brand: str | None
+    address: str | None
+    city: str | None
+    state: str | None
+    country: str | None
+    postalCode: str | None
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    distanceMiles: float | None
+    open: bool
+    bookable: bool
+    guestRating: float | None
+    guestReviewCount: float | None
+    leadRate: Prv_hilton_HiltonHotelSummary_Out_leadRate_u0_Out | None
+    amenityIds: list[str]
+
+class Prv_hilton_HiltonHotelSummary_Out_leadRate_u0_Out(TypedDict):
+    amount: float
+    currency: str | None
+    ratePlan: str | None
 
 class Prv_hilton_HiltonHotelReviews_Out(TypedDict):
     slug: str
@@ -120162,6 +120204,13 @@ class Prv_hilton(Protocol):
         hilton.com property slug. Policies (check-in/out, pets) are not returned.
         """
 
+    async def findHotels(self, args: Prv_hilton_HiltonFindHotelsArgs_In, /) -> Prv_hilton_HiltonHotelSearch_Out:
+        """Finds Hilton-family properties for a country, state or city from the site's own
+        locations pages (no browser): name, brand, address, coordinates, phone, guest rating,
+        lowest advertised rate and the slug the other functions take. Returns the page's nearest
+        ~20 properties.
+        """
+
     async def getHotelReviews(self, args: Prv_hilton_HiltonHotelDetailsArgs_In, /) -> Prv_hilton_HiltonHotelReviews_Out:
         """Reads a Hilton-family property's TripAdvisor guest score, total review count and the
         latest reviews its page embeds (no browser), for a hilton.com property slug.
@@ -141851,11 +141900,13 @@ class Prv_uhc_directory(Protocol):
     """
 
     async def findCommercialProviders(self, query: str | Prv_uhc_directory_findCommercialProviders_query_u1_In, /) -> Prv_uhc_directory_uhc_directoryCommercialSearch_Out:
-        """In-network UnitedHealthcare specialists and doctors near a US ZIP for employer &
+        """NEEDS TWO INPUTS FROM THE CALLER, ZIP AND SPECIALTY: if either is missing, ask the
+        caller and do not call run (never use 10001, 90210 or "cardiology" as a stand-in).
+        In-network UnitedHealthcare specialists and doctors near a US ZIP for employer &
         individual plans (Choice / Choice Plus network), filtered by specialty ("cardiology",
-        "family medicine"), nearest first, with name, NPI, address, phone and distance. zip and
-        specialty are both REQUIRED: if the caller gave no ZIP or no specialty, ask them, never
-        invent one. total sums several directory codes (not a headcount); each row lists its
+        "family medicine"), nearest first, with name, NPI, address, phone and distance. rows
+        whose own specialties and board do not say the asked specialty are dropped (a warning
+        counts them). total sums several directory codes (not a headcount); each row lists its
         specialties and board
         """
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9a1440289d0109ff01002389e9a28da6afe456081d9d17f4286e6555f250e629
-// 6257 checked, 20 unchecked.
+// Manifest version: 9e68362955e12317542956794b5dc53705d8533431f8fdd41376e53f49c50278
+// 6258 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9a1440289d0109ff01002389e9a28da6afe456081d9d17f4286e6555f250e629",
+  "version": "9e68362955e12317542956794b5dc53705d8533431f8fdd41376e53f49c50278",
   "units": {
     "address_validation": {
       "defs": {
@@ -94222,6 +94222,32 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.hilton": {
       "defs": {
+        "HiltonFindHotelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "HiltonHotelDetailsArgs": {
           "k": "object",
           "props": [
@@ -94290,6 +94316,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "findHotels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "HiltonFindHotelsArgs"
+            },
+            "optional": false
+          }
+        ],
         "getHotelReviews": [
           {
             "name": "args",
@@ -94321,13 +94357,14 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "73b737701e5133ef",
-        "getDeals": "2e462a2b3ea8a10b",
-        "getHotelDetails": "f5b29572c2e0365a",
-        "getHotelReviews": "4770de5e4043e802",
-        "getHonorsPrograms": "f486f1d2d7aaf2bc",
-        "signup": "f83e26b162c27306",
-        "confirmSignup": "757ba27777ef2442"
+        "search": "2b6c09c2bafe8621",
+        "getDeals": "d18ab6f75b5a60b4",
+        "getHotelDetails": "abd72fd25e7b28af",
+        "findHotels": "7f9a1ab34f8abdba",
+        "getHotelReviews": "c80773115d6293d2",
+        "getHonorsPrograms": "a36d6034ad5e3fb9",
+        "signup": "c07fb526606bc955",
+        "confirmSignup": "9549ed8b7ca7b270"
       }
     },
     "providers.hipcamp": {

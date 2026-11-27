@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9a1440289d0109ff01002389e9a28da6afe456081d9d17f4286e6555f250e629
-// 102 capabilities, 997 providers, 6285 typed functions, 20 refused.
+// Manifest version: 9e68362955e12317542956794b5dc53705d8533431f8fdd41376e53f49c50278
+// 102 capabilities, 997 providers, 6286 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -68321,6 +68321,41 @@ interface HiltonHotelDetailsArgs {
   hotelSlug: string; // The property's hilton.com URL slug, the segment after /en/hotels/, e.g. "amswawa-waldorf-astoria-amsterdam".
 }
 
+interface HiltonFindHotelsArgs {
+  country: string; // Country slug as in hilton.com/en/locations/<country>/, e.g. "usa", "canada", "united-kingdom".
+  state?: string; // State or region slug, e.g. "illinois". Required when city is given.
+  city?: string; // City slug, e.g. "chicago". Hilton resolves an unknown place to the nearest one it knows; read matchedPlace.
+}
+
+interface HiltonHotelSummary {
+  hotelSlug: string; // The hilton.com slug getHotelDetails, getHotelReviews and search take.
+  ctyhocn: string;
+  name: string;
+  brandCode: string | null;
+  brand: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  postalCode: string | null;
+  phone: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  distanceMiles: number | null; // Distance from the matched place's centre.
+  open: boolean;
+  bookable: boolean;
+  guestRating: number | null;
+  guestReviewCount: number | null;
+  leadRate: { amount: number; currency: string | null; ratePlan: string | null } | null; // The lowest advertised nightly rate on the page; not a priced stay.
+  amenityIds: string[];
+}
+
+interface HiltonHotelSearch {
+  matchedPlace: { city: string | null; state: string | null; country: string | null };
+  hotels: HiltonHotelSummary[]; // The page's nearest properties, at most about 20; Hilton shows no further page here.
+  returned: number;
+}
+
 interface HiltonHotelReviews {
   slug: string;
   source: "TripAdvisor";
@@ -68367,6 +68402,14 @@ interface HiltonReview {
      * hilton.com property slug. Policies (check-in/out, pets) are not returned.
      */
     getHotelDetails(args: HiltonHotelDetailsArgs): Promise<HiltonHotelDetails>;
+
+    /**
+     * Finds Hilton-family properties for a country, state or city from the site's own locations
+     * pages (no browser): name, brand, address, coordinates, phone, guest rating, lowest
+     * advertised rate and the slug the other functions take. Returns the page's nearest ~20
+     * properties.
+     */
+    findHotels(args: HiltonFindHotelsArgs): Promise<HiltonHotelSearch>;
 
     /**
      * Reads a Hilton-family property's TripAdvisor guest score, total review count and the latest
@@ -134425,12 +134468,13 @@ interface uhc_directoryCommercialSearch {
    */
   interface Unit {
     /**
-     * In-network UnitedHealthcare specialists and doctors near a US ZIP for employer & individual
-     * plans (Choice / Choice Plus network), filtered by specialty ("cardiology", "family
-     * medicine"), nearest first, with name, NPI, address, phone and distance. zip and specialty
-     * are both REQUIRED: if the caller gave no ZIP or no specialty, ask them, never invent one.
-     * total sums several directory codes (not a headcount); each row lists its specialties and
-     * board
+     * NEEDS TWO INPUTS FROM THE CALLER, ZIP AND SPECIALTY: if either is missing, ask the caller
+     * and do not call run (never use 10001, 90210 or "cardiology" as a stand-in). In-network
+     * UnitedHealthcare specialists and doctors near a US ZIP for employer & individual plans
+     * (Choice / Choice Plus network), filtered by specialty ("cardiology", "family medicine"),
+     * nearest first, with name, NPI, address, phone and distance. rows whose own specialties and
+     * board do not say the asked specialty are dropped (a warning counts them). total sums several
+     * directory codes (not a headcount); each row lists its specialties and board
      */
     findCommercialProviders(query: string | {zip: string, specialty?: string, limit?: number, radiusMiles?: number, page?: number, network?: "choice" | "choice_hmo"}): Promise<uhc_directoryCommercialSearch>;
 
