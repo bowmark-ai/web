@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 145,517 sites, generated 2026-11-27.
+# Every website Bowmark covers and the functions it has: 145,535 sites, generated 2026-11-27.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -497,7 +497,6 @@
 = 2cc01c35 get_episode#7ae3f4e7 get_latest_episode#fa508e20 search_episodes#b2983b0a
 = 2cc3bb7d listSkills
 = 2ce6e0f0 subscribe_newsletter#0d44ffbe
-= 2ce82fac get_all_markets#6579a11e get_builders_by_ids#58258797 get_builders_by_names#51585a2b get_cities_by_name#46be8896 get_city_location_stats#175e3343 get_communities_by_ids#00c5527b get_community_monthly_payments_by_ids#6f65ad7d get_counties_by_name#fc1fbd4e get_county_location_stats#afbaeaaa get_keywords#a6449078 get_listing_monthly_payments_by_ids#ddf5f37a get_listings_by_ids#3e37501e get_market_location_stats#a5775bd1 get_master_planned_community_by_ids#d938d726 get_neighborhood_location_stats#82353142 get_neighborhoods_by_name#0c216eb1 get_points_of_interest_by_name#d67b55bb get_schools_by_district_ids#53d28d77 get_search_suggestions#9e233c7e get_zip_code_location_stats#b42d7287 search_communities#0f068cbf search_listings#0464a1eb
 = 2d0e47d2 getProject listLatestProjects searchProjects
 = 2d6517e8 calculate_tco#6ee8c531 compare_software#9b702104 discover_software#07beb4cb estimate_llm_cost#b5d21210 get_hidden_costs#dea9d00b get_negotiation_tips#dea9d00b get_price_changes#e1ba6861 get_price_history#dea9d00b get_pricing#3b3222a3
 = 2d6615a5 check_token_safety#ba5752d8 compare_gas#4b5738a8 eth_call#34616961 get_balance#cdc612a1 get_block#99813540 get_block_number#4e5a7fb9 get_gas_price#4e5a7fb9 get_logs#008d99e3 get_multichain_balances#adf032b6 get_token_allowances#a40f685a get_token_price#821d5d51 get_transaction#31bbf9f2 get_transaction_receipt#31bbf9f2 get_wallet_report#943d82d1 list_chains#a6449078 onchain_answer#77243478 resolve_ens#e93d51eb rpc_call#a3ff35e6 simulate_transaction#68d2eed5
@@ -630,7 +629,6 @@
 = 375abf38 catalog_releases#4e3fcaf6 fresh_releases#da4091fe get_artist#0b9674eb get_artist_releases#704ca92a list_filters#091d7292 search#9c95bd74
 = 37758c67 getTour listTours
 = 37b4ae20 get_equipment_specs#0138c1d1 get_software_info#1f1253ef recommend_system#5050242e request_quote#13df2945
-= 37d46572 getMenu getMenuItem getOrderingOptions getPopularItems getReservationAvailability getRestaurant listCities listCityRestaurants read searchMenu searchRestaurants
 = 37ec975d campgroundAvailability get_campground_by_id#20efc22f get_campsite_by_id#0c88ee5c searchCampgrounds search_campgrounds#7b1fd61b search_campsites#8533e7ad search_campsites_availability#51146762 sort_command#3afde3b1
 = 3836549e searchVenues
 = 384db9e9 browseMarketplace commentOnPost followPage getAccountInsights getBusinessDetails getConversation getEventDetails getGroupInfo getGroupPosts getMarketplaceListingDetails getMarketplaceListings getPageInfo getPagePosts getPageReviews getPersonProfile getPhotoAlbum getPost getPostComments getPrivacySettings getVideo joinGroup likePhoto listAdAccounts listAds listCampaigns listConversations listEvents listFriends listNotifications listPageAds listPageEvents listPageReels listPhotos postToGroup postToPage postToTimeline reactToPost replyToComment savePost searchAdLibrary searchGroups searchPages searchPeople sendMessage sharePost updatePrivacySettings updateProfile
@@ -793,7 +791,6 @@
 = 4682c99e get_download_links#4803536c get_page_markdown#42b1b896 get_plans_and_pricing#a6449078 search_site#c117aa02
 = 469f0ca2 alerts-list-alerts#b0f88304 alerts-update-user-alerts#685726f8 apps-add-app-developer#f3f80a3e apps-close-app-dev-session#8723a48c apps-create-app-dev-session#7873eddc apps-delete-app-secret#76e91718 apps-find-app-secret#d1372268 apps-heartbeat-app-dev-session#8723a48c apps-list-app-activations#0c92dd42 apps-list-app-developers#1f38b18d apps-list-app-secrets#bafb2dfb apps-list-app-versions#e309cb45 apps-publish-app-manifest#af694478 apps-remove-app-developer#b1a49d76 apps-rotate-app-webhook-endpoint-secret#64332974 apps-set-app-secret#ee5a7936 companies-add-company-manager#1c58a510 companies-get-company#01bc12dc companies-list-company-credentials#cba0b17e companies-list-company-credits#d98f0f04 companies-list-company-manager-contacts#10ee0d36 companies-list-company-managers#a27e6418 companies-list-or-search-companies#a881f5e2 companies-lookup-companies#f1f1a417 data-requests-add-data-request-file#463f8190 data-requests-delete-data-request-file#2ddfab5b data-requests-update-data-request#dda42e3b events-accept-invitation#87e6f4bc events-create-event#d503ad36 events-decline-invitation#28813d91 events-delete-event#2ddfab5b events-get-event#01bc12dc events-list-feed#e3c0563d events-list-locations#719be0b5 events-list-or-search-vendor-invitees#c68f8cb2 events-list-pending-invitations#f8baced9 events-list-standing-appointments#65741427 events-update-event#d9488106 fhir-configs-create-A-fhir-config#3d441082 fhir-configs-delete-fhir-config-by-id#2ddfab5b fhir-configs-get-fhir-config#2ddfab5b fhir-configs-list-of-fhir-configurations#f98cff9d fhir-configs-update-fhir-config-by-id#d60950b0 invoices-convert-quote#2ddfab5b invoices-create-invoice#4e818224 invoices-download-invoices-export#95ceeb21 invoices-get-invoice#3ce067cb invoices-get-invoices-export-status#cbb6ca5b invoices-invoices-export#3414e07c invoices-list-invoices#829f6ebe invoices-make-payment#34407834 invoices-update-invoice#fc43e721 lookups-list-lookup-systems#25f21812 lookups-lookup-company-managers#10ee0d36 lookups-lookup-postal-code#568c73a7 medical-products-create-distributor#6385ee14 medical-products-create-manufacturer#f2b3bacd medical-products-create-medical-product#f27025bd medical-products-create-medical-product-category#cc8c49d7 medical-products-create-medical-product-family#7d3eb3aa medical-products-delete-distributor#2ddfab5b medical-products-delete-manufacturer#2ddfab5b medical-products-delete-medical-product#2ddfab5b medical-products-delete-medical-product-category#2ddfab5b medical-products-delete-medical-product-family#2ddfab5b medical-products-get-distributor#2ddfab5b medical-products-get-manufacturer#2ddfab5b medical-products-get-medical-product#2ddfab5b medical-products-get-medical-product-category#2ddfab5b medical-products-get-medical-product-family#2ddfab5b medical-products-list-all-distributors#5b236614 medical-products-list-all-manufacturers#4e41a361 medical-products-list-all-medical-product-categories#5a8ce651 medical-products-list-all-medical-product-families#4167159a medical-products-list-all-medical-products#9e31d2da medical-products-patch-distributor#37b0686e medical-products-patch-manufacturer#1967f5f3 medical-products-patch-medical-product#3c1ee9fa medical-products-patch-medical-product-category#7bd131e0 medical-products-patch-medical-product-family#cf1ef123 medical-products-update-distributor#37b0686e medical-products-update-manufacturer#0a1c5976 medical-products-update-medical-product#06c7967e medical-products-update-medical-product-category#b9fc53ac medical-products-update-medical-product-family#d4df2aff mobile-devices-add-mobile-device#d23edfca oauth-create-device-authorization#b9a78d89 oauth-create-token#24a2375b oauth-introspect-token#5f1a1bb3 oauth-revoke-token#8979554e organizations-create-company-target-facility#b46b7679 organizations-delete-company-target-facility#a5d78800 organizations-download-company-target-facilities-e9e#457fed0d organizations-download-facility-vendors-export#e43b1558 organizations-export-company-target-facilities#28f59c72 organizations-export-facility-vendors#8ce313a1 organizations-get-company-target-facilities-b4b#e2e49f20 organizations-get-facility#01bc12dc organizations-get-facility-vendors-export-status#3a2c111d organizations-list-company-target-facilities#d3d808d3 organizations-list-facility-vendors#8bda595f organizations-list-or-search-department-contacts#d45dae99 organizations-list-or-search-departments#b72c3238 organizations-list-or-search-facilities#e463578d payment-profile-delete-payment-profile#a6449078 payment-profile-get-payment-profile#a6449078 reports-get-full-report#01047231 reports-initiate-scheduled-report#db5bf225 support-articles-get-support-article#01bc12dc support-articles-list-or-search-support-articles#0b2cc59d systems-list-systems#722c6312 users-change-password#46422232 users-get-current-user#36a37b35 users-get-linked-users#f8bfc7f2 users-get-user-by-id#701cf44a users-magiclink#15839650 users-password#380be2da users-password-reset-request#75ef2f02 users-post-authenticate#35830e9c users-rotate-api-key#a6449078 users-switch-account#33432fc3 users-update-user#32af1081 users-update-user-profile-picture#34efb226 vendor-fields-create-vendor-field#26930586 vendor-fields-update-vendor-field#233bb904 vendor-scans-download-vendor-scans-export#4669db9b vendor-scans-export-vendor-scans#955bded2 vendor-scans-get-next-screening-question#305ddafe vendor-scans-get-vendor-scan#ac9cdf3f vendor-scans-get-vendor-scans-export-status#878088e4 vendor-scans-list-vendor-scans#da81e48b vendor-scans-submit-screening-response#dec83e6d vendor-scans-vendor-scan-gps-checkout-config#2ddfab5b vendor-scans-vendor-scan-out#b8ad3edd vendors-accept-vendor-credential#0d056747 vendors-add-vendor-credential-file#baf9a95c vendors-add-vendor-credential-file-for-auto-9d9#be68cb86 vendors-add-vendor-managed-by-company#2695055b vendors-calculate-subscription-price#d349a2af vendors-cancel-handoff#32593d80 vendors-change-subscription#34f5da75 vendors-check-download-code#4ef16c72 vendors-create-new-vendor-credential-version#9f6b30d6 vendors-create-or-update-bcr#fa8e1122 vendors-create-vendor#f1d185f5 vendors-create-vendor-company#abec058b vendors-create-vendor-registration#3393560c vendors-decline-vendor-credential#0d056747 vendors-delete-vendor-credential-file#8092c8c4 vendors-delete-vendor-managed-by-company#f8954aad vendors-download-vendors-export#c1afa858 vendors-expedite-time-remaining#7b23e1b5 vendors-get-next-unanswered-screening-question#baf0fef5 vendors-get-subscription#968b5b9d vendors-get-vendor-credential-details#5e2c4683 vendors-get-vendor-credential-file#4b78d8a9 vendors-get-vendor-invoice-details#01bc12dc vendors-get-vendor-invoice-receipt#2ddfab5b vendors-get-vendor-legal-name#7b23e1b5 vendors-get-vendor-payment-responsibility#225bea48 vendors-get-vendor-screening-questions#4ce08a00 vendors-get-vendor-target-facilities#84a53202 vendors-get-vendor-upload-history#9f4e59a1 vendors-get-vendors-details#968b5b9d vendors-get-vendors-export-status#2dc605b7 vendors-list-vendor-additional-facility-fields#9f4e59a1 vendors-list-vendor-credential-data-requests#6a35d36a vendors-list-vendor-credential-files#6a35d36a vendors-list-vendor-credential-history#c86b6409 vendors-list-vendor-credentials#74d0afec vendors-list-vendor-credits#9f4e59a1 vendors-list-vendor-custom-fields#7b23e1b5 vendors-list-vendor-facility-statuses#584a0b2c vendors-list-vendor-invoices#36d18ac3 vendors-list-vendor-job-titles#27b022c3 vendors-list-vendor-managed-by-companies#9f4e59a1 vendors-list-vendor-scrub-details#7b23e1b5 vendors-list-vendor-scrub-packages#9f4e59a1 vendors-list-vendor-scrub-purchases#9f4e59a1 vendors-list-vendor-types#f98cff9d vendors-list-vendors#f0de973e vendors-purchase-scrub-credits#77a7d6d9 vendors-send-download-code#35d54cc0 vendors-submit-vendor-credential#1739e235 vendors-update-vendor-credential-data#005fe89d vendors-update-vendor-credential-file#865526cf vendors-update-vendor-custom-field#1797b696 vendors-update-vendor-details#9d84cbe6 vendors-update-vendor-managed-by-company#90f083cc vendors-update-vendor-payment-responsibility#cacd78a5 vendors-update-vendor-scrub-details#3b865e5c vendors-vendors-export#3a980e83 webhooks-create-webhook-endpoint#22226ffa webhooks-delete-webhook-endpoint#2ddfab5b webhooks-get-webhook-endpoint#2ddfab5b webhooks-list-all-webhook-endpoints#f98cff9d webhooks-updates-the-webhook-endpoint-with-the-854#6169abe6 zones-get-security-zone#01bc12dc zones-list-or-search-security-zones#60a9b533 zones-security-zone-checkin#32815fad
 = 46c54aff check_email#b73654f4 check_emailhash#76a94d14 check_ip#098ba359 check_multiple#e9b6b425 check_username#24cf9a0a
-= 46eaeea6 findBusiness getBusiness getExperience listExperiences searchBusinesses
 = 4700268c calculate_position#a1190c9f get_popular_strategies#3bf288db get_popular_symbols#c351b778 get_put_call_ratio#f7931cdf probability_of_profit#d2944386
 = 47215418 open_site_search#a6449078
 = 4736db0a checkAppointmentAvailability getShopDetails
@@ -1136,6 +1133,7 @@
 = 67703322 account_info#d9873742 add_domain#c0308b4c block_ip#3932901a create_dns_record#a5763cf9 create_ip_list#adcf9829 delete_dns_record#ab094fd8 delete_domain#0798163e delete_ip_list#012bb2c0 delete_node#973d32e0 domain_uptime#0798163e get_domain#0798163e list_dns_records#0798163e list_domains#85eb12cf list_ip_lists#d9873742 list_nodes#98d439bf list_ssl_tasks#d9873742 node_log_instructions#798d3097 read_node_log#3735c974 search_logs#5b487521 set_dns_hosting#112a45a6 set_node_tags#ed2cbd35 unblock_ip#3932901a update_dns_record#50fa54a4 update_domain#212df0b3 update_ip_list#89eea561
 = 677c5321 search_properties#7b0f4ad2
 = 679659e6 emailveritas_account_setup#daea6ffc emailveritas_complete_setup#22ca0be8 emailveritas_create_api_key#341a1484 emailveritas_integration_guide#972f9529 emailveritas_list_api_keys#31b44845 emailveritas_login#c8b6793e emailveritas_register_account#27ea2bfe emailveritas_scan_urls#aa0f1c67
+= 679bf4fa getStory getUser listStories listTags search
 = 67cb0dbf add_resume#647ffa48 apply_to_job#35675dbd get_auto_apply_preferences#a6449078 get_credits_summary#a6449078 get_setup_status#a6449078 list_applications#78caa9cb list_review_jobs#0d7cd283 list_unread_mail#a6449078 open_auto_apply_preferences#a6449078 pause_resume_applications#365a91ad preview_application#2c32f076 save_auto_apply_setup#aec6fce5 search_jobs#e6499627 submit_application#f0d87f6b
 = 67f3ddea addToCart find_trails_near_location#d19211bb find_trails_within_bounds#26f4e343 getCart getCollection getProduct getProducts getSetEvidence get_trail_details#067fc36b get_trail_weather_overview#ee414979 listCollections listProducts resolveProductUrl search search_trails_by_name#688d4a9c
 = 67fa58f7 build_agent#c1e5f70f build_connector#12df4d2d build_mcp_server#d833eeb8 cancel_schedule#15a5edec chat_agent#89735d6f copy_agent#403d3941 delete_agent#97269de1 delete_connector#a776e19e delete_session#f34d940e delete_webhook#fa55231e find_agents#8ee35588 generate_session_id#615ca19a get_agent#692bf40f get_agent_reply#c5213228 get_schedule#15a5edec list_agents#daea6ffc list_completed_schedules#5f747b72 list_connectors#daea6ffc list_schedules#5223f173 list_sessions#3d209405 list_webhooks#daea6ffc pause_schedule#15a5edec register_webhook#44f244c1 resume_schedule#15a5edec search_documentation#f3628d98 test_webhook#548a828f update_agent#49b41f5f update_schedule#3bc0dbb1
@@ -1973,6 +1971,7 @@
 = b5e0405f search_products#e557a3a6
 = b5e820ff getListingDetails search
 = b5ff0983 autocomplete_places#94c112d2 find_places_nearby#1154f40e get_place#ca6e3abe search_authors#c280ec83 search_cemeteries#c280ec83 search_collections#c280ec83 search_documents#c280ec83 search_memorials#c280ec83 search_page_text#67027cb5 search_places#8f8baebe search_records#acb52a95 search_repositories#c280ec83 search_sources#c280ec83
+= b633ddb6 getMenu getMenuItem getOrderingOptions getPopularItems getReservationAvailability getRestaurant listCities listCityRestaurants read searchMenu searchReservations searchRestaurants
 = b655890a get_doc#cccb4138 search_docs#bb92bd00
 = b679a13f analyze_loop_strategy#a35fa7f4 associate_perps_wallet#e0ec6fe4 build_add_liquidity_v2#84f18f41 build_add_liquidity_v3#da393eb2 build_approve#706fe403 build_claim_rewards#5286ba16 build_kat_begin_withdrawal#5879d06c build_kat_cancel_withdrawal#704c6b42 build_kat_convert_to_vault#134374c2 build_kat_deposit_vault#e79829c3 build_kat_merge#49efd943 build_kat_reset_votes#6deafc37 build_kat_split#49a00ae0 build_kat_stake#cd3e53c4 build_kat_vote#40eeb000 build_kat_withdraw#6403a23e build_morpho_authorize#f8403ccf build_morpho_borrow#458a61b0 build_morpho_loop#caa9a409 build_morpho_supply#e8944c68 build_morpho_vault_deposit#fe94cf4b build_morpho_vault_withdraw#05856519 build_morpho_withdraw#d5ee7448 build_perps_deposit#df096226 build_perps_withdraw#31526115 build_swap#502d88f0 build_transfer#c87f1729 build_unwrap_eth#f85fee22 build_wrap_eth#dd2826d6 cancel_perps_order#5766bb92 create_perps_order#3dfe2c86 get_balances#7f05db53 get_contract_reference#99a82ecf get_gas_price#8afe995e get_kat_gauges#b9bdd8b0 get_kat_locks#0ac5de07 get_merkl_opportunities#35b94204 get_merkl_user_rewards#dd8d057f get_morpho_markets#99081606 get_morpho_position#04157991 get_morpho_vault_detail#9cbfd948 get_perps_candles#a13da861 get_perps_exchange#0027000f get_perps_fills#148b036c get_perps_funding_rates#650c7bec get_perps_gas_fees#0027000f get_perps_liquidations#504dc9cb get_perps_markets#5393768f get_perps_orderbook#afbf109d get_perps_orders#e07970eb get_perps_positions#ba095590 get_perps_tickers#46cf9123 get_perps_trades#7b91ce75 get_perps_wallets#1fa6e488 get_pools#e1d1acd8 get_swap_quote#7bde26b4 get_token_prices#a3c76aae list_morpho_markets#bb702146 list_morpho_vaults#8afe995e tx_lookup#0beb8a7a
 = b69410c1 findStores
@@ -2120,7 +2119,6 @@
 = c2e868dc findRestaurant getMenu getMenuItem getOrderDetails getPickupTimes getRestaurant getRestaurantHours getRewardsBalance listMenuCategories listMenuItems listOrders listRestaurants listSavedPaymentMethods searchRestaurants validateOrder
 = c2fd9b5e getDayPassRequestInfo listLocations
 = c311e976 searchKeys
-= c31aaa6c getDoc listDocPages vercel.open_documentation#daea6ffc vercel.open_plugin#daea6ffc vercel.open_sales_contact_form#daea6ffc vercel.start_deployment_flow#daea6ffc
 = c33b6222 follow_project#a9cea71d get_cve#ed05c63a get_project#d658397d list_followed_project_cves#b525e9db list_followed_projects#d9873742 list_project_cves#963ef322 list_project_release_notes#800e6f23 list_project_releases#c144897f list_registries#d9873742 scan_dependencies#6d3011c6 search_cves#ca1ee0e5 search_projects#9104a468 unfollow_project#d658397d
 = c38ff33e checkin_attendees#5237d863 checkin_sessions#6ee04695 create_attendee#7a5fe9c4 get_attendee#c24d3775 get_certificate#838067c0 get_event_page#b1a3676f get_payment#b8968bad get_schedule#2d0c8078 get_submission_settings#2d0c8078 list_activities#b1a3676f list_attendees#b1a3676f list_certificates#b1a3676f list_event_tickets#0384aae2 list_events#b1a3676f list_payments#b1a3676f list_proceedings#b1a3676f list_speakers#b1a3676f list_submissions#b1a3676f
 = c3c7451a check_stock_asset_availability#c24f3232 get_asset#c24f3232 get_asset_booked_dates#c24f3232 get_asset_custom_field_history#c24f3232 get_asset_history#c24f3232 get_asset_public_links#c24f3232 get_bundle#c24f3232 get_contract#c24f3232 get_depreciation_rate#c24f3232 get_group#c24f3232 get_inventory#c24f3232 get_inventory_custom_field_history#c24f3232 get_inventory_history#c24f3232 get_inventory_line_item_locations#c24f3232 get_inventory_location_thresholds#c24f3232 get_inventory_quantity_by_location#c24f3232 get_it_asset#c24f3232 get_it_asset_sync_status#c24f3232 get_location#c24f3232 get_member#c24f3232 get_member_checked_out_items#c24f3232 get_member_checkin_checkout_history#c24f3232 get_member_inventory_reservations#c24f3232 get_member_reservation_requests#c24f3232 get_member_stock_history#c24f3232 get_package#c24f3232 get_purchase_order#c24f3232 get_software#c24f3232 get_software_license#c24f3232 get_stock_asset#c24f3232 get_stock_asset_current_checkouts#c24f3232 get_stock_asset_custom_field_history#c24f3232 get_stock_asset_history#c24f3232 get_stock_asset_line_item_locations#c24f3232 get_stock_asset_location_thresholds#c24f3232 get_stock_asset_quantity_by_location#c24f3232 get_subgroup#c24f3232 get_vendor#c24f3232 get_work_order#c24f3232 list_asset_reservations#c24f3232 list_assets#c24f3232 list_bundles#c24f3232 list_checklists#c24f3232 list_contracts#c24f3232 list_custom_roles#c24f3232 list_depreciation_methods#c24f3232 list_depreciation_rates#c24f3232 list_groups#c24f3232 list_inventory#c24f3232 list_inventory_reservations#c24f3232 list_it_asset_software#c24f3232 list_it_assets#c24f3232 list_item_custom_fields#c24f3232 list_linked_work_orders#c24f3232 list_locations#c24f3232 list_members#c24f3232 list_packages#c24f3232 list_purchase_orders#c24f3232 list_resource_documents#c24f3232 list_retire_reasons#c24f3232 list_software#c24f3232 list_software_categories#c24f3232 list_software_components#c24f3232 list_software_license_custom_fields#c24f3232 list_software_license_entitlements#c24f3232 list_software_license_options#c24f3232 list_software_license_owners#c24f3232 list_software_license_types#c24f3232 list_software_licenses#c24f3232 list_stock_asset_reservations#c24f3232 list_stock_assets#c24f3232 list_subgroups#c24f3232 list_teams#c24f3232 list_user_listings#c24f3232 list_vendors#c24f3232 list_work_order_custom_fields#c24f3232 list_work_order_inventory#c24f3232 list_work_order_logs#c24f3232 list_work_orders#c24f3232 search_assets#c24f3232 search_inventory#c24f3232 search_stock_assets#c24f3232 search_work_orders#c24f3232
@@ -2387,6 +2385,7 @@
 = df89b3f2 astrina_backlinks#daea6ffc astrina_business_signals#4d02a7e8 astrina_ecosystem_datasets#2e0636e6 astrina_list_sites#daea6ffc astrina_list_utilities#daea6ffc astrina_rankings#4d02a7e8 astrina_run_utility#0c45d122 astrina_seo_audit#7bc4adf7 astrina_site_overview#5ef37901 astrina_traffic#5b7ca143 pulsar_ai_benchmark#daea6ffc pulsar_ai_visibility#560551a2 pulsar_check_link#630786ea pulsar_coverage#daea6ffc pulsar_crawl#1296af01 pulsar_embed#8a384fc4 pulsar_fetch#0500e51b pulsar_freshness#9bd9dd9f pulsar_infer#8b818e1e pulsar_inference_capacity#daea6ffc pulsar_network_status#daea6ffc pulsar_observe#de0da39a pulsar_pubkey#daea6ffc pulsar_vantage#1aec6a3b pulsar_verify_action#dc252e04 pulsar_verify_claim#e0ba87b5 pulsar_verify_observation#15a870a2
 = dfc10321 getInsurancePricing getPricing
 = dfc3712b getActivityDetails getHotelDetails getHotelReviews searchActivities searchCars searchFlights searchHotels searchPackages searchVacationRentals suggestDestinations
+= dfd1a118 findBusiness getBusiness getExperience listCities listExperiences searchBusinesses
 = dfd1afcb getTickets
 = dfedc4a0 charts#f0d41bcb find_song_on_air#406a1fe1 get_listen_link#632933aa get_station#632933aa now_playing#632933aa radioguide_channels#daea6ffc recommend_stations#9dc1ac09 search_stations#89f6449a song_at_time#689426e4
 = dff1f227 checkStock findBranch getProduct search
@@ -46731,6 +46730,7 @@ abetterbiz.myshopify.com	a9af6443
 abetterbuzz-brand-goods.myshopify.com	a9af6443
 abgifts.myshopify.com	a9af6443
 abgwellness.myshopify.com	a9af6443
+abhibus.com	da39a3ee
 abhishekid.com	da39a3ee
 abibapharmacia.com	bb34c1bd
 abibitumi.com	bb34c1bd
@@ -47751,7 +47751,6 @@ afcroscoestore.myshopify.com	a9af6443
 afellis.com.mt	bb34c1bd
 afends.com	8b50d914
 aferiy.com	4479a458
-afew-store.com	4479a458
 affdcc-79.myshopify.com	a9af6443
 affichely.com	4479a458
 affiliate-i-city.myshopify.com	a9af6443
@@ -50970,6 +50969,7 @@ apparel-sell-booster.myshopify.com	61e64875
 apparel-shop-stop.myshopify.com	61e64875
 apparel-supply-co.myshopify.com	a9af6443
 apparelix-free.myshopify.com	a9af6443
+apparis.com	da39a3ee
 appelt-juwelen.myshopify.com	a9af6443
 appeng.co.uk	bb34c1bd
 appetitecatering.com.au	bb34c1bd
@@ -53240,6 +53240,7 @@ avenuehealthcare.com	3559d7ac
 avenues-3.myshopify.com	a9af6443
 avenuethelabel.myshopify.com	a9af6443
 avenzamaps.com	da39a3ee
+avera-paris.com	da39a3ee
 avera.mx	4479a458
 average-rent.com	da39a3ee
 averagedadofficial.com	da39a3ee
@@ -60680,6 +60681,7 @@ caboodlegifts.myshopify.com	a9af6443
 cabotcheese.coop	37007769
 cabotcreamery.com	37007769
 cabourn.myshopify.com	a9af6443
+cabralmotor.com.br	da39a3ee
 cabraloutdoors.com	da39a3ee
 cabrinigreensuperfoods.myshopify.com	a9af6443
 cac82a.myshopify.com	a9af6443
@@ -62208,6 +62210,7 @@ catherine-gee.myshopify.com	a9af6443
 catherine.glass	a9af6443
 catherinelavoie.myshopify.com	a9af6443
 catherinepage.myshopify.com	a9af6443
+cathkidston.jp	da39a3ee
 catholic-art.myshopify.com	a9af6443
 catholic-high-bookstore.myshopify.com	a9af6443
 catholically.com	da39a3ee
@@ -62720,6 +62723,7 @@ ceramicspeed.com	8b50d914
 ceramicstore.eu	4479a458
 ceranel.com	bb34c1bd
 cerano.cz	da39a3ee
+cerano.sk	da39a3ee
 cerascreen.de	da39a3ee
 cerberagallery.com	bb34c1bd
 cerbherb.to	bb34c1bd
@@ -64018,6 +64022,7 @@ cinderella-planning.myshopify.com	a9af6443
 cinderhillfarm.com	bb34c1bd
 cindi-earl.myshopify.com	a9af6443
 cindimccracken.myshopify.com	a9af6443
+cindymayorista.com.ar	da39a3ee
 cindys-swimwear.myshopify.com	a9af6443
 cindystarfall.myshopify.com	a9af6443
 cindyzell.myshopify.com	a9af6443
@@ -64590,6 +64595,7 @@ climbon-cbd.myshopify.com	61e64875
 clinchriverfishingusa.com	4479a458
 clinessentials.com	bb34c1bd
 clinic-app.de	da39a3ee
+clinicafares.com.br	da39a3ee
 clinical-hypnotherapy-centre.myshopify.com	a9af6443
 clinicalherbalism.myshopify.com	a9af6443
 clinicaloscarrera.cl	da39a3ee
@@ -65815,6 +65821,7 @@ content-bridge-2.myshopify.com	61e64875
 content-protection.myshopify.com	a9af6443
 contented.myshopify.com	a9af6443
 contentiongames.myshopify.com	a9af6443
+contescarpemoda.it	da39a3ee
 context-pneumatic-supplies.myshopify.com	a9af6443
 context.dev	fc0d8aa7
 context7.com	572a83c8
@@ -75945,6 +75952,7 @@ evolvetackle.com	bb34c1bd
 evolvevapornh.com	bb34c1bd
 evolvingnation.com	bb34c1bd
 evomasher-s-trading-cards-collectibles-and-treasures.myshopify.com	a9af6443
+evooor.com	da39a3ee
 evoq-beauty.myshopify.com	a9af6443
 evoqtech.myshopify.com	a9af6443
 evoque-beauty-by-designum.myshopify.com	61e64875
@@ -76138,7 +76146,7 @@ explorelearning.myshopify.com	a9af6443
 explorelibertykyshopping.myshopify.com	a9af6443
 explorerseries.ca	bb34c1bd
 exploreslovenia.si	bb34c1bd
-exploretock.com	46eaeea6
+exploretock.com	dfd1a118
 exploringmeerkats.com	bb34c1bd
 explorit.net	bb34c1bd
 explorizona.com	bb34c1bd
@@ -86036,6 +86044,7 @@ heidihopatterns.com.au	bb34c1bd
 heidikjeldsen.co.uk	bb34c1bd
 heidimein.com	bb34c1bd
 heidistjohn.myshopify.com	a9af6443
+heidmusic.com	da39a3ee
 heidy-wavemaker.myshopify.com	a9af6443
 heightec.com	bb34c1bd
 heights-church-merch.myshopify.com	a9af6443
@@ -86791,6 +86800,7 @@ hilight-tribe-store.myshopify.com	a9af6443
 hill-country-karate.myshopify.com	a9af6443
 hill-country-swimbaits-8220.myshopify.com	a9af6443
 hillarydoansperry.myshopify.com	a9af6443
+hillbergandberk.com	da39a3ee
 hillbetty-bliss.myshopify.com	a9af6443
 hillbilly-fightwear.myshopify.com	a9af6443
 hillbilly-goodies.myshopify.com	a9af6443
@@ -92628,7 +92638,6 @@ jolyn.com	4479a458
 jomaccanada.com	bb34c1bd
 jomasicecream.com	bb34c1bd
 jomasport.ar	da39a3ee
-jome.com	2ce82fac
 jomedhealthcare.com	05a9bb9e
 jomercer.com.au	4479a458
 jomo-consultant.myshopify.com	a9af6443
@@ -99338,6 +99347,7 @@ lobehub.com	a06cd4b7
 lobest.com	bb34c1bd
 lobo-commander.myshopify.com	a9af6443
 lobocreaciones.myshopify.com	a9af6443
+lobste.rs	679bf4fa
 lobsterlemonade.com	4479a458
 lobstertrapart.com	bb34c1bd
 loc8me.co.uk	401adf0e
@@ -99472,6 +99482,7 @@ logixx.myshopify.com	a9af6443
 logjampresents.myshopify.com	a9af6443
 logo.dev	163c1797
 logobeer.myshopify.com	a9af6443
+logobrands.com	da39a3ee
 logofiasco.com	bb34c1bd
 logoi.health	c7f0abcb
 logoofficial.com	8b50d914
@@ -106127,6 +106138,7 @@ mothersocker.myshopify.com	a9af6443
 mothersofanarchy.myshopify.com	a9af6443
 mothersoutfront.myshopify.com	a9af6443
 mothersparsh.com	4479a458
+motherswork.com.sg	da39a3ee
 mothicaukeu.myshopify.com	a9af6443
 mothrastew.art	a9af6443
 motifaith-fitness-hales-corners.myshopify.com	a9af6443
@@ -113926,6 +113938,7 @@ pcgamingcases.co.uk	a9af6443
 pch.com	4479a458
 pcheebum.myshopify.com	a9af6443
 pchshopping.com	4479a458
+pciconcursos.com.br	da39a3ee
 pcl-essentials.myshopify.com	a9af6443
 pclab.pk	bb34c1bd
 pclaptops.co.za	bb34c1bd
@@ -119130,6 +119143,7 @@ rashadhoward.myshopify.com	a9af6443
 rashastyle.com	bb34c1bd
 rashawn-fulcher.myshopify.com	a9af6443
 rashawnross.myshopify.com	a9af6443
+rashiratanbhagya.com	da39a3ee
 rashyam.in	134ddf07
 rasik.style	8b50d914
 rasilabags.com	a9af6443
@@ -121590,6 +121604,7 @@ rombo.dk	4479a458
 romboutsag.myshopify.com	a9af6443
 romeonline.org	bb34c1bd
 romeosfurniture.com	da39a3ee
+romeosfurnituremadera.com	da39a3ee
 romer-optics-llc.myshopify.com	a9af6443
 romfordraiders.myshopify.com	a9af6443
 romina-rossa.myshopify.com	a9af6443
@@ -124451,6 +124466,7 @@ seedsprout.com.au	4479a458
 seedtherapy.com	4479a458
 seedtime.us	4479a458
 seedtopia.asia	bb34c1bd
+seeeyewear.com	da39a3ee
 seegarsfence.com	7d9db0ee
 seek-collective.myshopify.com	a9af6443
 seekdiscomfort.com	da39a3ee
@@ -125911,6 +125927,7 @@ shopatmobile.com	bb34c1bd
 shopatmuse.myshopify.com	a9af6443
 shopatpcs.com	bb34c1bd
 shopatronics.com	bb34c1bd
+shopatsc.com	da39a3ee
 shopatshams.com.pk	4479a458
 shopatshapes.myshopify.com	a9af6443
 shopatshowcase.com	4479a458
@@ -129214,7 +129231,6 @@ spartoo.net	3fef4aaa
 spartoo.nl	3fef4aaa
 spartoo.pl	3fef4aaa
 spartoo.pt	3fef4aaa
-spartoo.ro	3fef4aaa
 spartoo.se	3fef4aaa
 spartoo.si	3fef4aaa
 spartoo.sk	3fef4aaa
@@ -138074,7 +138090,7 @@ toadandco.com	4479a458
 toadies-official.myshopify.com	a9af6443
 toaksoutdoor.myshopify.com	a9af6443
 toastonlenox.myshopify.com	a9af6443
-toasttab.com	37d46572
+toasttab.com	b633ddb6
 tobaccolifestyle.com	da39a3ee
 tobaccoonline.co.uk	bb34c1bd
 tobaccosupplyuk.com	bb34c1bd
@@ -142163,7 +142179,7 @@ verbalbeginnings.myshopify.com	a9af6443
 verbero-hockey.myshopify.com	a9af6443
 verbindung-zur-seele.myshopify.com	a9af6443
 verbproducts.com	8b50d914
-vercel.com	c31aaa6c
+vercel.com	d53d6024
 verdantdesign.co.nz	bb34c1bd
 verdantskin.myshopify.com	a9af6443
 verdasai.myshopify.com	a9af6443
@@ -148053,6 +148069,7 @@ zojirushi.com	37007769
 zojopackaging.com	bb34c1bd
 zoketo.myshopify.com	a9af6443
 zola-cosmetics.com	bb34c1bd
+zola.com	da39a3ee
 zola.ro	4479a458
 zoli99.com	da39a3ee
 zollicandy.myshopify.com	a9af6443
