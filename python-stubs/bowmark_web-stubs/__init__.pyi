@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0325d1a49db1aca9d227e0a719cb4bc3796f71cdff74466162536764f0c76c19
-# 102 capabilities, 1003 providers, 6320 typed functions, 20 refused.
+# Manifest version: 2a4727cadf749dcec38b75c6dd30a8b4db8a4e6009add6d0098d6b0e420eb5a8
+# 102 capabilities, 1006 providers, 6332 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14618,6 +14618,28 @@ class Prv_bollandbranch_BollAndBranchSwatch_Out(TypedDict):
     hex: str | None
     imageUrl: str | None
 
+class Prv_bon_texas_gov_SearchNurseLicensesArgs_In(TypedDict):
+    licenseNumber: NotRequired[str]
+    lastName: NotRequired[str]
+    firstName: NotRequired[str]
+    licenseType: NotRequired[Literal["RN"] | Literal["LVN/LPN"]]
+    detailLimit: NotRequired[float]
+
+class Prv_bon_texas_gov_TxNurseLicenseSearch_Out(TypedDict):
+    total: float
+    licenses: list[Prv_bon_texas_gov_TxNurseLicense_Out]
+
+class Prv_bon_texas_gov_TxNurseLicense_Out(TypedDict):
+    name: str
+    ncsbnId: str | None
+    licenseType: str
+    licenseNumber: str
+    status: str | None
+    originalIssued: str | None
+    currentIssued: str | None
+    expires: str | None
+    compactStatus: str | None
+
 class Prv_bookedin_BookedinAppointmentLinkArgs_In(TypedDict):
     link: NotRequired[str]
     merchant: NotRequired[str]
@@ -20531,6 +20553,71 @@ class Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out(TypedD
     start: str
     end: NotRequired[str]
 
+class Prv_checkatrade_CheckatradeProfileArgs_In(TypedDict):
+    trader: str
+
+class Prv_checkatrade_CheckatradeProfile_Out(TypedDict):
+    companyId: float
+    uniqueName: str
+    name: str
+    profileUrl: str
+    contactName: str | None
+    phone: str | None
+    phoneNumber: str | None
+    basedIn: str | None
+    worksIn: str | None
+    locality: str | None
+    region: str | None
+    primaryTrade: str | None
+    skills: list[Prv_checkatrade_CheckatradeProfile_Out_skills_item_Out]
+    services: list[str]
+    summary: str
+    description: str
+    logoUrl: str | None
+    bannerUrl: str | None
+    badges: list[str]
+    fullyVetted: bool
+    vetting: list[Prv_checkatrade_CheckatradeProfile_Out_vetting_item_Out]
+    recentScore: float | None
+    totalReviews: float | None
+    scores: list[Prv_checkatrade_CheckatradeProfile_Out_scores_item_Out]
+    reviews: list[Prv_checkatrade_CheckatradeProfile_Out_reviews_item_Out]
+    albumPhotoCount: float | None
+    albumCount: float | None
+    albumPreview: list[Prv_checkatrade_CheckatradeProfile_Out_albumPreview_item_Out]
+    warnings: list[str]
+
+class Prv_checkatrade_CheckatradeProfile_Out_skills_item_Out(TypedDict):
+    label: str
+    subSkills: list[str]
+
+class Prv_checkatrade_CheckatradeProfile_Out_vetting_item_Out(TypedDict):
+    section: str
+    checks: list[Prv_checkatrade_CheckatradeProfile_Out_vetting_item_Out_checks_item_Out]
+
+class Prv_checkatrade_CheckatradeProfile_Out_vetting_item_Out_checks_item_Out(TypedDict):
+    label: str
+    value: str
+    passed: bool
+
+class Prv_checkatrade_CheckatradeProfile_Out_scores_item_Out(TypedDict):
+    label: str
+    score: float
+
+class Prv_checkatrade_CheckatradeProfile_Out_reviews_item_Out(TypedDict):
+    reviewId: str
+    title: str
+    text: str
+    score: float | None
+    date: str | None
+    category: str | None
+    location: str | None
+
+class Prv_checkatrade_CheckatradeProfile_Out_albumPreview_item_Out(TypedDict):
+    photoId: str
+    albumId: str
+    url: str
+
 class Prv_checkatrade_CheckatradeSearchArgs_In(TypedDict):
     category: str
     postcode: str
@@ -20567,12 +20654,13 @@ class Prv_checkatrade_CheckatradeTrader_Out(TypedDict):
     logoUrl: str | None
 
 class Prv_checkatrade_CheckatradeCategoriesArgs_In(TypedDict):
-    trade: str
+    trade: NotRequired[str]
 
 class Prv_checkatrade_CheckatradeCategories_Out(TypedDict):
     trade: str
     id: float | None
     categories: list[Prv_checkatrade_CheckatradeCategory_Out]
+    warnings: list[str]
 
 class Prv_checkatrade_CheckatradeCategory_Out(TypedDict):
     id: float
@@ -22670,6 +22758,14 @@ class Prv_cleanairlawncare_GetAvailableSlotsResult_Out(TypedDict):
 class Prv_cleanairlawncare_AvailableSlot_Out(TypedDict):
     date: str
     time: str
+
+class Prv_cloudbeds_CloudbedsFoundProperty_Out(TypedDict):
+    code: str
+    propertyId: str
+    name: str
+    bookingUrl: str
+    matchedBy: Literal["code"] | Literal["website"] | Literal["search"]
+    source: str | None
 
 class Prv_cloudbeds_CloudbedsProperty_Out(TypedDict):
     code: str
@@ -25162,6 +25258,54 @@ class Prv_crateandbarrel_CrateAndBarrelProduct_Out(TypedDict):
     widthInches: float | None
     description: str
     imageUrl: str | None
+
+class Prv_crates_io_crates_ioSearchPage_Out(TypedDict):
+    results: list[Prv_crates_io_crates_ioCrate_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_crates_io_crates_ioCrate_Out(TypedDict):
+    name: str
+    description: str | None
+    version: str
+    downloads: float
+    recentDownloads: float | None
+    createdAt: str | None
+    updatedAt: str | None
+    repository: str | None
+    homepage: str | None
+    documentation: str | None
+    keywords: list[str]
+    categories: list[str]
+
+class Prv_crates_io_crates_ioCrateDetail_Out(TypedDict):
+    name: str
+    description: str | None
+    version: str
+    downloads: float
+    recentDownloads: float | None
+    createdAt: str | None
+    updatedAt: str | None
+    repository: str | None
+    homepage: str | None
+    documentation: str | None
+    keywords: list[str]
+    categories: list[str]
+    versions: list[Prv_crates_io_crates_ioVersion_Out]
+
+class Prv_crates_io_crates_ioVersion_Out(TypedDict):
+    version: str
+    publishedAt: str | None
+    yanked: bool
+    license: str | None
+    rustVersion: str | None
+    edition: str | None
+    downloads: float
+    publishedBy: str | None
+    features: Mapping[str, list[str]]
 
 class Prv_crecipr_CreciprBroker_Out(TypedDict):
     name: str
@@ -51403,6 +51547,33 @@ class Prv_letterboxd_listFollowing_return_Out(TypedDict):
     returned: float
     warnings: list[str]
 
+class Prv_letterboxd_browseFilms_args_In(TypedDict):
+    sort: NotRequired[str]
+    genre: NotRequired[str]
+    year: NotRequired[str | float]
+    decade: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_letterboxd_browseFilms_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdMemberFilm_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_letterboxd_listMemberLikes_args_In(TypedDict):
+    member: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_listMemberLikes_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdMemberFilm_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
 class Prv_letterboxd_getWatchlist_args_In(TypedDict):
     member: str
     limit: NotRequired[float]
@@ -53242,6 +53413,14 @@ class Prv_luma_LumaGuestList_Out(TypedDict):
     guests: list[Prv_luma_LumaHost_Out]
     guestCount: float | None
     warnings: list[str]
+
+class Prv_luma_LumaGrabbedGuestList_Out(TypedDict):
+    eventId: str
+    guests: list[Prv_luma_LumaHost_Out]
+    guestCount: float | None
+    warnings: list[str]
+    registeredForRead: bool
+    cancelled: bool
 
 class Prv_luma_LumaCancellation_Out(TypedDict):
     eventId: str
@@ -62137,6 +62316,15 @@ class Prv_olo_OloPaymentMethod_Out(TypedDict):
     provider: str
     isGiftCard: bool
 
+class Prv_olo_OloStartGroupOrderArgs_In(TypedDict):
+    host: str
+    guid: str
+
+class Prv_olo_OloGroupOrder_Out(TypedDict):
+    host: str
+    basketGuid: str
+    groupOrder: Any
+
 class Prv_olo_OloGetOrderStatusArgs_In(TypedDict):
     host: str
     orderId: str
@@ -65296,6 +65484,36 @@ class Prv_pixabay_VideoHit_Out(TypedDict):
     creator: Prv_pixabay_VideoHit_Out_creator_u0_Out | None
 
 class Prv_pixabay_VideoHit_Out_creator_u0_Out(TypedDict):
+    id: str
+    username: str
+    profileUrl: str | None
+
+class Prv_pixabay_Search3dModelsArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_pixabay_Model3dSearchResult_Out(TypedDict):
+    query: str
+    items: list[Prv_pixabay_Model3dHit_Out]
+    page: float
+    pages: float
+    total: float
+
+class Prv_pixabay_Model3dHit_Out(TypedDict):
+    id: str
+    title: str
+    description: str
+    url: str
+    thumbnailUrl: str | None
+    previewImageUrls: list[str]
+    uploadedAt: str | None
+    likes: float | None
+    comments: float | None
+    tags: list[str]
+    isAiGenerated: bool
+    creator: Prv_pixabay_Model3dHit_Out_creator_u0_Out | None
+
+class Prv_pixabay_Model3dHit_Out_creator_u0_Out(TypedDict):
     id: str
     username: str
     profileUrl: str | None
@@ -75702,6 +75920,46 @@ class Prv_skiplagged_SkiplaggedAirport_Out(TypedDict):
     query: str
     code: str
 
+Prv_skyscanner_SkyscannerSearchArgs_In = TypedDict(
+    "Prv_skyscanner_SkyscannerSearchArgs_In",
+    {
+    "from": str,
+    "to": str,
+    "depart": str,
+    "return": NotRequired[str],
+    "adults": NotRequired[float],
+    "cabin": NotRequired[Literal["economy"] | Literal["premium"] | Literal["business"] | Literal["first"]],
+    "limit": NotRequired[float],
+    },
+)
+
+class Prv_skyscanner_SkyscannerSearchResult_Out(TypedDict):
+    status: Literal["complete"] | Literal["incomplete"]
+    url: str
+    flights: list[Prv_skyscanner_SkyscannerFlight_Out]
+
+class Prv_skyscanner_SkyscannerFlight_Out(TypedDict):
+    id: str
+    price: float | None
+    currency: str
+    tripType: Literal["round trip"] | Literal["one way"]
+    airlines: list[str]
+    stops: float
+    legs: list[Prv_skyscanner_SkyscannerLeg_Out]
+    url: str
+
+class Prv_skyscanner_SkyscannerLeg_Out(TypedDict):
+    origin: str
+    originName: str | None
+    destination: str
+    destinationName: str | None
+    departure: str
+    arrival: str
+    durationMinutes: float | None
+    stops: float
+    airlines: list[str]
+    flightNumbers: list[str]
+
 class Prv_sleeper_SleeperNFLState_Out(TypedDict):
     week: float
     leg: float
@@ -75963,6 +76221,13 @@ class Prv_slice_SliceDeliveryEstimate_Out(TypedDict):
     fee: float | None
     pickupTime: str | None
     dropoffTime: str | None
+
+class Prv_slice_SliceOrderTracking_Out(TypedDict):
+    orderId: str
+    status: str | None
+    orderStatus: str | None
+    shopName: str | None
+    deliveredAt: str | None
 
 class Prv_slice_SliceLoyaltyProgram_Out(TypedDict):
     enabled: bool
@@ -106194,6 +106459,18 @@ class Prv_bollandbranch(Protocol):
         reference swatch image. THROWS on an unknown name.
         """
 
+class Prv_bon_texas_gov(Protocol):
+    """Texas nurse license lookup (bon.texas.gov): find RN and LVN/LPN licenses by name or
+    license number, with status, issue and expiry dates.
+    """
+
+    async def searchNurseLicenses(self, args: Prv_bon_texas_gov_SearchNurseLicensesArgs_In, /) -> Prv_bon_texas_gov_TxNurseLicenseSearch_Out:
+        """Looks up Texas nursing licenses (RN, LVN/LPN, APRN) in the Board of Nursing's public
+        verification portal by license number or by last and first name, returning name, NCSBN
+        id, license type and number and, for the first few people, status, issue dates, expiry
+        and compact status.
+        """
+
 class Prv_bookedin(Protocol):
     """Appointment scheduling platform for salons, barbershops, and service businesses."""
 
@@ -108878,14 +109155,22 @@ class Prv_checkatrade(Protocol):
     phone numbers, and list the job categories under a trade.
     """
 
+    async def getTrader(self, args: Prv_checkatrade_CheckatradeProfileArgs_In, /) -> Prv_checkatrade_CheckatradeProfile_Out:
+        """One trader's full profile from their uniqueName (as searchTraders returns it): contact,
+        skills, services, description, vetting checks passed, review scores, the latest reviews
+        and a photo preview.
+        """
+
     async def searchTraders(self, args: Prv_checkatrade_CheckatradeSearchArgs_In, /) -> Prv_checkatrade_CheckatradeSearchResult_Out:
         """Finds Checkatrade tradespeople for a trade or category near a full UK postcode, in the
         site's own order, 12 a page, with review score, phone, location and skills.
         """
 
     async def listCategories(self, args: Prv_checkatrade_CheckatradeCategoriesArgs_In, /) -> Prv_checkatrade_CheckatradeCategories_Out:
-        """Lists the job categories Checkatrade has under one trade (Plumber, Builder,
-        Electrician...), with the category ids and labels its search uses.
+        """Lists the job categories under one trade (Plumber, Builder, Roofer...) with the ids and
+        labels search uses. Call listCategories({}) with no input first to get the trades. Then
+        searchTraders({ category, postcode }) needs a category label and a FULL UK postcode,
+        e.g. { category: "Plumber", postcode: "SW1A 1AA" }; ask for a postcode if you have none.
         """
 
 class Prv_checkfront(Protocol):
@@ -110096,6 +110381,13 @@ class Prv_cloudbeds(Protocol):
     rate, a priced quote, a hotel group's properties, and booking a room up to the payment
     step.
     """
+
+    async def findProperty(self, query: str, /) -> Prv_cloudbeds_CloudbedsFoundProperty_Out:
+        """Finds a property's Cloudbeds booking page from what the caller has: a hotel name and
+        town ("The Ledge Baguio"), the hotel's own website (which links its Cloudbeds booking
+        widget), or a hotels.cloudbeds.com link or code. Returns the 6-character property code
+        every other function takes, with the name, the booking-page URL and how it was matched.
+        """
 
     async def getProperty(self, property: str, /) -> Prv_cloudbeds_CloudbedsProperty_Out:
         """One property from its code ("t7OI21") or booking-page URL: name, description, address
@@ -111325,6 +111617,23 @@ class Prv_crateandbarrel(Protocol):
         """Searches Crate & Barrel's furniture, kitchen and decor catalog the way its own search
         box does ("sofas") and returns products with current and regular price, sale/clearance
         flag, family price range, rating, stock status, width, image and product-page link.
+        """
+
+class Prv_crates_io(Protocol):
+    """crates.io, Rust's package registry — find crates by keyword with downloads, or one
+    crate's metadata and every published version (license, MSRV, yanked, features).
+    """
+
+    async def search(self, query: str, size: float | None = None, page: float | None = None, /) -> Prv_crates_io_crates_ioSearchPage_Out:
+        """Finds Rust crates on crates.io by keyword. Each result has name, latest version,
+        description, total and recent downloads, repository, homepage and docs links. `size`
+        defaults to 20, max 100; `page` is 1-based and the envelope's total says how many crates
+        matched.
+        """
+
+    async def getCrate(self, name: str, /) -> Prv_crates_io_crates_ioCrateDetail_Out:
+        """One crate's metadata off crates.io plus every published version (newest first) with its
+        license, minimum Rust version, edition, yanked flag, downloads, publisher and features.
         """
 
 class Prv_crecipr(Protocol):
@@ -124523,6 +124832,22 @@ class Prv_letterboxd(Protocol):
         Runs in a browser because letterboxd challenges plain clients.
         """
 
+    async def browseFilms(self, args: Prv_letterboxd_browseFilms_args_In, /) -> Prv_letterboxd_browseFilms_return_Out:
+        """Lists films the way the Films browser does — { sort?, genre?, year?, decade?, limit? },
+        e.g. { genre: "horror", sort: "rating" }; sort is popular (default), rating, release,
+        name, shortest or longest; give at most one of genre, year or decade. Returns slug (what
+        `film` takes), title, year and URL, 72 per page, `limit` up to 144. Runs in a browser
+        because letterboxd challenges plain clients.
+        """
+
+    async def listMemberLikes(self, args: Prv_letterboxd_listMemberLikes_args_In, /) -> Prv_letterboxd_listMemberLikes_return_Out:
+        """Lists the films a member has liked — { member: "davidehrlich" }, with `limit` capping
+        rows (default 72, max 144, 72 per page). Returns slug (what `film` takes), title, year
+        and URL, with `total` the member's like count. Films only, not liked reviews or lists.
+        Runs in a browser: a cold page load is challenged by Cloudflare, so it fetches the page
+        from inside a loaded letterboxd page, retrying.
+        """
+
     async def getWatchlist(self, args: Prv_letterboxd_getWatchlist_args_In, /) -> Prv_letterboxd_getWatchlist_return_Out:
         """Lists the films on a member's public watchlist — { member: "dave" }, with `limit`
         capping rows (default 28, max 112, 28 per page). Returns slug (what `film` takes),
@@ -126173,12 +126498,20 @@ class Prv_luma(Protocol):
         """
 
     async def getGuestList(self, args: Prv_luma_GetGuestListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_luma_LumaGuestList_Out:
-        """The full guest list of one Luma event, read with the caller's own signed-in Luma
-        account: every guest's name with the LinkedIn, X, website and bio they gave Luma,
-        following Luma's cursor up to `limit` (default 5000). Luma opens the list only to an
-        account registered for the event: RSVP on the event page first (Luma's one-click RSVP),
-        read the list, then cancelRegistration if you only wanted the list. Without a
-        registration it throws saying so.
+        """The full guest list of one Luma event the caller's signed-in Luma account is ALREADY
+        registered for: every guest's name with the LinkedIn, X, website and bio they gave Luma,
+        following Luma's cursor up to `limit` (default 5000). Not registered? Use grabGuestList,
+        which RSVPs, reads and cancels in one call. Without a registration this throws saying
+        so.
+        """
+
+    async def grabGuestList(self, args: Prv_luma_GetGuestListArgs_In, opts: ConnectionOption | None = None, /) -> Prv_luma_LumaGrabbedGuestList_Out:
+        """Get the full guest list of any free Luma event in one call, even when the caller is not
+        registered: Bowmark RSVPs the caller's signed-in Luma account (solving Luma's Turnstile
+        check), reads every guest's name with the LinkedIn, X, website and bio they gave Luma,
+        then cancels the RSVP. An account that was already registered is read and left
+        registered. Refuses an event that is paid, host-approved, sold out or asks required RSVP
+        questions.
         """
 
     async def cancelRegistration(self, args: Prv_luma_GetEventArgs_In, opts: ConnectionOption | None = None, /) -> Prv_luma_LumaCancellation_Out:
@@ -130436,6 +130769,11 @@ class Prv_olo(Protocol):
         methods and the checkout page URL. It never pays.
         """
 
+    async def startGroupOrder(self, args: Prv_olo_OloStartGroupOrderArgs_In, opts: ConnectionOption | None = None, /) -> Prv_olo_OloGroupOrder_Out:
+        """Signed in as the caller, starts a group order on a basket (guid from startOrder) on a
+        chain that allows it (Wingstop) and returns what the site creates.
+        """
+
     async def getOrderStatus(self, args: Prv_olo_OloGetOrderStatusArgs_In, /) -> Prv_olo_OloOrderStatus_Out:
         """Returns a placed order's status from its order id (off the confirmation link): status,
         items, total and pickup time.
@@ -132039,6 +132377,11 @@ class Prv_pixabay(Protocol):
     async def searchVideos(self, args: Prv_pixabay_SearchVideosArgs_In, /) -> Prv_pixabay_VideoSearchResult_Out:
         """Searches Pixabay's free stock videos by keyword, returning each clip with its size,
         length, creator and tags, plus the page count.
+        """
+
+    async def search3dModels(self, args: Prv_pixabay_Search3dModelsArgs_In, /) -> Prv_pixabay_Model3dSearchResult_Out:
+        """Searches Pixabay's free 3D models by keyword, returning each model with its preview
+        renders, creator and tags, plus the page count.
         """
 
     async def getVideo(self, args: Prv_pixabay_GetVideoArgs_In, /) -> Prv_pixabay_VideoDetail_Out:
@@ -137146,6 +137489,19 @@ class Prv_skiplagged(Protocol):
         its airports). A three-letter code passes through.
         """
 
+class Prv_skyscanner(Protocol):
+    """Skyscanner's own flight search: priced one-way and round-trip itineraries between two
+    airports or cities, cheapest first.
+    """
+
+    async def searchFlights(self, args: Prv_skyscanner_SkyscannerSearchArgs_In, /) -> Prv_skyscanner_SkyscannerSearchResult_Out:
+        """Runs Skyscanner's flight search for a route and date (round trip when `return` is given)
+        and returns its itineraries cheapest first, each with price in USD, airlines, stops and
+        every leg's times and flight numbers. Codes are IATA airport or city codes ("JFK",
+        "LHR", "NYCA"). Takes about 30-60 s: the site's bot check is cleared in a real browser
+        first.
+        """
+
 class Prv_sleeper(Protocol):
     """Sleeper fantasy football's live NFL season state and most-added players."""
 
@@ -137231,6 +137587,11 @@ class Prv_slice(Protocol):
         """Gets the third-party courier's (Uber Direct and similar) delivery fee and pickup/dropoff
         times for an order from a pizzeria that hands delivery to one; thirdPartyCourier is
         false when the shop delivers itself.
+        """
+
+    async def trackOrder(self, orderId: str, /) -> Prv_slice_SliceOrderTracking_Out:
+        """Tracks an order from the order id in its confirmation link: the order's status and, once
+        it is delivered, when.
         """
 
     async def getLoyaltyProgram(self, pizzeria: str | float, /) -> Prv_slice_SliceLoyaltyProgram_Out:
@@ -148392,6 +148753,7 @@ class BowmarkProviders(Protocol):
     bodyrok: Prv_bodyrok
     boglewinery: Prv_boglewinery
     bollandbranch: Prv_bollandbranch
+    bon_texas_gov: Prv_bon_texas_gov
     bookedin: Prv_bookedin
     bookeo: Prv_bookeo
     booker: Prv_booker
@@ -148510,6 +148872,7 @@ class BowmarkProviders(Protocol):
     coursera: Prv_coursera
     craigslist: Prv_craigslist
     crateandbarrel: Prv_crateandbarrel
+    crates_io: Prv_crates_io
     crecipr: Prv_crecipr
     credibly_com: Prv_credibly_com
     crtc_applications: Prv_crtc_applications
@@ -149042,6 +149405,7 @@ class BowmarkProviders(Protocol):
     sixflags: Prv_sixflags
     skills_rest: Prv_skills_rest
     skiplagged: Prv_skiplagged
+    skyscanner: Prv_skyscanner
     sleeper: Prv_sleeper
     slice: Prv_slice
     slickdeals: Prv_slickdeals

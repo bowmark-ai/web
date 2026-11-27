@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0325d1a49db1aca9d227e0a719cb4bc3796f71cdff74466162536764f0c76c19
-// 102 capabilities, 1003 providers, 6348 typed functions, 20 refused.
+// Manifest version: 2a4727cadf749dcec38b75c6dd30a8b4db8a4e6009add6d0098d6b0e420eb5a8
+// 102 capabilities, 1006 providers, 6360 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -23814,6 +23814,48 @@ interface BollAndBranchSwatch {
   }
 }
 
+declare namespace BowmarkProvider_bon_texas_gov {
+  // ── Texas Board of Nursing — License Verification — the unit's own declarations, verbatim ──
+interface TxNurseLicense {
+  name: string;
+  ncsbnId: string | null;
+  licenseType: string; // The board's text: "RN", "LVN/LPN", "APRN-CNP".
+  licenseNumber: string; // e.g. "674156".
+  status: string | null; // e.g. "Current", "Delinquent", "Retired-Inactive within 4 years"; null beyond the detailLimit people.
+  originalIssued: string | null; // MM/DD/YYYY.
+  currentIssued: string | null; // MM/DD/YYYY.
+  expires: string | null; // MM/DD/YYYY.
+  compactStatus: string | null; // e.g. "N/A", "Multistate".
+}
+
+interface SearchNurseLicensesArgs {
+  licenseNumber?: string; // e.g. "674156". Needs licenseType. Use this, or lastName with firstName.
+  lastName?: string;
+  firstName?: string; // Partial names are accepted.
+  licenseType?: "RN" | "LVN/LPN";
+  detailLimit?: number; // How many people get status and dates from their report page (default 3, max 10). Each costs one page load.
+}
+
+interface TxNurseLicenseSearch {
+  total: number; // People the board matched.
+  licenses: TxNurseLicense[];
+}
+
+  /**
+   * Texas nurse license lookup (bon.texas.gov): find RN and LVN/LPN licenses by name or license
+   * number, with status, issue and expiry dates.
+   */
+  interface Unit {
+    /**
+     * Looks up Texas nursing licenses (RN, LVN/LPN, APRN) in the Board of Nursing's public
+     * verification portal by license number or by last and first name, returning name, NCSBN id,
+     * license type and number and, for the first few people, status, issue dates, expiry and
+     * compact status.
+     */
+    searchNurseLicenses(args: SearchNurseLicensesArgs): Promise<TxNurseLicenseSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_bookedin {
   // ── Bookedin — the unit's own declarations, verbatim ──
 interface BookedinRegionArgs {
@@ -32366,7 +32408,7 @@ interface CheckatradeSearchArgs {
 }
 
 interface CheckatradeCategoriesArgs {
-  trade: string; // a trade label, e.g. "Builder"
+  trade?: string; // a trade label, e.g. "Builder"; leave out to list the trades
 }
 
 interface CheckatradeTrader {
@@ -32410,6 +32452,43 @@ interface CheckatradeCategories {
   trade: string;
   id: number | null;
   categories: CheckatradeCategory[];
+  warnings: string[];
+}
+
+interface CheckatradeProfileArgs {
+  trader: string; // a uniqueName from searchTraders, or the profile link
+}
+
+interface CheckatradeProfile {
+  companyId: number;
+  uniqueName: string;
+  name: string;
+  profileUrl: string;
+  contactName: string | null;
+  phone: string | null;
+  phoneNumber: string | null;
+  basedIn: string | null;
+  worksIn: string | null;
+  locality: string | null;
+  region: string | null;
+  primaryTrade: string | null;
+  skills: { label: string; subSkills: string[] }[];
+  services: string[];
+  summary: string;
+  description: string;
+  logoUrl: string | null;
+  bannerUrl: string | null;
+  badges: string[];
+  fullyVetted: boolean;
+  vetting: { section: string; checks: { label: string; value: string; passed: boolean }[] }[];
+  recentScore: number | null;
+  totalReviews: number | null;
+  scores: { label: string; score: number }[];
+  reviews: { reviewId: string; title: string; text: string; score: number | null; date: string | null; category: string | null; location: string | null }[];
+  albumPhotoCount: number | null;
+  albumCount: number | null;
+  albumPreview: { photoId: string; albumId: string; url: string }[];
+  warnings: string[];
 }
 
   /**
@@ -32419,14 +32498,23 @@ interface CheckatradeCategories {
    */
   interface Unit {
     /**
+     * One trader's full profile from their uniqueName (as searchTraders returns it): contact,
+     * skills, services, description, vetting checks passed, review scores, the latest reviews and
+     * a photo preview.
+     */
+    getTrader(args: CheckatradeProfileArgs): Promise<CheckatradeProfile>;
+
+    /**
      * Finds Checkatrade tradespeople for a trade or category near a full UK postcode, in the
      * site's own order, 12 a page, with review score, phone, location and skills.
      */
     searchTraders(args: CheckatradeSearchArgs): Promise<CheckatradeSearchResult>;
 
     /**
-     * Lists the job categories Checkatrade has under one trade (Plumber, Builder, Electrician...),
-     * with the category ids and labels its search uses.
+     * Lists the job categories under one trade (Plumber, Builder, Roofer...) with the ids and
+     * labels search uses. Call listCategories({}) with no input first to get the trades. Then
+     * searchTraders({ category, postcode }) needs a category label and a FULL UK postcode, e.g. {
+     * category: "Plumber", postcode: "SW1A 1AA" }; ask for a postcode if you have none.
      */
     listCategories(args: CheckatradeCategoriesArgs): Promise<CheckatradeCategories>;
   }
@@ -36229,12 +36317,29 @@ interface CloudbedsReservation {
   confirmation: Record<string, unknown>; // Cloudbeds' confirmation payload, passed through unrenamed
 }
 
+interface CloudbedsFoundProperty {
+  code: string; // the 6-character property code every other function takes
+  propertyId: string;
+  name: string;
+  bookingUrl: string;
+  matchedBy: "code" | "website" | "search"; // code: the caller gave one; website: the hotel's own page linked it; search: a web search for the name
+  source: string | null; // the website or the search the code was read from; null for a code
+}
+
   /**
    * Cloudbeds booking engine used by independent hotels, hostels and inns: find a property's
    * booking page, its details and policies, which rooms are free on given dates and at what
    * rate, a priced quote, a hotel group's properties, and booking a room up to the payment step.
    */
   interface Unit {
+    /**
+     * Finds a property's Cloudbeds booking page from what the caller has: a hotel name and town
+     * ("The Ledge Baguio"), the hotel's own website (which links its Cloudbeds booking widget), or
+     * a hotels.cloudbeds.com link or code. Returns the 6-character property code every other
+     * function takes, with the name, the booking-page URL and how it was matched.
+     */
+    findProperty(query: string): Promise<CloudbedsFoundProperty>;
+
     /**
      * One property from its code ("t7OI21") or booking-page URL: name, description, address and
      * coordinates, contact, check-in/out times, currency, amenities, photos, deposit terms,
@@ -39478,6 +39583,81 @@ interface CrateAndBarrelSearch {
      * family price range, rating, stock status, width, image and product-page link.
      */
     searchProducts(args: CrateAndBarrelSearchArgs): Promise<CrateAndBarrelSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_crates_io {
+  // ── crates.io — the unit's own declarations, verbatim ──
+interface crates_ioCrate {
+  name: string;
+  description: string | null;
+  version: string; // highest stable version the registry reports
+  downloads: number;
+  recentDownloads: number | null; // last ~90 days
+  createdAt: string | null; // ISO-8601
+  updatedAt: string | null; // ISO-8601
+  repository: string | null;
+  homepage: string | null;
+  documentation: string | null;
+  keywords: string[];
+  categories: string[];
+}
+
+interface crates_ioVersion {
+  version: string;
+  publishedAt: string | null; // ISO-8601
+  yanked: boolean;
+  license: string | null;
+  rustVersion: string | null; // minimum supported Rust
+  edition: string | null;
+  downloads: number;
+  publishedBy: string | null; // crates.io login
+  features: Record<string, string[]>;
+}
+
+interface crates_ioSearchPage {
+  results: crates_ioCrate[];
+  total: number | null; // How many crates crates.io matched the whole query, from its own count.
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
+
+interface crates_ioCrateDetail {
+  name: string;
+  description: string | null;
+  version: string; // highest stable version the registry reports
+  downloads: number;
+  recentDownloads: number | null; // last ~90 days
+  createdAt: string | null; // ISO-8601
+  updatedAt: string | null; // ISO-8601
+  repository: string | null;
+  homepage: string | null;
+  documentation: string | null;
+  keywords: string[];
+  categories: string[];
+  versions: crates_ioVersion[]; // newest first
+}
+
+  /**
+   * crates.io, Rust's package registry — find crates by keyword with downloads, or one crate's
+   * metadata and every published version (license, MSRV, yanked, features).
+   */
+  interface Unit {
+    /**
+     * Finds Rust crates on crates.io by keyword. Each result has name, latest version,
+     * description, total and recent downloads, repository, homepage and docs links. `size`
+     * defaults to 20, max 100; `page` is 1-based and the envelope's total says how many crates
+     * matched.
+     */
+    search(query: string, size?: number, page?: number): Promise<crates_ioSearchPage>;
+
+    /**
+     * One crate's metadata off crates.io plus every published version (newest first) with its
+     * license, minimum Rust version, edition, yanked flag, downloads, publisher and features.
+     */
+    getCrate(name: string): Promise<crates_ioCrateDetail>;
   }
 }
 
@@ -79645,6 +79825,24 @@ interface LetterboxdFilmStats {
     listFollowing(args: {member: string, limit?: number}): Promise<{ results: LetterboxdMemberRow[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
 
     /**
+     * Lists films the way the Films browser does — { sort?, genre?, year?, decade?, limit? }, e.g.
+     * { genre: "horror", sort: "rating" }; sort is popular (default), rating, release, name,
+     * shortest or longest; give at most one of genre, year or decade. Returns slug (what `film`
+     * takes), title, year and URL, 72 per page, `limit` up to 144. Runs in a browser because
+     * letterboxd challenges plain clients.
+     */
+    browseFilms(args: {sort?: string, genre?: string, year?: string | number, decade?: string, limit?: number}): Promise<{ results: LetterboxdMemberFilm[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Lists the films a member has liked — { member: "davidehrlich" }, with `limit` capping rows
+     * (default 72, max 144, 72 per page). Returns slug (what `film` takes), title, year and URL,
+     * with `total` the member's like count. Films only, not liked reviews or lists. Runs in a
+     * browser: a cold page load is challenged by Cloudflare, so it fetches the page from inside a
+     * loaded letterboxd page, retrying.
+     */
+    listMemberLikes(args: {member: string, limit?: number}): Promise<{ results: LetterboxdMemberFilm[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
      * Lists the films on a member's public watchlist — { member: "dave" }, with `limit` capping
      * rows (default 28, max 112, 28 per page). Returns slug (what `film` takes), title, year and
      * URL, with `total` the watchlist size; a private watchlist throws. Runs in a browser because
@@ -82838,6 +83036,16 @@ interface LumaCancellation {
   cancelled: boolean;
 }
 
+interface LumaGrabbedGuestList {
+  eventId: string;
+  guests: LumaHost[]; // Every guest read, each with their LinkedIn/X/website/bio.
+  guestCount: number | null;
+  warnings: string[];
+  registeredForRead: boolean; // True when this call RSVP'd the account to read the list.
+  cancelled: boolean; // True when this call cancelled the RSVP it made. False when it made none, or the
+    // cancel failed (then `warnings` says the account was left registered).
+}
+
 interface GetEventArgs {
   url: string;
 }
@@ -82913,13 +83121,21 @@ interface DiscoverEventsArgs {
     listCategories(): Promise<LumaCategory[]>;
 
     /**
-     * The full guest list of one Luma event, read with the caller's own signed-in Luma account:
-     * every guest's name with the LinkedIn, X, website and bio they gave Luma, following Luma's
-     * cursor up to `limit` (default 5000). Luma opens the list only to an account registered for
-     * the event: RSVP on the event page first (Luma's one-click RSVP), read the list, then
-     * cancelRegistration if you only wanted the list. Without a registration it throws saying so.
+     * The full guest list of one Luma event the caller's signed-in Luma account is ALREADY
+     * registered for: every guest's name with the LinkedIn, X, website and bio they gave Luma,
+     * following Luma's cursor up to `limit` (default 5000). Not registered? Use grabGuestList,
+     * which RSVPs, reads and cancels in one call. Without a registration this throws saying so.
      */
     getGuestList(args: GetGuestListArgs, opts?: ConnectionOption): Promise<LumaGuestList>;
+
+    /**
+     * Get the full guest list of any free Luma event in one call, even when the caller is not
+     * registered: Bowmark RSVPs the caller's signed-in Luma account (solving Luma's Turnstile
+     * check), reads every guest's name with the LinkedIn, X, website and bio they gave Luma, then
+     * cancels the RSVP. An account that was already registered is read and left registered.
+     * Refuses an event that is paid, host-approved, sold out or asks required RSVP questions.
+     */
+    grabGuestList(args: GetGuestListArgs, opts?: ConnectionOption): Promise<LumaGrabbedGuestList>;
 
     /**
      * Cancels the caller's own registration for a Luma event (Luma's 'Cancel registration'), e.g.
@@ -96645,6 +96861,17 @@ interface OloStartCheckoutArgs {
   guid: string;
 }
 
+interface OloStartGroupOrderArgs {
+  host: string;
+  guid: string;
+}
+
+interface OloGroupOrder {
+  host: string;
+  basketGuid: string;
+  groupOrder: unknown;
+}
+
 interface OloPaymentMethod {
   id: number;
   name: string;
@@ -96797,6 +97024,12 @@ interface OloCheckoutHandoff {
      * checkout page URL. It never pays.
      */
     startCheckout(args: OloStartCheckoutArgs): Promise<OloCheckout>;
+
+    /**
+     * Signed in as the caller, starts a group order on a basket (guid from startOrder) on a chain
+     * that allows it (Wingstop) and returns what the site creates.
+     */
+    startGroupOrder(args: OloStartGroupOrderArgs, opts?: ConnectionOption): Promise<OloGroupOrder>;
 
     /**
      * Returns a placed order's status from its order id (off the confirmation link): status,
@@ -101392,6 +101625,34 @@ interface VideoSearchResult {
   total: number;
 }
 
+interface Search3dModelsArgs {
+  query: string;
+  page?: number; // 1-based page of hits
+}
+
+interface Model3dHit {
+  id: string;
+  title: string;
+  description: string;
+  url: string; // the model's Pixabay page
+  thumbnailUrl: string | null;
+  previewImageUrls: string[]; // turntable renders, one per angle
+  uploadedAt: string | null;
+  likes: number | null;
+  comments: number | null;
+  tags: string[];
+  isAiGenerated: boolean;
+  creator: { id: string; username: string; profileUrl: string | null } | null;
+}
+
+interface Model3dSearchResult {
+  query: string;
+  items: Model3dHit[];
+  page: number;
+  pages: number;
+  total: number;
+}
+
 interface GetVideoArgs {
   url: string;
 }
@@ -101570,6 +101831,12 @@ interface UserProfile {
      * creator and tags, plus the page count.
      */
     searchVideos(args: SearchVideosArgs): Promise<VideoSearchResult>;
+
+    /**
+     * Searches Pixabay's free 3D models by keyword, returning each model with its preview renders,
+     * creator and tags, plus the page count.
+     */
+    search3dModels(args: Search3dModelsArgs): Promise<Model3dSearchResult>;
 
     /**
      * Reads one video page: title, tags, creator, available resolutions with file sizes, views,
@@ -116859,6 +117126,63 @@ interface SkiplaggedAirport {
   }
 }
 
+declare namespace BowmarkProvider_skyscanner {
+  // ── Skyscanner — the unit's own declarations, verbatim ──
+interface SkyscannerLeg {
+  origin: string; // airport code, e.g. "JFK"
+  originName: string | null;
+  destination: string;
+  destinationName: string | null;
+  departure: string; // local time, ISO without zone
+  arrival: string;
+  durationMinutes: number | null;
+  stops: number;
+  airlines: string[];
+  flightNumbers: string[]; // e.g. ["AA142"]
+}
+
+interface SkyscannerFlight {
+  id: string;
+  price: number | null; // total for all travellers, USD
+  currency: string;
+  tripType: "round trip" | "one way";
+  airlines: string[];
+  stops: number; // most stops on any leg
+  legs: SkyscannerLeg[];
+  url: string; // Skyscanner's results page for this search
+}
+
+interface SkyscannerSearchArgs {
+  from: string; // IATA airport or city code, e.g. "JFK" or "NYCA"
+  to: string;
+  depart: string; // YYYY-MM-DD
+  return?: string; // YYYY-MM-DD; omit for one-way
+  adults?: number; // 1-8, default 1
+  cabin?: "economy" | "premium" | "business" | "first";
+  limit?: number; // rows to return, 1-200, default 50
+}
+
+interface SkyscannerSearchResult {
+  status: "complete" | "incomplete"; // whether the site's own poll finished
+  url: string;
+  flights: SkyscannerFlight[];
+}
+
+  /**
+   * Skyscanner's own flight search: priced one-way and round-trip itineraries between two
+   * airports or cities, cheapest first.
+   */
+  interface Unit {
+    /**
+     * Runs Skyscanner's flight search for a route and date (round trip when `return` is given) and
+     * returns its itineraries cheapest first, each with price in USD, airlines, stops and every
+     * leg's times and flight numbers. Codes are IATA airport or city codes ("JFK", "LHR", "NYCA").
+     * Takes about 30-60 s: the site's bot check is cleared in a real browser first.
+     */
+    searchFlights(args: SkyscannerSearchArgs): Promise<SkyscannerSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_sleeper {
   // ── Sleeper — the unit's own declarations, verbatim ──
 interface SleeperNFLState {
@@ -117151,6 +117475,14 @@ interface SliceRatingSummary {
   ratingCount: number | null;
 }
 
+interface SliceOrderTracking {
+  orderId: string;
+  status: string | null; // the tracking payload's own status, as the web app reads it
+  orderStatus: string | null; // order.status, e.g. "completed"
+  shopName: string | null;
+  deliveredAt: string | null; // ISO instant, once delivered
+}
+
   /**
    * Slice online ordering for independent pizzerias: find the pizzerias that deliver to an
    * address or sit in a city, a shop's menu, sizes, add-on choices, prices, hours, delivery
@@ -117235,6 +117567,12 @@ interface SliceRatingSummary {
      * when the shop delivers itself.
      */
     getDeliveryEstimate(pizzeria: string | number, address: string, subtotal: number): Promise<SliceDeliveryEstimate>;
+
+    /**
+     * Tracks an order from the order id in its confirmation link: the order's status and, once it
+     * is delivered, when.
+     */
+    trackOrder(orderId: string): Promise<SliceOrderTracking>;
 
     /**
      * Gets a pizzeria's Slice rewards program: whether it runs one, points per dollar, and the
@@ -541656,6 +541994,7 @@ interface BowmarkProviders {
   bodyrok: BowmarkProvider_bodyrok.Unit;
   boglewinery: BowmarkProvider_boglewinery.Unit;
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
+  bon_texas_gov: BowmarkProvider_bon_texas_gov.Unit;
   bookedin: BowmarkProvider_bookedin.Unit;
   bookeo: BowmarkProvider_bookeo.Unit;
   booker: BowmarkProvider_booker.Unit;
@@ -541774,6 +542113,7 @@ interface BowmarkProviders {
   coursera: BowmarkProvider_coursera.Unit;
   craigslist: BowmarkProvider_craigslist.Unit;
   crateandbarrel: BowmarkProvider_crateandbarrel.Unit;
+  crates_io: BowmarkProvider_crates_io.Unit;
   crecipr: BowmarkProvider_crecipr.Unit;
   credibly_com: BowmarkProvider_credibly_com.Unit;
   crtc_applications: BowmarkProvider_crtc_applications.Unit;
@@ -542306,6 +542646,7 @@ interface BowmarkProviders {
   sixflags: BowmarkProvider_sixflags.Unit;
   skills_rest: BowmarkProvider_skills_rest.Unit;
   skiplagged: BowmarkProvider_skiplagged.Unit;
+  skyscanner: BowmarkProvider_skyscanner.Unit;
   sleeper: BowmarkProvider_sleeper.Unit;
   slice: BowmarkProvider_slice.Unit;
   slickdeals: BowmarkProvider_slickdeals.Unit;
