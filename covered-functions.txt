@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 143,811 sites, generated 2026-11-27.
+# Every website Bowmark covers and the functions it has: 143,817 sites, generated 2026-11-27.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -62007,6 +62007,7 @@ catiki.com	bb34c1bd
 catlifestyle.co	4479a458
 catodezorra.com	a9af6443
 catricecosmetics.com	4479a458
+catronhuaso.cl	da39a3ee
 catrunswa.com.au	bb34c1bd
 cats-tonometer.myshopify.com	a9af6443
 catsaver.myshopify.com	a9af6443
@@ -62130,6 +62131,7 @@ cbrands.com	4479a458
 cbre-whitestone.myshopify.com	a9af6443
 cbs-catering.myshopify.com	a9af6443
 cbsdeals.com	8b50d914
+cbskateshop.com.br	da39a3ee
 cbsnews.com	0069b802
 cbssports.com	92e709e0
 cbstuffer.com	bb34c1bd
@@ -62162,6 +62164,7 @@ cccodanceshop.myshopify.com	a9af6443
 cccyclewheels.myshopify.com	a9af6443
 ccd-publishing.myshopify.com	a9af6443
 ccd3b9-86.myshopify.com	a9af6443
+cce911.org	da39a3ee
 ccequipment.com.au	bb34c1bd
 ccfablab.com	bb34c1bd
 ccfam.com	bb34c1bd
@@ -62171,12 +62174,14 @@ ccgreenhouseproject.myshopify.com	a9af6443
 ccharrisonministries.myshopify.com	a9af6443
 ccie-automation.com	a9af6443
 ccircle-b2b.myshopify.com	a9af6443
+ccjsax.com	da39a3ee
 cck.co.id	bb34c1bd
 ccldesignsusa.myshopify.com	a9af6443
 ccleisure.co.uk	bb34c1bd
 ccloveclub.myshopify.com	a9af6443
 ccmbookroom.myshopify.com	a9af6443
 ccmckinney.myshopify.com	a9af6443
+ccmegaocio.com	da39a3ee
 ccmercantile.com	bb34c1bd
 ccmsv.com	bb34c1bd
 ccnqyj-z9.myshopify.com	a9af6443
@@ -62231,6 +62236,7 @@ cdnis-online-boutique.myshopify.com	a9af6443
 cdnwholesale-beekeepers-naturals.myshopify.com	a9af6443
 cdp.com	bf3237c8
 cdqqkh-j1.myshopify.com	a9af6443
+cdspbaq.info	da39a3ee
 cdsvinyljapan.com	4479a458
 cdtarget.myshopify.com	a9af6443
 cdubtech.com	4479a458
