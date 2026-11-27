@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fb32f7b5b45af78af11f41b2853f64345d4baa8cc1c86fbeee03ea44b779c379
-// 6344 checked, 20 unchecked.
+// Manifest version: 1789dc3434cca093e6ff19580408d73fe1a82079bf7b28fc0b6ce977f072fd39
+// 6346 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fb32f7b5b45af78af11f41b2853f64345d4baa8cc1c86fbeee03ea44b779c379",
+  "version": "1789dc3434cca093e6ff19580408d73fe1a82079bf7b28fc0b6ce977f072fd39",
   "units": {
     "address_validation": {
       "defs": {
@@ -22357,8 +22357,8 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "6c1845257363fb38",
-        "getPaper": "62d7eec4d10ab5d2"
+        "search": "1230638ef35e750d",
+        "getPaper": "5570e2e027c173c6"
       }
     },
     "providers.ashby": {
@@ -87054,6 +87054,78 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.glossgenius": {
       "defs": {
+        "GlossGeniusBookAppointmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "business",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "services",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "provider",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "startsAt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "acknowledgeCancellationPolicy",
+              "schema": {
+                "k": "literal",
+                "v": true
+              },
+              "optional": false
+            }
+          ]
+        },
         "GlossGeniusBookingRequirementsArgs": {
           "k": "object",
           "props": [
@@ -87448,6 +87520,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "bookAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GlossGeniusBookAppointmentArgs"
+            },
+            "optional": false
+          }
+        ],
         "updateMyProfile": [
           {
             "name": "args",
@@ -87726,24 +87808,25 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "updateMyProfile": "bf198daba3245da9",
-        "cancelMyMembership": "fe3b36a6be3a5fd0",
-        "listMyMemberships": "85514922def4ee3f",
-        "listMyCards": "3e550ae134add1c6",
-        "listMyOrders": "7d0dbd2b9c417f89",
-        "getMyProfile": "415e7c26150ec8ed",
-        "findBusiness": "38af16e5de0cf3f0",
-        "getBusiness": "7142732d6d2aad85",
-        "listServices": "3d9c40d4acdd237a",
-        "listTeam": "5b7d8e8c6a05d6bc",
-        "listLocations": "1083599f939d9791",
-        "getAvailability": "a44b04811d4d4746",
-        "listReviews": "45f9695229023cc5",
-        "listPackages": "1b62add38bd12f4b",
-        "listMemberships": "45d96b96547ef65d",
-        "getGiftCardOptions": "eae0b80b680434b8",
-        "getBookingRequirements": "33b01fe5e07b341e",
-        "joinWaitlist": "578cb953b17c669e"
+        "bookAppointment": "3b927370e340201f",
+        "updateMyProfile": "a968dc7d4d847c7d",
+        "cancelMyMembership": "4860f25d236013fd",
+        "listMyMemberships": "5781a2ab59e3f533",
+        "listMyCards": "9f687cc6bec329c4",
+        "listMyOrders": "4cc174b921ff5dbb",
+        "getMyProfile": "321cf557bb4d552f",
+        "findBusiness": "3fc1bbdbc74535cf",
+        "getBusiness": "f4fd1fbe298cc717",
+        "listServices": "b4e653b6f3b7a39b",
+        "listTeam": "0b25bb57c4ec4be0",
+        "listLocations": "243ba31436787e32",
+        "getAvailability": "f88d1ae4d58b1e39",
+        "listReviews": "c5538d31c4cb98e5",
+        "listPackages": "1959880eae56d946",
+        "listMemberships": "708890df81f73dbe",
+        "getGiftCardOptions": "98d23a3ef61cfec8",
+        "getBookingRequirements": "f14545a0b771b69d",
+        "joinWaitlist": "f25287d9ccbb029f"
       }
     },
     "providers.gmail": {
@@ -154834,7 +154917,7 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "listEvents": "5642e857d9affb57"
+        "listEvents": "af3caa52cd687aae"
       }
     },
     "providers.reddit": {
@@ -175873,50 +175956,50 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "86a5411f7583e994",
-        "getTrack": "f6d19dc06fa8ab95",
-        "getAudioFeatures": "3a9951af8a6976b8",
-        "getAudioAnalysis": "c6b020f303a25e9c",
-        "getAlbum": "3726a14ccdd89cfb",
-        "getArtist": "c498361ad0be1278",
-        "getPlaylist": "30d352aeb66a00ab",
-        "getPodcast": "a4d2524075f0c340",
-        "getEpisode": "47914294657236aa",
-        "listArtistTracks": "23e416ae76c88d2c",
-        "listAlbumTracks": "8697b9fe951bd36a",
-        "listArtistAlbums": "49e0dda5d20211fd",
-        "listPlaylistTracks": "a190e90c72295832",
-        "listNewReleases": "9e2441ee04dd8cb8",
-        "getOEmbed": "608e8b341f8d751a",
-        "getChart": "22aafca26eddca88",
-        "browseCategory": "2cce2100834e4ba7",
-        "getFeaturedPlaylists": "481f8879c96dc23b",
-        "getRecommendations": "45780f7c251ed64b",
-        "getRecommendationsByArtist": "83118da9493a8ed5",
-        "getRelatedArtists": "f2f6b455997b2554",
-        "getAvailableMarkets": "9432c678a9c817a0",
-        "searchPlaylists": "2a840984d751f4a8",
-        "getGenreSeeds": "fc0f959f82ff5d12",
-        "getPlaylistCoverImage": "d0df148ce8a0812b",
-        "getUserProfile": "8091eb3e8123908e",
-        "getTopTracks": "e73916491214ce03",
-        "getTopArtists": "1eca87bcccf3bb54",
-        "getLibraryTracks": "044f91ae6c2ffa0a",
-        "getLibraryAlbums": "58a94ae7a7375794",
-        "getLibraryArtists": "f3876c49cbfe39e1",
-        "getLibraryPlaylists": "32c9cf2567847a48",
-        "searchMyLibrary": "f4651f638e335470",
-        "getRecentlyPlayed": "f5a57bda44885fdf",
-        "getDevices": "df6e12fd39c9abd0",
-        "getLyrics": "94486c34dd63de52",
-        "saveTracks": "33f6db96487ae47a",
-        "removeSavedTracks": "6d637466e1528ec6",
-        "followArtist": "0bbe2f02ecce701b",
-        "unfollowArtist": "0bbe2f02ecce701b",
-        "createPlaylist": "c31b43c604fc6e97",
-        "addTracksToPlaylist": "b3eba1ff68bd4ae5",
-        "controlPlayback": "432534141c2428ff",
-        "getCurrentPlayback": "a94f1375381e6e97"
+        "search": "db1b6b1856fc7faa",
+        "getTrack": "efd7ce07dd4b4c4d",
+        "getAudioFeatures": "f4ca8efe7390fd4d",
+        "getAudioAnalysis": "6158efb18d4a6344",
+        "getAlbum": "1d9f7adc84e65cd7",
+        "getArtist": "0540f777cb9df7aa",
+        "getPlaylist": "023842555d792353",
+        "getPodcast": "63cb0d28f6ecfb70",
+        "getEpisode": "f4edab5c76703a0b",
+        "listArtistTracks": "1982b168b0a7c94f",
+        "listAlbumTracks": "c17af70036fede1d",
+        "listArtistAlbums": "fd889676c0fa0852",
+        "listPlaylistTracks": "cc36db75cae141b1",
+        "listNewReleases": "6fccc5df42c5e38b",
+        "getOEmbed": "439137966f33d820",
+        "getChart": "f895a0660f6a98e1",
+        "browseCategory": "e3313fdab3df2a24",
+        "getFeaturedPlaylists": "9af5de20a367e8ff",
+        "getRecommendations": "503a38dd9bab1f30",
+        "getRecommendationsByArtist": "26c389ba03a6b9a8",
+        "getRelatedArtists": "a907eeb51cba8d85",
+        "getAvailableMarkets": "953821c3ef9c3550",
+        "searchPlaylists": "d82f0f58eb3403b9",
+        "getGenreSeeds": "d12e947ac1b925fc",
+        "getPlaylistCoverImage": "0e30369769bc65d4",
+        "getUserProfile": "fb9a7fb883b3a03a",
+        "getTopTracks": "9b16df710f3af2dc",
+        "getTopArtists": "cb29fed5a2076dc8",
+        "getLibraryTracks": "cb12ed2fcac82d35",
+        "getLibraryAlbums": "dc32b904178beae9",
+        "getLibraryArtists": "e355c6acb2866632",
+        "getLibraryPlaylists": "7239c76122535859",
+        "searchMyLibrary": "8eca36c54560284e",
+        "getRecentlyPlayed": "09cd475caf9fbbc2",
+        "getDevices": "6efc171103cef631",
+        "getLyrics": "675adc92f9e502a5",
+        "saveTracks": "412d1aaaab4b013d",
+        "removeSavedTracks": "a734e621d5e79a4b",
+        "followArtist": "110444e3a9bf5b4d",
+        "unfollowArtist": "110444e3a9bf5b4d",
+        "createPlaylist": "5da8384f0aaa895c",
+        "addTracksToPlaylist": "7d8ec57393a97ffe",
+        "controlPlayback": "c2e7312e6fef55e1",
+        "getCurrentPlayback": "d65b4a32453dd77f"
       }
     },
     "providers.square_appointments": {
@@ -190987,6 +191070,23 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getWaitlistEstimate": [
+          {
+            "name": "ref",
+            "schema": {
+              "k": "ref",
+              "name": "ToastRestaurantRef"
+            },
+            "optional": false
+          },
+          {
+            "name": "partySize",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
         "getReservationAvailability": [
           {
             "name": "ref",
@@ -191017,18 +191117,19 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "read": "3af433f36983979c",
-        "getRestaurant": "80be0f1f1dd04158",
-        "searchRestaurants": "4ecd0ebaca8dc972",
-        "listCities": "91d58e06c3f25aca",
-        "listCityRestaurants": "1459ad811da73f45",
-        "getOrderingOptions": "31eefcc7a8ace377",
-        "getMenu": "acea47b50badd07c",
-        "getMenuItem": "a31fed79676bcb6b",
-        "searchMenu": "8c69638124b0e2f7",
-        "getPopularItems": "7c0e524744ab2b87",
-        "getReservationAvailability": "dfc322f02c29cf17",
-        "searchReservations": "366b6f21da9ba621"
+        "read": "db3a0eec651e3067",
+        "getRestaurant": "159f706e7ee5b60a",
+        "searchRestaurants": "0a34a3be17dd536b",
+        "listCities": "6cfdc0744e31a21a",
+        "listCityRestaurants": "6cbff5b1338a8551",
+        "getOrderingOptions": "e49f672ecb966e0c",
+        "getMenu": "1189c304bcb38125",
+        "getMenuItem": "244a3efef138e2fe",
+        "searchMenu": "24d77c4a8bf9cbf6",
+        "getPopularItems": "c627d455347dd25a",
+        "getWaitlistEstimate": "8a5bdb2a55cdc2f2",
+        "getReservationAvailability": "0b060a94e56507d5",
+        "searchReservations": "466f8396ac4fc4fe"
       }
     },
     "providers.tock": {

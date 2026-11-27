@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fb32f7b5b45af78af11f41b2853f64345d4baa8cc1c86fbeee03ea44b779c379
-# 102 capabilities, 1007 providers, 6344 typed functions, 20 refused.
+# Manifest version: 1789dc3434cca093e6ff19580408d73fe1a82079bf7b28fc0b6ce977f072fd39
+# 102 capabilities, 1007 providers, 6346 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10349,6 +10349,7 @@ class Prv_arxiv_arxivSearchResults_Out(TypedDict):
     query: str
     totalResults: float
     papers: list[Prv_arxiv_arxivPaper_Out]
+    warnings: NotRequired[list[str]]
 
 class Prv_arxiv_arxivPaper_Out(TypedDict):
     id: str
@@ -40647,6 +40648,48 @@ class Prv_glofox_confirmSignup_return_u3_Out(TypedDict):
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
 
+class Prv_glossgenius_GlossGeniusBookAppointmentArgs_In(TypedDict):
+    business: str
+    services: Sequence[str]
+    provider: str
+    startsAt: str
+    name: str
+    email: str
+    phone: str
+    location: NotRequired[str]
+    acknowledgeCancellationPolicy: Literal[True]
+
+class Prv_glossgenius_GlossGeniusBookingResult_Out(TypedDict):
+    business: str
+    checkout: Prv_glossgenius_GlossGeniusCheckoutHandoff_Out
+
+class Prv_glossgenius_GlossGeniusCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"]
+    url: str
+    urlKind: Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]
+    account: Prv_glossgenius_GlossGeniusCheckoutHandoff_Out_account_Out
+    summary: Prv_glossgenius_GlossGeniusCheckoutHandoff_Out_summary_Out
+    warnings: list[str]
+
+class Prv_glossgenius_GlossGeniusCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_glossgenius_GlossGeniusCheckoutHandoff_Out_summary_Out(TypedDict):
+    items: list[Prv_glossgenius_GlossGeniusCheckoutHandoff_Out_summary_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_glossgenius_GlossGeniusCheckoutHandoff_Out_summary_Out_dates_Out]
+    guests: NotRequired[float]
+
+class Prv_glossgenius_GlossGeniusCheckoutHandoff_Out_summary_Out_items_item_Out(TypedDict):
+    title: str
+
+class Prv_glossgenius_GlossGeniusCheckoutHandoff_Out_summary_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
+
 class Prv_glossgenius_GlossGeniusUpdateMyProfileArgs_In(TypedDict):
     business: str
     firstName: str
@@ -69386,6 +69429,7 @@ class Prv_redbull_RedbullEventList_Out(TypedDict):
     total: float | None
     events: list[Prv_redbull_RedbullEvent_Out]
     hasMore: bool
+    warnings: NotRequired[list[str]]
 
 class Prv_redbull_RedbullEvent_Out(TypedDict):
     id: str
@@ -78969,6 +79013,7 @@ class Prv_spotify_SpotifyLibrarySearchResult_Out(TypedDict):
     playlists: list[Prv_spotify_SpotifyPlaylist_Out]
     scanned: Prv_spotify_SpotifyLibrarySearchResult_Out_scanned_Out
     complete: bool
+    warnings: NotRequired[list[str]]
 
 class Prv_spotify_SpotifyLibrarySearchResult_Out_scanned_Out(TypedDict):
     track: NotRequired[float]
@@ -86091,6 +86136,22 @@ class Prv_toast_ToastPopularItem_Out(TypedDict):
     name: str
     price: float | None
     imageUrl: str | None
+
+class Prv_toast_ToastWaitlistEstimate_Out(TypedDict):
+    restaurantGuid: str
+    onTables: bool
+    waitlistEnabled: bool
+    showWaitlistEstimate: bool
+    partySize: float
+    minPartySize: float | None
+    maxPartySize: float | None
+    status: str | None
+    totalPartiesAhead: float | None
+    minutes: Prv_toast_ToastWaitlistEstimate_Out_minutes_u0_Out | None
+
+class Prv_toast_ToastWaitlistEstimate_Out_minutes_u0_Out(TypedDict):
+    min: float
+    max: float
 
 class Prv_toast_ReservationAvailabilityArgs_In(TypedDict):
     partySize: float
@@ -119269,6 +119330,18 @@ class Prv_glossgenius(Protocol):
     team, open times, reviews; book, reschedule and cancel an appointment as a guest.
     """
 
+    async def bookAppointment(self, args: Prv_glossgenius_GlossGeniusBookAppointmentArgs_In, /) -> Prv_glossgenius_GlossGeniusBookingResult_Out:
+        """Hands back a checkout handoff for one appointment: the business's own GlossGenius
+        booking page, the account to book as (a guest needs none), and a summary of the service
+        and time. Bowmark never submits, confirms or pays for the booking, and never enters card
+        details; a card or deposit the business takes is reported as a warning. Refuses before
+        handing anything back if the provider is not on the team. Example:
+        `bowmark.providers.glossgenius.bookAppointment({ business: "sweettouchskin", services:
+        ["ccd9f9db5c"], provider: "c1ea427fdc", startsAt: "2026-12-04T21:00:00.000Z", name: "Ada
+        Client", email: "ada@example.com", phone: "5555550123", acknowledgeCancellationPolicy:
+        true })`.
+        """
+
     async def updateMyProfile(self, args: Prv_glossgenius_GlossGeniusUpdateMyProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_glossgenius_GlossGeniusProfileUpdate_Out:
         """Signed in: changes the caller's first and last name at one GlossGenius business, and
         sets an email when none is on file (GlossGenius will not change an existing one).
@@ -142385,6 +142458,12 @@ class Prv_toast(Protocol):
     async def getPopularItems(self, ref: str, /) -> list[Prv_toast_ToastPopularItem_Out]:
         """Lists a restaurant's most-ordered online-ordering items with name, price and the guid
         getMenuItem and addToCart take.
+        """
+
+    async def getWaitlistEstimate(self, ref: str, partySize: float, /) -> Prv_toast_ToastWaitlistEstimate_Out:
+        """Reads a Toast Tables restaurant's live waitlist for a party size: whether it is taking
+        names, the parties ahead and the estimated wait in minutes. A restaurant not on Toast
+        Tables comes back onTables: false, not an error.
         """
 
     async def getReservationAvailability(self, ref: str, args: Prv_toast_ReservationAvailabilityArgs_In, /) -> Prv_toast_ToastReservationAvailability_Out:

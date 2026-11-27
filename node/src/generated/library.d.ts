@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fb32f7b5b45af78af11f41b2853f64345d4baa8cc1c86fbeee03ea44b779c379
-// 102 capabilities, 1007 providers, 6372 typed functions, 20 refused.
+// Manifest version: 1789dc3434cca093e6ff19580408d73fe1a82079bf7b28fc0b6ce977f072fd39
+// 102 capabilities, 1007 providers, 6374 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -16749,6 +16749,7 @@ interface arxivSearchResults {
   query: string;
   totalResults: number; // the full match count, not just papers.length
   papers: arxivPaper[];
+  warnings?: string[];
 }
 
   /**
@@ -62757,11 +62758,51 @@ interface GlossGeniusWaitlistJoinResult {
   note: string; // GlossGenius emails or texts the client a link to track or cancel the entry; the create call itself returns no id to read back
 }
 
+interface GlossGeniusBookAppointmentArgs {
+  business: string;
+  services: string[]; // service guids from listServices().services[].guid
+  provider: string; // a team member guid from listTeam().team[].guid, for the slot's professional; the booking flow always books one
+  startsAt: string; // a slot's startsAt from getAvailability (ISO 8601)
+  name: string;
+  email: string;
+  phone: string;
+  location?: string; // a location token from getBusiness().locations, for a multi-location business
+  acknowledgeCancellationPolicy: true; // must be `true` -- the client is agreeing to the business's cancellation policy, the same checkbox the booking flow requires
+}
+
+// The booking handoff: where the PERSON books. Bowmark never submits, confirms or pays.
+interface GlossGeniusCheckoutHandoff {
+  status: "ready_to_checkout";
+  url: string; // the https booking page on the business's own GlossGenius site
+  urlKind: "carries_items" | "signed_in_cart" | "product_page";
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string }[]; total: string | null; currency: string; dates?: { start: string; end?: string }; guests?: number };
+  warnings: string[];
+}
+
+interface GlossGeniusBookingResult {
+  business: string;
+  checkout: GlossGeniusCheckoutHandoff;
+}
+
   /**
    * GlossGenius salon, barber and spa booking sites (<slug>.glossgenius.com): services, team,
    * open times, reviews; book, reschedule and cancel an appointment as a guest.
    */
   interface Unit {
+    /**
+     * Hands back a checkout handoff for one appointment: the business's own GlossGenius booking
+     * page, the account to book as (a guest needs none), and a summary of the service and time.
+     * Bowmark never submits, confirms or pays for the booking, and never enters card details; a
+     * card or deposit the business takes is reported as a warning. Refuses before handing anything
+     * back if the provider is not on the team. Example:
+     * `bowmark.providers.glossgenius.bookAppointment({ business: "sweettouchskin", services:
+     * ["ccd9f9db5c"], provider: "c1ea427fdc", startsAt: "2026-12-04T21:00:00.000Z", name: "Ada
+     * Client", email: "ada@example.com", phone: "5555550123", acknowledgeCancellationPolicy: true
+     * })`.
+     */
+    bookAppointment(args: GlossGeniusBookAppointmentArgs): Promise<GlossGeniusBookingResult>;
+
     /**
      * Signed in: changes the caller's first and last name at one GlossGenius business, and sets an
      * email when none is on file (GlossGenius will not change an existing one). Example:
@@ -107662,6 +107703,7 @@ interface RedbullEventList {
   total: number | null; // rows matching country/when before the text match
   events: RedbullEvent[];
   hasMore: boolean;
+  warnings?: string[];
 }
 
   /**
@@ -121139,6 +121181,7 @@ interface SpotifyLibrarySearchResult {
   playlists: SpotifyPlaylist[];
   scanned: { track?: number; album?: number; artist?: number; playlist?: number }; // how many items of each type were read
   complete: boolean; // false when the library was larger than maxScan for some type
+  warnings?: string[];
 }
 
 interface SpotifyLyrics {
@@ -131927,6 +131970,19 @@ interface ToastReservationAvailability {
   slots: { datetime: string /* ISO instant */; serviceAreas: { id: string; group: { id: string; name: string } | null; payment: { type: string | null; amount: number | null; currency: string | null; policy: string | null; refundableTimeframe: string | null } | null /* deposit or card hold; null when none */ }[] }[];
 }
 
+interface ToastWaitlistEstimate {
+  restaurantGuid: string;
+  onTables: boolean; // false: the restaurant has no Toast Tables waitlist at all
+  waitlistEnabled: boolean; // whether it is taking names right now
+  showWaitlistEstimate: boolean; // whether the site shows guests its wait
+  partySize: number;
+  minPartySize: number | null;
+  maxPartySize: number | null;
+  status: string | null; // the site's own state, e.g. EMPTY_CLOSED
+  totalPartiesAhead: number | null;
+  minutes: { min: number; max: number } | null; // the estimated wait for this party size; null when none is given
+}
+
 interface ReservationAvailabilityArgs {
   partySize: number;
   start: string; // ISO date-time, the window's start
@@ -132049,6 +132105,13 @@ interface ToastReservationPage {
      * getMenuItem and addToCart take.
      */
     getPopularItems(ref: ToastRestaurantRef): Promise<ToastPopularItem[]>;
+
+    /**
+     * Reads a Toast Tables restaurant's live waitlist for a party size: whether it is taking
+     * names, the parties ahead and the estimated wait in minutes. A restaurant not on Toast Tables
+     * comes back onTables: false, not an error.
+     */
+    getWaitlistEstimate(ref: ToastRestaurantRef, partySize: number): Promise<ToastWaitlistEstimate>;
 
     /**
      * Reads a Toast Tables restaurant's open reservation times for a party size across a time
