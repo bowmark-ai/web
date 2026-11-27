@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 144,793 sites, generated 2026-11-27.
+# Every website Bowmark covers: 144,802 sites, generated 2026-11-27.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -63551,7 +63551,7 @@ costanova.com	costanova.com	16
 costasuperstore.com	costasuperstore.com	14
 costbench.com	costbench.com	9
 costbucket.myshopify.com	Costbucket	10
-costco.com	Costco	6
+costco.com	Costco	7
 costcofdb.com	Costco Food Database	6
 costeater.com	Costeater	6
 costenoble.de	Costenoble	6
@@ -64291,7 +64291,7 @@ crocs.co.th	crocs.co.th	1
 crocs.com.ar	crocs.com.ar	14
 crocs.com.co	crocs.com.co	14
 crocs.com.mx	crocs.com.mx	14
-crocs.com.my	crocs.com.my	1
+crocs.com.my	crocs.com.my	14
 crocs.com.ph	crocs.com.ph	14
 crocs.com.tr	crocs.com.tr	14
 crocs.cr	crocs.cr	14
@@ -74968,7 +74968,7 @@ filletengg.com	Fillet Engineering	6
 fillin-global.myshopify.com	Fillin Global	10
 fillingpieces.com	fillingpieces.com	16
 fillingstation.myshopify.com	filling Station	10
-fillintokyo.com	fillintokyo.com	14
+fillintokyo.com	fillintokyo.com	1
 fillion.myshopify.com	Chaussures Fillion	10
 fillyflair.com	fillyflair.com	14
 film-north.myshopify.com	Film North	10
@@ -75524,7 +75524,7 @@ fizascollection.co.uk	Welcome To Fiza's Collection	6
 fizha.nl	fizha.nl	6
 fizik.com	fizik.com	14
 fizuro.com	Fizuro	6
-fizzygoblet.com	fizzygoblet.com	14
+fizzygoblet.com	fizzygoblet.com	1
 fizzywhiz.com	fizzywhiz.com	14
 fjaltring-kobmandsgaard.myshopify.com	Vesterhavsbutikken	10
 fjfeddersen.com	F.J. Feddersen	6
@@ -82996,6 +82996,7 @@ healthyfeetstore.com	healthyfeetstore.com	14
 healthyfibres.com	Healthy Fibers	6
 healthyhabitscelien.myshopify.com	Healthy Habits Celien	10
 healthyitalianfood.myshopify.com	FaBene - Organic Italian Food	10
+healthyjeenasikho.com	healthyjeenasikho.com	10
 healthylifecapetown.co.za	HealthyLife Cape Town	6
 healthylifehappyme.com	BIG Natural Wellness Products	6
 healthylifematter.com	RRM Enterprise	6
@@ -86619,6 +86620,7 @@ incav-medical-and-laboratory-equipment.myshopify.com	Incav Inc	10
 incelriot.myshopify.com	Incel Riot Studios	10
 incense.top	Incense.top	6
 incenseocean.myshopify.com	incenseocean	10
+incentivemoda.com.br	incentivemoda.com.br	8
 incentiveplus.co.uk	Incentive Plus	6
 inceptionnutrition.myshopify.com	Inception Nutrition	10
 incerun.myshopify.com	INCERUNMEN	10
@@ -86704,6 +86706,7 @@ indianterrain.com	indianterrain.com	14
 indiantiquest.com	Indian Antique Quest	6
 indiarestros.com	indiarestros.com	8
 indiashaat.com	indiashaat.com	6
+indiastyle.com.ar	indiastyle.com.ar	8
 indicabooks.com	IndicaBooks.com	6
 indicadores.ar	indicadores.ar	18
 indicaexpress.co	Premium Cannabis Delivered Fast	6
@@ -86807,6 +86810,7 @@ indyhaat.co.in	Indyhaat	6
 indyplants.com	Indy Plants	6
 ineagresta.myshopify.com	Ine Agresta	10
 ineedana.com	ineedana.com	10
+inefop.uy	inefop.uy	10
 inekards-2.myshopify.com	Inekards	10
 inertia-basket.myshopify.com	inertia.wrldwide	10
 inertproducts.com	Inert Products LLC	6
@@ -87142,6 +87146,7 @@ inserto-shop.myshopify.com	INSERTO SHOP	10
 inshanti.com	Inshanti	6
 inshape-nutrition.com	inshape-nutrition.com	14
 inshobby.com	inshobby.com	14
+inside.ad	inside.ad	3
 insidelinemodels.com	Inside Line Models	6
 insiderjourneys.co.uk	Insider Journeys	6
 insiderjourneys.com.au	Insider Journeys	6
@@ -87173,6 +87178,7 @@ inspee.it	inspee.it	14
 inspee.nl	inspee.nl	14
 inspenet.com	inspenet.com	2
 inspiraciones.cl	Inspiraciones.cl	10
+inspiradecore.com.br	inspiradecore.com.br	8
 inspiration-fire.myshopify.com	Inspiration Fire	10
 inspirational-journals-4-u.myshopify.com	Inspirational Journals 4 U	10
 inspirationhealthcaregroup.com	Inspiration Healthcare	6
@@ -87281,6 +87287,8 @@ insulationeasy.com.au	Insulation Easy Australia	6
 insulationpads.co.uk	InsulationPads.co.uk	6
 insumosconamorchile.cl	insumosconamorchile.cl	14
 insumosgraficalimite.com.ar	insumosgraficalimite.com.ar	8
+insumospolgraf.com.ar	insumospolgraf.com.ar	8
+insumossami.com.ar	insumossami.com.ar	8
 insurance-by-lucent.myshopify.com	Insurance by lucent	8
 insuranceexamqueen.myshopify.com	Insurance Exam Queen	10
 insurancemarket.gr	insurancemarket.gr	10
@@ -87350,6 +87358,7 @@ interanwireless.myshopify.com	InteranWireless	10
 interaxon.myshopify.com	Muse: the brain sensing headband	10
 intercalzado.myshopify.com	InterCalzado	8
 intercare-ltd.com	Intercare LLC	6
+interclinica.cl	interclinica.cl	10
 intercomsystem.co.za	Intercom Systems	6
 interconti-tokyo.myshopify.com	ザ・ショップ ニューヨーク ラウンジブティック	10
 intercontinental.com	InterContinental Genève	6
@@ -140323,7 +140332,7 @@ walttools.com	Contractor Source	6
 waltwhitman.org	Walt Whitman Birthplace Museum	6
 walwinmerch.myshopify.com	The Fresh Prince of Pop Punk	10
 wamaco.ca	Rootze by Wamaco	6
-wamashop.com	wamashop.com	1
+wamashop.com	wamashop.com	14
 wambaits-canada.myshopify.com	WamBaits Canada	10
 wamery.myshopify.com	Wamery	10
 wamoffroadracing.com	Wamoffroadracing	6

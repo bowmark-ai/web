@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 144,793 sites, generated 2026-11-27.
+# Every website Bowmark covers and the functions it has: 144,802 sites, generated 2026-11-27.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -2394,7 +2394,6 @@
 = e012adb7 account_activity#722f8e3e account_communities#d833efa7 account_follows#3b245621 account_posts#ff8c931d account_wallet#84a58e06 accounts_overview#cdc6627e action_status#5a85adcc channel_videos#c8ece046 community_activity#b61c4e14 community_posts#934673ba community_subscribers#c92e8146 creator_rankings#5c36134b creator_stats#3cd5bcc0 dhf_proposals#fc56e39b get_comments#87ea49c6 get_post#31802ef1 get_video#729b1e2b hive_account#d833efa7 hive_chain_stats#eeb0a34a hive_community#375071ec hive_operations#5a33eff2 hive_richlist#cd6038a6 logout#99a82ecf my_feed#551bf711 my_videos#551bf711 new_videos#551bf711 onboarded_accounts#5b92a4bf prepare_comment#a8812020 prepare_follow#611c302e prepare_transfer#e6756d2b prepare_vote#94828617 proposal_voters#74776144 related_videos#8584f851 search_communities#4860c234 search_videos#ea60b249 shorts#551bf711 trending_videos#551bf711 video_comments#28a9ec4d whoami#99a82ecf witness_voters#ff72169e witnesses#4c1c30e1
 = e0298936 get_article#57838e32 get_editorial_set#57838e32 get_product#57838e32 get_vetting_criteria#99a82ecf list_editorial_sets#19bf3278 search_articles#243d18d5 search_products#fbc720d9
 = e029e283 testcheckoutmcp20250101#271f81b3
-= e08e8b88 findProducts findWarehouses getProduct listCategories listGiftCards search
 = e097806f getConfigurator listConfigurators priceBuild
 = e099b2f7 getFacilityUnits listFacilities
 = e0a77943 findStores getProduct getProductQuestions getStore listCategories listDeals search
@@ -2461,6 +2460,7 @@
 = e7b8b954 ask_business#5c396c6f cancel_cart#58b90052 cancel_checkout#bd9db33f complete_checkout#d01ec3ad create_cart#7859511f create_checkout#e049d654 getCollection getProduct getProducts getSetEvidence get_cart#58b90052 get_checkout#bd9db33f get_order#c54d1d98 get_product#e6f5dc4f listCollections listProducts lookup_catalog#1b7541e7 lookup_locations#bcfc1803 resolveProductUrl search search_catalog#00f04bbe search_locations#461c84b1 update_cart#e19c1555 update_checkout#7c15eb83
 = e7b9208b explore_nearby#95db3b1e get_booking_link#b6f05c3a get_enquiry_form#ef28e6b9 get_filters#56416e87 get_property#ef28e6b9 get_stay_areas#0939a048 get_stay_estimate#5fc2b466 get_stay_quote#0808fe17 inspect_travel_video#1600d073 prepare_enquiry#0dddb609 record_property_event#3290aad1 render_properties#5c3e7edc search_nearby_properties#ed1c9cf4 search_properties#eefd534c submit_enquiry#00b39b9f
 = e7ddd65a search_site#66948553
+= e7ecd84a findProducts findWarehouses getMembershipPlans getProduct listCategories listGiftCards search
 = e7ef0cb6 appraise_domain#54c40c1a brainstorm_names#7ecc0dcf buy_ai_tokens#4a266823 check_domain_availability#db1d2874 create_registrant_contact#ee810b2a create_website#73328032 generate_domain_names#c00e9aba get_add_funds_coinbase_pay_link#ed479d9a get_ai_tokens_pay_link#65294353 get_checkout_link#68c06dc6 get_coinbase_payment_status#6dcdf1b4 get_domain_details#b9772e67 get_domain_purchase_coinbase_pay_link#65a4fb3a get_domain_purchase_pay_link#65a4fb3a get_domain_purchase_pay_link_guest#e8651d65 get_domain_register_coinbase_pay_link#5ccd05c6 get_domain_register_pay_link#5ccd05c6 get_domain_register_pay_link_guest#1c71a2c8 get_website_status#845f0579 purchase_domain#9c78f7ed regenerate_website_logo#f5441100 register_domain#fb823c7e register_domain_spt#803a5743 screen_trademark_conflicts#fe594e74 search_brandable_domains#7ecc0dcf
 = e803cc25 make_pdf#fe496346 preview_pdf#bbda95cd print_preview#247a1718
 = e8324a8e get_company_data#86cb5eac get_job_detail#ffc27990 search_jobs#e2dbbbac
@@ -66263,7 +66263,7 @@ costanova.com	37007769
 costasuperstore.com	4479a458
 costbench.com	2d6517e8
 costbucket.myshopify.com	a9af6443
-costco.com	e08e8b88
+costco.com	e7ecd84a
 costcofdb.com	bb34c1bd
 costeater.com	bb34c1bd
 costenoble.de	bb34c1bd
@@ -85708,6 +85708,7 @@ healthyfeetstore.com	4479a458
 healthyfibres.com	bb34c1bd
 healthyhabitscelien.myshopify.com	a9af6443
 healthyitalianfood.myshopify.com	a9af6443
+healthyjeenasikho.com	da39a3ee
 healthylifecapetown.co.za	bb34c1bd
 healthylifehappyme.com	bb34c1bd
 healthylifematter.com	bb34c1bd
@@ -89331,6 +89332,7 @@ incav-medical-and-laboratory-equipment.myshopify.com	a9af6443
 incelriot.myshopify.com	a9af6443
 incense.top	bb34c1bd
 incenseocean.myshopify.com	a9af6443
+incentivemoda.com.br	da39a3ee
 incentiveplus.co.uk	bb34c1bd
 inceptionnutrition.myshopify.com	a9af6443
 incerun.myshopify.com	a9af6443
@@ -89416,6 +89418,7 @@ indianterrain.com	da39a3ee
 indiantiquest.com	bb34c1bd
 indiarestros.com	e9b6a7d1
 indiashaat.com	bb34c1bd
+indiastyle.com.ar	da39a3ee
 indicabooks.com	bb34c1bd
 indicadores.ar	ebdc0e0c
 indicaexpress.co	bb34c1bd
@@ -89519,6 +89522,7 @@ indyhaat.co.in	bb34c1bd
 indyplants.com	bb34c1bd
 ineagresta.myshopify.com	a9af6443
 ineedana.com	a9af6443
+inefop.uy	da39a3ee
 inekards-2.myshopify.com	a9af6443
 inertia-basket.myshopify.com	a9af6443
 inertproducts.com	bb34c1bd
@@ -89854,6 +89858,7 @@ inserto-shop.myshopify.com	a9af6443
 inshanti.com	bb34c1bd
 inshape-nutrition.com	da39a3ee
 inshobby.com	4479a458
+inside.ad	da39a3ee
 insidelinemodels.com	bb34c1bd
 insiderjourneys.co.uk	bb34c1bd
 insiderjourneys.com.au	bb34c1bd
@@ -89885,6 +89890,7 @@ inspee.it	4479a458
 inspee.nl	da39a3ee
 inspenet.com	bdf2ce97
 inspiraciones.cl	a9af6443
+inspiradecore.com.br	da39a3ee
 inspiration-fire.myshopify.com	a9af6443
 inspirational-journals-4-u.myshopify.com	a9af6443
 inspirationhealthcaregroup.com	bb34c1bd
@@ -89993,6 +89999,8 @@ insulationeasy.com.au	bb34c1bd
 insulationpads.co.uk	bb34c1bd
 insumosconamorchile.cl	da39a3ee
 insumosgraficalimite.com.ar	794b8973
+insumospolgraf.com.ar	da39a3ee
+insumossami.com.ar	da39a3ee
 insurance-by-lucent.myshopify.com	61e64875
 insuranceexamqueen.myshopify.com	a9af6443
 insurancemarket.gr	da39a3ee
@@ -90062,6 +90070,7 @@ interanwireless.myshopify.com	a9af6443
 interaxon.myshopify.com	a9af6443
 intercalzado.myshopify.com	61e64875
 intercare-ltd.com	bb34c1bd
+interclinica.cl	da39a3ee
 intercomsystem.co.za	bb34c1bd
 interconti-tokyo.myshopify.com	a9af6443
 intercontinental.com	bb34c1bd
