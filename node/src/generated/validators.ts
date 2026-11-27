@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 33d9e16bee6aac8759362979051fbc39bb7ebe3e978c24d9d06291bbfac6dfd1
-// 6264 checked, 20 unchecked.
+// Manifest version: 1791545e471f3ef8dfced590ef389d34c101cdd2c4aad1b809a31403b9866e08
+// 6273 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "33d9e16bee6aac8759362979051fbc39bb7ebe3e978c24d9d06291bbfac6dfd1",
+  "version": "1791545e471f3ef8dfced590ef389d34c101cdd2c4aad1b809a31403b9866e08",
   "units": {
     "address_validation": {
       "defs": {
@@ -13736,14 +13736,7 @@ export const VALIDATORS: ValidatorTable = {
                   }
                 ]
               },
-              "optional": true
-            },
-            {
-              "name": "supplierAliId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
+              "optional": false
             },
             {
               "name": "message",
@@ -14310,27 +14303,27 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchProducts": "d080e57b02975759",
-        "getProduct": "e212d3f0051d3b35",
-        "listCategories": "0401eab82b4bbb38",
-        "getSuggestions": "f819796e5b83cc61",
-        "listSuppliers": "7456eedd8b5b491c",
-        "getSupplier": "2f558930a83f5297",
-        "getProductReviews": "68147b3858ab2c58",
-        "listSupplierProducts": "cde96ff4a0a63448",
-        "getProfile": "13052d3c378ad728",
-        "listMessages": "13052d3c378ad728",
-        "listOrders": "13052d3c378ad728",
-        "getOrder": "7d4c7dddd790bf21",
-        "listSavedItems": "13052d3c378ad728",
-        "getCart": "c0351357b693eb7d",
-        "listConversations": "5a0935b21e2a1ee3",
-        "getThread": "a150771169e1340a",
-        "getAttachment": "2f76e72ca065f95b",
-        "replyToThread": "654b20d671b185c0",
-        "contactSupplier": "fed57c8c922a9e16",
-        "signup": "04eeec11b07ec1ac",
-        "confirmSignup": "0c126b85e8a0d2d3"
+        "searchProducts": "fe8d2ec0293d1b6f",
+        "getProduct": "e22eec98a720ed75",
+        "listCategories": "790c0dd1b674ff90",
+        "getSuggestions": "b9ee79121ae0c5f8",
+        "listSuppliers": "3304ba7f1efba7ca",
+        "getSupplier": "6ea26ada1dafd091",
+        "getProductReviews": "672f3274a29f1e03",
+        "listSupplierProducts": "cbbe6e895490a0f6",
+        "getProfile": "621f430ff5e7a416",
+        "listMessages": "621f430ff5e7a416",
+        "listOrders": "621f430ff5e7a416",
+        "getOrder": "a4339234c048b9f3",
+        "listSavedItems": "621f430ff5e7a416",
+        "getCart": "189adfdd4e83f6ce",
+        "listConversations": "dae42adb8130d34b",
+        "getThread": "84834ae5cece95bc",
+        "getAttachment": "ee0d0ebb69ea2909",
+        "replyToThread": "9493f947a667ed07",
+        "contactSupplier": "cc23beefad63e196",
+        "signup": "ae5c400cc468bf84",
+        "confirmSignup": "b96e2c6d477318ec"
       }
     },
     "providers.aliexpress": {
@@ -42133,6 +42126,74 @@ export const VALIDATORS: ValidatorTable = {
         "getBookingOptions": "34ae1a29d254ff13",
         "searchHotels": "44532dca686ab2e2",
         "searchCars": "6161718e10d7e8f7"
+      }
+    },
+    "providers.checkatrade": {
+      "defs": {
+        "CheckatradeCategoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "trade",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "CheckatradeSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "postcode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchTraders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckatradeSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckatradeCategoriesArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchTraders": "469953e904a156a1",
+        "listCategories": "b97036ca82e45336"
       }
     },
     "providers.checkfront": {
@@ -75702,6 +75763,39 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchBondsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productMajor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "productMinor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minMaturity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxMaturity",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -75782,21 +75876,86 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCdRates": [],
+        "searchBonds": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchBondsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getAccountSummary": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchlist": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getTradingCommissions": []
       },
       "digests": {
-        "screenFunds": "9cf0e93f9064d6c8",
-        "getFund": "7c86e103aae50271",
-        "searchArticles": "634db55a0870b016",
-        "getArticle": "854755d80a37b9ec",
-        "getQuoteNews": "601695ab9bfea263",
-        "searchSymbols": "03bcdc70d1dd8085",
-        "getQuote": "18a8eca451bd4caf",
-        "listFidelityFunds": "93e050c5d67ccf9a",
-        "listCalculators": "c0a6e17ded064b89",
-        "findBranch": "93d204fc816a7fa7",
-        "getCdRates": "352a0f4d14412f9c",
-        "getTradingCommissions": "636bde4e2eb9d43b"
+        "screenFunds": "84efbf7c7401914a",
+        "getFund": "35c755a6d190ff89",
+        "searchArticles": "4cb6c824edd70ab4",
+        "getArticle": "502807f7f9ba913a",
+        "getQuoteNews": "a2eab2a3d1027e7c",
+        "searchSymbols": "614fe4ea2fff0470",
+        "getQuote": "74039eb153ed5491",
+        "listFidelityFunds": "6f6e874d2e24f416",
+        "listCalculators": "ebcbf88df6f37250",
+        "findBranch": "e4ecce6ada47aea0",
+        "getCdRates": "b210e7725af019e3",
+        "searchBonds": "1d077eaf305a55b0",
+        "getAccountSummary": "f328872dcdd55432",
+        "listWatchlist": "f328872dcdd55432",
+        "getTradingCommissions": "df804184ef1d76c3"
       }
     },
     "providers.fieldstonehomes": {
@@ -95161,6 +95320,71 @@ export const VALIDATORS: ValidatorTable = {
         "searchDeals": "87278a200c6c6600",
         "getDeal": "f7905fb6c835f388",
         "addNoteToDeal": "e4bda60aa6dd0a07"
+      }
+    },
+    "providers.huffpost": {
+      "defs": {
+        "BrowseSectionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "browseSection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseSectionArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listHeadlines": [],
+        "listSections": []
+      },
+      "digests": {
+        "browseSection": "66dc5948d6d414a8",
+        "getArticle": "f577fb750ddac7f7",
+        "listHeadlines": "4c334b7336ab17f6",
+        "listSections": "42b521325e749621"
       }
     },
     "providers.huggingface": {

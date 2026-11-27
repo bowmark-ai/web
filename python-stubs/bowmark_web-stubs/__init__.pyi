@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 33d9e16bee6aac8759362979051fbc39bb7ebe3e978c24d9d06291bbfac6dfd1
-# 102 capabilities, 997 providers, 6264 typed functions, 20 refused.
+# Manifest version: 1791545e471f3ef8dfced590ef389d34c101cdd2c4aad1b809a31403b9866e08
+# 102 capabilities, 999 providers, 6273 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6782,6 +6782,8 @@ Prv_alibaba_alibabaMessage_Out = TypedDict(
     "type": Literal["text"] | Literal["image"] | Literal["file"] | Literal["video"] | Literal["audio"] | Literal["card"] | Literal["other"],
     "text": str,
     "attachments": list[Prv_alibaba_alibabaAttachmentRef_Out],
+    "autoReply": bool,
+    "system": bool,
     "rawContentType": float | None,
     "raw": Any,
     },
@@ -6820,8 +6822,7 @@ class Prv_alibaba_alibabaSentMessage_Out(TypedDict):
     sentAt: str | None
 
 class Prv_alibaba_alibabaContactSupplierArgs_In(TypedDict):
-    product: NotRequired[str | float]
-    supplierAliId: NotRequired[str]
+    product: str | float
     message: str
 
 class Prv_alibaba_alibabaContactResult_Out(TypedDict):
@@ -20501,6 +20502,52 @@ class Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out_items_item_Out(T
 class Prv_cheapflights_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
     start: str
     end: NotRequired[str]
+
+class Prv_checkatrade_CheckatradeSearchArgs_In(TypedDict):
+    category: str
+    postcode: str
+    page: NotRequired[float]
+
+class Prv_checkatrade_CheckatradeSearchResult_Out(TypedDict):
+    category: str
+    postcode: str
+    page: float
+    totalResults: float
+    totalPages: float
+    nextPage: float | None
+    traders: list[Prv_checkatrade_CheckatradeTrader_Out]
+
+class Prv_checkatrade_CheckatradeTrader_Out(TypedDict):
+    position: float
+    companyId: float
+    uniqueName: str
+    name: str
+    profileUrl: str
+    summary: str
+    phone: str | None
+    phoneNumber: str | None
+    locality: str | None
+    region: str | None
+    operatingLocation: str | None
+    recentScore: float | None
+    recentReviews: float | None
+    totalReviews: float | None
+    skills: list[str]
+    badges: list[str]
+    sponsored: bool
+    logoUrl: str | None
+
+class Prv_checkatrade_CheckatradeCategoriesArgs_In(TypedDict):
+    trade: str
+
+class Prv_checkatrade_CheckatradeCategories_Out(TypedDict):
+    trade: str
+    id: float | None
+    categories: list[Prv_checkatrade_CheckatradeCategory_Out]
+
+class Prv_checkatrade_CheckatradeCategory_Out(TypedDict):
+    id: float
+    label: str
 
 class Prv_checkfront_CheckfrontOperator_Out(TypedDict):
     host: str
@@ -35625,6 +35672,17 @@ class Prv_fidelity_FidelityCdRates_Out_categories_item_Out_rates_item_Out(TypedD
     minMaturityDate: str
     maxMaturityDate: str
 
+class Prv_fidelity_SearchBondsArgs_In(TypedDict):
+    productMajor: NotRequired[str]
+    productMinor: NotRequired[str]
+    minMaturity: NotRequired[str]
+    maxMaturity: NotRequired[str]
+
+class Prv_fidelity_FidelityPageRead_Out(TypedDict):
+    url: str
+    title: str
+    text: str
+
 class Prv_fidelity_FidelityTradingCommissions_Out(TypedDict):
     url: str
     commissions: list[Prv_fidelity_FidelityTradingCommissions_Out_commissions_item_Out]
@@ -44499,6 +44557,48 @@ class Prv_hubspot_HubspotNote_Out(TypedDict):
     dealId: str
     body: str
     createdAt: str | None
+
+class Prv_huffpost_BrowseSectionArgs_In(TypedDict):
+    section: str
+    page: NotRequired[float]
+
+class Prv_huffpost_HuffpostStoryList_Out(TypedDict):
+    stories: list[Prv_huffpost_HuffpostStory_Out]
+    total: float
+    page: float
+
+class Prv_huffpost_HuffpostStory_Out(TypedDict):
+    id: str
+    headline: str
+    url: str
+    publishedAt: str | None
+    authors: list[Prv_huffpost_HuffpostStory_Out_authors_item_Out]
+
+class Prv_huffpost_HuffpostStory_Out_authors_item_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_huffpost_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_huffpost_HuffpostArticle_Out(TypedDict):
+    id: str
+    url: str
+    headline: str
+    description: str | None
+    section: str | None
+    publishedAt: str | None
+    modifiedAt: str | None
+    authors: list[str]
+    keywords: list[str]
+    body: str
+
+class Prv_huffpost_listSections_return_Out(TypedDict):
+    sections: list[Prv_huffpost_HuffpostSection_Out]
+
+class Prv_huffpost_HuffpostSection_Out(TypedDict):
+    name: str
+    path: str
 
 class Prv_huggingface_HuggingFaceTrendingArgs_In(TypedDict):
     task: NotRequired[str]
@@ -108168,6 +108268,22 @@ class Prv_cheapflights(Protocol):
         never books or pays.
         """
 
+class Prv_checkatrade(Protocol):
+    """Checkatrade (checkatrade.com) — UK tradespeople directory: find vetted plumbers,
+    builders, electricians and other trades near a UK postcode with their review scores and
+    phone numbers, and list the job categories under a trade.
+    """
+
+    async def searchTraders(self, args: Prv_checkatrade_CheckatradeSearchArgs_In, /) -> Prv_checkatrade_CheckatradeSearchResult_Out:
+        """Finds Checkatrade tradespeople for a trade or category near a full UK postcode, in the
+        site's own order, 12 a page, with review score, phone, location and skills.
+        """
+
+    async def listCategories(self, args: Prv_checkatrade_CheckatradeCategoriesArgs_In, /) -> Prv_checkatrade_CheckatradeCategories_Out:
+        """Lists the job categories Checkatrade has under one trade (Plumber, Builder,
+        Electrician...), with the category ids and labels its search uses.
+        """
+
 class Prv_checkfront(Protocol):
     """Checkfront booking hosts used by tour, rental and activity operators: find an operator,
     list its items, check availability and price for a date and party, and carry a guest
@@ -115435,6 +115551,28 @@ class Prv_fidelity(Protocol):
         yield per term, for new issues and non-callable new issues.
         """
 
+    async def searchBonds(self, args: Prv_fidelity_SearchBondsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_fidelity_FidelityPageRead_Out:
+        """Fidelity's secondary-market bond inventory (Treasuries, munis) for a maturity window,
+        from the page the yield table links to. SIGNED IN — runs through the caller's own Chrome
+        when Bowmark Buddy is attached, otherwise from a saved Fidelity sign-in; with neither,
+        the run pauses for the caller to sign in. Returns the page's visible text, not a parsed
+        table (the signed-in markup is unmeasured).
+        """
+
+    async def getAccountSummary(self, opts: ConnectionOption | None = None, /) -> Prv_fidelity_FidelityPageRead_Out:
+        """The caller's own Fidelity portfolio summary page: balances and accounts. SIGNED IN —
+        runs through the caller's own Chrome when Bowmark Buddy is attached, otherwise from a
+        saved Fidelity sign-in; with neither, the run pauses for the caller to sign in. Returns
+        the page's visible text, not a parsed table (the signed-in markup is unmeasured).
+        """
+
+    async def listWatchlist(self, opts: ConnectionOption | None = None, /) -> Prv_fidelity_FidelityPageRead_Out:
+        """The caller's own Fidelity watchlist page: symbols and their quotes. SIGNED IN — runs
+        through the caller's own Chrome when Bowmark Buddy is attached, otherwise from a saved
+        Fidelity sign-in; with neither, the run pauses for the caller to sign in. Returns the
+        page's visible text, not a parsed table (the signed-in markup is unmeasured).
+        """
+
     async def getTradingCommissions(self, /) -> Prv_fidelity_FidelityTradingCommissions_Out:
         """Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds),
         margin rates by debit balance with the current base rate, and the account fee schedule.
@@ -120553,6 +120691,21 @@ class Prv_hubspot(Protocol):
         """Writes a note onto a deal in your own HubSpot CRM — it appears on the deal's timeline.
         Returns the new note's id.
         """
+
+class Prv_huffpost(Protocol):
+    """HuffPost news stories: the home page, sections, topics, writers, horoscopes and search."""
+
+    async def browseSection(self, args: Prv_huffpost_BrowseSectionArgs_In, /) -> Prv_huffpost_HuffpostStoryList_Out:
+        """Lists the newest stories in one HuffPost section, with paging."""
+
+    async def getArticle(self, args: Prv_huffpost_GetArticleArgs_In, /) -> Prv_huffpost_HuffpostArticle_Out:
+        """Reads one HuffPost story: headline, dek, authors, times, section and body text."""
+
+    async def listHeadlines(self, /) -> Prv_huffpost_HuffpostStoryList_Out:
+        """Lists the stories on HuffPost's home page in page order."""
+
+    async def listSections(self, /) -> Prv_huffpost_listSections_return_Out:
+        """Lists HuffPost's sections with the path each lives at, for browseSection."""
 
 class Prv_huggingface(Protocol):
     """Hugging Face (huggingface.co) — the trending models on the Hub right now, keyword search
@@ -147423,6 +147576,7 @@ class BowmarkProviders(Protocol):
     chase: Prv_chase
     chatgpt: Prv_chatgpt
     cheapflights: Prv_cheapflights
+    checkatrade: Prv_checkatrade
     checkfront: Prv_checkfront
     chesmar: Prv_chesmar
     chess_com: Prv_chess_com
@@ -147671,6 +147825,7 @@ class BowmarkProviders(Protocol):
     holidaybuilders: Prv_holidaybuilders
     hottopic: Prv_hottopic
     hubspot: Prv_hubspot
+    huffpost: Prv_huffpost
     huggingface: Prv_huggingface
     humana_directory: Prv_humana_directory
     hunter: Prv_hunter

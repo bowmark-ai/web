@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 33d9e16bee6aac8759362979051fbc39bb7ebe3e978c24d9d06291bbfac6dfd1
-// 102 capabilities, 997 providers, 6292 typed functions, 20 refused.
+// Manifest version: 1791545e471f3ef8dfced590ef389d34c101cdd2c4aad1b809a31403b9866e08
+// 102 capabilities, 999 providers, 6301 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -11142,6 +11142,8 @@ interface alibabaMessage {
   type: "text" | "image" | "file" | "video" | "audio" | "card" | "other";
   text: string;
   attachments: alibabaAttachmentRef[];
+  autoReply: boolean;
+  system: boolean;
   rawContentType: number | null;
   raw: unknown;
 }
@@ -11192,8 +11194,7 @@ interface alibabaReplyArgs {
 }
 
 interface alibabaContactSupplierArgs {
-  product?: string | number;
-  supplierAliId?: string;
+  product: string | number;
   message: string;
 }
 
@@ -32297,6 +32298,80 @@ interface CheapflightsMarketOption {
      * pays.
      */
     searchCars(query: KayakCarQuery & CheapflightsMarketOption): Promise<KayakCar[]>;
+  }
+}
+
+declare namespace BowmarkProvider_checkatrade {
+  // ── Checkatrade — the unit's own declarations, verbatim ──
+interface CheckatradeSearchArgs {
+  category: string; // a trade or category label, e.g. "Plumber", "Roofer"
+  postcode: string; // a full UK postcode, e.g. "SW1A 1AA"
+  page?: number; // default 1; 12 traders a page
+}
+
+interface CheckatradeCategoriesArgs {
+  trade: string; // a trade label, e.g. "Builder"
+}
+
+interface CheckatradeTrader {
+  position: number;
+  companyId: number;
+  uniqueName: string; // the slug in the profile URL
+  name: string;
+  profileUrl: string;
+  summary: string;
+  phone: string | null;
+  phoneNumber: string | null; // E.164
+  locality: string | null;
+  region: string | null;
+  operatingLocation: string | null;
+  recentScore: number | null; // out of 10
+  recentReviews: number | null;
+  totalReviews: number | null;
+  skills: string[];
+  badges: string[];
+  sponsored: boolean;
+  logoUrl: string | null;
+}
+
+interface CheckatradeSearchResult {
+  category: string;
+  postcode: string;
+  page: number;
+  totalResults: number;
+  totalPages: number;
+  nextPage: number | null;
+  traders: CheckatradeTrader[];
+}
+
+interface CheckatradeCategory {
+  id: number;
+  label: string;
+}
+
+interface CheckatradeCategories {
+  trade: string;
+  id: number | null;
+  categories: CheckatradeCategory[];
+}
+
+  /**
+   * Checkatrade (checkatrade.com) — UK tradespeople directory: find vetted plumbers, builders,
+   * electricians and other trades near a UK postcode with their review scores and phone numbers,
+   * and list the job categories under a trade.
+   */
+  interface Unit {
+    /**
+     * Finds Checkatrade tradespeople for a trade or category near a full UK postcode, in the
+     * site's own order, 12 a page, with review score, phone, location and skills.
+     */
+    searchTraders(args: CheckatradeSearchArgs): Promise<CheckatradeSearchResult>;
+
+    /**
+     * Lists the job categories Checkatrade has under one trade (Plumber, Builder, Electrician...),
+     * with the category ids and labels its search uses.
+     */
+    listCategories(args: CheckatradeCategoriesArgs): Promise<CheckatradeCategories>;
   }
 }
 
@@ -54283,6 +54358,19 @@ interface FindBranchesArgs {
 
 declare namespace BowmarkProvider_fidelity {
   // ── Fidelity Investments — the unit's own declarations, verbatim ──
+interface FidelityPageRead {
+  url: string;
+  title: string;
+  text: string; // The page's visible text, whitespace folded.
+}
+
+interface SearchBondsArgs {
+  productMajor?: string; // Fidelity product code from the yield table: "TREASA" (default) or "MUNI".
+  productMinor?: string; // Default "BOND" ("ALL" for MUNI).
+  minMaturity?: string; // DD/MM/YYYY
+  maxMaturity?: string; // DD/MM/YYYY
+}
+
 interface FidelitySymbolMatch {
   symbol: string;
   name: string;
@@ -54547,6 +54635,31 @@ interface FidelityTradingCommissions {
      * yield per term, for new issues and non-callable new issues.
      */
     getCdRates(): Promise<FidelityCdRates>;
+
+    /**
+     * Fidelity's secondary-market bond inventory (Treasuries, munis) for a maturity window, from
+     * the page the yield table links to. SIGNED IN — runs through the caller's own Chrome when
+     * Bowmark Buddy is attached, otherwise from a saved Fidelity sign-in; with neither, the run
+     * pauses for the caller to sign in. Returns the page's visible text, not a parsed table (the
+     * signed-in markup is unmeasured).
+     */
+    searchBonds(args: SearchBondsArgs, opts?: ConnectionOption): Promise<FidelityPageRead>;
+
+    /**
+     * The caller's own Fidelity portfolio summary page: balances and accounts. SIGNED IN — runs
+     * through the caller's own Chrome when Bowmark Buddy is attached, otherwise from a saved
+     * Fidelity sign-in; with neither, the run pauses for the caller to sign in. Returns the page's
+     * visible text, not a parsed table (the signed-in markup is unmeasured).
+     */
+    getAccountSummary(opts?: ConnectionOption): Promise<FidelityPageRead>;
+
+    /**
+     * The caller's own Fidelity watchlist page: symbols and their quotes. SIGNED IN — runs through
+     * the caller's own Chrome when Bowmark Buddy is attached, otherwise from a saved Fidelity
+     * sign-in; with neither, the run pauses for the caller to sign in. Returns the page's visible
+     * text, not a parsed table (the signed-in markup is unmeasured).
+     */
+    listWatchlist(opts?: ConnectionOption): Promise<FidelityPageRead>;
 
     /**
      * Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds), margin
@@ -69122,6 +69235,73 @@ interface HubspotNote {
      * Returns the new note's id.
      */
     addNoteToDeal(args: AddNoteToDealArgs): Promise<HubspotNote>;
+  }
+}
+
+declare namespace BowmarkProvider_huffpost {
+  // ── HuffPost — the unit's own declarations, verbatim ──
+interface huffpostRow {
+  id: string;
+}
+
+interface HuffpostStory {
+  id: string;
+  headline: string;
+  url: string; // The story's entry address, for getArticle.
+  publishedAt: string | null;
+  authors: { name: string; slug: string }[];
+}
+
+interface HuffpostStoryList {
+  stories: HuffpostStory[];
+  total: number; // Stories on this page; HuffPost reports no overall total.
+  page: number;
+}
+
+interface HuffpostSection {
+  name: string;
+  path: string;
+}
+
+interface HuffpostArticle {
+  id: string;
+  url: string;
+  headline: string;
+  description: string | null;
+  section: string | null;
+  publishedAt: string | null;
+  modifiedAt: string | null;
+  authors: string[];
+  keywords: string[];
+  body: string; // Paragraph text, blank-line separated.
+}
+
+interface ListHeadlinesArgs {
+
+}
+
+interface BrowseSectionArgs {
+  section: string;
+  page?: number;
+}
+
+interface GetArticleArgs {
+  url: string;
+}
+
+  /** HuffPost news stories: the home page, sections, topics, writers, horoscopes and search. */
+  interface Unit {
+    /** Lists the newest stories in one HuffPost section, with paging. */
+    browseSection(args: BrowseSectionArgs): Promise<HuffpostStoryList>;
+
+    /** Reads one HuffPost story: headline, dek, authors, times, section and body text. */
+    getArticle(args: GetArticleArgs): Promise<HuffpostArticle>;
+
+    /** Lists the stories on HuffPost's home page in page order. */
+    listHeadlines(): Promise<HuffpostStoryList>;
+
+    /** Lists HuffPost's sections with the path each lives at, for browseSection. */
+    listSections(): Promise<{ sections: HuffpostSection[] }>;
   }
 }
 
@@ -540720,6 +540900,7 @@ interface BowmarkProviders {
   chase: BowmarkProvider_chase.Unit;
   chatgpt: BowmarkProvider_chatgpt.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
+  checkatrade: BowmarkProvider_checkatrade.Unit;
   checkfront: BowmarkProvider_checkfront.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
   chess_com: BowmarkProvider_chess_com.Unit;
@@ -540968,6 +541149,7 @@ interface BowmarkProviders {
   holidaybuilders: BowmarkProvider_holidaybuilders.Unit;
   hottopic: BowmarkProvider_hottopic.Unit;
   hubspot: BowmarkProvider_hubspot.Unit;
+  huffpost: BowmarkProvider_huffpost.Unit;
   huggingface: BowmarkProvider_huggingface.Unit;
   humana_directory: BowmarkProvider_humana_directory.Unit;
   hunter: BowmarkProvider_hunter.Unit;
