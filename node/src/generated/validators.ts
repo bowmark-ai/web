@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f278e587ffb47b70ae6e325bd7b703a86737e5c50c875e8074430a5efbae1ada
-// 6319 checked, 20 unchecked.
+// Manifest version: 0325d1a49db1aca9d227e0a719cb4bc3796f71cdff74466162536764f0c76c19
+// 6320 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f278e587ffb47b70ae6e325bd7b703a86737e5c50c875e8074430a5efbae1ada",
+  "version": "0325d1a49db1aca9d227e0a719cb4bc3796f71cdff74466162536764f0c76c19",
   "units": {
     "address_validation": {
       "defs": {
@@ -112291,6 +112291,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getFilmStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getPerson": [
           {
             "name": "args",
@@ -112532,25 +112550,26 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "film": "f296ed0d86c4a943",
-        "memberFilms": "d5fa138130c693b5",
-        "searchFilms": "624edab384d8799a",
-        "searchMembers": "6e465dc703e0be0e",
-        "searchLists": "57d4023e30467862",
-        "getList": "4459063d0ee3b16d",
-        "getFilmReviews": "a697c0c8d60caf7e",
-        "listMemberReviews": "56d63947b412388b",
-        "listMemberLists": "94c7554f8bc3337f",
-        "getReview": "c8e11839db148ba4",
-        "getPerson": "63062ec7049c544a",
-        "listFollowers": "4e81003ca942f03a",
-        "listFollowing": "4e81003ca942f03a",
-        "getWatchlist": "737f16636b3b7d46",
-        "memberDiary": "5e5f4bfe5baa08bb",
-        "getOwnAccount": "3a724879f680db18",
-        "login": "a461e5b9ad2f6c28",
-        "signup": "3686620a6cb7b07d",
-        "confirmSignup": "4f7906ecff387013"
+        "film": "a9fa31c4be909e13",
+        "memberFilms": "b691b53a51829ff8",
+        "searchFilms": "dd7247682fcc1c1a",
+        "searchMembers": "37b4e4c709f32250",
+        "searchLists": "a99b71ee0d910605",
+        "getList": "9c83b0d3d74638ca",
+        "getFilmReviews": "540a039418b93a7e",
+        "listMemberReviews": "fd061ecf1e5d7a78",
+        "listMemberLists": "230d2da90b6d16ee",
+        "getReview": "3e66e1c5837573fc",
+        "getFilmStats": "1dc14bc450e073ca",
+        "getPerson": "42a97267df185c0f",
+        "listFollowers": "8babc013351b3ba3",
+        "listFollowing": "8babc013351b3ba3",
+        "getWatchlist": "4d97bef64a4c4093",
+        "memberDiary": "27269ae5443f9ea9",
+        "getOwnAccount": "3f62ab4e24c4249d",
+        "login": "a177019482f96704",
+        "signup": "eccaa126ff553237",
+        "confirmSignup": "9b13fbfe9f8d7474"
       }
     },
     "providers.lever": {

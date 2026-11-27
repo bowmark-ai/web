@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f278e587ffb47b70ae6e325bd7b703a86737e5c50c875e8074430a5efbae1ada
-# 102 capabilities, 1003 providers, 6319 typed functions, 20 refused.
+# Manifest version: 0325d1a49db1aca9d227e0a719cb4bc3796f71cdff74466162536764f0c76c19
+# 102 capabilities, 1003 providers, 6320 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -51339,6 +51339,25 @@ class Prv_letterboxd_LetterboxdReview_Out(TypedDict):
     text: str
     likeCount: float | None
     url: str
+
+class Prv_letterboxd_getFilmStats_args_In(TypedDict):
+    slug: str
+
+class Prv_letterboxd_LetterboxdFilmStats_Out(TypedDict):
+    slug: str
+    url: str
+    watchedCount: float | None
+    listedCount: float | None
+    likedCount: float | None
+    topFilmRank: float | None
+    ratingCount: float | None
+    ratingHistogram: list[Prv_letterboxd_LetterboxdFilmStats_Out_ratingHistogram_item_Out]
+    warnings: list[str]
+
+class Prv_letterboxd_LetterboxdFilmStats_Out_ratingHistogram_item_Out(TypedDict):
+    rating: float
+    count: float
+    percent: float
 
 class Prv_letterboxd_getPerson_args_In(TypedDict):
     slug: str
@@ -124472,6 +124491,14 @@ class Prv_letterboxd(Protocol):
         or { url }. Returns the full review text, star rating (0.5-5), watched date, likeCount,
         film title/year and the review URL. Runs in a browser because letterboxd challenges
         plain clients.
+        """
+
+    async def getFilmStats(self, args: Prv_letterboxd_getFilmStats_args_In, /) -> Prv_letterboxd_LetterboxdFilmStats_Out:
+        """Reads a film's public statistics — { slug: "parasite-2019" }. Returns watchedCount,
+        listedCount and likedCount (exact member and list counts), topFilmRank (its place in
+        letterboxd's Top 500, or null), ratingCount, and ratingHistogram: one row per star level
+        from 0.5 to 5 with its count and percent. A `warnings` entry says which part did not
+        load. Runs in a browser because letterboxd challenges plain clients.
         """
 
     async def getPerson(self, args: Prv_letterboxd_getPerson_args_In, /) -> Prv_letterboxd_LetterboxdPerson_Out:

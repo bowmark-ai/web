@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f278e587ffb47b70ae6e325bd7b703a86737e5c50c875e8074430a5efbae1ada
-// 102 capabilities, 1003 providers, 6347 typed functions, 20 refused.
+// Manifest version: 0325d1a49db1aca9d227e0a719cb4bc3796f71cdff74466162536764f0c76c19
+// 102 capabilities, 1003 providers, 6348 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -79510,6 +79510,18 @@ interface LetterboxdAccount {
   signedIn: true;
 }
 
+interface LetterboxdFilmStats {
+  slug: string;
+  url: string;
+  watchedCount: number | null;
+  listedCount: number | null;
+  likedCount: number | null;
+  topFilmRank: number | null;
+  ratingCount: number | null;
+  ratingHistogram: { rating: number; count: number; percent: number }[];
+  warnings: string[];
+}
+
   /**
    * The social network for film. Reads one film's full record including letterboxd's own
    * weighted average rating over millions of members, the films a member has logged, and a
@@ -79598,6 +79610,15 @@ interface LetterboxdAccount {
      * clients.
      */
     getReview(args: {member?: string, slug?: string, url?: string}): Promise<LetterboxdReview>;
+
+    /**
+     * Reads a film's public statistics — { slug: "parasite-2019" }. Returns watchedCount,
+     * listedCount and likedCount (exact member and list counts), topFilmRank (its place in
+     * letterboxd's Top 500, or null), ratingCount, and ratingHistogram: one row per star level
+     * from 0.5 to 5 with its count and percent. A `warnings` entry says which part did not load.
+     * Runs in a browser because letterboxd challenges plain clients.
+     */
+    getFilmStats(args: {slug: string}): Promise<LetterboxdFilmStats>;
 
     /**
      * Reads a film person's filmography — { slug: "bong-joon-ho", role: "director" } (role:
