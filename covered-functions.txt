@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 145,100 sites, generated 2026-11-27.
+# Every website Bowmark covers and the functions it has: 145,129 sites, generated 2026-11-27.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -90464,6 +90464,7 @@ ipromove.com.br	da39a3ee
 iprosurv.com	bb34c1bd
 iproyal.com	ee0233a0
 ipsento-coffee-roasters.myshopify.com	a9af6443
+ipss.cl	da39a3ee
 ipswichflorist.myshopify.com	a9af6443
 ipsyp0-du.myshopify.com	a9af6443
 iptamenosdiscos.myshopify.com	a9af6443
@@ -94973,6 +94974,8 @@ kipli.com	4479a458
 kipling-usa.com	da39a3ee
 kipon.com	bb34c1bd
 kippaco.com	05a9bb9e
+kippun-haru.com	da39a3ee
+kipukauppa.com	da39a3ee
 kira-k-designs.myshopify.com	a9af6443
 kirakira-studio.myshopify.com	a9af6443
 kirakuco.com	4479a458
@@ -94998,7 +95001,9 @@ kirstenjackson.myshopify.com	a9af6443
 kirstenskaboodle.com	bb34c1bd
 kirstyeng.myshopify.com	a9af6443
 kirstyjaynechina.co.uk	bb34c1bd
+kiruthikhaasboutique.com	da39a3ee
 kirvaessentialoils.com	bb34c1bd
+kisaansay.com	da39a3ee
 kisah.in	4479a458
 kisahyderabadizevar.in	bb34c1bd
 kisaluso.myshopify.com	a9af6443
@@ -95237,6 +95242,8 @@ kloudyjewelry.com	da39a3ee
 klpmedspa.myshopify.com	a9af6443
 kltrainz.com	bb34c1bd
 klubfiller.myshopify.com	a9af6443
+klubfox.com	da39a3ee
+klubhaus.com.bd	da39a3ee
 kludhirecords.myshopify.com	a9af6443
 klufc.com.au	bb34c1bd
 klustermagnets.myshopify.com	a9af6443
@@ -95260,6 +95267,7 @@ knackcare.com	bb34c1bd
 knappconnectors.com	bb34c1bd
 knappdesignco.myshopify.com	a9af6443
 knarrative.myshopify.com	a9af6443
+knation.com.ar	da39a3ee
 knatteplock.se	da39a3ee
 knauermann.de	4479a458
 kneadonbenson.myshopify.com	a9af6443
@@ -95450,6 +95458,7 @@ kollagens.com	a9af6443
 kollegiate-kups.myshopify.com	a9af6443
 kollektedbyas.myshopify.com	a9af6443
 kollektionen2026.myshopify.com	a9af6443
+kollercut.com	da39a3ee
 kollus.com	d6c70325
 koloazipline.myshopify.com	a9af6443
 kolohekaistore.myshopify.com	a9af6443
@@ -95487,9 +95496,11 @@ kongessloejd.com	4479a458
 kongessloejd.de	4479a458
 konglebysigrun.myshopify.com	a9af6443
 konkanaura.com	bb34c1bd
+konkhe.co.za	da39a3ee
 konkhra-webshop.myshopify.com	a9af6443
 konnectjournal.com	bb34c1bd
 konner-sohnen.com	4479a458
+konner-sohnen.com.ua	da39a3ee
 konnichiwa.ca	4479a458
 konno.myshopify.com	a9af6443
 konnybaby.jp	4479a458
@@ -95500,11 +95511,13 @@ konosbog.com	bb34c1bd
 konouzalmustakbal.com	bb34c1bd
 konpak.com.tr	bb34c1bd
 konsciousketo.com	4479a458
+konstantin.rs	da39a3ee
 konstantina-1187.myshopify.com	a9af6443
 kontekst.io	b1dab39b
 kontenermart.com	bb34c1bd
 kontentkonijn.myshopify.com	a9af6443
 kontrolfreek.com	4479a458
+kontroverzan.com	da39a3ee
 kontti-valmennuskeskus.myshopify.com	a9af6443
 konzolvilag.hu	3fdb75c6
 koo-de-ker.myshopify.com	a9af6443
@@ -95530,6 +95543,7 @@ koolteesusa.myshopify.com	61e64875
 koolydesign.store	4479a458
 koonbooks.com	4479a458
 koopoonline.com	bb34c1bd
+koopsbrand.com	da39a3ee
 kooptook.myshopify.com	a9af6443
 koormuziek.nl	a9af6443
 koorong.com	37007769
@@ -95540,12 +95554,14 @@ kootenaybotanicals.zone	bb34c1bd
 koottukari.in	bb34c1bd
 kopari.myshopify.com	a9af6443
 koparibeauty.com	4479a458
+koparoclean.com	da39a3ee
 kopou.in	bb34c1bd
 koprez.com	4479a458
 kopyto.com	da39a3ee
 kor-shots.myshopify.com	a9af6443
 koral.nu	18bbb1bd
 korallenableger.com	a9af6443
+koranm.com	da39a3ee
 koraorganics.com	4479a458
 koratfitness.com	bb34c1bd
 korawearables.myshopify.com	a9af6443
@@ -95558,10 +95574,14 @@ koreafillerexperts.com	bb34c1bd
 korean-american-cooking-comics.myshopify.com	a9af6443
 korean-art-agency-ltd.myshopify.com	a9af6443
 korean-skincare.de	4479a458
+korean-skincare.fr	da39a3ee
+koreanbeauty.se	da39a3ee
+koreanbeautys.com	da39a3ee
 koreanfood.in	a9af6443
 koreanhomee.com	bb34c1bd
 koreanna.ee	bb34c1bd
 koreanskincare.nl	4479a458
+koreanskincare.pt	da39a3ee
 koreessentials.com	37007769
 korelock.com	685e74a3
 korendy.com.tr	8b50d914
@@ -95591,7 +95611,9 @@ kosas.com	b1550f0a
 kosasus.co	a9af6443
 kose.com.my	da39a3ee
 kosher-wine-direct.myshopify.com	a9af6443
+koshielectronics.in	da39a3ee
 kosinerjewelry.com	37007769
+kosmenia.ma	da39a3ee
 kosmetik-balance.myshopify.com	a9af6443
 kosmetikgedoens.myshopify.com	a9af6443
 kosmos.de	4479a458
@@ -95630,18 +95652,25 @@ kotton-koala-shop.myshopify.com	a9af6443
 kottone.ch	a9af6443
 kotyto.net	bb34c1bd
 kouch.de	bb34c1bd
+kouda.com.br	da39a3ee
 koukokuji.myshopify.com	a9af6443
 koulianos-designs.myshopify.com	a9af6443
+koupenchan-store.jp	da39a3ee
 koupitiphone.cz	a9af6443
 kourbela.com	bb34c1bd
 koureas.com	bb34c1bd
 koushi-chem-store.myshopify.com	a9af6443
 koutsikatsika.myshopify.com	a9af6443
 koutsouradi.gr	bb34c1bd
+kovaipattu.com	da39a3ee
+kovak.pl	da39a3ee
 kovalsupply.com	bb34c1bd
 kovkacom.com.ua	da39a3ee
+kowf.in	da39a3ee
 kowloon-gift-shop.myshopify.com	a9af6443
 koyothailand.com	bb34c1bd
+kozahome.com	da39a3ee
+kozeepk.com	da39a3ee
 kozi-pie-shoppe.myshopify.com	a9af6443
 kozinenko.com	bb34c1bd
 koziol-shop.de	da39a3ee

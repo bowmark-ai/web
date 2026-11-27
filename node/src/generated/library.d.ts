@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4f543028108b69f338afcd41271920a9a1d32f86cd3d0a9f792fcb538eaca2b8
-// 102 capabilities, 1003 providers, 6334 typed functions, 20 refused.
+// Manifest version: f278e587ffb47b70ae6e325bd7b703a86737e5c50c875e8074430a5efbae1ada
+// 102 capabilities, 1003 providers, 6347 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -79440,6 +79440,69 @@ interface LetterboxdList {
   films: { position: number; slug: string; title: string; year: number | null; url: string }[];
 }
 
+interface LetterboxdFilmReview {
+  author: string;
+  displayName: string | null;
+  rating: number | null;
+  liked: boolean;
+  date: string | null;
+  text: string;
+  likeCount: number | null;
+  url: string;
+}
+
+interface LetterboxdReview {
+  author: string;
+  filmSlug: string;
+  filmTitle: string;
+  filmYear: number | null;
+  rating: number | null;
+  watchedDate: string | null;
+  text: string;
+  likeCount: number | null;
+  url: string;
+}
+
+interface LetterboxdMemberReview {
+  filmSlug: string;
+  filmTitle: string;
+  filmYear: number | null;
+  rating: number | null;
+  date: string | null;
+  text: string;
+  truncated: boolean;
+  likeCount: number | null;
+  url: string;
+}
+
+interface LetterboxdMemberList {
+  slug: string;
+  title: string;
+  filmCount: number | null;
+  likeCount: number | null;
+  commentCount: number | null;
+  description: string | null;
+  url: string;
+}
+
+interface LetterboxdPerson {
+  name: string;
+  role: string;
+  url: string;
+  filmCount: number;
+  films: LetterboxdMemberFilm[];
+}
+
+interface LetterboxdMemberRow {
+  username: string;
+  displayName: string;
+  profileUrl: string;
+  followerCount: number | null;
+  followingCount: number | null;
+  filmsWatched: number | null;
+  listCount: number | null;
+}
+
 interface LetterboxdAccount {
   username: string;
   role: string;
@@ -79501,6 +79564,72 @@ interface LetterboxdAccount {
      * takes. Runs in a browser because letterboxd challenges plain clients on list pages.
      */
     getList(args: {owner?: string, slug?: string, url?: string, limit?: number}): Promise<LetterboxdList>;
+
+    /**
+     * Lists members' written reviews of one film — { slug: "parasite-2019" }, with `limit` capping
+     * rows (default 24, max 60, 12 per page). Returns author (the username `memberFilms` takes),
+     * displayName, star rating (0.5-5), liked, date, review text, likeCount and the review URL,
+     * most popular first. A `warnings` entry says when more pages exist. Runs in a browser because
+     * letterboxd challenges plain clients on review pages.
+     */
+    getFilmReviews(args: {slug: string, limit?: number}): Promise<{ results: LetterboxdFilmReview[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Lists a member's written reviews, newest first — { member: "davidehrlich" }, with `limit`
+     * capping rows (default 24, max 60, 12 per page). Returns film slug (what `film` takes),
+     * title, year, rating, date, text, likeCount and the review URL; long reviews are excerpts
+     * flagged `truncated` (`getReview` has the full text). Runs in a browser because letterboxd
+     * challenges plain clients.
+     */
+    listMemberReviews(args: {member: string, limit?: number}): Promise<{ results: LetterboxdMemberReview[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Lists the lists a member made — { member: "davidehrlich" }, with `limit` capping rows
+     * (default 24, max 60, 12 per page). Returns slug (what `getList` takes with owner), title,
+     * filmCount, likeCount, commentCount, description and URL. Runs in a browser because
+     * letterboxd challenges plain clients.
+     */
+    listMemberLists(args: {member: string, limit?: number}): Promise<{ results: LetterboxdMemberList[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Reads one member's review of one film — { member: "davidehrlich", slug: "the-holy-boy" } or
+     * { url }. Returns the full review text, star rating (0.5-5), watched date, likeCount, film
+     * title/year and the review URL. Runs in a browser because letterboxd challenges plain
+     * clients.
+     */
+    getReview(args: {member?: string, slug?: string, url?: string}): Promise<LetterboxdReview>;
+
+    /**
+     * Reads a film person's filmography — { slug: "bong-joon-ho", role: "director" } (role:
+     * director, actor, writer, producer, cinematography, editor, composer; default director).
+     * Returns the name, role, page URL and every film on the first page with slug (what `film`
+     * takes), title, year and URL. Runs in a browser because letterboxd challenges plain clients.
+     */
+    getPerson(args: {slug: string, role?: string}): Promise<LetterboxdPerson>;
+
+    /**
+     * Lists the members following a member — { member: "davidehrlich" }, with `limit` capping rows
+     * (default 25, max 100, 25 per page). Returns username (what `memberFilms` takes),
+     * displayName, profileUrl, follower and following counts, films watched and list count. Runs
+     * in a browser because letterboxd challenges plain clients.
+     */
+    listFollowers(args: {member: string, limit?: number}): Promise<{ results: LetterboxdMemberRow[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Lists the members a member follows — { member: "davidehrlich" }, with `limit` capping rows
+     * (default 25, max 100, 25 per page). Returns username (what `memberFilms` takes),
+     * displayName, profileUrl, follower and following counts, films watched and list count. Runs
+     * in a browser because letterboxd challenges plain clients.
+     */
+    listFollowing(args: {member: string, limit?: number}): Promise<{ results: LetterboxdMemberRow[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Lists the films on a member's public watchlist — { member: "dave" }, with `limit` capping
+     * rows (default 28, max 112, 28 per page). Returns slug (what `film` takes), title, year and
+     * URL, with `total` the watchlist size; a private watchlist throws. Runs in a browser because
+     * letterboxd challenges plain clients. Signed-in own-watchlist reads are not covered.
+     */
+    getWatchlist(args: {member: string, limit?: number}): Promise<{ results: LetterboxdMemberFilm[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
 
     /**
      * Reads a member's activity feed: every film they logged, with their own star rating, the date
@@ -141733,6 +141862,29 @@ interface WhatsappGroupAddedToCommunity {
   added: boolean;
 }
 
+interface WhatsappGroupRemovedFromCommunity {
+  community: string;
+  group: string;
+  removed: boolean;
+}
+
+interface WhatsappCommunityMemberRemoved {
+  community: string;
+  member: string;
+  removed: boolean;
+}
+
+interface WhatsappMetaAIReply {
+  question: string;
+  reply: string | null;
+  replied: boolean;
+}
+
+interface WhatsappChannelAlerts {
+  channel: string;
+  alerts: boolean;
+}
+
 interface WhatsappLocationSent {
   chat: string;
   place: string;
@@ -141779,6 +141931,12 @@ interface WhatsappChannelChange {
 interface WhatsappStatusPost {
   applied: string[];
   text: string;
+}
+
+interface WhatsappStatusReply {
+  poster: string;
+  applied: string[]; // "liked" and/or "replied".
+  reply: string | null;
 }
 
 interface WhatsappProfileChange {
@@ -142305,6 +142463,33 @@ interface WhatsappCommunityChange {
     addGroupToCommunity(communityName: string, groupName: string, opts?: ConnectionOption): Promise<WhatsappGroupAddedToCommunity>;
 
     /**
+     * Takes one group out of a Community the caller administers, both picked by their exact
+     * displayed names, from the Community's Manage groups list. The group itself and its members
+     * are untouched. Needs the caller signed in.
+     */
+    removeGroupFromCommunity(communityName: string, groupName: string, opts?: ConnectionOption): Promise<WhatsappGroupRemovedFromCommunity>;
+
+    /**
+     * Removes one member, picked by their exact displayed name, from a Community the caller
+     * administers (and from its groups), the Community picked by its exact displayed name. Needs
+     * the caller signed in.
+     */
+    removeCommunityMember(communityName: string, memberName: string, opts?: ConnectionOption): Promise<WhatsappCommunityMemberRemoved>;
+
+    /**
+     * Sends one question to the Meta AI chat in the caller's own chat list and returns Meta AI's
+     * reply text. Meta AI is limited to some countries and languages, so it can be missing from
+     * the caller's chat list. Needs the caller signed in.
+     */
+    askMetaAI(question: string, opts?: ConnectionOption): Promise<WhatsappMetaAIReply>;
+
+    /**
+     * Turns update alerts on or off for a Channel the caller follows, picked by its exact
+     * displayed name. A followed Channel is muted by default. Needs the caller signed in.
+     */
+    setChannelAlerts(channelName: string, enabled: boolean, opts?: ConnectionOption): Promise<WhatsappChannelAlerts>;
+
+    /**
      * Lists the caller's recent calls from the Calls tab: the other party's displayed name,
      * direction, whether it was missed and the time label. Never places a call. Needs the caller
      * signed in.
@@ -142389,6 +142574,13 @@ interface WhatsappCommunityChange {
      * caller signed in.
      */
     postStatus(text: string, opts?: ConnectionOption): Promise<WhatsappStatusPost>;
+
+    /**
+     * Replies to and/or likes a Status update a contact has up, the contact picked by the exact
+     * displayed name on the Status tab. Opening it shows the caller as a viewer, and the reply
+     * lands in that contact's chat. Needs the caller signed in.
+     */
+    replyToStatus(poster: string, reply?: string, like?: boolean, opts?: ConnectionOption): Promise<WhatsappStatusReply>;
 
     /** Changes the caller's own display name and/or about text. Needs the caller signed in. */
     updateProfile(update: {name?: string, about?: string}, opts?: ConnectionOption): Promise<WhatsappProfileChange>;

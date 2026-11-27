@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4f543028108b69f338afcd41271920a9a1d32f86cd3d0a9f792fcb538eaca2b8
-# 102 capabilities, 1003 providers, 6306 typed functions, 20 refused.
+# Manifest version: f278e587ffb47b70ae6e325bd7b703a86737e5c50c875e8074430a5efbae1ada
+# 102 capabilities, 1003 providers, 6319 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -51258,6 +51258,144 @@ class Prv_letterboxd_LetterboxdList_Out_films_item_Out(TypedDict):
     year: float | None
     url: str
 
+class Prv_letterboxd_getFilmReviews_args_In(TypedDict):
+    slug: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_getFilmReviews_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdFilmReview_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_letterboxd_LetterboxdFilmReview_Out(TypedDict):
+    author: str
+    displayName: str | None
+    rating: float | None
+    liked: bool
+    date: str | None
+    text: str
+    likeCount: float | None
+    url: str
+
+class Prv_letterboxd_listMemberReviews_args_In(TypedDict):
+    member: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_listMemberReviews_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdMemberReview_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_letterboxd_LetterboxdMemberReview_Out(TypedDict):
+    filmSlug: str
+    filmTitle: str
+    filmYear: float | None
+    rating: float | None
+    date: str | None
+    text: str
+    truncated: bool
+    likeCount: float | None
+    url: str
+
+class Prv_letterboxd_listMemberLists_args_In(TypedDict):
+    member: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_listMemberLists_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdMemberList_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_letterboxd_LetterboxdMemberList_Out(TypedDict):
+    slug: str
+    title: str
+    filmCount: float | None
+    likeCount: float | None
+    commentCount: float | None
+    description: str | None
+    url: str
+
+class Prv_letterboxd_getReview_args_In(TypedDict):
+    member: NotRequired[str]
+    slug: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_letterboxd_LetterboxdReview_Out(TypedDict):
+    author: str
+    filmSlug: str
+    filmTitle: str
+    filmYear: float | None
+    rating: float | None
+    watchedDate: str | None
+    text: str
+    likeCount: float | None
+    url: str
+
+class Prv_letterboxd_getPerson_args_In(TypedDict):
+    slug: str
+    role: NotRequired[str]
+
+class Prv_letterboxd_LetterboxdPerson_Out(TypedDict):
+    name: str
+    role: str
+    url: str
+    filmCount: float
+    films: list[Prv_letterboxd_LetterboxdMemberFilm_Out]
+
+class Prv_letterboxd_listFollowers_args_In(TypedDict):
+    member: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_listFollowers_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdMemberRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_letterboxd_LetterboxdMemberRow_Out(TypedDict):
+    username: str
+    displayName: str
+    profileUrl: str
+    followerCount: float | None
+    followingCount: float | None
+    filmsWatched: float | None
+    listCount: float | None
+
+class Prv_letterboxd_listFollowing_args_In(TypedDict):
+    member: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_listFollowing_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdMemberRow_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_letterboxd_getWatchlist_args_In(TypedDict):
+    member: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_getWatchlist_return_Out(TypedDict):
+    results: list[Prv_letterboxd_LetterboxdMemberFilm_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
 class Prv_letterboxd_memberDiary_args_In(TypedDict):
     member: str
     limit: NotRequired[float]
@@ -92819,6 +92957,25 @@ class Prv_whatsapp_WhatsappGroupAddedToCommunity_Out(TypedDict):
     group: str
     added: bool
 
+class Prv_whatsapp_WhatsappGroupRemovedFromCommunity_Out(TypedDict):
+    community: str
+    group: str
+    removed: bool
+
+class Prv_whatsapp_WhatsappCommunityMemberRemoved_Out(TypedDict):
+    community: str
+    member: str
+    removed: bool
+
+class Prv_whatsapp_WhatsappMetaAIReply_Out(TypedDict):
+    question: str
+    reply: str | None
+    replied: bool
+
+class Prv_whatsapp_WhatsappChannelAlerts_Out(TypedDict):
+    channel: str
+    alerts: bool
+
 class Prv_whatsapp_WhatsappCall_Out(TypedDict):
     name: str
     direction: str
@@ -92861,6 +93018,11 @@ class Prv_whatsapp_updateGroup_update_In(TypedDict):
 class Prv_whatsapp_WhatsappStatusPost_Out(TypedDict):
     applied: list[str]
     text: str
+
+class Prv_whatsapp_WhatsappStatusReply_Out(TypedDict):
+    poster: str
+    applied: list[str]
+    reply: str | None
 
 class Prv_whatsapp_updateProfile_update_In(TypedDict):
     name: NotRequired[str]
@@ -124281,6 +124443,67 @@ class Prv_letterboxd(Protocol):
         pages.
         """
 
+    async def getFilmReviews(self, args: Prv_letterboxd_getFilmReviews_args_In, /) -> Prv_letterboxd_getFilmReviews_return_Out:
+        """Lists members' written reviews of one film — { slug: "parasite-2019" }, with `limit`
+        capping rows (default 24, max 60, 12 per page). Returns author (the username
+        `memberFilms` takes), displayName, star rating (0.5-5), liked, date, review text,
+        likeCount and the review URL, most popular first. A `warnings` entry says when more
+        pages exist. Runs in a browser because letterboxd challenges plain clients on review
+        pages.
+        """
+
+    async def listMemberReviews(self, args: Prv_letterboxd_listMemberReviews_args_In, /) -> Prv_letterboxd_listMemberReviews_return_Out:
+        """Lists a member's written reviews, newest first — { member: "davidehrlich" }, with
+        `limit` capping rows (default 24, max 60, 12 per page). Returns film slug (what `film`
+        takes), title, year, rating, date, text, likeCount and the review URL; long reviews are
+        excerpts flagged `truncated` (`getReview` has the full text). Runs in a browser because
+        letterboxd challenges plain clients.
+        """
+
+    async def listMemberLists(self, args: Prv_letterboxd_listMemberLists_args_In, /) -> Prv_letterboxd_listMemberLists_return_Out:
+        """Lists the lists a member made — { member: "davidehrlich" }, with `limit` capping rows
+        (default 24, max 60, 12 per page). Returns slug (what `getList` takes with owner),
+        title, filmCount, likeCount, commentCount, description and URL. Runs in a browser
+        because letterboxd challenges plain clients.
+        """
+
+    async def getReview(self, args: Prv_letterboxd_getReview_args_In, /) -> Prv_letterboxd_LetterboxdReview_Out:
+        """Reads one member's review of one film — { member: "davidehrlich", slug: "the-holy-boy" }
+        or { url }. Returns the full review text, star rating (0.5-5), watched date, likeCount,
+        film title/year and the review URL. Runs in a browser because letterboxd challenges
+        plain clients.
+        """
+
+    async def getPerson(self, args: Prv_letterboxd_getPerson_args_In, /) -> Prv_letterboxd_LetterboxdPerson_Out:
+        """Reads a film person's filmography — { slug: "bong-joon-ho", role: "director" } (role:
+        director, actor, writer, producer, cinematography, editor, composer; default director).
+        Returns the name, role, page URL and every film on the first page with slug (what `film`
+        takes), title, year and URL. Runs in a browser because letterboxd challenges plain
+        clients.
+        """
+
+    async def listFollowers(self, args: Prv_letterboxd_listFollowers_args_In, /) -> Prv_letterboxd_listFollowers_return_Out:
+        """Lists the members following a member — { member: "davidehrlich" }, with `limit` capping
+        rows (default 25, max 100, 25 per page). Returns username (what `memberFilms` takes),
+        displayName, profileUrl, follower and following counts, films watched and list count.
+        Runs in a browser because letterboxd challenges plain clients.
+        """
+
+    async def listFollowing(self, args: Prv_letterboxd_listFollowing_args_In, /) -> Prv_letterboxd_listFollowing_return_Out:
+        """Lists the members a member follows — { member: "davidehrlich" }, with `limit` capping
+        rows (default 25, max 100, 25 per page). Returns username (what `memberFilms` takes),
+        displayName, profileUrl, follower and following counts, films watched and list count.
+        Runs in a browser because letterboxd challenges plain clients.
+        """
+
+    async def getWatchlist(self, args: Prv_letterboxd_getWatchlist_args_In, /) -> Prv_letterboxd_getWatchlist_return_Out:
+        """Lists the films on a member's public watchlist — { member: "dave" }, with `limit`
+        capping rows (default 28, max 112, 28 per page). Returns slug (what `film` takes),
+        title, year and URL, with `total` the watchlist size; a private watchlist throws. Runs
+        in a browser because letterboxd challenges plain clients. Signed-in own-watchlist reads
+        are not covered.
+        """
+
     async def memberDiary(self, args: Prv_letterboxd_memberDiary_args_In, /) -> list[Prv_letterboxd_LetterboxdDiaryEntry_Out]:
         """Reads a member's activity feed: every film they logged, with their own star rating, the
         date they watched it, whether it was a rewatch, whether they liked it, and the full text
@@ -145169,6 +145392,29 @@ class Prv_whatsapp(Protocol):
         the caller belongs to, picked by its exact displayed name. Needs the caller signed in.
         """
 
+    async def removeGroupFromCommunity(self, communityName: str, groupName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappGroupRemovedFromCommunity_Out:
+        """Takes one group out of a Community the caller administers, both picked by their exact
+        displayed names, from the Community's Manage groups list. The group itself and its
+        members are untouched. Needs the caller signed in.
+        """
+
+    async def removeCommunityMember(self, communityName: str, memberName: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappCommunityMemberRemoved_Out:
+        """Removes one member, picked by their exact displayed name, from a Community the caller
+        administers (and from its groups), the Community picked by its exact displayed name.
+        Needs the caller signed in.
+        """
+
+    async def askMetaAI(self, question: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappMetaAIReply_Out:
+        """Sends one question to the Meta AI chat in the caller's own chat list and returns Meta
+        AI's reply text. Meta AI is limited to some countries and languages, so it can be
+        missing from the caller's chat list. Needs the caller signed in.
+        """
+
+    async def setChannelAlerts(self, channelName: str, enabled: bool, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChannelAlerts_Out:
+        """Turns update alerts on or off for a Channel the caller follows, picked by its exact
+        displayed name. A followed Channel is muted by default. Needs the caller signed in.
+        """
+
     async def listCalls(self, opts: ConnectionOption | None = None, /) -> list[Prv_whatsapp_WhatsappCall_Out]:
         """Lists the caller's recent calls from the Calls tab: the other party's displayed name,
         direction, whether it was missed and the time label. Never places a call. Needs the
@@ -145242,6 +145488,12 @@ class Prv_whatsapp(Protocol):
     async def postStatus(self, text: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappStatusPost_Out:
         """Posts a text Status update as the caller; their contacts see it for 24 hours. Needs the
         caller signed in.
+        """
+
+    async def replyToStatus(self, poster: str, reply: str | None = None, like: bool | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappStatusReply_Out:
+        """Replies to and/or likes a Status update a contact has up, the contact picked by the
+        exact displayed name on the Status tab. Opening it shows the caller as a viewer, and the
+        reply lands in that contact's chat. Needs the caller signed in.
         """
 
     async def updateProfile(self, update: Prv_whatsapp_updateProfile_update_In, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappProfileChange_Out:
