@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2a4727cadf749dcec38b75c6dd30a8b4db8a4e6009add6d0098d6b0e420eb5a8
-# 102 capabilities, 1006 providers, 6332 typed functions, 20 refused.
+# Manifest version: fb32f7b5b45af78af11f41b2853f64345d4baa8cc1c86fbeee03ea44b779c379
+# 102 capabilities, 1007 providers, 6344 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14640,6 +14640,25 @@ class Prv_bon_texas_gov_TxNurseLicense_Out(TypedDict):
     expires: str | None
     compactStatus: str | None
 
+class Prv_bookedin_BookedinStatusArgs_In(TypedDict):
+    merchant: str
+    id: NotRequired[str]
+    link: NotRequired[str]
+
+class Prv_bookedin_BookedinBookingStatus_Out(TypedDict):
+    token: str
+    id: str
+    kind: Literal["appointment"] | Literal["class"]
+    name: str | None
+    start: str | None
+    end: str | None
+    timeZone: str | None
+    addOnCount: float
+    instructor: str | None
+    description: str | None
+    registrantId: str | None
+    videoConference: bool
+
 class Prv_bookedin_BookedinAppointmentLinkArgs_In(TypedDict):
     link: NotRequired[str]
     merchant: NotRequired[str]
@@ -16357,6 +16376,58 @@ class Prv_boulevard_BoulevardStaffForTime_Out_staff_item_Out(TypedDict):
     avatar: str | None
     durationMinutes: float
     priceCents: float
+
+class Prv_boulevard_bookAppointment_client_In(TypedDict):
+    firstName: str
+    lastName: str
+    email: str
+    phoneNumber: str
+
+class Prv_boulevard_bookAppointment_options_In(TypedDict):
+    staffVariantId: NotRequired[str]
+    note: NotRequired[str]
+
+class Prv_boulevard_BoulevardCheckoutHandoff_Out(TypedDict):
+    status: Literal["ready_to_checkout"] | Literal["needs_login"] | Literal["unavailable"]
+    url: str
+    urlKind: NotRequired[Literal["carries_items"] | Literal["signed_in_cart"] | Literal["product_page"]]
+    reason: NotRequired[str]
+    detail: NotRequired[str]
+    account: Prv_boulevard_BoulevardCheckoutHandoff_Out_account_Out
+    summary: Prv_boulevard_BoulevardCheckoutHandoff_Out_summary_u0_Out | None
+    warnings: list[str]
+
+class Prv_boulevard_BoulevardCheckoutHandoff_Out_account_Out(TypedDict):
+    site: str
+    hint: str
+    signedInAs: NotRequired[str]
+
+class Prv_boulevard_BoulevardCheckoutHandoff_Out_summary_u0_Out(TypedDict):
+    items: list[Prv_boulevard_BoulevardCheckoutHandoff_Out_summary_u0_Out_items_item_Out]
+    total: str | None
+    currency: str
+    dates: NotRequired[Prv_boulevard_BoulevardCheckoutHandoff_Out_summary_u0_Out_dates_Out]
+
+class Prv_boulevard_BoulevardCheckoutHandoff_Out_summary_u0_Out_items_item_Out(TypedDict):
+    title: str
+    variant: str | None
+    quantity: float
+    unitPrice: str | None
+    lineTotal: str | None
+    url: NotRequired[str]
+    id: NotRequired[str]
+
+class Prv_boulevard_BoulevardCheckoutHandoff_Out_summary_u0_Out_dates_Out(TypedDict):
+    start: str
+    end: NotRequired[str]
+
+class Prv_boulevard_BoulevardOfferResult_Out(TypedDict):
+    code: str
+    offerName: str | None
+    applied: bool
+    subtotalCents: float | None
+    discountCents: float | None
+    totalCents: float | None
 
 class Prv_boulevard_BoulevardBookingQuestions_Out(TypedDict):
     questions: list[Prv_boulevard_BoulevardBookingQuestions_Out_questions_item_Out]
@@ -21435,6 +21506,9 @@ class Prv_chownow_ChownowSlotDay_Out(TypedDict):
     pickup: list[str]
     delivery: list[str]
     curbside: list[str]
+    pickupAt: list[str]
+    deliveryAt: list[str]
+    curbsideAt: list[str]
 
 class Prv_chownow_ChownowRestaurantHours_Out(TypedDict):
     restaurantId: str
@@ -52724,6 +52798,78 @@ class Prv_lobehub_com_LobehubMcpListing_Out_github_u0_Out(TypedDict):
     url: str
     stars: float
     language: str | None
+
+class Prv_lobsters_LobstersListStoriesArgs_In(TypedDict):
+    list: NotRequired[Literal["hottest"] | Literal["newest"] | Literal["active"]]
+    tag: NotRequired[str]
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_lobsters_LobstersStoryPage_Out(TypedDict):
+    results: list[Prv_lobsters_LobstersStory_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_lobsters_LobstersStory_Out(TypedDict):
+    id: str
+    title: str
+    url: str | None
+    score: float | None
+    commentCount: float | None
+    author: str | None
+    createdAt: str | None
+    tags: list[str]
+    description: str | None
+    lobstersUrl: str
+
+class Prv_lobsters_LobstersStoryWithComments_Out(TypedDict):
+    id: str
+    title: str
+    url: str | None
+    score: float | None
+    commentCount: float | None
+    author: str | None
+    createdAt: str | None
+    tags: list[str]
+    description: str | None
+    lobstersUrl: str
+    comments: list[Prv_lobsters_LobstersComment_Out]
+
+class Prv_lobsters_LobstersComment_Out(TypedDict):
+    id: str
+    author: str | None
+    text: str
+    score: float | None
+    createdAt: str | None
+    depth: float
+    parentId: str | None
+    url: str | None
+
+class Prv_lobsters_LobstersSearchArgs_In(TypedDict):
+    query: str
+    order: NotRequired[Literal["relevance"] | Literal["newest"] | Literal["score"]]
+    page: NotRequired[float]
+
+class Prv_lobsters_LobstersTag_Out(TypedDict):
+    tag: str
+    description: str | None
+    category: str | None
+    isMedia: bool
+    active: bool
+
+class Prv_lobsters_LobstersUser_Out(TypedDict):
+    username: str
+    createdAt: str | None
+    isAdmin: bool
+    isModerator: bool
+    about: str | None
+    invitedBy: str | None
+    githubUsername: str | None
+    mastodonUsername: str | None
+    profileUrl: str
 
 class Prv_loc8me_loc8meListing_Out(TypedDict):
     id: str
@@ -85980,6 +86126,52 @@ class Prv_toast_ToastReservationAvailability_Out_slots_item_Out_serviceAreas_ite
     policy: str | None
     refundableTimeframe: str | None
 
+class Prv_toast_SearchReservationsArgs_In(TypedDict):
+    lat: float
+    lng: float
+    partySize: float
+    start: str
+    utcOffset: NotRequired[str]
+    hours: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_toast_ToastReservationPage_Out(TypedDict):
+    results: list[Prv_toast_ToastReservationVenue_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_toast_ToastReservationVenue_Out(TypedDict):
+    source: str
+    name: str
+    guid: str | None
+    shortUrl: str | None
+    externalVenueId: str | None
+    cuisines: list[str]
+    priceTier: Prv_toast_ToastReservationVenue_Out_priceTier_u0_Out | None
+    rating: float | None
+    onlineReservationsEnabled: bool
+    bookingUrl: str | None
+    availabilityChecked: bool
+    slots: list[Prv_toast_ToastReservationVenue_Out_slots_item_Out]
+
+class Prv_toast_ToastReservationVenue_Out_priceTier_u0_Out(TypedDict):
+    label: str | None
+    range: str | None
+
+class Prv_toast_ToastReservationVenue_Out_slots_item_Out(TypedDict):
+    startTime: str
+    label: str | None
+    bookingUrl: str | None
+    depositOrHold: Prv_toast_ToastReservationVenue_Out_slots_item_Out_depositOrHold_u0_Out | None
+
+class Prv_toast_ToastReservationVenue_Out_slots_item_Out_depositOrHold_u0_Out(TypedDict):
+    type: str | None
+    amount: float | None
+    currency: str | None
+
 class Prv_tock_TockBusinessSuggestion_Out(TypedDict):
     slug: str
     name: str
@@ -86065,6 +86257,17 @@ class Prv_tock_TockExperienceLocation_Out(TypedDict):
     state: str
     zipCode: str
     country: str
+
+class Prv_tock_TockCity_Out(TypedDict):
+    id: float
+    slug: str
+    name: str
+    timeZone: str
+    currencyCode: str
+    venueCount: float
+    isFeatured: bool
+    lat: float | None
+    lng: float | None
 
 class Prv_tock_TockCityVenue_Out(TypedDict):
     slug: str
@@ -106474,6 +106677,16 @@ class Prv_bon_texas_gov(Protocol):
 class Prv_bookedin(Protocol):
     """Appointment scheduling platform for salons, barbershops, and service businesses."""
 
+    async def getAppointment(self, args: Prv_bookedin_BookedinStatusArgs_In, /) -> Prv_bookedin_BookedinBookingStatus_Out:
+        """Reads the status of a Bookedin appointment from the booking id in its confirmation
+        email: service, start, end and time zone.
+        """
+
+    async def getClassBooking(self, args: Prv_bookedin_BookedinStatusArgs_In, /) -> Prv_bookedin_BookedinBookingStatus_Out:
+        """Reads the status of a Bookedin class registration from the registration id in its
+        confirmation email: class, start, end and time zone.
+        """
+
     async def cancelClassBooking(self, args: Prv_bookedin_BookedinAppointmentLinkArgs_In, /) -> Prv_bookedin_BookedinAppointmentUpdate_Out:
         """Cancels a Bookedin class registration from the cancel link in its confirmation email (or
         that link's business token, registration id, h and key).
@@ -107000,6 +107213,29 @@ class Prv_boulevard(Protocol):
     async def listStaffForTime(self, business: str, locationId: str, serviceId: str, timeId: str, /) -> Prv_boulevard_BoulevardStaffForTime_Out:
         """The staff members who can perform a service at one open time, each with their own price
         (cents) and duration variant. `timeId` is getAvailableTimes().times[].id.
+        """
+
+    async def bookAppointment(self, business: str, locationId: str, serviceId: str, timeId: str, client: Prv_boulevard_bookAppointment_client_In, options: Prv_boulevard_bookAppointment_options_In | None = None, /) -> Prv_boulevard_BoulevardCheckoutHandoff_Out:
+        """Prepares a booking for a chosen open time as a guest and hands the person the business's
+        own booking page to finish: holds the time on a throwaway cart, attaches the client's
+        name, email and phone, reads the total and deposit, and returns a checkout handoff
+        (never confirms a booking, never takes a card). A business that cannot hold the time
+        returns an unavailable handoff. `timeId` is getAvailableTimes().times[].id;
+        `options.staffVariantId` is listStaffForTime().staff[].variantId.
+        """
+
+    async def applyOfferCode(self, business: str, locationId: str, serviceId: str, offerCode: str, /) -> Prv_boulevard_BoulevardOfferResult_Out:
+        """Adds a promo or offer code to a throwaway cart of our own for one service and returns
+        the offer and the cart totals in cents (subtotal, discount, total), so a caller can see
+        what the code is worth. A code Boulevard does not know throws a fixable error. Never
+        books anything. `serviceId` is listServices().categories[].services[].id.
+        """
+
+    async def reserveTime(self, business: str, locationId: str, serviceId: str, timeId: str, /) -> Prv_boulevard_BoulevardCheckoutHandoff_Out:
+        """Checks that an open time can really be held (puts a service and `timeId` on a throwaway
+        cart of our own, reads the held start and end, releases it) and hands the person the
+        business's own booking page to reserve it. Never touches a client's booking and never
+        books. `timeId` is getAvailableTimes().times[].id.
         """
 
     async def listBookingQuestions(self, business: str, locationId: str, serviceId: str, /) -> Prv_boulevard_BoulevardBookingQuestions_Out:
@@ -109168,7 +109404,12 @@ class Prv_checkatrade(Protocol):
 
     async def listCategories(self, args: Prv_checkatrade_CheckatradeCategoriesArgs_In, /) -> Prv_checkatrade_CheckatradeCategories_Out:
         """Lists the job categories under one trade (Plumber, Builder, Roofer...) with the ids and
-        labels search uses. Call listCategories({}) with no input first to get the trades. Then
+        labels search uses. It returns an OBJECT, never an array: { trade, id, categories: [{
+        id, label }], warnings }, so read the list from result.categories. Call
+        listCategories({}) with no input first: it lists only the 7 trades the search page
+        carries (not all ~72; warnings says so), and each trade label goes back in as
+        listCategories({ trade: "Roofer" }) for its categories, e.g. return (await
+        bowmark.providers.checkatrade.listCategories({})).categories.map(c => c.label). Then
         searchTraders({ category, postcode }) needs a category label and a FULL UK postcode,
         e.g. { category: "Plumber", postcode: "SW1A 1AA" }; ask for a postcode if you have none.
         """
@@ -109474,10 +109715,11 @@ class Prv_chownow(Protocol):
         would say, use `searchRestaurants`.
         """
 
-    async def searchRestaurants(self, query: str, citySlug: str, /) -> Prv_chownow_ChownowSearch_Out:
+    async def searchRestaurants(self, query: str, citySlug: str | None = None, latitude: float | None = None, longitude: float | None = None, /) -> Prv_chownow_ChownowSearch_Out:
         """Searches ChowNow restaurants by free text (a cuisine, a dish or a restaurant name)
-        within one city — the entry point when the caller holds only words a person would say,
-        not a link. `citySlug` is lowercase and hyphenated with the two-letter state code, e.g.
+        within one city, or around a latitude/longitude when `citySlug` is left empty (give one
+        or the other) — the entry point when the caller holds only words a person would say, not
+        a link. `citySlug` is lowercase and hyphenated with the two-letter state code, e.g.
         `"los-angeles-ca"`. Returns each match's `companyId`/`restaurantId` (for
         `listRestaurants`/`getRestaurant`), plus a cuisine breakdown for the city.
         """
@@ -109499,9 +109741,11 @@ class Prv_chownow(Protocol):
     async def getPickupTimes(self, restaurantId: str, /) -> Prv_chownow_ChownowPickupTimes_Out:
         """Lists the order-ahead time slots a ChowNow restaurant offers over its coming days — the
         ordering page's time picker. Each day carries `pickup`, `delivery` and `curbside` lists
-        of 15-minute slot start times (`"HH:MM"`, restaurant-local); an empty list means that
-        method takes no orders that day. `restaurantId` comes from `searchRestaurants`,
-        `findRestaurant` or a `listRestaurants` row.
+        of 15-minute slot start times (`"HH:MM"`, restaurant-local) and
+        `pickupAt`/`deliveryAt`/`curbsideAt` with the same slots as `YYYYMMDDHHmm` stamps for
+        `getMenu`'s `at` and `validateOrder`'s `when`; an empty list means that method takes no
+        orders that day. `restaurantId` comes from `searchRestaurants`, `findRestaurant` or a
+        `listRestaurants` row.
         """
 
     async def getRestaurantHours(self, restaurantId: str, /) -> Prv_chownow_ChownowRestaurantHours_Out:
@@ -118900,8 +119144,8 @@ class Prv_glofox(Protocol):
         """
 
     async def listClassTypes(self, args: Prv_glofox_glofoxPageArgs_In, /) -> Prv_glofox_glofoxClassTypePage_Out:
-        """A studio's class types ("programs"), paged: description and pricing — the ids
-        listClasses filters by.
+        """A studio's class types ("programs"), paged: description and pricing — the class type ids
+        each class from listClasses carries as classTypeId.
         """
 
     async def listAppointmentTypes(self, args: Prv_glofox_glofoxPageArgs_In, /) -> Prv_glofox_glofoxAppointmentTypePage_Out:
@@ -126169,6 +126413,45 @@ class Prv_lobehub_com(Protocol):
         argument to browse its current listings; do not pass an empty string. Each result
         carries LobeHub's own identifier, name, description, author, category, GitHub stats
         (when the listing names a repo), install count and detail-page URL.
+        """
+
+class Prv_lobsters(Protocol):
+    """Lobsters (lobste.rs) — the hottest / newest / active stories or one tag's stories, a
+    story with its full comment thread, keyword search over every story, the tag list and a
+    member's profile, through the site's own JSON pages.
+    """
+
+    async def listStories(self, args: Prv_lobsters_LobstersListStoriesArgs_In | None = None, /) -> Prv_lobsters_LobstersStoryPage_Out:
+        """The stories on Lobsters (lobste.rs) right now, in the site's own order — title, link,
+        score, comment count, submitter, tags and the lobste.rs discussion url. `list` is
+        "hottest" (the front page, default), "newest" or "active"; `tag` (e.g. "rust") lists one
+        tag's stories instead; `page` 1-50; `limit` 1-25, default 25. THROWS on an unknown tag.
+        Example: listStories({ list: "newest", limit: 10 }).
+        """
+
+    async def getStory(self, id: str, /) -> Prv_lobsters_LobstersStoryWithComments_Out:
+        """One Lobsters story with its whole comment thread — every comment in thread order with
+        author, plain text, score, depth and parent comment id. Takes the story short id
+        ("mbm7xw") or a lobste.rs/s/<id> url. THROWS on an id Lobsters has no story for.
+        Example: getStory("mbm7xw").
+        """
+
+    async def search(self, query: str | Prv_lobsters_LobstersSearchArgs_In, /) -> Prv_lobsters_LobstersStoryPage_Out:
+        """Keyword search over every Lobsters story through the site's own search — up to 20 hits
+        per page with title, link, score, comment count, submitter, tags and date. Takes a query
+        string or { query, order?: "relevance" | "newest" | "score", page? }. Returns [] on no
+        match. Example: search("rust async").
+        """
+
+    async def listTags(self, /) -> list[Prv_lobsters_LobstersTag_Out]:
+        """Every active Lobsters tag (topic) with its description and category — the values
+        listStories({ tag }) takes. Example: listTags().
+        """
+
+    async def getUser(self, username: str, /) -> Prv_lobsters_LobstersUser_Out:
+        """One Lobsters member's public profile — join date, admin/moderator flags, about text, who
+        invited them and linked GitHub/Mastodon handles. Takes a username ("pushcx") or a
+        lobste.rs/~<user> url. THROWS on an unknown user. Example: getUser("pushcx").
         """
 
 class Prv_loc8me(Protocol):
@@ -137495,11 +137778,11 @@ class Prv_skyscanner(Protocol):
     """
 
     async def searchFlights(self, args: Prv_skyscanner_SkyscannerSearchArgs_In, /) -> Prv_skyscanner_SkyscannerSearchResult_Out:
-        """Runs Skyscanner's flight search for a route and date (round trip when `return` is given)
-        and returns its itineraries cheapest first, each with price in USD, airlines, stops and
-        every leg's times and flight numbers. Codes are IATA airport or city codes ("JFK",
-        "LHR", "NYCA"). Takes about 30-60 s: the site's bot check is cleared in a real browser
-        first.
+        """Runs Skyscanner's flight search for a route and date, today or later (round trip when
+        `return` is given) and returns its itineraries cheapest first, each with price in USD,
+        airlines, stops and every leg's times and flight numbers. Codes are IATA airport or city
+        codes ("JFK", "LHR", "NYCA"). Takes about 30-60 s: the site's bot check is cleared in a
+        real browser first.
         """
 
 class Prv_sleeper(Protocol):
@@ -142111,6 +142394,14 @@ class Prv_toast(Protocol):
         that day. A restaurant not on Toast Tables comes back onTables: false, not an error.
         """
 
+    async def searchReservations(self, args: Prv_toast_SearchReservationsArgs_In, /) -> Prv_toast_ToastReservationPage_Out:
+        """Finds restaurants near a latitude/longitude with reservation times open for a party size
+        around a date and time (default 2-hour window): each Toast Tables restaurant and each
+        Resy venue Toast lists, with its bookable times, seating type, any deposit or card hold
+        and, for Resy venues, the booking link. Takes coordinates and a start time with its UTC
+        offset.
+        """
+
 class Prv_tock(Protocol):
     """Tock reservations platform for restaurants, wineries, and bathhouses."""
 
@@ -142134,6 +142425,11 @@ class Prv_tock(Protocol):
         """Full details of one experience — photos, seating areas, cancellation policy and location
         — by business slug and the experience's own slug or id from listExperiences, e.g.
         ("bogle", "home-ranch-tasting-experience").
+        """
+
+    async def listCities(self, /) -> list[Prv_tock_TockCity_Out]:
+        """Every city or metro area where Tock has active venues, with venue count and time zone,
+        most venues first. Pass a `name` to searchBusinesses.
         """
 
     async def searchBusinesses(self, cityName: str, /) -> list[Prv_tock_TockCityVenue_Out]:
@@ -149149,6 +149445,7 @@ class BowmarkProviders(Protocol):
     littlewordsproject: Prv_littlewordsproject
     lmstudio: Prv_lmstudio
     lobehub_com: Prv_lobehub_com
+    lobsters: Prv_lobsters
     loc8me: Prv_loc8me
     lonelyplanet: Prv_lonelyplanet
     louvershop: Prv_louvershop

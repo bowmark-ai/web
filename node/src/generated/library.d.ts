@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2a4727cadf749dcec38b75c6dd30a8b4db8a4e6009add6d0098d6b0e420eb5a8
-// 102 capabilities, 1006 providers, 6360 typed functions, 20 refused.
+// Manifest version: fb32f7b5b45af78af11f41b2853f64345d4baa8cc1c86fbeee03ea44b779c379
+// 102 capabilities, 1007 providers, 6372 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -24174,8 +24174,41 @@ interface BookedinAppointmentRequest {
   forClassWorkshop: boolean;
 }
 
+interface BookedinStatusArgs {
+  merchant: string; // Booking token from searchMerchants, or the bookedin.com/book/<token> URL.
+  id?: string; // The booking id: the id=… in the confirmation email's link.
+  link?: string; // Or the emailed update link; its id and token are read.
+}
+
+interface BookedinBookingStatus {
+  token: string;
+  id: string;
+  kind: "appointment" | "class";
+  name: string | null; // Service name, or class name for a registration.
+  start: string | null; // ISO instant.
+  end: string | null; // ISO instant.
+  timeZone: string | null;
+  addOnCount: number;
+  instructor: string | null;
+  description: string | null;
+  registrantId: string | null;
+  videoConference: boolean;
+}
+
   /** Appointment scheduling platform for salons, barbershops, and service businesses. */
   interface Unit {
+    /**
+     * Reads the status of a Bookedin appointment from the booking id in its confirmation email:
+     * service, start, end and time zone.
+     */
+    getAppointment(args: BookedinStatusArgs): Promise<BookedinBookingStatus>;
+
+    /**
+     * Reads the status of a Bookedin class registration from the registration id in its
+     * confirmation email: class, start, end and time zone.
+     */
+    getClassBooking(args: BookedinStatusArgs): Promise<BookedinBookingStatus>;
+
     /**
      * Cancels a Bookedin class registration from the cancel link in its confirmation email (or
      * that link's business token, registration id, h and key).
@@ -25921,6 +25954,27 @@ interface BoulevardStaffForTime {
   staff: { variantId: string; staffId: string; name: string; firstName: string; lastName: string; role: string | null; bio: string | null; avatar: string | null; durationMinutes: number; priceCents: number }[]; // Who can perform the service at that time; `priceCents` / `durationMinutes` are that staff member's variant.
 }
 
+// Switch on `status`; a status you do not recognise means "show the person `url` and stop".
+interface BoulevardCheckoutHandoff {
+  status: "ready_to_checkout" | "needs_login" | "unavailable";
+  url: string; // the https page where the person finishes booking
+  urlKind?: "carries_items" | "signed_in_cart" | "product_page"; // ready_to_checkout only: Boulevard's booking page is opened, not a filled cart
+  reason?: string; // unavailable only: why nothing can be booked
+  detail?: string; // unavailable only: one sentence saying why
+  account: { site: string; hint: string; signedInAs?: string };
+  summary: { items: { title: string; variant: string | null; quantity: number; unitPrice: string | null; lineTotal: string | null; url?: string; id?: string }[]; total: string | null; currency: string; dates?: { start: string; end?: string } } | null;
+  warnings: string[];
+}
+
+interface BoulevardOfferResult {
+  code: string;
+  offerName: string | null;
+  applied: boolean;
+  subtotalCents: number | null; // Cart totals in cents after the offer, as Boulevard computed them.
+  discountCents: number | null;
+  totalCents: number | null;
+}
+
 interface BoulevardBookingQuestions {
   questions: { id: string; key: string; label: string; required: boolean; valueType: string; displayType: string; options: { id: string; label: string }[] }[]; // Intake questions the business asks before booking this service; often empty. `valueType` is BOOLEAN, DATETIME, FLOAT, INTEGER, MULTISELECT, SELECT or TEXT; `options` fill SELECT / MULTISELECT.
 }
@@ -25996,6 +26050,32 @@ interface BoulevardPackagesAndMemberships {
      * (cents) and duration variant. `timeId` is getAvailableTimes().times[].id.
      */
     listStaffForTime(business: string, locationId: string, serviceId: string, timeId: string): Promise<BoulevardStaffForTime>;
+
+    /**
+     * Prepares a booking for a chosen open time as a guest and hands the person the business's own
+     * booking page to finish: holds the time on a throwaway cart, attaches the client's name,
+     * email and phone, reads the total and deposit, and returns a checkout handoff (never confirms
+     * a booking, never takes a card). A business that cannot hold the time returns an unavailable
+     * handoff. `timeId` is getAvailableTimes().times[].id; `options.staffVariantId` is
+     * listStaffForTime().staff[].variantId.
+     */
+    bookAppointment(business: string, locationId: string, serviceId: string, timeId: string, client: {firstName: string, lastName: string, email: string, phoneNumber: string}, options?: {staffVariantId?: string, note?: string}): Promise<BoulevardCheckoutHandoff>;
+
+    /**
+     * Adds a promo or offer code to a throwaway cart of our own for one service and returns the
+     * offer and the cart totals in cents (subtotal, discount, total), so a caller can see what the
+     * code is worth. A code Boulevard does not know throws a fixable error. Never books anything.
+     * `serviceId` is listServices().categories[].services[].id.
+     */
+    applyOfferCode(business: string, locationId: string, serviceId: string, offerCode: string): Promise<BoulevardOfferResult>;
+
+    /**
+     * Checks that an open time can really be held (puts a service and `timeId` on a throwaway cart
+     * of our own, reads the held start and end, releases it) and hands the person the business's
+     * own booking page to reserve it. Never touches a client's booking and never books. `timeId`
+     * is getAvailableTimes().times[].id.
+     */
+    reserveTime(business: string, locationId: string, serviceId: string, timeId: string): Promise<BoulevardCheckoutHandoff>;
 
     /**
      * The intake questions a business asks before it confirms a booking of one service at a
@@ -32512,7 +32592,12 @@ interface CheckatradeProfile {
 
     /**
      * Lists the job categories under one trade (Plumber, Builder, Roofer...) with the ids and
-     * labels search uses. Call listCategories({}) with no input first to get the trades. Then
+     * labels search uses. It returns an OBJECT, never an array: { trade, id, categories: [{ id,
+     * label }], warnings }, so read the list from result.categories. Call listCategories({}) with
+     * no input first: it lists only the 7 trades the search page carries (not all ~72; warnings
+     * says so), and each trade label goes back in as listCategories({ trade: "Roofer" }) for its
+     * categories, e.g. return (await
+     * bowmark.providers.checkatrade.listCategories({})).categories.map(c => c.label). Then
      * searchTraders({ category, postcode }) needs a category label and a FULL UK postcode, e.g. {
      * category: "Plumber", postcode: "SW1A 1AA" }; ask for a postcode if you have none.
      */
@@ -33705,6 +33790,9 @@ interface ChownowSlotDay {
   pickup: string[]; // slot start times, "HH:MM" restaurant-local, 15 minutes apart
   delivery: string[];
   curbside: string[];
+  pickupAt: string[]; // pickup slots as "YYYYMMDDHHmm" stamps, same order — pass to getMenu `at` / validateOrder `when`
+  deliveryAt: string[];
+  curbsideAt: string[];
 }
 
 interface ChownowPickupTimes {
@@ -33882,12 +33970,13 @@ interface ChownowOrderValidation {
 
     /**
      * Searches ChowNow restaurants by free text (a cuisine, a dish or a restaurant name) within
-     * one city — the entry point when the caller holds only words a person would say, not a link.
+     * one city, or around a latitude/longitude when `citySlug` is left empty (give one or the
+     * other) — the entry point when the caller holds only words a person would say, not a link.
      * `citySlug` is lowercase and hyphenated with the two-letter state code, e.g.
      * `"los-angeles-ca"`. Returns each match's `companyId`/`restaurantId` (for
      * `listRestaurants`/`getRestaurant`), plus a cuisine breakdown for the city.
      */
-    searchRestaurants(query: string, citySlug: string): Promise<ChownowSearch>;
+    searchRestaurants(query: string, citySlug?: string, latitude?: number, longitude?: number): Promise<ChownowSearch>;
 
     /**
      * Lists every location a ChowNow brand operates, by `companyId` (from `findRestaurant`). Each
@@ -33908,9 +33997,11 @@ interface ChownowOrderValidation {
     /**
      * Lists the order-ahead time slots a ChowNow restaurant offers over its coming days — the
      * ordering page's time picker. Each day carries `pickup`, `delivery` and `curbside` lists of
-     * 15-minute slot start times (`"HH:MM"`, restaurant-local); an empty list means that method
-     * takes no orders that day. `restaurantId` comes from `searchRestaurants`, `findRestaurant` or
-     * a `listRestaurants` row.
+     * 15-minute slot start times (`"HH:MM"`, restaurant-local) and
+     * `pickupAt`/`deliveryAt`/`curbsideAt` with the same slots as `YYYYMMDDHHmm` stamps for
+     * `getMenu`'s `at` and `validateOrder`'s `when`; an empty list means that method takes no
+     * orders that day. `restaurantId` comes from `searchRestaurants`, `findRestaurant` or a
+     * `listRestaurants` row.
      */
     getPickupTimes(restaurantId: string): Promise<ChownowPickupTimes>;
 
@@ -62214,8 +62305,8 @@ interface glofoxFacilitySlotPage {
     listMemberships(args: glofoxPageArgs): Promise<glofoxMembershipPage>;
 
     /**
-     * A studio's class types ("programs"), paged: description and pricing — the ids listClasses
-     * filters by.
+     * A studio's class types ("programs"), paged: description and pricing — the class type ids
+     * each class from listClasses carries as classTypeId.
      */
     listClassTypes(args: glofoxPageArgs): Promise<glofoxClassTypePage>;
 
@@ -81996,6 +82087,134 @@ interface LobehubMcpListing {
      * repo), install count and detail-page URL.
      */
     search(query?: string | {query?: string}): Promise<LobehubMcpListing[]>;
+  }
+}
+
+declare namespace BowmarkProvider_lobsters {
+  // ── Lobsters — the unit's own declarations, verbatim ──
+interface LobstersStory {
+  id: string;
+  title: string;
+  url: string | null;
+  score: number | null;
+  commentCount: number | null;
+  author: string | null;
+  createdAt: string | null;
+  tags: string[];
+  description: string | null;
+  lobstersUrl: string;
+}
+
+interface LobstersStoryPage {
+  results: LobstersStory[];
+  total: number | null;
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
+
+interface LobstersComment {
+  id: string;
+  author: string | null;
+  text: string;
+  score: number | null;
+  createdAt: string | null;
+  depth: number;
+  parentId: string | null;
+  url: string | null;
+}
+
+interface LobstersStoryWithComments {
+  id: string;
+  title: string;
+  url: string | null;
+  score: number | null;
+  commentCount: number | null;
+  author: string | null;
+  createdAt: string | null;
+  tags: string[];
+  description: string | null;
+  lobstersUrl: string;
+  comments: LobstersComment[];
+}
+
+interface LobstersTag {
+  tag: string;
+  description: string | null;
+  category: string | null;
+  isMedia: boolean;
+  active: boolean;
+}
+
+interface LobstersUser {
+  username: string;
+  createdAt: string | null;
+  isAdmin: boolean;
+  isModerator: boolean;
+  about: string | null;
+  invitedBy: string | null;
+  githubUsername: string | null;
+  mastodonUsername: string | null;
+  profileUrl: string;
+}
+
+interface LobstersListStoriesArgs {
+  list?: "hottest" | "newest" | "active";
+  tag?: string;
+  page?: number;
+  limit?: number;
+}
+
+interface LobstersSearchArgs {
+  query: string;
+  order?: "relevance" | "newest" | "score";
+  page?: number;
+}
+
+  /**
+   * Lobsters (lobste.rs) — the hottest / newest / active stories or one tag's stories, a story
+   * with its full comment thread, keyword search over every story, the tag list and a member's
+   * profile, through the site's own JSON pages.
+   */
+  interface Unit {
+    /**
+     * The stories on Lobsters (lobste.rs) right now, in the site's own order — title, link, score,
+     * comment count, submitter, tags and the lobste.rs discussion url. `list` is "hottest" (the
+     * front page, default), "newest" or "active"; `tag` (e.g. "rust") lists one tag's stories
+     * instead; `page` 1-50; `limit` 1-25, default 25. THROWS on an unknown tag. Example:
+     * listStories({ list: "newest", limit: 10 }).
+     */
+    listStories(args?: LobstersListStoriesArgs): Promise<LobstersStoryPage>;
+
+    /**
+     * One Lobsters story with its whole comment thread — every comment in thread order with
+     * author, plain text, score, depth and parent comment id. Takes the story short id ("mbm7xw")
+     * or a lobste.rs/s/<id> url. THROWS on an id Lobsters has no story for. Example:
+     * getStory("mbm7xw").
+     */
+    getStory(id: string): Promise<LobstersStoryWithComments>;
+
+    /**
+     * Keyword search over every Lobsters story through the site's own search — up to 20 hits per
+     * page with title, link, score, comment count, submitter, tags and date. Takes a query string
+     * or { query, order?: "relevance" | "newest" | "score", page? }. Returns [] on no match.
+     * Example: search("rust async").
+     */
+    search(query: string | LobstersSearchArgs): Promise<LobstersStoryPage>;
+
+    /**
+     * Every active Lobsters tag (topic) with its description and category — the values
+     * listStories({ tag }) takes. Example: listTags().
+     */
+    listTags(): Promise<LobstersTag[]>;
+
+    /**
+     * One Lobsters member's public profile — join date, admin/moderator flags, about text, who
+     * invited them and linked GitHub/Mastodon handles. Takes a username ("pushcx") or a
+     * lobste.rs/~<user> url. THROWS on an unknown user. Example: getUser("pushcx").
+     */
+    getUser(username: string): Promise<LobstersUser>;
   }
 }
 
@@ -117174,10 +117393,11 @@ interface SkyscannerSearchResult {
    */
   interface Unit {
     /**
-     * Runs Skyscanner's flight search for a route and date (round trip when `return` is given) and
-     * returns its itineraries cheapest first, each with price in USD, airlines, stops and every
-     * leg's times and flight numbers. Codes are IATA airport or city codes ("JFK", "LHR", "NYCA").
-     * Takes about 30-60 s: the site's bot check is cleared in a real browser first.
+     * Runs Skyscanner's flight search for a route and date, today or later (round trip when
+     * `return` is given) and returns its itineraries cheapest first, each with price in USD,
+     * airlines, stops and every leg's times and flight numbers. Codes are IATA airport or city
+     * codes ("JFK", "LHR", "NYCA"). Takes about 30-60 s: the site's bot check is cleared in a real
+     * browser first.
      */
     searchFlights(args: SkyscannerSearchArgs): Promise<SkyscannerSearchResult>;
   }
@@ -131713,6 +131933,40 @@ interface ReservationAvailabilityArgs {
   hours?: number; // window length, default 4, max 24
 }
 
+interface ToastReservationVenue {
+  source: string; // TOAST for Toast Tables, or the external source such as RESY
+  name: string;
+  guid: string | null; // Toast restaurant guid, when Toast has one
+  shortUrl: string | null;
+  externalVenueId: string | null;
+  cuisines: string[];
+  priceTier: { label: string | null; range: string | null } | null;
+  rating: number | null;
+  onlineReservationsEnabled: boolean;
+  bookingUrl: string | null; // a Resy venue's page
+  availabilityChecked: boolean; // false: the site could not answer for this venue, slots is empty
+  slots: { startTime: string /* venue-local wall time, 2026-11-29T18:00 */; label: string | null /* seating type, Dining Room */; bookingUrl: string | null /* Resy booking link */; depositOrHold: { type: string | null; amount: number | null; currency: string | null } | null }[];
+}
+
+interface SearchReservationsArgs {
+  lat: number;
+  lng: number;
+  partySize: number;
+  start: string; // date-time with UTC offset, or a bare date (19:00 at utcOffset)
+  utcOffset?: string; // +HH:MM, used only with a bare date; default Z
+  hours?: number; // window length, default 2, max 6
+  limit?: number; // default 20, max 50
+}
+
+interface ToastReservationPage {
+  results: ToastReservationVenue[];
+  total: number | null;
+  page: number;
+  pageCount: number | null;
+  returned: number;
+  warnings: string[];
+}
+
   /**
    * Toast, the restaurant platform behind Toast Local (toast.app), Toast online ordering and
    * Toast Tables: find restaurants near a place or in a city, a restaurant's details, menu, item
@@ -131803,6 +132057,14 @@ interface ReservationAvailabilityArgs {
      * restaurant not on Toast Tables comes back onTables: false, not an error.
      */
     getReservationAvailability(ref: ToastRestaurantRef, args: ReservationAvailabilityArgs): Promise<ToastReservationAvailability>;
+
+    /**
+     * Finds restaurants near a latitude/longitude with reservation times open for a party size
+     * around a date and time (default 2-hour window): each Toast Tables restaurant and each Resy
+     * venue Toast lists, with its bookable times, seating type, any deposit or card hold and, for
+     * Resy venues, the booking link. Takes coordinates and a start time with its UTC offset.
+     */
+    searchReservations(args: SearchReservationsArgs): Promise<ToastReservationPage>;
   }
 }
 
@@ -131898,6 +132160,18 @@ interface TockCityVenue {
   businessType: string; // e.g. "Restaurant"
 }
 
+interface TockCity {
+  id: number;
+  slug: string;
+  name: string; // pass to searchBusinesses, e.g. "Chicago"
+  timeZone: string;
+  currencyCode: string;
+  venueCount: number;
+  isFeatured: boolean;
+  lat: number | null;
+  lng: number | null;
+}
+
   /** Tock reservations platform for restaurants, wineries, and bathhouses. */
   interface Unit {
     /**
@@ -131925,6 +132199,12 @@ interface TockCityVenue {
      * "home-ranch-tasting-experience").
      */
     getExperience(businessSlug: string, experienceSlugOrId: string): Promise<TockExperienceDetail>;
+
+    /**
+     * Every city or metro area where Tock has active venues, with venue count and time zone, most
+     * venues first. Pass a `name` to searchBusinesses.
+     */
+    listCities(): Promise<TockCity[]>;
 
     /**
      * Every Tock venue in one city or metro area — name, cuisine, price range and neighborhood —
@@ -542390,6 +542670,7 @@ interface BowmarkProviders {
   littlewordsproject: BowmarkProvider_littlewordsproject.Unit;
   lmstudio: BowmarkProvider_lmstudio.Unit;
   lobehub_com: BowmarkProvider_lobehub_com.Unit;
+  lobsters: BowmarkProvider_lobsters.Unit;
   loc8me: BowmarkProvider_loc8me.Unit;
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   louvershop: BowmarkProvider_louvershop.Unit;

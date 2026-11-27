@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2a4727cadf749dcec38b75c6dd30a8b4db8a4e6009add6d0098d6b0e420eb5a8
-// 6332 checked, 20 unchecked.
+// Manifest version: fb32f7b5b45af78af11f41b2853f64345d4baa8cc1c86fbeee03ea44b779c379
+// 6344 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2a4727cadf749dcec38b75c6dd30a8b4db8a4e6009add6d0098d6b0e420eb5a8",
+  "version": "fb32f7b5b45af78af11f41b2853f64345d4baa8cc1c86fbeee03ea44b779c379",
   "units": {
     "address_validation": {
       "defs": {
@@ -31784,9 +31784,55 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "BookedinStatusArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "merchant",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "link",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
+        "getAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookedinStatusArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getClassBooking": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BookedinStatusArgs"
+            },
+            "optional": false
+          }
+        ],
         "cancelClassBooking": [
           {
             "name": "args",
@@ -31949,22 +31995,24 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "cancelClassBooking": "2bce263b7636f3d1",
-        "cancelAppointment": "2bce263b7636f3d1",
-        "confirmAppointment": "2bce263b7636f3d1",
-        "bookClass": "46f3cb24404c43d0",
-        "bookAppointment": "77c71c5cbe37d255",
-        "listRegions": "7180fd8618197b66",
-        "searchMerchants": "c55a83569b11ab0a",
-        "getMerchant": "bdc90e269e4f152a",
-        "listServices": "b03e5d73dc4d988a",
-        "listStaff": "5c52478460a225a5",
-        "getAvailableDates": "76c89261fdc8802d",
-        "getAvailability": "36f4b61de68a7d61",
-        "getClassDates": "f3db1163852ecbc4",
-        "listClassSessions": "5152eca85eb9e74b",
-        "requestAppointment": "06ac93c8c4d98b3d",
-        "getClassSession": "f4cbecf62581fa4e"
+        "getAppointment": "11fd39fb05342ec3",
+        "getClassBooking": "11fd39fb05342ec3",
+        "cancelClassBooking": "7ef9846a3d2cecc9",
+        "cancelAppointment": "7ef9846a3d2cecc9",
+        "confirmAppointment": "7ef9846a3d2cecc9",
+        "bookClass": "016328b5b6219ca5",
+        "bookAppointment": "64161c6fcf54a289",
+        "listRegions": "23a860440456d761",
+        "searchMerchants": "4f12f6ea2e008c05",
+        "getMerchant": "478946ab5049cb7c",
+        "listServices": "0aa3b33320b2a1ff",
+        "listStaff": "d7d5f4190db251f9",
+        "getAvailableDates": "541133fd303e56c1",
+        "getAvailability": "e04fdbd297dfbc3f",
+        "getClassDates": "03f897aa117d514f",
+        "listClassSessions": "8aa764fcad962351",
+        "requestAppointment": "efdd8ccdf359bd09",
+        "getClassSession": "f354494d48148ef3"
       }
     },
     "providers.bookeo": {
@@ -34656,6 +34704,156 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "bookAppointment": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "timeId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "client",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "firstName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "lastName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "email",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "phoneNumber",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "staffVariantId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "note",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "applyOfferCode": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "offerCode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "reserveTime": [
+          {
+            "name": "business",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "timeId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listBookingQuestions": [
           {
             "name": "business",
@@ -34697,17 +34895,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findBusiness": "f4dfdfa12aef3d84",
-        "getBusiness": "d51b093de144364a",
-        "listLocations": "1b2c20eff888ee61",
-        "getLocation": "8685523e46ffc7e4",
-        "listServices": "cfbf393a7719cb68",
-        "getServiceDetails": "a35d20a09134b9bb",
-        "getAvailableDates": "b06b40abf8591248",
-        "getAvailableTimes": "f6363710f3171cd4",
-        "listStaffForTime": "e09b24f7b460bc2f",
-        "listBookingQuestions": "17b5ab9e86378534",
-        "listPackagesAndMemberships": "0ab10f3a474c62ec"
+        "findBusiness": "af01654fb71f5254",
+        "getBusiness": "b59cef7d1b5f4e0e",
+        "listLocations": "f00b1b2d3f43bb83",
+        "getLocation": "280860baaa44086e",
+        "listServices": "444b0995d6733de3",
+        "getServiceDetails": "60dfd246fef4b972",
+        "getAvailableDates": "1f0f9ce597469fa5",
+        "getAvailableTimes": "747ddd0583e4ff48",
+        "listStaffForTime": "26e87b228d7be470",
+        "bookAppointment": "2e8e13e6924f20ce",
+        "applyOfferCode": "815422177a039c5e",
+        "reserveTime": "e943197198217bd9",
+        "listBookingQuestions": "441f1b173f66b177",
+        "listPackagesAndMemberships": "6a9da668b8bcb684"
       }
     },
     "providers.bowmark": {
@@ -43666,7 +43867,21 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "string"
             },
-            "optional": false
+            "optional": true
+          },
+          {
+            "name": "latitude",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "longitude",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ],
         "listRestaurants": [
@@ -43959,21 +44174,21 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findRestaurant": "c7ad6aa2741a22ea",
-        "searchRestaurants": "c2d99e7154468d44",
-        "listRestaurants": "138b03adf992d627",
-        "getRestaurant": "8f7d9f7212b656bf",
-        "getPickupTimes": "c6cc735a77470760",
-        "getRestaurantHours": "b226ac7bb0191ffd",
-        "getMenu": "507695696c4e3203",
-        "listMenuCategories": "c68fdf1705f3db5b",
-        "listMenuItems": "373169f96057e6c2",
-        "getMenuItem": "8d22676a0f8ccd78",
-        "listOrders": "1a09fe2985323f09",
-        "getOrderDetails": "a69c2beea91b3bee",
-        "listSavedPaymentMethods": "9933902fb438d481",
-        "getRewardsBalance": "d5d442c84c214692",
-        "validateOrder": "d7d1401ed48116c1"
+        "findRestaurant": "27aeb08260c5ad88",
+        "searchRestaurants": "bdf77f10614b1f15",
+        "listRestaurants": "2b0936271c21ae8b",
+        "getRestaurant": "fbdf6d6b2b3c50ad",
+        "getPickupTimes": "d658d8833e26c04b",
+        "getRestaurantHours": "c7a03fc217d8c0a0",
+        "getMenu": "e5969f7ed66425f1",
+        "listMenuCategories": "637b68b0f197eb71",
+        "listMenuItems": "52f106982a2b2352",
+        "getMenuItem": "c5ce4629aa2265af",
+        "listOrders": "3c387646d665cd0c",
+        "getOrderDetails": "50547f28a57a4939",
+        "listSavedPaymentMethods": "33280f47563a67a6",
+        "getRewardsBalance": "9b308d0ae5db8d11",
+        "validateOrder": "c0dc8fc3e678eaa3"
       }
     },
     "providers.chriscraft": {
@@ -115947,6 +116162,153 @@ export const VALIDATORS: ValidatorTable = {
       },
       "digests": {
         "search": "d61c36c5c69d7c4e"
+      }
+    },
+    "providers.lobsters": {
+      "defs": {
+        "LobstersListStoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "list",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "hottest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "active"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "tag",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "LobstersSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "order",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "score"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LobstersListStoriesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getStory": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "LobstersSearchArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listTags": [],
+        "getUser": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listStories": "6117f9198ced9fc8",
+        "getStory": "fafa5059b6e3c623",
+        "search": "c259eb5e23965eb0",
+        "listTags": "fdfd500d839918ce",
+        "getUser": "f2fd21f627ae8d07"
       }
     },
     "providers.loc8me": {
@@ -189646,6 +190008,60 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchReservationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "partySize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "start",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "utcOffset",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "hours",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchRestaurantsArgs": {
           "k": "object",
           "props": [
@@ -190588,20 +191004,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchReservations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchReservationsArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "read": "cdeaa376756f17be",
-        "getRestaurant": "fa14ce05507f241f",
-        "searchRestaurants": "827b50ff85092acf",
-        "listCities": "08538cbb12cc926b",
-        "listCityRestaurants": "ad2e4847332020c1",
-        "getOrderingOptions": "be226726efd5a17a",
-        "getMenu": "4261cc3376e11223",
-        "getMenuItem": "5c4ec9f144b57cf4",
-        "searchMenu": "ebd97e62597f052b",
-        "getPopularItems": "80b7869f5a3770ec",
-        "getReservationAvailability": "39e66a7358e0228c"
+        "read": "3af433f36983979c",
+        "getRestaurant": "80be0f1f1dd04158",
+        "searchRestaurants": "4ecd0ebaca8dc972",
+        "listCities": "91d58e06c3f25aca",
+        "listCityRestaurants": "1459ad811da73f45",
+        "getOrderingOptions": "31eefcc7a8ace377",
+        "getMenu": "acea47b50badd07c",
+        "getMenuItem": "a31fed79676bcb6b",
+        "searchMenu": "8c69638124b0e2f7",
+        "getPopularItems": "7c0e524744ab2b87",
+        "getReservationAvailability": "dfc322f02c29cf17",
+        "searchReservations": "366b6f21da9ba621"
       }
     },
     "providers.tock": {
@@ -190650,6 +191077,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listCities": [],
         "searchBusinesses": [
           {
             "name": "cityName",
@@ -190661,11 +191089,12 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findBusiness": "142bb7097f857f5e",
-        "getBusiness": "178ac6af10c703d4",
-        "listExperiences": "3c5c19f100fd7eea",
-        "getExperience": "2753223ce84fdce1",
-        "searchBusinesses": "1b24728ef8ca9d78"
+        "findBusiness": "6191ea6cec352fb0",
+        "getBusiness": "0eb24830dca67595",
+        "listExperiences": "0791a21343ec638a",
+        "getExperience": "646be09f99c56949",
+        "listCities": "d4d9c57f984b0e4e",
+        "searchBusinesses": "d39c602355a65fc1"
       }
     },
     "providers.tomsguide": {
