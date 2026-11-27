@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 305491b9521b6344d804715bde48735808fe8f26d7f9734bad6216790d9bff20
-// 6251 checked, 20 unchecked.
+// Manifest version: 9a1440289d0109ff01002389e9a28da6afe456081d9d17f4286e6555f250e629
+// 6257 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "305491b9521b6344d804715bde48735808fe8f26d7f9734bad6216790d9bff20",
+  "version": "9a1440289d0109ff01002389e9a28da6afe456081d9d17f4286e6555f250e629",
   "units": {
     "address_validation": {
       "defs": {
@@ -75522,20 +75522,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getCdRates": [],
         "getTradingCommissions": []
       },
       "digests": {
-        "screenFunds": "9db8f1bd09fc3d77",
-        "getFund": "757597ef92d9c016",
-        "searchArticles": "5b19d51a941943fd",
-        "getArticle": "ed5d2ca97cf94714",
-        "getQuoteNews": "cca88698d38db23d",
-        "searchSymbols": "9d69fcb38dba1938",
-        "getQuote": "b6dcc3fe9092367c",
-        "listFidelityFunds": "91454601704dedc9",
-        "listCalculators": "7920b8c904060557",
-        "findBranch": "5242f904567777c1",
-        "getTradingCommissions": "0915729aae39318a"
+        "screenFunds": "9cf0e93f9064d6c8",
+        "getFund": "7c86e103aae50271",
+        "searchArticles": "634db55a0870b016",
+        "getArticle": "854755d80a37b9ec",
+        "getQuoteNews": "601695ab9bfea263",
+        "searchSymbols": "03bcdc70d1dd8085",
+        "getQuote": "18a8eca451bd4caf",
+        "listFidelityFunds": "93e050c5d67ccf9a",
+        "listCalculators": "c0a6e17ded064b89",
+        "findBranch": "93d204fc816a7fa7",
+        "getCdRates": "352a0f4d14412f9c",
+        "getTradingCommissions": "636bde4e2eb9d43b"
       }
     },
     "providers.fieldstonehomes": {
@@ -139251,6 +139253,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.paramountplus": {
       "defs": {
+        "getShowArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "searchTitlesArgs": {
           "k": "object",
           "props": [
@@ -139265,6 +139279,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getShow": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "getShowArgs"
+            },
+            "optional": false
+          }
+        ],
         "searchTitles": [
           {
             "name": "args",
@@ -139277,7 +139301,8 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchTitles": "23f3ad9dcfe3bdc2"
+        "getShow": "b74dcaf160110684",
+        "searchTitles": "f19828ed68ba9059"
       }
     },
     "providers.partiful": {
@@ -155094,6 +155119,156 @@ export const VALIDATORS: ValidatorTable = {
     "providers.redfin": {
       "defs": {},
       "functions": {
+        "searchSold": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "regionId",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "regionType",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "minBeds",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "soldWithinDays",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "minPrice",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "maxPrice",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "propertyType",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchRentals": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "regionId",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "regionType",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "minBeds",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "minRent",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "maxRent",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "search": [
           {
             "name": "query",
@@ -155189,9 +155364,11 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "search": "526cf3f3a098e892",
-        "signup": "e0fe1a246e9b0470",
-        "confirmSignup": "bb2c3ab6a94cbfb8"
+        "searchSold": "85770f5cc712e1eb",
+        "searchRentals": "76fb3cb60b47d6f7",
+        "search": "c05402691b2b8cba",
+        "signup": "fb7fd74ad6e75d05",
+        "confirmSignup": "d6b43b3133e455f2"
       }
     },
     "providers.rei": {
@@ -187548,10 +187725,30 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "signup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "confirmSignup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "getUpgradeOffer": "d4371551a80815a7"
+        "getUpgradeOffer": "d4371551a80815a7",
+        "signup": "705f00a72e742d35",
+        "confirmSignup": "6e2fce08a95b46c8"
       }
     },
     "providers.tmz": {
@@ -189556,7 +189753,7 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findAgent": "b2a8f8d75fb587d4"
+        "findAgent": "68199d1b50f2ed68"
       }
     },
     "providers.travelinsured": {
@@ -194973,8 +195170,8 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "findCommercialProviders": "e527d81363d0fd28",
-        "findProviders": "d63904ca88997e29"
+        "findCommercialProviders": "ff6e9865ba9474b7",
+        "findProviders": "cacb1fe4d613ae53"
       }
     },
     "providers.uhc_smallbusiness": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 305491b9521b6344d804715bde48735808fe8f26d7f9734bad6216790d9bff20
-# 102 capabilities, 997 providers, 6251 typed functions, 20 refused.
+# Manifest version: 9a1440289d0109ff01002389e9a28da6afe456081d9d17f4286e6555f250e629
+# 102 capabilities, 997 providers, 6257 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -35514,6 +35514,21 @@ class Prv_fidelity_FidelityBranchList_Out_branches_item_Out(TypedDict):
     zip: str
     url: str
 
+class Prv_fidelity_FidelityCdRates_Out(TypedDict):
+    asOf: str
+    categories: list[Prv_fidelity_FidelityCdRates_Out_categories_item_Out]
+
+class Prv_fidelity_FidelityCdRates_Out_categories_item_Out(TypedDict):
+    category: str
+    rates: list[Prv_fidelity_FidelityCdRates_Out_categories_item_Out_rates_item_Out]
+
+class Prv_fidelity_FidelityCdRates_Out_categories_item_Out_rates_item_Out(TypedDict):
+    term: str
+    maxYield: float | None
+    medianYield: float | None
+    minMaturityDate: str
+    maxMaturityDate: str
+
 class Prv_fidelity_FidelityTradingCommissions_Out(TypedDict):
     url: str
     commissions: list[Prv_fidelity_FidelityTradingCommissions_Out_commissions_item_Out]
@@ -62306,6 +62321,23 @@ class Prv_pallet2ship_Pallet2ShipQuote_Out(TypedDict):
     transit: str | None
     estimatedDelivery: str | None
 
+class Prv_paramountplus_getShowArgs_In(TypedDict):
+    slug: str
+
+class Prv_paramountplus_getShowResult_Out(TypedDict):
+    title: str
+    description: str | None
+    url: str
+    seasonName: str | None
+    seasonEpisodeCount: float | None
+    episodes: list[Prv_paramountplus_showEpisode_Out]
+
+class Prv_paramountplus_showEpisode_Out(TypedDict):
+    number: float | None
+    title: str
+    description: str
+    url: str
+
 class Prv_paramountplus_searchTitlesArgs_In(TypedDict):
     query: str
 
@@ -69008,6 +69040,85 @@ class Prv_reddit_confirmSignup_return_u3_Out(TypedDict):
     connection: str | None
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
+
+class Prv_redfin_searchSold_query_u1_In(TypedDict):
+    url: NotRequired[str]
+    regionId: NotRequired[float]
+    regionType: NotRequired[float]
+    minBeds: NotRequired[float]
+    limit: NotRequired[float]
+    soldWithinDays: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    propertyType: NotRequired[str]
+
+class Prv_redfin_RedfinSoldSearch_Out(TypedDict):
+    regionId: float
+    regionType: float
+    scanned: float
+    total: float
+    homes: list[Prv_redfin_RedfinSoldHome_Out]
+    warnings: list[str]
+
+class Prv_redfin_RedfinSoldHome_Out(TypedDict):
+    propertyId: str
+    listingId: str | None
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    price: float | None
+    beds: float | None
+    baths: float | None
+    sqft: float | None
+    lotSqft: float | None
+    yearBuilt: float | None
+    propertyType: str | None
+    status: str | None
+    latitude: float | None
+    longitude: float | None
+    remarks: str | None
+    url: str
+    soldDate: str
+
+class Prv_redfin_searchRentals_query_u1_In(TypedDict):
+    url: NotRequired[str]
+    regionId: NotRequired[float]
+    regionType: NotRequired[float]
+    minBeds: NotRequired[float]
+    limit: NotRequired[float]
+    minRent: NotRequired[float]
+    maxRent: NotRequired[float]
+
+class Prv_redfin_RedfinRentalSearch_Out(TypedDict):
+    regionId: float
+    regionType: float
+    scanned: float
+    matched: float | None
+    total: float
+    rentals: list[Prv_redfin_RedfinRental_Out]
+    warnings: list[str]
+
+class Prv_redfin_RedfinRental_Out(TypedDict):
+    propertyId: str
+    name: str | None
+    address: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    rentMin: float | None
+    rentMax: float | None
+    bedsMin: float | None
+    bedsMax: float | None
+    bathsMin: float | None
+    bathsMax: float | None
+    sqftMin: float | None
+    sqftMax: float | None
+    availableUnits: float | None
+    lastUpdated: str | None
+    latitude: float | None
+    longitude: float | None
+    url: str
 
 class Prv_redfin_search_query_u1_In(TypedDict):
     url: NotRequired[str]
@@ -84345,6 +84456,46 @@ class Prv_tmobile_TmobileTradeInMatch_Out(TypedDict):
     promoDisplayName: str
     creditUsd: float
 
+class Prv_tmobile_signup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_tmobile_signup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_tmobile_signup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_tmobile_signup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
+class Prv_tmobile_confirmSignup_return_u0_Out(TypedDict):
+    status: Literal["needs_code"]
+    channel: Literal["email"] | Literal["sms"]
+    sentTo: NotRequired[str]
+
+class Prv_tmobile_confirmSignup_return_u1_Out(TypedDict):
+    status: Literal["needs_phone"]
+
+class Prv_tmobile_confirmSignup_return_u2_Out(TypedDict):
+    status: Literal["in_progress"]
+    retryAfterSeconds: float
+
+class Prv_tmobile_confirmSignup_return_u3_Out(TypedDict):
+    status: Literal["signed_up"]
+    username: str
+    email: str
+    connection: str | None
+    twoFactor: Literal["enrolled"] | Literal["none"]
+    secrets: list[str]
+
 class Prv_tmz_TmzNewsSidebar_Out(TypedDict):
     sections: list[Prv_tmz_TmzNewsSidebar_Out_sections_item_Out]
 
@@ -87540,6 +87691,8 @@ class Prv_uhc_directory_uhc_directoryCommercialSearch_Out(TypedDict):
 class Prv_uhc_directory_uhc_directoryCommercialProvider_Out(TypedDict):
     name: str | None
     specialty: str | None
+    specialties: list[str]
+    board: str | None
     address: str | None
     phone: str | None
     npi: str | None
@@ -115093,6 +115246,11 @@ class Prv_fidelity(Protocol):
         state, ZIP and page link.
         """
 
+    async def getCdRates(self, /) -> Prv_fidelity_FidelityCdRates_Out:
+        """Lists Fidelity's new-issue CD yields by term (1 month to years): the highest and median
+        yield per term, for new issues and non-callable new issues.
+        """
+
     async def getTradingCommissions(self, /) -> Prv_fidelity_FidelityTradingCommissions_Out:
         """Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds),
         margin rates by debit balance with the current base rate, and the account fee schedule.
@@ -129577,6 +129735,11 @@ class Prv_paramountplus(Protocol):
     manage the caller's own watchlist and profiles.
     """
 
+    async def getShow(self, args: Prv_paramountplus_getShowArgs_In, /) -> Prv_paramountplus_getShowResult_Out:
+        """Reads one Paramount+ show page by its url slug: title, description and the episodes the
+        page lists for its first season.
+        """
+
     async def searchTitles(self, args: Prv_paramountplus_searchTitlesArgs_In, /) -> Prv_paramountplus_searchTitlesResult_Out:
         """Searches the Paramount+ US catalogue for shows and movies by words, returning each hit's
         showId (shows) or contentId and movieId (movies). Takes `query`. Returns the site's own
@@ -133078,6 +133241,21 @@ class Prv_redfin(Protocol):
     """Homes for sale on Redfin in a city, neighborhood or county — price, beds, baths, square
     feet, status and link — live off Redfin's own map-search JSON.
     """
+
+    async def searchSold(self, query: str | Prv_redfin_searchSold_query_u1_In, /) -> Prv_redfin_RedfinSoldSearch_Out:
+        """Homes that sold recently on Redfin in one region, newest sale first, with sale price,
+        sale date and link. Takes the same city / neighborhood / county URL or { regionId,
+        regionType } as search, plus optional soldWithinDays (1-90, default 90: Redfin serves no
+        longer window), minPrice, maxPrice, minBeds, propertyType and limit.
+        """
+
+    async def searchRentals(self, query: str | Prv_redfin_searchRentals_query_u1_In, /) -> Prv_redfin_RedfinRentalSearch_Out:
+        """Rental buildings and apartments on Redfin in one region: name, address, rent range, bed
+        / bath / square-foot ranges, available units and link. Takes the same city /
+        neighborhood / county URL or { regionId, regionType } as search, plus optional minRent,
+        maxRent (monthly dollars, matched against each building's rent range), minBeds and
+        limit.
+        """
 
     async def search(self, query: str | Prv_redfin_search_query_u1_In, /) -> Prv_redfin_RedfinSearch_Out:
         """Homes for sale on Redfin in one region, live. Pass a redfin.com city / neighborhood /
@@ -139301,7 +139479,9 @@ class Prv_thehartford(Protocol):
         workers' comp or commercial auto, with the premium per line, the coverage limits, and
         `assumed` (every Yes/No question defaulted to No). Takes the business type exactly as
         findBusinessTypes lists it; class questions with no 'none' option must be passed in
-        `answers`. Reads a price and stops; nothing is bought or bound.
+        `answers`; a quote with property or a BOP also needs answers keyed by Business Personal
+        Property, e.g. 50000 (the contents limit). A property walk takes about 3 minutes. Reads
+        a price and stops; nothing is bought or bound.
         """
 
 class Prv_therabody(Protocol):
@@ -140288,6 +140468,18 @@ class Prv_tmobile(Protocol):
         "iPhone 13" against a page carrying tiers like "Save $830: iPhone 13".
         """
 
+    async def signup(self, args: Any, /) -> Prv_tmobile_signup_return_u0_Out | Prv_tmobile_signup_return_u1_Out | Prv_tmobile_signup_return_u2_Out | Prv_tmobile_signup_return_u3_Out:
+        """Makes a NEW T-Mobile account with the person's own email and password, in a session.
+        Pauses with `needs_code` / `needs_phone` whenever the site wants something only the
+        person has; continue with `confirmSignup` in the same session. Ends `signed_up` with the
+        login saved and the credentials in the person's secrets.
+        """
+
+    async def confirmSignup(self, args: Any, /) -> Prv_tmobile_confirmSignup_return_u0_Out | Prv_tmobile_confirmSignup_return_u1_Out | Prv_tmobile_confirmSignup_return_u2_Out | Prv_tmobile_confirmSignup_return_u3_Out:
+        """Continues the sign-up `signup` started in this session with the emailed or texted
+        `code`, the email's verification `link`, or the person's `phone`.
+        """
+
 class Prv_tmz(Protocol):
     """TMZ (tmz.com), the celebrity news site — search its news by keyword, and read the news
     sidebar (most popular stories, hot galleries).
@@ -140706,7 +140898,8 @@ class Prv_travelers(Protocol):
         Travelers agent. Finds Travelers Insurance independent agents near a US ZIP or city the
         caller must name (never guess one; ask the user) — agency name, address, phone, website,
         distance and the Travelers products each writes (home, car, renters, condo, landlord,
-        umbrella, boat) — nearest first. Travelers sells personal home and auto mostly through
+        umbrella, boat) — nearest first. Needs a place the caller actually named: if they gave
+        none, ask before calling. Travelers sells personal home and auto mostly through
         independent agents, so this is how a person gets a Travelers quote where no online quote
         is offered. Filter with `product` and `lineOfBusiness`.
         """
@@ -141660,7 +141853,10 @@ class Prv_uhc_directory(Protocol):
     async def findCommercialProviders(self, query: str | Prv_uhc_directory_findCommercialProviders_query_u1_In, /) -> Prv_uhc_directory_uhc_directoryCommercialSearch_Out:
         """In-network UnitedHealthcare specialists and doctors near a US ZIP for employer &
         individual plans (Choice / Choice Plus network), filtered by specialty ("cardiology",
-        "family medicine"), nearest first, with name, NPI, address, phone and distance
+        "family medicine"), nearest first, with name, NPI, address, phone and distance. zip and
+        specialty are both REQUIRED: if the caller gave no ZIP or no specialty, ask them, never
+        invent one. total sums several directory codes (not a headcount); each row lists its
+        specialties and board
         """
 
     async def findProviders(self, query: str | Prv_uhc_directory_findProviders_query_u1_In, /) -> Prv_uhc_directory_uhc_directoryProviderSearch_Out:

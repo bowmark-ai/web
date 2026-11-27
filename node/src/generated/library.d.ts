@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 305491b9521b6344d804715bde48735808fe8f26d7f9734bad6216790d9bff20
-// 102 capabilities, 997 providers, 6279 typed functions, 20 refused.
+// Manifest version: 9a1440289d0109ff01002389e9a28da6afe456081d9d17f4286e6555f250e629
+// 102 capabilities, 997 providers, 6285 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -54337,6 +54337,11 @@ interface FidelityBranchList {
   branches: { city: string; state: string; zip: string; url: string }[];
 }
 
+interface FidelityCdRates {
+  asOf: string;
+  categories: { category: string; rates: { term: string; maxYield: number | null; medianYield: number | null; minMaturityDate: string; maxMaturityDate: string }[] }[];
+}
+
 interface FidelityTradingCommissions {
   url: string;
   commissions: { category: string; item: string; fee: string }[];
@@ -54411,6 +54416,12 @@ interface FidelityTradingCommissions {
      * state, ZIP and page link.
      */
     findBranch(filters: FindBranchArgs): Promise<FidelityBranchList>;
+
+    /**
+     * Lists Fidelity's new-issue CD yields by term (1 month to years): the highest and median
+     * yield per term, for new issues and non-callable new issues.
+     */
+    getCdRates(): Promise<FidelityCdRates>;
 
     /**
      * Reads Fidelity's published commissions (stocks, options, ETFs, bonds, mutual funds), margin
@@ -97280,11 +97291,37 @@ interface searchTitlesResult {
   titles: suggestedTitle[];
 }
 
+interface getShowArgs {
+  slug: string;
+}
+
+interface showEpisode {
+  number: number | null;
+  title: string;
+  description: string;
+  url: string;
+}
+
+interface getShowResult {
+  title: string;
+  description: string | null;
+  url: string;
+  seasonName: string | null; // the season the page lists
+  seasonEpisodeCount: number | null;
+  episodes: showEpisode[];
+}
+
   /**
    * Paramount+ streaming: search the US catalogue, read shows, episodes and movies, and manage
    * the caller's own watchlist and profiles.
    */
   interface Unit {
+    /**
+     * Reads one Paramount+ show page by its url slug: title, description and the episodes the page
+     * lists for its first season.
+     */
+    getShow(args: getShowArgs): Promise<getShowResult>;
+
     /**
      * Searches the Paramount+ US catalogue for shows and movies by words, returning each hit's
      * showId (shows) or contentId and movieId (movies). Takes `query`. Returns the site's own
@@ -107077,11 +107114,90 @@ interface RedfinSearch {
   warnings: string[];
 }
 
+interface RedfinSoldHome {
+  propertyId: string;
+  listingId: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  price: number | null;
+  beds: number | null;
+  baths: number | null;
+  sqft: number | null;
+  lotSqft: number | null;
+  yearBuilt: number | null;
+  propertyType: string | null; // house, condo, townhouse, multi-family, land, …
+  status: string | null; // MLS status: "Active", "Coming Soon", "Pending"
+  latitude: number | null;
+  longitude: number | null;
+  remarks: string | null; // the listing description
+  url: string; // the home's redfin.com page
+  soldDate: string; // ISO timestamp the sale closed
+}
+
+interface RedfinSoldSearch {
+  regionId: number;
+  regionType: number;
+  scanned: number; // rows Redfin returned (max 350) before filters
+  total: number; // sales after the window and filters
+  homes: RedfinSoldHome[];
+  warnings: string[];
+}
+
+interface RedfinRental {
+  propertyId: string;
+  name: string | null; // the building or community name
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  rentMin: number | null; // lowest monthly rent, dollars
+  rentMax: number | null; // highest monthly rent, dollars
+  bedsMin: number | null; // 0 is a studio
+  bedsMax: number | null;
+  bathsMin: number | null;
+  bathsMax: number | null;
+  sqftMin: number | null;
+  sqftMax: number | null;
+  availableUnits: number | null;
+  lastUpdated: string | null; // ISO timestamp of the listing's last update
+  latitude: number | null;
+  longitude: number | null;
+  url: string; // the rental's redfin.com page
+}
+
+interface RedfinRentalSearch {
+  regionId: number;
+  regionType: number;
+  scanned: number; // rows Redfin returned before filters
+  matched: number | null; // rentals Redfin says match the region; may exceed the rows returned
+  total: number; // rows after filters
+  rentals: RedfinRental[];
+  warnings: string[];
+}
+
   /**
    * Homes for sale on Redfin in a city, neighborhood or county — price, beds, baths, square
    * feet, status and link — live off Redfin's own map-search JSON.
    */
   interface Unit {
+    /**
+     * Homes that sold recently on Redfin in one region, newest sale first, with sale price, sale
+     * date and link. Takes the same city / neighborhood / county URL or { regionId, regionType }
+     * as search, plus optional soldWithinDays (1-90, default 90: Redfin serves no longer window),
+     * minPrice, maxPrice, minBeds, propertyType and limit.
+     */
+    searchSold(query: string | {url?: string, regionId?: number, regionType?: number, minBeds?: number, limit?: number, soldWithinDays?: number, minPrice?: number, maxPrice?: number, propertyType?: string}): Promise<RedfinSoldSearch>;
+
+    /**
+     * Rental buildings and apartments on Redfin in one region: name, address, rent range, bed /
+     * bath / square-foot ranges, available units and link. Takes the same city / neighborhood /
+     * county URL or { regionId, regionType } as search, plus optional minRent, maxRent (monthly
+     * dollars, matched against each building's rent range), minBeds and limit.
+     */
+    searchRentals(query: string | {url?: string, regionId?: number, regionType?: number, minBeds?: number, limit?: number, minRent?: number, maxRent?: number}): Promise<RedfinRentalSearch>;
+
     /**
      * Homes for sale on Redfin in one region, live. Pass a redfin.com city / neighborhood / county
      * URL ("https://www.redfin.com/city/16163/WA/Seattle") or { regionId, regionType } (6 city, 1
@@ -127306,8 +127422,10 @@ interface HartfordBusinessTypes {
      * general liability, property (with GL, a BOP), professional liability, workers' comp or
      * commercial auto, with the premium per line, the coverage limits, and `assumed` (every Yes/No
      * question defaulted to No). Takes the business type exactly as findBusinessTypes lists it;
-     * class questions with no 'none' option must be passed in `answers`. Reads a price and stops;
-     * nothing is bought or bound.
+     * class questions with no 'none' option must be passed in `answers`; a quote with property or
+     * a BOP also needs answers keyed by Business Personal Property, e.g. 50000 (the contents
+     * limit). A property walk takes about 3 minutes. Reads a price and stops; nothing is bought or
+     * bound.
      */
     getSmallBusinessQuote(args: HartfordQuoteArgs): Promise<HartfordQuote>;
   }
@@ -129776,6 +129894,20 @@ interface TmobileUpgradeOffer {
      * page carrying tiers like "Save $830: iPhone 13".
      */
     getUpgradeOffer(arg: {devicePath: string, tradeInModel?: string}): Promise<TmobileUpgradeOffer>;
+
+    /**
+     * Makes a NEW T-Mobile account with the person's own email and password, in a session. Pauses
+     * with `needs_code` / `needs_phone` whenever the site wants something only the person has;
+     * continue with `confirmSignup` in the same session. Ends `signed_up` with the login saved and
+     * the credentials in the person's secrets.
+     */
+    signup(args: SignupInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
+
+    /**
+     * Continues the sign-up `signup` started in this session with the emailed or texted `code`,
+     * the email's verification `link`, or the person's `phone`.
+     */
+    confirmSignup(args: SignupConfirmInput): Promise<{ status: "needs_code"; channel: "email" | "sms"; sentTo?: string } | { status: "needs_phone" } | { status: "in_progress"; retryAfterSeconds: number } | { status: "signed_up"; username: string; email: string; connection: string | null; twoFactor: "enrolled" | "none"; secrets: string[] }>;
   }
 }
 
@@ -131122,7 +131254,7 @@ interface TradingviewSearchScriptsResult {
 declare namespace BowmarkProvider_travelers {
   // ── Travelers Insurance — the unit's own declarations, verbatim ──
 interface TravelersAgentQuery {
-  location: string; // A US ZIP code or "City, ST" — what a person types into Travelers' locator.
+  location: string; // REQUIRED and supplied by the caller: the US ZIP code or city and state they named. If the caller gave no place, ask them for one and do not call; never substitute a sample or a guess.
   lineOfBusiness?: "personal" | "business"; // Personal lines (home, auto, renters…) or business lines. Default "personal".
   product?: string; // Keep only agencies offering this product, matched against Travelers' own list: "Car Insurance", "Home Insurance", "Renters Insurance", "Condo Insurance", "Landlord Insurance", "Umbrella Insurance", "Boat and Yacht Insurance". "auto", "car", "homeowners" also work.
   radiusMiles?: number; // Search radius, 1-100 miles. Default 25.
@@ -131169,8 +131301,9 @@ interface TravelersAgent {
      * agent. Finds Travelers Insurance independent agents near a US ZIP or city the caller must
      * name (never guess one; ask the user) — agency name, address, phone, website, distance and
      * the Travelers products each writes (home, car, renters, condo, landlord, umbrella, boat) —
-     * nearest first. Travelers sells personal home and auto mostly through independent agents, so
-     * this is how a person gets a Travelers quote where no online quote is offered. Filter with
+     * nearest first. Needs a place the caller actually named: if they gave none, ask before
+     * calling. Travelers sells personal home and auto mostly through independent agents, so this
+     * is how a person gets a Travelers quote where no online quote is offered. Filter with
      * `product` and `lineOfBusiness`.
      */
     findAgent(query: TravelersAgentQuery): Promise<TravelersAgentSearch>;
@@ -134267,6 +134400,8 @@ interface uhc_directoryProviderSearch {
 interface uhc_directoryCommercialProvider {
   name: string | null;
   specialty: string | null;
+  specialties: string[];
+  board: string | null;
   address: string | null;
   phone: string | null;
   npi: string | null;
@@ -134292,7 +134427,10 @@ interface uhc_directoryCommercialSearch {
     /**
      * In-network UnitedHealthcare specialists and doctors near a US ZIP for employer & individual
      * plans (Choice / Choice Plus network), filtered by specialty ("cardiology", "family
-     * medicine"), nearest first, with name, NPI, address, phone and distance
+     * medicine"), nearest first, with name, NPI, address, phone and distance. zip and specialty
+     * are both REQUIRED: if the caller gave no ZIP or no specialty, ask them, never invent one.
+     * total sums several directory codes (not a headcount); each row lists its specialties and
+     * board
      */
     findCommercialProviders(query: string | {zip: string, specialty?: string, limit?: number, radiusMiles?: number, page?: number, network?: "choice" | "choice_hmo"}): Promise<uhc_directoryCommercialSearch>;
 
