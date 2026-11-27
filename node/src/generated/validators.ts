@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9e68362955e12317542956794b5dc53705d8533431f8fdd41376e53f49c50278
-// 6258 checked, 20 unchecked.
+// Manifest version: 33d9e16bee6aac8759362979051fbc39bb7ebe3e978c24d9d06291bbfac6dfd1
+// 6264 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9e68362955e12317542956794b5dc53705d8533431f8fdd41376e53f49c50278",
+  "version": "33d9e16bee6aac8759362979051fbc39bb7ebe3e978c24d9d06291bbfac6dfd1",
   "units": {
     "address_validation": {
       "defs": {
@@ -13720,6 +13720,66 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.alibaba": {
       "defs": {
+        "alibabaContactSupplierArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "supplierAliId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "message",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "alibabaGetAttachmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "messageId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "index",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "alibabaGetOrderArgs": {
           "k": "object",
           "props": [
@@ -13729,6 +13789,44 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "alibabaGetThreadArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "alibabaListConversationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         },
@@ -13776,6 +13874,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "pageSize",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "alibabaReplyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "conversationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "idempotencyKey",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -14036,6 +14160,136 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listConversations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "alibabaListConversationsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "alibabaGetThreadArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getAttachment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "alibabaGetAttachmentArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "replyToThread": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "alibabaReplyArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "contactSupplier": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "alibabaContactSupplierArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "signup": [
           {
             "name": "args",
@@ -14056,22 +14310,27 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchProducts": "2b67a1cfc595f94f",
-        "getProduct": "0773bdfcf042c388",
-        "listCategories": "4c98adf9b6f25abd",
-        "getSuggestions": "47288218825a3924",
-        "listSuppliers": "ebd27eb4c60c4085",
-        "getSupplier": "038d08dabcd21c43",
-        "getProductReviews": "d5973cbf2b18eaff",
-        "listSupplierProducts": "1328f479d4ace486",
-        "getProfile": "204ea2d905e4e18b",
-        "listMessages": "204ea2d905e4e18b",
-        "listOrders": "204ea2d905e4e18b",
-        "getOrder": "37c18358c1763e21",
-        "listSavedItems": "204ea2d905e4e18b",
-        "getCart": "b5e7292bb0892641",
-        "signup": "b4de67fd3481388e",
-        "confirmSignup": "42012d42c3902cf2"
+        "searchProducts": "d080e57b02975759",
+        "getProduct": "e212d3f0051d3b35",
+        "listCategories": "0401eab82b4bbb38",
+        "getSuggestions": "f819796e5b83cc61",
+        "listSuppliers": "7456eedd8b5b491c",
+        "getSupplier": "2f558930a83f5297",
+        "getProductReviews": "68147b3858ab2c58",
+        "listSupplierProducts": "cde96ff4a0a63448",
+        "getProfile": "13052d3c378ad728",
+        "listMessages": "13052d3c378ad728",
+        "listOrders": "13052d3c378ad728",
+        "getOrder": "7d4c7dddd790bf21",
+        "listSavedItems": "13052d3c378ad728",
+        "getCart": "c0351357b693eb7d",
+        "listConversations": "5a0935b21e2a1ee3",
+        "getThread": "a150771169e1340a",
+        "getAttachment": "2f76e72ca065f95b",
+        "replyToThread": "654b20d671b185c0",
+        "contactSupplier": "fed57c8c922a9e16",
+        "signup": "04eeec11b07ec1ac",
+        "confirmSignup": "0c126b85e8a0d2d3"
       }
     },
     "providers.aliexpress": {
@@ -155156,6 +155415,32 @@ export const VALIDATORS: ValidatorTable = {
     "providers.redfin": {
       "defs": {},
       "functions": {
+        "getMarketData": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "searchSold": [
           {
             "name": "query",
@@ -155401,11 +155686,12 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchSold": "85770f5cc712e1eb",
-        "searchRentals": "76fb3cb60b47d6f7",
-        "search": "c05402691b2b8cba",
-        "signup": "fb7fd74ad6e75d05",
-        "confirmSignup": "d6b43b3133e455f2"
+        "getMarketData": "e2be367ee0cdcbc8",
+        "searchSold": "138a61ac5e21c1e0",
+        "searchRentals": "f44b6c864d848e7c",
+        "search": "32655bafc14ce7e5",
+        "signup": "7dda95b205868945",
+        "confirmSignup": "cd6c6d330f6b8769"
       }
     },
     "providers.rei": {
@@ -205030,7 +205316,7 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "string"
             },
-            "optional": false
+            "optional": true
           },
           {
             "name": "opts",
@@ -205660,7 +205946,7 @@ export const VALIDATORS: ValidatorTable = {
         "sendLocation": "f15b8c944317f756",
         "createChannel": "b0789195500d5e24",
         "forwardMessage": "6772f1216dc59fa6",
-        "updateChat": "823f595f1f4a6838",
+        "updateChat": "fa7a67654655a43a",
         "createGroup": "95f9f42f84946851",
         "updateGroup": "65998ecb41dcbc01",
         "addGroupParticipants": "be223587e0488200",

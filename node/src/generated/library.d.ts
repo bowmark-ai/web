@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9e68362955e12317542956794b5dc53705d8533431f8fdd41376e53f49c50278
-// 102 capabilities, 997 providers, 6286 typed functions, 20 refused.
+// Manifest version: 33d9e16bee6aac8759362979051fbc39bb7ebe3e978c24d9d06291bbfac6dfd1
+// 102 capabilities, 997 providers, 6292 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -11109,6 +11109,100 @@ interface alibabaCart {
   groups: unknown[]; // purchaseItemGroupList, as the site sends it
 }
 
+interface alibabaConversation {
+  conversationId: string;
+  counterpart: { uid: string; aliId: string; name: string | null; companyName: string | null };
+  lastMessage: string | null;
+  lastAt: string | null;
+  unreadCount: number;
+  createdAt: string | null;
+}
+
+interface alibabaConversationList {
+  conversations: alibabaConversation[];
+  nextCursor: number | null;
+  warnings: string[];
+}
+
+interface alibabaAttachmentRef {
+  index: number;
+  kind: "image" | "file" | "video" | "audio";
+  name: string | null;
+  mimeType: string | null;
+  size: number | null;
+  url: string | null;
+  mediaId: string | null;
+}
+
+interface alibabaMessage {
+  id: string;
+  from: "me" | "them";
+  senderUid: string;
+  sentAt: string | null;
+  type: "text" | "image" | "file" | "video" | "audio" | "card" | "other";
+  text: string;
+  attachments: alibabaAttachmentRef[];
+  rawContentType: number | null;
+  raw: unknown;
+}
+
+interface alibabaThread {
+  conversationId: string;
+  messages: alibabaMessage[];
+  hasEarlier: boolean;
+  warnings: string[];
+}
+
+interface alibabaSentMessage {
+  conversationId: string;
+  messageId: string;
+  sentAt: string | null;
+}
+
+interface alibabaContactResult {
+  conversationId: string;
+  messageId: string;
+  sentAt: string | null;
+  supplier: { aliId: string; companyName: string | null; contactName: string | null };
+}
+
+interface alibabaSavedAttachment {
+  conversationId: string;
+  messageId: string;
+  name: string;
+  mimeType: string;
+  size: number;
+  file: unknown;
+}
+
+interface alibabaListConversationsArgs {
+  limit?: number;
+  cursor?: number;
+}
+
+interface alibabaGetThreadArgs {
+  conversationId: string;
+  limit?: number;
+}
+
+interface alibabaReplyArgs {
+  conversationId: string;
+  text: string;
+  idempotencyKey?: string;
+}
+
+interface alibabaContactSupplierArgs {
+  product?: string | number;
+  supplierAliId?: string;
+  message: string;
+}
+
+interface alibabaGetAttachmentArgs {
+  conversationId: string;
+  messageId: string;
+  index?: number;
+}
+
   /**
    * Search and browse products on Alibaba's B2B marketplace; read product details, reviews, and
    * supplier information.
@@ -11183,6 +11277,37 @@ interface alibabaCart {
      * sign-in when the caller has none.
      */
     getCart(opts?: ConnectionOption): Promise<alibabaCart>;
+
+    /**
+     * The signed-in buyer's supplier conversations, newest first: conversationId, the supplier,
+     * last message, time and unread count. Pages with cursor. Pauses for sign-in when needed.
+     */
+    listConversations(args: alibabaListConversationsArgs, opts?: ConnectionOption): Promise<alibabaConversationList>;
+
+    /**
+     * Every message of one supplier conversation, oldest first, back to the first message: sender
+     * (me/them), time, text and attachments. Pauses for sign-in when needed.
+     */
+    getThread(args: alibabaGetThreadArgs, opts?: ConnectionOption): Promise<alibabaThread>;
+
+    /**
+     * Saves one attachment (image, PDF, spreadsheet) of a thread message to the run's files and
+     * returns the saved file link, given getThread's conversationId, messageId and attachment
+     * index.
+     */
+    getAttachment(args: alibabaGetAttachmentArgs, opts?: ConnectionOption): Promise<alibabaSavedAttachment>;
+
+    /**
+     * Sends a text reply into one supplier conversation, as the signed-in buyer. The supplier
+     * receives it. Returns the new messageId.
+     */
+    replyToThread(args: alibabaReplyArgs, opts?: ConnectionOption): Promise<alibabaSentMessage>;
+
+    /**
+     * Opens a chat with a product's supplier and sends them a message (a sample or price inquiry),
+     * as the signed-in buyer. The supplier receives it. Returns the conversationId for getThread.
+     */
+    contactSupplier(args: alibabaContactSupplierArgs, opts?: ConnectionOption): Promise<alibabaContactResult>;
 
     /**
      * Makes a NEW Alibaba.com account with the person's own email and password, in a session.
@@ -107220,11 +107345,35 @@ interface RedfinRentalSearch {
   warnings: string[];
 }
 
+interface RedfinMarket {
+  url: string;
+  period: string | null; // the month the figures cover, e.g. "October 2026"
+  medianSalePrice: number | null; // dollars
+  medianListPrice: number | null; // dollars
+  medianSalePerSqft: number | null; // dollars per square foot
+  medianSaleToListPct: number | null; // median sale price as a percent of list price, e.g. 98.9
+  yoySalePricePct: number | null; // year-over-year sale price change in percent, e.g. -0.44
+  numHomesSold: number | null;
+  numHomesOnMarket: number | null;
+  avgDaysOnMarket: number | null;
+  monthsOfSupply: number | null;
+  pctHomesSoldAboveList: number | null; // percent of sales above list
+  warnings: string[];
+}
+
   /**
    * Homes for sale on Redfin in a city, neighborhood or county — price, beds, baths, square
    * feet, status and link — live off Redfin's own map-search JSON.
    */
   interface Unit {
+    /**
+     * A city's housing-market figures from its redfin.com housing-market page: median sale price
+     * and list price, sale price per square foot, sale-to-list percent, year-over-year sale price
+     * change, homes sold, homes on market, average days on market, months of supply and the period
+     * they cover. Takes a redfin.com city URL ("https://www.redfin.com/city/16163/WA/Seattle").
+     */
+    getMarketData(query: string | {url?: string}): Promise<RedfinMarket>;
+
     /**
      * Homes that sold recently on Redfin in one region, newest sale first, with sale price, sale
      * date and link. Takes the same city / neighborhood / county URL or { regionId, regionType }
@@ -141443,7 +141592,7 @@ interface WhatsappCommunityChange {
      * by its exact displayed name; pass community, the community's exact name, for a group that
      * sits inside one. Needs the caller signed in.
      */
-    updateChat(chatName: string, update: {archived?: boolean, pinned?: boolean, muted?: "8h" | "1w" | "always" | false, read?: boolean}, community: string, opts?: ConnectionOption): Promise<WhatsappChatUpdate>;
+    updateChat(chatName: string, update: {archived?: boolean, pinned?: boolean, muted?: "8h" | "1w" | "always" | false, read?: boolean}, community?: string, opts?: ConnectionOption): Promise<WhatsappChatUpdate>;
 
     /**
      * Creates a WhatsApp group as the caller from a name and the exact displayed names of the

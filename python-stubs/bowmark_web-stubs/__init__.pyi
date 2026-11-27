@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9e68362955e12317542956794b5dc53705d8533431f8fdd41376e53f49c50278
-# 102 capabilities, 997 providers, 6258 typed functions, 20 refused.
+# Manifest version: 33d9e16bee6aac8759362979051fbc39bb7ebe3e978c24d9d06291bbfac6dfd1
+# 102 capabilities, 997 providers, 6264 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6738,6 +6738,102 @@ class Prv_alibaba_alibabaCart_Out(TypedDict):
     itemCount: float | None
     totalProductPrice: str | None
     groups: list[Any]
+
+class Prv_alibaba_alibabaListConversationsArgs_In(TypedDict):
+    limit: NotRequired[float]
+    cursor: NotRequired[float]
+
+class Prv_alibaba_alibabaConversationList_Out(TypedDict):
+    conversations: list[Prv_alibaba_alibabaConversation_Out]
+    nextCursor: float | None
+    warnings: list[str]
+
+class Prv_alibaba_alibabaConversation_Out(TypedDict):
+    conversationId: str
+    counterpart: Prv_alibaba_alibabaConversation_Out_counterpart_Out
+    lastMessage: str | None
+    lastAt: str | None
+    unreadCount: float
+    createdAt: str | None
+
+class Prv_alibaba_alibabaConversation_Out_counterpart_Out(TypedDict):
+    uid: str
+    aliId: str
+    name: str | None
+    companyName: str | None
+
+class Prv_alibaba_alibabaGetThreadArgs_In(TypedDict):
+    conversationId: str
+    limit: NotRequired[float]
+
+class Prv_alibaba_alibabaThread_Out(TypedDict):
+    conversationId: str
+    messages: list[Prv_alibaba_alibabaMessage_Out]
+    hasEarlier: bool
+    warnings: list[str]
+
+Prv_alibaba_alibabaMessage_Out = TypedDict(
+    "Prv_alibaba_alibabaMessage_Out",
+    {
+    "id": str,
+    "from": Literal["me"] | Literal["them"],
+    "senderUid": str,
+    "sentAt": str | None,
+    "type": Literal["text"] | Literal["image"] | Literal["file"] | Literal["video"] | Literal["audio"] | Literal["card"] | Literal["other"],
+    "text": str,
+    "attachments": list[Prv_alibaba_alibabaAttachmentRef_Out],
+    "rawContentType": float | None,
+    "raw": Any,
+    },
+)
+
+class Prv_alibaba_alibabaAttachmentRef_Out(TypedDict):
+    index: float
+    kind: Literal["image"] | Literal["file"] | Literal["video"] | Literal["audio"]
+    name: str | None
+    mimeType: str | None
+    size: float | None
+    url: str | None
+    mediaId: str | None
+
+class Prv_alibaba_alibabaGetAttachmentArgs_In(TypedDict):
+    conversationId: str
+    messageId: str
+    index: NotRequired[float]
+
+class Prv_alibaba_alibabaSavedAttachment_Out(TypedDict):
+    conversationId: str
+    messageId: str
+    name: str
+    mimeType: str
+    size: float
+    file: Any
+
+class Prv_alibaba_alibabaReplyArgs_In(TypedDict):
+    conversationId: str
+    text: str
+    idempotencyKey: NotRequired[str]
+
+class Prv_alibaba_alibabaSentMessage_Out(TypedDict):
+    conversationId: str
+    messageId: str
+    sentAt: str | None
+
+class Prv_alibaba_alibabaContactSupplierArgs_In(TypedDict):
+    product: NotRequired[str | float]
+    supplierAliId: NotRequired[str]
+    message: str
+
+class Prv_alibaba_alibabaContactResult_Out(TypedDict):
+    conversationId: str
+    messageId: str
+    sentAt: str | None
+    supplier: Prv_alibaba_alibabaContactResult_Out_supplier_Out
+
+class Prv_alibaba_alibabaContactResult_Out_supplier_Out(TypedDict):
+    aliId: str
+    companyName: str | None
+    contactName: str | None
 
 class Prv_alibaba_signup_return_u0_Out(TypedDict):
     status: Literal["needs_code"]
@@ -69083,6 +69179,24 @@ class Prv_reddit_confirmSignup_return_u3_Out(TypedDict):
     twoFactor: Literal["enrolled"] | Literal["none"]
     secrets: list[str]
 
+class Prv_redfin_getMarketData_query_u1_In(TypedDict):
+    url: NotRequired[str]
+
+class Prv_redfin_RedfinMarket_Out(TypedDict):
+    url: str
+    period: str | None
+    medianSalePrice: float | None
+    medianListPrice: float | None
+    medianSalePerSqft: float | None
+    medianSaleToListPct: float | None
+    yoySalePricePct: float | None
+    numHomesSold: float | None
+    numHomesOnMarket: float | None
+    avgDaysOnMarket: float | None
+    monthsOfSupply: float | None
+    pctHomesSoldAboveList: float | None
+    warnings: list[str]
+
 class Prv_redfin_searchSold_query_u1_In(TypedDict):
     url: NotRequired[str]
     regionId: NotRequired[float]
@@ -101116,6 +101230,34 @@ class Prv_alibaba(Protocol):
     async def getCart(self, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaCart_Out:
         """The signed-in caller's shopping cart: item count, total and the supplier groups. Pauses
         for sign-in when the caller has none.
+        """
+
+    async def listConversations(self, args: Prv_alibaba_alibabaListConversationsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaConversationList_Out:
+        """The signed-in buyer's supplier conversations, newest first: conversationId, the
+        supplier, last message, time and unread count. Pages with cursor. Pauses for sign-in
+        when needed.
+        """
+
+    async def getThread(self, args: Prv_alibaba_alibabaGetThreadArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaThread_Out:
+        """Every message of one supplier conversation, oldest first, back to the first message:
+        sender (me/them), time, text and attachments. Pauses for sign-in when needed.
+        """
+
+    async def getAttachment(self, args: Prv_alibaba_alibabaGetAttachmentArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaSavedAttachment_Out:
+        """Saves one attachment (image, PDF, spreadsheet) of a thread message to the run's files
+        and returns the saved file link, given getThread's conversationId, messageId and
+        attachment index.
+        """
+
+    async def replyToThread(self, args: Prv_alibaba_alibabaReplyArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaSentMessage_Out:
+        """Sends a text reply into one supplier conversation, as the signed-in buyer. The supplier
+        receives it. Returns the new messageId.
+        """
+
+    async def contactSupplier(self, args: Prv_alibaba_alibabaContactSupplierArgs_In, opts: ConnectionOption | None = None, /) -> Prv_alibaba_alibabaContactResult_Out:
+        """Opens a chat with a product's supplier and sends them a message (a sample or price
+        inquiry), as the signed-in buyer. The supplier receives it. Returns the conversationId
+        for getThread.
         """
 
     async def signup(self, args: Any, /) -> Prv_alibaba_signup_return_u0_Out | Prv_alibaba_signup_return_u1_Out | Prv_alibaba_signup_return_u2_Out | Prv_alibaba_signup_return_u3_Out:
@@ -133291,6 +133433,14 @@ class Prv_redfin(Protocol):
     feet, status and link — live off Redfin's own map-search JSON.
     """
 
+    async def getMarketData(self, query: str | Prv_redfin_getMarketData_query_u1_In, /) -> Prv_redfin_RedfinMarket_Out:
+        """A city's housing-market figures from its redfin.com housing-market page: median sale
+        price and list price, sale price per square foot, sale-to-list percent, year-over-year
+        sale price change, homes sold, homes on market, average days on market, months of supply
+        and the period they cover. Takes a redfin.com city URL
+        ("https://www.redfin.com/city/16163/WA/Seattle").
+        """
+
     async def searchSold(self, query: str | Prv_redfin_searchSold_query_u1_In, /) -> Prv_redfin_RedfinSoldSearch_Out:
         """Homes that sold recently on Redfin in one region, newest sale first, with sale price,
         sale date and link. Takes the same city / neighborhood / county URL or { regionId,
@@ -144304,7 +144454,7 @@ class Prv_whatsapp(Protocol):
         Needs the caller signed in.
         """
 
-    async def updateChat(self, chatName: str, update: Prv_whatsapp_updateChat_update_In, community: str, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatUpdate_Out:
+    async def updateChat(self, chatName: str, update: Prv_whatsapp_updateChat_update_In, community: str | None = None, opts: ConnectionOption | None = None, /) -> Prv_whatsapp_WhatsappChatUpdate_Out:
         """Changes a chat's state the way WhatsApp Web's chat menu does: archive or unarchive, pin
         or unpin, mute (8 hours, 1 week or always) or unmute, mark read or unread. The chat is
         opened by its exact displayed name; pass community, the community's exact name, for a
