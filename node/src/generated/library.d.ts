@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c84e69c03712b0f31209f9b1d4247fc07df64e1bb71c6ebebebdfa23e3c63a07
-// 102 capabilities, 1009 providers, 6379 typed functions, 20 refused.
+// Manifest version: 5ff7ac0fe0039e88dbc0477def0f2aef038b4c83a8c23c75e208f2869ec5a285
+// 102 capabilities, 1010 providers, 6382 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 24,947 sites under bowmark.sites, 315,626 functions, sharing 3,167 interface(s).
 //
@@ -36213,6 +36213,117 @@ interface GetAvailableSlotsResult {
   }
 }
 
+declare namespace BowmarkProvider_cleartrip {
+  // ── Cleartrip — the unit's own declarations, verbatim ──
+interface CleartripAirport {
+  code: string; // IATA code searchFlights takes
+  label: string;
+  city: string;
+  countryCode: string | null;
+}
+
+interface CleartripEndpoint {
+  airport: string;
+  airportName: string | null;
+  city: string | null;
+  terminal: string | null;
+  time: string; // local ISO time with offset
+}
+
+interface CleartripFare {
+  name: string; // fare family, e.g. SAVER
+  totalPrice: number; // INR, all passengers
+  baseFare: number;
+  tax: number;
+  pricePerAdult: number | null;
+  refundability: string | null;
+  seatsLeft: number | null;
+  checkInBaggageAllowed: boolean | null;
+}
+
+interface CleartripFlight {
+  id: string;
+  airlines: string[];
+  flightNumbers: string[];
+  departure: CleartripEndpoint;
+  arrival: CleartripEndpoint;
+  durationMinutes: number;
+  stops: number;
+  stopsText: string;
+  layovers: { airport: string; durationMinutes: number }[];
+  cheapestFare: CleartripFare | null;
+  fares: CleartripFare[];
+}
+
+interface CleartripFlightSearchArgs {
+  from: string; // IATA code from searchAirports
+  to: string;
+  departDate: string; // YYYY-MM-DD, today or later
+  adults?: number; // 1-9, default 1
+  children?: number;
+  infants?: number;
+  cabin?: "Economy" | "Premium Economy" | "Business" | "First";
+  sort?: "price" | "departure" | "duration"; // default price
+  limit?: number; // 1-100, default 25
+}
+
+interface CleartripFlightSearch {
+  from: string;
+  to: string;
+  departDate: string;
+  currency: "INR";
+  totalFound: number;
+  flights: CleartripFlight[];
+  resultsUrl: string;
+}
+
+interface CleartripHotel {
+  hotelId: string; // Cleartrip's numeric property id
+  name: string;
+  city: string; // Cleartrip's city name (Delhi, Bangalore)
+  locality: string | null;
+  state: string | null;
+  countryCode: string | null;
+  description: string | null;
+  pageUrl: string;
+}
+
+interface CleartripHotelSearchArgs {
+  name: string;
+  city: string;
+  limit?: number; // 1-25, default 10
+}
+
+interface CleartripHotelSearch {
+  query: { name: string; city: string };
+  hotels: CleartripHotel[];
+}
+
+  /**
+   * Cleartrip (India), signed out: find a hotel's Cleartrip id by name and city, and search
+   * one-way flights with fares in INR.
+   */
+  interface Unit {
+    /**
+     * Matches a city or airport name against Cleartrip's airport autocomplete and returns the IATA
+     * codes searchFlights takes.
+     */
+    searchAirports(args: {query: string}): Promise<CleartripAirport[]>;
+
+    /**
+     * Searches Cleartrip (India) for one-way flights on a date and returns every itinerary with
+     * airlines, times, stops and fares in INR, cheapest first.
+     */
+    searchFlights(args: CleartripFlightSearchArgs): Promise<CleartripFlightSearch>;
+
+    /**
+     * Finds a hotel on Cleartrip (India) by its name and city and returns Cleartrip's hotel id,
+     * locality and public page, best match first.
+     */
+    searchHotels(args: CleartripHotelSearchArgs): Promise<CleartripHotelSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_cloudbeds {
   // ── Cloudbeds — the unit's own declarations, verbatim ──
 interface CloudbedsProperty {
@@ -48303,8 +48414,8 @@ interface Suggestions {
 }
 
   /**
-   * Ecosia search engine: autocomplete suggestions for a partial query (suggest is built; web
-   * search is queued, it needs a browser).
+   * Ecosia search engine: autocomplete suggestions for a partial query (suggest is built; web,
+   * image, news and video search, AI Chat, weather and the tree-planting reports are queued).
    */
   interface Unit {
     /** Ecosia search-box autocomplete suggestions for a partial query, in a chosen market. */
@@ -89327,6 +89438,7 @@ interface MlbFreeAgents {
 
 interface MlbGetInjuryReportArgs {
   teamId?: number; // A teamId from listTeams(); omit for all 30.
+  date?: string; // YYYY-MM-DD; omit for the current roster.
 }
 
 interface MlbInjuredPlayer {
@@ -89601,8 +89713,8 @@ interface MlbProspect {
     listFreeAgents(args?: MlbListFreeAgentsArgs): Promise<MlbFreeAgents>;
 
     /**
-     * Players on a 7/10/15/60-day injured list, all 30 teams or one; status only, MLB's feed has
-     * no injury text or return date. Empty off-season.
+     * Players on a 7/10/15/60-day injured list, all 30 teams or one, now or on a requested date;
+     * status only, MLB's feed has no injury text or return date.
      */
     getInjuryReport(args?: MlbGetInjuryReportArgs): Promise<MlbInjuryReport>;
 
@@ -101189,8 +101301,8 @@ interface PilotprotocolAppDetail {
   /**
    * Pilot Protocol's own app store — a directory of installable agent capabilities (30+ apps:
    * databases, comms, browser automation, payments, …). listApps returns the whole catalog (id,
-   * name, vendor, category, tagline); getApp reads one app's detail page (version, license,
-   * runtime, permissions, methods) by id.
+   * name, vendor, category, tagline); getApp reads one app's detail page (version, install
+   * command, methods) by id.
    */
   interface Unit {
     /**
@@ -101201,8 +101313,9 @@ interface PilotprotocolAppDetail {
 
     /**
      * Reads one app's detail page by id (e.g. "io.pilot.bowmark", from listApps) — vendor,
-     * tagline, full description, category, version, license, runtime, minimum Pilot version,
-     * source link, install command, granted permissions and its method list.
+     * tagline, full description, category, version, install command and its method list. License,
+     * runtime, minimum Pilot version, source link and permissions are not published by the site
+     * since 2026-11-28, so they come back null or empty.
      */
     getApp(id: string): Promise<PilotprotocolAppDetail>;
   }
@@ -625421,6 +625534,7 @@ interface BowmarkProviders {
   claudemarketplaces_com: BowmarkProvider_claudemarketplaces_com.Unit;
   clboyd: BowmarkProvider_clboyd.Unit;
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
+  cleartrip: BowmarkProvider_cleartrip.Unit;
   cloudbeds: BowmarkProvider_cloudbeds.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;

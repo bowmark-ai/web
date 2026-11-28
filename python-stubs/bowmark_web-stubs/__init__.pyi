@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c84e69c03712b0f31209f9b1d4247fc07df64e1bb71c6ebebebdfa23e3c63a07
-# 102 capabilities, 1009 providers, 6351 typed functions, 20 refused.
+# Manifest version: 5ff7ac0fe0039e88dbc0477def0f2aef038b4c83a8c23c75e208f2869ec5a285
+# 102 capabilities, 1010 providers, 6354 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22837,6 +22837,100 @@ class Prv_cleanairlawncare_GetAvailableSlotsResult_Out(TypedDict):
 class Prv_cleanairlawncare_AvailableSlot_Out(TypedDict):
     date: str
     time: str
+
+class Prv_cleartrip_searchAirports_args_In(TypedDict):
+    query: str
+
+class Prv_cleartrip_CleartripAirport_Out(TypedDict):
+    code: str
+    label: str
+    city: str
+    countryCode: str | None
+
+Prv_cleartrip_CleartripFlightSearchArgs_In = TypedDict(
+    "Prv_cleartrip_CleartripFlightSearchArgs_In",
+    {
+    "from": str,
+    "to": str,
+    "departDate": str,
+    "adults": NotRequired[float],
+    "children": NotRequired[float],
+    "infants": NotRequired[float],
+    "cabin": NotRequired[Literal["Economy"] | Literal["Premium Economy"] | Literal["Business"] | Literal["First"]],
+    "sort": NotRequired[Literal["price"] | Literal["departure"] | Literal["duration"]],
+    "limit": NotRequired[float],
+    },
+)
+
+Prv_cleartrip_CleartripFlightSearch_Out = TypedDict(
+    "Prv_cleartrip_CleartripFlightSearch_Out",
+    {
+    "from": str,
+    "to": str,
+    "departDate": str,
+    "currency": Literal["INR"],
+    "totalFound": float,
+    "flights": list[Prv_cleartrip_CleartripFlight_Out],
+    "resultsUrl": str,
+    },
+)
+
+class Prv_cleartrip_CleartripFlight_Out(TypedDict):
+    id: str
+    airlines: list[str]
+    flightNumbers: list[str]
+    departure: Prv_cleartrip_CleartripEndpoint_Out
+    arrival: Prv_cleartrip_CleartripEndpoint_Out
+    durationMinutes: float
+    stops: float
+    stopsText: str
+    layovers: list[Prv_cleartrip_CleartripFlight_Out_layovers_item_Out]
+    cheapestFare: Prv_cleartrip_CleartripFare_Out | None
+    fares: list[Prv_cleartrip_CleartripFare_Out]
+
+class Prv_cleartrip_CleartripEndpoint_Out(TypedDict):
+    airport: str
+    airportName: str | None
+    city: str | None
+    terminal: str | None
+    time: str
+
+class Prv_cleartrip_CleartripFlight_Out_layovers_item_Out(TypedDict):
+    airport: str
+    durationMinutes: float
+
+class Prv_cleartrip_CleartripFare_Out(TypedDict):
+    name: str
+    totalPrice: float
+    baseFare: float
+    tax: float
+    pricePerAdult: float | None
+    refundability: str | None
+    seatsLeft: float | None
+    checkInBaggageAllowed: bool | None
+
+class Prv_cleartrip_CleartripHotelSearchArgs_In(TypedDict):
+    name: str
+    city: str
+    limit: NotRequired[float]
+
+class Prv_cleartrip_CleartripHotelSearch_Out(TypedDict):
+    query: Prv_cleartrip_CleartripHotelSearch_Out_query_Out
+    hotels: list[Prv_cleartrip_CleartripHotel_Out]
+
+class Prv_cleartrip_CleartripHotelSearch_Out_query_Out(TypedDict):
+    name: str
+    city: str
+
+class Prv_cleartrip_CleartripHotel_Out(TypedDict):
+    hotelId: str
+    name: str
+    city: str
+    locality: str | None
+    state: str | None
+    countryCode: str | None
+    description: str | None
+    pageUrl: str
 
 class Prv_cloudbeds_CloudbedsFoundProperty_Out(TypedDict):
     code: str
@@ -57681,6 +57775,7 @@ class Prv_mlb_MlbFreeAgent_Out(TypedDict):
 
 class Prv_mlb_MlbGetInjuryReportArgs_In(TypedDict):
     teamId: NotRequired[float]
+    date: NotRequired[str]
 
 class Prv_mlb_MlbInjuryReport_Out(TypedDict):
     players: list[Prv_mlb_MlbInjuredPlayer_Out]
@@ -110776,6 +110871,26 @@ class Prv_cleanairlawncare(Protocol):
         from that org's own recurring-hours + daily-cap + override calendar config.
         """
 
+class Prv_cleartrip(Protocol):
+    """Cleartrip (India), signed out: find a hotel's Cleartrip id by name and city, and search
+    one-way flights with fares in INR.
+    """
+
+    async def searchAirports(self, args: Prv_cleartrip_searchAirports_args_In, /) -> list[Prv_cleartrip_CleartripAirport_Out]:
+        """Matches a city or airport name against Cleartrip's airport autocomplete and returns the
+        IATA codes searchFlights takes.
+        """
+
+    async def searchFlights(self, args: Prv_cleartrip_CleartripFlightSearchArgs_In, /) -> Prv_cleartrip_CleartripFlightSearch_Out:
+        """Searches Cleartrip (India) for one-way flights on a date and returns every itinerary
+        with airlines, times, stops and fares in INR, cheapest first.
+        """
+
+    async def searchHotels(self, args: Prv_cleartrip_CleartripHotelSearchArgs_In, /) -> Prv_cleartrip_CleartripHotelSearch_Out:
+        """Finds a hotel on Cleartrip (India) by its name and city and returns Cleartrip's hotel
+        id, locality and public page, best match first.
+        """
+
 class Prv_cloudbeds(Protocol):
     """Cloudbeds booking engine used by independent hotels, hostels and inns: find a property's
     booking page, its details and policies, which rooms are free on given dates and at what
@@ -114958,7 +115073,8 @@ class Prv_ebay(Protocol):
 
 class Prv_ecosia(Protocol):
     """Ecosia search engine: autocomplete suggestions for a partial query (suggest is built;
-    web search is queued, it needs a browser).
+    web, image, news and video search, AI Chat, weather and the tree-planting reports are
+    queued).
     """
 
     async def suggest(self, args: Prv_ecosia_SuggestArgs_In, /) -> Prv_ecosia_Suggestions_Out:
@@ -128721,8 +128837,8 @@ class Prv_mlb(Protocol):
         """
 
     async def getInjuryReport(self, args: Prv_mlb_MlbGetInjuryReportArgs_In | None = None, /) -> Prv_mlb_MlbInjuryReport_Out:
-        """Players on a 7/10/15/60-day injured list, all 30 teams or one; status only, MLB's feed
-        has no injury text or return date. Empty off-season.
+        """Players on a 7/10/15/60-day injured list, all 30 teams or one, now or on a requested
+        date; status only, MLB's feed has no injury text or return date.
         """
 
     async def getGameBroadcasts(self, args: Prv_mlb_MlbGameArgs_In, /) -> Prv_mlb_MlbGameBroadcasts_Out:
@@ -132410,7 +132526,7 @@ class Prv_pilotprotocol(Protocol):
     """Pilot Protocol's own app store — a directory of installable agent capabilities (30+
     apps: databases, comms, browser automation, payments, …). listApps returns the whole
     catalog (id, name, vendor, category, tagline); getApp reads one app's detail page
-    (version, license, runtime, permissions, methods) by id.
+    (version, install command, methods) by id.
     """
 
     async def listApps(self, /) -> list[Prv_pilotprotocol_PilotprotocolAppSummary_Out]:
@@ -132420,8 +132536,9 @@ class Prv_pilotprotocol(Protocol):
 
     async def getApp(self, id: str, /) -> Prv_pilotprotocol_PilotprotocolAppDetail_Out:
         """Reads one app's detail page by id (e.g. "io.pilot.bowmark", from listApps) — vendor,
-        tagline, full description, category, version, license, runtime, minimum Pilot version,
-        source link, install command, granted permissions and its method list.
+        tagline, full description, category, version, install command and its method list.
+        License, runtime, minimum Pilot version, source link and permissions are not published
+        by the site since 2026-11-28, so they come back null or empty.
         """
 
 class Prv_pinterest(Protocol):
@@ -149354,6 +149471,7 @@ class BowmarkProviders(Protocol):
     claudemarketplaces_com: Prv_claudemarketplaces_com
     clboyd: Prv_clboyd
     cleanairlawncare: Prv_cleanairlawncare
+    cleartrip: Prv_cleartrip
     cloudbeds: Prv_cloudbeds
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c84e69c03712b0f31209f9b1d4247fc07df64e1bb71c6ebebebdfa23e3c63a07
-// 6351 checked, 20 unchecked.
+// Manifest version: 5ff7ac0fe0039e88dbc0477def0f2aef038b4c83a8c23c75e208f2869ec5a285
+// 6354 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c84e69c03712b0f31209f9b1d4247fc07df64e1bb71c6ebebebdfa23e3c63a07",
+  "version": "5ff7ac0fe0039e88dbc0477def0f2aef038b4c83a8c23c75e208f2869ec5a285",
   "units": {
     "address_validation": {
       "defs": {
@@ -47256,6 +47256,181 @@ export const VALIDATORS: ValidatorTable = {
       "digests": {
         "checkServiceArea": "67670169ea6dd43b",
         "getAvailableSlots": "c8dc8ba7e03d1da9"
+      }
+    },
+    "providers.cleartrip": {
+      "defs": {
+        "CleartripFlightSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "departDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "children",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "infants",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cabin",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Economy"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Premium Economy"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Business"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "First"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "price"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "departure"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "duration"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CleartripHotelSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchAirports": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchFlights": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CleartripFlightSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchHotels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CleartripHotelSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchAirports": "b4937cce1fac8072",
+        "searchFlights": "876688d61fb62382",
+        "searchHotels": "c74870ffe2a5327f"
       }
     },
     "providers.cloudbeds": {
@@ -126003,6 +126178,13 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -128254,44 +128436,44 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "read": "a976fe49fade5439",
-        "listTeams": "beae8ea0cf857ae0",
-        "searchPlayers": "eb89dd78a13c05c8",
-        "getSchedule": "c51b2817a7c66314",
-        "getStandings": "39c89ee04cdf8275",
-        "getGame": "b1adefd28156ef20",
-        "getBoxScore": "c80fdb27165c88be",
-        "getPlayByPlay": "21a1cd04f07d0459",
-        "getPlayer": "d9dc183e507e368a",
-        "getPlayerStats": "7b1683867faa5c89",
-        "getStatLeaders": "555747d9dd0540fe",
-        "getRoster": "5c9025a172ab7f61",
-        "listNews": "1970881dd25a72cc",
-        "getArticle": "d97da1d7243e6fe6",
-        "searchContent": "725e5f495d89b0bf",
-        "searchVideos": "94d67896e16a6291",
-        "getVideo": "dc860d8c556d2db0",
-        "getPlayback": "86cba4fb8aa02e9c",
-        "getGameHighlights": "67671a387a7837e8",
-        "getTeam": "590606c5a77fcc01",
-        "getTeamStats": "d44dcb916f3d238e",
-        "getWinProbability": "3d1e0c836c1ccc13",
-        "getPostseasonBracket": "746f3e32fc453503",
-        "getTeamLeaders": "48b986616532b532",
-        "getPlayerGameLog": "ff8d54d065259f76",
-        "listPlayerStats": "67f33e4808030c01",
-        "listTransactions": "eb697da58afbdf96",
-        "getProbablePitchers": "f2784023106d659d",
-        "getStartingLineups": "545378ccf86cdfb5",
-        "getDraft": "b136a9363faf895f",
-        "getAwards": "644f5738a58ba604",
-        "getProspectRankings": "60939e50e6cb99e5",
-        "listGlossaryTerms": "92b389b8571dd25d",
-        "getGlossaryTerm": "f1294c9f28db1614",
-        "getVenue": "5f8cd9a73aa08efb",
-        "listFreeAgents": "ad94daa76a137a8c",
-        "getInjuryReport": "13093cb35982d7d0",
-        "getGameBroadcasts": "0f0afd6a8d2f531c"
+        "read": "a7f8f367710a52f1",
+        "listTeams": "e7d1b151de06e920",
+        "searchPlayers": "9aea87ac973a0475",
+        "getSchedule": "9b1f98a70715cf52",
+        "getStandings": "830bece13f5b125a",
+        "getGame": "b066393557254b9c",
+        "getBoxScore": "2d4e291b8fbdc681",
+        "getPlayByPlay": "ff8377029f48da3a",
+        "getPlayer": "6ec6ea9e2445707e",
+        "getPlayerStats": "a40593ccd43a4d32",
+        "getStatLeaders": "c9a1ead16107943b",
+        "getRoster": "45e9203b04dbc78a",
+        "listNews": "bb77db0297275f63",
+        "getArticle": "c62caf508bc15a67",
+        "searchContent": "b79ad9af6504a324",
+        "searchVideos": "216437f70c6ef6e4",
+        "getVideo": "db2b76d61c2b337d",
+        "getPlayback": "08ceb5fd9175b223",
+        "getGameHighlights": "1677dc22c2908387",
+        "getTeam": "38c4ec2aea8eee03",
+        "getTeamStats": "e0469a07b23dec2a",
+        "getWinProbability": "6caf08fb3de1609f",
+        "getPostseasonBracket": "dfb5ab0b85ed07a5",
+        "getTeamLeaders": "31483d7c7b28e2ed",
+        "getPlayerGameLog": "4657c4f3dcb28644",
+        "listPlayerStats": "fc12f49edb10cb89",
+        "listTransactions": "7b0aa6ecdea0672b",
+        "getProbablePitchers": "76b200db4f3fbc42",
+        "getStartingLineups": "2ed0b549445f1c98",
+        "getDraft": "be00529ee457fe94",
+        "getAwards": "b72d9b36dad66c35",
+        "getProspectRankings": "39b3c3dac93383a9",
+        "listGlossaryTerms": "d4ab488d86d54f31",
+        "getGlossaryTerm": "c1cb66c19c778c53",
+        "getVenue": "f451480392a92aa9",
+        "listFreeAgents": "a10e553511ae7738",
+        "getInjuryReport": "81b39d05e283c0be",
+        "getGameBroadcasts": "1a86f6a299f2b97c"
       }
     },
     "providers.mobile_de": {
