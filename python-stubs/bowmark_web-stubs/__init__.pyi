@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1789dc3434cca093e6ff19580408d73fe1a82079bf7b28fc0b6ce977f072fd39
-# 102 capabilities, 1007 providers, 6346 typed functions, 20 refused.
+# Manifest version: 964da58042e4f638ac0325490cef81bc28154d7da2f653c33fa3275457bf487f
+# 102 capabilities, 1009 providers, 6351 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6813,6 +6813,7 @@ Prv_alibaba_alibabaMessage_Out = TypedDict(
     "autoReply": bool,
     "system": bool,
     "rawContentType": float | None,
+    "products": list[Prv_alibaba_alibabaMessage_Out_products_item_Out],
     "raw": Any,
     },
 )
@@ -6825,6 +6826,9 @@ class Prv_alibaba_alibabaAttachmentRef_Out(TypedDict):
     size: float | None
     url: str | None
     mediaId: str | None
+
+class Prv_alibaba_alibabaMessage_Out_products_item_Out(TypedDict):
+    productId: str
 
 class Prv_alibaba_alibabaGetAttachmentArgs_In(TypedDict):
     conversationId: str
@@ -47478,6 +47482,59 @@ class Prv_instacart_InstacartCoupon_Out(TypedDict):
     clipped: bool | None
     expiresAt: str | None
 
+class Prv_instacart_InstacartGetClosestStoreLocationArgs_In(TypedDict):
+    retailerId: str
+    postalCode: str
+
+class Prv_instacart_InstacartGetClosestStoreLocationResult_Out(TypedDict):
+    closestRetailerLocation: Prv_instacart_InstacartGetClosestStoreLocationResult_Out_closestRetailerLocation_Out
+
+class Prv_instacart_InstacartGetClosestStoreLocationResult_Out_closestRetailerLocation_Out(TypedDict):
+    id: str
+    retailerId: str
+    city: str
+    postalCode: str
+    state: str
+    streetAddress: str
+    __typename: str
+
+class Prv_instacart_InstacartGetStoreLocationArgs_In(TypedDict):
+    retailerLocationId: str
+
+class Prv_instacart_InstacartGetStoreLocationResult_Out(TypedDict):
+    id: str
+    coordinates: Prv_instacart_InstacartGetStoreLocationResult_Out_coordinates_Out
+    viewSection: Prv_instacart_InstacartGetStoreLocationResult_Out_viewSection_Out
+    __typename: str
+
+class Prv_instacart_InstacartGetStoreLocationResult_Out_coordinates_Out(TypedDict):
+    latitude: float
+    longitude: float
+    __typename: str
+
+class Prv_instacart_InstacartGetStoreLocationResult_Out_viewSection_Out(TypedDict):
+    id: str
+    address: Prv_instacart_InstacartGetStoreLocationResult_Out_viewSection_Out_address_Out
+    locationDisplayNameString: Any
+    __typename: str
+
+class Prv_instacart_InstacartGetStoreLocationResult_Out_viewSection_Out_address_Out(TypedDict):
+    id: str
+    lineOneString: str
+    lineTwoString: str
+    __typename: str
+
+class Prv_instacart_InstacartSearchHelpArticlesArgs_In(TypedDict):
+    searchTerm: str
+
+class Prv_instacart_InstacartSearchHelpArticlesResult_item_Out(TypedDict):
+    id: str
+    sectionId: str
+    title: str
+    snippet: str
+    searchEventId: str
+    __typename: str
+
 class Prv_instagram_InstagramProfileDetail_Out(TypedDict):
     id: str
     username: str
@@ -60295,6 +60352,25 @@ class Prv_nops_NopsListingSummary_Out(TypedDict):
     propertyType: str | None
     statusLabel: str | None
     branchId: str
+
+class Prv_nordstrom_NordstromSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_nordstrom_NordstromSearchResult_Out(TypedDict):
+    query: str
+    url: str
+    products: list[Prv_nordstrom_NordstromProduct_Out]
+
+class Prv_nordstrom_NordstromProduct_Out(TypedDict):
+    id: str
+    brand: str | None
+    name: str
+    price: float
+    priceMax: float
+    wasPrice: float | None
+    onSale: bool
+    url: str
 
 class Prv_notion_NotionSystemStatus_Out(TypedDict):
     status: str
@@ -77071,6 +77147,26 @@ class Prv_solostove_SolostoveBundleComponent_Out(TypedDict):
     quantity: float
     orderable: bool
     availableToSell: float
+
+class Prv_sos_ga_gov_SearchNurseLicensesArgs_In(TypedDict):
+    licenseNumber: NotRequired[str]
+    lastName: NotRequired[str]
+    firstName: NotRequired[str]
+    licenseType: NotRequired[Literal["RN"] | Literal["LPN"]]
+    detailLimit: NotRequired[float]
+
+class Prv_sos_ga_gov_GaNurseLicenseSearch_Out(TypedDict):
+    total: float
+    licenses: list[Prv_sos_ga_gov_GaNurseLicense_Out]
+
+class Prv_sos_ga_gov_GaNurseLicense_Out(TypedDict):
+    name: str
+    licenseNumber: str
+    licenseType: str
+    status: str
+    city: str | None
+    issued: str | None
+    expires: str | None
 
 class Prv_sos_ms_gov_ListAgenciesArgs_In(TypedDict):
     query: NotRequired[str]
@@ -109460,19 +109556,19 @@ class Prv_checkatrade(Protocol):
 
     async def searchTraders(self, args: Prv_checkatrade_CheckatradeSearchArgs_In, /) -> Prv_checkatrade_CheckatradeSearchResult_Out:
         """Finds Checkatrade tradespeople for a trade or category near a full UK postcode, in the
-        site's own order, 12 a page, with review score, phone, location and skills.
+        site's own order, 12 a page, with review score, phone, location and skills. Needs a
+        category label and a FULL UK postcode, e.g. { category: "Plumber", postcode: "SW1A 1AA"
+        }; ask the user for a postcode only when you have none.
         """
 
     async def listCategories(self, args: Prv_checkatrade_CheckatradeCategoriesArgs_In, /) -> Prv_checkatrade_CheckatradeCategories_Out:
-        """Lists the job categories under one trade (Plumber, Builder, Roofer...) with the ids and
-        labels search uses. It returns an OBJECT, never an array: { trade, id, categories: [{
-        id, label }], warnings }, so read the list from result.categories. Call
-        listCategories({}) with no input first: it lists only the 7 trades the search page
-        carries (not all ~72; warnings says so), and each trade label goes back in as
-        listCategories({ trade: "Roofer" }) for its categories, e.g. return (await
-        bowmark.providers.checkatrade.listCategories({})).categories.map(c => c.label). Then
-        searchTraders({ category, postcode }) needs a category label and a FULL UK postcode,
-        e.g. { category: "Plumber", postcode: "SW1A 1AA" }; ask for a postcode if you have none.
+        """The first call for checkatrade.com with nothing else to go on: run it, no input needed.
+        It returns an OBJECT, never an array: { trade, id, categories: [{ id, label }], warnings
+        }, so read the list from result.categories, e.g. return (await
+        bowmark.providers.checkatrade.listCategories({})).categories.map(c => c.label). With no
+        input it lists the 7 trades the search page carries (Plumber, Builder, Roofer...; not
+        all ~72, warnings says so); a trade label goes back in as listCategories({ trade:
+        "Roofer" }) for the job categories and ids search uses.
         """
 
 class Prv_checkfront(Protocol):
@@ -123041,6 +123137,21 @@ class Prv_instacart(Protocol):
         retailerId and zoneId from getStore. Read only. A guest pauses the run for sign-in.
         """
 
+    async def getClosestStoreLocation(self, args: Prv_instacart_InstacartGetClosestStoreLocationArgs_In, /) -> Prv_instacart_InstacartGetClosestStoreLocationResult_Out:
+        """Returns the closest store location for a retailer near a postal code, including its
+        address and location and retailer identifiers.
+        """
+
+    async def getStoreLocation(self, args: Prv_instacart_InstacartGetStoreLocationArgs_In, /) -> Prv_instacart_InstacartGetStoreLocationResult_Out:
+        """Returns a store location with its geographic coordinates, address details, and display
+        name.
+        """
+
+    async def searchHelpArticles(self, args: Prv_instacart_InstacartSearchHelpArticlesArgs_In, /) -> list[Prv_instacart_InstacartSearchHelpArticlesResult_item_Out]:
+        """Returns matching Instacart help articles, with each article’s title and snippet plus
+        identifiers for the article and its section.
+        """
+
 class Prv_instagram(Protocol):
     """Reads public Instagram (instagram.com) without a login: a profile with its bio, links,
     follower and following counts and twelve latest posts; one post or reel by URL with its
@@ -130000,6 +130111,17 @@ class Prv_nops(Protocol):
         """Lists every Oxford property NOPS currently has to let across both its offices,
         optionally filtered by address text, minimum bedrooms or maximum monthly rent; each
         row's url or listingNumber goes straight into getListing.
+        """
+
+class Prv_nordstrom(Protocol):
+    """Searches Nordstrom's live catalog (nordstrom.com) for clothing, shoes and accessories
+    and returns product rows: brand, name, current price, sale status and url.
+    """
+
+    async def search(self, args: str | Prv_nordstrom_NordstromSearchArgs_In, /) -> Prv_nordstrom_NordstromSearchResult_Out:
+        """Searches Nordstrom's live catalog by keyword, like its own search bar, and returns
+        product rows: style id, brand, name, current price (low and high for a range),
+        pre-markdown price, on-sale flag and product url.
         """
 
 class Prv_notion(Protocol):
@@ -138312,6 +138434,17 @@ class Prv_solostove(Protocol):
         bundle id, use listBundles to find one, or the Dream Backyard Bundle's —
         "SS27+SS22+WINDCHILL30-CHARCOAL-17AH" — to check the flow rather than asking the caller
         for one first.
+        """
+
+class Prv_sos_ga_gov(Protocol):
+    """Georgia nurse license lookup (goals.sos.ga.gov): find RN and LPN licenses by name or
+    license number, with status, city and expiry.
+    """
+
+    async def searchNurseLicenses(self, args: Prv_sos_ga_gov_SearchNurseLicensesArgs_In, /) -> Prv_sos_ga_gov_GaNurseLicenseSearch_Out:
+        """Looks up Georgia nursing licenses (RN, LPN) in the state's public licensee search by
+        license number or last name (optionally first name), returning name, license number,
+        type, status, city and, for the first few matches, the issued and expiry dates.
         """
 
 class Prv_sos_ms_gov(Protocol):
@@ -149608,6 +149741,7 @@ class BowmarkProviders(Protocol):
     nike: Prv_nike
     nintendo: Prv_nintendo
     nops: Prv_nops
+    nordstrom: Prv_nordstrom
     notion: Prv_notion
     npi_registry: Prv_npi_registry
     npmjs: Prv_npmjs
@@ -149792,6 +149926,7 @@ class BowmarkProviders(Protocol):
     snapchat: Prv_snapchat
     solidcore: Prv_solidcore
     solostove: Prv_solostove
+    sos_ga_gov: Prv_sos_ga_gov
     sos_ms_gov: Prv_sos_ms_gov
     soulcycle: Prv_soulcycle
     soundcloud: Prv_soundcloud

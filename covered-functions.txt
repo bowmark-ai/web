@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 146,087 sites, generated 2026-11-28.
+# Every website Bowmark covers and the functions it has: 146,122 sites, generated 2026-11-28.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -110210,6 +110210,7 @@ nordmodehaus.com	a9af6443
 nordpharm.ro	357f4ac8
 nordrheinpharma.de	bb34c1bd
 nordskogs.myshopify.com	a9af6443
+nordstrom.com	3559d7ac
 nordtaschen.de	da39a3ee
 nordurequipment.myshopify.com	a9af6443
 nordwearshop.myshopify.com	a9af6443
@@ -113910,10 +113911,12 @@ pariscorner.ae	bb34c1bd
 parish-supply.com	bb34c1bd
 parishausdesigns.myshopify.com	a9af6443
 parishay.pk	8b50d914
+parishiapharma.com	da39a3ee
 parishilton.com	4479a458
 parisiennefarmgirl.myshopify.com	a9af6443
 parisjetaime.com	a6b1eb53
 parism.myshopify.com	a9af6443
+paristextile-official.com	da39a3ee
 park-and-buzz.myshopify.com	a9af6443
 park-farm-plants.myshopify.com	a9af6443
 park-ridge-rotary-charitable-foundation-holiday-store.myshopify.com	a9af6443
@@ -113965,6 +113968,7 @@ parkview-flower-market.myshopify.com	a9af6443
 parkwaystore.myshopify.com	a9af6443
 parlayedit.myshopify.com	a9af6443
 parleperla.com	bb34c1bd
+parleycosmetics.com	da39a3ee
 parlhub.com	da39a3ee
 parlights.com	bb34c1bd
 parlordoughnuts.com	da39a3ee
@@ -114086,24 +114090,32 @@ partyshop-8796.myshopify.com	a9af6443
 partyspin.myshopify.com	a9af6443
 partytimerentals.us	bb34c1bd
 partywinkel.be	da39a3ee
+partywinkel.fr	da39a3ee
 partywinkel.nl	4479a458
 partywithclosefriends.myshopify.com	a9af6443
 parulgargbeauty.com	4479a458
+parulpackaging.com	da39a3ee
 parwest.com	bb34c1bd
 pas-solar.com	bb34c1bd
 pasados-safe-haven.myshopify.com	a9af6443
+pasauliosiulai.lt	da39a3ee
 pascal-van-blooms.myshopify.com	a9af6443
 pascaldesign.com	37007769
 pascale-faubert-creation-textile.myshopify.com	a9af6443
 pascribe-workbooks.myshopify.com	a9af6443
 paserene.myshopify.com	a9af6443
+pashafabrics.pk	da39a3ee
+pashmoda.com	da39a3ee
 pashtush.in	4479a458
+pashudh.com	da39a3ee
 pasilobus-announcer.myshopify.com	61e64875
 pasilobus-apps-2.myshopify.com	61e64875
 pasilobus-holidays.myshopify.com	61e64875
 pasilobus-storelocator.myshopify.com	61e64875
 pasinafiori.myshopify.com	a9af6443
+pasionaria.com.ar	da39a3ee
 paslode.co.uk	bb34c1bd
+pasoline.com	da39a3ee
 pasoroblesfurniture.com	4479a458
 pasos.edu.ec	685e74a3
 paspaley.com	4479a458
@@ -114406,6 +114418,7 @@ paylosmerch.myshopify.com	a9af6443
 payments-footiepredictions.myshopify.com	a9af6443
 paynesgray.com	4479a458
 paynesrise.com.au	bb34c1bd
+paynom.mx	da39a3ee
 payntrgolf.com	da39a3ee
 paypal.com	7cab5a8b
 payplaxe.com	4479a458
@@ -114482,6 +114495,7 @@ pcnw.myshopify.com	a9af6443
 pcock-online-store.myshopify.com	a9af6443
 pcolors.bh	bb34c1bd
 pcos-to-wellness-us.myshopify.com	a9af6443
+pcpjavali.com.br	da39a3ee
 pcpls.myshopify.com	a9af6443
 pcplusplus.gr	bb34c1bd
 pcpraha.cz	da39a3ee
@@ -114868,6 +114882,7 @@ peppypod.com	bb34c1bd
 pepstores.com	4479a458
 peptidecritic.com	da39a3ee
 pequignet.com	4479a458
+pequiperfumes.com.br	da39a3ee
 per-olovkindgren.com	bb34c1bd
 per-vurt.com	bb34c1bd
 peragashop.com	4479a458
@@ -114968,6 +114983,7 @@ perfumepalace.in	4479a458
 perfumeqatar.com	bb34c1bd
 perfumeria.pl	4479a458
 perfumeriamillennio.com	da39a3ee
+perfumeriasmiriam.com	da39a3ee
 perfumesandbeyondltd.com	bb34c1bd
 perfumesandgifts.co.uk	bb34c1bd
 perfumescolombia.com.co	da39a3ee
@@ -114975,6 +114991,7 @@ perfumesera.com	bb34c1bd
 perfumeskuwait.com	bb34c1bd
 perfumiarz.pl	da39a3ee
 perfuming-intentions.myshopify.com	a9af6443
+perfumistas.com.ar	da39a3ee
 pergoladepot.com	bb34c1bd
 pergolux.de	4479a458
 pergoluxshop.com	4479a458
@@ -115013,6 +115030,7 @@ perofil.com	4479a458
 perpetual-produkt.myshopify.com	a9af6443
 perpetualpermanentmakeup.com	bb34c1bd
 perpetuawoman.com	a9af6443
+perramus.com.ar	da39a3ee
 perryautolaval.com	da39a3ee
 perryellis.com	37007769
 perryhouseplans.com	bb34c1bd
@@ -115126,7 +115144,9 @@ peterluger.com	8b50d914
 petermanningnyc.com	da39a3ee
 petermeier.com	bb34c1bd
 petermkennedy.com	bb34c1bd
+peterpan.com.ar	da39a3ee
 peterpauper.com	4479a458
+peterrabbit-shop.jp	da39a3ee
 peters-antiques-sarl.myshopify.com	a9af6443
 peters-badminton-shop.myshopify.com	a9af6443
 petersen.org	8b50d914
@@ -115136,6 +115156,7 @@ petes-souvenir-store.myshopify.com	a9af6443
 petesgolfcarts.com	bb34c1bd
 petessentialshamilton.co.nz	bb34c1bd
 petfamily.com.ph	bb34c1bd
+petfamilyweb.com	da39a3ee
 petfare.com.au	bb34c1bd
 petfetchid.myshopify.com	a9af6443
 petfinn.com	a9af6443
@@ -115150,6 +115171,7 @@ petit-vour-3.myshopify.com	a9af6443
 petite-passport.myshopify.com	a9af6443
 petite-plume.com	4479a458
 petite-prints-nz.myshopify.com	a9af6443
+petiteboudoir.gr	da39a3ee
 petitekeep.com	da39a3ee
 petiteknit.com	4479a458
 petiteknit.myshopify.com	a9af6443
@@ -115161,6 +115183,7 @@ petitestudionyc.com.cn	4479a458
 petitesuzette.myshopify.com	a9af6443
 petitionpromotion.myshopify.com	a9af6443
 petitparispanama.myshopify.com	a9af6443
+petits-meubles.fr	da39a3ee
 petitsoleildujapon.myshopify.com	a9af6443
 petitspasdegeant.com	4479a458
 petivity.com	4479a458
@@ -115172,6 +115195,7 @@ petlanta-pet-pros.myshopify.com	a9af6443
 petlibro.com	134ddf07
 petlikes.in	bb34c1bd
 petloversmarket.com	bb34c1bd
+petmall.bg	da39a3ee
 petmartlb.com	bb34c1bd
 petmate.com	4479a458
 petmedella.com	bb34c1bd
@@ -115192,6 +115216,7 @@ petregistrationandrecovery.com	da39a3ee
 petrelish.myshopify.com	a9af6443
 petrified-phoenix.myshopify.com	a9af6443
 petrifying-springs-biergarten.myshopify.com	a9af6443
+petrizzio.cl	da39a3ee
 petrobuster.ca	bb34c1bd
 petrogen.myshopify.com	a9af6443
 petrolboys.com	bb34c1bd
@@ -115202,6 +115227,7 @@ petrolhead-apparel.myshopify.com	a9af6443
 petrolicious.com	4479a458
 petrolindustries.com	4479a458
 petromax.de	4479a458
+petroneparis.fr	da39a3ee
 petros-hair.myshopify.com	a9af6443
 petrovalue-parts-store.myshopify.com	a9af6443
 petrow-6646.myshopify.com	a9af6443
@@ -115238,6 +115264,7 @@ petsupplies4less.com	4479a458
 petsuppliez.com	bb34c1bd
 petsvoyage.myshopify.com	a9af6443
 petswarehouse.com	da39a3ee
+pettena.jp	da39a3ee
 petticoat-lane-store.myshopify.com	a9af6443
 pettingfabric.com	bb34c1bd
 pettownbd.com	bb34c1bd
@@ -115250,6 +115277,7 @@ petymart.myshopify.com	a9af6443
 petzcentralsg.com	bb34c1bd
 petzonebd.com	bb34c1bd
 peugeotpartsdirect.co.uk	bb34c1bd
+pex.com.br	da39a3ee
 pexafy.com	f49a7e8e
 pexels.com	3559d7ac
 peyrano.myshopify.com	a9af6443
@@ -115278,6 +115306,7 @@ pfwlabels.com	bb34c1bd
 pg-nola.myshopify.com	a9af6443
 pga-village-golf-club.myshopify.com	a9af6443
 pga.com	42f0b422
+pgadesivos.com.br	da39a3ee
 pganabolics.is	bb34c1bd
 pgbooks-usa-2.myshopify.com	a9af6443
 pgccs.org	da39a3ee
@@ -115330,6 +115359,7 @@ pharmadirect.co.za	bb34c1bd
 pharmadva.com	4479a458
 pharmagenx.myshopify.com	a9af6443
 pharmagrade.store	bb34c1bd
+pharmahealth.com.pk	da39a3ee
 pharmaholic.com	bb34c1bd
 pharmaholic.net	bb34c1bd
 pharmakia.org	bb34c1bd
@@ -115469,6 +115499,7 @@ phonicstofluency.com	bb34c1bd
 phono-graphix-reading-company.myshopify.com	a9af6443
 phonorange.com	bb34c1bd
 phool.co	8b50d914
+phorcydes.net	da39a3ee
 phorfoam.com	bb34c1bd
 phormulis.myshopify.com	a9af6443
 phos.online	a9af6443
@@ -115545,6 +115576,7 @@ pic-mix-the-body-jewellery-shop.myshopify.com	a9af6443
 picadili.ro	357f4ac8
 picadilly-canada.myshopify.com	a9af6443
 picamaze.myshopify.com	a9af6443
+picapicaportalle.com.ar	da39a3ee
 picard-frozen.jp	4479a458
 picassohair.myshopify.com	a9af6443
 picavera.ch	a9af6443
@@ -115592,6 +115624,7 @@ picoeur.myshopify.com	a9af6443
 picpatchlabel.com	bb34c1bd
 picpetshop.com	bb34c1bd
 picsee.io	d1a87830
+picsel.app	da39a3ee
 picsilsport.com	37007769
 picta.design	a9af6443
 pictama.co.uk	bb34c1bd
@@ -115964,6 +115997,7 @@ pixelsandink.myshopify.com	a9af6443
 pixelsgetstitches.myshopify.com	a9af6443
 pixelsurplus.com	4479a458
 pixelunion.net	8b50d914
+pixelxyzgames.com	da39a3ee
 pixibeauty.com	4479a458
 pixie-acia.myshopify.com	a9af6443
 pixie-kix.myshopify.com	a9af6443
@@ -119538,6 +119572,7 @@ ramkey.in	bb34c1bd
 rammount.com	4479a458
 ramonas-kitchen.myshopify.com	a9af6443
 ramonsportscare.myshopify.com	a9af6443
+rampage.com.tr	da39a3ee
 rampage303.myshopify.com	a9af6443
 rampartcorp.com	bb34c1bd
 rampura-organics-india-pvt-ltd.myshopify.com	a9af6443

@@ -1,5 +1,5 @@
 {
-  "version": "1789dc3434cca093e6ff19580408d73fe1a82079bf7b28fc0b6ce977f072fd39",
+  "version": "964da58042e4f638ac0325490cef81bc28154d7da2f653c33fa3275457bf487f",
   "units": {
     "address_validation": {
       "defs": {
@@ -14310,27 +14310,27 @@
         ]
       },
       "digests": {
-        "searchProducts": "fe8d2ec0293d1b6f",
-        "getProduct": "e22eec98a720ed75",
-        "listCategories": "790c0dd1b674ff90",
-        "getSuggestions": "b9ee79121ae0c5f8",
-        "listSuppliers": "3304ba7f1efba7ca",
-        "getSupplier": "6ea26ada1dafd091",
-        "getProductReviews": "672f3274a29f1e03",
-        "listSupplierProducts": "cbbe6e895490a0f6",
-        "getProfile": "621f430ff5e7a416",
-        "listMessages": "621f430ff5e7a416",
-        "listOrders": "621f430ff5e7a416",
-        "getOrder": "a4339234c048b9f3",
-        "listSavedItems": "621f430ff5e7a416",
-        "getCart": "189adfdd4e83f6ce",
-        "listConversations": "dae42adb8130d34b",
-        "getThread": "84834ae5cece95bc",
-        "getAttachment": "ee0d0ebb69ea2909",
-        "replyToThread": "9493f947a667ed07",
-        "contactSupplier": "cc23beefad63e196",
-        "signup": "ae5c400cc468bf84",
-        "confirmSignup": "b96e2c6d477318ec"
+        "searchProducts": "7a905bf651d59309",
+        "getProduct": "5966e752e9de2a37",
+        "listCategories": "961da1ac63ddaf0c",
+        "getSuggestions": "89f9128e9b78e218",
+        "listSuppliers": "43c5fe1f31ac4d13",
+        "getSupplier": "b10f80f4d3014673",
+        "getProductReviews": "b48699e7a80e2acb",
+        "listSupplierProducts": "6da71e1829499bed",
+        "getProfile": "89ad5492649bb925",
+        "listMessages": "89ad5492649bb925",
+        "listOrders": "89ad5492649bb925",
+        "getOrder": "14f1d9a6435304fc",
+        "listSavedItems": "89ad5492649bb925",
+        "getCart": "636cae4f08b5a466",
+        "listConversations": "8e4ccab59c77f3ae",
+        "getThread": "7802775158be5304",
+        "getAttachment": "0881f2633ebb0cef",
+        "replyToThread": "75aa8985b11578da",
+        "contactSupplier": "22ed0921d022a6dd",
+        "signup": "c344f4b5242fe4ff",
+        "confirmSignup": "3e4d7ed54dbf44a7"
       }
     },
     "providers.aliexpress": {
@@ -100821,6 +100821,25 @@
             }
           ]
         },
+        "InstacartGetClosestStoreLocationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "retailerId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "postalCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "InstacartGetDeliveryEstimateArgs": {
           "k": "object",
           "props": [
@@ -101036,6 +101055,18 @@
                 "k": "number"
               },
               "optional": true
+            }
+          ]
+        },
+        "InstacartGetStoreLocationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "retailerLocationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -101257,6 +101288,18 @@
           "props": [
             {
               "name": "orderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "InstacartSearchHelpArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "searchTerm",
               "schema": {
                 "k": "string"
               },
@@ -102106,47 +102149,80 @@
             },
             "optional": true
           }
+        ],
+        "getClosestStoreLocation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartGetClosestStoreLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStoreLocation": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartGetStoreLocationArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchHelpArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InstacartSearchHelpArticlesArgs"
+            },
+            "optional": false
+          }
         ]
       },
       "digests": {
-        "findLocation": "96cff032e68d184e",
-        "listStores": "a3e10ddfe7834d79",
-        "getStore": "7d423b030ca0d39a",
-        "compareStores": "6924115d718ac0ba",
-        "getProduct": "5fab7e4270d8a4d5",
-        "listDeals": "32cb7e6514a4f740",
-        "listDepartments": "bce18be3a41d4ad8",
-        "listDepartmentProducts": "d1fee7d2605b70e3",
-        "getDeliveryEstimate": "865fcbf7878c7e26",
-        "searchProducts": "690ee04eae4694dc",
-        "suggestSearches": "5ea6b3951f29e8e9",
-        "getWeeklyAd": "9c883bd8def0f38b",
-        "getStoreHours": "78120072b359d7f3",
-        "getProductReviews": "fabebd1ac7ecc1d5",
-        "getRecipe": "4b57c4af3a373fa8",
-        "listOrders": "6fa54e4882efe6d2",
-        "listMyAddresses": "1fe88a3b34839c37",
-        "listCarts": "010243d19104588f",
-        "getCart": "ddb857a846059420",
-        "getMyAccount": "ea2c60ff6b89b509",
-        "listMyLists": "0507ef98fa919508",
-        "listFavorites": "7dbbf3937b5b0309",
-        "listBuyItAgain": "3a2e5a8e450c7be8",
-        "getOrder": "746820227a9b104f",
-        "getList": "d024cac423fea658",
-        "clipCoupon": "46b3e7999912d227",
-        "addToCart": "bf866c98ad892bff",
-        "removeFromCart": "bf866c98ad892bff",
-        "reorder": "ae4d571ac81c7f17",
-        "deleteAddress": "ad9435582702f886",
-        "addAddress": "f5e5c39e6f910bf7",
-        "updateAddress": "e5cd61b77522df61",
-        "createList": "1778d3f6ebd67736",
-        "addToList": "d405b18c2ec16aa6",
-        "linkLoyaltyCard": "ef232f29affc34f3",
-        "updateMyAccount": "e4dd2d94a0501e4d",
-        "favoriteProduct": "30f316f013f58fae",
-        "listCoupons": "58807813e028af52"
+        "findLocation": "1f8d396832b73d16",
+        "listStores": "ccbb5efcb80a524f",
+        "getStore": "da39522a87d3e094",
+        "compareStores": "a4d8e90fc17d660b",
+        "getProduct": "ecedd1b340fa032e",
+        "listDeals": "4a90d0ec29c12e9e",
+        "listDepartments": "f3f4549718f48fec",
+        "listDepartmentProducts": "c87419d88f038b07",
+        "getDeliveryEstimate": "cb2360703522c49b",
+        "searchProducts": "d951f9afee876b16",
+        "suggestSearches": "4857719fd2ceb854",
+        "getWeeklyAd": "3e6506512d9f0cd1",
+        "getStoreHours": "1f9e26d653046c51",
+        "getProductReviews": "02d5bd46212c6490",
+        "getRecipe": "ac60d804f0afef02",
+        "listOrders": "60ca2d2ce9700c86",
+        "listMyAddresses": "a35c96273aed3354",
+        "listCarts": "7b8702966dfecd32",
+        "getCart": "896185de9c35ba88",
+        "getMyAccount": "bcd1b74bc25a0bba",
+        "listMyLists": "7e18dab7054de2ce",
+        "listFavorites": "5378fb578aa350d4",
+        "listBuyItAgain": "8313fc4b3995e622",
+        "getOrder": "74a5dd5a27c60d8f",
+        "getList": "944773d814fb41bf",
+        "clipCoupon": "b8e00c0071f78a25",
+        "addToCart": "8ea0963e76d942db",
+        "removeFromCart": "8ea0963e76d942db",
+        "reorder": "f361677110b869da",
+        "deleteAddress": "d5fcc3e41395850d",
+        "addAddress": "983eaaf7d4712633",
+        "updateAddress": "a76f78c9a7f380fa",
+        "createList": "437b4e8644c08744",
+        "addToList": "838a4492480cc940",
+        "linkLoyaltyCard": "0fd6dfae7db69b11",
+        "updateMyAccount": "cce12c0e24b410e7",
+        "favoriteProduct": "17059102f6f01a78",
+        "listCoupons": "00e387536a63e257",
+        "getClosestStoreLocation": "2d62163e372f786e",
+        "getStoreLocation": "462a1efe48a456ad",
+        "searchHelpArticles": "901f031e4adfbcc2"
       }
     },
     "providers.instagram": {
@@ -133808,6 +133884,52 @@
       "digests": {
         "getListing": "d700acdc6169412e",
         "searchListings": "b333fece0695b9c6"
+      }
+    },
+    "providers.nordstrom": {
+      "defs": {
+        "NordstromSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "NordstromSearchArgs"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "search": "8c885e72cfb44214"
       }
     },
     "providers.notion": {
@@ -171972,6 +172094,75 @@
       "digests": {
         "listBundles": "020b7aa1f982636f",
         "checkBundle": "a1b90a94cf4814e3"
+      }
+    },
+    "providers.sos_ga_gov": {
+      "defs": {
+        "SearchNurseLicensesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "licenseNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "licenseType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "RN"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "LPN"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "detailLimit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchNurseLicenses": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchNurseLicensesArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "searchNurseLicenses": "1dbdbe5846ae3ed3"
       }
     },
     "providers.sos_ms_gov": {

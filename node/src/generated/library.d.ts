@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1789dc3434cca093e6ff19580408d73fe1a82079bf7b28fc0b6ce977f072fd39
-// 102 capabilities, 1007 providers, 6374 typed functions, 20 refused.
+// Manifest version: 964da58042e4f638ac0325490cef81bc28154d7da2f653c33fa3275457bf487f
+// 102 capabilities, 1009 providers, 6379 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 17,576 sites under bowmark.sites, 226,423 functions, sharing 2,549 interface(s).
 //
@@ -11201,6 +11201,7 @@ interface alibabaMessage {
   autoReply: boolean;
   system: boolean;
   rawContentType: number | null;
+  products: { productId: string }[];
   raw: unknown;
 }
 
@@ -32587,20 +32588,20 @@ interface CheckatradeProfile {
 
     /**
      * Finds Checkatrade tradespeople for a trade or category near a full UK postcode, in the
-     * site's own order, 12 a page, with review score, phone, location and skills.
+     * site's own order, 12 a page, with review score, phone, location and skills. Needs a category
+     * label and a FULL UK postcode, e.g. { category: "Plumber", postcode: "SW1A 1AA" }; ask the
+     * user for a postcode only when you have none.
      */
     searchTraders(args: CheckatradeSearchArgs): Promise<CheckatradeSearchResult>;
 
     /**
-     * Lists the job categories under one trade (Plumber, Builder, Roofer...) with the ids and
-     * labels search uses. It returns an OBJECT, never an array: { trade, id, categories: [{ id,
-     * label }], warnings }, so read the list from result.categories. Call listCategories({}) with
-     * no input first: it lists only the 7 trades the search page carries (not all ~72; warnings
-     * says so), and each trade label goes back in as listCategories({ trade: "Roofer" }) for its
-     * categories, e.g. return (await
-     * bowmark.providers.checkatrade.listCategories({})).categories.map(c => c.label). Then
-     * searchTraders({ category, postcode }) needs a category label and a FULL UK postcode, e.g. {
-     * category: "Plumber", postcode: "SW1A 1AA" }; ask for a postcode if you have none.
+     * The first call for checkatrade.com with nothing else to go on: run it, no input needed. It
+     * returns an OBJECT, never an array: { trade, id, categories: [{ id, label }], warnings }, so
+     * read the list from result.categories, e.g. return (await
+     * bowmark.providers.checkatrade.listCategories({})).categories.map(c => c.label). With no
+     * input it lists the 7 trades the search page carries (Plumber, Builder, Roofer...; not all
+     * ~72, warnings says so); a trade label goes back in as listCategories({ trade: "Roofer" })
+     * for the job categories and ids search uses.
      */
     listCategories(args: CheckatradeCategoriesArgs): Promise<CheckatradeCategories>;
   }
@@ -73088,6 +73089,32 @@ interface SignedInOrderPage {
   nextCursor: string | null; // pass back as { cursor } for older orders
 }
 
+interface InstacartGetClosestStoreLocationArgs {
+  retailerId: string; // The retailerId of a store, as listStores and getStore return it (not the shopId). E.g. "1425".
+  postalCode: string; // A postal code to search near, typically a five-digit US postal code. E.g. "67570".
+}
+
+interface InstacartGetClosestStoreLocationResult {
+  closestRetailerLocation: { id: string /* The identifier of the closest store location: the retailerLocationId that getStoreLocation takes. */; retailerId: string /* The identifier of the retailer this location belongs to. */; city: string /* The city where the store is located. */; postalCode: string /* The postal code of the store location. */; state: string /* The state where the store is located. */; streetAddress: string /* The store's street address. */; __typename: string };
+}
+
+interface InstacartGetStoreLocationArgs {
+  retailerLocationId: string; // The number Instacart gives one store location (one branch of a retailer), e.g. "27021": the closestRetailerLocation.id that getClosestStoreLocation returns. It is not the retailerId or shopId that getStore and listStores return. E.g. "27021".
+}
+
+interface InstacartGetStoreLocationResult {
+  id: string; // The identifier of the store location.
+  coordinates: { latitude: number /* The location's latitude. */; longitude: number /* The location's longitude. */; __typename: string };
+  viewSection: { id: string /* The identifier of the location's listing. */; address: { id: string /* The identifier of the location's address. */; lineOneString: string /* The street address. */; lineTwoString: string /* The city, region, and postal code. */; __typename: string }; locationDisplayNameString: unknown /* The location's display name. */; __typename: string };
+  __typename: string;
+}
+
+interface InstacartSearchHelpArticlesArgs {
+  searchTerm: string; // Pass words describing the Instacart help topic to search for. E.g. "areas".
+}
+
+type InstacartSearchHelpArticlesResult = { id: string /* Identifier for the help article. */; sectionId: string /* Identifier for the section containing the article. */; title: string /* The help article’s title. */; snippet: string /* A short preview of the help article. */; searchEventId: string; __typename: string }[];
+
 interface InstacartReorderArgs {
   orderId: string; // from listOrders()
 }
@@ -73406,6 +73433,21 @@ interface InstacartUpdateMyAccountResult {
      * retailerId and zoneId from getStore. Read only. A guest pauses the run for sign-in.
      */
     listCoupons(args: InstacartListCouponsArgs, opts?: ConnectionOption): Promise<InstacartCoupon[]>;
+
+    /**
+     * Returns the closest store location for a retailer near a postal code, including its address
+     * and location and retailer identifiers.
+     */
+    getClosestStoreLocation(args: InstacartGetClosestStoreLocationArgs): Promise<InstacartGetClosestStoreLocationResult>;
+
+    /** Returns a store location with its geographic coordinates, address details, and display name. */
+    getStoreLocation(args: InstacartGetStoreLocationArgs): Promise<InstacartGetStoreLocationResult>;
+
+    /**
+     * Returns matching Instacart help articles, with each article’s title and snippet plus
+     * identifiers for the article and its section.
+     */
+    searchHelpArticles(args: InstacartSearchHelpArticlesArgs): Promise<InstacartSearchHelpArticlesResult>;
   }
 }
 
@@ -93693,6 +93735,44 @@ interface NopsSearchResult {
      * listingNumber goes straight into getListing.
      */
     searchListings(filter?: {query?: string, minBedrooms?: number, maxPrice?: number}): Promise<NopsSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_nordstrom {
+  // ── Nordstrom — the unit's own declarations, verbatim ──
+interface NordstromProduct {
+  id: string;
+  brand: string | null;
+  name: string;
+  price: number; // lowest current price, USD
+  priceMax: number; // highest current price, USD; equals price for one price
+  wasPrice: number | null; // pre-markdown price when shown, else null
+  onSale: boolean;
+  url: string;
+}
+
+interface NordstromSearchResult {
+  query: string;
+  url: string; // the search page that was read
+  products: NordstromProduct[];
+}
+
+interface NordstromSearchArgs {
+  query: string;
+  limit?: number; // max rows, default 20, max 60
+}
+
+  /**
+   * Searches Nordstrom's live catalog (nordstrom.com) for clothing, shoes and accessories and
+   * returns product rows: brand, name, current price, sale status and url.
+   */
+  interface Unit {
+    /**
+     * Searches Nordstrom's live catalog by keyword, like its own search bar, and returns product
+     * rows: style id, brand, name, current price (low and high for a range), pre-markdown price,
+     * on-sale flag and product url.
+     */
+    search(args: string | NordstromSearchArgs): Promise<NordstromSearchResult>;
   }
 }
 
@@ -118935,6 +119015,45 @@ interface SolostoveBundleCheck {
      * flow rather than asking the caller for one first.
      */
     checkBundle(args: {bundleId: string}): Promise<SolostoveBundleCheck>;
+  }
+}
+
+declare namespace BowmarkProvider_sos_ga_gov {
+  // ── Georgia Secretary of State — Professional Licensing Boards — the unit's own declarations, verbatim ──
+interface GaNurseLicense {
+  name: string;
+  licenseNumber: string; // e.g. "RN025043".
+  licenseType: string; // The site's own text, e.g. "Registered Professional Nurse - Single State".
+  status: string; // e.g. "Active", "Lapsed".
+  city: string | null;
+  issued: string | null; // MM/DD/YYYY; null when the site prints none or no detail was opened.
+  expires: string | null; // MM/DD/YYYY; null when the site prints none (a 1900 placeholder is null) or no detail was opened.
+}
+
+interface SearchNurseLicensesArgs {
+  licenseNumber?: string; // e.g. "RN025043". Use this or lastName.
+  lastName?: string;
+  firstName?: string;
+  licenseType?: "RN" | "LPN"; // Keeps only registered nurses (RN) or practical nurses (LPN).
+  detailLimit?: number; // How many matches get issued/expires from their detail page (default 3, max 10). Each costs one page open.
+}
+
+interface GaNurseLicenseSearch {
+  total: number; // Matches the site reports; licenses holds the first page (up to 25).
+  licenses: GaNurseLicense[];
+}
+
+  /**
+   * Georgia nurse license lookup (goals.sos.ga.gov): find RN and LPN licenses by name or license
+   * number, with status, city and expiry.
+   */
+  interface Unit {
+    /**
+     * Looks up Georgia nursing licenses (RN, LPN) in the state's public licensee search by license
+     * number or last name (optionally first name), returning name, license number, type, status,
+     * city and, for the first few matches, the issued and expiry dates.
+     */
+    searchNurseLicenses(args: SearchNurseLicensesArgs): Promise<GaNurseLicenseSearch>;
   }
 }
 
@@ -542817,6 +542936,7 @@ interface BowmarkProviders {
   nike: BowmarkProvider_nike.Unit;
   nintendo: BowmarkProvider_nintendo.Unit;
   nops: BowmarkProvider_nops.Unit;
+  nordstrom: BowmarkProvider_nordstrom.Unit;
   notion: BowmarkProvider_notion.Unit;
   npi_registry: BowmarkProvider_npi_registry.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
@@ -543001,6 +543121,7 @@ interface BowmarkProviders {
   snapchat: BowmarkProvider_snapchat.Unit;
   solidcore: BowmarkProvider_solidcore.Unit;
   solostove: BowmarkProvider_solostove.Unit;
+  sos_ga_gov: BowmarkProvider_sos_ga_gov.Unit;
   sos_ms_gov: BowmarkProvider_sos_ms_gov.Unit;
   soulcycle: BowmarkProvider_soulcycle.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
