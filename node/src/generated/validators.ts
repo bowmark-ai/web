@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b92b471dd632c5c0aa552916e79c6669f83713768dd259175d2ab71452e1479d
-// 6355 checked, 20 unchecked.
+// Manifest version: df2a7e87835ae07d1932db742131348e21e45885f775aa91db789e0bea345d27
+// 6356 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b92b471dd632c5c0aa552916e79c6669f83713768dd259175d2ab71452e1479d",
+  "version": "df2a7e87835ae07d1932db742131348e21e45885f775aa91db789e0bea345d27",
   "units": {
     "address_validation": {
       "defs": {
@@ -167651,6 +167651,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetRequestArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetReservationArgs": {
           "k": "object",
           "props": [
@@ -167815,6 +167827,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getRequest": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetRequestArgs"
+            },
+            "optional": false
+          }
+        ],
         "cancelReservation": [
           {
             "name": "args",
@@ -167827,16 +167849,17 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getVenue": "45f82d53f4a64b8a",
-        "getAvailableDates": "b5de005520b2af17",
-        "getAvailability": "cc13ccd9374647e0",
-        "getBookingTerms": "6d5784a467c6e3a5",
-        "listUpgrades": "e22ae0021cbae2d8",
-        "listMyReservations": "18a73788384f9fa2",
-        "validatePromoCode": "364f10d2a7a1e4fa",
-        "bookReservation": "77c7819a238841a9",
-        "getReservation": "bdb2da16bee8b8d5",
-        "cancelReservation": "ac442a9e7bc8f770"
+        "getVenue": "9ee426162da2f478",
+        "getAvailableDates": "05a1313b5d47716d",
+        "getAvailability": "7ab2d0e6388233f2",
+        "getBookingTerms": "0f080ed060d0c93a",
+        "listUpgrades": "10ac9db7b7203a2d",
+        "listMyReservations": "31adaa3ae0691f65",
+        "validatePromoCode": "83c3afb99dac6947",
+        "bookReservation": "8c3c3baa1c63bffa",
+        "getReservation": "5876eb7dd309b8f4",
+        "getRequest": "bb58f4f7da817b17",
+        "cancelReservation": "45cf7c891d9ba053"
       }
     },
     "providers.shein": {

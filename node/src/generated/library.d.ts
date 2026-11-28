@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b92b471dd632c5c0aa552916e79c6669f83713768dd259175d2ab71452e1479d
-// 102 capabilities, 1010 providers, 6383 typed functions, 20 refused.
+// Manifest version: df2a7e87835ae07d1932db742131348e21e45885f775aa91db789e0bea345d27
+// 102 capabilities, 1010 providers, 6384 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 24,947 sites under bowmark.sites, 315,626 functions, sharing 3,167 interface(s).
 //
@@ -115753,6 +115753,20 @@ interface SevenroomsReservation {
   raw: unknown; // The site's whole answer, untouched.
 }
 
+interface GetRequestArgs {
+  id: string; // The request id — the one submitRequest answers with.
+}
+
+interface SevenroomsRequest {
+  id: string;
+  venueName: string | null;
+  date: string | null; // YYYY-MM-DD as the site sent it.
+  time: string | null; // Venue-local time as the site sent it.
+  partySize: number | null;
+  status: string | null; // The site's own status label, verbatim.
+  raw: unknown; // The site's whole answer, untouched.
+}
+
 interface CancelReservationArgs {
   token: string; // The manage token — manageToken from bookReservation, or the guest's manage link.
 }
@@ -116020,6 +116034,13 @@ type SevenroomsPromoValidation = { status: "VALID"; promoCode: SevenroomsPromoCo
      * answer in raw. Works for whoever holds the token; no sign-in.
      */
     getReservation(args: GetReservationArgs): Promise<SevenroomsReservation>;
+
+    /**
+     * Reads a booking request by its id (the one submitRequest returns): venue, requested date,
+     * time, party size and the site's status label, plus the site's whole answer in raw. No
+     * sign-in.
+     */
+    getRequest(args: GetRequestArgs): Promise<SevenroomsRequest>;
 
     /**
      * Cancels a reservation from its manage token (bookReservation's manageToken, or the guest's

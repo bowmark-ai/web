@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b92b471dd632c5c0aa552916e79c6669f83713768dd259175d2ab71452e1479d
-# 102 capabilities, 1010 providers, 6355 typed functions, 20 refused.
+# Manifest version: df2a7e87835ae07d1932db742131348e21e45885f775aa91db789e0bea345d27
+# 102 capabilities, 1010 providers, 6356 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -75239,6 +75239,18 @@ class Prv_sevenrooms_SevenroomsReservation_Out(TypedDict):
     status: str | None
     raw: Any
 
+class Prv_sevenrooms_GetRequestArgs_In(TypedDict):
+    id: str
+
+class Prv_sevenrooms_SevenroomsRequest_Out(TypedDict):
+    id: str
+    venueName: str | None
+    date: str | None
+    time: str | None
+    partySize: float | None
+    status: str | None
+    raw: Any
+
 class Prv_sevenrooms_CancelReservationArgs_In(TypedDict):
     token: str
 
@@ -137625,6 +137637,12 @@ class Prv_sevenrooms(Protocol):
         """Reads a reservation from its manage token (bookReservation's manageToken, or the guest's
         manage link): venue, date, time, party size, guest name and status, plus the site's
         whole answer in raw. Works for whoever holds the token; no sign-in.
+        """
+
+    async def getRequest(self, args: Prv_sevenrooms_GetRequestArgs_In, /) -> Prv_sevenrooms_SevenroomsRequest_Out:
+        """Reads a booking request by its id (the one submitRequest returns): venue, requested
+        date, time, party size and the site's status label, plus the site's whole answer in raw.
+        No sign-in.
         """
 
     async def cancelReservation(self, args: Prv_sevenrooms_CancelReservationArgs_In, /) -> Prv_sevenrooms_SevenroomsCancellation_Out:
