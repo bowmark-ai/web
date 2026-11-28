@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5ff7ac0fe0039e88dbc0477def0f2aef038b4c83a8c23c75e208f2869ec5a285
-// 102 capabilities, 1010 providers, 6382 typed functions, 20 refused.
+// Manifest version: b92b471dd632c5c0aa552916e79c6669f83713768dd259175d2ab71452e1479d
+// 102 capabilities, 1010 providers, 6383 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 24,947 sites under bowmark.sites, 315,626 functions, sharing 3,167 interface(s).
 //
@@ -36299,11 +36299,50 @@ interface CleartripHotelSearch {
   hotels: CleartripHotel[];
 }
 
+interface CleartripRate {
+  roomType: string;
+  roomDetail: string | null; // bed, size and capacity line
+  rateName: string; // e.g. Room Only, Room with Breakfast
+  pricePerNight: number; // INR, before taxes, for all rooms asked
+  taxesAndFeesPerNight: number | null;
+  totalPrice: number | null; // INR for the whole stay incl. taxes
+  inclusions: string[];
+  notIncluded: string[];
+  freeCancellation: boolean;
+  bookingCode: string | null;
+}
+
+interface CleartripHotelRatesArgs {
+  hotelId: string; // from searchHotels
+  checkIn: string; // YYYY-MM-DD, today or later
+  checkOut: string; // YYYY-MM-DD, 1-30 nights after checkIn
+  adults?: number; // per room, 1-6, default 2
+  rooms?: number; // 1-4, default 1
+}
+
+interface CleartripHotelRates {
+  hotelId: string;
+  checkIn: string;
+  checkOut: string;
+  nights: number;
+  adults: number;
+  rooms: number;
+  currency: "INR";
+  rates: CleartripRate[]; // empty when nothing is available
+  hotelUrl: string;
+}
+
   /**
    * Cleartrip (India), signed out: find a hotel's Cleartrip id by name and city, and search
    * one-way flights with fares in INR.
    */
   interface Unit {
+    /**
+     * Every room and rate one Cleartrip hotel offers for a stay (dates, nights, adults, rooms),
+     * signed out, in INR, cheapest first.
+     */
+    getHotelRates(args: CleartripHotelRatesArgs): Promise<CleartripHotelRates>;
+
     /**
      * Matches a city or airport name against Cleartrip's airport autocomplete and returns the IATA
      * codes searchFlights takes.

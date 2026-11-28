@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5ff7ac0fe0039e88dbc0477def0f2aef038b4c83a8c23c75e208f2869ec5a285
-# 102 capabilities, 1010 providers, 6354 typed functions, 20 refused.
+# Manifest version: b92b471dd632c5c0aa552916e79c6669f83713768dd259175d2ab71452e1479d
+# 102 capabilities, 1010 providers, 6355 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22837,6 +22837,36 @@ class Prv_cleanairlawncare_GetAvailableSlotsResult_Out(TypedDict):
 class Prv_cleanairlawncare_AvailableSlot_Out(TypedDict):
     date: str
     time: str
+
+class Prv_cleartrip_CleartripHotelRatesArgs_In(TypedDict):
+    hotelId: str
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
+    rooms: NotRequired[float]
+
+class Prv_cleartrip_CleartripHotelRates_Out(TypedDict):
+    hotelId: str
+    checkIn: str
+    checkOut: str
+    nights: float
+    adults: float
+    rooms: float
+    currency: Literal["INR"]
+    rates: list[Prv_cleartrip_CleartripRate_Out]
+    hotelUrl: str
+
+class Prv_cleartrip_CleartripRate_Out(TypedDict):
+    roomType: str
+    roomDetail: str | None
+    rateName: str
+    pricePerNight: float
+    taxesAndFeesPerNight: float | None
+    totalPrice: float | None
+    inclusions: list[str]
+    notIncluded: list[str]
+    freeCancellation: bool
+    bookingCode: str | None
 
 class Prv_cleartrip_searchAirports_args_In(TypedDict):
     query: str
@@ -110875,6 +110905,11 @@ class Prv_cleartrip(Protocol):
     """Cleartrip (India), signed out: find a hotel's Cleartrip id by name and city, and search
     one-way flights with fares in INR.
     """
+
+    async def getHotelRates(self, args: Prv_cleartrip_CleartripHotelRatesArgs_In, /) -> Prv_cleartrip_CleartripHotelRates_Out:
+        """Every room and rate one Cleartrip hotel offers for a stay (dates, nights, adults,
+        rooms), signed out, in INR, cheapest first.
+        """
 
     async def searchAirports(self, args: Prv_cleartrip_searchAirports_args_In, /) -> list[Prv_cleartrip_CleartripAirport_Out]:
         """Matches a city or airport name against Cleartrip's airport autocomplete and returns the

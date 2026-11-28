@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5ff7ac0fe0039e88dbc0477def0f2aef038b4c83a8c23c75e208f2869ec5a285
-// 6354 checked, 20 unchecked.
+// Manifest version: b92b471dd632c5c0aa552916e79c6669f83713768dd259175d2ab71452e1479d
+// 6355 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5ff7ac0fe0039e88dbc0477def0f2aef038b4c83a8c23c75e208f2869ec5a285",
+  "version": "b92b471dd632c5c0aa552916e79c6669f83713768dd259175d2ab71452e1479d",
   "units": {
     "address_validation": {
       "defs": {
@@ -47360,6 +47360,46 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CleartripHotelRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hotelId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "CleartripHotelSearchArgs": {
           "k": "object",
           "props": [
@@ -47388,6 +47428,16 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getHotelRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CleartripHotelRatesArgs"
+            },
+            "optional": false
+          }
+        ],
         "searchAirports": [
           {
             "name": "args",
@@ -47428,9 +47478,10 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "searchAirports": "b4937cce1fac8072",
-        "searchFlights": "876688d61fb62382",
-        "searchHotels": "c74870ffe2a5327f"
+        "getHotelRates": "5cbd196fe5be7e08",
+        "searchAirports": "723b918b809470d2",
+        "searchFlights": "596e2816700b7e8f",
+        "searchHotels": "cfaab387f775fb3a"
       }
     },
     "providers.cloudbeds": {
