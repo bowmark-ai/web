@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: df2a7e87835ae07d1932db742131348e21e45885f775aa91db789e0bea345d27
-# 102 capabilities, 1010 providers, 6356 typed functions, 20 refused.
+# Manifest version: 77ed7df36ce34d5687c6fd4a0c6ff20eca81294e5d55a81cb1ceb4259b373582
+# 102 capabilities, 1012 providers, 6362 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -58264,6 +58264,76 @@ class Prv_momondo_KayakCar_Out_checkout_u0_Out_summary_Out_dates_Out(TypedDict):
     start: str
     end: NotRequired[str]
 
+class Prv_monotaro_MonotaroGetProductArgs_In(TypedDict):
+    code: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_monotaro_MonotaroProduct_Out(TypedDict):
+    code: str
+    url: str
+    name: str
+    brand: Prv_monotaro_MonotaroProduct_Out_brand_u0_Out | None
+    description: str | None
+    attributes: list[Prv_monotaro_MonotaroAttribute_Out]
+    categories: list[Prv_monotaro_MonotaroProduct_Out_categories_item_Out]
+    image: str | None
+    rating: Prv_monotaro_MonotaroRating_Out | None
+    variantCount: float | None
+    variants: list[Prv_monotaro_MonotaroVariant_Out]
+    warnings: list[str]
+
+class Prv_monotaro_MonotaroProduct_Out_brand_u0_Out(TypedDict):
+    name: str
+    url: str | None
+
+class Prv_monotaro_MonotaroAttribute_Out(TypedDict):
+    name: str
+    value: str
+
+class Prv_monotaro_MonotaroProduct_Out_categories_item_Out(TypedDict):
+    name: str
+    url: str
+
+class Prv_monotaro_MonotaroRating_Out(TypedDict):
+    average: float | None
+    count: float
+
+class Prv_monotaro_MonotaroVariant_Out(TypedDict):
+    orderCode: str
+    url: str
+    image: str | None
+    fields: Mapping[str, str]
+    price: float | None
+    priceTaxIncluded: float | None
+    referencePrice: float | None
+    shipping: str | None
+    labels: list[str]
+
+class Prv_monotaro_MonotaroSearchArgs_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_monotaro_MonotaroSearchResult_Out(TypedDict):
+    query: str
+    page: float
+    total: float | None
+    results: list[Prv_monotaro_MonotaroSearchHit_Out]
+
+class Prv_monotaro_MonotaroSearchHit_Out(TypedDict):
+    code: str
+    url: str
+    name: str
+    brand: str | None
+    image: str | None
+    priceFrom: float | None
+    priceFromTaxIncluded: float | None
+    packSize: str | None
+    shipping: str | None
+    feature: str | None
+    attributes: list[Prv_monotaro_MonotaroAttribute_Out]
+    rating: Prv_monotaro_MonotaroRating_Out | None
+    variationCount: float | None
+
 class Prv_mossyoak_listMossyoakProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -75251,6 +75321,20 @@ class Prv_sevenrooms_SevenroomsRequest_Out(TypedDict):
     status: str | None
     raw: Any
 
+class Prv_sevenrooms_UpdateReservationPreferencesArgs_In(TypedDict):
+    token: str
+    clientDietaryPreferenceTags: NotRequired[Sequence[str]]
+    partyDietaryPreferenceTags: NotRequired[Sequence[str]]
+    specialOccasionTags: NotRequired[Sequence[str]]
+    champagnePreferenceTags: NotRequired[Sequence[str]]
+    liquorPreferenceTags: NotRequired[Sequence[str]]
+    customQuestionAnswer: NotRequired[str]
+
+class Prv_sevenrooms_SevenroomsPreferencesUpdate_Out(TypedDict):
+    updated: Literal[True]
+    token: str
+    raw: Any
+
 class Prv_sevenrooms_CancelReservationArgs_In(TypedDict):
     token: str
 
@@ -80260,6 +80344,77 @@ class Prv_ssa_SsaAljStatsResult_Out_national_Out(TypedDict):
     approvalRate: float | None
     denialRate: float | None
     dismissalRate: float | None
+
+class Prv_stackexchange_listSites_return_Out(TypedDict):
+    results: list[Prv_stackexchange_StackExchangeSite_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_stackexchange_StackExchangeSite_Out(TypedDict):
+    site: str
+    name: str
+    url: str
+    audience: str | None
+    siteType: str | None
+    state: str | None
+
+class Prv_stackexchange_StackExchangeSearchArgs_In(TypedDict):
+    site: str
+    query: str
+    tagged: NotRequired[str]
+    sort: NotRequired[Literal["relevance"] | Literal["votes"] | Literal["activity"] | Literal["creation"]]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_stackexchange_searchQuestions_return_Out(TypedDict):
+    results: list[Prv_stackexchange_StackExchangeQuestionHit_Out]
+    total: float | None
+    page: float
+    pageCount: float | None
+    returned: float
+    warnings: list[str]
+
+class Prv_stackexchange_StackExchangeQuestionHit_Out(TypedDict):
+    site: str
+    questionId: float
+    title: str
+    link: str
+    tags: list[str]
+    score: float | None
+    answerCount: float | None
+    isAnswered: bool
+    acceptedAnswerId: float | None
+    viewCount: float | None
+    author: str | None
+    createdAt: str | None
+
+class Prv_stackexchange_StackExchangeQuestion_Out(TypedDict):
+    site: str
+    questionId: float
+    title: str
+    link: str
+    tags: list[str]
+    score: float | None
+    answerCount: float | None
+    isAnswered: bool
+    acceptedAnswerId: float | None
+    viewCount: float | None
+    author: str | None
+    createdAt: str | None
+    body: str
+    answers: list[Prv_stackexchange_StackExchangeAnswer_Out]
+
+class Prv_stackexchange_StackExchangeAnswer_Out(TypedDict):
+    answerId: float
+    score: float | None
+    isAccepted: bool
+    author: str | None
+    createdAt: str | None
+    body: str
+    link: str
 
 class Prv_stackoverflow_StackOverflowSearchArgs_In(TypedDict):
     query: str
@@ -99983,7 +100138,7 @@ class Cap_job_search(Protocol):
     async def atCompany(self, args: Cap_job_search_AtCompanyArgs_In, /) -> Cap_job_search_CompanyJobsResult_Out:
         """Every open job at ONE company, read live off its own applicant-tracking system. Give
         `url` (its site "stripe.com", its careers page, or any
-        Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday/Teamtailor/BambooHR/Rippling/Personio/Breezy
+        Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday/Teamtailor/BambooHR/Rippling/Personio/Breezy/iCIMS/Phenom/Taleo
         link) and/or `company` (its name). It follows the company's careers link to find which
         ATS it uses, and falls back to asking each ATS for a board under the company's name
         (`detectedBy: "name"`). A name match is taken only when its postings link the company's
@@ -129092,6 +129247,22 @@ class Prv_momondo(Protocol):
         never books or pays.
         """
 
+class Prv_monotaro(Protocol):
+    """MonotaRO (monotaro.com, モノタロウ), Japan's industrial and MRO supply store: keyword search
+    and product pages with every SKU's price, part number and stock.
+    """
+
+    async def getProduct(self, args: Prv_monotaro_MonotaroGetProductArgs_In, /) -> Prv_monotaro_MonotaroProduct_Out:
+        """Reads one MonotaRO (monotaro.com) product page /g/<code>/: name, brand, description,
+        specs, category, rating, and every SKU's order code, part number, price (tax
+        excl./incl.) and ship/stock status.
+        """
+
+    async def search(self, args: Prv_monotaro_MonotaroSearchArgs_In, /) -> Prv_monotaro_MonotaroSearchResult_Out:
+        """Searches MonotaRO's catalogue by keyword or part number; 40 product groups a page with
+        price-from, pack size, ship status, specs and rating.
+        """
+
 class Prv_mossyoak(Protocol):
     """Mossy Oak camo-apparel and gear catalogue — every product, its camo-pattern and size
     variants, real prices and stock — read off the live Shopify storefront, plus a
@@ -132415,10 +132586,11 @@ class Prv_phenom(Protocol):
     """
 
     async def listJobs(self, company: str, options: Prv_phenom_PhenomListOptions_In, /) -> Prv_phenom_PhenomBoard_Out:
-        """Open jobs on one Phenom careers site, live, paged 100 at a time until `maxJobs` (default
-        500). `company` is the careers-site URL ("https://jobs.bswhealth.com/us/en"); `query` is
-        Phenom's own keyword search, which is fuzzy (it also matches skills), so filter titles
-        after. Throws, caller-fixable, when the host is not a Phenom careers site.
+        """Open jobs on one Phenom careers site, live, read 500 at a time (split by the board
+        categories when bigger, so no job is missed or repeated) until `maxJobs` (default 500,
+        at most 2000). `company` is the careers-site URL ("https://jobs.bswhealth.com/us/en");
+        `query` is Phenom's own keyword search, which is fuzzy (it also matches skills), so
+        filter titles after. Throws, caller-fixable, when the host is not a Phenom careers site.
         """
 
 class Prv_pike13(Protocol):
@@ -137645,6 +137817,12 @@ class Prv_sevenrooms(Protocol):
         No sign-in.
         """
 
+    async def updateReservationPreferences(self, args: Prv_sevenrooms_UpdateReservationPreferencesArgs_In, /) -> Prv_sevenrooms_SevenroomsPreferencesUpdate_Out:
+        """Sets guest preferences on a reservation from its manage token: dietary tags for the
+        guest and party, special-occasion tags, champagne and liquor preferences and the venue's
+        custom-question answer. Takes at least one; pays nothing.
+        """
+
     async def cancelReservation(self, args: Prv_sevenrooms_CancelReservationArgs_In, /) -> Prv_sevenrooms_SevenroomsCancellation_Out:
         """Cancels a reservation from its manage token (bookReservation's manageToken, or the
         guest's manage link) and returns cancelled: true with the site's own answer. Takes no
@@ -139757,6 +139935,35 @@ class Prv_ssa(Protocol):
         disability claims — from SSA's published ALJ disposition data: approval, denial and
         dismissal counts and rates per judge and per office, plus the office's average
         processing time in days. Takes a hearing office or judge name. No login.
+        """
+
+class Prv_stackexchange(Protocol):
+    """The Stack Exchange network's Q&A sites (Server Fault, Super User, Ask Ubuntu,
+    Mathematics, English, …) — list the sites, search one site's questions, read a question
+    with its accepted and top-voted answers — through the official keyless Stack Exchange
+    API.
+    """
+
+    async def listSites(self, query: str, /) -> Prv_stackexchange_listSites_return_Out:
+        """List the Stack Exchange network's Q&A sites — slug, name, url, audience. An optional
+        topic string narrows it ("linux", "math", "cooking"). Returns { results, total, … };
+        pass a result's `site` to searchQuestions or getQuestion. Example: listSites("ubuntu").
+        """
+
+    async def searchQuestions(self, args: Prv_stackexchange_StackExchangeSearchArgs_In, /) -> Prv_stackexchange_searchQuestions_return_Out:
+        """Search one Stack Exchange site's questions by keyword — title, link, tags, score, answer
+        count, whether one is accepted. `site` is a slug ("serverfault", "math", "superuser"), a
+        domain or a url; `tagged` narrows to tags ("nginx;ssl"); `sort` relevance (default),
+        votes, activity or creation; `limit` 1-50, default 10. `page` 1-based. Returns {
+        results, total, page, returned, warnings }; results [] on no match. Example:
+        searchQuestions({ site: "serverfault", query: "nginx reverse proxy" }).
+        """
+
+    async def getQuestion(self, ref: str | float, site: str, /) -> Prv_stackexchange_StackExchangeQuestion_Out:
+        """Read one Stack Exchange question by its url, or by id plus site — its plain-text body
+        plus up to 10 answers, top-voted first, each flagged isAccepted. THROWS when the
+        question does not exist. Example:
+        getQuestion("https://math.stackexchange.com/questions/1") or getQuestion(1, "math").
         """
 
 class Prv_stackoverflow(Protocol):
@@ -149887,6 +150094,7 @@ class BowmarkProviders(Protocol):
     modularclosets: Prv_modularclosets
     momence: Prv_momence
     momondo: Prv_momondo
+    monotaro: Prv_monotaro
     mossyoak: Prv_mossyoak
     ms_now: Prv_ms_now
     msc: Prv_msc
@@ -150114,6 +150322,7 @@ class BowmarkProviders(Protocol):
     square_online: Prv_square_online
     squire: Prv_squire
     ssa: Prv_ssa
+    stackexchange: Prv_stackexchange
     stackoverflow: Prv_stackoverflow
     starlighthomes: Prv_starlighthomes
     start_gg: Prv_start_gg

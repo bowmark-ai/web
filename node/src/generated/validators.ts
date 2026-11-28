@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: df2a7e87835ae07d1932db742131348e21e45885f775aa91db789e0bea345d27
-// 6356 checked, 20 unchecked.
+// Manifest version: 77ed7df36ce34d5687c6fd4a0c6ff20eca81294e5d55a81cb1ceb4259b373582
+// 6362 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "df2a7e87835ae07d1932db742131348e21e45885f775aa91db789e0bea345d27",
+  "version": "77ed7df36ce34d5687c6fd4a0c6ff20eca81294e5d55a81cb1ceb4259b373582",
   "units": {
     "address_validation": {
       "defs": {
@@ -129520,6 +129520,74 @@ export const VALIDATORS: ValidatorTable = {
         "searchCars": "5ac9413b62642df2"
       }
     },
+    "providers.monotaro": {
+      "defs": {
+        "MonotaroGetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "code",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "MonotaroSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MonotaroGetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "MonotaroSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "getProduct": "0b3cc5c05c56efe2",
+        "search": "9b57f99238b9d05f"
+      }
+    },
     "providers.mossyoak": {
       "defs": {},
       "functions": {
@@ -167687,6 +167755,75 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "UpdateReservationPreferencesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "token",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "clientDietaryPreferenceTags",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "partyDietaryPreferenceTags",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "specialOccasionTags",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "champagnePreferenceTags",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "liquorPreferenceTags",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "customQuestionAnswer",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ValidatePromoCodeArgs": {
           "k": "object",
           "props": [
@@ -167837,6 +167974,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "updateReservationPreferences": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpdateReservationPreferencesArgs"
+            },
+            "optional": false
+          }
+        ],
         "cancelReservation": [
           {
             "name": "args",
@@ -167849,17 +167996,18 @@ export const VALIDATORS: ValidatorTable = {
         ]
       },
       "digests": {
-        "getVenue": "9ee426162da2f478",
-        "getAvailableDates": "05a1313b5d47716d",
-        "getAvailability": "7ab2d0e6388233f2",
-        "getBookingTerms": "0f080ed060d0c93a",
-        "listUpgrades": "10ac9db7b7203a2d",
-        "listMyReservations": "31adaa3ae0691f65",
-        "validatePromoCode": "83c3afb99dac6947",
-        "bookReservation": "8c3c3baa1c63bffa",
-        "getReservation": "5876eb7dd309b8f4",
-        "getRequest": "bb58f4f7da817b17",
-        "cancelReservation": "45cf7c891d9ba053"
+        "getVenue": "e6c60ac218b568ff",
+        "getAvailableDates": "834e31c4c328fd2d",
+        "getAvailability": "7e9e46f6c80f6602",
+        "getBookingTerms": "b1c5822972d4972d",
+        "listUpgrades": "f41f605446638e01",
+        "listMyReservations": "37f4e41aae609c95",
+        "validatePromoCode": "2c37e16aa55ab607",
+        "bookReservation": "d05327a22345de10",
+        "getReservation": "aa03ee35b4dae908",
+        "getRequest": "143fdca83dc47df4",
+        "updateReservationPreferences": "1951387c4ceae516",
+        "cancelReservation": "6405e44859e5c758"
       }
     },
     "providers.shein": {
@@ -177724,6 +177872,125 @@ export const VALIDATORS: ValidatorTable = {
         "listHearingOffices": "7fad2e26d010f0c9",
         "offices": "c8710daed775e724",
         "aljStats": "32bd24f2de0b89ae"
+      }
+    },
+    "providers.stackexchange": {
+      "defs": {
+        "StackExchangeSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "site",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "tagged",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "votes"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "activity"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "creation"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listSites": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchQuestions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StackExchangeSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getQuestion": [
+          {
+            "name": "ref",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "site",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      },
+      "digests": {
+        "listSites": "dd2f808d81ddd387",
+        "searchQuestions": "292e1f72dfe465fd",
+        "getQuestion": "7754b76d3a6255c2"
       }
     },
     "providers.stackoverflow": {

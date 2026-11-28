@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: df2a7e87835ae07d1932db742131348e21e45885f775aa91db789e0bea345d27
-// 102 capabilities, 1010 providers, 6384 typed functions, 20 refused.
+// Manifest version: 77ed7df36ce34d5687c6fd4a0c6ff20eca81294e5d55a81cb1ceb4259b373582
+// 102 capabilities, 1012 providers, 6390 typed functions, 20 refused.
 // 122,178 family members, sharing 4 interface(s) — declared once and pointed at, never repeated per member.
 // 24,947 sites under bowmark.sites, 315,626 functions, sharing 3,167 interface(s).
 //
@@ -3311,7 +3311,7 @@ interface CallOptions {
     /**
      * Every open job at ONE company, read live off its own applicant-tracking system. Give `url`
      * (its site "stripe.com", its careers page, or any
-     * Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday/Teamtailor/BambooHR/Rippling/Personio/Breezy
+     * Greenhouse/Lever/Ashby/Workable/SmartRecruiters/Recruitee/Workday/Teamtailor/BambooHR/Rippling/Personio/Breezy/iCIMS/Phenom/Taleo
      * link) and/or `company` (its name). It follows the company's careers link to find which ATS
      * it uses, and falls back to asking each ATS for a board under the company's name
      * (`detectedBy: "name"`). A name match is taken only when its postings link the company's own
@@ -90297,6 +90297,98 @@ interface MomondoMarketOption {
   }
 }
 
+declare namespace BowmarkProvider_monotaro {
+  // ── MonotaRO — the unit's own declarations, verbatim ──
+interface MonotaroAttribute {
+  name: string;
+  value: string;
+}
+
+interface MonotaroRating {
+  average: number | null; // Average satisfaction, 0-5.
+  count: number; // Number of reviews.
+}
+
+interface MonotaroVariant {
+  orderCode: string; // 注文コード, the 8-digit SKU order code.
+  url: string; // The SKU's own /p/ page.
+  image: string | null;
+  fields: Record<string, string>; // Every other column of the variant table, keyed by the site's Japanese header (品番 = maker part no., 内容量, 種類, サイズ, …). Columns differ per product.
+  price: number | null; // Sale price in JPY, tax excluded (販売価格 税別).
+  priceTaxIncluded: number | null; // Sale price in JPY, tax included.
+  referencePrice: number | null; // 参考基準価格 (list/reference price, tax excl.), when shown.
+  shipping: string | null; // Ship estimate label, e.g. 当日出荷, 6日以内出荷, 欠品中 (out of stock).
+  labels: string[]; // Every status label on the row (ship estimate, 返品不可 = no returns, …).
+}
+
+interface MonotaroProduct {
+  code: string; // 8-digit product-group code from /g/<code>/.
+  url: string;
+  name: string;
+  brand: { name: string; url: string | null } | null;
+  description: string | null;
+  attributes: MonotaroAttribute[]; // Group-level spec rows (材質, 用途, …).
+  categories: { name: string; url: string }[]; // Breadcrumb, broadest first.
+  image: string | null;
+  rating: MonotaroRating | null;
+  variantCount: number | null; // SKU count the page says the group has.
+  variants: MonotaroVariant[]; // SKUs on the page, with price and stock each.
+  warnings: string[];
+}
+
+interface MonotaroSearchHit {
+  code: string; // Pass to getProduct({ code }).
+  url: string;
+  name: string;
+  brand: string | null;
+  image: string | null;
+  priceFrom: number | null; // Lowest SKU price, JPY tax excluded.
+  priceFromTaxIncluded: number | null;
+  packSize: string | null;
+  shipping: string | null;
+  feature: string | null;
+  attributes: MonotaroAttribute[];
+  rating: MonotaroRating | null;
+  variationCount: number | null; // How many SKUs the group has.
+}
+
+interface MonotaroGetProductArgs {
+  code?: string; // 8-digit group code, e.g. "01270106".
+  url?: string; // Or the product page url, e.g. https://www.monotaro.com/g/01270106/.
+}
+
+interface MonotaroSearchArgs {
+  query: string; // Keyword, Japanese or a part number, e.g. "軍手".
+  page?: number; // Result page, 40 a page. Default 1.
+}
+
+interface MonotaroSearchResult {
+  query: string;
+  page: number;
+  total: number | null; // Total matches the site reports.
+  results: MonotaroSearchHit[];
+}
+
+  /**
+   * MonotaRO (monotaro.com, モノタロウ), Japan's industrial and MRO supply store: keyword search and
+   * product pages with every SKU's price, part number and stock.
+   */
+  interface Unit {
+    /**
+     * Reads one MonotaRO (monotaro.com) product page /g/<code>/: name, brand, description, specs,
+     * category, rating, and every SKU's order code, part number, price (tax excl./incl.) and
+     * ship/stock status.
+     */
+    getProduct(args: MonotaroGetProductArgs): Promise<MonotaroProduct>;
+
+    /**
+     * Searches MonotaRO's catalogue by keyword or part number; 40 product groups a page with
+     * price-from, pack size, ship status, specs and rating.
+     */
+    search(args: MonotaroSearchArgs): Promise<MonotaroSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_mossyoak {
   // ── Mossy Oak — the unit's own declarations, verbatim ──
 interface MossyoakVariant {
@@ -100800,9 +100892,10 @@ interface PhenomListOptions {
    */
   interface Unit {
     /**
-     * Open jobs on one Phenom careers site, live, paged 100 at a time until `maxJobs` (default
-     * 500). `company` is the careers-site URL ("https://jobs.bswhealth.com/us/en"); `query` is
-     * Phenom's own keyword search, which is fuzzy (it also matches skills), so filter titles
+     * Open jobs on one Phenom careers site, live, read 500 at a time (split by the board
+     * categories when bigger, so no job is missed or repeated) until `maxJobs` (default 500, at
+     * most 2000). `company` is the careers-site URL ("https://jobs.bswhealth.com/us/en"); `query`
+     * is Phenom's own keyword search, which is fuzzy (it also matches skills), so filter titles
      * after. Throws, caller-fixable, when the host is not a Phenom careers site.
      */
     listJobs(company: string, options: PhenomListOptions): Promise<PhenomBoard>;
@@ -115767,6 +115860,22 @@ interface SevenroomsRequest {
   raw: unknown; // The site's whole answer, untouched.
 }
 
+interface UpdateReservationPreferencesArgs {
+  token: string; // The manage token — bookReservation's manageToken or the manage link.
+  clientDietaryPreferenceTags?: string[]; // Dietary tags for the guest.
+  partyDietaryPreferenceTags?: string[]; // Dietary tags for the party.
+  specialOccasionTags?: string[]; // Occasion tags, e.g. Birthday.
+  champagnePreferenceTags?: string[]; // Champagne preferences.
+  liquorPreferenceTags?: string[]; // Liquor preferences.
+  customQuestionAnswer?: string; // Answer to the venue's custom question.
+}
+
+interface SevenroomsPreferencesUpdate {
+  updated: true;
+  token: string;
+  raw: unknown; // The site's own answer (data), untouched.
+}
+
 interface CancelReservationArgs {
   token: string; // The manage token — manageToken from bookReservation, or the guest's manage link.
 }
@@ -116041,6 +116150,13 @@ type SevenroomsPromoValidation = { status: "VALID"; promoCode: SevenroomsPromoCo
      * sign-in.
      */
     getRequest(args: GetRequestArgs): Promise<SevenroomsRequest>;
+
+    /**
+     * Sets guest preferences on a reservation from its manage token: dietary tags for the guest
+     * and party, special-occasion tags, champagne and liquor preferences and the venue's
+     * custom-question answer. Takes at least one; pays nothing.
+     */
+    updateReservationPreferences(args: UpdateReservationPreferencesArgs): Promise<SevenroomsPreferencesUpdate>;
 
     /**
      * Cancels a reservation from its manage token (bookReservation's manageToken, or the guest's
@@ -122990,6 +123106,89 @@ interface SsaAljStatsResult {
      * time in days. Takes a hearing office or judge name. No login.
      */
     aljStats(args: SsaAljStatsArgs): Promise<SsaAljStatsResult>;
+  }
+}
+
+declare namespace BowmarkProvider_stackexchange {
+  // ── Stack Exchange — the unit's own declarations, verbatim ──
+interface StackExchangeSite {
+  site: string; // API slug, pass as `site`
+  name: string;
+  url: string;
+  audience: string | null;
+  siteType: string | null;
+  state: string | null;
+}
+
+interface StackExchangeQuestionHit {
+  site: string;
+  questionId: number;
+  title: string;
+  link: string;
+  tags: string[];
+  score: number | null;
+  answerCount: number | null;
+  isAnswered: boolean;
+  acceptedAnswerId: number | null;
+  viewCount: number | null;
+  author: string | null;
+  createdAt: string | null;
+}
+
+interface StackExchangeAnswer {
+  answerId: number;
+  score: number | null;
+  isAccepted: boolean;
+  author: string | null;
+  createdAt: string | null;
+  body: string;
+  link: string;
+}
+
+interface StackExchangeQuestion extends StackExchangeQuestionHit {
+  body: string;
+  answers: StackExchangeAnswer[];
+}
+
+interface StackExchangeSearchArgs {
+  site: string; // slug, domain or url
+  query: string;
+  tagged?: string;
+  sort?: "relevance" | "votes" | "activity" | "creation";
+  limit?: number;
+  page?: number; // 1-based, default 1
+}
+
+  /**
+   * The Stack Exchange network's Q&A sites (Server Fault, Super User, Ask Ubuntu, Mathematics,
+   * English, …) — list the sites, search one site's questions, read a question with its accepted
+   * and top-voted answers — through the official keyless Stack Exchange API.
+   */
+  interface Unit {
+    /**
+     * List the Stack Exchange network's Q&A sites — slug, name, url, audience. An optional topic
+     * string narrows it ("linux", "math", "cooking"). Returns { results, total, … }; pass a
+     * result's `site` to searchQuestions or getQuestion. Example: listSites("ubuntu").
+     */
+    listSites(query: string): Promise<{ results: StackExchangeSite[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Search one Stack Exchange site's questions by keyword — title, link, tags, score, answer
+     * count, whether one is accepted. `site` is a slug ("serverfault", "math", "superuser"), a
+     * domain or a url; `tagged` narrows to tags ("nginx;ssl"); `sort` relevance (default), votes,
+     * activity or creation; `limit` 1-50, default 10. `page` 1-based. Returns { results, total,
+     * page, returned, warnings }; results [] on no match. Example: searchQuestions({ site:
+     * "serverfault", query: "nginx reverse proxy" }).
+     */
+    searchQuestions(args: StackExchangeSearchArgs): Promise<{ results: StackExchangeQuestionHit[]; total: number | null; page: number; pageCount: number | null; returned: number; warnings: string[] }>;
+
+    /**
+     * Read one Stack Exchange question by its url, or by id plus site — its plain-text body plus
+     * up to 10 answers, top-voted first, each flagged isAccepted. THROWS when the question does
+     * not exist. Example: getQuestion("https://math.stackexchange.com/questions/1") or
+     * getQuestion(1, "math").
+     */
+    getQuestion(ref: string | number, site: string): Promise<StackExchangeQuestion>;
   }
 }
 
@@ -625957,6 +626156,7 @@ interface BowmarkProviders {
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momence: BowmarkProvider_momence.Unit;
   momondo: BowmarkProvider_momondo.Unit;
+  monotaro: BowmarkProvider_monotaro.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
   ms_now: BowmarkProvider_ms_now.Unit;
   msc: BowmarkProvider_msc.Unit;
@@ -626184,6 +626384,7 @@ interface BowmarkProviders {
   square_online: BowmarkProvider_square_online.Unit;
   squire: BowmarkProvider_squire.Unit;
   ssa: BowmarkProvider_ssa.Unit;
+  stackexchange: BowmarkProvider_stackexchange.Unit;
   stackoverflow: BowmarkProvider_stackoverflow.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   start_gg: BowmarkProvider_start_gg.Unit;
