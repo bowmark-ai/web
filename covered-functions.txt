@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 147,339 sites, generated 2026-11-28.
+# Every website Bowmark covers and the functions it has: 147,353 sites, generated 2026-11-28.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -47674,6 +47674,7 @@ adasa.com	4479a458
 adasouthafrica.co.za	bb34c1bd
 adatina.com	4479a458
 adawliahjo.com	bb34c1bd
+adaychic.com	da39a3ee
 adb222-45.myshopify.com	a9af6443
 adb9e0-3.myshopify.com	a9af6443
 adbusters-culture-shop.myshopify.com	a9af6443
@@ -55083,6 +55084,7 @@ baumannsmeats.myshopify.com	a9af6443
 baumkantentische.de	4479a458
 baumscheibe.com	a9af6443
 baumundpferdgarten.com	4479a458
+bausatzwelt.de	da39a3ee
 bausman.net	bb34c1bd
 bautz.de	685e74a3
 bauwow-pets.myshopify.com	61e64875
@@ -74791,6 +74793,7 @@ emberrv.myshopify.com	a9af6443
 embersas.com.au	bb34c1bd
 emberwater.com	bb34c1bd
 embeyvally.in	4479a458
+emblema.eu	da39a3ee
 emblemauthority.myshopify.com	a9af6443
 emblibrary.com	8b50d914
 embodi-merch.myshopify.com	a9af6443
@@ -78784,6 +78787,7 @@ fixundfoxishop.myshopify.com	a9af6443
 fixyobike-shop.myshopify.com	a9af6443
 fixyouraudio.com	bb34c1bd
 fixyourfeetproducts.myshopify.com	a9af6443
+fixypaint.com	da39a3ee
 fiza.pk	bb34c1bd
 fizafashionss.com	37007769
 fizahealthcare.com	bb34c1bd
@@ -82668,6 +82672,7 @@ gizmania.hr	8b50d914
 gizmania.lt	37007769
 gizmania.pl	37007769
 gizmania.ro	37007769
+gizmania.ru	da39a3ee
 gizmo.ai	9cbe4494
 gizmoplans.com	bb34c1bd
 gizmostorebali.com	bb34c1bd
@@ -102551,6 +102556,7 @@ mapart-2.myshopify.com	a9af6443
 mapedhelix.co.za	bb34c1bd
 maperformance.com	4479a458
 mapi.com	37007769
+mapiful.com	da39a3ee
 maple-sugar-mountain.myshopify.com	a9af6443
 mapleandoakdesigns.com	bb34c1bd
 maplecottagedesigns.com	bb34c1bd
@@ -115626,6 +115632,7 @@ personalchic.com	4479a458
 personalinjurytraininginstitute.com	bb34c1bd
 personalise-online.myshopify.com	a9af6443
 personalisedfacemasks.com	a9af6443
+personalisedfavours.com.au	da39a3ee
 personalisedkidsgifts.co.uk	bb34c1bd
 personalisedprintedribbons.co.uk	bb34c1bd
 personalisedtreasures.myshopify.com	a9af6443
@@ -117885,6 +117892,7 @@ precisionaerobatics.com	bb34c1bd
 precisionblowers.myshopify.com	a9af6443
 precisionbuiltracecars.myshopify.com	a9af6443
 precisionit.net	685e74a3
+precisionmatthews.com	da39a3ee
 precisionot.com	bb34c1bd
 precisionsafes.com.au	bb34c1bd
 precisionsportsonline.com	bb34c1bd
@@ -124268,6 +124276,7 @@ safezone-fastrack.myshopify.com	61e64875
 saffron-blazer.myshopify.com	61e64875
 saffron-decorations.myshopify.com	61e64875
 saffron-watches.myshopify.com	61e64875
+saffronalley.com	da39a3ee
 saffronfashion25.myshopify.com	a9af6443
 saffrons-signature-meals.myshopify.com	a9af6443
 saffrron.in	4479a458
@@ -132622,6 +132631,7 @@ storetvrcamporg.myshopify.com	a9af6443
 storevipusa.myshopify.com	a9af6443
 storeyourboard.com	4479a458
 storezar.com	bb34c1bd
+storiarts.com	da39a3ee
 storibe-art.myshopify.com	a9af6443
 stories-christmas-template.myshopify.com	a9af6443
 stork.ai	a49d9833
@@ -137980,6 +137990,7 @@ thehairextensioncompany.com	bb34c1bd
 thehairpantry.com	da39a3ee
 thehairstudio.us	bb34c1bd
 thehaloplanner.myshopify.com	a9af6443
+thehamperemporium.com.au	da39a3ee
 thehampershop.ng	bb34c1bd
 thehamptons.in	da39a3ee
 thehandletteringstudio.com	bb34c1bd
@@ -143434,6 +143445,7 @@ usdcs.in	bb34c1bd
 usdpl.com	bb34c1bd
 usdwheels.com	bb34c1bd
 useadel.com.br	da39a3ee
+useaela.com.br	da39a3ee
 usealphaco.com.br	4479a458
 useblume.dev	4154147f
 usebooster.myshopify.com	a9af6443
@@ -143450,7 +143462,9 @@ uselayers.com	97b71c5d
 useless-pride.myshopify.com	a9af6443
 uselessbehavior.myshopify.com	a9af6443
 uselessthingstobuy.com	bb34c1bd
+usemalibu.com.br	da39a3ee
 usemariamaral.com.br	794b8973
+usepotere.com.br	da39a3ee
 usercentrics.com	2a88d60c
 userfriendlyresources.co.nz	bb34c1bd
 userfriendlyresources.com.au	bb34c1bd
@@ -146763,6 +146777,7 @@ welshhottubs.co.uk	bb34c1bd
 welshponyplaques.myshopify.com	a9af6443
 welshslatewaterfeatures.co.uk	bb34c1bd
 weltbild.ch	134ddf07
+weltderbaeder.com	da39a3ee
 welterstorage.com	bb34c1bd
 weltmutfuehrer-de.myshopify.com	a9af6443
 weltpixel.com	8b50d914
@@ -149846,7 +149861,6 @@ zapaka.de	4479a458
 zapaka.fr	4479a458
 zapakasa.com	4479a458
 zapateria-guadalajara.myshopify.com	a9af6443
-zapateriafebo.com	37007769
 zapatla.pk	4479a458
 zapatos-obi-2.myshopify.com	a9af6443
 zapatosmayka.es	8b50d914

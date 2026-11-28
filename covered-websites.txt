@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 147,339 sites, generated 2026-11-28.
+# Every website Bowmark covers: 147,353 sites, generated 2026-11-28.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -44587,6 +44587,7 @@ adasa.com	adasa.com	14
 adasouthafrica.co.za	ADA South Africa	6
 adatina.com	adatina.com	14
 adawliahjo.com	الدولية للأجهزة الرياضة – اجهزة ركض اجهزة رياضية هوم جيم واثقال اكسسوارات رياضية	6
+adaychic.com	adaychic.com	14
 adb222-45.myshopify.com	Compustar	10
 adb9e0-3.myshopify.com	ART BY ARCHITECT	10
 adbusters-culture-shop.myshopify.com	Adbusters Media Foundation	10
@@ -51996,6 +51997,7 @@ baumannsmeats.myshopify.com	baumannsmeats	10
 baumkantentische.de	baumkantentische.de	14
 baumscheibe.com	Baumscheibe.com	10
 baumundpferdgarten.com	baumundpferdgarten.com	14
+bausatzwelt.de	bausatzwelt.de	14
 bausman.net	Bausman & Company	6
 bautz.de	bautz.de	10
 bauwow-pets.myshopify.com	Bauwow Pets	8
@@ -71704,6 +71706,7 @@ emberrv.myshopify.com	Ember RV Store	10
 embersas.com.au	Just a moment...	6
 emberwater.com	Ember Water	6
 embeyvally.in	embeyvally.in	14
+emblema.eu	emblema.eu	14
 emblemauthority.myshopify.com	The Emblem Authority	10
 emblibrary.com	emblibrary.com	1
 embodi-merch.myshopify.com	Embodi Merch	10
@@ -75697,6 +75700,7 @@ fixundfoxishop.myshopify.com	Fix und Foxi Shop	10
 fixyobike-shop.myshopify.com	Fix Yo Bike	10
 fixyouraudio.com	FixYourAudio	6
 fixyourfeetproducts.myshopify.com	Fix Your Feet Products	10
+fixypaint.com	fixypaint.com	14
 fiza.pk	Fiza.pk	6
 fizafashionss.com	fizafashionss.com	16
 fizahealthcare.com	Fizahealthcare Pvt. Ltd	6
@@ -79581,6 +79585,7 @@ gizmania.hr	gizmania.hr	1
 gizmania.lt	gizmania.lt	16
 gizmania.pl	gizmania.pl	16
 gizmania.ro	gizmania.ro	16
+gizmania.ru	gizmania.ru	16
 gizmo.ai	gizmo.ai	1
 gizmoplans.com	Gizmo Plans	6
 gizmostorebali.com	Gizmo Store	6
@@ -99464,6 +99469,7 @@ mapart-2.myshopify.com	Maritime Tribes USA	10
 mapedhelix.co.za	Maped Helix SA	6
 maperformance.com	maperformance.com	14
 mapi.com	mapi.com	16
+mapiful.com	mapiful.com	14
 maple-sugar-mountain.myshopify.com	Maple Sugar Mountain LLC	10
 mapleandoakdesigns.com	Maple and Oak Designs	6
 maplecottagedesigns.com	Maple Cottage Designs	6
@@ -99887,7 +99893,7 @@ martclothing.com	martclothing.com	14
 martek-instruments-inc.myshopify.com	Martek Instruments, Inc.	10
 martemei.myshopify.com	Studio Marte Mei	10
 martenmusic.myshopify.com	Marten Shop	10
-marteye.ie	marteye.ie	11
+marteye.ie	marteye.ie	10
 martfaytestdrive.myshopify.com	martfaytestdrive	8
 martha-hull.myshopify.com	Martha Hull Studio	10
 martha-ponn-jewelry-designs.myshopify.com	Martha Ponn Designs	10
@@ -105770,7 +105776,7 @@ nappadori.com	nappadori.com	14
 nappycare.co.za	nappycare.co.za	1
 nappyclinic.co.za	The Nappy Clinic	6
 napsclothing.myshopify.com	Staging	8
-napstory.in	napstory.in	14
+napstory.in	napstory.in	1
 naptowncloset.myshopify.com	317Stopnshop	10
 naptymearchery.com	Naptyme Archery	6
 naqoosh.pk	naqoosh.pk	14
@@ -112539,6 +112545,7 @@ personalchic.com	personalchic.com	14
 personalinjurytraininginstitute.com	Personal Injury Training Institute	6
 personalise-online.myshopify.com	Personalise Online	10
 personalisedfacemasks.com	PersonalisedFaceMasks.com	10
+personalisedfavours.com.au	personalisedfavours.com.au	14
 personalisedkidsgifts.co.uk	Children's Personalised Gifts	6
 personalisedprintedribbons.co.uk	Personalised Printed Ribbons	6
 personalisedtreasures.myshopify.com	Personalised Treasures	10
@@ -114798,6 +114805,7 @@ precisionaerobatics.com	Precision Aerobatics	6
 precisionblowers.myshopify.com	Predator Blowers	10
 precisionbuiltracecars.myshopify.com	Precision Built Race Cars	10
 precisionit.net	precisionit.net	10
+precisionmatthews.com	precisionmatthews.com	14
 precisionot.com	Precision OT	6
 precisionsafes.com.au	Precision Safes	6
 precisionsportsonline.com	Precision Sports	6
@@ -121181,6 +121189,7 @@ safezone-fastrack.myshopify.com	Safezone	8
 saffron-blazer.myshopify.com	Saffron-blazer	8
 saffron-decorations.myshopify.com	saffron-Decorations	8
 saffron-watches.myshopify.com	Saffron-Watches	8
+saffronalley.com	saffronalley.com	1
 saffronfashion25.myshopify.com	Safrina Fashion	10
 saffrons-signature-meals.myshopify.com	Saffrons Signature Meals	10
 saffrron.in	saffrron.in	14
@@ -129535,6 +129544,7 @@ storetvrcamporg.myshopify.com	Teton Valley Ranch Camp Trading Post	10
 storevipusa.myshopify.com	Store usb	10
 storeyourboard.com	storeyourboard.com	14
 storezar.com	Storezar	6
+storiarts.com	storiarts.com	14
 storibe-art.myshopify.com	Storibe Art	10
 stories-christmas-template.myshopify.com	stories-christmas-template	10
 stork.ai	stork.ai	30
@@ -134893,6 +134903,7 @@ thehairextensioncompany.com	The Hair Extension Company	6
 thehairpantry.com	thehairpantry.com	14
 thehairstudio.us	TheHairStudio	6
 thehaloplanner.myshopify.com	The Halo Planner	10
+thehamperemporium.com.au	thehamperemporium.com.au	14
 thehampershop.ng	The Hamper Shop	6
 thehamptons.in	thehamptons.in	14
 thehandletteringstudio.com	The Handlettering Studio	6
@@ -140347,6 +140358,7 @@ usdcs.in	USDCS	6
 usdpl.com	Umang Shridhar Designs	6
 usdwheels.com	USD Wheels	6
 useadel.com.br	useadel.com.br	8
+useaela.com.br	useaela.com.br	8
 usealphaco.com.br	usealphaco.com.br	14
 useblume.dev	useblume.dev	4
 usebooster.myshopify.com	usebooster	10
@@ -140358,12 +140370,14 @@ usedmagic.myshopify.com	Don's Magic & Books	10
 usedpowerchairs.co.uk	Used Powerchairs	6
 usedrestaurantequipment.in	Used Restaurant Equipments	6
 usegalaxy.eu	usegalaxy.eu	37
-usehace.com.br	usehace.com.br	14
+usehace.com.br	usehace.com.br	1
 uselayers.com	uselayers.com	5
 useless-pride.myshopify.com	USELESS PRIDE	10
 uselessbehavior.myshopify.com	UseLess behaviour GmbH	10
 uselessthingstobuy.com	Useless Things to Buy!	6
+usemalibu.com.br	usemalibu.com.br	8
 usemariamaral.com.br	usemariamaral.com.br	8
+usepotere.com.br	usepotere.com.br	8
 usercentrics.com	usercentrics.com	8
 userfriendlyresources.co.nz	User Friendly Resources NZ	6
 userfriendlyresources.com.au	User Friendly Resources AU	6
@@ -143676,6 +143690,7 @@ welshhottubs.co.uk	Welsh Hot Tubs	6
 welshponyplaques.myshopify.com	Welsh Pony Plaques	10
 welshslatewaterfeatures.co.uk	Welsh Slate Water Features	6
 weltbild.ch	Weltbild.ch Bücher & Outlet	11
+weltderbaeder.com	weltderbaeder.com	14
 welterstorage.com	Welter Storage	6
 weltmutfuehrer-de.myshopify.com	Weltmutführerin	10
 weltpixel.com	weltpixel.com	1
@@ -146759,7 +146774,6 @@ zapaka.de	zapaka.de	14
 zapaka.fr	zapaka.fr	14
 zapakasa.com	zapakasa.com	14
 zapateria-guadalajara.myshopify.com	Zapateria Guadalajara	10
-zapateriafebo.com	zapateriafebo.com	16
 zapatla.pk	zapatla.pk	14
 zapatos-obi-2.myshopify.com	Zapatos Obi | Obi Shoes	10
 zapatosmayka.es	zapatosmayka.es	14
