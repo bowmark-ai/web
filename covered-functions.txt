@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 147,565 sites, generated 2026-11-28.
+# Every website Bowmark covers and the functions it has: 147,566 sites, generated 2026-11-28.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -147695,6 +147695,7 @@ wildstylethemovie.myshopify.com	a9af6443
 wildtechnursery.com.au	bb34c1bd
 wildtoad-toffee.myshopify.com	a9af6443
 wildtshirts.co.uk	bb34c1bd
+wildvalley.in	da39a3ee
 wildwestbootstore.com	37007769
 wildwestcity-9532.myshopify.com	a9af6443
 wildwestjerky.myshopify.com	a9af6443

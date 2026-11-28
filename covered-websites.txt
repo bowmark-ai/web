@@ -1,4 +1,4 @@
-# Every website Bowmark covers: 147,565 sites, generated 2026-11-28.
+# Every website Bowmark covers: 147,566 sites, generated 2026-11-28.
 # One line per site: host<TAB>name<TAB>callable functions.
 # Call any of them: get_library({ query: "<host>" }) returns its functions.
 0-01studios.myshopify.com	MelGeek	10
@@ -144609,6 +144609,7 @@ wildstylethemovie.myshopify.com	Wild Style the Movie	10
 wildtechnursery.com.au	Wildtech Plants	6
 wildtoad-toffee.myshopify.com	wildtoad toffee	10
 wildtshirts.co.uk	WildTshirts	6
+wildvalley.in	wildvalley.in	10
 wildwestbootstore.com	wildwestbootstore.com	16
 wildwestcity-9532.myshopify.com	WildWestCity	10
 wildwestjerky.myshopify.com	wildwestjerky	10
