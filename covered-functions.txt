@@ -1,4 +1,4 @@
-# Every website Bowmark covers and the functions it has: 145,889 sites, generated 2026-11-28.
+# Every website Bowmark covers and the functions it has: 145,936 sites, generated 2026-11-28.
 # Lines '= <list> <fn> <fn> ...' write a function list once; '<host><TAB><list>' names the list a site has.
 # A function may carry '#<hash>' of its input schema: a new hash under the same name means it changed.
 = 001840a4 consultar_por_sku#f11f373a consultar_variaciones_de_producto#a1e29783
@@ -1891,6 +1891,7 @@
 = add91576 checkDelivery getDeliveryEstimate getHours getLoyaltyProgram getMenu getMenuItemOptions getPizzeria getRecommendedAddOns getReviews listPizzeriasInCity priceCart resolveAddress searchPizzerias trackOrder validatePromoCode
 = addd3e1e check_availability#d49cb136 get_offer#51b2440f list_destinations_and_categories#a6449078 related_offers#51b2440f search_offers#23c9964f
 = adde07cf getJobDetails searchJobs
+= adef7aeb addAddress addToCart addToList clipCoupon compareStores create-recipe#04431f1e create-shopping-list#441078c3 createList deleteAddress favoriteProduct findLocation getCart getClosestStoreLocation getDeliveryEstimate getList getMyAccount getOrder getProduct getProductReviews getRecipe getStore getStoreHours getStoreLocation getWeeklyAd linkLoyaltyCard listBuyItAgain listCarts listCoupons listDeals listDepartmentProducts listDepartments listFavorites listMyAddresses listMyLists listOrders listStores removeFromCart reorder searchHelpArticles searchProducts suggestSearches updateAddress updateMyAccount
 = adfb8fef edit_trip#c899a351 find_trips#fdb8761b get_trip#5d443932 nonstop_fares#ba82e4cd nonstop_from#1b568871 swap_stop#3ba88a8d
 = ae101b61 getBestTrack getCurrentPredictions getCurrents getForecastCone getForecastDiscussion getHighLowTides getHighTideFloodingHistory getMarineForecast getMeteorologicalObservations getMonthlyMeanWaterLevel getReconObservations getSatelliteImagery getSeaLevelTrend getStationDatums getStationHarmonicConstituents getStationMetadata getStormAdvisory getStormForecast getStormGraphics getStormInfo getStormNames getTidePredictions getTropicalCycloneReport getTropicalOutlook getTropicalWeatherDiscussion getWatchesWarnings getWaterLevel getWindSpeedProbabilities listCurrentStorms listMarineZones listSeasonStorms listStations listStormAdvisories searchStorms
 = ae29e85d browse_by_brand#c1babcec browse_by_category#8aaec1bd create_in_stock_alert#4d087584 create_price_alert#77a39cef get_price_drops#142891fa get_price_forecast#b9085858 get_price_history#aa93be9a get_price_statistics#b9085858 get_product#b9085858 get_similar_products#bd9070ef register_api_key#bd87384f search_products#121f13cf
@@ -2484,7 +2485,6 @@
 = ea5d9206 acceptDeputation#9c1807f3 activateEventAISummary#8f70a490 approveAbsence#90e87aa2 approveCancellation#90e87aa2 billEvent#c59fb31e bulkDecideApprovals#777ef41c bulkDeleteAssignment#41009e2d bulkMoveAssignment#acd33506 bulkPutToClientAdditionalData#c39a0c07 bulkPutToEventAdditionalData#9a092118 bulkRenameAssignment#e8d60d30 cancelAbsence#9c1807f3 cancelEvent#7ac429f1 changeCheckboxes#a26c953a convertApplicationmanagementApplicant#0754f5ea convertEvent#9c260dc8 copyEvent#b221aabe decideApproval#cacb1d27 deleteAbsence#ff7328a2 deleteAbsenceAttachment#49350513 deleteAdditionalDataType#1f356a47 deleteApplicationmanagementApplicant#f35224a1 deleteApplicationmanagementPosition#58861ea0 deleteBranch#e6eeb1a9 deleteCategoryGeneric#b291c81d deleteCategoryTime#b291c81d deleteCategoryTranslation#1c51b143 deleteCategoryVacation#b291c81d deleteClient#e4c3ce72 deleteClientAttachment#a3352c53 deleteClientContactPerson#7a64fd40 deleteContract#b09f6954 deleteDashboard#0febdb7c deleteDashboardWidget#a32f04a7 deleteDepartment#42d3a57c deleteDriverslog#c34b79b1 deleteEvent#8f70a490 deleteEventAttachment#bdbfe38f deleteEventComment#a93b2a8b deleteEventCommentAttachment#ddc97db3 deleteEventIndividualTabData#ef72ed11 deleteEventResource#0423751c deleteEventResourceCategory#fb9f19de deleteEventResponsiblePerson#b4ab1a0a getAbsence#f85474d9 getAbsenceAccount#6227b1ef getAbsenceAttachment#49350513 getAbsenceAttachmentCollection#b905656f getAbsenceCollection#4dcfd9e5 getAdditionalClientDataTypes#e4c3ce72 getAdditionalDataType#1f356a47 getAdditionalDataTypeCollection#91e9d631 getAdditionalEventDataTypes#8f70a490 getAppDashboard#fe90370d getApplicationmanagementApplicant#f35224a1 getApplicationmanagementApplicantCollection#7ff031fa getApplicationmanagementPosition#58861ea0 getApplicationmanagementPositionCollection#a020de65 getApproval#a886315a getApprovalCollection#1303823f getAssignmentSearchAssignments#5ea9869d getBranch#e6eeb1a9 getBranchCollection#6bfc2737 getCalculationStructure#50a24d75 getCategoriesStructure#fe90370d getCategoryGeneric#b291c81d getCategoryGenericCollection#b2874561 getCategoryTime#b291c81d getCategoryTimeCollection#a89a5e9b getCategoryTranslation#1c51b143 getCategoryTranslationCollection#9c81edb7 getCategoryVacation#b291c81d getCategoryVacationCollection#1497c9d3 getClient#e4c3ce72 getClientAttachment#a3352c53 getClientAttachmentCollection#9ee4fd8e getClientCollection#f3784d0f getClientContactPerson#7a64fd40 getClientContactPersonCollection#6cdeea0f getContract#b09f6954 getContractCollection#dfcccdce getContractOverviewForEvent#c8469fbf getCountryCollection#b7c5bbd5 getCountryStateCollection#44e80a97 getDashboard#0febdb7c getDashboardCollection#49726875 getDashboardWidget#391a7832 getDashboardWidgetCollection#8d81e422 getDashboardWidgetDatamodel#a32f04a7 getDepartment#42d3a57c getDepartmentCollection#215608e1 getDriverslog#c34b79b1 getDriverslogCollection#d8aa2c90 getEvent#0ebb075f getEventAISummary#8f70a490 getEventAllNames#b79f5984 getEventAttachment#bdbfe38f getEventAttachmentCollection#e8ef221d getEventAttachmentStructure#ac9ebdaa getEventCollection#0e92bb6b getEventComment#a93b2a8b getEventCommentAttachment#ddc97db3 getEventCommentAttachmentCollection#0a3b03be getEventCommentCollection#0680b992 getEventExports#8f70a490 getEventIndividualTab#3bfa6072 getEventIndividualTabCollection#61d96c0c getEventIndividualTabData#ef72ed11 getEventIndividualTabDataCollection#d2f73fe8 getEventResource#0423751c getEventResourceCategory#fb9f19de getEventResourceCategoryCollection#b6f66b21 getEventResourceCollection#4f0a19a4 getEventResourceWage#0423751c getEventResponsiblePersonCollection#e989d16f getEventStructure#5116bb73 getEventTenderCategories#69b5cae2 getEventTenderRecipients#a886bbd1 getEventWorkinghourEmployees#8f70a490 getFeatureTestInfo#fe90370d getFeatures#c1318a6b getFixedExpenseStructure#50a24d75 getGenericAttachmentCollection#2172bb32 getHeadInfo#8f70a490 getInvoiceInsertStructure#50a24d75 getMargincalculation#8f70a490 getNavItems#8f70a490 getPrintviews#8f70a490 getRiskassessmentStructure#50a24d75 getSafetybriefingStructure#50a24d75 getSubcontractorSync#8f70a490 getTaskStructure#50a24d75 getTravelexpensesStructure#50a24d75 performAbsenceMatrix#99fa2a44 performEventResourceMatrix#3f3a42bb postAbsence#93d6c3d3 postAbsenceAttachment#0274837f postAbsenceBulkDelete#396f51d8 postAdditionalDataType#46de8c9b postApplicationmanagementApplicant#b8377c65 postApplicationmanagementPosition#2fb6513a postBranch#5d05df05 postCategoryGeneric#80cd1ead postCategoryTime#3a77b1e6 postCategoryTranslation#11748ac1 postCategoryVacation#73db6bd5 postClient#2533aab2 postClientAttachment#714d90e5 postClientContactPerson#1a329571 postContract#a21deb2f postDashboard#02176dd7 postDashboardWidget#009279b5 postDepartment#0b52c149 postDriverslog#d52a3b24 postEvent#5e55e9b6 postEventAttachment#2e80bd15 postEventAttachmentBulkDelete#9b1d20b8 postEventBulkDelete#396f51d8 postEventComment#61e071fb postEventCommentAttachment#c24b381d postEventIndividualTabData#42c9c4d6 postEventResource#4f37bc78 postEventResourceCategory#5cfa1d8c postEventResourceMatrixBulkDelete#396f51d8 postEventResponsiblePerson#4995ddef putAbsence#874374f6 putAdditionalDataType#014c1939 putApplicationmanagementApplicant#bdb09382 putApplicationmanagementPosition#4a5d6791 putBranch#06339dd8 putCategoryGeneric#9f0093ca putCategoryTime#3287999e putCategoryTranslation#d7def25a putCategoryVacation#61b258b1 putClient#a5e9736e putClientContactPerson#81da7b6c putContract#a9b2b804 putDashboard#19de1852 putDashboardWidget#092bbcac putDepartment#ec480e64 putDriverslog#af1edc4c putEvent#45f83b15 putEventComment#bf8e6a5b putEventIndividualTabData#4fe95018 putEventResource#e32e540b putEventResourceCategory#b214fc2b putSubcontractorSync#4f01f392 removeDocumentFromClientAdditionalData#3bbbfb05 removeDocumentFromEventAdditionalData#790aac20 sendEventBookingNotifications#072e1254 sendEventConfirmationNotifications#71bd6494 sendEventFreetextNotifications#71bd6494 sendEventRequestNotifications#71bd6494 sendEventTenderMails#cfb40b2f setDashboardWidgetData#a32f04a7 setWageForRootEventChildrens#0423751c signContract#75e083e8 synchronizeEvent#8f70a490 updatePricesByPricelist#e8d6b480 updateWages#37b7a83d
 = ea600ad9 get_document#eeb7f668 get_outline#eeb7f668 get_section#3197c73b list_documents#d9873742 search#4c89e906
 = ea67dc37 assign_driver#aea1acc3 create_optimization#2b65d0fc create_orders#2db8a5f1 create_routes#6ce4a3c2 delete_order#93dbe948 delete_orders#b966e82d get_optimization#43486391 get_order#93dbe948 get_order_action#14ccd994 get_route#93dbe948 get_route_action#14ccd994 get_route_timeline#033bbe03 get_schedule_action#14ccd994 get_schedule_solution#32bd8ab3 list_drivers#99a82ecf list_routes#6b4b7d30 list_schedules#485e5254 list_workspaces#77d87cbb optimize_route#083eb1f8 publish_routes#9ea114e7 schedule_orders#522f944f show_on_map#a680ff11 unassign_driver#8c027855 update_order#738d4534 update_orders#7251b26e
-= eaa50e18 addAddress addToCart addToList clipCoupon compareStores create-recipe#04431f1e create-shopping-list#441078c3 createList deleteAddress favoriteProduct findLocation getCart getDeliveryEstimate getList getMyAccount getOrder getProduct getProductReviews getRecipe getStore getStoreHours getWeeklyAd linkLoyaltyCard listBuyItAgain listCarts listCoupons listDeals listDepartmentProducts listDepartments listFavorites listMyAddresses listMyLists listOrders listStores removeFromCart reorder searchProducts suggestSearches updateAddress updateMyAccount
 = eaaaa6ed clean_address#28b1a81f find_company_by_domain#a981f93c find_company_by_email#e8287ca6 find_party#5d072fec
 = eacc9eaa get#5a7a4482 list#793da577 search#d754c024
 = eada869a getChannel getLiveSchedule getPerson getTitle getWatchOptions getWatchlist listCategories listCategoryTitles listChannels listContinueWatching listDeals listEpisodes listFreeToWatch listLiveChannels listLiveSports listNewReleases listPurchases listRelatedTitles listSeasons listTop10 searchTitles suggestTitles toggleWatchlist
@@ -90230,7 +90230,7 @@ insta360india.com	da39a3ee
 instabadge.myshopify.com	a9af6443
 instabase.jp	760062d6
 instabox.sh	e70d3968
-instacart.com	eaa50e18
+instacart.com	adef7aeb
 instacuppastore.com	4479a458
 instafabplus.com	da39a3ee
 instafeed-instagram-feed.myshopify.com	61e64875
@@ -101516,6 +101516,7 @@ maison-fayard-wines.myshopify.com	a9af6443
 maison-fragile-2.myshopify.com	a9af6443
 maison-julie-ferrez.myshopify.com	a9af6443
 maison-karite.myshopify.com	a9af6443
+maison-lascours.fr	da39a3ee
 maison-lomelia-paris.myshopify.com	a9af6443
 maison-marcelle.myshopify.com	a9af6443
 maison-martin-morel.myshopify.com	a9af6443
@@ -101532,6 +101533,7 @@ maisoncosmetics.com	4479a458
 maisoncosmetics.de	4479a458
 maisondeamu.myshopify.com	a9af6443
 maisondehelen.myshopify.com	a9af6443
+maisondeladetection.com	da39a3ee
 maisondelasoie.com	da39a3ee
 maisondemusk.com	4479a458
 maisondeodd.myshopify.com	a9af6443
@@ -104751,6 +104753,7 @@ mindbodyhealthsolutions.myshopify.com	a9af6443
 mindbodyonline.com	e316b622
 mindbodysoul.us	bb34c1bd
 mindenterprises.myshopify.com	a9af6443
+minders.com.mx	da39a3ee
 mindful-magazine.myshopify.com	a9af6443
 mindful-moments-camp.myshopify.com	a9af6443
 mindful-mosaic-collection-by-mindful-health.myshopify.com	a9af6443
@@ -105087,6 +105090,7 @@ missandlady.myshopify.com	a9af6443
 missannieshomeandkitchen.myshopify.com	a9af6443
 missbabuska.myshopify.com	a9af6443
 missbikinifitness.co.uk	bb34c1bd
+missblessed.com	da39a3ee
 missbossa.myshopify.com	a9af6443
 misschibiartist.myshopify.com	a9af6443
 misscircle.com	da39a3ee
@@ -105120,6 +105124,7 @@ missionworkshop.com	4479a458
 mississippitourism.myshopify.com	a9af6443
 missjeninc.myshopify.com	a9af6443
 misslucidcomics.myshopify.com	a9af6443
+missmanilaluxe.com	da39a3ee
 missme.com	4479a458
 missmonster.myshopify.com	a9af6443
 missmop.ie	bb34c1bd
@@ -105135,6 +105140,8 @@ misspolyplexi.com	bb34c1bd
 misspouty.myshopify.com	a9af6443
 missrose.com.pk	4479a458
 missrose.pk	b1550f0a
+missroseofficial.com.pk	da39a3ee
+missrosepk.com	da39a3ee
 missrosier.com	e029e283
 misssixty.com	4479a458
 missthera.com	bb34c1bd
@@ -105148,9 +105155,12 @@ mister-smokes.myshopify.com	a9af6443
 mister33.com	a9af6443
 misterbarish.be	da39a3ee
 misterbookman.com.au	bb34c1bd
+misterfragrance.co.uk	da39a3ee
+mistermascotas.com.mx	da39a3ee
 mistermobile.com.sg	bb34c1bd
 mistermobile.lk	bb34c1bd
 mistermort.myshopify.com	a9af6443
+misterradio-gps.com	da39a3ee
 mistersafetyshoes.com	da39a3ee
 mistertotem2.myshopify.com	a9af6443
 misterzimi.com	37007769
@@ -105158,6 +105168,7 @@ mistikboutique.com	bb34c1bd
 mistletoeandmagicjlt.myshopify.com	a9af6443
 mistore.africa	bb34c1bd
 mistore.pk	4479a458
+mistore.se	da39a3ee
 mistral.com.ar	da39a3ee
 mistrustracing.com	bb34c1bd
 misty-creek-acres.myshopify.com	a9af6443
@@ -105191,6 +105202,7 @@ mithree.com.au	bb34c1bd
 mitibags.com	bb34c1bd
 mito-cafes-especiais.myshopify.com	a9af6443
 mitoredlight.com	4479a458
+mitortuga.es	da39a3ee
 mitosshoppers.com	bb34c1bd
 mitragaia.com	bb34c1bd
 mitrahorganics.com	bb34c1bd
@@ -105222,11 +105234,13 @@ mixedfightsgirls.com	bb34c1bd
 mixedmediaresources.com	bb34c1bd
 mixedmetals.myshopify.com	a9af6443
 mixedplateohana.myshopify.com	a9af6443
+mixgreen.cl	da39a3ee
 mixing-tank.com	bb34c1bd
 mixmix.is	bb34c1bd
 mixmusiccompany.com	bb34c1bd
 mixology-online-store.myshopify.com	a9af6443
 mixologyvape.co.nz	bb34c1bd
+mixperfume.com.ar	da39a3ee
 mixwelljapan.myshopify.com	a9af6443
 miyabi-grace.myshopify.com	a9af6443
 miyabioriental.com	da39a3ee
@@ -105237,6 +105251,8 @@ mizar.ro	da39a3ee
 mizenplace.com	bb34c1bd
 mizis-boutique.myshopify.com	a9af6443
 mizmzwakhetancredi.org	bb34c1bd
+mizojerseyhome.in	da39a3ee
+mizozu.com	da39a3ee
 mizuhosi.com	bb34c1bd
 mizuno-hk.com	37007769
 mizuno.com.au	4479a458
@@ -106506,6 +106522,7 @@ moussashop.com	da39a3ee
 moustache.lt	bb34c1bd
 moutaz-ahmed6.myshopify.com	a9af6443
 mouthwatchers.myshopify.com	a9af6443
+mouvair.cl	da39a3ee
 mova-tech.com	4479a458
 mova.tech	4479a458
 movashoes.com	da39a3ee
@@ -108478,6 +108495,7 @@ natuliquewi.com	bb34c1bd
 natur-verbunden.myshopify.com	a9af6443
 natura.com.my	bb34c1bd
 naturaceutica.myshopify.com	a9af6443
+naturadika.es	da39a3ee
 natural-144.myshopify.com	a9af6443
 natural-alternative-products.co.uk	bb34c1bd
 natural-biocare.com	bb34c1bd
@@ -108677,6 +108695,7 @@ navalcosmetics.com	bb34c1bd
 navanafurniture.com	bb34c1bd
 navando.nl	da39a3ee
 navaophthalmic.com	bb34c1bd
+navarasamdesigns.com	da39a3ee
 navayurherbals.com	bb34c1bd
 navcbookstore.myshopify.com	a9af6443
 naveetech.de	da39a3ee
@@ -109192,6 +109211,7 @@ newchurchbooks.com	bb34c1bd
 newclassicalguitar.myshopify.com	a9af6443
 newcoolmex.com	bb34c1bd
 newcop.com	37007769
+newcossky.fr	da39a3ee
 newd-clothing-company.myshopify.com	a9af6443
 newdaysports.myshopify.com	a9af6443
 newdealing.myshopify.com	a9af6443
@@ -109200,6 +109220,7 @@ newdilpasand.com	bb34c1bd
 newdirectionchildcarefacility.com	685e74a3
 newearthgardencenter.com	bb34c1bd
 newegg.com	d7bfeaca
+newenergyacademy.com	da39a3ee
 newenglandillustrated.myshopify.com	a9af6443
 newenglandshaving.com	4479a458
 newenglandtoyparty.myshopify.com	a9af6443
@@ -109211,10 +109232,13 @@ neweracap.com	37007769
 neweracap.com.au	da39a3ee
 neweracap.com.my	da39a3ee
 neweracap.eu	8b50d914
+neweracap.id	da39a3ee
+neweracap.in	da39a3ee
 neweracap.jp	8b50d914
 neweracap.ph	da39a3ee
 neweraexotic.com	bb34c1bd
 newerafilters.myshopify.com	a9af6443
+newerafurniture.us	da39a3ee
 newetamom.myshopify.com	a9af6443
 newfangled-studios.myshopify.com	a9af6443
 newfest-gear.myshopify.com	a9af6443
@@ -109238,6 +109262,7 @@ newimageleasing.com	bb34c1bd
 newina.myshopify.com	a9af6443
 newinsightdoc.myshopify.com	a9af6443
 newinsightstarot.myshopify.com	a9af6443
+newinsub.com	da39a3ee
 newjaisa.com	4479a458
 newjerseysteelbaron.com	bb34c1bd
 newlands.ie	da39a3ee
@@ -109253,6 +109278,7 @@ newmanandbright.co.uk	bb34c1bd
 newmarkbeauty.com	bb34c1bd
 newmarketofficefurniture.com	bb34c1bd
 newmarketpitch.com	da39a3ee
+newmartina.it	da39a3ee
 newmedia-book4.myshopify.com	a9af6443
 newmedia-shop.myshopify.com	a9af6443
 newmexicoheritagerail.myshopify.com	a9af6443
@@ -109327,6 +109353,7 @@ nexgencables.com	bb34c1bd
 nexgplatforms.myshopify.com	61e64875
 nexi-ecommerce.myshopify.com	a9af6443
 nexlorac.com	e029e283
+nexoversecol.com	da39a3ee
 nexpuretec.com	05a9bb9e
 nexstand-eu.myshopify.com	a9af6443
 nexstarag.com	bb34c1bd
@@ -109341,6 +109368,7 @@ next-stage-press.myshopify.com	a9af6443
 nextadventure.net	37007769
 nextagriwork.myshopify.com	a9af6443
 nextcard.com	da39a3ee
+nextcart.co.in	da39a3ee
 nextcigar.myshopify.com	a9af6443
 nextcomputing.com	bb34c1bd
 nextdaysafety.com.au	bb34c1bd
@@ -109361,6 +109389,7 @@ nextlevelfitnessacademy.myshopify.com	a9af6443
 nextlevellaserdesigns.com.au	bb34c1bd
 nextleveltoursjamaica.com	bb34c1bd
 nextleveltraining.com	bb34c1bd
+nexton.com.pk	da39a3ee
 nextpagebooks.co.uk	bb34c1bd
 nextplaytees.com	bb34c1bd
 nextroundgolf.com	8b50d914
@@ -109404,6 +109433,7 @@ ngn1jd-ym.myshopify.com	a9af6443
 ngocharlieandlola.com	bb34c1bd
 ngstores.com.ng	bb34c1bd
 ngt.lv	da39a3ee
+ngtonline.co.uk	da39a3ee
 ngvitamins.com	bb34c1bd
 ngwebtechnologies.com	bb34c1bd
 nh-audubon-nature-store.myshopify.com	a9af6443
@@ -109415,8 +109445,10 @@ nhcigars.com	bb34c1bd
 nhe8vr-8z.myshopify.com	a9af6443
 nhhire.co.nz	bb34c1bd
 nhirvine.myshopify.com	a9af6443
+nhkindia.com	da39a3ee
 nhkmachineryparts.com	bb34c1bd
 nhmdistributing.com	bb34c1bd
+nhone.in	da39a3ee
 nhoomatthews.com	bb34c1bd
 nhrscience.com	4479a458
 nhsnocar.myshopify.com	a9af6443
@@ -109457,6 +109489,7 @@ nicecnc.com	4479a458
 niceec.myshopify.com	a9af6443
 nicemonimports.myshopify.com	a9af6443
 niceonline.com	4479a458
+niceora.com	da39a3ee
 nicepallettliquidation.com	bb34c1bd
 niceprint.ro	da39a3ee
 nicesurgelatishop.myshopify.com	a9af6443
@@ -109528,11 +109561,13 @@ nicole-wild-collective.myshopify.com	a9af6443
 nicoledrescher.de	bb34c1bd
 nicolehoyt.com	bb34c1bd
 nicoleisaacs.myshopify.com	a9af6443
+nicolepallado.it	da39a3ee
 nicolettas-bakery.myshopify.com	a9af6443
 nicolettos-2.myshopify.com	a9af6443
 nicolezoch.myshopify.com	a9af6443
 nicolishop.com	8b50d914
 nicollehorbath.myshopify.com	a9af6443
+nicopoly.cl	da39a3ee
 nicotests.com	a9af6443
 nicotinepouche.net	bb34c1bd
 nicozbalboashop.myshopify.com	a9af6443
@@ -109542,8 +109577,13 @@ nicwa.myshopify.com	a9af6443
 nida.co	4479a458
 nidb-safety-products.myshopify.com	a9af6443
 nidecker.com	4479a458
+nidharshanasarees.com	da39a3ee
+nido-magico.it	da39a3ee
+nidodeibimbi.shop	da39a3ee
 nidzshop.com	bb34c1bd
+niejebajka.pl	da39a3ee
 niels-lan-doky.myshopify.com	a9af6443
+nielsens.dk	da39a3ee
 nietadesigns.com.au	bb34c1bd
 nieve-couture.com	bb34c1bd
 nieves-lavi-shop.myshopify.com	a9af6443
@@ -109581,6 +109621,7 @@ nigiwatte.myshopify.com	a9af6443
 nigp-bookstore.myshopify.com	a9af6443
 nih.gov	ee78ce6a
 nihaobabe.myshopify.com	a9af6443
+niharikafashion.in	da39a3ee
 nihiloconcepts.com	da39a3ee
 nihlo-cosmetics.myshopify.com	a9af6443
 nihoner.com	01a0990a
@@ -109598,6 +109639,7 @@ nike.com	c0f2d75f
 nikearm.myshopify.com	a9af6443
 nikestrength.com	4479a458
 nikhea-rose-llc.myshopify.com	a9af6443
+nikhilhandlooms.com	da39a3ee
 niki-gatton-art.myshopify.com	a9af6443
 niki-newd.myshopify.com	a9af6443
 nikiforos.com.gr	bb34c1bd
@@ -109634,6 +109676,7 @@ nikura.com	4479a458
 nikys-sports.com	da39a3ee
 nil.store	37007769
 nil360-edu.myshopify.com	a9af6443
+nilabangles.com	da39a3ee
 nile.ch	4479a458
 nilerodgers.com	4479a458
 nilgiristores.in	bb34c1bd
@@ -112216,6 +112259,7 @@ openzeppelin.com	d8f64c76
 opera-honey.myshopify.com	a9af6443
 opera-in-williamsburg-virginia-productions-items-for-sale.myshopify.com	a9af6443
 operajoe.myshopify.com	a9af6443
+operakids.com.br	da39a3ee
 operation-enduring-warrior.myshopify.com	a9af6443
 operation-parent.myshopify.com	a9af6443
 operationpinball.com	bb34c1bd
@@ -112537,6 +112581,7 @@ orisdi.com	4479a458
 orise.myshopify.com	a9af6443
 orisha-tales-books.myshopify.com	a9af6443
 orisonorchards.com	bb34c1bd
+orit.com.br	da39a3ee
 oritaswag.myshopify.com	61e64875
 orizzonteshop.it	da39a3ee
 orkaperformance.myshopify.com	a9af6443
@@ -112613,6 +112658,7 @@ orthora-footwear.com	8b50d914
 orthoticshop.com	4479a458
 ortix.co.uk	bb34c1bd
 orto-pac.myshopify.com	a9af6443
+ortobela.com	da39a3ee
 ortofon.com	8b50d914
 ortopac-merida.myshopify.com	a9af6443
 orukayak.com	4479a458
@@ -112985,6 +113031,7 @@ overstappen.nl	d08ccc1a
 overstock.com	3559d7ac
 overtaps.myshopify.com	a9af6443
 overtech.co.ke	bb34c1bd
+overtechweb.com	da39a3ee
 overthehilltractor.myshopify.com	a9af6443
 overthemoon.com	8b50d914
 overthepartytable.myshopify.com	a9af6443
